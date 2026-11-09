@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "p-mc-optimizer"
+version = "1.0.0"
+description = "Local, budgeted optimization experiments with optional language-model assistance"
+requires-python = ">=3.12,<3.13"
+readme = "README_FA.md"
+dependencies = [
+    "fastapi>=0.115",
+    "filelock>=3.18",
+    "httpx>=0.28,<0.29",
+    "keyring>=25",
+    "langgraph>=1,<2",
+    "langgraph-checkpoint-sqlite>=3,<4",
+    "mealpy==3.0.3",
+    "numpy>=1.26,<2",
+    "opfunu==1.0.1",
+    "platformdirs>=4",
+    "pyarrow==23.0.1",
+    "psutil>=7",
+    "pydantic>=2.11,<3",
+    "streamlit>=1.48,<2",
+    "uvicorn>=0.34",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"p_mc_optimizer" = ["llm/prompts/*.txt", "llm/prompts/*.md", "llm/prompts/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["live_provider: requires explicit provider and credentials; excluded by default"]
+addopts = "-m 'not live_provider'"
