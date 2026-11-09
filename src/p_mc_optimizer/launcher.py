@@ -20,6 +20,7 @@ import psutil
 from filelock import FileLock, Timeout
 
 from p_mc_optimizer.config import LocalConfig, config_json
+from p_mc_optimizer.ui.theme import STREAMLIT_THEME_ARGS
 
 
 class LocalRuntimeError(RuntimeError):
@@ -215,7 +216,7 @@ def supervise(data_dir, config, instance_id):
                    "--server.address=127.0.0.1", f"--server.port={config.ui_port}",
                    "--server.headless=true", "--server.enableXsrfProtection=true",
                    "--server.maxUploadSize=1", "--server.fileWatcherType=none",
-                   "--browser.gatherUsageStats=false"],
+                   "--browser.gatherUsageStats=false", *STREAMLIT_THEME_ARGS],
         }
         try:
             for role, command in commands.items():

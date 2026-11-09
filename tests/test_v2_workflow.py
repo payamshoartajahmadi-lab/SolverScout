@@ -72,6 +72,14 @@ def model_fixture(request):
         return completion({"schema_version": "2.0", "queries": [{
             "query_id": "q1", "text": QUERY, "source_ids": ["methods"], "purpose": "method_discovery",
         }]})
+    if name == "explainer_v1":
+        assert "repair" not in context
+        return completion({
+            "summary_fa": "بهترین مشاهدهٔ معتبر در بودجهٔ اجرا ثبت شد.",
+            "selection_explanation_fa": "روش منتخب در پایلوت عملکرد بهتری داشت.",
+            "limitations_fa": ["نتیجه، برتری آماری یا تضمین موفقیت را اثبات نمی‌کند."],
+            "evidence_refs": ["report:solution", "report:decision"],
+        })
     assert name == "advisor_v2"
     evidence = [row["evidence_id"] for row in context["evidence"]][:1]
     assert bool(evidence) == context["require_web"]
@@ -160,7 +168,8 @@ def test_v2_web_and_catalog_policies_use_real_pilot_evidence(tmp_path):
             "source_revision": source_snapshot["revision"], "catalog_hash": catalog["catalog_hash"],
         }
         before = len(search.calls)
-        job_id, state = run_job(repo, client, address, token, payload)
+        live_payload = {**payload, "policy": {**policy, "explain_via_llm": True}}
+        job_id, state = run_job(repo, client, address, token, live_payload)
         assert state["job_status"] == "completed", (state, repo.list_events(job_id)[-8:])
         assert search.calls[before:] == [QUERY]
         outcome = checked(client.get(f"/jobs/{job_id}/research"))
@@ -170,6 +179,8 @@ def test_v2_web_and_catalog_policies_use_real_pilot_evidence(tmp_path):
         report = report_body["report"]
         assert report["schema_version"] == "2.0" and report["selection_status"] == "selected"
         assert report["solution_status"] == "valid_best_found"
+        assert report["explanation_status"] == "generated"
+        assert report["explanation"]["limitations_fa"] == ["نتیجه، برتری آماری یا تضمین موفقیت را اثبات نمی‌کند."]
         assert len(report["trials"]) == 10
         assert all(row["started_evaluations"] == 500 for row in report["trials"])
         assert report["budget"]["known_started"] == 5502

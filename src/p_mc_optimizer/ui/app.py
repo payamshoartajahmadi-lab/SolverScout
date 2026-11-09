@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import os
 import re
+from datetime import datetime
 from uuid import uuid4
 
 import httpx
@@ -15,6 +16,7 @@ from p_mc_optimizer.domain.models import ProblemInput, strict_json_loads
 from p_mc_optimizer.reporting import CLAIM_FA, EVALUATION_COLUMNS, csv_bytes, progress_figure
 from p_mc_optimizer.ui.catalog import CATALOG_ROUTE, catalog_page
 from p_mc_optimizer.ui.research import research
+from p_mc_optimizer.ui.theme import UI_CSS
 from p_mc_optimizer.ui.web_research import (
     SEARCH_BLOCKERS,
     SEARCH_ROUTE,
@@ -76,6 +78,25 @@ V2_POLICIES = {
 }
 LLM_POLICIES = {"llm_shortlist_then_pilot", "llm_only", "web_research_then_pilot", "catalog_llm_then_pilot"}
 ALGORITHMS = ["abc.original", "cma_es.mealpy", "de.original", "pso.original"]
+
+JOB_STATES = {
+    "queued": "در صف اجرا", "running": "در حال اجرا", "needs_input": "نیازمند تکمیل مسئله",
+    "needs_configuration": "نیازمند تنظیمات", "completed": "اجرا کامل شد",
+    "failed": "اجرا ناموفق بود", "cancelled": "اجرا لغو شد",
+}
+PHASE_LABELS = {
+    "intake": "دریافت مسئله", "formulating": "صورت‌بندی مسئله", "validating_input": "بررسی ورودی",
+    "preflight": "پیش‌آزمون", "profiling": "نمونه‌برداری اولیه", "planning": "آماده‌سازی روش‌ها",
+    "research_planning": "آماده‌سازی جست‌وجو", "searching": "جست‌وجوی منابع",
+    "fetching_evidence": "دریافت شواهد", "piloting": "آزمون روش‌ها",
+    "selecting": "انتخاب روش", "solving": "حل مسئله", "verifying": "بررسی جواب", "reporting": "آماده‌سازی گزارش",
+}
+SOLUTION_LABELS = {
+    "pending": "در انتظار نتیجه", "valid_best_found": "جواب معتبر پیدا شد",
+    "no_valid_solution": "جواب معتبر پیدا نشد", "validation_failed": "جواب تأیید نشد",
+    "validation_incomplete": "بررسی جواب کامل نشد",
+}
+TERMINAL_STATES = {"completed", "failed", "cancelled"}
 
 QUADRATIC = {
     "schema_version": "1.0",
@@ -184,89 +205,97 @@ def _fixed_catalog_choices(catalog):
 
 
 def new_job():
-    st.header("مسئلهٔ جدید")
-    mode = st.radio("نوع ورودی", ["متن طبیعی", "فرم ساخت‌یافته", "فایل JSON", "نمونه‌های آماده"], horizontal=True)
-    setup = attempt("GET", "/settings/llm/profile") or {}
-    profile = setup.get("profile")
-    ready = bool(profile and profile["test_status"] == "passed" and (setup.get("credential_status") or {}).get("available"))
-    if not ready:
-        st.info("برای صورت‌بندی متن یا مشاور مدل، ارائه‌دهنده و کلید را در تنظیمات مدل زبانی ثبت و اتصال را آزمایش کنید.")
-
-    choices = dict(list(POLICIES.items())[:2]) if mode == "متن طبیعی" else POLICIES.copy()
-    choices.update({
-        key: value for key, value in V2_POLICIES.items()
-        if key != "catalog_fixed" or mode != "متن طبیعی"
-    })
-    policy = st.selectbox(
-        "سیاست انتخاب الگوریتم", list(choices),
-        index=0 if mode == "متن طبیعی" or ready else 2, format_func=choices.__getitem__,
-    )
-    v2 = policy in V2_POLICIES
-    catalog = {}
-    fixed = None
-    web = _web_job_options() if policy == "web_research_then_pilot" else {}
-    catalog_ready = True
-    if v2:
-        params = (
-            "?status=qualified&limit=250" if policy == "catalog_fixed"
-            else "?status=qualified&pilot_500_compatible=true&limit=1"
+    st.title("مسئلهٔ جدید")
+    st.caption("ورودی مسئله و روش اجرا را انتخاب کنید.")
+    with st.container(key="problem-input"):
+        st.subheader("۱. ورودی مسئله")
+        mode = st.radio(
+            "نوع ورودی", ["متن طبیعی", "فرم ساخت‌یافته", "فایل JSON", "نمونه‌های آماده"],
+            index=3, horizontal=True,
         )
-        catalog = attempt("GET", CATALOG_ROUTE + params) or {}
-        if policy == "catalog_fixed":
-            options = _fixed_catalog_choices(catalog)
-            catalog_ready = bool(options)
-            if options:
-                chosen = st.selectbox(
-                    "پیکربندی ثابت", list(options), key=f"fixed-config:{catalog['catalog_hash']}",
-                    format_func=lambda key: options[key]["class_name"],
-                )
-                fixed = options[chosen]
-        else:
-            catalog_ready = catalog.get("total", 0) >= 3
-        if not catalog_ready:
-            st.warning("در صفحهٔ «الگوریتم‌ها» پیکربندی‌های سازگار را آزمون و وضعیت آن‌ها را بررسی کنید.")
-        with st.expander("نسخه‌های تنظیمات اجرا"):
-            st.text(f"کاتالوگ · {catalog.get('catalog_hash') or '—'}")
-            if web.get("source_revision"):
-                st.text(f"منابع · {web['source_revision']}")
-    solver = st.selectbox("الگوریتم در سیاست روش ثابت", ALGORITHMS, index=2) if policy == "fixed_solver" else None
-    count = 4 if policy == "pilot_only" else 3 if policy in {
-        "llm_shortlist_then_pilot", "web_research_then_pilot", "catalog_llm_then_pilot",
-    } else 0
-    pilot = count * 3 * 500
-    columns = st.columns(3)
-    budget = columns[0].number_input("سقف FE", 1002 + pilot, 1_000_000, 20_000)
-    seconds = columns[1].number_input("زمان عددی (ثانیه)", 11, 3600, 300)
-    seed = columns[2].number_input("بذر", 0, 2**32 - 1, 1405)
-    st.caption(f"پیش‌آزمون و پروفایل ۵۰۰ FE · پایلوت {pilot:,} FE · اجرای اصلی {budget-pilot-502:,} FE · بررسی نهایی ۲ FE")
-    explain = st.checkbox("توضیح از API در سیاست دارای مدل", value=True) if policy in LLM_POLICIES else False
-    if profile and policy in LLM_POLICIES:
-        st.caption(f"مقصد API برای متن و خلاصهٔ شواهد · {profile['base_url']} · {profile['model']}")
-    form_snapshot = (
-        policy, (profile or {}).get("revision"), catalog.get("catalog_hash"),
-        web.get("source_revision"), (web.get("search_profile") or {}).get("revision"),
-    )
-    with st.form("new-job" if not v2 else f"new-job:{form_snapshot}"):
         if mode == "متن طبیعی":
             source = st.text_area("متن مسئله", placeholder=NATURAL_FA, max_chars=16000)
         elif mode == "فرم ساخت‌یافته":
             source = problem_form("new")
         elif mode == "فایل JSON":
-            source = st.file_uploader("مسئلهٔ JSON با کدگذاری UTF-8", type=["json"],
-                                      help="حداکثر ۲۵۶ کیبی‌بایت")
+            source = st.file_uploader("مسئلهٔ JSON با کدگذاری UTF-8", type=["json"], help="حداکثر ۲۵۶ کیبی‌بایت")
         else:
             source = st.selectbox("نمونهٔ آموزشی", ["تابع درجه‌دو · کمینه", "تابع درجه‌دو · بیشینه", "متن فارسی کامل"])
+
+    setup = attempt("GET", "/settings/llm/profile") or {}
+    profile = setup.get("profile")
+    ready = bool(profile and profile["test_status"] == "passed" and (setup.get("credential_status") or {}).get("available"))
+    natural_input = mode == "متن طبیعی" or (mode == "نمونه‌های آماده" and source == "متن فارسی کامل")
+    choices = {key: label for key, label in POLICIES.items() if not natural_input or key in LLM_POLICIES}
+    choices.update({
+        key: value for key, value in V2_POLICIES.items()
+        if key != "catalog_fixed" or not natural_input
+    })
+    with st.container(key="run-method"):
+        st.subheader("۲. روش اجرا")
+        policy = st.selectbox(
+            "سیاست انتخاب الگوریتم", list(choices),
+            index=0 if natural_input or ready else 2, format_func=choices.__getitem__,
+        )
+        if policy in LLM_POLICIES and not ready:
+            st.warning("برای این روش، اتصال مدل زبانی را در تنظیمات ثبت و آزمایش کنید.")
+            st.button("باز کردن تنظیمات مدل", on_click=select_page, args=("تنظیمات مدل زبانی",))
+        v2 = policy in V2_POLICIES
+        catalog = {}
+        fixed = None
+        web = _web_job_options() if policy == "web_research_then_pilot" else {}
+        catalog_ready = True
+        if v2:
+            params = (
+                "?status=qualified&limit=250" if policy == "catalog_fixed"
+                else "?status=qualified&pilot_500_compatible=true&limit=1"
+            )
+            catalog = attempt("GET", CATALOG_ROUTE + params) or {}
+            if policy == "catalog_fixed":
+                options = _fixed_catalog_choices(catalog)
+                catalog_ready = bool(options)
+                if options:
+                    chosen = st.selectbox(
+                        "پیکربندی ثابت", list(options), key=f"fixed-config:{catalog['catalog_hash']}",
+                        format_func=lambda key: options[key]["class_name"],
+                    )
+                    fixed = options[chosen]
+            else:
+                catalog_ready = catalog.get("total", 0) >= 3
+            if not catalog_ready:
+                st.warning("در صفحهٔ «الگوریتم‌ها» پیکربندی‌های سازگار را آزمون و وضعیت آن‌ها را بررسی کنید.")
+        solver = st.selectbox("الگوریتم در سیاست روش ثابت", ALGORITHMS, index=2) if policy == "fixed_solver" else None
+
+    count = 4 if policy == "pilot_only" else 3 if policy in {
+        "llm_shortlist_then_pilot", "web_research_then_pilot", "catalog_llm_then_pilot",
+    } else 0
+    pilot = count * 3 * 500
+    with st.expander("تنظیمات پیشرفته"):
+        columns = st.columns(3)
+        budget = columns[0].number_input("سقف ارزیابی تابع هدف (FE)", 1002 + pilot, 1_000_000, 20_000)
+        seconds = columns[1].number_input("زمان عددی (ثانیه)", 11, 3600, 300)
+        seed = columns[2].number_input("بذر تصادفی", 0, 2**32 - 1, 1405)
+        st.caption(f"پیش‌آزمون و پروفایل ۵۰۰ FE · پایلوت {pilot:,} FE · اجرای اصلی {budget-pilot-502:,} FE · بررسی نهایی ۲ FE")
+        explain = st.checkbox("توضیح از API در سیاست دارای مدل", value=True) if policy in LLM_POLICIES else False
+        if profile and policy in LLM_POLICIES:
+            st.caption(f"مقصد API برای متن و خلاصهٔ شواهد · {profile['base_url']} · {profile['model']}")
+        if v2:
+            st.caption(f"نسخهٔ کاتالوگ · {catalog.get('catalog_hash') or '—'}")
+            if web.get("source_revision"):
+                st.caption(f"نسخهٔ منابع · {web['source_revision']}")
+    form_snapshot = (
+        policy, (profile or {}).get("revision"), catalog.get("catalog_hash"),
+        web.get("source_revision"), (web.get("search_profile") or {}).get("revision"),
+    )
+    with st.form("new-job" if not v2 else f"new-job:{form_snapshot}", border=False):
         submitted = st.form_submit_button(
-            "تحلیل و حل", type="primary",
-            disabled=v2 and (
-                not catalog_ready or not web.get("ready", True)
-                or (policy in LLM_POLICIES and not ready)
-            ),
+            "شروع اجرا", type="primary",
+            disabled=(not catalog_ready or not web.get("ready", True) or (policy in LLM_POLICIES and not ready)),
         )
     if not submitted:
         return
     try:
-        if mode == "متن طبیعی" or (mode == "نمونه‌های آماده" and source == "متن فارسی کامل"):
+        if natural_input:
             problem = {"kind": "natural_language", "text": source if mode == "متن طبیعی" else NATURAL_FA}
         else:
             if mode == "فرم ساخت‌یافته":
@@ -317,8 +346,8 @@ def new_job():
         st.session_state.pending_submission = pending
     created = attempt("POST", "/jobs", payload, idempotency_key=pending["key"])
     if created:
-        st.session_state.job_id = created["job_id"]
-        st.success("درخواست ثبت شد. وضعیت آن در بخش «اجرای حل» قابل مشاهده است.")
+        st.session_state.pop("pending_submission", None)
+        open_execution(created["job_id"])
 
 
 def settings(job_id=None, job_version=None):
@@ -452,13 +481,30 @@ def report_panel(job_id, job):
     if not item:
         return
     report = item["report"]
-    st.caption(CLAIM_FA)
-    st.write("اعتبار جواب", report.get("solution_status"))
-    st.write("روش منتخب", report.get("selected_algorithm_id"))
-    if report.get("solution_origin"):
-        st.write("منشأ جواب", report["solution_origin"])
-    if report.get("best_x") is not None:
-        st.code(f"x = {report['best_x']}\nf(x) = {report['objective_raw']:.15g}", language=None)
+    with st.container(key="result-summary"):
+        st.subheader(SOLUTION_LABELS.get(report.get("solution_status"), "خلاصهٔ نتیجه"))
+        objective = report.get("objective_raw")
+        solver = report.get("selected_algorithm_id")
+        value_col, method_col, check_col = st.columns(3)
+        value_col.metric("مقدار تابع هدف", f"{objective:.15g}" if objective is not None else "—")
+        method_col.metric("روش منتخب", solver.rsplit(":", 1)[-1] if solver else "—")
+        verification = report.get("verification") or {}
+        verified = verification.get("validation_status") or verification.get("status")
+        check_col.metric("بازبینی جواب", {"passed": "تأیید شد", "failed": "تأیید نشد", "incomplete": "ناقص"}.get(verified, "—"))
+        if report.get("best_x") is not None:
+            st.code(f"x = {report['best_x']}", language=None)
+        st.caption(CLAIM_FA)
+    explanation = report.get("explanation") or {}
+    if explanation:
+        st.subheader("توضیح مدل" if report.get("explanation_status") == "generated" else "توضیح قالبی برنامه")
+        for key in ("summary_fa", "selection_explanation_fa"):
+            if line := explanation.get(key):
+                st.text(line)
+        for line in explanation.get("limitations_fa", []):
+            st.text(line)
+    if error := report.get("error"):
+        message = error.get("message_fa") if isinstance(error, dict) else None
+        st.error(message or "اجرا با خطا پایان یافت.")
     if report.get("schema_version") == "2.0":
         research_report_panel(report)
     if report.get("progress"):
@@ -483,16 +529,13 @@ def report_panel(job_id, job):
     if pilot_rows:
         st.subheader("مقایسهٔ پایلوت‌ها")
         st.dataframe(pilot_rows, hide_index=True)
-    for trial in report.get("trials", []):
-        with st.expander(f"{trial['algorithm_id']} · {trial['phase']} · {trial['seed']}"):
-            st.json(trial)
-    st.subheader("توضیح مدل" if report.get("explanation_status") == "generated" else "توضیح قالبی برنامه")
-    for k in ("summary_fa", "selection_explanation_fa"):
-        if line := (report.get("explanation") or {}).get(k):
-            st.text(line)
-    for line in (report.get("explanation") or {}).get("limitations_fa", []):
-        st.text(line)
-    st.caption(f"وضعیت توضیح · {report.get('explanation_status')} | هزینهٔ API · نامشخص")
+    if report.get("trials") or report.get("solution_origin"):
+        with st.expander("جزئیات اجرای روش‌ها"):
+            if report.get("solution_origin"):
+                st.write("منشأ جواب")
+                st.json(report["solution_origin"], expanded=False)
+            if report.get("trials"):
+                st.json(report["trials"], expanded=False)
     st.subheader("دریافت گزارش")
     names = {
         "report_json": "report.json", "report_html": "report.html", "trials_csv": "trials.csv",
@@ -522,10 +565,13 @@ def report_panel(job_id, job):
 
 
 def execution():
-    st.header("اجرای حل")
+    st.title("اجرای حل")
     job_id = st.session_state.get("job_id")
     if not job_id:
-        st.info("از صفحهٔ مسئلهٔ جدید یا تاریخچه یک اجرا را انتخاب کنید.")
+        st.info("برای دیدن نتیجه، یک مسئلهٔ جدید اجرا کنید یا از تاریخچه یک اجرا را باز کنید.")
+        new_col, history_col = st.columns(2)
+        new_col.button("مسئلهٔ جدید", type="primary", on_click=select_page, args=("مسئلهٔ جدید",))
+        history_col.button("دیدن تاریخچه", on_click=select_page, args=("تاریخچه",))
         return
     initial = attempt("GET", f"/jobs/{job_id}")
     if initial is None:
@@ -540,18 +586,29 @@ def execution():
         now_active = job["job_status"] in {"queued", "running"}
         if active != now_active:
             st.rerun()
-        st.code(f"{job_id} · {job['job_status']} · {job['phase']}", language=None)
-        budget = job["budget"]
-        used = budget.get("known_started", 0)
-        total = job["policy"]["max_objective_evaluations"]
-        st.progress(min(1.0, used / total), text=f"{used:,} / {total:,} FE")
-        st.caption(f"اعتبار جواب · {job['solution_status']}")
+        state = job["job_status"]
+        terminal = state in TERMINAL_STATES
+        with st.container(key="run-overview"):
+            label = JOB_STATES.get(state, "وضعیت اجرا")
+            if state == "completed":
+                st.success(label)
+            elif state == "failed":
+                st.error(label)
+            elif state in {"needs_input", "needs_configuration", "cancelled"}:
+                st.warning(label)
+            else:
+                st.subheader(label)
+            if not terminal:
+                st.caption(PHASE_LABELS.get(job["phase"], "در حال پردازش"))
+            used = job["budget"].get("known_started", 0)
+            total = job["policy"]["max_objective_evaluations"]
+            st.progress(min(1.0, used / total), text=f"{used:,} از {total:,} ارزیابی تابع هدف")
         if job.get("blocked_reason"):
             st.warning(job["blocked_reason"])
         if job.get("cancel_requested"):
             st.warning("درخواست لغو ثبت شد. وضعیت پس از توقف عددی به‌روزرسانی می‌شود.")
         elif job["job_status"] in {"queued", "running", "needs_input", "needs_configuration"}:
-            if st.button("لغو اجرا"):
+            if st.button("لغو اجرا", key="cancel-run"):
                 if attempt("POST", f"/jobs/{job_id}/cancel", {"expected_job_version": job["version"]}):
                     st.rerun()
         if job["policy"].get("policy_version") == "2.0":
@@ -561,6 +618,7 @@ def execution():
                 result = attempt("GET", f"/jobs/{job_id}/research")
                 outcome_panel((result or {}).get("outcome", result))
         with st.expander("رویدادها و اجرای الگوریتم‌ها"):
+            st.code(job_id, language=None)
             key = f"events:{job_id}"
             events = st.session_state.get(key, [])
             cursor = events[-1]["sequence"] if events else 0
@@ -572,7 +630,10 @@ def execution():
             trials = attempt("GET", f"/jobs/{job_id}/trials")
             if trials:
                 st.json(trials, expanded=False)
-        model_tab, report_tab = st.tabs(["مدل مسئله", "نتایج"], key=f"job-view:{job_id}", on_change="rerun")
+        model_tab, report_tab = st.tabs(
+            ["مدل مسئله", "نتایج"], default="نتایج" if terminal else "مدل مسئله",
+            key=f"job-view:{job_id}:{terminal}", on_change="rerun",
+        )
         if model_tab.open:
             with model_tab:
                 model_panel(job_id, job)
@@ -605,44 +666,68 @@ def _repair_search(job_id, job, code):
             st.rerun()
 
 
+def select_page(page):
+    st.session_state["workbench-page"] = page
+
+
+def open_execution(job_id):
+    st.session_state.job_id = job_id
+    st.session_state["next-page"] = "اجرای حل"
+    st.rerun()
+
+
 def history():
-    st.header("تاریخچه")
+    st.title("تاریخچه")
+    st.caption("اجرای قبلی را انتخاب کنید تا مدل مسئله و نتیجهٔ آن باز شود.")
     jobs = attempt("GET", "/jobs")
-    for job in jobs or []:
-        if st.button(f"{job['job_status']} · {job['job_id']}", key=job["job_id"]):
-            st.session_state.job_id = job["job_id"]
-            st.success("اجرا انتخاب شد. گزارش در بخش «اجرای حل» در دسترس است.")
+    if jobs is None:
+        return
+    if not jobs:
+        st.info("هنوز اجرایی ثبت نشده است.")
+        st.button("مسئلهٔ جدید", type="primary", on_click=select_page, args=("مسئلهٔ جدید",))
+    policies = {**POLICIES, **V2_POLICIES}
+    for job in jobs:
+        state_col, action_col = st.columns([3, 1], vertical_alignment="center")
+        state_col.write(JOB_STATES.get(job["job_status"], "وضعیت اجرا"))
+        method = policies.get(job.get("policy", {}).get("selection_policy"), "اجرای بهینه‌سازی")
+        created_at = job.get("created_at")
+        when = datetime.fromisoformat(created_at).astimezone().strftime("%Y/%m/%d · %H:%M") if created_at else ""
+        state_col.caption(f"{method} · {when}" if when else method)
+        if action_col.button("باز کردن اجرا", key=job["job_id"]):
+            open_execution(job["job_id"])
+        st.divider()
+
+
+def home():
+    st.title("شروع")
+    st.caption("یک مسئلهٔ بهینه‌سازی تعریف کنید و نتیجهٔ اجرا را بررسی کنید.")
+    st.button("مسئلهٔ جدید", type="primary", on_click=select_page, args=("مسئلهٔ جدید",))
+    status = attempt("GET", "/settings/llm/profile")
+    if status is not None:
+        st.success("سرویس محلی آماده است.")
+        if (status.get("profile") or {}).get("test_status") != "passed" or not (
+            status.get("credential_status") or {}
+        ).get("available"):
+            st.info("برای استفاده از مدل زبانی، اتصال را در تنظیمات آزمایش کنید. نمونهٔ آماده را می‌توانید با یک روش ثابت اجرا کنید.")
+    st.caption(CLAIM_FA)
 
 
 def main():
     st.set_page_config(page_title="SolverScout | بهینه‌ساز محلی", layout="wide")
-    st.markdown("""<style>
-[data-testid="stMainBlockContainer"], [data-testid="stSidebar"] { direction: rtl; text-align: start; }
-pre, code, input, textarea, [data-testid="stDataFrame"] { direction: ltr; unicode-bidi: isolate; }
-[data-testid="stHeadingWithActionElements"] { direction: rtl; }
-[data-testid="stAppDeployButton"] { display: none; }
-</style>""", unsafe_allow_html=True)
-    st.title("SolverScout | بهینه‌ساز محلی")
+    st.html(UI_CSS)
+    if next_page := st.session_state.pop("next-page", None):
+        select_page(next_page)
     pages = {
-        "شروع": None, "مسئلهٔ جدید": new_job, "اجرای حل": execution, "تاریخچه": history,
-        "تنظیمات مدل زبانی": settings, "جست‌وجوی وب": lambda: search_settings(attempt),
-        "منابع پژوهش": lambda: source_settings(attempt), "الگوریتم‌ها": lambda: catalog_page(attempt),
+        "شروع": home, "مسئلهٔ جدید": new_job, "اجرای حل": execution, "تاریخچه": history,
+        "الگوریتم‌ها": lambda: catalog_page(attempt), "تنظیمات مدل زبانی": settings,
+        "جست‌وجوی وب": lambda: search_settings(attempt), "منابع پژوهش": lambda: source_settings(attempt),
         "آزمایش پژوهشی": lambda: research(attempt),
     }
-    page = st.sidebar.radio("صفحه", list(pages))
-    if pages[page]:
-        pages[page]()
-    else:
-        st.header("شروع")
-        st.write("یک مسئلهٔ پیوسته و تک‌هدفه وارد کنید و شواهد اجرای الگوریتم‌ها را در گزارش ببینید.")
-        status = attempt("GET", "/settings/llm/profile")
-        if status is not None:
-            st.success("سرویس محلی آماده است.")
-            if (status.get("profile") or {}).get("test_status") != "passed" or not (
-                status.get("credential_status") or {}
-            ).get("available"):
-                st.info("مدل زبانی آماده نیست. برای متن طبیعی به تنظیمات مدل زبانی بروید. برای حل عددی مستقل، ورودی ساخت‌یافته و یک خط پایه انتخاب کنید.")
-        st.caption(CLAIM_FA)
+    with st.sidebar:
+        with st.container(key="workbench-brand"):
+            st.markdown("**SolverScout**")
+        page = st.radio("ناوبری", list(pages), key="workbench-page", label_visibility="collapsed")
+    pages[page]()
 
 
 if __name__ == "__main__":
