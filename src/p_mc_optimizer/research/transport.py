@@ -21,6 +21,7 @@ class ResearchError(Exception):
         super().__init__(code)
         self.code = code
         self.retry_after = retry_after
+        self.redirect_chain: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)

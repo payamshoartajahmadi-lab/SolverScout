@@ -17,7 +17,7 @@ from p_mc_optimizer.application.errors import ApiError
 from p_mc_optimizer.application.jobs import ApplicationService, AnswersInput, JobVersion, public_job
 from p_mc_optimizer.domain.models import CreateJob, DomainError, strict_json_loads
 from p_mc_optimizer.persistence import Repository
-from p_mc_optimizer.research.contracts import CreateJobV2
+from p_mc_optimizer.research.contracts import CreateJobV2, ResearchOutcome
 
 LOGGER = logging.getLogger(__name__)
 TOKEN_HEADER = "X-PMC-Internal-Token"
@@ -126,7 +126,9 @@ def job_routes(repo: Repository, service: ApplicationService, research_store=Non
             return {"status": "not_requested"}
         outcome = research_store.outcome(job_id)
         if outcome is not None:
-            return outcome
+            from p_mc_optimizer.api.research_v2 import public_research
+
+            return public_research(ResearchOutcome.model_validate(outcome))
         status = (
             "cancelled" if job["job_status"] == "cancelled" else
             "running" if job["phase"] in {"research_planning", "searching", "fetching_evidence"} else

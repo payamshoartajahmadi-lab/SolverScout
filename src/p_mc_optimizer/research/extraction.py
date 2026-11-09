@@ -11,7 +11,7 @@ from pathlib import Path
 from .transport import ResearchError
 
 
-PARSER_VERSION = "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-v2.0"
+PARSER_VERSION = "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-v2.0.1"
 
 
 def extract(payload: bytes, content_type: str, level: str, limit: int, timeout: float) -> dict:
@@ -23,7 +23,7 @@ def extract(payload: bytes, content_type: str, level: str, limit: int, timeout: 
                 sys.executable, "-I", str(Path(__file__).with_name("extract_worker.py")),
                 content_type[:250], level, str(limit),
             ],
-            input=payload, capture_output=True, timeout=timeout, check=True, env={},
+            input=payload, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=timeout, check=True, env={},
         )
         parsed = json.loads(result.stdout)
     except subprocess.TimeoutExpired:

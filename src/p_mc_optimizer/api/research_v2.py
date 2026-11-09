@@ -9,13 +9,17 @@ from fastapi import APIRouter
 from p_mc_optimizer.application.errors import ApiError
 from p_mc_optimizer.domain.models import ContractModel, Uuid4String
 from p_mc_optimizer.research.contracts import (
-    ResearchLimits, ResearchQueryPlan, ResearchSnapshot, SourceSnapshot,
+    ResearchLimits, ResearchOutcome, ResearchQueryPlan, ResearchSnapshot, SourceSnapshot,
 )
 from p_mc_optimizer.research.source_policy import SourcePolicy
 from p_mc_optimizer.research.transport import ResearchError
 
 
 SEARCH_FAILURES_REQUIRING_ACTION = {"SEARCH_CONFIGURATION_REQUIRED", "SEARCH_AUTH_FAILED", "SEARCH_RATE_LIMITED"}
+
+
+def public_research(outcome: ResearchOutcome):
+    return outcome.model_dump(mode="json", exclude={"documents": {"__all__": {"etag", "last_modified"}}})
 
 
 class ResearchInvocation(ContractModel):
@@ -141,7 +145,7 @@ class ResearchJobs:
         except ResearchError as exc:
             status = 409 if exc.code in {"IDEMPOTENCY_CONFLICT", "RESEARCH_ALREADY_RUNNING"} else 422
             raise ApiError(status, exc.code, "درگاه پژوهش نتوانست درخواست را کامل کند.") from None
-        return outcome.model_dump(mode="json")
+        return public_research(outcome)
 
     def router(self):
         router = APIRouter()

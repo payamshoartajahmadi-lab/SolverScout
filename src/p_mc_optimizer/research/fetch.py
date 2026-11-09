@@ -35,12 +35,12 @@ class DocumentFetcher:
         if cached is None:
             start_url = f"https://{host}/robots.txt"
             try:
-                response, final_url, _ = self._follow(
+                response, _, _ = self._follow(
                     session, start_url, sources, "robots", 512 * 1024, {}, host=host,
                 )
                 if response.status == 200:
-                    text = session.sanitize(response.body.decode("utf-8-sig"))
-                    if not isinstance(text, str) or "\x00" in text or text.lstrip().startswith("<"):
+                    text = response.body.decode("utf-8-sig")
+                    if session.sanitize(text) != text or "\x00" in text or text.lstrip().startswith("<"):
                         raise ResearchError("SOURCE_POLICY_UNAVAILABLE")
                     mode = "rules"
                 elif response.status in {404, 410, 401, 403}:
@@ -76,7 +76,12 @@ class DocumentFetcher:
                 else:
                     url, _ = session.policy.authorize(url, sources, robots=True, robots_host=host)
             except SourcePolicyError as exc:
-                raise ResearchError(exc.code) from None
+                error = ResearchError(exc.code)
+                error.redirect_chain = tuple(chain)
+                raise error from None
+            except ResearchError as exc:
+                exc.redirect_chain = tuple(chain)
+                raise
 
             response = session.get(
                 self.transport, kind, digest([requested, hop])[:32], url, max_bytes,
@@ -87,9 +92,17 @@ class DocumentFetcher:
             target = response.headers.get("location")
             if not target or hop == session.limits.max_redirects:
                 raise ResearchError("SOURCE_REDIRECT_LIMIT")
-            url = urljoin(url, target)
-            if session.sanitize(url) != url:
-                raise ResearchError("SOURCE_NOT_ALLOWED")
+            try:
+                url = urljoin(url, target)
+                parts = urlsplit(url)
+            except ValueError:
+                error = ResearchError("SOURCE_NOT_ALLOWED")
+                error.redirect_chain = tuple(chain)
+                raise error from None
+            if len(url) > 4096 or parts.username is not None or parts.password is not None or session.sanitize(url) != url:
+                error = ResearchError("SOURCE_NOT_ALLOWED")
+                error.redirect_chain = tuple(chain)
+                raise error
             chain.append(url)
         raise ResearchError("SOURCE_REDIRECT_LIMIT")
 
@@ -177,4 +190,6 @@ class DocumentFetcher:
         except ResearchError as exc:
             if exc.code == "RESEARCH_CANCELLED":
                 raise
+            if exc.redirect_chain:
+                args["redirect_chain"] = exc.redirect_chain
             return SourceDocument(**args, fetch_status="failed", reason_code=exc.code), None

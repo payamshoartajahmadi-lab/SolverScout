@@ -60,6 +60,7 @@ def _pdf(payload: bytes, limit: int) -> dict:
     pages = []
     length = 0
     truncated = False
+    missing_page_text = False
     for page in reader.pages:
         text = (page.extract_text() or "").strip()
         if text:
@@ -69,9 +70,11 @@ def _pdf(payload: bytes, limit: int) -> dict:
             length += len(pages[-1]) + (2 if len(pages) > 1 else 0)
             if truncated:
                 break
+        else:
+            missing_page_text = True
     if not any(pages):
         return {"error": "SOURCE_PDF_NO_TEXT"}
-    return {"text": "\n\n".join(pages), "truncated": truncated}
+    return {"text": "\n\n".join(pages), "truncated": truncated or missing_page_text}
 
 
 def parse(payload: bytes, content_type: str, level: str, limit: int) -> dict:
