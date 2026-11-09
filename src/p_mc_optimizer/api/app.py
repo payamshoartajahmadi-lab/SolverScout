@@ -67,6 +67,25 @@ def canonical_id(value: str, code="JOB_NOT_FOUND") -> str:
     return value
 
 
+def problem_summary(job: dict) -> str | None:
+    """Return a bounded display summary for the authenticated history view."""
+    source = job.get("input") or {}
+    if source.get("kind") == "natural_language":
+        title = " ".join((source.get("text") or "").split())
+    elif source.get("kind") == "structured_problem":
+        model = source["problem"]
+        objective = model["objective"]
+        sense = "بیشینه‌سازی" if objective["sense"] == "maximize" else "کمینه‌سازی"
+        function = objective["source"]
+        formula = function.get("expression") or function.get("function_id")
+        title = f"{sense} با {len(model['variables'])} متغیر"
+        if formula:
+            title += " · " + " ".join(formula.split())
+    else:
+        return None
+    return title[:117] + "…" if len(title) > 120 else title or None
+
+
 def job_routes(repo: Repository, service: ApplicationService, research_store=None) -> APIRouter:
     router = APIRouter()
 
@@ -78,8 +97,12 @@ def job_routes(repo: Repository, service: ApplicationService, research_store=Non
     def list_jobs(
         limit: Annotated[int, Query(ge=1, le=500)] = 100,
         offset: Annotated[int, Query(ge=0)] = 0,
+        include_problem_summary: bool = False,
     ):
-        return [public_job(job) for job in repo.list_jobs(limit=limit, offset=offset)]
+        jobs = repo.list_jobs(limit=limit, offset=offset)
+        if include_problem_summary:
+            return [public_job(job) | {"problem_summary": problem_summary(job)} for job in jobs]
+        return [public_job(job) for job in jobs]
 
     @router.get("/jobs/{job_id}")
     def get_job(job_id: str):
