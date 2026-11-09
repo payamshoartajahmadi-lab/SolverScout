@@ -291,7 +291,11 @@ def _parse_response(
         if sanitize(output) != output:
             raise RoleOutputError("response: secret content is prohibited")
         model = _schema_model(schema_id).model_validate(output)
-        if schema_id != "connection_test.v1":
+        if schema_id.endswith(".v2"):
+            from p_mc_optimizer.llm.research_v2 import validate_output
+
+            validate_output(schema_id, model, context)
+        elif schema_id != "connection_test.v1":
             validate_role_output(schema_id.split(".")[0], model, context)
     except ValidationError as exc:
         errors = [
