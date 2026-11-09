@@ -67,7 +67,7 @@ def model_fixture(request):
         return completion({"ok": True})
     context = json.loads(body["messages"][-1]["content"])
     if name == "research_planner_v2":
-        assert set(context) == {"profile", "sources", "max_queries", "repair"}
+        assert set(context) == {"profile", "sources", "max_queries"}
         assert "expression" not in json.dumps(context)
         return completion({"schema_version": "2.0", "queries": [{
             "query_id": "q1", "text": QUERY, "source_ids": ["methods"], "purpose": "method_discovery",
