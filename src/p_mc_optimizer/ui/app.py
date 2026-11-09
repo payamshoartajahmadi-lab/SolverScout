@@ -15,6 +15,7 @@ import streamlit as st
 from p_mc_optimizer.domain.models import ProblemInput, strict_json_loads
 from p_mc_optimizer.reporting import CLAIM_FA, EVALUATION_COLUMNS, csv_bytes, progress_figure
 from p_mc_optimizer.ui.catalog import CATALOG_ROUTE, catalog_page
+from p_mc_optimizer.ui.connections import connections_page, model_settings
 from p_mc_optimizer.ui.research import research
 from p_mc_optimizer.ui.theme import UI_CSS
 from p_mc_optimizer.ui.web_research import (
@@ -351,82 +352,6 @@ def new_job():
         open_execution(created["job_id"])
 
 
-def settings(job_id=None, job_version=None):
-    st.header("تنظیمات مدل زبانی" if job_id is None else "رفع اتصال همین اجرا")
-    st.caption(f"مسیر دادهٔ محلی · {os.environ.get('PMC_DATA_DIR', '')}")
-    route = "/settings/llm/profile" + (f"?job_id={job_id}" if job_id else "")
-    result = attempt("GET", route)
-    if result is None:
-        return
-    profile = result["profile"] or {}
-    status = result["credential_status"] or {}
-    if job_id is None:
-        preset = st.selectbox("ارائه‌دهنده", ["openai", "custom_openai_compatible"],
-                              index=int(profile.get("preset") == "custom_openai_compatible"),
-                              format_func=lambda v: "OpenAI" if v == "openai" else "OpenAI-compatible سفارشی")
-        with st.form("provider"):
-            base_url = st.text_input("نشانی پایه HTTPS",
-                                     value="https://api.openai.com/v1" if preset == "openai" else (
-                                         profile.get("base_url", "") if profile.get("preset") == preset else ""),
-                                     disabled=preset == "openai")
-            model = st.text_input("شناسهٔ دقیق مدل", value=profile.get("model", ""))
-            modes = ["json_schema", "json_object", "text_json"]
-            mode = st.selectbox("شیوهٔ خروجی ساخت‌یافته", modes,
-                                index=modes.index(profile.get("response_mode", "json_schema")))
-            fields = ["max_completion_tokens", "max_tokens"]
-            field = st.selectbox("پارامتر سقف خروجی", fields, disabled=preset == "openai",
-                                 index=fields.index(profile.get("token_limit_field", fields[0])) if preset != "openai" else 0)
-            max_tokens = st.number_input("سقف توکن خروجی نقش", 256, 16384, profile.get("max_output_tokens", 4096))
-            test_tokens = st.number_input("سقف توکن آزمون اتصال", 128, 4096,
-                                          profile.get("connection_test_max_output_tokens", 512))
-            timeout = st.number_input("مهلت پاسخ API (ثانیه)", 5, 300, profile.get("request_timeout_seconds", 60))
-            save = st.form_submit_button("ثبت تنظیمات ارائه‌دهنده")
-        if save:
-            reply = attempt("PUT", "/settings/llm/profile", {
-                "expected_revision": profile.get("revision"), "preset": preset, "base_url": base_url,
-                "model": model, "protocol": "chat_completions_v1", "response_mode": mode,
-                "token_limit_field": field, "max_output_tokens": max_tokens,
-                "connection_test_max_output_tokens": test_tokens, "request_timeout_seconds": timeout,
-            })
-            if reply:
-                st.rerun()
-    if not profile:
-        return
-    st.code(f"{profile['base_url']}\n{profile['model']} · {profile['response_mode']}", language=None)
-    st.write("کلید در دسترس است." if status.get("available") else "کلید قابل استفاده در دسترس نیست.")
-    st.caption(f"شیوهٔ نگهداری · {status.get('storage_mode') or '—'}")
-    target = {"profile_id": profile["profile_id"], "profile_revision": profile["revision"],
-              "expected_credential_generation": status.get("credential_generation", 0), "target_job_id": job_id}
-    if not result["os_keyring_available"]:
-        st.caption("مخزن امن سیستم‌عامل در دسترس نیست. نگهداری در حافظهٔ نشست فعال است.")
-    with st.form(f"credential-{job_id}", clear_on_submit=True):
-        api_key = st.text_input("کلید API", type="password", autocomplete="off")
-        storage = st.selectbox("نگهداری کلید",
-                               ["session", "os_keyring"] if result["os_keyring_available"] else ["session"],
-                               format_func=lambda v: "حافظهٔ همین نشست" if v == "session" else "مخزن امن سیستم‌عامل")
-        submit = st.form_submit_button("ثبت کلید API")
-    if submit:
-        changed = attempt("PUT", "/settings/llm/credential", {**target, "api_key": api_key, "storage_mode": storage})
-        if changed:
-            st.rerun()
-    if st.button("حذف کلید", disabled=not status.get("configured"), key=f"delete-{job_id}"):
-        if attempt("DELETE", "/settings/llm/credential", target):
-            st.rerun()
-    st.caption("آزمون اتصال یک درخواست کوتاه به مقصد بالا می‌فرستد و ممکن است هزینه داشته باشد.")
-    st.write(f"وضعیت آزمون · {profile['test_status']}")
-    if profile.get("tested_at"):
-        st.code(profile["tested_at"], language=None)
-    if st.button("آزمون اتصال", disabled=not status.get("available"), key=f"test-{job_id}"):
-        test = attempt("POST", "/settings/llm/test", target, idempotency_key=str(uuid4()))
-        if test and test["test_status"] == "passed":
-            st.rerun()
-        if test and test.get("error"):
-            st.error(test["error"]["message_fa"])
-    if job_id and st.button("ادامهٔ همین اجرا", disabled=profile["test_status"] != "passed"):
-        if attempt("POST", f"/jobs/{job_id}/resume", {"expected_job_version": job_version}):
-            st.rerun()
-
-
 def model_panel(job_id, job):
     item = attempt("GET", f"/jobs/{job_id}/problem")
     if not item:
@@ -648,7 +573,7 @@ def execution():
             if code in SEARCH_BLOCKERS:
                 _repair_search(job_id, job, code)
             else:
-                settings(job_id, job["version"])
+                model_settings(attempt, job_id, job["version"])
 
     monitor()
 
@@ -723,14 +648,11 @@ def library():
 
 
 def connections():
-    st.title("اتصال‌های برنامه")
-    if st.session_state.get("connection-return"):
-        st.button("بازگشت به مسئله", on_click=return_from_connections, type="tertiary")
-    model, search = st.tabs(["مدل زبانی", "جست‌وجوی وب"])
-    with model:
-        settings()
-    with search:
-        search_settings(attempt)
+    connections_page(
+        attempt,
+        on_back=return_from_connections if st.session_state.get("connection-return") else None,
+        focus=st.session_state.get("connection-focus"),
+    )
 
 
 def main():

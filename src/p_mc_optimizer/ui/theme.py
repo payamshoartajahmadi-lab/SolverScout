@@ -120,6 +120,14 @@ UI_CSS = f"""
     font-weight: 700;
 }}
 .st-key-mobile-navigation {{ display: none; }}
+.st-key-ux-search-connection {{
+    border-inline-start: 1px solid {OUTLINE};
+    padding-inline-start: clamp(0.85rem, 2.5vw, 1.75rem);
+}}
+.st-key-ux-model-connection input[placeholder*="https://"] {{
+    direction: ltr;
+    text-align: left;
+}}
 button:focus-visible, [role="radio"]:focus-visible, [role="tab"]:focus-visible {{
     outline: 2px solid {ACCENT};
     outline-offset: 2px;
@@ -172,6 +180,12 @@ button[kind="primaryFormSubmit"]:not(:disabled):hover {{ filter: brightness(1.08
     }}
     .st-key-mobile-navigation p {{ font-size: 1.05rem; }}
     .st-key-mobile-navigation button {{ min-height: 2.75rem; }}
+    .st-key-ux-search-connection {{
+        border-inline-start: 0;
+        padding-inline-start: 0;
+        border-top: 1px solid {OUTLINE};
+        padding-top: 1rem;
+    }}
     [data-testid="stMainBlockContainer"] {{ padding: 1rem 1rem 2rem; }}
     [data-testid="stMainBlockContainer"] h1 {{ font-size: clamp(1.55rem, 6vw, 2rem); }}
     .st-key-problem-input [role="radiogroup"] {{ flex-wrap: wrap; }}

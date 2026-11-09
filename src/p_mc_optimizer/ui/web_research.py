@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from contextlib import nullcontext
 from uuid import uuid4
 
 import pandas as pd
@@ -44,33 +45,53 @@ def profile_reference(profile):
     return None
 
 
-def search_settings(attempt, *, repair=False):
-    st.header("اتصال جست‌وجوی وب" if not repair else "رفع مشکل جست‌وجوی وب")
+def search_settings(attempt, *, repair=False, compact=False, expanded=False):
+    if compact:
+        st.subheader("جست‌وجوی وب")
+        st.markdown("**Tavily**")
+    else:
+        st.header("رفع مشکل جست‌وجوی وب" if repair else "اتصال جست‌وجوی وب")
     result = attempt("GET", SEARCH_ROUTE)
     if result is None:
-        return
+        return False
     profile = result.get("profile") or {}
-    st.caption("پژوهش زنده از Tavily استفاده می‌کند و کلید آن جدا از کلید مدل زبانی است.")
+    st.caption("کلید Tavily مستقل از کلید مدل زبانی است.")
     if not profile:
         st.info("ابتدا تنظیمات جست‌وجو را ثبت کنید.")
         return False
+    available = result.get("credential_available", False)
+    ready = bool(result.get("ready"))
+    status = st.empty()
+    if ready:
+        status.success("آمادهٔ جست‌وجوی وب")
+    elif available:
+        status.info("کلید ثبت شده است. اتصال را آزمایش کنید.")
+    else:
+        status.info("نیاز به کلید Tavily")
+
+    controls = st.expander("مدیریت اتصال", expanded=expanded or not ready) if compact else nullcontext()
+    with controls:
+        ready = _search_connection_controls(attempt, result, status, repair=repair, compact=compact)
+    if not repair:
+        with st.expander("تنظیمات پیشرفتهٔ جست‌وجو"):
+            _search_limits_form(attempt, profile)
+    return ready
+
+
+def _search_connection_controls(attempt, result, status, *, repair, compact):
+    profile = result["profile"]
     target = {"revision": profile["revision"], "generation": result["credential_generation"]}
     available = result.get("credential_available", False)
     ready = bool(result.get("ready"))
-    if ready:
-        st.success("اتصال Tavily آماده است.")
-    elif available:
-        st.info("کلید ثبت شده است. برای آماده شدن جست‌وجوی زنده، اتصال را آزمایش کنید.")
-    else:
-        st.info("برای جست‌وجوی زنده، ابتدا کلید API سرویس Tavily را ثبت کنید.")
-
     storage_options = ["session", "os_keyring"] if result.get("os_keyring_available") else ["session"]
     guard = f"{profile['profile_id']}:{target['revision']}:{target['generation']}"
-    with st.expander("مدیریت کلید Tavily", expanded=repair or not available):
+    credentials = nullcontext() if compact else st.expander("مدیریت کلید Tavily", expanded=repair or not available)
+    with credentials:
         with st.form(f"search-credential:{guard}", clear_on_submit=True):
             secret = st.text_input("کلید API جست‌وجو", type="password", autocomplete="off")
             storage = st.selectbox(
                 "شیوهٔ نگهداری کلید جست‌وجو", storage_options,
+                index=storage_options.index(result["storage_mode"]) if result.get("storage_mode") in storage_options else 0,
                 format_func=lambda option: "حافظهٔ نشست" if option == "session" else "مخزن امن سیستم‌عامل",
             )
             save_secret = st.form_submit_button("ثبت کلید جست‌وجو", type="secondary" if available else "primary")
@@ -94,15 +115,13 @@ def search_settings(attempt, *, repair=False):
         if test := attempt("POST", f"{SEARCH_ROUTE}/test", target, idempotency_key=str(uuid4())):
             ready = bool(test.get("ok"))
             if ready:
+                status.success("آمادهٔ جست‌وجوی وب")
                 st.success(f"اتصال برقرار شد. تعداد نتایج مجاز آزمون: {test.get('allowed_results', 0)}")
             else:
+                status.warning("آزمون اخیر جست‌وجوی وب موفق نبود.")
                 st.error(f"آزمون اتصال ناموفق بود. {test.get('code') or test.get('status', '')}")
             if test.get("retry_after"):
                 st.text(f"زمان اعلام‌شده برای تلاش دوباره · {test['retry_after']}")
-
-    if not repair:
-        with st.expander("تنظیمات پیشرفتهٔ جست‌وجو"):
-            _search_limits_form(attempt, profile)
     return ready
 
 
