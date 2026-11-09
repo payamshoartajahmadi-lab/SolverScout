@@ -95,6 +95,9 @@ def start(data_dir, config, *, open_browser=True):
         else:
             try:
                 with instance_lock(data_dir):
+                    from p_mc_optimizer.persistence import Repository
+
+                    Repository(data_dir)
                     ensure_port(config.api_port)
                     ensure_port(config.ui_port)
             except Timeout:
