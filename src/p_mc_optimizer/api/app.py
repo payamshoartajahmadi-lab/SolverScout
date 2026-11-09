@@ -1,0 +1,236 @@
+"""Authenticated FastAPI surface for the local Streamlit UI and Workflow Worker."""
+from __future__ import annotations
+
+import hmac
+import logging
+import os
+from pathlib import Path
+from typing import Annotated
+from uuid import UUID, uuid4
+
+from fastapi import APIRouter, FastAPI, Header, Query, Request, Response
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import FileResponse, JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
+
+from p_mc_optimizer.application.errors import ApiError
+from p_mc_optimizer.application.jobs import ApplicationService, AnswersInput, JobVersion, public_job
+from p_mc_optimizer.domain.models import CreateJob, DomainError, strict_json_loads
+from p_mc_optimizer.persistence import Repository
+
+LOGGER = logging.getLogger(__name__)
+TOKEN_HEADER = "X-PMC-Internal-Token"
+MAX_REQUEST_BYTES = 1024 * 1024
+ARTIFACT_DOWNLOADS = {
+    "report_json": ("report.json", "application/json"),
+    "report_html": ("report.html", "text/html; charset=utf-8"),
+    "trials_csv": ("trials.csv", "text/csv; charset=utf-8"),
+    "evaluation_history_csv": ("evaluation_history.csv", "text/csv; charset=utf-8"),
+}
+DOMAIN_CODES = {
+    "UNSUPPORTED_PROBLEM", "INVALID_EXPRESSION", "UNKNOWN_VARIABLE",
+    "AMBIGUOUS_PROBLEM", "BOUNDS_RANGE_UNSUPPORTED",
+}
+DOMAIN_MESSAGES = {
+    "UNSUPPORTED_PROBLEM": "مدل مسئله با دامنهٔ نسخهٔ اول سازگار نیست.",
+    "INVALID_EXPRESSION": "عبارت تابع هدف با دستور زبان مجاز سازگار نیست.",
+    "UNKNOWN_VARIABLE": "عبارت تابع هدف از نام تعریف‌نشده استفاده می‌کند.",
+    "AMBIGUOUS_PROBLEM": "اطلاعات مسئله برای ساخت مدل کامل کافی نیست.",
+    "BOUNDS_RANGE_UNSUPPORTED": "فاصلهٔ میان کران‌های یک متغیر در بازهٔ عددی مجاز نیست.",
+}
+
+
+def error_response(request: Request, error: ApiError) -> JSONResponse:
+    return JSONResponse(
+        status_code=error.status_code,
+        content={
+            "error_code": error.error_code,
+            "message_fa": error.message_fa,
+            "field_errors": error.field_errors,
+            "retryable": error.retryable,
+            "request_id": getattr(request.state, "request_id", str(uuid4())),
+        },
+    )
+
+
+def canonical_id(value: str, code="JOB_NOT_FOUND") -> str:
+    try:
+        identifier = UUID(value)
+    except ValueError:
+        identifier = None
+    if identifier is None or identifier.version != 4 or str(identifier) != value:
+        raise ApiError(404, code, "شناسهٔ درخواست‌شده پیدا نشد.")
+    return value
+
+
+def job_routes(repo: Repository, service: ApplicationService) -> APIRouter:
+    router = APIRouter()
+
+    @router.post("/jobs", status_code=202)
+    def create_job(payload: CreateJob, idempotency_key: Annotated[str, Header(alias="Idempotency-Key")]):
+        return public_job(service.create_job(payload, idempotency_key))
+
+    @router.get("/jobs")
+    def list_jobs(
+        limit: Annotated[int, Query(ge=1, le=500)] = 100,
+        offset: Annotated[int, Query(ge=0)] = 0,
+    ):
+        return [public_job(job) for job in repo.list_jobs(limit=limit, offset=offset)]
+
+    @router.get("/jobs/{job_id}")
+    def get_job(job_id: str):
+        return public_job(repo.get_job(canonical_id(job_id)))
+
+    @router.get("/jobs/{job_id}/problem")
+    def get_problem(job_id: str):
+        return repo.get_problem(canonical_id(job_id))
+
+    @router.post("/jobs/{job_id}/answers", status_code=202)
+    def answers(job_id: str, payload: AnswersInput):
+        return public_job(service.answer_job(canonical_id(job_id), payload))
+
+    @router.post("/jobs/{job_id}/resume", status_code=202)
+    def resume(job_id: str, payload: JobVersion):
+        return public_job(service.resume_job(canonical_id(job_id), payload.expected_job_version))
+
+    @router.post("/jobs/{job_id}/cancel", status_code=202)
+    def cancel(job_id: str, payload: JobVersion, response: Response):
+        status, job = service.cancel_job(canonical_id(job_id), payload.expected_job_version)
+        response.status_code = status
+        return public_job(job)
+
+    @router.get("/jobs/{job_id}/events")
+    def events(
+        job_id: str,
+        after_sequence: Annotated[int, Query(ge=0)] = 0,
+        limit: Annotated[int, Query(ge=1, le=500)] = 100,
+    ):
+        return repo.list_events(canonical_id(job_id), after_sequence, limit)
+
+    @router.get("/jobs/{job_id}/trials")
+    def trials(job_id: str):
+        return repo.list_trials(canonical_id(job_id))
+
+    @router.get("/jobs/{job_id}/report")
+    def report(job_id: str):
+        return repo.get_report(canonical_id(job_id))
+
+    @router.get("/artifacts/{artifact_id}")
+    def artifact(artifact_id: str):
+        artifact_id = canonical_id(artifact_id, "ARTIFACT_NOT_FOUND")
+        metadata = repo.get_artifact(artifact_id)
+        path = repo.artifact_path(artifact_id)
+        fallback_name = path.name
+        if path.suffix in {".json", ".html", ".csv", ".jsonl"}:
+            fallback_name = metadata["kind"] + path.suffix
+        filename, media_type = ARTIFACT_DOWNLOADS.get(
+            metadata["kind"], (fallback_name, "application/octet-stream"),
+        )
+        return FileResponse(
+            path, filename=filename, media_type=media_type,
+            headers={"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"},
+        )
+
+    return router
+
+
+def create_app(
+    data_dir: Path | str,
+    internal_token: str,
+    *,
+    transport=None,
+    instance_id: str | None = None,
+) -> FastAPI:
+    from p_mc_optimizer.llm.gateway import LLMGateway
+    from p_mc_optimizer.llm.routes import create_llm_router
+
+    if not internal_token:
+        raise ValueError("An instance token is required")
+    repo = Repository(data_dir)
+    gateway = LLMGateway(repo, transport=transport, internal_token=internal_token)
+    service = ApplicationService(repo, profile_snapshot=gateway.profile_snapshot, resume_check=gateway.resume_check)
+    app = FastAPI(title="P_MC Optimizer", version="1.0", redirect_slashes=False)
+    app.state.repo = repo
+    app.state.gateway = gateway
+    app.state.service = service
+
+    @app.middleware("http")
+    async def local_boundary(request: Request, call_next):
+        request.state.request_id = str(uuid4())
+        if request.url.path != "/healthz":
+            tokens = request.headers.getlist(TOKEN_HEADER)
+            if len(tokens) != 1 or not hmac.compare_digest(tokens[0].encode(), internal_token.encode()):
+                return error_response(request, ApiError(401, "LOCAL_AUTH_REQUIRED", "درخواست محلی احراز نشد."))
+        try:
+            if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
+                length = request.headers.get("Content-Length")
+                if length is not None and not 0 <= int(length) <= MAX_REQUEST_BYTES:
+                    raise ValueError("Invalid request body length")
+                body = await request.body()
+                if body:
+                    payload = strict_json_loads(body, limit=MAX_REQUEST_BYTES)
+                    if request.url.path != "/settings/llm/credential" and gateway.payload_contains_secret(payload):
+                        return error_response(
+                            request, ApiError(422, "INVALID_SCHEMA", "کلید و توکن را فقط از مسیر تنظیمات ثبت کنید."),
+                        )
+        except (ValueError, UnicodeError, RecursionError):
+            return error_response(request, ApiError(422, "INVALID_SCHEMA", "بدنهٔ درخواست باید JSON معتبر UTF-8 باشد."))
+        try:
+            response = await call_next(request)
+        except Exception as error:
+            LOGGER.error("Local API failure request_id=%s type=%s", request.state.request_id, type(error).__name__)
+            return error_response(request, ApiError(500, "INTERNAL_ERROR", "خطای داخلی رخ داده است."))
+        response.headers.setdefault("Cache-Control", "no-store")
+        return response
+
+    @app.exception_handler(ApiError)
+    async def handle_api_error(request: Request, error: ApiError):
+        return error_response(request, error)
+
+    @app.exception_handler(StarletteHTTPException)
+    async def handle_http_error(request: Request, error: StarletteHTTPException):
+        code = "NOT_FOUND" if error.status_code == 404 else "HTTP_ERROR"
+        return error_response(request, ApiError(error.status_code, code, "مسیر یا روش درخواست در دسترس نیست."))
+
+    @app.exception_handler(DomainError)
+    async def handle_domain_error(request: Request, error: DomainError):
+        code = error.code if error.code in DOMAIN_CODES else "INVALID_SCHEMA"
+        return error_response(
+            request, ApiError(422, code, DOMAIN_MESSAGES.get(code, "ساختار مسئله معتبر نیست.")),
+        )
+
+    @app.exception_handler(RequestValidationError)
+    async def handle_validation_error(request: Request, error: RequestValidationError):
+        failures = error.errors()
+        code = next((failure["type"] for failure in failures if failure["type"] in DOMAIN_CODES), "INVALID_SCHEMA")
+        field_errors = [
+            {
+                "path": [
+                    item for item in (failure["loc"][:-1] if failure["type"] == "extra_forbidden" else failure["loc"])
+                    if isinstance(item, int) or (isinstance(item, str) and len(item) <= 48 and item.isidentifier())
+                ],
+                "code": failure["type"],
+            }
+            for failure in failures
+        ]
+        return error_response(
+            request,
+            ApiError(422, code, DOMAIN_MESSAGES.get(code, "فیلدهای درخواست با ساختار مجاز سازگار نیستند."),
+                     field_errors=field_errors),
+        )
+
+    @app.get("/healthz")
+    def health():
+        return {"status": "ok", "instance_id": instance_id}
+
+    app.include_router(job_routes(repo, service))
+    app.include_router(create_llm_router(gateway))
+    return app
+
+
+def create_from_env() -> FastAPI:
+    """Uvicorn factory used by the launcher."""
+    return create_app(
+        os.environ["PMC_DATA_DIR"], os.environ["PMC_INTERNAL_TOKEN"],
+        instance_id=os.environ.get("PMC_INSTANCE_ID"),
+    )
