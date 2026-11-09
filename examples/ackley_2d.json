@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "variables": [
+    {
+      "name": "x1",
+      "label_fa": null,
+      "type": "real",
+      "lower": -32.768,
+      "upper": 32.768,
+      "unit": null
+    },
+    {
+      "name": "x2",
+      "label_fa": null,
+      "type": "real",
+      "lower": -32.768,
+      "upper": 32.768,
+      "unit": null
+    }
+  ],
+  "objective": {
+    "sense": "minimize",
+    "unit": null,
+    "source": {
+      "kind": "expression",
+      "expression": "-20*exp(-0.2*sqrt((x1**2+x2**2)/2))-exp((cos(2*pi*x1)+cos(2*pi*x2))/2)+20+e"
+    }
+  },
+  "parameters": {},
+  "constraints": [],
+  "deterministic": true
+}

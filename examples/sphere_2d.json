@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "variables": [
+    {
+      "name": "x1",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.0,
+      "upper": 5.0,
+      "unit": null
+    },
+    {
+      "name": "x2",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.0,
+      "upper": 5.0,
+      "unit": null
+    }
+  ],
+  "objective": {
+    "sense": "minimize",
+    "unit": null,
+    "source": {
+      "kind": "expression",
+      "expression": "(x1**2+x2**2)"
+    }
+  },
+  "parameters": {},
+  "constraints": [],
+  "deterministic": true
+}

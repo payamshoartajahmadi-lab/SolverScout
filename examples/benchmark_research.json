@@ -1,0 +1,328 @@
+{
+  "schema_version": "1.0",
+  "generator_version": "1.0",
+  "provider_profile_revision": null,
+  "reference_file": "references.json",
+  "fixed_algorithm_id": "de.original",
+  "suite_id": "continuous-v1-research",
+  "instances": [
+    {
+      "instance_id": "sphere_5d_0",
+      "problem": "research/sphere_5d_0.json",
+      "problem_math_hash": "4427d439f67951ddf19eb7052ac22b6adeca4bc37038922d99db63def0f1403b",
+      "split": "development",
+      "dimensions": 5,
+      "generator_seed": 140550
+    },
+    {
+      "instance_id": "sphere_5d_1",
+      "problem": "research/sphere_5d_1.json",
+      "problem_math_hash": "94383b2e4c829aae7a7c382938d78a4b1b691f2b3f29d1691b2ebf55d4eabaf6",
+      "split": "test",
+      "dimensions": 5,
+      "generator_seed": 140551
+    },
+    {
+      "instance_id": "sphere_5d_2",
+      "problem": "research/sphere_5d_2.json",
+      "problem_math_hash": "3ff9c769a736ca81307d02e622400c54503a676bde20116b073d144500102788",
+      "split": "train",
+      "dimensions": 5,
+      "generator_seed": 140552
+    },
+    {
+      "instance_id": "sphere_10d_0",
+      "problem": "research/sphere_10d_0.json",
+      "problem_math_hash": "055236b7302de4dec505dc84c913037e295f2a3515537556910bd14f4d70ba73",
+      "split": "development",
+      "dimensions": 10,
+      "generator_seed": 140600
+    },
+    {
+      "instance_id": "sphere_10d_1",
+      "problem": "research/sphere_10d_1.json",
+      "problem_math_hash": "36939411ce7fa7ab2864164cc681e5eb31f0d761d1430a35b19dd6cdfa828941",
+      "split": "test",
+      "dimensions": 10,
+      "generator_seed": 140601
+    },
+    {
+      "instance_id": "sphere_10d_2",
+      "problem": "research/sphere_10d_2.json",
+      "problem_math_hash": "bd03a2def3eeb0f5a0607d8d4611072fe22ec4fba2939d849d5ada62140509ac",
+      "split": "train",
+      "dimensions": 10,
+      "generator_seed": 140602
+    },
+    {
+      "instance_id": "sphere_20d_0",
+      "problem": "research/sphere_20d_0.json",
+      "problem_math_hash": "a6cf881c92efdc75a8cc9b3f29b1a6fb5c5d2575c88619c7a47cc51966e683b4",
+      "split": "development",
+      "dimensions": 20,
+      "generator_seed": 140700
+    },
+    {
+      "instance_id": "sphere_20d_1",
+      "problem": "research/sphere_20d_1.json",
+      "problem_math_hash": "3c42cc291d9c486619ac0efe5e1c16a906a3695b6c1d01c5887d076a9c0894df",
+      "split": "test",
+      "dimensions": 20,
+      "generator_seed": 140701
+    },
+    {
+      "instance_id": "sphere_20d_2",
+      "problem": "research/sphere_20d_2.json",
+      "problem_math_hash": "08122d2c5c3a6615b4da74c9cb91054525c558dbdf5e483bcc236ec34282c303",
+      "split": "train",
+      "dimensions": 20,
+      "generator_seed": 140702
+    },
+    {
+      "instance_id": "rosenbrock_5d_0",
+      "problem": "research/rosenbrock_5d_0.json",
+      "problem_math_hash": "05026871aec7df55903271dbaddaa7013260c46befce3ad03b6be2caebfa8eb6",
+      "split": "development",
+      "dimensions": 5,
+      "generator_seed": 140550
+    },
+    {
+      "instance_id": "rosenbrock_5d_1",
+      "problem": "research/rosenbrock_5d_1.json",
+      "problem_math_hash": "bd79a8bbdcf8d8db59cd74399075377740e7631f2cafefd33012b08db01d827a",
+      "split": "test",
+      "dimensions": 5,
+      "generator_seed": 140551
+    },
+    {
+      "instance_id": "rosenbrock_5d_2",
+      "problem": "research/rosenbrock_5d_2.json",
+      "problem_math_hash": "a8cc2e46e811f9230ff338f8287f02c42b37ca71d49a214d4a6058e452d1d801",
+      "split": "train",
+      "dimensions": 5,
+      "generator_seed": 140552
+    },
+    {
+      "instance_id": "rosenbrock_10d_0",
+      "problem": "research/rosenbrock_10d_0.json",
+      "problem_math_hash": "ba60e0d4dfee55e853f6e504aad3948166bc8770f82ed8e705954ce8cc5fc40b",
+      "split": "development",
+      "dimensions": 10,
+      "generator_seed": 140600
+    },
+    {
+      "instance_id": "rosenbrock_10d_1",
+      "problem": "research/rosenbrock_10d_1.json",
+      "problem_math_hash": "1c43c3523f7c1141b49f3f6a67c59ef17b4f21e2f39960d37e90c0c8d30f2ed5",
+      "split": "test",
+      "dimensions": 10,
+      "generator_seed": 140601
+    },
+    {
+      "instance_id": "rosenbrock_10d_2",
+      "problem": "research/rosenbrock_10d_2.json",
+      "problem_math_hash": "4541410316e7e53c44e4e4a226f26bc4186a05048da2d71aeb8b138c6a2ffc03",
+      "split": "train",
+      "dimensions": 10,
+      "generator_seed": 140602
+    },
+    {
+      "instance_id": "rosenbrock_20d_0",
+      "problem": "research/rosenbrock_20d_0.json",
+      "problem_math_hash": "9c1eab53a7f7653827b629022df62eb350bd8fa48707d47571bb69d6774e35e4",
+      "split": "development",
+      "dimensions": 20,
+      "generator_seed": 140700
+    },
+    {
+      "instance_id": "rosenbrock_20d_1",
+      "problem": "research/rosenbrock_20d_1.json",
+      "problem_math_hash": "858d894d1f53832a981adf363d490bbe5a8eebe736e2973ee11ac401e3f41327",
+      "split": "test",
+      "dimensions": 20,
+      "generator_seed": 140701
+    },
+    {
+      "instance_id": "rosenbrock_20d_2",
+      "problem": "research/rosenbrock_20d_2.json",
+      "problem_math_hash": "40084412670c215912edb61a9180727dba1b1faec2d2336427be79008cd91c8a",
+      "split": "train",
+      "dimensions": 20,
+      "generator_seed": 140702
+    },
+    {
+      "instance_id": "rastrigin_5d_0",
+      "problem": "research/rastrigin_5d_0.json",
+      "problem_math_hash": "167a300a730c9bc16133fc77f146c2e7b53075f8d7da31653c00bf15cb3f2be7",
+      "split": "development",
+      "dimensions": 5,
+      "generator_seed": 140550
+    },
+    {
+      "instance_id": "rastrigin_5d_1",
+      "problem": "research/rastrigin_5d_1.json",
+      "problem_math_hash": "5c3e6fe46578b6f701ca092e23c143903fa84973b10b37366e859846753a8339",
+      "split": "test",
+      "dimensions": 5,
+      "generator_seed": 140551
+    },
+    {
+      "instance_id": "rastrigin_5d_2",
+      "problem": "research/rastrigin_5d_2.json",
+      "problem_math_hash": "46294e4bceb9c2bf38e8555ff1d1bb54aa6d25d2435baa8947421a3be0fe25f3",
+      "split": "train",
+      "dimensions": 5,
+      "generator_seed": 140552
+    },
+    {
+      "instance_id": "rastrigin_10d_0",
+      "problem": "research/rastrigin_10d_0.json",
+      "problem_math_hash": "0110c8334f71280f336bc89483b349843c73d51e42a11057b088af7b2d892a45",
+      "split": "development",
+      "dimensions": 10,
+      "generator_seed": 140600
+    },
+    {
+      "instance_id": "rastrigin_10d_1",
+      "problem": "research/rastrigin_10d_1.json",
+      "problem_math_hash": "92da2d850e092b4393c47cb6e69da0c9ade275bcee9d5155cf799445e6465e25",
+      "split": "test",
+      "dimensions": 10,
+      "generator_seed": 140601
+    },
+    {
+      "instance_id": "rastrigin_10d_2",
+      "problem": "research/rastrigin_10d_2.json",
+      "problem_math_hash": "daa65a2c6694849a327e777ca2e47e439353d12b498c26263ba40f43a4c29459",
+      "split": "train",
+      "dimensions": 10,
+      "generator_seed": 140602
+    },
+    {
+      "instance_id": "rastrigin_20d_0",
+      "problem": "research/rastrigin_20d_0.json",
+      "problem_math_hash": "5909b638e462d74108774c2a0a21202d4b27801e7c33764a121fcf1c86beb36a",
+      "split": "development",
+      "dimensions": 20,
+      "generator_seed": 140700
+    },
+    {
+      "instance_id": "rastrigin_20d_1",
+      "problem": "research/rastrigin_20d_1.json",
+      "problem_math_hash": "c2c9cd61e277850860301a6dc8717357c774ae569f8a8c15a3bed1fb07ef19c3",
+      "split": "test",
+      "dimensions": 20,
+      "generator_seed": 140701
+    },
+    {
+      "instance_id": "rastrigin_20d_2",
+      "problem": "research/rastrigin_20d_2.json",
+      "problem_math_hash": "9f0341f70cb0aa5e9c0a8041a8395a244cf5d5a5687af0ec5e6b498370254355",
+      "split": "train",
+      "dimensions": 20,
+      "generator_seed": 140702
+    },
+    {
+      "instance_id": "ackley_5d_0",
+      "problem": "research/ackley_5d_0.json",
+      "problem_math_hash": "e2c0746726dd3e777d21ea98c9d6a6caecb2f03885196f9d7124f654f722211d",
+      "split": "development",
+      "dimensions": 5,
+      "generator_seed": 140550
+    },
+    {
+      "instance_id": "ackley_5d_1",
+      "problem": "research/ackley_5d_1.json",
+      "problem_math_hash": "ce5d464ac58cc9cceb5970909247baabb9261ee57716cc331335704d5784f75f",
+      "split": "test",
+      "dimensions": 5,
+      "generator_seed": 140551
+    },
+    {
+      "instance_id": "ackley_5d_2",
+      "problem": "research/ackley_5d_2.json",
+      "problem_math_hash": "429fcd78cda9cc55c4cb57e6741b8b1a6a6ad281c574e44306a061fd98e083ee",
+      "split": "train",
+      "dimensions": 5,
+      "generator_seed": 140552
+    },
+    {
+      "instance_id": "ackley_10d_0",
+      "problem": "research/ackley_10d_0.json",
+      "problem_math_hash": "be51ea4f2f7c78c0cdad9874763cedc426623ce97753f26c7d088a868605b64b",
+      "split": "development",
+      "dimensions": 10,
+      "generator_seed": 140600
+    },
+    {
+      "instance_id": "ackley_10d_1",
+      "problem": "research/ackley_10d_1.json",
+      "problem_math_hash": "2aff2155afa1adb95262bce56b0444350842d232ca3a47f15e6472ae259010bd",
+      "split": "test",
+      "dimensions": 10,
+      "generator_seed": 140601
+    },
+    {
+      "instance_id": "ackley_10d_2",
+      "problem": "research/ackley_10d_2.json",
+      "problem_math_hash": "5e066e41545a449b6f0e8118760a62af1f42518de7c325a1de92fafa73746fe2",
+      "split": "train",
+      "dimensions": 10,
+      "generator_seed": 140602
+    },
+    {
+      "instance_id": "ackley_20d_0",
+      "problem": "research/ackley_20d_0.json",
+      "problem_math_hash": "878579b563827ecdd474a682918a028416de79ba902c5111d7458f8665fecd9b",
+      "split": "development",
+      "dimensions": 20,
+      "generator_seed": 140700
+    },
+    {
+      "instance_id": "ackley_20d_1",
+      "problem": "research/ackley_20d_1.json",
+      "problem_math_hash": "3f1a0e1a48af972f9bf0a22a5f925746f1b9a54d08e2118d03b6eecc8c56fe40",
+      "split": "test",
+      "dimensions": 20,
+      "generator_seed": 140701
+    },
+    {
+      "instance_id": "ackley_20d_2",
+      "problem": "research/ackley_20d_2.json",
+      "problem_math_hash": "88d86cd925a1023c6b1b188bfc7673f1123a13db6e95fc7c34356d985200a589",
+      "split": "train",
+      "dimensions": 20,
+      "generator_seed": 140702
+    }
+  ],
+  "master_seeds": [
+    1405,
+    1406,
+    1407,
+    1408,
+    1409,
+    1410,
+    1411,
+    1412,
+    1413,
+    1414,
+    1415,
+    1416,
+    1417,
+    1418,
+    1419,
+    1420,
+    1421,
+    1422,
+    1423,
+    1424
+  ],
+  "policy_ids": [
+    "fixed_solver",
+    "pilot_only",
+    "rule_based",
+    "random_solver"
+  ],
+  "budget": 20000,
+  "max_compute_seconds": 300
+}

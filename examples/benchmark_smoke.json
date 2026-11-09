@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "generator_version": "1.0",
+  "provider_profile_revision": null,
+  "reference_file": "references.json",
+  "fixed_algorithm_id": "de.original",
+  "suite_id": "continuous-v1-smoke",
+  "instances": [
+    {
+      "instance_id": "sphere_2d",
+      "problem": "sphere_2d.json",
+      "problem_math_hash": "d7f4ecbf8f0fcc42960c2860aed8d91ef24d9164057df2fb3917cab74a88dbb7",
+      "split": "development",
+      "dimensions": 2,
+      "generator_seed": null
+    },
+    {
+      "instance_id": "rosenbrock_2d",
+      "problem": "rosenbrock_2d.json",
+      "problem_math_hash": "6fcb824321b3734bd8d73a5586aaadf9cdb6021377815fba911a1560757ae1a9",
+      "split": "development",
+      "dimensions": 2,
+      "generator_seed": null
+    },
+    {
+      "instance_id": "rastrigin_2d",
+      "problem": "rastrigin_2d.json",
+      "problem_math_hash": "4a950a586e13fdb54d26d6b1a79fbd27a1d89db96c0c412fc4cf93e359314bcf",
+      "split": "development",
+      "dimensions": 2,
+      "generator_seed": null
+    },
+    {
+      "instance_id": "ackley_2d",
+      "problem": "ackley_2d.json",
+      "problem_math_hash": "34beceec9736dd4bd421333cd9344b499c66411ce45a63a9d696f1d57961d779",
+      "split": "development",
+      "dimensions": 2,
+      "generator_seed": null
+    }
+  ],
+  "master_seeds": [
+    1405,
+    1406
+  ],
+  "policy_ids": [
+    "fixed_solver",
+    "pilot_only"
+  ],
+  "budget": 7002,
+  "max_compute_seconds": 300
+}
