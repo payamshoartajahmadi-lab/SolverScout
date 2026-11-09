@@ -62,6 +62,14 @@ CREATE TABLE evidence_passages (
     document_id TEXT NOT NULL REFERENCES source_documents(document_id),
     payload TEXT NOT NULL
 );
+CREATE TABLE method_records (
+    method_id TEXT NOT NULL,
+    job_id TEXT NOT NULL REFERENCES jobs(job_id),
+    record_hash TEXT NOT NULL,
+    payload TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    PRIMARY KEY(method_id, job_id, record_hash)
+);
 CREATE TABLE robots_cache (
     hostname TEXT PRIMARY KEY,
     validated_at TEXT NOT NULL,
@@ -214,8 +222,9 @@ class ResearchStore:
             rows = conn.execute(
                 "SELECT payload FROM source_documents WHERE cache_key >= ? AND cache_key < ?",
                 (policy_key + ":", policy_key + ";"),
-            ).fetchall()
-        return [json.loads(row["payload"]) for row in rows]
+            )
+            for row in rows:
+                yield json.loads(row["payload"])
 
     def save_document(self, job_id, document, cache_key, text=None):
         if text is not None:

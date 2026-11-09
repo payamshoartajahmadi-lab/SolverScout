@@ -5,7 +5,7 @@ from pathlib import Path
 from p_mc_optimizer.catalog.models import CatalogSnapshot, SolverCardV2
 from p_mc_optimizer.domain.models import (
     CreateJob, EvaluationRecord, ExecutionPolicyInput, ExecutionResult, ProblemInput, ProblemRevision,
-    SelectionDecision, TrialRequest, TrialRequestV2,
+    SelectionDecision, SelectionDecisionV2, TrialRequest, TrialRequestV2,
 )
 from p_mc_optimizer.reporting import json_bytes
 from p_mc_optimizer.research.contracts import (
@@ -41,6 +41,7 @@ SCHEMAS_V2 = {
     "source_rule": SourceRule,
     "source_snapshot": SourceSnapshot,
     "catalog_snapshot": CatalogSnapshot,
+    "selection_decision": SelectionDecisionV2,
     "solver_card": SolverCardV2,
     "trial_request": TrialRequestV2,
 }

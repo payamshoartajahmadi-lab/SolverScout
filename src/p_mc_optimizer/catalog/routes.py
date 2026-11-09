@@ -38,6 +38,7 @@ def catalog_router(store: CatalogStore) -> APIRouter:
         offset: Annotated[int, Query(ge=0)] = 0,
         family: Annotated[str | None, Query(max_length=120)] = None,
         status: CatalogStatus | None = None,
+        pilot_500_compatible: bool | None = None,
         query: Annotated[str, Query(max_length=240)] = "",
         pilot_500_compatible: bool | None = None,
     ):

@@ -214,6 +214,9 @@ class CatalogStore:
             if (
                 (family is None or row.family_id == family)
                 and (status is None or status == state)
+                and (pilot_500_compatible is None or bool(
+                    state == "qualified" and report and report.pilot_500_compatible
+                ) == pilot_500_compatible)
                 and query.casefold() in row.implementation_id.casefold()
                 and (pilot_500_compatible is None or pilot_500_compatible == (
                     state == "qualified" and report.pilot_500_compatible

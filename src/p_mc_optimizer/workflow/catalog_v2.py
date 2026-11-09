@@ -5,10 +5,10 @@ from uuid import uuid4
 
 import httpx
 
-from p_mc_optimizer.domain.models import CandidatePlan, ExecutionResult, SelectionDecision, TrialRequestV2
+from p_mc_optimizer.domain.models import CandidatePlan, ExecutionResult, SelectionDecisionV2, TrialRequestV2
 from p_mc_optimizer.llm.research_v2 import AdvisorContextV2, PlannerContext
 from p_mc_optimizer.research.contracts import (
-    AdvisorPlanV2, ExecutionPolicyV2, ResearchQueryPlan, ResearchSnapshot, SearchProblemProfile,
+    AdvisorPlanV2, ExecutionPolicyV2, ResearchLimits, ResearchQueryPlan, ResearchSnapshot, SearchProblemProfile,
 )
 from p_mc_optimizer.reporting import csv_bytes, json_bytes
 from p_mc_optimizer.selection.policies import rank_pilots
@@ -116,14 +116,14 @@ class CatalogWorkflow(Workflow):
             return
         snapshot = self.research
         source_snapshot = snapshot.source_snapshot
-        if snapshot.research_mode == "live" and not self.workflow.get("query_plan"):
+        if not self.workflow.get("query_plan"):
             self.phase("research_planning")
             profile = SearchProblemProfile(
                 n_variables=len(self.revision.spec.variables), objective_sense=self.revision.spec.objective.sense,
             )
+            limits = snapshot.search_profile.limits if snapshot.search_profile else ResearchLimits()
             context = PlannerContext(
-                profile=profile, sources=[rule for rule in source_snapshot.sources if rule.enabled],
-                max_queries=snapshot.search_profile.limits.max_queries,
+                profile=profile, sources=list(source_snapshot.active_sources), max_queries=limits.max_queries,
             )
             def validate(output):
                 result = ResearchQueryPlan.model_validate(output).normalized(source_snapshot)
@@ -213,6 +213,7 @@ class CatalogWorkflow(Workflow):
         plan, error = self._role("advisor", "advisor.v2", context, validate)
         if plan:
             self.keep("advisor_plan_v2", plan)
+            self.repo.record_research_findings(self.job_id, plan.research_findings, worker_id=self.worker_id)
         if error or plan.status != "ready":
             failure = error or _error("RESEARCH_EVIDENCE_INSUFFICIENT", "مشاور سه گزینهٔ دارای شواهد کافی پیدا نکرد.")
             if require_web:
@@ -268,7 +269,7 @@ class CatalogWorkflow(Workflow):
         plan = CandidatePlan.model_validate(wf["candidate_plan"])
         if self.selection_policy == "catalog_fixed":
             card = plan.candidates[0]
-            decision = SelectionDecision(
+            decision = SelectionDecisionV2(
                 decision_id=str(uuid4()), selection_status="fixed_by_policy",
                 decision_source="catalog_fixed", selected_algorithm_id=card.algorithm_id,
                 selected_config_id=card.config_id, metrics=[], scale=None, tie_break_order=[], uncertainty_notes=None,
@@ -282,7 +283,7 @@ class CatalogWorkflow(Workflow):
             decision = rank_pilots(
                 results, plan, allowed_configs={r["implementation_id"]: r["config_id"] for r in wf["solver_cards"]}
             )
-        self.repo.put_decision(self.job_id, {**_model(decision), "policy_version": "2.0"}, worker_id=self.worker_id)
+        self.repo.put_decision(self.job_id, decision, worker_id=self.worker_id)
 
     def can_verify(self, stop):
         return super().can_verify(stop) or (stop.get("status") == "failed" and self.workflow.get("research_partial"))
