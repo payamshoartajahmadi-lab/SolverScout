@@ -50,9 +50,9 @@ _GOOD_EXPLANATION = {
 
 
 @contextmanager
-def local_api(data_dir, transport):
+def local_api(data_dir, transport, **app_options):
     token = secrets.token_urlsafe(32)
-    app = create_app(data_dir, token, transport=transport)
+    app = create_app(data_dir, token, transport=transport, **app_options)
     with socket.socket() as listener:
         listener.bind(("127.0.0.1", 0))
         listener.listen()
