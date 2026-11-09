@@ -1,0 +1,399 @@
+{
+  "schema_version": "2.0",
+  "corpus_kind": "synthetic",
+  "documents": [
+    {
+      "job_id": "fixture-job-01",
+      "document_id": "fixture-document-01",
+      "source_url": "https://sources.example.invalid/solverscout/compass",
+      "text": "Synthetic assessment document.\n\nReference Compass Search 1.0 uses a fixed exploration radius and does not require objective gradients.\n\nEnd of controlled sample.",
+      "text_sha256": "08b81277ba80cbd453946a0da7778c828818f1b8a48de199d1e12af3a65e95c8",
+      "passages": [
+        {
+          "evidence_id": "fixture-evidence-01",
+          "start": 32,
+          "end": 134,
+          "text": "Reference Compass Search 1.0 uses a fixed exploration radius and does not require objective gradients."
+        }
+      ]
+    },
+    {
+      "job_id": "fixture-job-02",
+      "document_id": "fixture-document-02",
+      "source_url": "https://sources.example.invalid/solverscout/compass-adaptive",
+      "text": "Synthetic assessment document.\n\nAdaptive Compass Search 2.0 halves its radius after two stagnant steps. The implementation catalog identifies this exact variant as fixture:compass:AdaptiveV2.\n\nEnd of controlled sample.",
+      "text_sha256": "ccffd3aed89643b3c9fd5be0fbde0ac1eb9db09b04e742702a18625d69b98b5c",
+      "passages": [
+        {
+          "evidence_id": "fixture-evidence-02",
+          "start": 32,
+          "end": 191,
+          "text": "Adaptive Compass Search 2.0 halves its radius after two stagnant steps. The implementation catalog identifies this exact variant as fixture:compass:AdaptiveV2."
+        }
+      ]
+    },
+    {
+      "job_id": "fixture-job-03",
+      "document_id": "fixture-document-03",
+      "source_url": "https://sources.example.invalid/solverscout/grid",
+      "text": "Synthetic assessment document.\n\nGrid Ribbon 1.0 was validated with bounded continuous variables in dimensions 2 through 10. Integer variables were explicitly excluded.\n\nEnd of controlled sample.",
+      "text_sha256": "474faa8c2537b9a89211f15ba7155742bfe9970a4ea6a8b24c0a08019f800172",
+      "passages": [
+        {
+          "evidence_id": "fixture-evidence-03",
+          "start": 32,
+          "end": 167,
+          "text": "Grid Ribbon 1.0 was validated with bounded continuous variables in dimensions 2 through 10. Integer variables were explicitly excluded."
+        }
+      ]
+    },
+    {
+      "job_id": "fixture-job-04",
+      "document_id": "fixture-document-04",
+      "source_url": "https://sources.example.invalid/solverscout/grid-scaled",
+      "text": "Synthetic assessment document.\n\nScaled Grid Ribbon 1.1 is a different variant from Grid Ribbon 1.0. The implementation fixture:grid:ScaledV11 applies this variant's scaling; no run receipt is attached.\n\nEnd of controlled sample.",
+      "text_sha256": "a0f0ccf1a916ad13dfe5efcf1c4d86f3a43a75216905228f53163352026e74fd",
+      "passages": [
+        {
+          "evidence_id": "fixture-evidence-04",
+          "start": 32,
+          "end": 201,
+          "text": "Scaled Grid Ribbon 1.1 is a different variant from Grid Ribbon 1.0. The implementation fixture:grid:ScaledV11 applies this variant's scaling; no run receipt is attached."
+        }
+      ]
+    },
+    {
+      "job_id": "fixture-job-05",
+      "document_id": "fixture-document-05",
+      "source_url": "https://sources.example.invalid/solverscout/beacon",
+      "text": "Synthetic assessment document.\n\nAdaptive Beacon Search 2.0 reinitializes from a seeded random generator and counts each initialization call against the function evaluation budget.\n\nEnd of controlled sample.",
+      "text_sha256": "584ea27e0dbe6cdcaede337c85710bc88ee8c5abd61401708e24368b99a94135",
+      "passages": [
+        {
+          "evidence_id": "fixture-evidence-05",
+          "start": 32,
+          "end": 179,
+          "text": "Adaptive Beacon Search 2.0 reinitializes from a seeded random generator and counts each initialization call against the function evaluation budget."
+        }
+      ]
+    },
+    {
+      "job_id": "fixture-job-06",
+      "document_id": "fixture-document-06",
+      "source_url": "https://sources.example.invalid/solverscout/beacon-ablation",
+      "text": "Synthetic assessment document.\n\nThe Adaptive Beacon Search 2.0 ablation disabled population restarts. Its median score was 9, whereas the original variant's score was 4 under the same minimization test.\n\nEnd of controlled sample.",
+      "text_sha256": "18f1a7c2dbdaf9cafe1d3a04a25cc651c8beda6e391d0ea4fe6cc1522fd9e86d",
+      "passages": [
+        {
+          "evidence_id": "fixture-evidence-06",
+          "start": 32,
+          "end": 202,
+          "text": "The Adaptive Beacon Search 2.0 ablation disabled population restarts. Its median score was 9, whereas the original variant's score was 4 under the same minimization test."
+        }
+      ]
+    },
+    {
+      "job_id": "fixture-job-07",
+      "document_id": "fixture-document-07",
+      "source_url": "https://sources.example.invalid/solverscout/optics",
+      "text": "Synthetic assessment document.\n\nReflective Optics 3.0 is described with reflective bound repair. Its source document describes the method, and no package or run artifact accompanies the description.\n\nEnd of controlled sample.",
+      "text_sha256": "077a33ff7a4464b90eb008fac9b35b23332004d83ea3cd9a96e184d83adcd72b",
+      "passages": [
+        {
+          "evidence_id": "fixture-evidence-07",
+          "start": 32,
+          "end": 198,
+          "text": "Reflective Optics 3.0 is described with reflective bound repair. Its source document describes the method, and no package or run artifact accompanies the description."
+        }
+      ]
+    },
+    {
+      "job_id": "fixture-job-08",
+      "document_id": "fixture-document-08",
+      "source_url": "https://sources.example.invalid/solverscout/run-receipt",
+      "text": "Synthetic assessment document.\n\nThe controlled fixture records trial trial-beacon-1 for fixture:beacon:AdaptiveV2. It used 500 function evaluations and finished with evaluation_budget. The receipt contains a raw best score of 0.02.\n\nEnd of controlled sample.",
+      "text_sha256": "5e0bc66dfbff2712aa9119eb44df5eecbf2aeaa7c7efbd665b3367afafe868f8",
+      "passages": [
+        {
+          "evidence_id": "fixture-evidence-08",
+          "start": 32,
+          "end": 231,
+          "text": "The controlled fixture records trial trial-beacon-1 for fixture:beacon:AdaptiveV2. It used 500 function evaluations and finished with evaluation_budget. The receipt contains a raw best score of 0.02."
+        }
+      ]
+    }
+  ],
+  "trials": [
+    {
+      "trial_id": "trial-beacon-1",
+      "job_id": "fixture-job-08",
+      "implementation_id": "fixture:beacon:AdaptiveV2"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "citation-01",
+      "job_id": "fixture-job-01",
+      "claim": "Reference Compass Search 1.0 can evaluate objectives without access to gradients.",
+      "verdict": "supported",
+      "evidence_refs": [
+        "fixture-evidence-01"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-02",
+      "job_id": "fixture-job-01",
+      "claim": "Reference Compass Search 1.0 reduces its exploration radius after every step.",
+      "verdict": "contradictory",
+      "evidence_refs": [
+        "fixture-evidence-01"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-03",
+      "job_id": "fixture-job-01",
+      "claim": "Reference Compass Search 1.0 uses less memory than Adaptive Beacon Search 2.0.",
+      "verdict": "irrelevant",
+      "evidence_refs": [
+        "fixture-evidence-01"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-04",
+      "job_id": "fixture-job-02",
+      "claim": "Adaptive Compass Search 2.0 halves its radius after two stagnant steps.",
+      "verdict": "supported",
+      "evidence_refs": [
+        "fixture-evidence-02"
+      ],
+      "implementation_id": "fixture:compass:AdaptiveV2",
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-05",
+      "job_id": "fixture-job-02",
+      "claim": "Adaptive Compass Search 2.0 leaves its radius unchanged after two stagnant steps.",
+      "verdict": "contradictory",
+      "evidence_refs": [
+        "fixture-evidence-02"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-06",
+      "job_id": "fixture-job-02",
+      "claim": "Adaptive Compass Search 2.0 outperforms Reference Compass Search 1.0 on a thirty-dimensional benchmark.",
+      "verdict": "irrelevant",
+      "evidence_refs": [
+        "fixture-evidence-02"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-07",
+      "job_id": "fixture-job-03",
+      "claim": "Grid Ribbon 1.0 was validated for bounded continuous problems in dimension 10.",
+      "verdict": "supported",
+      "evidence_refs": [
+        "fixture-evidence-03"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-08",
+      "job_id": "fixture-job-03",
+      "claim": "The Grid Ribbon 1.0 validation included integer variables.",
+      "verdict": "contradictory",
+      "evidence_refs": [
+        "fixture-evidence-03"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-09",
+      "job_id": "fixture-job-03",
+      "claim": "Grid Ribbon 1.0 restarted whenever it encountered a nonfinite objective.",
+      "verdict": "irrelevant",
+      "evidence_refs": [
+        "fixture-evidence-03"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-10",
+      "job_id": "fixture-job-04",
+      "claim": "The listed implementation of Scaled Grid Ribbon 1.1 applies this variant's scaling.",
+      "verdict": "supported",
+      "evidence_refs": [
+        "fixture-evidence-04"
+      ],
+      "implementation_id": "fixture:grid:ScaledV11",
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-11",
+      "job_id": "fixture-job-04",
+      "claim": "Scaled Grid Ribbon 1.1 and Grid Ribbon 1.0 describe the same variant.",
+      "verdict": "contradictory",
+      "evidence_refs": [
+        "fixture-evidence-04"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-12",
+      "job_id": "fixture-job-04",
+      "claim": "The implementation fixture:grid:ScaledV11 returned a verified solution.",
+      "verdict": "irrelevant",
+      "evidence_refs": [
+        "fixture-evidence-04"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-13",
+      "job_id": "fixture-job-05",
+      "claim": "Adaptive Beacon Search 2.0 counts initialization against the function evaluation budget.",
+      "verdict": "supported",
+      "evidence_refs": [
+        "fixture-evidence-05"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-14",
+      "job_id": "fixture-job-05",
+      "claim": "Adaptive Beacon Search 2.0 excludes initialization from its evaluation budget.",
+      "verdict": "contradictory",
+      "evidence_refs": [
+        "fixture-evidence-05"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-15",
+      "job_id": "fixture-job-05",
+      "claim": "Adaptive Beacon Search 2.0 has an exact implementation in the fixture catalog.",
+      "verdict": "irrelevant",
+      "evidence_refs": [
+        "fixture-evidence-05"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-16",
+      "job_id": "fixture-job-06",
+      "claim": "The Adaptive Beacon Search 2.0 ablation had a higher median score than the original variant in this minimization test.",
+      "verdict": "supported",
+      "evidence_refs": [
+        "fixture-evidence-06"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-17",
+      "job_id": "fixture-job-06",
+      "claim": "The Adaptive Beacon Search 2.0 ablation had a lower median score than the original variant in this test.",
+      "verdict": "contradictory",
+      "evidence_refs": [
+        "fixture-evidence-06"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-18",
+      "job_id": "fixture-job-06",
+      "claim": "The experiment demonstrates the original Adaptive Beacon Search 2.0 is globally optimal.",
+      "verdict": "irrelevant",
+      "evidence_refs": [
+        "fixture-evidence-06"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-19",
+      "job_id": "fixture-job-07",
+      "claim": "Reflective Optics 3.0 uses reflective bound repair.",
+      "verdict": "supported",
+      "evidence_refs": [
+        "fixture-evidence-07"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-20",
+      "job_id": "fixture-job-07",
+      "claim": "Reflective Optics 3.0 discards points outside the bounds without repair.",
+      "verdict": "contradictory",
+      "evidence_refs": [
+        "fixture-evidence-07"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-21",
+      "job_id": "fixture-job-07",
+      "claim": "Reflective Optics 3.0 was run using the fixture:optics:ReflectiveV3 implementation.",
+      "verdict": "irrelevant",
+      "evidence_refs": [
+        "fixture-evidence-07"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-22",
+      "job_id": "fixture-job-08",
+      "claim": "The controlled fixture trial trial-beacon-1 consumed 500 function evaluations.",
+      "verdict": "supported",
+      "evidence_refs": [
+        "fixture-evidence-08"
+      ],
+      "implementation_id": "fixture:beacon:AdaptiveV2",
+      "trial_id": "trial-beacon-1"
+    },
+    {
+      "case_id": "citation-23",
+      "job_id": "fixture-job-08",
+      "claim": "The controlled fixture trial trial-beacon-1 stopped after 250 function evaluations.",
+      "verdict": "contradictory",
+      "evidence_refs": [
+        "fixture-evidence-08"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    },
+    {
+      "case_id": "citation-24",
+      "job_id": "fixture-job-08",
+      "claim": "The same fixture run proves Adaptive Beacon Search 2.0 is optimal for noisy objectives.",
+      "verdict": "irrelevant",
+      "evidence_refs": [
+        "fixture-evidence-08"
+      ],
+      "implementation_id": null,
+      "trial_id": null
+    }
+  ]
+}
