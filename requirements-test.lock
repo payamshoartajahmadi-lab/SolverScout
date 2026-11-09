@@ -286,6 +286,8 @@ protobuf==7.36.2
     # via
     #   -c requirements.lock
     #   streamlit
+protego==0.7.0
+    # via p-mc-optimizer (pyproject.toml)
 psutil==7.2.2
     # via
     #   -c requirements.lock
@@ -322,6 +324,8 @@ pyparsing==3.3.3
     #   -c requirements.lock
     #   matplotlib
 pytest==9.2.0
+    # via p-mc-optimizer (pyproject.toml)
+pypdf==7.0.0
     # via p-mc-optimizer (pyproject.toml)
 python-dateutil==4.0.0
     # via
