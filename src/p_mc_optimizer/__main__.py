@@ -52,6 +52,8 @@ def doctor(data_dir, config):
     with repo.connect() as connection:
         schema = connection.execute("PRAGMA user_version").fetchone()[0]
     from keyring import get_keyring
+    import protego
+    import pypdf
     import pyarrow  # Detect the NumPy/Arrow ABI combination during setup.
     try:
         backend = get_keyring()
@@ -62,12 +64,13 @@ def doctor(data_dir, config):
         "core": "PASS", "project_version": __version__, "python": platform.python_version(),
         "os": platform.platform(), "arch": platform.machine(), "sqlite": sqlite3.sqlite_version,
         "database_schema": schema, "data_dir": str(data_dir),
+        "search": "TAVILY_ADAPTER_AVAILABLE_CONNECTION_NOT_CHECKED",
         "api_url": config.api_url, "ui_url": config.ui_url,
         "api_running": health(config.api_url + "/healthz"),
         "instance_running": owner(data_dir) is not None, "llm": "NOT_CONFIGURED",
         "keyring_backend": keyring_backend, "pyarrow": pyarrow.__version__,
         "versions": {name: version(name) for name in
-                     ["fastapi", "langgraph", "mealpy", "numpy", "pydantic", "streamlit", "keyring"]},
+                     ["fastapi", "langgraph", "mealpy", "numpy", "pydantic", "streamlit", "keyring", "pypdf", "protego"]},
     }
     with repo.connect() as connection:
         if connection.execute("SELECT 1 FROM provider_profiles LIMIT 1").fetchone():

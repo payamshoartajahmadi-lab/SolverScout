@@ -24,7 +24,7 @@ Open http://127.0.0.1:8501 in your browser. For Windows, use the `.bat` scripts 
 
 ## Development plan
 
-The [version 2 development specification](docs/P_MC_Web_Research_Optimization_Development_Spec_v2.0.md) describes live research in user-selected web sources, evidence-backed suggestions, and an extensible catalog of qualified solver implementations. **Version 2 is a specification; its web-search and catalog features have not been implemented yet.**
+The [version 2 development specification](docs/P_MC_Web_Research_Optimization_Development_Spec_v2.0.md) describes live research in user-selected web sources, evidence-backed suggestions, and an extensible catalog of qualified solver implementations. **The development preview on `dev` implements the versioned catalog and the bounded Tavily workflow. See the [v2 setup and migration guide](docs/UPGRADE_V2_FA.md) and [verification results](TEST_RESULTS_V2.md) for the tested scope.**
 
 ## Verification and documentation
 

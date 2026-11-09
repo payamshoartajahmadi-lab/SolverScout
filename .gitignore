@@ -9,3 +9,4 @@ dist/
 *.sqlite3*
 
 .DS_Store
+.solverscout-v2-preview/
