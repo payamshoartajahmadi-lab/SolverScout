@@ -47,8 +47,8 @@ METHOD_LABELS = {
     "pilot_only": "مقایسهٔ چهار روش پایه",
 }
 METHOD_CAPTIONS = {
-    WEB: "منابع مجاز بررسی می‌شوند و سه روش در آزمون کوتاه مقایسه می‌شوند. پژوهش زنده به مدل زبانی و Tavily نیاز دارد.",
-    CATALOG: "مدل از کتابخانه پیشنهاد می‌دهد و سه روش آزمایش می‌شوند. این مسیر به مدل زبانی نیاز دارد.",
+    WEB: "منابع مجاز بررسی می‌شوند و سه روش در آزمون کوتاه مقایسه می‌شوند. مدل زبانی لازم است و پژوهش زنده از Tavily استفاده می‌کند.",
+    CATALOG: "مدل از کتابخانه پیشنهاد می‌دهد و سه روش آزمایش می‌شوند. این مسیر به مدل زبانی نیاز دارد و جست‌وجوی وب ندارد.",
     "manual": "یک روش قابل اجرا را خودتان انتخاب می‌کنید. ورودی تابع و متغیرها را می‌توانید محلی حل کنید.",
 }
 SOLVER_LABELS = {
@@ -62,6 +62,10 @@ WEB_FAILURES = {"stop": "توقف و نمایش علت", "continue_with_catalog"
 SENSES = {"minimize": "کمینه‌سازی", "maximize": "بیشینه‌سازی"}
 INPUT_TABS = {"text": "با زبان خودم", "structured": "تابع و متغیرها"}
 EXAMPLES = {"min": "تابع درجه‌دو · کمینه", "max": "تابع درجه‌دو · بیشینه", "text": "نمونهٔ فارسی"}
+VARIABLE_COLUMNS = {
+    "name": "شناسهٔ متغیر", "lower": "کران پایین", "upper": "کران بالا",
+    "label_fa": "نام فارسی", "unit": "واحد",
+}
 QUADRATIC = {
     "schema_version": "1.0",
     "variables": [
@@ -163,8 +167,13 @@ def _set_mode(mode):
 def _steps(step):
     rows = []
     for index, label in enumerate(STEP_LABELS, 1):
-        current = ' class="wizard-step wizard-step-current" aria-current="step"' if index == step else ' class="wizard-step"'
-        rows.append(f'<li{current}><span class="wizard-step-number" aria-hidden="true">'
+        if index == step:
+            attributes = 'class="wizard-step wizard-step-current" aria-current="step"'
+        elif index < step:
+            attributes = 'class="wizard-step wizard-step-done"'
+        else:
+            attributes = 'class="wizard-step"'
+        rows.append(f'<li {attributes}><span class="wizard-step-number" aria-hidden="true">'
                     f'{PERSIAN_DIGITS[index-1]}</span><span>{label}</span></li>')
     st.html(
         '<ol class="wizard-steps" aria-label="مراحل ساخت اجرا">' + "".join(rows) + '</ol>'
@@ -195,10 +204,9 @@ def _structured_input():
     if table_key not in st.session_state:
         values["table_base"] = deepcopy(values.get("rows", _table_rows(QUADRATIC)))
     edited = st.data_editor(
-        pd.DataFrame(values["table_base"], columns=["name", "lower", "upper", "label_fa", "unit"]),
+        pd.DataFrame(values["table_base"], columns=list(VARIABLE_COLUMNS)),
         num_rows="dynamic", key=table_key, hide_index=True, width="stretch",
-        column_config={"name": "شناسهٔ متغیر", "lower": "کران پایین", "upper": "کران بالا",
-                       "label_fa": "نام فارسی", "unit": "واحد"},
+        column_config=VARIABLE_COLUMNS,
     )
     rows = edited.fillna("").to_dict("records")
     values["rows"] = rows
@@ -229,14 +237,23 @@ def _structured_problem(fields, unit, parameters):
     }).model_dump(mode="json")
 
 
-def _save_upload():
-    upload = st.session_state[f"{WIDGET_PREFIX}json"]
+def _clear_upload():
     draft = _draft()
     draft.pop("json_bytes", None)
     draft.pop("json_name", None)
     draft.pop("json_error", None)
+    draft["upload_revision"] = draft.get("upload_revision", 0) + 1
+
+
+def _save_upload(key):
+    upload = st.session_state[key]
+    draft = _draft()
     if upload is None:
+        _clear_upload()
         return
+    draft.pop("json_bytes", None)
+    draft.pop("json_name", None)
+    draft.pop("json_error", None)
     if upload.size > JSON_LIMIT:
         draft["json_error"] = "اندازهٔ فایل JSON باید حداکثر ۲۵۶ کیبی‌بایت باشد."
     else:
@@ -246,8 +263,8 @@ def _save_upload():
 
 def _parse_problem(mode, source, unit, parameters):
     if mode == "text" or (mode == "example" and source == "text"):
-        text = source.strip() if mode == "text" else NATURAL_FA
-        if not text:
+        text = source if mode == "text" else NATURAL_FA
+        if not text.strip():
             raise ValueError("توضیح مسئله را وارد کنید یا از یک مثال آماده استفاده کنید.")
         return NaturalLanguageInput(kind="natural_language", text=text).model_dump(mode="json")
     if mode == "structured":
@@ -285,17 +302,20 @@ def _definition(attempt):
                           format_func=INPUT_TABS.__getitem__, horizontal=True, label_visibility="collapsed")
             draft["mode"] = mode
     if mode == "text":
-        source = _field(st.text_area, "text", "توضیح مسئله", default="", placeholder=NATURAL_FA,
+        source = _field(st.text_area, "text", "توضیح مسئله", default="",
+                        placeholder="هدف مسئله، متغیرها و محدودهٔ هرکدام را اینجا بنویسید.",
                         height=180, max_chars=16000)
         st.caption("برای مثال، بگویید چه چیزی باید کمینه یا بیشینه شود.")
     elif mode == "structured":
         source = _structured_input()
     elif mode == "json":
-        st.file_uploader("فایل JSON مسئله", type=["json"], key=f"{WIDGET_PREFIX}json", on_change=_save_upload,
+        key = f"{WIDGET_PREFIX}json-{draft.get('upload_revision', 0)}"
+        st.file_uploader("فایل JSON مسئله", type=["json"], key=key, on_change=_save_upload, args=(key,),
                          help="فایل UTF-8 با اندازهٔ حداکثر ۲۵۶ کیبی‌بایت.")
         source = draft.get("json_bytes")
         if source:
             st.text(f"فایل انتخابی · {draft['json_name']}")
+            st.button("حذف فایل انتخابی", on_click=_clear_upload, type="tertiary")
         if error := draft.get("json_error"):
             st.error(error)
     else:
@@ -409,25 +429,17 @@ def _requirements(policy, mode, config, *, open_connections, open_library):
 
 def _manual_policy(natural):
     if natural:
-        st.info("انتخاب مستقیم روش به ورودی تابع و متغیرها نیاز دارد. نوع ورودی یا روش را تغییر دهید.")
         return FIXED
     labels = {FIXED: "روش‌های پایه", CATALOG_FIXED: "روش‌های تأییدشدهٔ کاتالوگ"}
     return _field(st.radio, "manual_policy", "روش‌ها را از کجا انتخاب کنید؟", list(labels), default=FIXED,
                   format_func=labels.__getitem__, horizontal=True)
 
 
-def _method_options(method, natural):
-    if method == "manual":
-        main_policy = _manual_policy(natural)
-    else:
-        main_policy = method
+def _method_options(main_policy):
     with st.expander("تنظیمات پیشرفته", expanded=bool(_draft()["values"].get("expert_policy"))):
-        advanced = [None, "llm_shortlist_then_pilot", "llm_only"]
-        if not natural:
-            advanced.extend(("random_solver", "rule_based", "pilot_only"))
-        _clear_unavailable("expert_policy", advanced)
         expert = _field(st.selectbox, "expert_policy", "روش تخصصی",
-                        advanced, default=None, format_func=lambda p: METHOD_LABELS[p] if p else "روش انتخاب‌شده در بالا")
+                        [None, "llm_shortlist_then_pilot", "llm_only", "random_solver", "rule_based", "pilot_only"],
+                        default=None, format_func=lambda p: METHOD_LABELS[p] if p else "روش انتخاب‌شده در بالا")
         policy = expert or main_policy
         numeric = {
             "max_objective_evaluations": _field(st.number_input, "budget", "سقف ارزیابی تابع هدف", 1002, 1_000_000, default=20_000),
@@ -515,19 +527,24 @@ def _method(attempt, open_connections, open_library):
         method = _field(st.radio, "method", "روش انتخاب حل", list(METHOD_CAPTIONS),
                         default=WEB if natural else "manual", format_func=METHOD_LABELS.__getitem__,
                         captions=list(METHOD_CAPTIONS.values()), label_visibility="collapsed", width="stretch")
-    policy, numeric, web = _method_options(method, natural)
+    main_policy = _manual_policy(natural) if method == "manual" else method
+    details = st.container()
+    policy, numeric, web = _method_options(main_policy)
     mode = web.get("research_mode")
     config = _configuration(attempt, policy, mode)
-    solver, fixed = _selected_solver(attempt, policy, config, natural)
-    ready = _requirements(policy, mode, config, open_connections=open_connections, open_library=open_library)
-    valid_policy = not natural or policy in LLM_POLICIES
-    valid_choice = policy != CATALOG_FIXED or bool(fixed)
-    needed = PREFLIGHT_EVALUATIONS + PROFILE_EVALUATIONS + _pilot_evaluations(policy) + VERIFICATION_EVALUATIONS + 500
-    valid_budget = numeric["max_objective_evaluations"] >= needed
-    if not valid_budget:
-        st.warning(f"برای این روش، سقف ارزیابی را در تنظیمات پیشرفته دست‌کم روی {needed:,} قرار دهید.")
-    if ready and policy in LLM_POLICIES:
-        st.caption("اتصال‌های لازم آماده‌اند.")
+    with details:
+        solver, fixed = _selected_solver(attempt, policy, config, natural)
+        ready = _requirements(policy, mode, config, open_connections=open_connections, open_library=open_library)
+        valid_policy = not natural or policy in LLM_POLICIES
+        if not valid_policy:
+            st.info("این روش به ورودی تابع و متغیرها نیاز دارد. نوع ورودی یا روش را تغییر دهید.")
+        valid_choice = policy != CATALOG_FIXED or bool(fixed)
+        needed = PREFLIGHT_EVALUATIONS + PROFILE_EVALUATIONS + _pilot_evaluations(policy) + VERIFICATION_EVALUATIONS + 500
+        valid_budget = numeric["max_objective_evaluations"] >= needed
+        if not valid_budget:
+            st.warning(f"برای این روش، سقف ارزیابی را در تنظیمات پیشرفته دست‌کم روی {needed:,} قرار دهید.")
+        if ready and policy in LLM_POLICIES:
+            st.caption("اتصال‌های لازم آماده‌اند.")
     if _actions("ادامه: مرور درخواست", back=("بازگشت به مسئله", 1),
                 disabled=not (ready and valid_policy and valid_choice and valid_budget)):
         try:
@@ -554,7 +571,7 @@ def _problem_summary(problem):
     source = objective["source"]
     st.code(source.get("expression") or source["function_id"], language=None)
     with st.expander("متغیرها و کران‌ها"):
-        st.dataframe(_table_rows(model), hide_index=True, width="stretch")
+        st.dataframe(_table_rows(model), hide_index=True, width="stretch", column_config=VARIABLE_COLUMNS)
 
 
 def _request_summary(review):

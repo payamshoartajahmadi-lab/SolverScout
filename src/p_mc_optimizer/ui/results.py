@@ -84,7 +84,9 @@ def _problem_caption(report):
     source = objective.get("source") or {}
     if value := source.get("expression") or source.get("function_id"):
         sense = {"minimize": "کمینه‌سازی", "maximize": "بیشینه‌سازی"}.get(objective.get("sense"), "تابع هدف")
-        short = f"{sense} · {value}"
+        value = value[:159] + "…" if len(value) > 160 else value
+        st.text(f"{sense} · \u2066{value}\u2069")
+        return
     else:
         short = " ".join(((report.get("input") or {}).get("text") or "").split())
     if short:

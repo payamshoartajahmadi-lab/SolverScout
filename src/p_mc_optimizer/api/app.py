@@ -80,7 +80,11 @@ def problem_summary(job: dict) -> str | None:
         formula = function.get("expression") or function.get("function_id")
         title = f"{sense} با {len(model['variables'])} متغیر"
         if formula:
-            title += " · " + " ".join(formula.split())
+            formula = " ".join(formula.split())
+            available = 115 - len(title)
+            if len(formula) > available:
+                formula = formula[:available - 1] + "…"
+            return f"{title} · \u2066{formula}\u2069"
     else:
         return None
     return title[:117] + "…" if len(title) > 120 else title or None

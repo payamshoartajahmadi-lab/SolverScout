@@ -25,6 +25,7 @@ def navigate(page: str) -> None:
 
 
 def _select_destination(page: str) -> None:
+    st.session_state["workspace-menu"] = False
     if page == RUNS:
         st.session_state.pop("job_id", None)
     navigate(page)
@@ -46,7 +47,8 @@ def navigation() -> str:
             st.markdown("**SolverScout**")
         _links("desktop-nav", active)
     with st.container(key="mobile-navigation", horizontal=True, horizontal_alignment="distribute", vertical_alignment="center"):
-        with st.popover("منو", icon=":material/menu:", key="workspace-menu"):
-            _links("mobile-nav", active)
+        with st.popover("منو", icon=":material/menu:", key="workspace-menu", on_change="rerun") as menu:
+            if menu.open:
+                _links("mobile-nav", active)
         st.markdown("**SolverScout**")
     return active

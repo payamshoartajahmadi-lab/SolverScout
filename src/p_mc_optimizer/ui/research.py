@@ -25,7 +25,7 @@ _MODEL_POLICIES = {
 }
 
 
-def research(attempt, *, open_execution):
+def research(attempt, *, open_execution=None):
     st.header("مقایسهٔ پژوهشی")
     st.caption("یک مسئلهٔ ساخت‌یافته با بودجه و بذر یکسان در دو سیاست اجرا می‌شود. هر اجرا در تاریخچهٔ محلی گزارش مستقل دارد.")
     settings = attempt("GET", "/settings/llm/profile")
@@ -106,4 +106,8 @@ def research(attempt, *, open_execution):
                 language=None,
             )
         if st.button("انتخاب اجرا برای مشاهدهٔ گزارش", key=f"research-{job_id}"):
-            open_execution(job_id)
+            if open_execution is None:
+                st.session_state.job_id = job_id
+                st.success("اجرا برای مشاهدهٔ گزارش انتخاب شد.")
+            else:
+                open_execution(job_id)
