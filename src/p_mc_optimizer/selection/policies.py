@@ -173,9 +173,19 @@ def _valid_pilot(trial: TrialRequest, result: ExecutionResult) -> bool:
     )
 
 
-def rank_pilots(pilots: list[tuple[TrialRequest, ExecutionResult]], plan: CandidatePlan) -> SelectionDecision:
-    validate_plan(plan, count=len(plan.candidates))
-    grouped = {row.algorithm_id: [] for row in plan.candidates}
+def rank_pilots(
+    pilots: list[tuple[TrialRequest, ExecutionResult]], plan: CandidatePlan, *,
+    allowed_configs: dict[str, str] | None = None,
+) -> SelectionDecision:
+    if allowed_configs is None:
+        validate_plan(plan, count=len(plan.candidates))
+        allowed_configs = SOLVER_CONFIG_IDS
+    configurations = {row.algorithm_id: row.config_id for row in plan.candidates}
+    if len(configurations) != len(plan.candidates) or any(
+        allowed_configs.get(algorithm) != config for algorithm, config in configurations.items()
+    ):
+        raise DomainError("PLAN_VALIDATION_ERROR", "پیکربندی با snapshot اجرا یکسان نیست.")
+    grouped = {algorithm: [] for algorithm in configurations}
     for trial, result in pilots:
         if trial.algorithm_id in grouped:
             grouped[trial.algorithm_id].append((trial, result))
@@ -185,7 +195,8 @@ def rank_pilots(pilots: list[tuple[TrialRequest, ExecutionResult]], plan: Candid
         if (
             len(rows) == PILOT_REPEATS
             and {trial.replicate_index for trial, _ in rows} == set(range(PILOT_REPEATS))
-            and all(_valid_pilot(trial, result) for trial, result in rows)
+            and all(trial.config_id == configurations[algorithm_id] and _valid_pilot(trial, result)
+                    for trial, result in rows)
         ):
             eligible_scores[algorithm_id] = [result.best.score_for_minimization for _, result in rows]
 
@@ -222,7 +233,7 @@ def rank_pilots(pilots: list[tuple[TrialRequest, ExecutionResult]], plan: Candid
         selection_status="selected" if winner else "insufficient_evidence",
         decision_source="empirical_pilot_selection",
         selected_algorithm_id=winner,
-        selected_config_id=SOLVER_CONFIG_IDS[winner] if winner else None,
+        selected_config_id=configurations[winner] if winner else None,
         metrics=metrics,
         scale=scale,
         tie_break_order=TIE_BREAK_ORDER.copy(),

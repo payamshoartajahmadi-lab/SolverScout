@@ -23,8 +23,13 @@ def run_claimed(repo, job, worker_id, *, api_url=None, token=None, stopped=lambd
 
     pulse = Thread(target=heartbeat, daemon=True)
     pulse.start()
-    workflow = Workflow(repo, job_id, worker_id, api_url=api_url, token=token,
-                        shutdown=lambda: stopped() or lost.is_set())
+    workflow_type = Workflow
+    if job["policy"]["policy_version"] == "2.0":
+        from p_mc_optimizer.workflow.catalog_v2 import CatalogWorkflow
+
+        workflow_type = CatalogWorkflow
+    workflow = workflow_type(repo, job_id, worker_id, api_url=api_url, token=token,
+                             shutdown=lambda: stopped() or lost.is_set())
     try:
         workflow.run()
     except Exception as exc:

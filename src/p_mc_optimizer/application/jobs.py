@@ -55,10 +55,11 @@ def not_configured(*_) -> None:
 
 
 class ApplicationService:
-    def __init__(self, repo: Repository, *, profile_snapshot=not_configured, resume_check=not_configured):
+    def __init__(self, repo: Repository, *, profile_snapshot=not_configured, resume_check=not_configured, freeze_v2=None):
         self.repo = repo
         self.profile_snapshot = profile_snapshot
         self.resume_check = resume_check
+        self.freeze_v2 = freeze_v2
 
     def create_job(self, request: CreateJob, idempotency_key: str) -> dict:
         if not idempotency_key or len(idempotency_key) > 200 or not all(
@@ -68,17 +69,30 @@ class ApplicationService:
         idempotency_key = hashlib.sha256(idempotency_key.encode("ascii")).hexdigest()
         payload = request.model_dump(mode="json")
         request_hash = hashlib.sha256(json_text(payload).encode("utf-8")).hexdigest()
-        policy = ExecutionPolicy.from_input(request.policy).model_dump(mode="json")
+        v2 = request.policy.policy_version == "2.0"
+        policy_type = ExecutionPolicy
+        if v2:
+            from p_mc_optimizer.research.contracts import ExecutionPolicyV2
+
+            policy_type = ExecutionPolicyV2
+        policy = policy_type.from_input(request.policy).model_dump(mode="json")
         with self.repo.connect() as connection:
             connection.execute("BEGIN")
             existing = self._idempotent_job(connection, idempotency_key, request_hash)
             if existing is not None:
                 return existing
         profile_ref = payload["llm_profile"]
+        frozen = None
+        if v2:
+            if self.freeze_v2 is None:
+                raise ApiError(422, "CATALOG_QUALIFICATION_REQUIRED", "کاتالوگ این اجرا آماده نیست.")
+            frozen = self.freeze_v2(request)
         snapshot = (
             self.profile_snapshot(profile_ref["profile_id"], profile_ref["revision"])
-            if profile_ref is not None else None
+            if profile_ref is not None and not v2 else None
         )
+        if v2:
+            snapshot = frozen.pop("llm_profile", None)
         request_input = payload["input"]
         revision_id = request_input.get("problem_revision_id")
         job_id = uuid4_text()
@@ -101,6 +115,8 @@ class ApplicationService:
                 """INSERT INTO idempotency_records VALUES ('create_job',?,?,?,?)""",
                 (idempotency_key, request_hash, job_id, timestamp),
             )
+            if frozen is not None:
+                connection.execute("INSERT INTO job_v2_snapshots VALUES (?,?)", (job_id, json_text(frozen)))
             self.repo.write_event(connection, job_id, "job_queued")
             return self.repo.job_snapshot(connection, self.repo.job_row(connection, job_id))
 

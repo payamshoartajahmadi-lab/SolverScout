@@ -28,6 +28,14 @@ _SCHEMA_MODELS = {
     **{SCHEMA_IDS[role]: model for role, model in ROLE_MODELS.items()},
     "connection_test.v1": ConnectionTestResponse,
 }
+def _schema_model(schema_id):
+    if schema_id in _SCHEMA_MODELS:
+        return _SCHEMA_MODELS[schema_id]
+    from p_mc_optimizer.llm.research_v2 import SCHEMAS
+
+    return SCHEMAS[schema_id][2]
+
+
 _MAX_HTTP_BODY = 2 * 1024 * 1024
 _MAX_REPAIR_OUTPUT = 12000
 
@@ -68,7 +76,7 @@ def _prompt(name: str) -> str:
 
 
 def build_request(snapshot: ProviderSnapshot, schema_id: str, context: dict) -> dict:
-    schema = provider_schema(_SCHEMA_MODELS[schema_id])
+    schema = provider_schema(_schema_model(schema_id))
     system = _prompt(schema_id)
     repair = context.get("repair")
     if repair is not None:
@@ -282,7 +290,7 @@ def _parse_response(
         output = strict_json_loads(content)
         if sanitize(output) != output:
             raise RoleOutputError("response: secret content is prohibited")
-        model = _SCHEMA_MODELS[schema_id].model_validate(output)
+        model = _schema_model(schema_id).model_validate(output)
         if schema_id != "connection_test.v1":
             validate_role_output(schema_id.split(".")[0], model, context)
     except ValidationError as exc:
