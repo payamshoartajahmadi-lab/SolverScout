@@ -37,13 +37,35 @@ STREAMLIT_THEME_ARGS = tuple(f"--theme.{key}={value}" for key, value in _THEME.i
 
 UI_CSS = f"""
 <style>
+@font-face {{
+    font-family: Vazirmatn;
+    src: url("/app/static/Vazirmatn.woff2") format("woff2");
+    font-weight: 100 900;
+    font-display: swap;
+}}
+:is([data-testid="stMainBlockContainer"], [data-testid="stSidebar"], [data-testid="stPopoverBody"],
+    [role="listbox"]) :is(p, h1, h2, h3, h4, li, label, button, input, textarea, [role="option"]) {{
+    font-family: Vazirmatn, Tahoma, Arial, sans-serif;
+}}
 [data-testid="stMainBlockContainer"], [data-testid="stSidebar"] {{
     direction: rtl;
     text-align: start;
 }}
+[data-testid="stMain"] {{
+    order: 1;
+    min-width: 0;
+}}
+[data-testid="stSidebar"] {{
+    order: 2;
+    border-left: 1px solid {OUTLINE};
+    border-right: 0;
+}}
+[data-testid="stSidebarContent"] {{ padding-inline: 0.6rem; }}
+[data-testid="stSidebarCollapseButton"], [data-testid="stExpandSidebarButton"],
+[data-testid="stToolbar"] {{ display: none; }}
 [data-testid="stMainBlockContainer"] {{
-    max-width: 76rem;
-    padding: 3.1rem clamp(1.15rem, 3.5vw, 3.5rem) 3rem;
+    max-width: 72rem;
+    padding: 2.85rem clamp(1.15rem, 3.5vw, 3.5rem) 3rem;
 }}
 [data-testid="stMainBlockContainer"] h1 {{
     padding: 0;
@@ -58,7 +80,7 @@ UI_CSS = f"""
 [data-testid="stMainBlockContainer"] :is([data-testid="stMarkdownContainer"], [data-testid="stCaptionContainer"]) {{
     text-align: right;
 }}
-[data-testid="stCaptionContainer"] p {{ color: {MUTED}; text-align: right; }}
+[data-testid="stCaptionContainer"] p {{ color: {MUTED}; text-align: right; font-size: 0.9rem; }}
 [data-testid="stText"], [data-testid="stText"] > div {{
     white-space: pre-wrap;
     overflow-wrap: anywhere;
@@ -67,24 +89,40 @@ UI_CSS = f"""
 .st-key-workbench-brand {{
     direction: ltr;
     text-align: left;
-    border-bottom: 1px solid {OUTLINE};
-    padding-bottom: 0.8rem;
+    padding: 0.45rem 0.55rem 1.1rem;
 }}
 .st-key-workbench-brand p {{
     font-size: 1.5rem;
     font-weight: 750;
 }}
-[data-testid="stSidebar"] [role="radiogroup"] label {{
-    padding: 0.55rem 0.7rem;
+[data-testid="stSidebar"] button[kind="tertiary"],
+[class*="st-key-mobile-nav-"] button[kind="tertiary"] {{
+    justify-content: flex-start;
+    padding: 0.65rem 0.85rem;
     border-inline-start: 3px solid transparent;
-    border-radius: 0.5rem;
+    border-radius: 0.55rem;
+    min-height: 2.75rem;
+    text-align: start;
 }}
-[data-testid="stSidebar"] [role="radiogroup"] label:hover,
-[data-testid="stSidebar"] [role="radiogroup"] label:has(input:checked) {{
+[data-testid="stSidebar"] button[kind="tertiary"] p {{
+    text-align: start;
+    font-size: 1rem;
+}}
+[data-testid="stSidebar"] button[kind="tertiary"]:hover,
+[class*="st-key-desktop-nav-selected-"] button[kind="tertiary"],
+[class*="st-key-mobile-nav-selected-"] button[kind="tertiary"] {{
     background: {OUTLINE};
+    color: {TEXT};
 }}
-[data-testid="stSidebar"] [role="radiogroup"] label:has(input:checked) {{
+[data-testid="stSidebar"] [class*="st-key-desktop-nav-selected-"] button[kind="tertiary"],
+[class*="st-key-mobile-nav-selected-"] button[kind="tertiary"] {{
     border-inline-start-color: {ACCENT};
+    font-weight: 700;
+}}
+.st-key-mobile-navigation {{ display: none; }}
+button:focus-visible, [role="radio"]:focus-visible, [role="tab"]:focus-visible {{
+    outline: 2px solid {ACCENT};
+    outline-offset: 2px;
 }}
 .st-key-problem-input, .st-key-run-method, .st-key-result-summary, .st-key-run-overview {{
     background: {SURFACE};
@@ -98,7 +136,6 @@ UI_CSS = f"""
     border-color: {OUTLINE};
 }}
 [data-testid="stHeadingWithActionElements"] {{ direction: rtl; }}
-[data-testid="stAppDeployButton"] {{ display: none; }}
 button[kind="primary"], button[kind="primaryFormSubmit"] {{
     color: {CANVAS};
     font-weight: 750;
@@ -119,13 +156,24 @@ button[kind="primaryFormSubmit"]:not(:disabled):hover {{ filter: brightness(1.08
 }}
 [data-testid="stCode"], [data-testid="stJson"], [data-testid="stDataFrame"],
 [data-testid="stNumberInput"] input, input[type="password"], input[placeholder*="HTTPS"],
-.st-key-new_expr input, .st-key-new_params input {{
+.st-key-new_expr input, .st-key-new_params input, .st-key-wizard-formula input {{
     direction: ltr;
     unicode-bidi: isolate;
     text-align: start;
 }}
-@media (max-width: 640px) {{
-    [data-testid="stMainBlockContainer"] {{ padding: 3rem 1rem 2rem; }}
+@media (max-width: 767px) {{
+    [data-testid="stSidebar"] {{ display: none; }}
+    .st-key-mobile-navigation {{
+        display: flex;
+        align-items: center;
+        padding-bottom: 0.8rem;
+        border-bottom: 1px solid {OUTLINE};
+        margin-bottom: 0.75rem;
+    }}
+    .st-key-mobile-navigation p {{ font-size: 1.05rem; }}
+    .st-key-mobile-navigation button {{ min-height: 2.75rem; }}
+    [data-testid="stMainBlockContainer"] {{ padding: 1rem 1rem 2rem; }}
+    [data-testid="stMainBlockContainer"] h1 {{ font-size: clamp(1.55rem, 6vw, 2rem); }}
     .st-key-problem-input [role="radiogroup"] {{ flex-wrap: wrap; }}
 }}
 </style>
