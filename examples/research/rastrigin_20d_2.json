@@ -1,0 +1,198 @@
+{
+  "schema_version": "1.0",
+  "variables": [
+    {
+      "name": "x1",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x2",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x3",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x4",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x5",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x6",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x7",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x8",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x9",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x10",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x11",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x12",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x13",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x14",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x15",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x16",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x17",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x18",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x19",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    },
+    {
+      "name": "x20",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.12,
+      "upper": 5.12,
+      "unit": null
+    }
+  ],
+  "objective": {
+    "sense": "minimize",
+    "unit": null,
+    "source": {
+      "kind": "expression",
+      "expression": "200+((((((x1-shift1)**2-10*cos(2*pi*(x1-shift1)))+((x2-shift2)**2-10*cos(2*pi*(x2-shift2))))+(((x3-shift3)**2-10*cos(2*pi*(x3-shift3)))+((x4**2-10*cos(2*pi*x4))+(x5**2-10*cos(2*pi*x5)))))+(((x6**2-10*cos(2*pi*x6))+(x7**2-10*cos(2*pi*x7)))+((x8**2-10*cos(2*pi*x8))+((x9**2-10*cos(2*pi*x9))+(x10**2-10*cos(2*pi*x10))))))+((((x11**2-10*cos(2*pi*x11))+(x12**2-10*cos(2*pi*x12)))+((x13**2-10*cos(2*pi*x13))+((x14**2-10*cos(2*pi*x14))+(x15**2-10*cos(2*pi*x15)))))+(((x16**2-10*cos(2*pi*x16))+(x17**2-10*cos(2*pi*x17)))+((x18**2-10*cos(2*pi*x18))+((x19**2-10*cos(2*pi*x19))+(x20**2-10*cos(2*pi*x20)))))))+offset"
+    }
+  },
+  "parameters": {
+    "shift1": 0.053998,
+    "shift2": -0.299389,
+    "shift3": 0.066799,
+    "shift4": 0.0,
+    "shift5": 0.0,
+    "shift6": 0.0,
+    "shift7": 0.0,
+    "shift8": 0.0,
+    "shift9": 0.0,
+    "shift10": 0.0,
+    "shift11": 0.0,
+    "shift12": 0.0,
+    "shift13": 0.0,
+    "shift14": 0.0,
+    "shift15": 0.0,
+    "shift16": 0.0,
+    "shift17": 0.0,
+    "shift18": 0.0,
+    "shift19": 0.0,
+    "shift20": 0.0,
+    "offset": -0.406339
+  },
+  "constraints": [],
+  "deterministic": true
+}

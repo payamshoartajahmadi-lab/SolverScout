@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "variables": [
+    {
+      "name": "x1",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.0,
+      "upper": 5.0,
+      "unit": null
+    },
+    {
+      "name": "x2",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.0,
+      "upper": 5.0,
+      "unit": null
+    },
+    {
+      "name": "x3",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.0,
+      "upper": 5.0,
+      "unit": null
+    },
+    {
+      "name": "x4",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.0,
+      "upper": 5.0,
+      "unit": null
+    },
+    {
+      "name": "x5",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.0,
+      "upper": 5.0,
+      "unit": null
+    },
+    {
+      "name": "x6",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.0,
+      "upper": 5.0,
+      "unit": null
+    },
+    {
+      "name": "x7",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.0,
+      "upper": 5.0,
+      "unit": null
+    },
+    {
+      "name": "x8",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.0,
+      "upper": 5.0,
+      "unit": null
+    },
+    {
+      "name": "x9",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.0,
+      "upper": 5.0,
+      "unit": null
+    },
+    {
+      "name": "x10",
+      "label_fa": null,
+      "type": "real",
+      "lower": -5.0,
+      "upper": 5.0,
+      "unit": null
+    }
+  ],
+  "objective": {
+    "sense": "minimize",
+    "unit": null,
+    "source": {
+      "kind": "expression",
+      "expression": "((((x1-shift1)**2+(x2-shift2)**2)+((x3-shift3)**2+((x4-shift4)**2+(x5-shift5)**2)))+(((x6-shift6)**2+(x7-shift7)**2)+((x8-shift8)**2+((x9-shift9)**2+(x10-shift10)**2))))+offset"
+    }
+  },
+  "parameters": {
+    "shift1": -0.197064,
+    "shift2": -0.730525,
+    "shift3": -0.634882,
+    "shift4": -0.55793,
+    "shift5": -0.606852,
+    "shift6": 0.092821,
+    "shift7": -0.468795,
+    "shift8": 0.483106,
+    "shift9": 0.266286,
+    "shift10": 0.390799,
+    "offset": -1.651983
+  },
+  "constraints": [],
+  "deterministic": true
+}
