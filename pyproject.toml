@@ -35,7 +35,7 @@ test = ["pytest>=8,<10"]
 where = ["src"]
 
 [tool.setuptools.package-data]
-"p_mc_optimizer" = ["llm/prompts/*.txt", "llm/prompts/*.md", "llm/prompts/*.json"]
+"p_mc_optimizer" = ["llm/prompts/*.txt", "llm/prompts/*.md", "llm/prompts/*.json", "ui/static/*.woff2", "ui/static/*.txt"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

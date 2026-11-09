@@ -215,7 +215,7 @@ def supervise(data_dir, config, instance_id):
             "ui": [python, "-m", "p_mc_optimizer", "_ui", "run", str(Path(__file__).parent / "ui" / "app.py"),
                    "--server.address=127.0.0.1", f"--server.port={config.ui_port}",
                    "--server.headless=true", "--server.enableXsrfProtection=true",
-                   "--server.maxUploadSize=1", "--server.fileWatcherType=none",
+                   "--server.maxUploadSize=1", "--server.fileWatcherType=none", "--server.enableStaticServing=true",
                    "--browser.gatherUsageStats=false", *STREAMLIT_THEME_ARGS],
         }
         try:

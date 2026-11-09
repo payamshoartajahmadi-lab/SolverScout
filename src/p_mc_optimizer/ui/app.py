@@ -27,6 +27,7 @@ from p_mc_optimizer.ui.web_research import (
     search_settings,
     source_settings,
 )
+from p_mc_optimizer.ui.workspace import LIBRARY, PROBLEM, RUNS, SETTINGS, navigate, navigation
 
 
 class ApiFailure(Exception):
@@ -239,7 +240,7 @@ def new_job():
         )
         if policy in LLM_POLICIES and not ready:
             st.warning("برای این روش، اتصال مدل زبانی را در تنظیمات ثبت و آزمایش کنید.")
-            st.button("باز کردن تنظیمات مدل", on_click=select_page, args=("تنظیمات مدل زبانی",))
+            st.button("باز کردن تنظیمات مدل", on_click=open_connections, args=("model",))
         v2 = policy in V2_POLICIES
         catalog = {}
         fixed = None
@@ -570,8 +571,8 @@ def execution():
     if not job_id:
         st.info("برای دیدن نتیجه، یک مسئلهٔ جدید اجرا کنید یا از تاریخچه یک اجرا را باز کنید.")
         new_col, history_col = st.columns(2)
-        new_col.button("مسئلهٔ جدید", type="primary", on_click=select_page, args=("مسئلهٔ جدید",))
-        history_col.button("دیدن تاریخچه", on_click=select_page, args=("تاریخچه",))
+        new_col.button("مسئلهٔ جدید", type="primary", on_click=navigate, args=(PROBLEM,))
+        history_col.button("دیدن تاریخچه", on_click=navigate, args=(RUNS,))
         return
     initial = attempt("GET", f"/jobs/{job_id}")
     if initial is None:
@@ -666,13 +667,19 @@ def _repair_search(job_id, job, code):
             st.rerun()
 
 
-def select_page(page):
-    st.session_state["workbench-page"] = page
+def open_connections(focus):
+    st.session_state["connection-return"] = st.session_state.get("workspace-page", PROBLEM)
+    st.session_state["connection-focus"] = focus
+    navigate(SETTINGS)
+
+
+def return_from_connections():
+    navigate(st.session_state.get("connection-return", PROBLEM))
 
 
 def open_execution(job_id):
     st.session_state.job_id = job_id
-    st.session_state["next-page"] = "اجرای حل"
+    navigate(RUNS)
     st.rerun()
 
 
@@ -684,7 +691,7 @@ def history():
         return
     if not jobs:
         st.info("هنوز اجرایی ثبت نشده است.")
-        st.button("مسئلهٔ جدید", type="primary", on_click=select_page, args=("مسئلهٔ جدید",))
+        st.button("مسئلهٔ جدید", type="primary", on_click=navigate, args=(PROBLEM,))
     policies = {**POLICIES, **V2_POLICIES}
     for job in jobs:
         state_col, action_col = st.columns([3, 1], vertical_alignment="center")
@@ -698,36 +705,44 @@ def history():
         st.divider()
 
 
-def home():
-    st.title("شروع")
-    st.caption("یک مسئلهٔ بهینه‌سازی تعریف کنید و نتیجهٔ اجرا را بررسی کنید.")
-    st.button("مسئلهٔ جدید", type="primary", on_click=select_page, args=("مسئلهٔ جدید",))
-    status = attempt("GET", "/settings/llm/profile")
-    if status is not None:
-        st.success("سرویس محلی آماده است.")
-        if (status.get("profile") or {}).get("test_status") != "passed" or not (
-            status.get("credential_status") or {}
-        ).get("available"):
-            st.info("برای استفاده از مدل زبانی، اتصال را در تنظیمات آزمایش کنید. نمونهٔ آماده را می‌توانید با یک روش ثابت اجرا کنید.")
-    st.caption(CLAIM_FA)
+def library():
+    st.title("منابع و الگوریتم‌ها")
+    st.caption("منابع مجاز جست‌وجو و روش‌هایی را که این محیط می‌تواند اجرا کند بررسی کنید.")
+    sources, catalog, experiments = st.tabs(
+        ["منابع وب", "الگوریتم‌ها", "آزمایش پژوهشی"], key="library-tab", on_change="rerun",
+    )
+    if sources.open:
+        with sources:
+            source_settings(attempt)
+    if catalog.open:
+        with catalog:
+            catalog_page(attempt)
+    if experiments.open:
+        with experiments:
+            research(attempt, open_execution=open_execution)
+
+
+def connections():
+    st.title("اتصال‌های برنامه")
+    if st.session_state.get("connection-return"):
+        st.button("بازگشت به مسئله", on_click=return_from_connections, type="tertiary")
+    model, search = st.tabs(["مدل زبانی", "جست‌وجوی وب"])
+    with model:
+        settings()
+    with search:
+        search_settings(attempt)
 
 
 def main():
-    st.set_page_config(page_title="SolverScout | بهینه‌ساز محلی", layout="wide")
+    st.set_page_config(page_title="SolverScout | بهینه‌ساز محلی", layout="wide", initial_sidebar_state="expanded")
     st.html(UI_CSS)
-    if next_page := st.session_state.pop("next-page", None):
-        select_page(next_page)
     pages = {
-        "شروع": home, "مسئلهٔ جدید": new_job, "اجرای حل": execution, "تاریخچه": history,
-        "الگوریتم‌ها": lambda: catalog_page(attempt), "تنظیمات مدل زبانی": settings,
-        "جست‌وجوی وب": lambda: search_settings(attempt), "منابع پژوهش": lambda: source_settings(attempt),
-        "آزمایش پژوهشی": lambda: research(attempt),
+        PROBLEM: new_job,
+        RUNS: execution if st.session_state.get("job_id") else history,
+        LIBRARY: library,
+        SETTINGS: connections,
     }
-    with st.sidebar:
-        with st.container(key="workbench-brand"):
-            st.markdown("**SolverScout**")
-        page = st.radio("ناوبری", list(pages), key="workbench-page", label_visibility="collapsed")
-    pages[page]()
+    pages[navigation()]()
 
 
 if __name__ == "__main__":
