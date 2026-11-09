@@ -16,6 +16,7 @@ from filelock import Timeout
 
 from p_mc_optimizer import __version__
 from p_mc_optimizer.config import LocalConfig, data_directory, load_config
+from p_mc_optimizer.persistence.migrations import MigrationError
 from p_mc_optimizer.launcher import LocalRuntimeError, health, instance_lock, owner, start, stop, supervise, watch_supervisor
 
 
@@ -81,7 +82,7 @@ def parser():
     root.add_argument("--data-dir", type=Path)
     root.add_argument("--config", type=Path)
     sub = root.add_subparsers(dest="command", required=True)
-    for command in ("doctor", "start", "stop", "solve", "benchmark", "package"):
+    for command in ("doctor", "start", "stop", "solve", "benchmark", "package", "migrate"):
         part = sub.add_parser(command)
         part.add_argument("--data-dir", type=Path, default=argparse.SUPPRESS)
         part.add_argument("--config", type=Path, default=argparse.SUPPRESS)
@@ -158,7 +159,10 @@ def main(argv=None):
         from p_mc_optimizer.persistence import Repository
 
         with instance_lock(directory):
-            repo = Repository(directory)
+            repo = Repository(directory, allow_upgrade=args.command == "migrate")
+            if args.command == "migrate":
+                print("SQLite schema is ready.")
+                return 0
             if args.command == "benchmark":
                 from p_mc_optimizer.benchmarks import run_benchmark
                 result = run_benchmark(repo, args.manifest, solve)
@@ -180,7 +184,7 @@ def main(argv=None):
     except Timeout:
         print("INSTANCE_ALREADY_RUNNING: از رابط فعال یا یک --data-dir دیگر استفاده کنید.", file=sys.stderr)
         return 3
-    except (LocalRuntimeError, OSError, ImportError) as exc:
+    except (LocalRuntimeError, MigrationError, OSError, ImportError) as exc:
         print(str(exc), file=sys.stderr)
         return 3
     except ValueError as exc:

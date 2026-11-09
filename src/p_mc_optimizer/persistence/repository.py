@@ -15,7 +15,7 @@ from uuid import UUID, uuid4
 
 from p_mc_optimizer.application.errors import ApiError
 
-from .schema import BASE_SCHEMA, SCHEMA_VERSION
+from .migrations import migrate
 
 TERMINAL_JOB = frozenset({"completed", "failed", "cancelled"})
 TERMINAL_EXECUTION = frozenset({"completed", "failed", "timed_out", "cancelled", "unknown_outcome"})
@@ -66,12 +66,12 @@ def invalid_state() -> ApiError:
 
 
 class Repository:
-    def __init__(self, data_dir: str | Path):
+    def __init__(self, data_dir: str | Path, *, allow_upgrade=False):
         self.data_dir = Path(data_dir).expanduser().resolve()
         self.data_dir.mkdir(parents=True, exist_ok=True)
         (self.data_dir / "artifacts").mkdir(exist_ok=True)
         self.path = self.data_dir / "state.sqlite3"
-        self._migrate()
+        migrate(self.path, self.connect, allow_upgrade=allow_upgrade)
 
     @contextmanager
     def connect(self) -> Iterator[sqlite3.Connection]:
@@ -94,36 +94,6 @@ class Repository:
             except BaseException:
                 connection.rollback()
                 raise
-
-    def _migrate(self) -> None:
-        with self.connect() as connection:
-            connection.execute("PRAGMA journal_mode=WAL")
-        with self.transaction() as connection:
-            version = connection.execute("PRAGMA user_version").fetchone()[0]
-            if version == SCHEMA_VERSION:
-                return
-            if version != 0:
-                raise RuntimeError(f"Unsupported state.sqlite3 schema version {version}")
-            existing = connection.execute(
-                "SELECT 1 FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
-            ).fetchone()
-            if existing:
-                backup_dir = self.data_dir / "backups"
-                backup_dir.mkdir(exist_ok=True)
-                backup_path = backup_dir / f"state-v{version}-{uuid4()}.sqlite3"
-                with self.connect() as source, sqlite3.connect(backup_path) as backup:
-                    source.backup(backup)
-            from p_mc_optimizer.llm.storage import LLM_SCHEMA
-
-            statement = ""
-            for line in (BASE_SCHEMA + "\n" + LLM_SCHEMA).splitlines(keepends=True):
-                statement += line
-                if sqlite3.complete_statement(statement):
-                    connection.execute(statement)
-                    statement = ""
-            if statement.strip():
-                raise RuntimeError("Incomplete SQL migration")
-            connection.execute(f"PRAGMA user_version={SCHEMA_VERSION}")
 
     @staticmethod
     def job_row(connection, job_id) -> sqlite3.Row:
