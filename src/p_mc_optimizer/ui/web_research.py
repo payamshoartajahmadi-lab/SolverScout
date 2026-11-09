@@ -45,75 +45,90 @@ def profile_reference(profile):
 
 
 def search_settings(attempt, *, repair=False):
-    st.header("جست‌وجوی وب" if not repair else "رفع مشکل جست‌وجوی وب")
+    st.header("اتصال جست‌وجوی وب" if not repair else "رفع مشکل جست‌وجوی وب")
     result = attempt("GET", SEARCH_ROUTE)
     if result is None:
         return
     profile = result.get("profile") or {}
-    limits = (profile.get("limits") or ResearchLimits().model_dump()).copy()
-    st.caption("ارائه‌دهندهٔ جست‌وجو · Tavily · https://api.tavily.com/search")
-    st.caption("این کلید فقط برای سرویس جست‌وجو است و جدا از کلید مدل زبانی نگهداری می‌شود.")
-    if not repair:
-        limit_fields = [
-            ("max_search_attempts", "تلاش جست‌وجو", 1, 3),
-            ("max_queries", "پرس‌وجوی هر اجرا", 1, 3),
-            ("max_results_per_query", "نتیجهٔ هر پرس‌وجو", 1, 5),
-            ("max_documents", "تعداد سند", 1, 6),
-            ("max_http_requests", "درخواست HTTP", 1, 27),
-            ("max_redirects", "تغییر مسیر هر سند", 0, 3),
-            ("request_timeout_seconds", "زمان هر درخواست (ثانیه)", 1.0, 30.0),
-            ("active_timeout_seconds", "زمان فعال پژوهش (ثانیه)", 1.0, 180.0),
-        ]
-        with st.form(f"search-profile:{profile.get('revision')}"):
-            columns = st.columns(2)
-            for index, (field, label, minimum, maximum) in enumerate(limit_fields):
-                limits[field] = columns[index % 2].number_input(
-                    label, minimum, maximum, type(minimum)(limits[field]),
-                )
-            save = st.form_submit_button("ثبت محدودیت‌های جست‌وجو")
-        if save and attempt("PUT", SEARCH_ROUTE, {
-            "expected_revision": profile.get("revision"), "provider_id": "tavily", "limits": limits,
-        }, idempotency_key=str(uuid4())):
-            st.rerun()
+    st.caption("پژوهش زنده از Tavily استفاده می‌کند و کلید آن جدا از کلید مدل زبانی است.")
     if not profile:
         st.info("ابتدا تنظیمات جست‌وجو را ثبت کنید.")
         return False
     target = {"revision": profile["revision"], "generation": result["credential_generation"]}
     available = result.get("credential_available", False)
-    st.write("کلید در دسترس است." if available else "کلید جست‌وجو در دسترس نیست.")
+    ready = bool(result.get("ready"))
+    if ready:
+        st.success("اتصال Tavily آماده است.")
+    elif available:
+        st.info("کلید ثبت شده است. برای آماده شدن جست‌وجوی زنده، اتصال را آزمایش کنید.")
+    else:
+        st.info("برای جست‌وجوی زنده، ابتدا کلید API سرویس Tavily را ثبت کنید.")
+
     storage_options = ["session", "os_keyring"] if result.get("os_keyring_available") else ["session"]
     guard = f"{profile['profile_id']}:{target['revision']}:{target['generation']}"
-    with st.form(f"search-credential:{guard}", clear_on_submit=True):
-        secret = st.text_input("کلید API جست‌وجو", type="password", autocomplete="off")
-        storage = st.selectbox(
-            "شیوهٔ نگهداری کلید جست‌وجو", storage_options,
-            format_func=lambda option: "حافظهٔ نشست" if option == "session" else "مخزن امن سیستم‌عامل",
-        )
-        save_secret = st.form_submit_button("ثبت کلید جست‌وجو")
-    if save_secret:
-        if not secret.strip():
-            st.error("کلید جست‌وجو را وارد کنید.")
-        elif attempt(
-            "PUT", f"{SEARCH_ROUTE}/credential",
-            {**target, "secret": secret, "storage_mode": storage}, idempotency_key=str(uuid4()),
-        ):
-            st.rerun()
-    if st.button("حذف کلید جست‌وجو", disabled=not result.get("storage_mode"), key=f"delete-search:{guard}"):
-        if attempt("DELETE", f"{SEARCH_ROUTE}/credential", target, idempotency_key=str(uuid4())):
-            st.rerun()
-    st.caption("آزمون اتصال یک پرس‌وجوی ثابت در منبع فعال می‌فرستد و ممکن است هزینه داشته باشد.")
-    if result.get("ready"):
-        st.success("اتصال جست‌وجو آماده است.")
-    if st.button("آزمون اتصال جست‌وجو", disabled=not available, key=f"test-search:{guard}"):
+    with st.expander("مدیریت کلید Tavily", expanded=repair or not available):
+        with st.form(f"search-credential:{guard}", clear_on_submit=True):
+            secret = st.text_input("کلید API جست‌وجو", type="password", autocomplete="off")
+            storage = st.selectbox(
+                "شیوهٔ نگهداری کلید جست‌وجو", storage_options,
+                format_func=lambda option: "حافظهٔ نشست" if option == "session" else "مخزن امن سیستم‌عامل",
+            )
+            save_secret = st.form_submit_button("ثبت کلید جست‌وجو", type="secondary" if available else "primary")
+        if save_secret:
+            if not secret.strip():
+                st.error("کلید جست‌وجو را وارد کنید.")
+            elif attempt(
+                "PUT", f"{SEARCH_ROUTE}/credential",
+                {**target, "secret": secret, "storage_mode": storage}, idempotency_key=str(uuid4()),
+            ):
+                st.rerun()
+        if result.get("storage_mode") and st.button("حذف کلید جست‌وجو", key=f"delete-search:{guard}"):
+            if attempt("DELETE", f"{SEARCH_ROUTE}/credential", target, idempotency_key=str(uuid4())):
+                st.rerun()
+
+    if st.button(
+        "آزمون اتصال جست‌وجو", type="secondary" if ready or not available else "primary",
+        disabled=not available, key=f"test-search:{guard}",
+        help="یک پرس‌وجوی آزمایشی به Tavily می‌فرستد و ممکن است اعتبار مصرف کند.",
+    ):
         if test := attempt("POST", f"{SEARCH_ROUTE}/test", target, idempotency_key=str(uuid4())):
-            if test.get("ok"):
-                st.success(f"اتصال برقرار شد. نتیجهٔ مجاز آزمون: {test.get('allowed_results', 0)}")
+            ready = bool(test.get("ok"))
+            if ready:
+                st.success(f"اتصال برقرار شد. تعداد نتایج مجاز آزمون: {test.get('allowed_results', 0)}")
             else:
                 st.error(f"آزمون اتصال ناموفق بود. {test.get('code') or test.get('status', '')}")
             if test.get("retry_after"):
                 st.text(f"زمان اعلام‌شده برای تلاش دوباره · {test['retry_after']}")
-            return bool(test.get("ok"))
-    return bool(result.get("ready"))
+
+    if not repair:
+        with st.expander("تنظیمات پیشرفتهٔ جست‌وجو"):
+            _search_limits_form(attempt, profile)
+    return ready
+
+
+def _search_limits_form(attempt, profile):
+    limits = (profile.get("limits") or ResearchLimits().model_dump()).copy()
+    limit_fields = [
+        ("max_search_attempts", "تلاش جست‌وجو", 1, 3),
+        ("max_queries", "پرس‌وجوی هر اجرا", 1, 3),
+        ("max_results_per_query", "نتیجهٔ هر پرس‌وجو", 1, 5),
+        ("max_documents", "تعداد سند", 1, 6),
+        ("max_http_requests", "درخواست HTTP", 1, 27),
+        ("max_redirects", "تغییر مسیر هر سند", 0, 3),
+        ("request_timeout_seconds", "زمان هر درخواست (ثانیه)", 1.0, 30.0),
+        ("active_timeout_seconds", "زمان فعال پژوهش (ثانیه)", 1.0, 180.0),
+    ]
+    with st.form(f"search-profile:{profile['revision']}"):
+        columns = st.columns(2)
+        for index, (field, label, minimum, maximum) in enumerate(limit_fields):
+            limits[field] = columns[index % 2].number_input(
+                label, minimum, maximum, type(minimum)(limits[field]),
+            )
+        save = st.form_submit_button("ثبت محدودیت‌های جست‌وجو")
+    if save and attempt("PUT", SEARCH_ROUTE, {
+        "expected_revision": profile["revision"], "provider_id": "tavily", "limits": limits,
+    }, idempotency_key=str(uuid4())):
+        st.rerun()
 
 
 def _save_sources(attempt, revision, rows):
@@ -190,10 +205,12 @@ def outcome_panel(outcome, *, details=False):
     state = outcome.get("status", "pending")
     st.write(RESEARCH_STATUS.get(state, state))
     documents = outcome.get("documents") or []
+    passages = outcome.get("evidence") or []
+    hits = outcome.get("hits") or []
     successful = sum(row.get("fetch_status") in {"read", "revalidated", "cached"} for row in documents)
     st.caption(
-        f"تلاش جست‌وجو {outcome.get('search_attempts', 0)} · "
-        f"HTTP {outcome.get('http_requests', 0)} · سند قابل استفاده {successful}"
+        f"تلاش جست‌وجو {outcome.get('search_attempts', 0)} · نتیجهٔ جست‌وجو {len(hits)} · "
+        f"سند قابل استفاده {successful} · قطعهٔ شاهد {len(passages)}"
     )
     if outcome.get("cache_only"):
         st.info("پژوهش از شواهد ذخیره‌شده استفاده کرد. این حالت می‌تواند تماس با مدل زبانی داشته باشد.")
@@ -204,8 +221,8 @@ def outcome_panel(outcome, *, details=False):
     if not details:
         return
     cost = outcome.get("cost")
+    st.caption(f"کل درخواست‌های وب · {outcome.get('http_requests', 0)}")
     st.caption(f"هزینهٔ گزارش‌شدهٔ جست‌وجو · {cost if cost is not None else 'نامشخص'}")
-    passages = outcome.get("evidence") or []
     for document in documents:
         label = CONTENT_LABELS.get(document.get("content_level"), "دریافت‌نشده")
         with st.expander(f"{document['source_id']} · {label} · {document['fetch_status']}"):
@@ -224,9 +241,9 @@ def outcome_panel(outcome, *, details=False):
                     st.text(f"{row['evidence_id']} · {row['start']}–{row['end']}")
                     st.text(row["text"])
             st.json(document, expanded=False)
-    if outcome.get("hits"):
+    if hits:
         with st.expander("نتایج جست‌وجو و علت حذف"):
-            st.json(outcome["hits"], expanded=False)
+            st.json(hits, expanded=False)
 
 
 def research_report_panel(report):
