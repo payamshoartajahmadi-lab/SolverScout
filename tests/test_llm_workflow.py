@@ -187,6 +187,109 @@ def test_exhausted_formulator_allows_explicit_structured_completion(tmp_path):
         assert not responses
 
 
+@pytest.mark.parametrize("prefix", ["", "/extracted_fields"], ids=["relative-paths", "wrapped-paths"])
+def test_conflicting_bounds_ask_then_resume_the_same_job(tmp_path, prefix):
+    """A malformed evidence map must leave room for the user's clarification."""
+    expression = "(x1-4)**2 + (x2+3)**2"
+    original_text = (
+        f"تابع زیر را کمینه کن:\n\nf(x1, x2) = {expression}\n\n"
+        "متغیرها حقیقی هستند:\n\n0 <= x1 <= 2\n-1 <= x2 <= 1\n\n"
+        "مسئله تک‌هدفه و تابع قطعی است.\nقیدی به‌جز همین کران‌ها وجود ندارد.\n\n"
+        "-6 <= x1 <= 6\n-6 <= x2 <= 6\n\n"
+        "مسئله تک‌هدفه و تابع قطعی است.\nقیدی به‌جز این کران‌ها وجود ندارد."
+    )
+    bounds = ((0, 2), (-1, 1))
+    response = golden()["response"]
+    response["extracted_fields"]["objective"]["expression"] = expression
+    quotes = {"/objective/sense": "کمینه", "/objective/expression": expression}
+    questions = []
+    options = {}
+    for index, (variable, (lower, upper)) in enumerate(zip(response["extracted_fields"]["variables"], bounds)):
+        name = f"x{index + 1}"
+        variable.update(name=name, lower=None, upper=None)
+        path = f"/variables/{index}"
+        quotes[f"{path}/name"] = name
+        quotes[f"{path}/type"] = "حقیقی"
+        narrow = f"{lower} <= {name} <= {upper}"
+        wide = f"-6 <= {name} <= 6"
+        fields = [f"{path}/lower", f"{path}/upper"]
+        questions.append({
+            "field_paths": [prefix + field for field in fields], "reason": "contradictory",
+            "question_fa": f"برای {name} کدام کران‌ها درست هستند: {narrow} یا {wide}؟",
+        })
+        options.update({field: (narrow, wide) for field in fields})
+    response["source_map"] = [
+        {"field_path": prefix + path, "source_ref": "input:text", "quote": quote}
+        for path, quote in quotes.items()
+    ] + [
+        {"field_path": prefix + path, "source_ref": "input:text", "quote": quote}
+        for path, choices in options.items()
+        for quote in choices
+    ]
+    response["normalizations"] = []
+    response["clarification_questions"] = questions
+
+    called = []
+    retry = {
+        **response,
+        "source_map": [
+            {**item, "field_path": item["field_path"].removeprefix("/extracted_fields")}
+            for item in response["source_map"]
+        ],
+        "clarification_questions": [
+            {**item, "field_paths": [path.removeprefix("/extracted_fields") for path in item["field_paths"]]}
+            for item in questions
+        ],
+    }
+    responses = [{"ok": True}, response, retry]
+    with local_api(tmp_path, fixture_transport(responses, called)) as (repo, client, address, token):
+        profile, _ = configure(client, _PROFILE_SETTINGS, _TEST_KEY)
+        job_id = submit(client, profile, original_text)
+        work(repo, address, token, job_id)
+        state = checked(client.get(f"/jobs/{job_id}"))
+        assert state["job_status"] == "needs_input", state
+        assert state["blocked_reason"] == "AMBIGUOUS_PROBLEM"
+        assert not repo.list_executions(job_id)
+        assert called == ["connection_test_v1", "formulator_v1"]
+        draft = checked(client.get(f"/jobs/{job_id}/problem"))["draft"]
+        assert set(draft["missing_fields"]) == set(options)
+        assert len(draft["ambiguities"]) == len(questions)
+        assert {item["question_fa"] for item in draft["ambiguities"]} == {q["question_fa"] for q in questions}
+        assert all(item["reason"] == "contradictory" for item in draft["ambiguities"])
+        assert {path for item in draft["ambiguities"] for path in item["field_paths"]} == set(options)
+
+        answers = [
+            {"question_id": item["question_id"], "answer": options[item["field_path"]][0]}
+            for item in draft["ambiguities"]
+        ]
+        queued = checked(client.post(f"/jobs/{job_id}/answers", json={
+            "expected_job_version": state["version"], "expected_draft_version": draft["draft_version"],
+            "mode": "textual_answers", "answers": answers,
+        }), 202)
+        assert queued["job_id"] == job_id and queued["job_status"] == "queued"
+        final_traces = [
+            {"field_path": path, "source_ref": "input:text", "quote": quote} for path, quote in quotes.items()
+        ]
+        for item, answer in zip(draft["ambiguities"], answers):
+            final_traces.extend({
+                "field_path": path, "source_ref": f"answer:{answer['question_id']}", "quote": answer["answer"],
+            } for path in item["field_paths"])
+        for variable, (lower, upper) in zip(response["extracted_fields"]["variables"], bounds):
+            variable.update(lower=lower, upper=upper)
+        responses[:] = [
+            {**response, "source_map": final_traces, "clarification_questions": []},
+            _GOOD_PLAN, _GOOD_EXPLANATION,
+        ]
+        work(repo, address, token, job_id)
+        report = checked(client.get(f"/jobs/{job_id}/report"))["report"]
+        assert report["job_status"] == "completed", report.get("error")
+        assert report["solution_status"] == "valid_best_found"
+        assert report["best_x"] == pytest.approx([2, -1])
+        assert report["objective_raw"] == pytest.approx(8)
+        assert called == ["connection_test_v1", "formulator_v1", "formulator_v1", "advisor_v1", "explainer_v1"]
+        assert not responses
+
+
 @pytest.mark.parametrize(
     "fault_case, after_formulator, expected",
     [
