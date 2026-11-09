@@ -1,0 +1,643 @@
+{
+  "$defs": {
+    "EvidencePassage": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "2.0",
+          "default": "2.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "evidence_id": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "document_id": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Document Id",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 1500,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        },
+        "page": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page"
+        },
+        "section": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Section"
+        },
+        "keyword_matches": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Keyword Matches",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "document_id",
+        "text",
+        "start",
+        "end"
+      ],
+      "title": "EvidencePassage",
+      "type": "object"
+    },
+    "FrozenArray_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata__MinLen_min_length_1___MaxLen_max_length_4096_____": {
+      "items": {
+        "maxLength": 4096,
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "FrozenArray_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern____A-Za-z0-9___-__0_63________": {
+      "items": {
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "FrozenArray_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern____A-Za-z0-9___-__0_63_________MinLen_min_length_1_": {
+      "items": {
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "FrozenArray_EvidencePassage_": {
+      "items": {
+        "$ref": "#/$defs/EvidencePassage"
+      },
+      "type": "array"
+    },
+    "FrozenArray_ResearchQuery__MinLen_min_length_1_": {
+      "items": {
+        "$ref": "#/$defs/ResearchQuery"
+      },
+      "type": "array"
+    },
+    "FrozenArray_SearchHit_": {
+      "items": {
+        "$ref": "#/$defs/SearchHit"
+      },
+      "type": "array"
+    },
+    "FrozenArray_SourceDocument_": {
+      "items": {
+        "$ref": "#/$defs/SourceDocument"
+      },
+      "type": "array"
+    },
+    "ResearchQuery": {
+      "additionalProperties": false,
+      "properties": {
+        "query_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "title": "Query Id",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "source_ids": {
+          "$ref": "#/$defs/FrozenArray_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern____A-Za-z0-9___-__0_63_________MinLen_min_length_1_",
+          "minLength": 1
+        },
+        "purpose": {
+          "enum": [
+            "method_discovery",
+            "implementation_evidence"
+          ],
+          "title": "Purpose",
+          "type": "string"
+        }
+      },
+      "required": [
+        "query_id",
+        "text",
+        "source_ids",
+        "purpose"
+      ],
+      "title": "ResearchQuery",
+      "type": "object"
+    },
+    "ResearchQueryPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "2.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "queries": {
+          "$ref": "#/$defs/FrozenArray_ResearchQuery__MinLen_min_length_1_",
+          "maxLength": 3,
+          "minLength": 1
+        }
+      },
+      "required": [
+        "schema_version",
+        "queries"
+      ],
+      "title": "ResearchQueryPlan",
+      "type": "object"
+    },
+    "SearchHit": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "2.0",
+          "default": "2.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "query_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "title": "Query Id",
+          "type": "string"
+        },
+        "url": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        },
+        "title": {
+          "default": "",
+          "maxLength": 500,
+          "title": "Title",
+          "type": "string"
+        },
+        "snippet": {
+          "default": "",
+          "maxLength": 4000,
+          "title": "Snippet",
+          "type": "string"
+        },
+        "provider_rank": {
+          "minimum": 1,
+          "title": "Provider Rank",
+          "type": "integer"
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Published At"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Updated At"
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Id"
+        },
+        "canonical_url": {
+          "anyOf": [
+            {
+              "maxLength": 4096,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Canonical Url"
+        },
+        "rejection_code": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rejection Code"
+        }
+      },
+      "required": [
+        "query_id",
+        "url",
+        "provider_rank"
+      ],
+      "title": "SearchHit",
+      "type": "object"
+    },
+    "SourceDocument": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "2.0",
+          "default": "2.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "document_id": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Document Id",
+          "type": "string"
+        },
+        "source_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "requested_url": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Requested Url",
+          "type": "string"
+        },
+        "final_url": {
+          "anyOf": [
+            {
+              "maxLength": 4096,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Final Url"
+        },
+        "redirect_chain": {
+          "$ref": "#/$defs/FrozenArray_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata__MinLen_min_length_1___MaxLen_max_length_4096_____",
+          "default": []
+        },
+        "fetched_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fetched At"
+        },
+        "validated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Validated At"
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Published At"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Updated At"
+        },
+        "content_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content Type"
+        },
+        "content_level": {
+          "anyOf": [
+            {
+              "enum": [
+                "snippet",
+                "abstract",
+                "documentation",
+                "full_text"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content Level"
+        },
+        "parser_version": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Parser Version",
+          "type": "string"
+        },
+        "bytes_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bytes Sha256"
+        },
+        "text_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text Sha256"
+        },
+        "fetch_status": {
+          "enum": [
+            "read",
+            "failed",
+            "revalidated",
+            "cached"
+          ],
+          "title": "Fetch Status",
+          "type": "string"
+        },
+        "reason_code": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason Code"
+        },
+        "truncated": {
+          "default": false,
+          "title": "Truncated",
+          "type": "boolean"
+        },
+        "etag": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Etag"
+        },
+        "last_modified": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Modified"
+        },
+        "cache_age_hours": {
+          "anyOf": [
+            {
+              "ge": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cache Age Hours"
+        }
+      },
+      "required": [
+        "document_id",
+        "source_id",
+        "requested_url",
+        "parser_version",
+        "fetch_status"
+      ],
+      "title": "SourceDocument",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "not_requested",
+        "pending",
+        "running",
+        "completed",
+        "partial",
+        "insufficient_evidence",
+        "failed",
+        "cancelled"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "query_plan": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ResearchQueryPlan"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "hits": {
+      "$ref": "#/$defs/FrozenArray_SearchHit_",
+      "default": []
+    },
+    "search_attempts": {
+      "default": 0,
+      "maximum": 3,
+      "minimum": 0,
+      "title": "Search Attempts",
+      "type": "integer"
+    },
+    "http_requests": {
+      "default": 0,
+      "maximum": 27,
+      "minimum": 0,
+      "title": "Http Requests",
+      "type": "integer"
+    },
+    "active_seconds": {
+      "default": 0.0,
+      "ge": 0,
+      "title": "Active Seconds",
+      "type": "number"
+    },
+    "expanded_bytes": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Expanded Bytes",
+      "type": "integer"
+    },
+    "documents": {
+      "$ref": "#/$defs/FrozenArray_SourceDocument_",
+      "default": []
+    },
+    "evidence": {
+      "$ref": "#/$defs/FrozenArray_EvidencePassage_",
+      "default": []
+    },
+    "cost": {
+      "anyOf": [
+        {
+          "ge": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cost"
+    },
+    "reason_codes": {
+      "$ref": "#/$defs/FrozenArray_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern____A-Za-z0-9___-__0_63________",
+      "default": []
+    },
+    "cache_only": {
+      "default": false,
+      "title": "Cache Only",
+      "type": "boolean"
+    },
+    "retry_after": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Retry After"
+    }
+  },
+  "required": [
+    "status"
+  ],
+  "title": "ResearchOutcome",
+  "type": "object"
+}
