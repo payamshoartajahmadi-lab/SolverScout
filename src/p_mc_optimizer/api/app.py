@@ -17,6 +17,7 @@ from p_mc_optimizer.application.errors import ApiError
 from p_mc_optimizer.application.jobs import ApplicationService, AnswersInput, JobVersion, public_job
 from p_mc_optimizer.domain.models import CreateJob, DomainError, strict_json_loads
 from p_mc_optimizer.persistence import Repository
+from p_mc_optimizer.research.contracts import CreateJobV2
 
 LOGGER = logging.getLogger(__name__)
 TOKEN_HEADER = "X-PMC-Internal-Token"
@@ -25,16 +26,19 @@ ARTIFACT_DOWNLOADS = {
     "report_json": ("report.json", "application/json"),
     "report_html": ("report.html", "text/html; charset=utf-8"),
     "trials_csv": ("trials.csv", "text/csv; charset=utf-8"),
+    "sources_csv": ("sources.csv", "text/csv; charset=utf-8"),
+    "research_json": ("research.json", "application/json"),
     "evaluation_history_csv": ("evaluation_history.csv", "text/csv; charset=utf-8"),
 }
 DOMAIN_CODES = {
     "UNSUPPORTED_PROBLEM", "INVALID_EXPRESSION", "UNKNOWN_VARIABLE",
-    "AMBIGUOUS_PROBLEM", "BOUNDS_RANGE_UNSUPPORTED",
+    "AMBIGUOUS_PROBLEM", "BOUNDS_RANGE_UNSUPPORTED", "PROVIDER_CONFIGURATION_REQUIRED",
 }
 DOMAIN_MESSAGES = {
     "UNSUPPORTED_PROBLEM": "مدل مسئله با دامنهٔ نسخهٔ اول سازگار نیست.",
     "INVALID_EXPRESSION": "عبارت تابع هدف با دستور زبان مجاز سازگار نیست.",
     "UNKNOWN_VARIABLE": "عبارت تابع هدف از نام تعریف‌نشده استفاده می‌کند.",
+    "PROVIDER_CONFIGURATION_REQUIRED": "تنظیمات مدل زبانی و اتصال آن را بررسی کنید.",
     "AMBIGUOUS_PROBLEM": "اطلاعات مسئله برای ساخت مدل کامل کافی نیست.",
     "BOUNDS_RANGE_UNSUPPORTED": "فاصلهٔ میان کران‌های یک متغیر در بازهٔ عددی مجاز نیست.",
 }
@@ -63,11 +67,11 @@ def canonical_id(value: str, code="JOB_NOT_FOUND") -> str:
     return value
 
 
-def job_routes(repo: Repository, service: ApplicationService) -> APIRouter:
+def job_routes(repo: Repository, service: ApplicationService, research_store=None) -> APIRouter:
     router = APIRouter()
 
     @router.post("/jobs", status_code=202)
-    def create_job(payload: CreateJob, idempotency_key: Annotated[str, Header(alias="Idempotency-Key")]):
+    def create_job(payload: CreateJob | CreateJobV2, idempotency_key: Annotated[str, Header(alias="Idempotency-Key")]):
         return public_job(service.create_job(payload, idempotency_key))
 
     @router.get("/jobs")
@@ -115,6 +119,22 @@ def job_routes(repo: Repository, service: ApplicationService) -> APIRouter:
     def report(job_id: str):
         return repo.get_report(canonical_id(job_id))
 
+    @router.get("/jobs/{job_id}/research")
+    def job_research(job_id: str):
+        job = repo.get_job(canonical_id(job_id))
+        if job["policy"]["policy_version"] != "2.0":
+            return {"status": "not_requested"}
+        outcome = research_store.outcome(job_id)
+        if outcome is not None:
+            return outcome
+        status = (
+            "cancelled" if job["job_status"] == "cancelled" else
+            "running" if job["phase"] in {"research_planning", "searching", "fetching_evidence"} else
+            "pending" if job["policy"]["selection_policy"] == "web_research_then_pilot" else "not_requested"
+        )
+        usage = research_store.ledger(job_id)
+        return {"status": status, "query_plan": job["workflow"].get("query_plan"), **usage}
+
     @router.get("/artifacts/{artifact_id}")
     def artifact(artifact_id: str):
         artifact_id = canonical_id(artifact_id, "ARTIFACT_NOT_FOUND")
@@ -139,8 +159,17 @@ def create_app(
     internal_token: str,
     *,
     transport=None,
+    research_search=None,
+    research_fetch=None,
     instance_id: str | None = None,
 ) -> FastAPI:
+    from p_mc_optimizer.api.research_v2 import ResearchJobs
+    from p_mc_optimizer.catalog import CatalogStore
+    from p_mc_optimizer.catalog.routes import catalog_router
+    from p_mc_optimizer.research.gateway import ResearchGateway
+    from p_mc_optimizer.research.routes import create_research_router
+    from p_mc_optimizer.research.settings import SearchSettings
+    from p_mc_optimizer.research.storage import ResearchStore
     from p_mc_optimizer.llm.gateway import LLMGateway
     from p_mc_optimizer.llm.routes import create_llm_router
 
@@ -148,11 +177,19 @@ def create_app(
         raise ValueError("An instance token is required")
     repo = Repository(data_dir)
     gateway = LLMGateway(repo, transport=transport, internal_token=internal_token)
-    service = ApplicationService(repo, profile_snapshot=gateway.profile_snapshot, resume_check=gateway.resume_check)
-    app = FastAPI(title="P_MC Optimizer", version="1.0", redirect_slashes=False)
+    research_store = ResearchStore(repo.path, repo.data_dir / "artifacts" / "research")
+    research_gateway = ResearchGateway(research_store, search=research_search, fetch=research_fetch)
+    search_settings = SearchSettings(research_store, gateway.broker, research_gateway)
+    catalog = CatalogStore(repo.path)
+    research_jobs = ResearchJobs(repo, gateway, search_settings, catalog)
+    service = ApplicationService(repo, profile_snapshot=gateway.profile_snapshot,
+                                 resume_check=research_jobs.resume, freeze_v2=research_jobs.freeze)
+    app = FastAPI(title="SolverScout", version="2.0", redirect_slashes=False)
     app.state.repo = repo
     app.state.gateway = gateway
     app.state.service = service
+    app.state.search_settings = search_settings
+    app.state.catalog = catalog
 
     @app.middleware("http")
     async def local_boundary(request: Request, call_next):
@@ -169,7 +206,9 @@ def create_app(
                 body = await request.body()
                 if body:
                     payload = strict_json_loads(body, limit=MAX_REQUEST_BYTES)
-                    if request.url.path != "/settings/llm/credential" and gateway.payload_contains_secret(payload):
+                    if request.url.path not in {"/settings/llm/credential", "/settings/search/credential"} and (
+                        gateway.payload_contains_secret(payload) or search_settings.sanitize(payload) != payload
+                    ):
                         return error_response(
                             request, ApiError(422, "INVALID_SCHEMA", "کلید و توکن را فقط از مسیر تنظیمات ثبت کنید."),
                         )
@@ -223,7 +262,10 @@ def create_app(
     def health():
         return {"status": "ok", "instance_id": instance_id}
 
-    app.include_router(job_routes(repo, service))
+    app.include_router(job_routes(repo, service, research_store))
+    app.include_router(create_research_router(search_settings))
+    app.include_router(research_jobs.router())
+    app.include_router(catalog_router(catalog))
     app.include_router(create_llm_router(gateway))
     return app
 

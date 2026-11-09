@@ -146,6 +146,15 @@ class Repository:
             connection.execute("BEGIN")
             return self.job_snapshot(connection, self.job_row(connection, job_id))
 
+    def get_v2_snapshot(self, job_id) -> dict:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT payload FROM job_v2_snapshots WHERE job_id=?", (str(job_id),)
+            ).fetchone()
+            if row is None:
+                raise missing_job()
+            return json.loads(row["payload"])
+
     def list_jobs(self, *, limit=100, offset=0) -> list[dict]:
         with self.connect() as connection:
             connection.execute("BEGIN")
@@ -829,10 +838,27 @@ class Repository:
             },
             "explanation": {"source": "template", "summary_fa": summary, "limitations_fa": [CLAIM_FA]},
         }
+        research_exports = []
+        if job["policy"]["policy_version"] == "2.0":
+            policy = job["policy"]["selection_policy"]
+            workflow = job["workflow"]
+            research = workflow.get("research_outcome") or {
+                "status": "cancelled" if job["job_status"] == "cancelled" and policy == "web_research_then_pilot"
+                else "not_requested"
+            }
+            report.update({
+                "schema_version": "2.0", "research": research, "research_error": workflow.get("research_error"),
+                "advisor_plan_v2": workflow.get("advisor_plan_v2"), "requested_selection_policy": policy,
+                "effective_selection_policy": workflow.get("effective_selection_policy", policy),
+            })
+            research_exports = [("research_json", json_bytes(research), ".json"),
+                                ("sources_csv", csv_bytes(research.get("documents", []),
+                                  ("source_id", "requested_url", "final_url", "fetch_status")), ".csv")]
         exports = [
             ("report_json", json_bytes(report), ".json"),
             ("report_html", html_bytes(report), ".html"),
             ("trials_csv", csv_bytes(trials, TRIAL_COLUMNS), ".csv"),
+            *research_exports,
         ]
         artifacts = []
         try:

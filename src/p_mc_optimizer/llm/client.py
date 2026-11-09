@@ -14,12 +14,13 @@ REPAIRABLE_ERROR_CODES = frozenset({"LLM_SCHEMA_INVALID", "LLM_OUTPUT_TRUNCATED"
 def invoke_role(
     api_url: str, internal_token: str, job_id: str, role: str, context: dict,
     *, invocation_id: str | None = None, request_timeout_seconds: int = 60,
+    schema_id: str | None = None,
 ) -> dict:
     """Send one internal invocation, returning the same outcome shape for HTTP errors."""
     body = {
         "job_id": job_id,
         "role": role,
-        "schema_id": SCHEMA_IDS[role],
+        "schema_id": schema_id or SCHEMA_IDS[role],
         "invocation_id": invocation_id or str(uuid4()),
         "context": context,
     }

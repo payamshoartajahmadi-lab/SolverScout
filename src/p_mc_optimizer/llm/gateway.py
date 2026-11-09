@@ -30,8 +30,8 @@ from p_mc_optimizer.llm.provider import PROMPT_VERSION, call_provider, error_det
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("httpcore").setLevel(logging.WARNING)
 
-_ROLE_PHASES = {"formulator": "formulating", "advisor": "planning", "explainer": "reporting"}
-_LLM_POLICIES = {"llm_only", "llm_shortlist_then_pilot"}
+_ROLE_PHASES = {"formulator": "formulating", "advisor": "planning", "research_planner": "research_planning", "explainer": "reporting"}
+_LLM_POLICIES = {"llm_only", "llm_shortlist_then_pilot", "catalog_llm_then_pilot", "web_research_then_pilot"}
 _REPORT_FIELDS = {
     "selected_algorithm_id", "selection_status", "solution_status", "solution_origin",
     "verification", "partial_result", "budget", "optimality_status", "objective_raw",
@@ -111,6 +111,10 @@ class LLMGateway:
         self._broker = CredentialBroker(internal_token=internal_token)
         self._profile_lock = RLock()
         self.reconcile()
+
+    @property
+    def broker(self):
+        return self._broker
 
     def payload_contains_secret(self, value) -> bool:
         return self._broker.sanitize(value) != value
@@ -314,13 +318,14 @@ class LLMGateway:
                 raise
             return self._status(snapshot, updated).model_dump(mode="json")
 
-    def profile_snapshot(self, profile_id, revision: int) -> dict:
+    def profile_snapshot(self, profile_id, revision: int, *, require_ready=True) -> dict:
         with self._profile_lock, self.repo.connect() as conn:
             row = self._profile_row(conn, str(profile_id), revision)
             if row is None:
                 raise _config_required()
             snapshot = self._snapshot(row)
-            self._ready_key(conn, snapshot)
+            if require_ready:
+                self._ready_key(conn, snapshot)
             return snapshot.model_dump(mode="json")
 
     def _ready_key(self, conn, snapshot: ProviderSnapshot):
@@ -377,7 +382,8 @@ class LLMGateway:
             (
                 call_id, job_id, role, purpose, invocation_id, test_key,
                 request_hash, attempt_no, _json(snapshot.model_dump(mode="json")), snapshot.profile_id,
-                snapshot.revision, generation, PROMPT_VERSION, _json(data), _now(),
+                snapshot.revision, generation, "2.0" if data["schema_id"].endswith(".v2") else PROMPT_VERSION,
+                _json(data), _now(),
             ),
         )
         return call_id
@@ -461,10 +467,18 @@ class LLMGateway:
 
     def invoke(self, invocation: Invocation) -> dict:
         role = invocation.role
-        if invocation.schema_id != SCHEMA_IDS[role]:
+        schema_v2 = invocation.schema_id.endswith(".v2")
+        if schema_v2:
+            from p_mc_optimizer.llm.research_v2 import SCHEMAS
+
+            expected_role, context_model, _ = SCHEMAS[invocation.schema_id]
+        else:
+            expected_role = role if invocation.schema_id == SCHEMA_IDS.get(role) else None
+            context_model = ROLE_CONTEXTS.get(role)
+        if expected_role != role:
             raise ApiError(422, "INVALID_SCHEMA", "نقش و شناسهٔ schema یکسان نیستند.")
         try:
-            context = ROLE_CONTEXTS[role].model_validate(invocation.context)
+            context = context_model.model_validate(invocation.context)
             _validate_context_fields(invocation.context)
             data = invocation.model_dump(mode="json")
             request_hash = _hash(data)
@@ -486,14 +500,20 @@ class LLMGateway:
             if job["job_status"] != "running" or job["phase"] != _ROLE_PHASES[role] or job["cancel_requested"]:
                 raise _invalid_job()
             policy = _from_json(job["policy"])
+            version_two = policy.get("policy_version") == "2.0"
+            if role in {"advisor", "research_planner"} and schema_v2 != version_two:
+                raise _invalid_job()
             self._validate_job_policy(policy, role, context)
-            self._validate_job_context(conn, job, role, context)
+            if schema_v2:
+                self._validate_v2_context(job, role, context)
+            else:
+                self._validate_job_context(conn, job, role, context)
             charged_calls = conn.execute(
                 "SELECT role, error FROM llm_calls WHERE job_id=? ORDER BY started_at, rowid", (job_id,)
             ).fetchall()
             role_calls = [call for call in charged_calls if call["role"] == role]
             if (
-                len(charged_calls) >= min(6, policy.get("max_llm_calls", 6))
+                len(charged_calls) >= min(8 if version_two else 6, policy.get("max_llm_calls", 6))
                 or len(role_calls) >= min(2, policy.get("max_llm_calls_per_role", 2))
             ):
                 detail = error_detail("LLM_BUDGET_EXHAUSTED")
@@ -526,6 +546,8 @@ class LLMGateway:
         selection = policy.get("selection_policy")
         if selection not in _LLM_POLICIES:
             raise _invalid_job()
+        if role == "research_planner" and selection != "web_research_then_pilot":
+            raise _invalid_job()
         if role == "explainer":
             if not policy.get("explain_via_llm"):
                 raise _invalid_job()
@@ -533,6 +555,14 @@ class LLMGateway:
                 raise ApiError(422, "INVALID_SCHEMA", "خلاصهٔ توضیح‌دهنده دارای فیلد نامجاز است.")
         if role == "advisor" and context.candidate_count != (1 if selection == "llm_only" else 3):
             raise ApiError(422, "INVALID_SCHEMA", "تعداد کاندیدا با سیاست اجرا یکسان نیست.")
+
+    @staticmethod
+    def _validate_v2_context(job, role, context):
+        workflow = _from_json(job["workflow"])
+        expected = workflow.get(f"role_context:{role}")
+        actual = context.model_dump(mode="json", exclude={"repair"})
+        if expected is None or actual != expected:
+            raise ApiError(422, "INVALID_SCHEMA", "زمینهٔ پژوهش با snapshot این اجرا یکسان نیست.")
 
     @staticmethod
     def _validate_job_context(conn, job, role: str, context) -> None:

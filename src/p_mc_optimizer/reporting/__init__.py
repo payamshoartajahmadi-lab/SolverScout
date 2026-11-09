@@ -120,6 +120,16 @@ def html_bytes(report: dict) -> bytes:
         "diagnostics": "اطلاعات عیب‌یابی", "budget": "حساب بودجه", "timing": "زمان‌ها",
         "environment": "محیط و نسخه‌ها", "llm_calls": "فراخوانی‌های مدل و مصرف", "error": "خطای اجرا",
     }
+    if report.get("schema_version") == "2.0":
+        labels.update({
+            "research_snapshot": "منابع و تنظیمات ثابت پژوهش",
+            "query_plan": "پرس‌وجوها",
+            "research": "اسناد، شواهد و حساب پژوهش",
+            "research_error": "محدودیت پژوهش",
+            "advisor_plan_v2": "پیشنهادهای مستند و امکان اجرا",
+            "catalog_exclusions": "فیلتر کاتالوگ",
+            "effective_selection_policy": "سیاست مؤثر",
+        })
     for key, label in labels.items():
         if report.get(key) is not None:
             data = escaped(json_bytes(report[key]).decode())

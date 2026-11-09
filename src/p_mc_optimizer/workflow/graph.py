@@ -127,7 +127,7 @@ class Workflow:
     def intake(self):
         self.phase("intake")
 
-    def _invoke(self, role, context, *, validate=lambda output: output):
+    def _invoke(self, role, context, *, validate=lambda output: output, schema_id=None):
         if self.api_url is None:
             return None, _error("PROVIDER_CONFIGURATION_REQUIRED", "تنظیمات مدل در این اجرا در دسترس نیست.")
         digest = hashlib.sha256(json_bytes(context, pretty=False)).hexdigest()
@@ -145,6 +145,7 @@ class Workflow:
             result = invoke_role(
                 self.api_url, self.token, self.job_id, role, context,
                 invocation_id=invocation_id, request_timeout_seconds=timeout,
+                **({"schema_id": schema_id} if schema_id else {}),
             )
             if result["call_id"] is None:
                 return None, result["error"]
@@ -258,6 +259,12 @@ class Workflow:
             return min(policy.verification_time_reserve_seconds, policy.max_compute_seconds - elapsed)
         return policy.max_compute_seconds - policy.verification_time_reserve_seconds - elapsed
 
+    def seed_identity(self, algorithm_id):
+        return algorithm_id or "none"
+
+    def build_trial(self, revision, **fields):
+        return trial_request(revision, **fields)
+
     def _execute(self, phase, quota, *, algorithm_id=None, replicate_index=0, reference=None):
         from p_mc_optimizer.domain.models import ExecutionRequest, ExecutionResult
 
@@ -274,11 +281,11 @@ class Workflow:
         if deadline <= 0 or self.cancelled(immediate=True) or self.shutdown():
             return None
         seed = derive_seed(self.policy.master_seed, revision.problem_math_hash,
-                           phase, algorithm_id or "none", replicate_index)
+                           phase, self.seed_identity(algorithm_id), replicate_index)
         trial = None
         execution_id = str(uuid4())
         if algorithm_id is not None:
-            trial = trial_request(
+            trial = self.build_trial(
                 revision, job_id=self.job_id, trial_id=str(uuid4()), attempt_id=execution_id,
                 idempotency_key=str(uuid4()), algorithm_id=algorithm_id, seed=seed, phase=phase,
                 replicate_index=replicate_index, evaluation_quota=quota, deadline_seconds=deadline,
@@ -440,13 +447,16 @@ class Workflow:
                         if row["phase"] != "verification" and (row.get("outcome") or {}).get("best")]
         return min(observations, key=lambda pair: pair[0]["score_for_minimization"], default=(None, None))
 
+    def can_verify(self, stop):
+        return stop.get("status") not in {"failed", "cancelled"}
+
     def verify_solution(self):
         from p_mc_optimizer.domain.models import EvaluationRecord
 
         self.phase("verifying")
         best, _ = self._best()
         stop = self.workflow.get("stop") or {}
-        if not best or stop.get("status") in {"failed", "cancelled"}:
+        if not best or not self.can_verify(stop):
             self.event("stage_skipped", stage="verification", reason="no_verifiable_candidate")
             return
         result = self._execute("verification", self.policy.verification_evaluations,
@@ -616,17 +626,23 @@ class Workflow:
             self.repo.save_artifact(self.job_id, "trials_csv", csv_bytes(report["trials"], TRIAL_COLUMNS),
                                     suffix=".csv", worker_id=self.worker_id),
         ]
+        artifacts.extend(self.additional_artifacts(report))
         fields = {k: report[k] for k in ("job_status", "solution_status", "optimality_status", "selection_status",
                                          "explanation_status", "termination_reason", "partial_result", "error")}
         self.repo.publish_report(self.job_id, report, [x["artifact_id"] for x in artifacts],
                                  worker_id=self.worker_id, **fields)
 
-    def run(self):
-        pipeline = [
+    def additional_artifacts(self, report):
+        return []
+
+    def pipeline(self):
+        return [
             "intake", "formulate_problem", "validate_problem", "freeze_problem", "preflight", "profile_problem",
             "filter_solvers", "propose_candidates", "validate_plan", "run_pilots", "select_solver",
             "run_main_trial", "verify_solution", "build_report_data", "explain_result", "finalize_job",
         ]
+    def run(self):
+        pipeline = self.pipeline()
         early_search = {"preflight", "profile_problem", "run_pilots", "run_main_trial"}
 
         def node(name):

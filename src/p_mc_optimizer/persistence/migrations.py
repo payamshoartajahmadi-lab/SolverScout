@@ -41,11 +41,26 @@ def backup_database(path: Path, version: int) -> Path:
     return destination
 
 
+def install_v2_features(connection):
+    from p_mc_optimizer.catalog import CATALOG_SCHEMA
+    from p_mc_optimizer.research.storage import RESEARCH_SCHEMA
+
+    execute_sql(connection, CATALOG_SCHEMA + "\n" + RESEARCH_SCHEMA)
+    connection.execute("CREATE TABLE v2_features_installed (marker INTEGER PRIMARY KEY CHECK(marker=1))")
+    connection.execute("INSERT INTO v2_features_installed VALUES (1)")
+
+
+def v2_features_ready(connection):
+    return connection.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name='v2_features_installed'"
+    ).fetchone() is not None
+
+
 def migrate(path: Path, connect, *, allow_upgrade: bool):
     from p_mc_optimizer.llm.storage import LLM_SCHEMA
 
     with connect() as connection:
-        if connection.execute("PRAGMA user_version").fetchone()[0] == SCHEMA_VERSION:
+        if connection.execute("PRAGMA user_version").fetchone()[0] == SCHEMA_VERSION and v2_features_ready(connection):
             return
         # The jobs table must be rebuilt to extend its phase CHECK.
         connection.execute("PRAGMA foreign_keys=OFF")
@@ -53,6 +68,12 @@ def migrate(path: Path, connect, *, allow_upgrade: bool):
         try:
             version = connection.execute("PRAGMA user_version").fetchone()[0]
             if version == SCHEMA_VERSION:
+                if not v2_features_ready(connection):
+                    if not allow_upgrade:
+                        raise MigrationError("MIGRATION_REQUIRED: run p_mc_optimizer migrate with the app stopped")
+                    backup_database(path, version)
+                    install_v2_features(connection)
+                    connection.commit()
                 return
             if version not in (0, 1):
                 raise MigrationError(f"Unsupported state.sqlite3 schema version {version}")
@@ -95,6 +116,7 @@ def migrate(path: Path, connect, *, allow_upgrade: bool):
                 job_id TEXT PRIMARY KEY REFERENCES jobs(job_id),
                 payload TEXT NOT NULL
             )""")
+            install_v2_features(connection)
             if connection.execute("PRAGMA foreign_key_check").fetchone() is not None:
                 raise MigrationError("Migration would leave invalid foreign keys")
             connection.execute(f"PRAGMA user_version={SCHEMA_VERSION}")
