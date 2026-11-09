@@ -1,0 +1,79 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "evidence_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Evidence Id",
+      "type": "string"
+    },
+    "document_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Document Id",
+      "type": "string"
+    },
+    "text": {
+      "maxLength": 1500,
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+    },
+    "start": {
+      "minimum": 0,
+      "title": "Start",
+      "type": "integer"
+    },
+    "end": {
+      "exclusiveMinimum": 0,
+      "title": "End",
+      "type": "integer"
+    },
+    "page": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Page"
+    },
+    "section": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Section"
+    },
+    "keyword_matches": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Keyword Matches",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "evidence_id",
+    "document_id",
+    "text",
+    "start",
+    "end"
+  ],
+  "title": "EvidencePassage",
+  "type": "object"
+}
