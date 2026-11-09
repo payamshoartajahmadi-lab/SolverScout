@@ -1,0 +1,179 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "title": "Job Id",
+      "type": "string"
+    },
+    "trial_id": {
+      "title": "Trial Id",
+      "type": "string"
+    },
+    "attempt_id": {
+      "title": "Attempt Id",
+      "type": "string"
+    },
+    "idempotency_key": {
+      "title": "Idempotency Key",
+      "type": "string"
+    },
+    "problem_revision_id": {
+      "title": "Problem Revision Id",
+      "type": "string"
+    },
+    "problem_math_hash": {
+      "title": "Problem Math Hash",
+      "type": "string"
+    },
+    "evaluation_contract_hash": {
+      "title": "Evaluation Contract Hash",
+      "type": "string"
+    },
+    "evaluator_version": {
+      "const": "1.0",
+      "title": "Evaluator Version",
+      "type": "string"
+    },
+    "algorithm_id": {
+      "maxLength": 240,
+      "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z_][A-Za-z0-9_.]*:[A-Za-z_][A-Za-z0-9_]*$",
+      "title": "Algorithm Id",
+      "type": "string"
+    },
+    "config_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Config Id",
+      "type": "string"
+    },
+    "adapter_version": {
+      "title": "Adapter Version",
+      "type": "string"
+    },
+    "library_version": {
+      "title": "Library Version",
+      "type": "string"
+    },
+    "configuration_snapshot": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "title": "Configuration Snapshot",
+      "type": "object"
+    },
+    "seed": {
+      "exclusiveMaximum": 4294967296,
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "phase": {
+      "enum": [
+        "pilot",
+        "main"
+      ],
+      "title": "Phase",
+      "type": "string"
+    },
+    "replicate_index": {
+      "maximum": 2,
+      "minimum": 0,
+      "title": "Replicate Index",
+      "type": "integer"
+    },
+    "evaluation_quota": {
+      "exclusiveMinimum": 0,
+      "title": "Evaluation Quota",
+      "type": "integer"
+    },
+    "deadline_seconds": {
+      "gt": 0,
+      "title": "Deadline Seconds",
+      "type": "number"
+    },
+    "start_mode": {
+      "const": "fresh",
+      "default": "fresh",
+      "title": "Start Mode",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "implementation_id": {
+      "maxLength": 240,
+      "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z_][A-Za-z0-9_.]*:[A-Za-z_][A-Za-z0-9_]*$",
+      "title": "Implementation Id",
+      "type": "string"
+    },
+    "config_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Config Hash",
+      "type": "string"
+    },
+    "catalog_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Catalog Hash",
+      "type": "string"
+    },
+    "seed_identity": {
+      "title": "Seed Identity",
+      "type": "string"
+    },
+    "boundary_repair": {
+      "title": "Boundary Repair",
+      "type": "string"
+    },
+    "mode": {
+      "const": "single",
+      "title": "Mode",
+      "type": "string"
+    }
+  },
+  "required": [
+    "job_id",
+    "trial_id",
+    "attempt_id",
+    "idempotency_key",
+    "problem_revision_id",
+    "problem_math_hash",
+    "evaluation_contract_hash",
+    "evaluator_version",
+    "algorithm_id",
+    "config_id",
+    "adapter_version",
+    "library_version",
+    "configuration_snapshot",
+    "seed",
+    "phase",
+    "replicate_index",
+    "evaluation_quota",
+    "deadline_seconds",
+    "schema_version",
+    "implementation_id",
+    "config_hash",
+    "catalog_hash",
+    "seed_identity",
+    "boundary_repair",
+    "mode"
+  ],
+  "title": "TrialRequestV2",
+  "type": "object"
+}

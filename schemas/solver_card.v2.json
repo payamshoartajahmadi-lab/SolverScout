@@ -1,0 +1,276 @@
+{
+  "$defs": {
+    "Parameter": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "title": "Parameter",
+      "type": "object"
+    },
+    "QualificationCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "check": {
+          "title": "Check",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "cancelled"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "started_evaluations": {
+          "minimum": 0,
+          "title": "Started Evaluations",
+          "type": "integer"
+        },
+        "charged_unknown": {
+          "minimum": 0,
+          "title": "Charged Unknown",
+          "type": "integer"
+        },
+        "history_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "History Sha256"
+        },
+        "outcome": {
+          "title": "Outcome",
+          "type": "string"
+        },
+        "elapsed_seconds": {
+          "minimum": 0,
+          "title": "Elapsed Seconds",
+          "type": "number"
+        }
+      },
+      "required": [
+        "check",
+        "status",
+        "started_evaluations",
+        "charged_unknown",
+        "history_sha256",
+        "outcome",
+        "elapsed_seconds"
+      ],
+      "title": "QualificationCheck",
+      "type": "object"
+    },
+    "QualificationReport": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "2.0",
+          "default": "2.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "config_id": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Config Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "qualified",
+            "rejected",
+            "cancelled"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "pilot_500_compatible": {
+          "title": "Pilot 500 Compatible",
+          "type": "boolean"
+        },
+        "checks": {
+          "items": {
+            "$ref": "#/$defs/QualificationCheck"
+          },
+          "title": "Checks",
+          "type": "array"
+        },
+        "environment": {
+          "title": "Environment",
+          "type": "string"
+        }
+      },
+      "required": [
+        "config_id",
+        "status",
+        "pilot_500_compatible",
+        "checks",
+        "environment"
+      ],
+      "title": "QualificationReport",
+      "type": "object"
+    },
+    "SolverConfiguration": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "2.0",
+          "default": "2.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "implementation_id": {
+          "maxLength": 240,
+          "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z_][A-Za-z0-9_.]*:[A-Za-z_][A-Za-z0-9_]*$",
+          "title": "Implementation Id",
+          "type": "string"
+        },
+        "library_version": {
+          "title": "Library Version",
+          "type": "string"
+        },
+        "adapter_version": {
+          "title": "Adapter Version",
+          "type": "string"
+        },
+        "parameters": {
+          "items": {
+            "$ref": "#/$defs/Parameter"
+          },
+          "title": "Parameters",
+          "type": "array"
+        },
+        "boundary_repair": {
+          "title": "Boundary Repair",
+          "type": "string"
+        },
+        "mode": {
+          "const": "single",
+          "default": "single",
+          "title": "Mode",
+          "type": "string"
+        }
+      },
+      "required": [
+        "implementation_id",
+        "library_version",
+        "adapter_version",
+        "parameters",
+        "boundary_repair"
+      ],
+      "title": "SolverConfiguration",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "implementation_id": {
+      "maxLength": 240,
+      "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z_][A-Za-z0-9_.]*:[A-Za-z_][A-Za-z0-9_]*$",
+      "title": "Implementation Id",
+      "type": "string"
+    },
+    "config_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Config Id",
+      "type": "string"
+    },
+    "family_id": {
+      "title": "Family Id",
+      "type": "string"
+    },
+    "library_version": {
+      "title": "Library Version",
+      "type": "string"
+    },
+    "adapter_version": {
+      "title": "Adapter Version",
+      "type": "string"
+    },
+    "seed_identity": {
+      "title": "Seed Identity",
+      "type": "string"
+    },
+    "configuration": {
+      "$ref": "#/$defs/SolverConfiguration"
+    },
+    "qualified_report": {
+      "$ref": "#/$defs/QualificationReport"
+    },
+    "min_dimension": {
+      "const": 2,
+      "default": 2,
+      "title": "Min Dimension",
+      "type": "integer"
+    },
+    "max_dimension": {
+      "const": 30,
+      "default": 30,
+      "title": "Max Dimension",
+      "type": "integer"
+    },
+    "deterministic_continuous_single_objective": {
+      "const": true,
+      "default": true,
+      "title": "Deterministic Continuous Single Objective",
+      "type": "boolean"
+    },
+    "pilot_500_compatible": {
+      "title": "Pilot 500 Compatible",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "implementation_id",
+    "config_id",
+    "family_id",
+    "library_version",
+    "adapter_version",
+    "seed_identity",
+    "configuration",
+    "qualified_report",
+    "pilot_500_compatible"
+  ],
+  "title": "SolverCardV2",
+  "type": "object"
+}

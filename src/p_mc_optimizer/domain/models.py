@@ -332,7 +332,14 @@ class CandidatePlan(ContractModel):
 AdvisorResponse = CandidatePlan
 
 
-class TrialRequest(ContractModel):
+ImplementationId = Annotated[str, Field(
+    max_length=240, pattern=r"^[a-z][a-z0-9_-]*:[A-Za-z_][A-Za-z0-9_.]*:[A-Za-z_][A-Za-z0-9_]*$",
+)]
+Sha256Hex = Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
+ConstructorValue = int | float | bool | str | None
+
+
+class _TrialFields(ContractModel):
     job_id: Uuid4String
     trial_id: Uuid4String
     attempt_id: Uuid4String
@@ -341,7 +348,7 @@ class TrialRequest(ContractModel):
     problem_math_hash: str
     evaluation_contract_hash: str
     evaluator_version: Literal["1.0"]
-    algorithm_id: SolverId
+    algorithm_id: str
     config_id: str
     adapter_version: str
     library_version: str
@@ -354,11 +361,40 @@ class TrialRequest(ContractModel):
     start_mode: Literal["fresh"] = "fresh"
 
     @model_validator(mode="after")
+    def check_replicate(self):
+        if self.phase == "main" and self.replicate_index != 0:
+            raise ValueError("اجرای اصلی فقط یک تکرار دارد.")
+        return self
+
+
+class TrialRequest(_TrialFields):
+    algorithm_id: SolverId
+
+    @model_validator(mode="after")
     def check_config(self):
         if self.config_id != SOLVER_CONFIG_IDS[self.algorithm_id]:
             raise ValueError("شناسهٔ پیکربندی با روش سازگار نیست.")
-        if self.phase == "main" and self.replicate_index != 0:
-            raise ValueError("اجرای اصلی فقط یک تکرار دارد.")
+        return self
+
+
+class TrialRequestV2(_TrialFields):
+    schema_version: Literal["2.0"]
+    algorithm_id: ImplementationId
+    implementation_id: ImplementationId
+    config_id: Sha256Hex
+    config_hash: Sha256Hex
+    catalog_hash: Sha256Hex
+    configuration_snapshot: dict[str, ConstructorValue]
+    seed_identity: str
+    boundary_repair: str
+    mode: Literal["single"]
+
+    @model_validator(mode="after")
+    def check_snapshot(self):
+        if self.algorithm_id != self.implementation_id or self.config_id != self.config_hash:
+            raise ValueError("شناسهٔ روش یا پیکربندی با snapshot یکسان نیست.")
+        if self.phase == "pilot" and self.evaluation_quota != PILOT_EVALUATIONS:
+            raise ValueError("سهم هر پایلوت نسخهٔ دوم دقیقاً ۵۰۰ ارزیابی است.")
         return self
 
 
@@ -404,7 +440,7 @@ class ExecutionRequest(ContractModel):
     seed: Annotated[int, Field(ge=0, lt=2**32)]
     evaluation_quota: Annotated[int, Field(gt=0)]
     deadline_seconds: Annotated[FiniteReal, Field(gt=0)]
-    trial: TrialRequest | None = None
+    trial: TrialRequest | TrialRequestV2 | None = None
     verification_reference: EvaluationRecord | None = None
 
     @model_validator(mode="after")
