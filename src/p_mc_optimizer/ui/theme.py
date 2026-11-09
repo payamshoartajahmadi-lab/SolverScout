@@ -27,6 +27,9 @@ _THEME = {
     "orangeColor": ACCENT,
     "orangeBackgroundColor": OUTLINE,
     "orangeTextColor": ACCENT,
+    "yellowColor": ACCENT,
+    "yellowBackgroundColor": SURFACE,
+    "yellowTextColor": TEXT,
     "greenColor": ACCENT,
     "greenBackgroundColor": SURFACE,
     "greenTextColor": TEXT,
@@ -60,6 +63,14 @@ UI_CSS = f"""
     border-left: 1px solid {OUTLINE};
     border-right: 0;
 }}
+@media (min-width: 768px) {{
+    [data-testid="stAppViewContainer"] > [data-testid="stSidebar"] {{
+        width: clamp(12rem, 21vw, 18rem) !important;
+        max-width: none !important;
+        transform: none !important;
+        overflow: hidden;
+    }}
+}}
 [data-testid="stSidebarContent"] {{ padding-inline: 0.6rem; }}
 [data-testid="stSidebarCollapseButton"], [data-testid="stExpandSidebarButton"],
 [data-testid="stToolbar"] {{ display: none; }}
@@ -80,7 +91,8 @@ UI_CSS = f"""
 [data-testid="stMainBlockContainer"] :is([data-testid="stMarkdownContainer"], [data-testid="stCaptionContainer"]) {{
     text-align: right;
 }}
-[data-testid="stCaptionContainer"] p {{ color: {MUTED}; text-align: right; font-size: 0.9rem; }}
+[data-testid="stCaptionContainer"] {{ opacity: 1; }}
+[data-testid="stCaptionContainer"] p {{ color: {MUTED}; text-align: right; font-size: 0.95rem; }}
 [data-testid="stText"], [data-testid="stText"] > div {{
     white-space: pre-wrap;
     overflow-wrap: anywhere;
@@ -107,6 +119,10 @@ UI_CSS = f"""
 [data-testid="stSidebar"] button[kind="tertiary"] p {{
     text-align: start;
     font-size: 1rem;
+}}
+[data-testid="stSidebar"] button[kind="tertiary"] > div {{
+    justify-content: flex-start;
+    width: 100%;
 }}
 [data-testid="stSidebar"] button[kind="tertiary"]:hover,
 [class*="st-key-desktop-nav-selected-"] button[kind="tertiary"],
@@ -135,6 +151,9 @@ UI_CSS = f"""
     list-style: none;
     padding: 0;
     margin: 1rem 0 1.3rem;
+}}
+.wizard-steps li, .run-stage-list li {{
+    font-family: Vazirmatn, Tahoma, Arial, sans-serif;
 }}
 .wizard-step, .run-stage-list li {{
     display: flex;
@@ -175,19 +194,51 @@ UI_CSS = f"""
     padding-bottom: 0.55rem;
     gap: 1.25rem;
 }}
-.st-key-wizard-methods [role="radiogroup"] {{ gap: 0.35rem; }}
-.st-key-wizard-methods [role="radiogroup"] > label {{
+.st-key-wizard-methods [role="radiogroup"] {{
+    gap: 0.45rem;
+    align-items: stretch;
+}}
+.st-key-wizard-methods [role="radiogroup"] > div {{
+    width: 100%;
     padding: 0.8rem 1rem;
     border: 1px solid transparent;
     border-bottom-color: {OUTLINE};
     border-radius: 0.55rem;
-    align-items: flex-start;
 }}
-.st-key-wizard-methods [role="radiogroup"] > label:has(input:checked) {{
+.st-key-wizard-methods [role="radiogroup"] > div:has(input:checked) {{
     border-color: {ACCENT};
 }}
+.st-key-wizard-methods [data-testid="stRadioOption"] p {{
+    font-size: 1.05rem;
+    font-weight: 650;
+}}
+.st-key-problem-wizard textarea {{
+    unicode-bidi: plaintext;
+    font-size: 1rem;
+    line-height: 1.65;
+}}
+.st-key-problem-wizard textarea::placeholder {{ color: {MUTED}; opacity: 0.85; }}
 .st-key-wizard-actions {{ margin-block: 0.5rem; }}
-.st-key-wizard-actions button[kind="primary"] {{ margin-inline-start: auto; }}
+.st-key-wizard-actions [data-testid="stColumn"]:last-child [data-testid="stVerticalBlock"],
+.st-key-result-actions [data-testid="stColumn"]:last-child [data-testid="stVerticalBlock"] {{
+    align-items: flex-end;
+}}
+.st-key-wizard-actions button[kind="primary"] {{ min-width: 12rem; }}
+.st-key-wizard-review [data-testid="stSubheader"] {{ margin-top: 0.25rem; }}
+.st-key-run-budget, .st-key-run-status {{ margin-block: 0.3rem; }}
+.result-values {{
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Vazirmatn, Tahoma, Arial, sans-serif;
+}}
+.result-values th, .result-values td {{
+    text-align: start;
+    padding: 0.45rem 0.8rem;
+    border-bottom: 1px solid {OUTLINE};
+    overflow-wrap: anywhere;
+}}
+.result-values thead {{ background: {OUTLINE}; }}
+.result-values tbody th {{ font-weight: 500; }}
 button:focus-visible, [role="radio"]:focus-visible, [role="tab"]:focus-visible {{
     outline: 2px solid {ACCENT};
     outline-offset: 2px;
@@ -230,7 +281,7 @@ button[kind="primaryFormSubmit"]:not(:disabled):hover {{ filter: brightness(1.08
     text-align: start;
 }}
 @media (max-width: 767px) {{
-    [data-testid="stSidebar"] {{ display: none; }}
+    [data-testid="stSidebar"], [data-testid="stHeader"] {{ display: none; }}
     .st-key-mobile-navigation {{
         display: flex;
         align-items: center;
@@ -242,8 +293,15 @@ button[kind="primaryFormSubmit"]:not(:disabled):hover {{ filter: brightness(1.08
     .st-key-mobile-navigation button {{ min-height: 2.75rem; }}
     .wizard-steps {{ display: none; }}
     .wizard-steps-compact {{ display: block; color: {MUTED}; }}
-    .st-key-wizard-methods [role="radiogroup"] > label {{ padding: 0.7rem; }}
-    .st-key-wizard-actions button[kind="primary"] {{ width: 100%; }}
+    .st-key-wizard-methods [role="radiogroup"] > div {{ padding: 0.7rem; }}
+    .run-stage-list {{ flex-wrap: wrap; gap: 0.65rem 1rem; }}
+    .run-stage-list li:not(:last-child)::after {{ display: none; }}
+    .run-stage-list li:not(:last-child) {{ flex: 0 1 auto; }}
+    .st-key-wizard-actions button[kind="primary"],
+    .st-key-result-actions button[kind="primary"] {{ width: 100%; }}
+    :is(.st-key-wizard-actions, .st-key-result-actions) [data-testid="stElementContainer"]:has(button[kind="primary"]) {{
+        width: 100%;
+    }}
     .st-key-ux-search-connection {{
         border-inline-start: 0;
         padding-inline-start: 0;
