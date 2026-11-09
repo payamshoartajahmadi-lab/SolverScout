@@ -283,6 +283,8 @@ def _history(attempt, open_problem):
             description, action = st.columns([4, 1], vertical_alignment="center")
             description.text(job.get("problem_summary") or f"اجرای {identifier[:8]}")
             status = JOB_LABELS.get(job["job_status"], "وضعیت نامشخص")
+            if job["job_status"] == "completed" and job.get("solution_status") == "valid_best_found":
+                status = "جواب معتبر پیدا شد"
             method = POLICY_LABELS.get(job.get("policy", {}).get("selection_policy"), "اجرای بهینه‌سازی")
             created_at = job.get("created_at")
             when = datetime.fromisoformat(created_at).astimezone().strftime("%Y/%m/%d · %H:%M") if created_at else ""
