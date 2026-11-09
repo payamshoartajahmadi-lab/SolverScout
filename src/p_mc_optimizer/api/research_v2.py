@@ -12,6 +12,7 @@ from p_mc_optimizer.research.contracts import (
     ResearchLimits, ResearchQueryPlan, ResearchSnapshot, SourceSnapshot,
 )
 from p_mc_optimizer.research.source_policy import SourcePolicy
+from p_mc_optimizer.research.transport import ResearchError
 
 
 SEARCH_FAILURES_REQUIRING_ACTION = {"SEARCH_CONFIGURATION_REQUIRED", "SEARCH_AUTH_FAILED", "SEARCH_RATE_LIMITED"}
@@ -127,15 +128,19 @@ class ResearchJobs:
                 self.repo.update_job(job_id, worker_id=worker_id, phase=phase,
                                      event_type="phase_changed", event_payload={"phase": phase})
 
-        outcome = self.settings.gateway.run(
-            job_id, ResearchQueryPlan.model_validate(plan) if plan else None,
-            SourcePolicy(snapshot.source_snapshot), profile.limits if profile else ResearchLimits(),
-            mode=snapshot.research_mode, max_cache_age_hours=snapshot.max_cache_age_hours, credential=key,
-            cancelled=cancelled, sanitize=self.settings.sanitize, on_phase=phase_changed,
-            resume=bool(job["workflow"].get("resume_count") and (
-                job["workflow"].get("research_error") or {}
-            ).get("error_code") in SEARCH_FAILURES_REQUIRING_ACTION),
-        )
+        try:
+            outcome = self.settings.gateway.run(
+                job_id, ResearchQueryPlan.model_validate(plan) if plan else None,
+                SourcePolicy(snapshot.source_snapshot), profile.limits if profile else ResearchLimits(),
+                mode=snapshot.research_mode, max_cache_age_hours=snapshot.max_cache_age_hours, credential=key,
+                cancelled=cancelled, sanitize=self.settings.sanitize, on_phase=phase_changed,
+                resume=bool(job["workflow"].get("resume_count") and (
+                    job["workflow"].get("research_error") or {}
+                ).get("error_code") in SEARCH_FAILURES_REQUIRING_ACTION),
+            )
+        except ResearchError as exc:
+            status = 409 if exc.code in {"IDEMPOTENCY_CONFLICT", "RESEARCH_ALREADY_RUNNING"} else 422
+            raise ApiError(status, exc.code, "درگاه پژوهش نتوانست درخواست را کامل کند.") from None
         return outcome.model_dump(mode="json")
 
     def router(self):

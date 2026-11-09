@@ -542,3 +542,13 @@ class SelectionDecision(ContractModel):
     scale: FiniteReal | None
     tie_break_order: list[str]
     uncertainty_notes: str | None
+
+
+class PilotMetricV2(PilotMetric):
+    algorithm_id: ImplementationId
+
+
+class SelectionDecisionV2(SelectionDecision):
+    policy_version: Literal["2.0"] = "2.0"
+    selected_algorithm_id: ImplementationId | None
+    metrics: list[PilotMetricV2]

@@ -146,6 +146,24 @@ class Repository:
             connection.execute("BEGIN")
             return self.job_snapshot(connection, self.job_row(connection, job_id))
 
+    def record_research_findings(self, job_id, findings, *, worker_id):
+        if not findings:
+            return
+        with self.transaction() as connection:
+            self.check_worker(self.job_row(connection, job_id), worker_id)
+            for finding in findings:
+                identity = [finding.name.strip().casefold(), (finding.variant or "").strip().casefold()]
+                method_id = hashlib.sha256(json_text(identity).encode("utf-8")).hexdigest()
+                record = as_json(finding)
+                record["method_id"] = method_id
+                record["status"] = "mapped" if finding.implementation_match else "known_only"
+                serialized = json_text(record)
+                record_hash = hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+                connection.execute(
+                    "INSERT OR IGNORE INTO method_records VALUES (?, ?, ?, ?, ?)",
+                    (method_id, str(job_id), record_hash, serialized, utc_now()),
+                )
+
     def get_v2_snapshot(self, job_id) -> dict:
         with self.connect() as connection:
             row = connection.execute(

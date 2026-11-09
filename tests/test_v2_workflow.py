@@ -76,7 +76,14 @@ def model_fixture(request):
     evidence = [row["evidence_id"] for row in context["evidence"]][:1]
     assert bool(evidence) == context["require_web"]
     return completion({
-        "schema_version": "2.0", "status": "ready", "reason_codes": [], "research_findings": [],
+        "schema_version": "2.0", "status": "ready", "reason_codes": [], "research_findings": ([{
+            "name": "Whale Optimization", "variant": None, "claims": [{
+                "text": "Whale Optimization appears in the retrieved methodology.",
+                "status": "supported", "evidence_refs": evidence,
+            }],
+            "uncertainty": "Version is unspecified.",
+            "implementation_match": None, "mapping_reason": "The document names a family only.",
+        }] if evidence else []),
         "uncertainty_notes": None,
         "candidates": [
             {"implementation_id": row["implementation_id"], "config_id": row["config_id"],
@@ -134,7 +141,7 @@ def test_v2_web_and_catalog_policies_use_real_pilot_evidence(tmp_path):
         response = client.put("/settings/search/credential", json={
             **target, "secret": SEARCH_KEY, "storage_mode": "session",
         })
-        updated = checked(response)
+        checked(response)
         assert SEARCH_KEY not in response.text
         updated = checked(client.get("/settings/search"))
         tested = checked(keyed_post(client, "/settings/search/test", {
@@ -166,6 +173,18 @@ def test_v2_web_and_catalog_policies_use_real_pilot_evidence(tmp_path):
         assert len(report["trials"]) == 10
         assert all(row["started_evaluations"] == 500 for row in report["trials"])
         assert report["budget"]["known_started"] == 5502
+        with repo.connect() as db:
+            finding = json.loads(db.execute("SELECT payload FROM method_records WHERE job_id=?", (job_id,)).fetchone()[0])
+        assert finding["status"] == "known_only" and finding["implementation_match"] is None
+        catalog_payload = {**payload, "policy": {**policy, "selection_policy": "catalog_llm_then_pilot"},
+                           "search_profile": None, "source_revision": None}
+        catalog_job, state = run_job(repo, client, address, token, catalog_payload)
+        assert state["job_status"] == "completed", (state, repo.list_events(catalog_job)[-8:])
+        catalog_report = checked(client.get(f"/jobs/{catalog_job}/report"))["report"]
+        assert search.calls[before:] == [QUERY]
+        assert catalog_report["selected_algorithm_id"] == report["selected_algorithm_id"]
+        assert catalog_report["score_for_minimization"] == report["score_for_minimization"]
+        assert catalog_report["budget"]["known_started"] == 5502
         assert {a["kind"] for a in report_body["artifacts"]} >= {"report_html", "research_json", "sources_csv"}
         html_artifact = next(a for a in report_body["artifacts"] if a["kind"] == "report_html")
         html = client.get(f"/artifacts/{html_artifact['artifact_id']}").text

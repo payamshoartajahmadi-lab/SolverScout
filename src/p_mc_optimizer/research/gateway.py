@@ -208,27 +208,29 @@ class ResearchGateway:
         )
 
     def _cached(self, session, plan, max_age, key):
-        found = []
-        seen = set()
+        found = {}
+        deadline = monotonic() + session.limits.active_timeout_seconds
         for payload in self.store.documents_for_policy(key):
             session.check_cancelled()
+            if monotonic() >= deadline:
+                break
             valid = self._valid_cache(payload, session.policy, max_age)
             if valid is None:
                 continue
             doc, text, age = valid
-            queries = [
-                query.text for query in plan.queries if doc.source_id in query.source_ids
-            ] if plan else []
-            if (plan is None or queries) and session.sanitize(text) == text:
-                score = len(set().union(*(keywords(query) for query in queries)).intersection(keywords(text)))
-                found.append((-score, age, doc.requested_url, doc, text, queries))
-        found.sort(key=lambda row: row[:3])
-        for _, age, url, doc, text, queries in found:
-            if url in seen:
+            queries = [query.text for query in plan.queries if doc.source_id in query.source_ids] if plan else []
+            if (plan is not None and not queries) or session.sanitize(text) != text:
                 continue
-            seen.add(url)
-            if len(seen) > session.limits.max_documents:
-                break
+            score = len(set().union(*(keywords(query) for query in queries)).intersection(keywords(text)))
+            if plan is not None and score == 0:
+                continue
+            url = doc.requested_url
+            item = (-score, age, url, doc, text, queries)
+            if url not in found or item[:3] < found[url][:3]:
+                found[url] = item
+            if len(found) > session.limits.max_documents:
+                del found[max(found, key=lambda candidate: found[candidate][:3])]
+        for _, age, url, doc, text, queries in sorted(found.values(), key=lambda row: row[:3]):
             new = doc.model_copy(update={
                 "document_id": digest([session.job_id, url])[:32],
                 "fetch_status": "cached", "cache_age_hours": age,

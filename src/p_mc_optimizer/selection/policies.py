@@ -20,8 +20,10 @@ from p_mc_optimizer.domain.models import (
     ExecutionPolicy,
     ExecutionResult,
     PilotMetric,
+    PilotMetricV2,
     ProblemRevision,
     SelectionDecision,
+    SelectionDecisionV2,
     TrialRequest,
 )
 from p_mc_optimizer.profiling.stages import rng, stable_median
@@ -177,6 +179,7 @@ def rank_pilots(
     pilots: list[tuple[TrialRequest, ExecutionResult]], plan: CandidatePlan, *,
     allowed_configs: dict[str, str] | None = None,
 ) -> SelectionDecision:
+    v2 = allowed_configs is not None
     if allowed_configs is None:
         validate_plan(plan, count=len(plan.candidates))
         allowed_configs = SOLVER_CONFIG_IDS
@@ -213,7 +216,7 @@ def rank_pilots(
             iqr = float(high - low)
             reason = None
         metrics.append(
-            PilotMetric(
+            (PilotMetricV2 if v2 else PilotMetric)(
                 algorithm_id=algorithm_id,
                 eligible=scores is not None,
                 trial_ids=[trial.trial_id for trial, _ in sorted(rows, key=lambda pair: pair[0].replicate_index)],
@@ -228,7 +231,7 @@ def rank_pilots(
         key=lambda metric: (metric.median_score, metric.normalized_iqr, metric.algorithm_id),
     )
     winner = eligible[0].algorithm_id if len(eligible) >= 2 else None
-    return SelectionDecision(
+    return (SelectionDecisionV2 if v2 else SelectionDecision)(
         decision_id=str(uuid4()),
         selection_status="selected" if winner else "insufficient_evidence",
         decision_source="empirical_pilot_selection",
