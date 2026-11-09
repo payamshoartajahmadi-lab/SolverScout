@@ -128,6 +128,66 @@ UI_CSS = f"""
     direction: ltr;
     text-align: left;
 }}
+.wizard-steps, .run-stage-list {{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 1.3rem;
+}}
+.wizard-step, .run-stage-list li {{
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: {MUTED};
+    white-space: nowrap;
+}}
+.wizard-step:not(:last-child), .run-stage-list li:not(:last-child) {{ flex: 1; }}
+.wizard-step:not(:last-child)::after, .run-stage-list li:not(:last-child)::after {{
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: {OUTLINE};
+    margin-inline-start: 0.2rem;
+}}
+.wizard-step-number, .run-stage-marker {{
+    display: grid;
+    place-items: center;
+    width: 1.95rem;
+    height: 1.95rem;
+    flex: 0 0 1.95rem;
+    border-radius: 50%;
+    background: {OUTLINE};
+    color: {TEXT};
+}}
+.wizard-step-current, .run-stage-list [data-state="current"] {{
+    color: {TEXT};
+    font-weight: 700;
+}}
+.wizard-step-current .wizard-step-number, [data-state="current"] .run-stage-marker {{
+    color: {CANVAS};
+    background: {ACCENT};
+}}
+.wizard-steps-compact {{ display: none; }}
+.st-key-wizard-input-types [role="radiogroup"] {{
+    border-bottom: 1px solid {OUTLINE};
+    padding-bottom: 0.55rem;
+    gap: 1.25rem;
+}}
+.st-key-wizard-methods [role="radiogroup"] {{ gap: 0.35rem; }}
+.st-key-wizard-methods [role="radiogroup"] > label {{
+    padding: 0.8rem 1rem;
+    border: 1px solid transparent;
+    border-bottom-color: {OUTLINE};
+    border-radius: 0.55rem;
+    align-items: flex-start;
+}}
+.st-key-wizard-methods [role="radiogroup"] > label:has(input:checked) {{
+    border-color: {ACCENT};
+}}
+.st-key-wizard-actions {{ margin-block: 0.5rem; }}
+.st-key-wizard-actions button[kind="primary"] {{ margin-inline-start: auto; }}
 button:focus-visible, [role="radio"]:focus-visible, [role="tab"]:focus-visible {{
     outline: 2px solid {ACCENT};
     outline-offset: 2px;
@@ -164,7 +224,7 @@ button[kind="primaryFormSubmit"]:not(:disabled):hover {{ filter: brightness(1.08
 }}
 [data-testid="stCode"], [data-testid="stJson"], [data-testid="stDataFrame"],
 [data-testid="stNumberInput"] input, input[type="password"], input[placeholder*="HTTPS"],
-.st-key-new_expr input, .st-key-new_params input, .st-key-wizard-formula input {{
+.st-key-wizard-formula input, .st-key-wizard-parameters input {{
     direction: ltr;
     unicode-bidi: isolate;
     text-align: start;
@@ -180,6 +240,10 @@ button[kind="primaryFormSubmit"]:not(:disabled):hover {{ filter: brightness(1.08
     }}
     .st-key-mobile-navigation p {{ font-size: 1.05rem; }}
     .st-key-mobile-navigation button {{ min-height: 2.75rem; }}
+    .wizard-steps {{ display: none; }}
+    .wizard-steps-compact {{ display: block; color: {MUTED}; }}
+    .st-key-wizard-methods [role="radiogroup"] > label {{ padding: 0.7rem; }}
+    .st-key-wizard-actions button[kind="primary"] {{ width: 100%; }}
     .st-key-ux-search-connection {{
         border-inline-start: 0;
         padding-inline-start: 0;
