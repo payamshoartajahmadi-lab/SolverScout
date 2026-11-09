@@ -218,6 +218,7 @@ UI_CSS = f"""
     line-height: 1.65;
 }}
 .st-key-problem-wizard textarea::placeholder {{ color: {MUTED}; opacity: 0.85; }}
+.st-key-clarification-answers input {{ unicode-bidi: plaintext; }}
 .st-key-wizard-actions {{ margin-block: 0.5rem; }}
 .st-key-wizard-actions [data-testid="stColumn"]:last-child [data-testid="stVerticalBlock"],
 .st-key-result-actions [data-testid="stColumn"]:last-child [data-testid="stVerticalBlock"] {{

@@ -28,6 +28,12 @@ def _escape(segment: str) -> str:
     return segment.replace("~", "~0").replace("/", "~1")
 
 
+def _relative_path(pointer: str) -> str:
+    if pointer.startswith("/extracted_fields/"):
+        return pointer.removeprefix("/extracted_fields")
+    return pointer
+
+
 def _pointer_value(root: dict, pointer: str, *, allow_unknown: bool = False) -> Any:
     if not pointer.startswith("/") or len(pointer) > 300:
         raise RoleOutputError("field_path: expected a JSON Pointer to extracted_fields")
@@ -135,32 +141,59 @@ def convert_formulation(
     if len(set(names)) != len(names):
         raise RoleOutputError("extracted_fields.parameters: names must be unique")
 
+    ambiguities = []
+    requested = set()
+    unresolved_bounds = set()
+    for question in dto.clarification_questions:
+        if not question.field_paths or not question.question_fa.strip():
+            raise RoleOutputError("clarification_questions: include paths and a question")
+        paths = list(dict.fromkeys(_relative_path(path) for path in question.field_paths))
+        for path in paths:
+            value = _pointer_value(extracted, path, allow_unknown=True)
+            if (value is None and question.reason in {"ambiguous", "contradictory"}
+                    and re.fullmatch(r"/variables/\d+/(lower|upper)", path)):
+                unresolved_bounds.add(path)
+        requested.update(paths)
+        ambiguities.append({
+            "question_id": str(uuid4()),
+            "field_path": paths[0],
+            "field_paths": paths,
+            "question_fa": question.question_fa,
+            "reason": question.reason,
+        })
+
     source_map = []
     supported_paths = set()
     evidence_refs = set(sources)
     for item in dto.source_map:
-        value = _pointer_value(extracted, item.field_path)
-        if value is None:
+        path = _relative_path(item.field_path)
+        value = _pointer_value(extracted, path)
+        if value is None and path not in unresolved_bounds:
             raise RoleOutputError("source_map: evidence cannot populate a null field")
         if item.source_ref not in sources:
             raise RoleOutputError("source_map.source_ref: unknown source identifier")
         matches = _find_quotes(sources[item.source_ref], item.quote)
         if not matches:
             raise RoleOutputError("source_map.quote: quote does not occur in source")
-        _verify_numeric_evidence(item.field_path, item.quote, value)
-        supported_paths.add(item.field_path)
-        evidence_refs.add(f"field:{item.field_path}")
+        if value is None:
+            # Competing quotes explain the question. They do not establish a bound.
+            continue
+        _verify_numeric_evidence(path, item.quote, value)
+        supported_paths.add(path)
+        evidence_refs.add(f"field:{path}")
         source_map.append({
-            "draft_field_path": item.field_path,
-            "problem_field_path": _problem_pointer(item.field_path, extracted),
+            "draft_field_path": path,
+            "problem_field_path": _problem_pointer(path, extracted),
             "source_ref": item.source_ref,
             "quote": item.quote,
             "matches": matches,
             "match_count": len(matches),
         })
 
+    normalizations = []
     for item in dto.normalizations:
-        value = _pointer_value(extracted, item.field_path)
+        path = _relative_path(item.field_path)
+        value = _pointer_value(extracted, path)
         normalized = str(value).lower() if isinstance(value, bool) else str(value)
         normalized_matches = item.normalized_text == normalized
         if type(value) in (int, float) and _NUMBER.fullmatch(item.normalized_text):
@@ -176,13 +209,14 @@ def convert_formulation(
         ]
         if not any(matches for _, matches in matching_sources):
             raise RoleOutputError("normalizations.source_text: quote does not occur in sources")
-        _verify_numeric_evidence(item.field_path, item.source_text, value)
-        supported_paths.add(item.field_path)
+        _verify_numeric_evidence(path, item.source_text, value)
+        supported_paths.add(path)
+        normalizations.append(item.model_dump(mode="json") | {"field_path": path})
         for source_ref, matches in matching_sources:
             if matches:
                 source_map.append({
-                    "draft_field_path": item.field_path,
-                    "problem_field_path": _problem_pointer(item.field_path, extracted),
+                    "draft_field_path": path,
+                    "problem_field_path": _problem_pointer(path, extracted),
                     "source_ref": source_ref,
                     "quote": item.source_text,
                     "matches": matches,
@@ -193,21 +227,7 @@ def convert_formulation(
     if unwitnessed:
         raise RoleOutputError(*(f"{path}: source evidence is required" for path in sorted(unwitnessed)))
 
-    ambiguities = []
-    for question in dto.clarification_questions:
-        if not question.field_paths or not question.question_fa.strip():
-            raise RoleOutputError("clarification_questions: include paths and a question")
-        for path in question.field_paths:
-            _pointer_value(extracted, path, allow_unknown=True)
-            ambiguities.append({
-                "question_id": str(uuid4()),
-                "field_path": path,
-                "question_fa": question.question_fa,
-                "reason": question.reason,
-            })
-
     missing = [path for path in _required_paths(extracted) if _pointer_value(extracted, path) is None]
-    requested = {item["field_path"] for item in ambiguities}
     for path in missing:
         if path not in requested:
             ambiguities.append({
@@ -258,6 +278,6 @@ def convert_formulation(
         "ambiguities": ambiguities,
         "extracted_fields": extracted,
         "source_map": source_map,
-        "normalizations": [item.model_dump(mode="json") for item in dto.normalizations],
+        "normalizations": normalizations,
         "unsupported_features": unsupported,
     }

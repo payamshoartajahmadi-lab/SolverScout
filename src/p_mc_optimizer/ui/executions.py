@@ -1,6 +1,7 @@
 """Execution history, live progress and recovery for the local job API."""
 from __future__ import annotations
 
+import re
 from datetime import datetime
 
 import streamlit as st
@@ -54,6 +55,11 @@ BLOCK_LABELS = {
     "RESEARCH_EVIDENCE_INSUFFICIENT": "شواهد کافی برای ادامهٔ پژوهش پیدا نشد.",
 }
 HISTORY_PAGE_SIZE = 50
+_BOUND_NUMBER = r"[+\-−]?(?:\d+(?:[.٫]\d*)?|[.٫]\d+)(?:[eE][+\-−]?\d+)?"
+_COMPARISON = r"\s*(?:<=|>=|≤|≥|<|>)\s*"
+_BOUND_CHAIN = re.compile(
+    rf"(?<![\w.]){_BOUND_NUMBER}{_COMPARISON}[A-Za-z_]\w*{_COMPARISON}{_BOUND_NUMBER}(?![\w.])"
+)
 
 
 def _count(value):
@@ -168,11 +174,15 @@ def _correction_form(attempt, job_id, job, draft):
     questions = draft.get("ambiguities") or []
     if questions:
         st.subheader("برای ادامه به این پرسش‌ها پاسخ دهید")
-        st.caption("می‌توانید هر پرسشی را که پاسخ آن را می‌دانید تکمیل کنید.")
-        with st.form(f"answer-text:{job_id}:{draft['draft_version']}"):
+        if any(question["reason"] == "contradictory" for question in questions):
+            st.caption("بازهٔ درست را برای هر متغیر بنویسید و هر دو کران آن را در پاسخ بیاورید.")
+        else:
+            st.caption("می‌توانید هر پرسشی را که پاسخ آن را می‌دانید تکمیل کنید.")
+        with st.container(key="clarification-answers"), st.form(f"answer-text:{job_id}:{draft['draft_version']}"):
             answers = []
             for index, question in enumerate(questions, start=1):
-                st.text(question["question_fa"])
+                # Keep inequality signs and negative bounds in reading order inside Persian text.
+                st.text(_BOUND_CHAIN.sub(lambda match: f"\u2066{match[0]}\u2069", question["question_fa"]))
                 answer = st.text_input(f"پاسخ پرسش {_count(index)}", max_chars=16000,
                                        key=f"answer:{job_id}:{draft['draft_version']}:{question['question_id']}")
                 if answer.strip():
