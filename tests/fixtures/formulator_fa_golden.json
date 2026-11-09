@@ -1,0 +1,100 @@
+{
+  "label": "TEST FIXTURE — hand-authored expected Persian formulation",
+  "source_ref": "input:text",
+  "original_text": "متغیرهای حقیقی x و y هر دو در بازهٔ [-۵,۵] هستند. تابع x**2+y**2 را کمینه کن؛ مسئله قطعی و بدون قید عمومی است.",
+  "response": {
+    "extracted_fields": {
+      "variables": [
+        {
+          "name": "x",
+          "label_fa": null,
+          "type": "real",
+          "lower": -5,
+          "upper": 5,
+          "unit": null
+        },
+        {
+          "name": "y",
+          "label_fa": null,
+          "type": "real",
+          "lower": -5,
+          "upper": 5,
+          "unit": null
+        }
+      ],
+      "objective": {
+        "sense": "minimize",
+        "source_kind": "expression",
+        "expression": "x**2+y**2",
+        "function_id": null,
+        "function_version": null,
+        "unit": null
+      },
+      "parameters": [],
+      "constraints": [],
+      "deterministic": true
+    },
+    "source_map": [
+      {
+        "field_path": "/variables/0/name",
+        "source_ref": "input:text",
+        "quote": "x"
+      },
+      {
+        "field_path": "/variables/0/type",
+        "source_ref": "input:text",
+        "quote": "حقیقی"
+      },
+      {
+        "field_path": "/variables/0/lower",
+        "source_ref": "input:text",
+        "quote": "-۵"
+      },
+      {
+        "field_path": "/variables/0/upper",
+        "source_ref": "input:text",
+        "quote": "۵"
+      },
+      {
+        "field_path": "/variables/1/name",
+        "source_ref": "input:text",
+        "quote": "y"
+      },
+      {
+        "field_path": "/variables/1/type",
+        "source_ref": "input:text",
+        "quote": "حقیقی"
+      },
+      {
+        "field_path": "/variables/1/lower",
+        "source_ref": "input:text",
+        "quote": "-۵"
+      },
+      {
+        "field_path": "/variables/1/upper",
+        "source_ref": "input:text",
+        "quote": "۵"
+      },
+      {
+        "field_path": "/objective/sense",
+        "source_ref": "input:text",
+        "quote": "کمینه"
+      },
+      {
+        "field_path": "/objective/expression",
+        "source_ref": "input:text",
+        "quote": "x**2+y**2"
+      }
+    ],
+    "clarification_questions": [],
+    "unsupported_features": [],
+    "normalizations": [
+      {
+        "field_path": "/variables/0/lower",
+        "source_text": "-۵",
+        "normalized_text": "-5",
+        "reason_fa": "تبدیل رقم فارسی به لاتین"
+      }
+    ]
+  }
+}
