@@ -1,0 +1,410 @@
+{
+  "$defs": {
+    "ExecutionPolicyInput": {
+      "additionalProperties": false,
+      "properties": {
+        "policy_version": {
+          "const": "1.0",
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "portfolio_id": {
+          "const": "continuous_v1",
+          "title": "Portfolio Id",
+          "type": "string"
+        },
+        "selection_policy": {
+          "enum": [
+            "fixed_solver",
+            "random_solver",
+            "rule_based",
+            "llm_only",
+            "pilot_only",
+            "llm_shortlist_then_pilot"
+          ],
+          "title": "Selection Policy",
+          "type": "string"
+        },
+        "fixed_algorithm_id": {
+          "anyOf": [
+            {
+              "enum": [
+                "abc.original",
+                "cma_es.mealpy",
+                "de.original",
+                "pso.original"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Fixed Algorithm Id"
+        },
+        "max_objective_evaluations": {
+          "maximum": 1000000,
+          "minimum": 1002,
+          "title": "Max Objective Evaluations",
+          "type": "integer"
+        },
+        "max_compute_seconds": {
+          "maximum": 3600,
+          "minimum": 11,
+          "title": "Max Compute Seconds",
+          "type": "integer"
+        },
+        "master_seed": {
+          "exclusiveMaximum": 4294967296,
+          "minimum": 0,
+          "title": "Master Seed",
+          "type": "integer"
+        },
+        "explain_via_llm": {
+          "title": "Explain Via Llm",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "policy_version",
+        "portfolio_id",
+        "selection_policy",
+        "fixed_algorithm_id",
+        "max_objective_evaluations",
+        "max_compute_seconds",
+        "master_seed",
+        "explain_via_llm"
+      ],
+      "title": "ExecutionPolicyInput",
+      "type": "object"
+    },
+    "ExpressionSource": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "expression",
+          "title": "Kind",
+          "type": "string"
+        },
+        "expression": {
+          "title": "Expression",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "expression"
+      ],
+      "title": "ExpressionSource",
+      "type": "object"
+    },
+    "NaturalLanguageInput": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "natural_language",
+          "title": "Kind",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 16000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "text"
+      ],
+      "title": "NaturalLanguageInput",
+      "type": "object"
+    },
+    "Objective": {
+      "additionalProperties": false,
+      "properties": {
+        "sense": {
+          "enum": [
+            "minimize",
+            "maximize"
+          ],
+          "title": "Sense",
+          "type": "string"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "source": {
+          "discriminator": {
+            "mapping": {
+              "expression": "#/$defs/ExpressionSource",
+              "registered_function": "#/$defs/RegisteredFunctionSource"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ExpressionSource"
+            },
+            {
+              "$ref": "#/$defs/RegisteredFunctionSource"
+            }
+          ],
+          "title": "Source"
+        }
+      },
+      "required": [
+        "sense",
+        "source"
+      ],
+      "title": "Objective",
+      "type": "object"
+    },
+    "ProblemInput": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "variables": {
+          "items": {
+            "$ref": "#/$defs/Variable"
+          },
+          "maxItems": 30,
+          "minItems": 2,
+          "title": "Variables",
+          "type": "array"
+        },
+        "objective": {
+          "$ref": "#/$defs/Objective"
+        },
+        "parameters": {
+          "patternProperties": {
+            "^[A-Za-z][A-Za-z0-9_]{0,31}$": {
+              "type": "number"
+            }
+          },
+          "title": "Parameters",
+          "type": "object"
+        },
+        "constraints": {
+          "items": {},
+          "maxItems": 0,
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deterministic": {
+          "const": true,
+          "title": "Deterministic",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schema_version",
+        "variables",
+        "objective",
+        "parameters",
+        "constraints",
+        "deterministic"
+      ],
+      "title": "ProblemInput",
+      "type": "object"
+    },
+    "ProblemRevisionInput": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "problem_revision",
+          "title": "Kind",
+          "type": "string"
+        },
+        "problem_revision_id": {
+          "title": "Problem Revision Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "problem_revision_id"
+      ],
+      "title": "ProblemRevisionInput",
+      "type": "object"
+    },
+    "ProfileReference": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "revision": {
+          "exclusiveMinimum": 0,
+          "title": "Revision",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "profile_id",
+        "revision"
+      ],
+      "title": "ProfileReference",
+      "type": "object"
+    },
+    "RegisteredFunctionSource": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "registered_function",
+          "title": "Kind",
+          "type": "string"
+        },
+        "function_id": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}$",
+          "title": "Function Id",
+          "type": "string"
+        },
+        "function_version": {
+          "title": "Function Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "function_id",
+        "function_version"
+      ],
+      "title": "RegisteredFunctionSource",
+      "type": "object"
+    },
+    "StructuredProblemInput": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "structured_problem",
+          "title": "Kind",
+          "type": "string"
+        },
+        "problem": {
+          "$ref": "#/$defs/ProblemInput"
+        }
+      },
+      "required": [
+        "kind",
+        "problem"
+      ],
+      "title": "StructuredProblemInput",
+      "type": "object"
+    },
+    "Variable": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}$",
+          "title": "Name",
+          "type": "string"
+        },
+        "label_fa": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Fa"
+        },
+        "type": {
+          "const": "real",
+          "title": "Type",
+          "type": "string"
+        },
+        "lower": {
+          "title": "Lower",
+          "type": "number"
+        },
+        "upper": {
+          "title": "Upper",
+          "type": "number"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "lower",
+        "upper"
+      ],
+      "title": "Variable",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "input": {
+      "discriminator": {
+        "mapping": {
+          "natural_language": "#/$defs/NaturalLanguageInput",
+          "problem_revision": "#/$defs/ProblemRevisionInput",
+          "structured_problem": "#/$defs/StructuredProblemInput"
+        },
+        "propertyName": "kind"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/NaturalLanguageInput"
+        },
+        {
+          "$ref": "#/$defs/StructuredProblemInput"
+        },
+        {
+          "$ref": "#/$defs/ProblemRevisionInput"
+        }
+      ],
+      "title": "Input"
+    },
+    "policy": {
+      "$ref": "#/$defs/ExecutionPolicyInput"
+    },
+    "llm_profile": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ProfileReference"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "input",
+    "policy",
+    "llm_profile"
+  ],
+  "title": "CreateJob",
+  "type": "object"
+}

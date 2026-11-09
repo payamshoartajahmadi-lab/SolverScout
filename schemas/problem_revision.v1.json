@@ -1,0 +1,352 @@
+{
+  "$defs": {
+    "ExpressionSource": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "expression",
+          "title": "Kind",
+          "type": "string"
+        },
+        "expression": {
+          "title": "Expression",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "expression"
+      ],
+      "title": "ExpressionSource",
+      "type": "object"
+    },
+    "Objective": {
+      "additionalProperties": false,
+      "properties": {
+        "sense": {
+          "enum": [
+            "minimize",
+            "maximize"
+          ],
+          "title": "Sense",
+          "type": "string"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "source": {
+          "discriminator": {
+            "mapping": {
+              "expression": "#/$defs/ExpressionSource",
+              "registered_function": "#/$defs/RegisteredFunctionSource"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ExpressionSource"
+            },
+            {
+              "$ref": "#/$defs/RegisteredFunctionSource"
+            }
+          ],
+          "title": "Source"
+        }
+      },
+      "required": [
+        "sense",
+        "source"
+      ],
+      "title": "Objective",
+      "type": "object"
+    },
+    "ProblemSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "variables": {
+          "items": {
+            "$ref": "#/$defs/Variable"
+          },
+          "maxItems": 30,
+          "minItems": 2,
+          "title": "Variables",
+          "type": "array"
+        },
+        "objective": {
+          "$ref": "#/$defs/Objective"
+        },
+        "parameters": {
+          "patternProperties": {
+            "^[A-Za-z][A-Za-z0-9_]{0,31}$": {
+              "type": "number"
+            }
+          },
+          "title": "Parameters",
+          "type": "object"
+        },
+        "constraints": {
+          "items": {},
+          "maxItems": 0,
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deterministic": {
+          "const": true,
+          "title": "Deterministic",
+          "type": "boolean"
+        },
+        "source_map": {
+          "items": {
+            "$ref": "#/$defs/SourceEvidence"
+          },
+          "title": "Source Map",
+          "type": "array"
+        }
+      },
+      "required": [
+        "schema_version",
+        "variables",
+        "objective",
+        "parameters",
+        "constraints",
+        "deterministic",
+        "source_map"
+      ],
+      "title": "ProblemSpec",
+      "type": "object"
+    },
+    "RegisteredFunctionSource": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "registered_function",
+          "title": "Kind",
+          "type": "string"
+        },
+        "function_id": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}$",
+          "title": "Function Id",
+          "type": "string"
+        },
+        "function_version": {
+          "title": "Function Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "function_id",
+        "function_version"
+      ],
+      "title": "RegisteredFunctionSource",
+      "type": "object"
+    },
+    "SourceEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "draft_field_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Draft Field Path"
+        },
+        "problem_field_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Problem Field Path"
+        },
+        "source_ref": {
+          "title": "Source Ref",
+          "type": "string"
+        },
+        "quote": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quote"
+        },
+        "matches": {
+          "items": {
+            "$ref": "#/$defs/SourceMatch"
+          },
+          "title": "Matches",
+          "type": "array"
+        },
+        "match_count": {
+          "default": 0,
+          "title": "Match Count",
+          "type": "integer"
+        },
+        "source_sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Sha256"
+        }
+      },
+      "required": [
+        "problem_field_path",
+        "source_ref"
+      ],
+      "title": "SourceEvidence",
+      "type": "object"
+    },
+    "SourceMatch": {
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "SourceMatch",
+      "type": "object"
+    },
+    "Variable": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}$",
+          "title": "Name",
+          "type": "string"
+        },
+        "label_fa": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Fa"
+        },
+        "type": {
+          "const": "real",
+          "title": "Type",
+          "type": "string"
+        },
+        "lower": {
+          "title": "Lower",
+          "type": "number"
+        },
+        "upper": {
+          "title": "Upper",
+          "type": "number"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "lower",
+        "upper"
+      ],
+      "title": "Variable",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "problem_revision_id": {
+      "title": "Problem Revision Id",
+      "type": "string"
+    },
+    "problem_id": {
+      "title": "Problem Id",
+      "type": "string"
+    },
+    "revision_no": {
+      "exclusiveMinimum": 0,
+      "title": "Revision No",
+      "type": "integer"
+    },
+    "spec": {
+      "$ref": "#/$defs/ProblemSpec"
+    },
+    "problem_math_hash": {
+      "title": "Problem Math Hash",
+      "type": "string"
+    },
+    "evaluation_contract_hash": {
+      "title": "Evaluation Contract Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "problem_revision_id",
+    "problem_id",
+    "revision_no",
+    "spec",
+    "problem_math_hash",
+    "evaluation_contract_hash",
+    "created_at"
+  ],
+  "title": "ProblemRevision",
+  "type": "object"
+}

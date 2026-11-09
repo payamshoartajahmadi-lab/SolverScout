@@ -1,0 +1,417 @@
+{
+  "$defs": {
+    "ClarificationQuestion": {
+      "additionalProperties": false,
+      "properties": {
+        "field_paths": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "reason": {
+          "enum": [
+            "missing",
+            "ambiguous",
+            "contradictory"
+          ],
+          "type": "string"
+        },
+        "question_fa": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "field_paths",
+        "reason",
+        "question_fa"
+      ],
+      "type": "object"
+    },
+    "ConstraintDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "source_text": {
+          "type": "string"
+        },
+        "expression": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "source_text",
+        "expression"
+      ],
+      "type": "object"
+    },
+    "FieldEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "field_path": {
+          "type": "string"
+        },
+        "source_ref": {
+          "type": "string"
+        },
+        "quote": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "field_path",
+        "source_ref",
+        "quote"
+      ],
+      "type": "object"
+    },
+    "Normalization": {
+      "additionalProperties": false,
+      "properties": {
+        "field_path": {
+          "type": "string"
+        },
+        "source_text": {
+          "type": "string"
+        },
+        "normalized_text": {
+          "type": "string"
+        },
+        "reason_fa": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "field_path",
+        "source_text",
+        "normalized_text",
+        "reason_fa"
+      ],
+      "type": "object"
+    },
+    "ObjectiveDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "sense": {
+          "anyOf": [
+            {
+              "enum": [
+                "minimize",
+                "maximize"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "expression",
+                "registered_function"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expression": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "function_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "function_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sense",
+        "source_kind",
+        "expression",
+        "function_id",
+        "function_version",
+        "unit"
+      ],
+      "type": "object"
+    },
+    "ParameterDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "type": "object"
+    },
+    "PartialProblemSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "variables": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/VariableDraft"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "objective": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ObjectiveDraft"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "parameters": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ParameterDraft"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "constraints": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ConstraintDraft"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "deterministic": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "variables",
+        "objective",
+        "parameters",
+        "constraints",
+        "deterministic"
+      ],
+      "type": "object"
+    },
+    "UnsupportedFeature": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "description_fa": {
+          "type": "string"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "description_fa",
+        "evidence_refs"
+      ],
+      "type": "object"
+    },
+    "VariableDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "label_fa": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": {
+          "anyOf": [
+            {
+              "enum": [
+                "real",
+                "integer",
+                "binary",
+                "other"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lower": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "upper": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "label_fa",
+        "type",
+        "lower",
+        "upper",
+        "unit"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "extracted_fields": {
+      "$ref": "#/$defs/PartialProblemSpec"
+    },
+    "source_map": {
+      "items": {
+        "$ref": "#/$defs/FieldEvidence"
+      },
+      "type": "array"
+    },
+    "clarification_questions": {
+      "items": {
+        "$ref": "#/$defs/ClarificationQuestion"
+      },
+      "type": "array"
+    },
+    "unsupported_features": {
+      "items": {
+        "$ref": "#/$defs/UnsupportedFeature"
+      },
+      "type": "array"
+    },
+    "normalizations": {
+      "items": {
+        "$ref": "#/$defs/Normalization"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "extracted_fields",
+    "source_map",
+    "clarification_questions",
+    "unsupported_features",
+    "normalizations"
+  ],
+  "type": "object"
+}

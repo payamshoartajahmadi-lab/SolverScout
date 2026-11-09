@@ -1,0 +1,204 @@
+{
+  "$defs": {
+    "ExpressionSource": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "expression",
+          "title": "Kind",
+          "type": "string"
+        },
+        "expression": {
+          "title": "Expression",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "expression"
+      ],
+      "title": "ExpressionSource",
+      "type": "object"
+    },
+    "Objective": {
+      "additionalProperties": false,
+      "properties": {
+        "sense": {
+          "enum": [
+            "minimize",
+            "maximize"
+          ],
+          "title": "Sense",
+          "type": "string"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "source": {
+          "discriminator": {
+            "mapping": {
+              "expression": "#/$defs/ExpressionSource",
+              "registered_function": "#/$defs/RegisteredFunctionSource"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ExpressionSource"
+            },
+            {
+              "$ref": "#/$defs/RegisteredFunctionSource"
+            }
+          ],
+          "title": "Source"
+        }
+      },
+      "required": [
+        "sense",
+        "source"
+      ],
+      "title": "Objective",
+      "type": "object"
+    },
+    "RegisteredFunctionSource": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "registered_function",
+          "title": "Kind",
+          "type": "string"
+        },
+        "function_id": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}$",
+          "title": "Function Id",
+          "type": "string"
+        },
+        "function_version": {
+          "title": "Function Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "function_id",
+        "function_version"
+      ],
+      "title": "RegisteredFunctionSource",
+      "type": "object"
+    },
+    "Variable": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}$",
+          "title": "Name",
+          "type": "string"
+        },
+        "label_fa": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Fa"
+        },
+        "type": {
+          "const": "real",
+          "title": "Type",
+          "type": "string"
+        },
+        "lower": {
+          "title": "Lower",
+          "type": "number"
+        },
+        "upper": {
+          "title": "Upper",
+          "type": "number"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "lower",
+        "upper"
+      ],
+      "title": "Variable",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "variables": {
+      "items": {
+        "$ref": "#/$defs/Variable"
+      },
+      "maxItems": 30,
+      "minItems": 2,
+      "title": "Variables",
+      "type": "array"
+    },
+    "objective": {
+      "$ref": "#/$defs/Objective"
+    },
+    "parameters": {
+      "patternProperties": {
+        "^[A-Za-z][A-Za-z0-9_]{0,31}$": {
+          "type": "number"
+        }
+      },
+      "title": "Parameters",
+      "type": "object"
+    },
+    "constraints": {
+      "items": {},
+      "maxItems": 0,
+      "title": "Constraints",
+      "type": "array"
+    },
+    "deterministic": {
+      "const": true,
+      "title": "Deterministic",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "variables",
+    "objective",
+    "parameters",
+    "constraints",
+    "deterministic"
+  ],
+  "title": "ProblemInput",
+  "type": "object"
+}

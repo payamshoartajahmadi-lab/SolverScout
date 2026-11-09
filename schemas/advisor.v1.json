@@ -1,0 +1,55 @@
+{
+  "$defs": {
+    "Candidate": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm_id": {
+          "type": "string"
+        },
+        "config_id": {
+          "type": "string"
+        },
+        "rationale_fa": {
+          "type": "string"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "algorithm_id",
+        "config_id",
+        "rationale_fa",
+        "evidence_refs"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/Candidate"
+      },
+      "type": "array"
+    },
+    "uncertainty_notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "candidates",
+    "uncertainty_notes"
+  ],
+  "type": "object"
+}

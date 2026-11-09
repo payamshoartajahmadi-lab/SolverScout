@@ -1,0 +1,37 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "summary_fa": {
+      "type": "string"
+    },
+    "selection_explanation_fa": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "limitations_fa": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "summary_fa",
+    "selection_explanation_fa",
+    "limitations_fa",
+    "evidence_refs"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,157 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "title": "Job Id",
+      "type": "string"
+    },
+    "execution_id": {
+      "title": "Execution Id",
+      "type": "string"
+    },
+    "trial_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Trial Id"
+    },
+    "attempt_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Attempt Id"
+    },
+    "stage_execution_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Stage Execution Id"
+    },
+    "evaluation_id": {
+      "title": "Evaluation Id",
+      "type": "string"
+    },
+    "sequence": {
+      "exclusiveMinimum": 0,
+      "title": "Sequence",
+      "type": "integer"
+    },
+    "phase": {
+      "enum": [
+        "preflight",
+        "profile",
+        "pilot",
+        "main",
+        "verification"
+      ],
+      "title": "Phase",
+      "type": "string"
+    },
+    "evaluation_kind": {
+      "enum": [
+        "objective",
+        "library_setup"
+      ],
+      "title": "Evaluation Kind",
+      "type": "string"
+    },
+    "x": {
+      "items": {
+        "type": "number"
+      },
+      "title": "X",
+      "type": "array"
+    },
+    "objective_raw": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Objective Raw"
+    },
+    "score_for_minimization": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Score For Minimization"
+    },
+    "status": {
+      "enum": [
+        "successful",
+        "failed"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "evaluation_seconds": {
+      "ge": 0,
+      "title": "Evaluation Seconds",
+      "type": "number"
+    },
+    "problem_math_hash": {
+      "title": "Problem Math Hash",
+      "type": "string"
+    },
+    "evaluator_version": {
+      "const": "1.0",
+      "title": "Evaluator Version",
+      "type": "string"
+    },
+    "error_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error Code"
+    }
+  },
+  "required": [
+    "job_id",
+    "execution_id",
+    "trial_id",
+    "attempt_id",
+    "stage_execution_id",
+    "evaluation_id",
+    "sequence",
+    "phase",
+    "evaluation_kind",
+    "x",
+    "objective_raw",
+    "score_for_minimization",
+    "status",
+    "evaluation_seconds",
+    "problem_math_hash",
+    "evaluator_version"
+  ],
+  "title": "EvaluationRecord",
+  "type": "object"
+}

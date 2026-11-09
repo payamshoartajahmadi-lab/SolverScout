@@ -1,0 +1,542 @@
+{
+  "$defs": {
+    "EvaluationRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "job_id": {
+          "title": "Job Id",
+          "type": "string"
+        },
+        "execution_id": {
+          "title": "Execution Id",
+          "type": "string"
+        },
+        "trial_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Trial Id"
+        },
+        "attempt_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Attempt Id"
+        },
+        "stage_execution_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Stage Execution Id"
+        },
+        "evaluation_id": {
+          "title": "Evaluation Id",
+          "type": "string"
+        },
+        "sequence": {
+          "exclusiveMinimum": 0,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "phase": {
+          "enum": [
+            "preflight",
+            "profile",
+            "pilot",
+            "main",
+            "verification"
+          ],
+          "title": "Phase",
+          "type": "string"
+        },
+        "evaluation_kind": {
+          "enum": [
+            "objective",
+            "library_setup"
+          ],
+          "title": "Evaluation Kind",
+          "type": "string"
+        },
+        "x": {
+          "items": {
+            "type": "number"
+          },
+          "title": "X",
+          "type": "array"
+        },
+        "objective_raw": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Objective Raw"
+        },
+        "score_for_minimization": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Score For Minimization"
+        },
+        "status": {
+          "enum": [
+            "successful",
+            "failed"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "evaluation_seconds": {
+          "ge": 0,
+          "title": "Evaluation Seconds",
+          "type": "number"
+        },
+        "problem_math_hash": {
+          "title": "Problem Math Hash",
+          "type": "string"
+        },
+        "evaluator_version": {
+          "const": "1.0",
+          "title": "Evaluator Version",
+          "type": "string"
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Code"
+        }
+      },
+      "required": [
+        "job_id",
+        "execution_id",
+        "trial_id",
+        "attempt_id",
+        "stage_execution_id",
+        "evaluation_id",
+        "sequence",
+        "phase",
+        "evaluation_kind",
+        "x",
+        "objective_raw",
+        "score_for_minimization",
+        "status",
+        "evaluation_seconds",
+        "problem_math_hash",
+        "evaluator_version"
+      ],
+      "title": "EvaluationRecord",
+      "type": "object"
+    },
+    "ExecutionError": {
+      "additionalProperties": false,
+      "properties": {
+        "error_code": {
+          "title": "Error Code",
+          "type": "string"
+        },
+        "message_fa": {
+          "title": "Message Fa",
+          "type": "string"
+        },
+        "technical_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Technical Type"
+        },
+        "technical_message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Technical Message"
+        }
+      },
+      "required": [
+        "error_code",
+        "message_fa"
+      ],
+      "title": "ExecutionError",
+      "type": "object"
+    },
+    "ProblemProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "n_variables": {
+          "title": "N Variables",
+          "type": "integer"
+        },
+        "lower": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Lower",
+          "type": "array"
+        },
+        "upper": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Upper",
+          "type": "array"
+        },
+        "widths": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Widths",
+          "type": "array"
+        },
+        "objective_sense": {
+          "enum": [
+            "minimize",
+            "maximize"
+          ],
+          "title": "Objective Sense",
+          "type": "string"
+        },
+        "sample_count": {
+          "title": "Sample Count",
+          "type": "integer"
+        },
+        "objective_scale": {
+          "title": "Objective Scale",
+          "type": "number"
+        },
+        "score_min": {
+          "title": "Score Min",
+          "type": "number"
+        },
+        "score_median": {
+          "title": "Score Median",
+          "type": "number"
+        },
+        "score_max": {
+          "title": "Score Max",
+          "type": "number"
+        },
+        "normalized_iqr": {
+          "title": "Normalized Iqr",
+          "type": "number"
+        },
+        "normalized_std": {
+          "title": "Normalized Std",
+          "type": "number"
+        },
+        "mean_evaluation_seconds": {
+          "title": "Mean Evaluation Seconds",
+          "type": "number"
+        },
+        "sample_artifact_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sample Artifact Id"
+        }
+      },
+      "required": [
+        "n_variables",
+        "lower",
+        "upper",
+        "widths",
+        "objective_sense",
+        "sample_count",
+        "objective_scale",
+        "score_min",
+        "score_median",
+        "score_max",
+        "normalized_iqr",
+        "normalized_std",
+        "mean_evaluation_seconds"
+      ],
+      "title": "ProblemProfile",
+      "type": "object"
+    },
+    "ValidationResult": {
+      "additionalProperties": false,
+      "properties": {
+        "validation_status": {
+          "enum": [
+            "pending",
+            "passed",
+            "failed",
+            "incomplete",
+            "not_applicable"
+          ],
+          "title": "Validation Status",
+          "type": "string"
+        },
+        "reference_evaluation_id": {
+          "title": "Reference Evaluation Id",
+          "type": "string"
+        },
+        "reference_objective_raw": {
+          "title": "Reference Objective Raw",
+          "type": "number"
+        },
+        "repeat_objective_raw": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Repeat Objective Raw",
+          "type": "array"
+        },
+        "absolute_differences": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Absolute Differences",
+          "type": "array"
+        },
+        "numeric_atol": {
+          "default": 1e-12,
+          "title": "Numeric Atol",
+          "type": "number"
+        },
+        "numeric_rtol": {
+          "default": 1e-10,
+          "title": "Numeric Rtol",
+          "type": "number"
+        }
+      },
+      "required": [
+        "validation_status",
+        "reference_evaluation_id",
+        "reference_objective_raw",
+        "repeat_objective_raw",
+        "absolute_differences"
+      ],
+      "title": "ValidationResult",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "title": "Job Id",
+      "type": "string"
+    },
+    "execution_id": {
+      "title": "Execution Id",
+      "type": "string"
+    },
+    "phase": {
+      "enum": [
+        "preflight",
+        "profile",
+        "pilot",
+        "main",
+        "verification"
+      ],
+      "title": "Phase",
+      "type": "string"
+    },
+    "execution_status": {
+      "enum": [
+        "queued",
+        "running",
+        "completed",
+        "failed",
+        "timed_out",
+        "cancelled",
+        "unknown_outcome"
+      ],
+      "title": "Execution Status",
+      "type": "string"
+    },
+    "termination_reason": {
+      "enum": [
+        "evaluation_budget",
+        "time_budget",
+        "solver_stop",
+        "execution_error",
+        "validation_error",
+        "insufficient_evidence",
+        "llm_budget",
+        "cancelled"
+      ],
+      "title": "Termination Reason",
+      "type": "string"
+    },
+    "best": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/EvaluationRecord"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "started_evaluations": {
+      "minimum": 0,
+      "title": "Started Evaluations",
+      "type": "integer"
+    },
+    "successful_evaluations": {
+      "minimum": 0,
+      "title": "Successful Evaluations",
+      "type": "integer"
+    },
+    "failed_evaluations": {
+      "minimum": 0,
+      "title": "Failed Evaluations",
+      "type": "integer"
+    },
+    "rejected_proposals": {
+      "minimum": 0,
+      "title": "Rejected Proposals",
+      "type": "integer"
+    },
+    "elapsed_compute_seconds": {
+      "ge": 0,
+      "title": "Elapsed Compute Seconds",
+      "type": "number"
+    },
+    "overshoot_seconds": {
+      "ge": 0,
+      "title": "Overshoot Seconds",
+      "type": "number"
+    },
+    "history_complete": {
+      "title": "History Complete",
+      "type": "boolean"
+    },
+    "history_sha256": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "History Sha256"
+    },
+    "history_artifact_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "History Artifact Id"
+    },
+    "profile_features": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ProblemProfile"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "validation": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ValidationResult"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "error": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ExecutionError"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "fingerprint": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Fingerprint",
+      "type": "object"
+    }
+  },
+  "required": [
+    "job_id",
+    "execution_id",
+    "phase",
+    "execution_status",
+    "termination_reason",
+    "best",
+    "started_evaluations",
+    "successful_evaluations",
+    "failed_evaluations",
+    "rejected_proposals",
+    "elapsed_compute_seconds",
+    "overshoot_seconds",
+    "history_complete",
+    "history_sha256",
+    "profile_features",
+    "validation",
+    "error",
+    "fingerprint"
+  ],
+  "title": "ExecutionResult",
+  "type": "object"
+}

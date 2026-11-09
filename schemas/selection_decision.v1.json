@@ -1,0 +1,178 @@
+{
+  "$defs": {
+    "PilotMetric": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm_id": {
+          "enum": [
+            "abc.original",
+            "cma_es.mealpy",
+            "de.original",
+            "pso.original"
+          ],
+          "title": "Algorithm Id",
+          "type": "string"
+        },
+        "eligible": {
+          "title": "Eligible",
+          "type": "boolean"
+        },
+        "trial_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Trial Ids",
+          "type": "array"
+        },
+        "median_score": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Median Score"
+        },
+        "normalized_iqr": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Normalized Iqr"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        }
+      },
+      "required": [
+        "algorithm_id",
+        "eligible",
+        "trial_ids",
+        "median_score",
+        "normalized_iqr",
+        "reason"
+      ],
+      "title": "PilotMetric",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "decision_id": {
+      "title": "Decision Id",
+      "type": "string"
+    },
+    "policy_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Policy Version",
+      "type": "string"
+    },
+    "selection_status": {
+      "enum": [
+        "pending",
+        "selected",
+        "fixed_by_policy",
+        "insufficient_evidence",
+        "not_reached"
+      ],
+      "title": "Selection Status",
+      "type": "string"
+    },
+    "decision_source": {
+      "title": "Decision Source",
+      "type": "string"
+    },
+    "selected_algorithm_id": {
+      "anyOf": [
+        {
+          "enum": [
+            "abc.original",
+            "cma_es.mealpy",
+            "de.original",
+            "pso.original"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Selected Algorithm Id"
+    },
+    "selected_config_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Selected Config Id"
+    },
+    "metrics": {
+      "items": {
+        "$ref": "#/$defs/PilotMetric"
+      },
+      "title": "Metrics",
+      "type": "array"
+    },
+    "scale": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Scale"
+    },
+    "tie_break_order": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Tie Break Order",
+      "type": "array"
+    },
+    "uncertainty_notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Uncertainty Notes"
+    }
+  },
+  "required": [
+    "decision_id",
+    "selection_status",
+    "decision_source",
+    "selected_algorithm_id",
+    "selected_config_id",
+    "metrics",
+    "scale",
+    "tie_break_order",
+    "uncertainty_notes"
+  ],
+  "title": "SelectionDecision",
+  "type": "object"
+}
