@@ -50,7 +50,7 @@ _GOOD_EXPLANATION = {
 
 
 @contextmanager
-def local_api(data_dir, transport, **app_options):
+def local_api(data_dir, transport, *, enable_lifespan=False, **app_options):
     token = secrets.token_urlsafe(32)
     app = create_app(data_dir, token, transport=transport, **app_options)
     with socket.socket() as listener:
@@ -59,7 +59,8 @@ def local_api(data_dir, transport, **app_options):
         listener.setblocking(False)
         address = f"http://127.0.0.1:{listener.getsockname()[1]}"
         server = uvicorn.Server(uvicorn.Config(
-            app, host="127.0.0.1", access_log=False, log_config=None, lifespan="off",
+            app, host="127.0.0.1", access_log=False, log_config=None,
+            lifespan="on" if enable_lifespan else "off",
         ))
         thread = threading.Thread(target=server.run, kwargs={"sockets": [listener]}, daemon=True)
         thread.start()
