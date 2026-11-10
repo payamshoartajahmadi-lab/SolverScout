@@ -83,7 +83,7 @@ def _search_connection_controls(attempt, result, status, *, repair, compact):
     target = {"revision": profile["revision"], "generation": result["credential_generation"]}
     available = result.get("credential_available", False)
     ready = bool(result.get("ready"))
-    storage_options = ["session", "os_keyring"] if result.get("os_keyring_available") else ["session"]
+    storage_options = ["os_keyring", "session"] if result.get("os_keyring_available") else ["session"]
     guard = f"{profile['profile_id']}:{target['revision']}:{target['generation']}"
     credentials = nullcontext() if compact else st.expander("مدیریت کلید Tavily", expanded=repair or not available)
     with credentials:
@@ -91,9 +91,11 @@ def _search_connection_controls(attempt, result, status, *, repair, compact):
             secret = st.text_input("کلید API جست‌وجو", type="password", autocomplete="off")
             storage = st.selectbox(
                 "شیوهٔ نگهداری کلید جست‌وجو", storage_options,
-                index=storage_options.index(result["storage_mode"]) if result.get("storage_mode") in storage_options else 0,
                 format_func=lambda option: "حافظهٔ نشست" if option == "session" else "مخزن امن سیستم‌عامل",
+                help="مخزن امن، کلید را پس از بستن برنامه نگه می‌دارد. کلید حافظهٔ نشست با توقف برنامه از دسترس خارج می‌شود.",
             )
+            if not result.get("os_keyring_available"):
+                st.caption("مخزن امن سیستم‌عامل در دسترس نیست. کلید فقط تا زمان توقف برنامه در دسترس خواهد بود.")
             save_secret = st.form_submit_button("ثبت کلید جست‌وجو", type="secondary" if available else "primary")
         if save_secret:
             if not secret.strip():

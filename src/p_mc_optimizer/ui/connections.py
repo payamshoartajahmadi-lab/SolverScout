@@ -54,13 +54,15 @@ def _notice(key, level, message):
 def _key_fields(result):
     credential = result.get("credential_status") or {}
     key = st.text_input("کلید API", type="password", autocomplete="off")
-    choices = ["session", "os_keyring"] if result.get("os_keyring_available") else ["session"]
-    current = credential.get("storage_mode")
-    storage = st.selectbox("نگهداری کلید", choices, index=choices.index(current) if current in choices else 0,
-                           format_func=STORAGE_LABELS.__getitem__)
-    st.caption("کلید نشست با توقف برنامه از دسترس خارج می‌شود. روش نگهداری هنگام ثبت کلید اعمال می‌شود.")
+    choices = ["os_keyring", "session"] if result.get("os_keyring_available") else ["session"]
+    storage = st.selectbox(
+        "نگهداری کلید جدید", choices, format_func=STORAGE_LABELS.__getitem__,
+        help="مخزن امن، کلید را پس از بستن برنامه نگه می‌دارد. کلید حافظهٔ نشست با توقف برنامه از دسترس خارج می‌شود.",
+    )
+    if not result.get("os_keyring_available"):
+        st.caption("مخزن امن سیستم‌عامل در دسترس نیست. کلید فقط تا زمان توقف برنامه در دسترس خواهد بود.")
     if credential.get("available"):
-        st.caption("برای آزمون با کلید فعلی، ورودی کلید را خالی بگذارید.")
+        st.caption("برای استفاده از کلید فعلی، این ورودی را خالی بگذارید.")
     return key.strip(), storage
 
 
@@ -85,7 +87,7 @@ def _advanced_fields(profile, preset):
     }
 
 
-def _test(attempt, result, key, job_id, secret, storage, *, changed=False):
+def _save_connection(attempt, result, key, job_id, secret, storage, *, test=True, changed=False):
     target = _target(result, job_id)
     if secret:
         saved = attempt("PUT", CREDENTIAL_ROUTE, {**target, "api_key": secret, "storage_mode": storage})
@@ -95,6 +97,10 @@ def _test(attempt, result, key, job_id, secret, storage, *, changed=False):
             return
         changed = True
         target["expected_credential_generation"] = saved["credential_generation"]
+    if not test:
+        message = "تنظیمات سرویس و کلید مدل ثبت شدند." if secret else "تنظیمات سرویس ثبت شد."
+        _notice(key, "success", message)
+        return
     with st.spinner("در حال آزمون اتصال مدل…"):
         test = attempt("POST", TEST_ROUTE, target, idempotency_key=str(uuid4()))
     if test and test.get("test_status") == "passed":
@@ -128,7 +134,7 @@ def _configure_model(attempt, result, key):
         secret, storage = _key_fields(result)
         st.caption("آزمون اتصال یک درخواست کوتاه به نشانی بالا می‌فرستد و ممکن است اعتبار API مصرف کند.")
         with st.container(horizontal=True):
-            save_only = st.form_submit_button("فقط ثبت تنظیمات سرویس")
+            save_only = st.form_submit_button("ثبت تنظیمات")
             test = st.form_submit_button("ثبت و آزمون اتصال", type="primary")
         advanced = _advanced_fields(profile, preset)
     if not (save_only or test):
@@ -151,12 +157,11 @@ def _configure_model(attempt, result, key):
         saved = attempt("PUT", PROFILE_ROUTE, update)
         if not saved:
             return
-        if (test and same_origin and saved["credential_status"]["credential_generation"] != generation):
+        if ((test or secret) and same_origin
+                and saved["credential_status"]["credential_generation"] != generation):
             _notice(key, "warning", "تنظیمات سرویس ثبت شد. کلید در نشست دیگری تغییر کرده است. اتصال را دوباره بررسی کنید.")
         result = saved
-    if save_only:
-        _notice(key, "success", "تنظیمات سرویس ثبت شد.")
-    _test(attempt, result, key, None, secret, storage, changed=changed)
+    _save_connection(attempt, result, key, None, secret, storage, test=test, changed=changed)
 
 
 def _repair_model(attempt, result, key, job_id, job_version, ready):
@@ -171,7 +176,7 @@ def _repair_model(attempt, result, key, job_id, job_version, ready):
         test = st.form_submit_button("ثبت و آزمون اتصال", type="secondary" if ready else "primary")
     if test:
         if secret or available:
-            _test(attempt, result, key, job_id, secret, storage)
+            _save_connection(attempt, result, key, job_id, secret, storage)
         else:
             st.error("کلید API همین سرویس را وارد کنید.")
     if st.button("ادامهٔ همین اجرا", type="primary" if ready else "secondary", disabled=not ready,
