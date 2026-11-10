@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import sys
 from copy import deepcopy
 from pathlib import Path
 from types import SimpleNamespace
@@ -182,6 +183,8 @@ def test_credential_write_only_and_safe_session_restart(local):
 
 
 def test_connection_forms_save_keys_and_keep_settings_after_restart(tmp_path, monkeypatch):
+    # Streamlit replaces __main__ while executing the test script.
+    monkeypatch.setitem(sys.modules, "__main__", sys.modules["__main__"])
     stored = {}
     keyring = SimpleNamespace(
         get_password=lambda service, ref: stored.get((service, ref)),
