@@ -6,7 +6,8 @@ from typing import Annotated, Any, Literal
 
 from pydantic import Field
 
-from p_mc_optimizer.domain.models import ContractModel, ProblemInput, ProblemProfile
+from p_mc_optimizer.domain.models import ContractModel, DomainError, ProblemInput, ProblemProfile
+from p_mc_optimizer.llm.formulation import RoleOutputError
 from p_mc_optimizer.llm.models import Repair
 from p_mc_optimizer.research.contracts import (
     AdvisorPlanV2, EvidencePassage, ResearchQueryPlan, SearchProblemProfile, SourceRule, SourceSnapshot,
@@ -92,7 +93,13 @@ def validate_output(schema_id, output, context):
     is_library = isinstance(context, AdvisorContextV21)
     require_evidence = context.require_evidence if is_library else context.require_web
     if is_library:
-        output.validate_references(cards, passages.keys(), require_evidence=require_evidence)
+        try:
+            output.validate_references(cards, passages.keys(), require_evidence=require_evidence)
+        except DomainError as error:
+            detail = str(error)
+            if error.code == "IMPLEMENTATION_MAPPING_INVALID":
+                detail += " Set card_ref to implementation_id. Copy config_id from the same solver card."
+            raise RoleOutputError(detail) from None
     else:
         output.validate_references(cards, passages.keys(), require_web=require_evidence)
     def cites_variant(variant, refs):

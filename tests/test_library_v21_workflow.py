@@ -92,6 +92,11 @@ def model_fixture(calls):
                 })
         novel = [row["evidence_id"] for row in context["evidence"] if "Orbit Lattice Search" in row["text"]]
         ready = len(candidates) == 3
+        if ready and context["require_evidence"]:
+            if repair := context.get("repair"):
+                assert any("Set card_ref to implementation_id" in message for message in repair["field_errors"])
+            else:
+                candidates[0]["card_ref"] = candidates[0]["config_id"]
         return completion({
             "schema_version": "2.1", "status": "ready" if ready else "insufficient_evidence",
             "reason_codes": [] if ready else ["RESEARCH_EVIDENCE_INSUFFICIENT"],
@@ -197,7 +202,7 @@ def test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily(tm
             if artifact["kind"] in {"research_json", "report_html", "sources_csv"}:
                 exported = client.get(f"/artifacts/{artifact['artifact_id']}").text
                 assert token not in exported and _TEST_KEY not in exported
-        assert [name for name, _ in calls] == ["research_planner_v2_1", "advisor_v2_1"]
+        assert [name for name, _ in calls] == ["research_planner_v2_1", "advisor_v2_1", "advisor_v2_1"]
         assert direct.calls == network_before_job and not network.calls
 
         revision, unrelated = register_corpus(client, corpus["unrelated"], "unrelated")

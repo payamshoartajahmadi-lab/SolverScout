@@ -86,3 +86,15 @@ Windows, Linux and macOS Intel installation and browser tests were not run. Live
 `.venv/bin/python -m pytest -q --tb=short` completed with **233 passed and 1 deselected in 148.44 seconds**. The earlier full run before the four extra retention and truncation cases recorded 229 passed and 1 deselected. The provider smoke test deselected by pytest is separate from the live API operations above.
 
 Doctor reported project version `2.1.0.dev0`, schema 3 and a working FTS5 index. The source ZIP check verified the archive checksum, all 242 manifest file sizes and SHA-256 hashes, the new prompts, this verification record and the UI font. The archive contained no local databases, logs or environment files.
+
+### Targeted evidence coverage rerun
+
+The quadratic job `a03c2372-45b7-4dcd-ace4-a8348442bf6d` used both bounds `[-5, 5]` and an empty parameter object. Its six documents yielded twelve passages, with no DE citation. Generic document ranking had excluded the dedicated DE page, and a package page containing DE was used only for general discovery. The archived-data replay retrieved the exact OriginalDE, OriginalGWO and OriginalWOA documentation after the change. The earlier stored snapshot was read only.
+
+Retrieval now reserves passages for up to three distinct targeted implementations before filling the remaining six-document and twelve-passage budget. It searches document bodies for exact variants first and considers family aliases afterward. The excerpts preserve source text and offsets. A regression fixture crowds the ranking with twenty-four general documents whose titles contain the target names.
+
+The first UI rerun retrieved all three exact passages. The advisor cited them and used `config_id` as `card_ref`. The prompt and repair diagnostics now name the required fields and the existing reference check enforces their mapping. Another run retrieved all three passages and reached the advisor's sixty-second provider deadline. The report now retains the provider's timeout message.
+
+Job `f2a46f81-44f9-475c-9a28-81b632c3fdab` was submitted through the browser wizard using the frozen problem, direct refresh, the original stop policy, 20,000 evaluations and seed 1405. The advisor cited the three implementations from six documents and ten passages. Nine pilot trials and the main run completed. OriginalDE returned `[2.0, -1.0]` with objective `0.0`. Both verification evaluations returned `0.0`. The report displayed its template explanation after two explainer validation failures.
+
+`.venv/bin/python -m pytest -q tests/test_library_v21_workflow.py tests/test_library_v21_retrieval.py tests/test_library_v21_web.py tests/test_llm_gateway.py --tb=short` completed with **42 passed in 38.01 seconds**. Playwright Chromium submitted and displayed the completed result at 1440 × 980 with no page errors.
