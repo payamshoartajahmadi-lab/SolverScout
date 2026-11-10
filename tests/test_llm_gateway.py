@@ -4,12 +4,14 @@ from __future__ import annotations
 import json
 from copy import deepcopy
 from pathlib import Path
+from types import SimpleNamespace
 from uuid import uuid4
 
 import httpx
 import pytest
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
+from streamlit.testing.v1 import AppTest
 
 from p_mc_optimizer.api import create_app
 from p_mc_optimizer.domain.models import ProblemInput
@@ -177,6 +179,63 @@ def test_credential_write_only_and_safe_session_restart(local):
     status = restarted.get_profile()["credential_status"]
     assert status["configured"] and not status["available"]
     assert len(calls) == 1
+
+
+def test_connection_forms_save_keys_and_keep_settings_after_restart(tmp_path, monkeypatch):
+    stored = {}
+    keyring = SimpleNamespace(
+        get_password=lambda service, ref: stored.get((service, ref)),
+        set_password=lambda service, ref, value: stored.__setitem__((service, ref), value),
+    )
+    monkeypatch.setattr(credentials, "_keyring_backend", lambda: keyring)
+
+    def client():
+        return TestClient(create_app(tmp_path, _TEST_TOKEN), headers=_HEADERS)
+
+    with client() as initial:
+        checked(set_key(initial, save_profile(initial)))
+        search = checked(initial.get("/settings/search"))
+        checked(initial.put("/settings/search/credential", json={
+            "revision": search["profile"]["revision"], "generation": search["credential_generation"],
+            "secret": "TEST-FIXTURE-OLD-SEARCH-KEY", "storage_mode": "session",
+        }))
+
+    def settings_page():
+        import streamlit as st
+        from p_mc_optimizer.ui.connections import connections_page
+
+        def attempt(method, path, payload=None, *, idempotency_key=None):
+            headers = {"Idempotency-Key": idempotency_key} if idempotency_key else {}
+            response = st.session_state.client.request(method, path, json=payload, headers=headers)
+            response.raise_for_status()
+            return response.json()
+
+        connections_page(attempt)
+
+    with client() as reopened:
+        assert not checked(reopened.get("/settings/llm/profile"))["credential_status"]["available"]
+        assert not checked(reopened.get("/settings/search"))["credential_available"]
+        page = AppTest.from_function(settings_page)
+        page.session_state["client"] = reopened
+        page.run()
+        assert not page.exception
+        for label in ("نگهداری کلید جدید", "شیوهٔ نگهداری کلید جست‌وجو"):
+            assert next(box.value for box in page.selectbox if box.label == label) == "os_keyring"
+        next(field for field in page.text_input if field.label == "شناسهٔ مدل").set_value("updated-test-model")
+        next(field for field in page.text_input if field.label == "کلید API").set_value(_TEST_KEY)
+        next(button for button in page.button if button.label == "ثبت تنظیمات").click().run()
+        assert not page.exception
+        next(field for field in page.text_input if field.label == "کلید API جست‌وجو").set_value("TEST-FIXTURE-SEARCH-KEY")
+        next(button for button in page.button if button.label == "ثبت کلید جست‌وجو").click().run()
+        assert not page.exception
+
+    with client() as restarted:
+        model = checked(restarted.get("/settings/llm/profile"))
+        search = checked(restarted.get("/settings/search"))
+        assert model["profile"]["model"] == "updated-test-model"
+        assert model["profile"]["test_status"] == "not_tested"
+        assert model["credential_status"]["available"] and model["credential_status"]["storage_mode"] == "os_keyring"
+        assert search["credential_available"] and search["storage_mode"] == "os_keyring"
 
 
 def test_stale_key_write_and_origin_change_preserve_job_snapshot(local):
