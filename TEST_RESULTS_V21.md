@@ -11,3 +11,7 @@ The labeled corpus in `tests/fixtures/library_v21_corpus.json` freezes three qua
 ## L1 contracts and migration
 
 The migration, contract and prior research suites passed with **47 tests in 0.29 seconds**. The cases cover schema 2 to 3, a paired database and artifact backup, rejection with unfinished work, typed retrieval paths and existing version 2 contracts. Migration tests used temporary databases.
+
+## L2 library storage
+
+Three storage tests passed in 0.17 seconds. They cover version reuse and observation changes, rollback of staged metadata and index data, quota limits and idempotent import of verified legacy artifacts with their original validation times.
