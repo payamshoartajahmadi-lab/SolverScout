@@ -92,6 +92,36 @@ def test_catalog_targeted_passages_preserve_original_offsets_and_job_snapshot(li
     assert retriever.search("OriginalDE", snapshot) == []
 
 
+def test_targeted_excerpts_survive_crowded_general_search_and_title_only_hits(library):
+    store, retriever, snapshot = library
+    expected = {
+        "OriginalDE": "Differential Evolution (DE)",
+        "OriginalGWO": "Grey Wolf Optimizer (GWO)",
+        "OriginalWOA": "Whale Optimization Algorithm (WOA)",
+    }
+    texts = {}
+    entries = []
+    for name, description in expected.items():
+        url = f"https://methods.example.test/manual/{name}"
+        texts[url] = f"class {name}(Optimizer):\n\n{description}\n\nPopulation initialization."
+        entries.append(_entry(url, "Reference", texts[url]))
+    for number in range(24):
+        url = f"https://methods.example.test/manual/generic-{number:02}"
+        texts[url] = "Bounded continuous optimization. " * 12 + str(number)
+        entries.append(_entry(url, "Bounded continuous optimization OriginalDE OriginalGWO OriginalWOA", texts[url]))
+    store.publish_documents(entries, snapshot)
+
+    result = retriever.retrieve(_job(store), PLAN, snapshot, aliases=CATALOG)
+
+    assert len(result["documents"]) == 6
+    assert len(result["evidence"]) <= 12
+    for name, description in expected.items():
+        passage = next(row for row in result["evidence"] if f"class {name}(" in row["text"])
+        assert passage["selection_method"] == "implementation_evidence"
+        assert description in passage["text"]
+        assert passage["text"] == texts[passage["url"]][passage["start"]:passage["end"]]
+
+
 def test_stale_evidence_requires_explicit_policy_and_retains_exact_validation_time(library):
     store, retriever, snapshot = library
     timestamp = datetime.now(UTC) - timedelta(days=10)
@@ -135,6 +165,7 @@ def test_search_treats_fts_operators_as_text_and_normalizes_without_altering_pas
     assert alias_present("Using (DE) produces a candidate.", "DE")
     assert not alias_present("A field of de facto expertise.", "DE")
     assert not alias_present("OriginalDEA is a different variant.", "OriginalDE")
+    assert alias_present("class CMA_ES(Optimizer):", "CMA_ES")
 
 
 def test_retrieval_filters_corrupted_artifact_and_freezes_empty_result(library):
