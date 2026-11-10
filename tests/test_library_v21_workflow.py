@@ -12,7 +12,7 @@ import pytest
 from p_mc_optimizer.research.fetch import DocumentFetcher
 from p_mc_optimizer.research.transport import Response
 from test_llm_gateway import _PROFILE_SETTINGS, _TEST_KEY, checked, completion
-from test_llm_workflow import configure, local_api
+from test_llm_workflow import _GOOD_EXPLANATION, assert_empirical_explainer_context, configure, local_api
 from test_v2_workflow import SOURCE, keyed_post, profile_ref, qualify_three, run_job
 
 CORPUS_PATH = Path(__file__).parent / "fixtures" / "library_v21_corpus.json"
@@ -79,6 +79,12 @@ def model_fixture(calls):
                     "text": "new methods for bounded continuous optimization", "implementation_ids": [],
                 }],
             })
+        if name == "explainer_v1":
+            assert "repair" not in context
+            return completion({
+                **_GOOD_EXPLANATION,
+                "selection_explanation_fa": "در این اجرا، مقایسهٔ پایلوت‌ها روش منتخب را تعیین کرد.",
+            })
         assert name == "advisor_v2_1"
         candidates = []
         for card in context["solver_cards"]:
@@ -138,6 +144,7 @@ def sync_corpus(client, rows, source_id):
 
 
 def test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily(tmp_path):
+    """FLOW-08. Run the v2.1 Explainer with local-only research and real pilots."""
     corpus = json.loads(CORPUS_PATH.read_text(encoding="utf-8"))
     calls = []
     network = NoResearchNetwork()
@@ -170,7 +177,8 @@ def test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily(tm
             "policy": policy, "llm_profile": profile_ref(profile),
             "source_revision": revision, "catalog_hash": catalog["catalog_hash"],
         }
-        job_id, state = run_job(repo, client, address, token, payload)
+        explained_payload = {**payload, "policy": {**policy, "explain_via_llm": True}}
+        job_id, state = run_job(repo, client, address, token, explained_payload)
         assert state["job_status"] == "completed", (state, repo.list_events(job_id)[-8:])
         outcome = checked(client.get(f"/jobs/{job_id}/research"))
         assert outcome["schema_version"] == "2.1"
@@ -185,6 +193,8 @@ def test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily(tm
         bundle = checked(client.get(f"/jobs/{job_id}/report"))
         report = bundle["report"]
         assert report["schema_version"] == "2.1" and report["solution_status"] == "valid_best_found"
+        assert report["explanation_status"] == "generated"
+        assert report["explanation"]["limitations_fa"] == _GOOD_EXPLANATION["limitations_fa"]
         assert report["budget"]["known_started"] == 5502
         assert len(report["trials"]) == 10
         assert all(trial["started_evaluations"] == 500 for trial in report["trials"])
@@ -202,7 +212,12 @@ def test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily(tm
             if artifact["kind"] in {"research_json", "report_html", "sources_csv"}:
                 exported = client.get(f"/artifacts/{artifact['artifact_id']}").text
                 assert token not in exported and _TEST_KEY not in exported
-        assert [name for name, _ in calls] == ["research_planner_v2_1", "advisor_v2_1", "advisor_v2_1"]
+        assert [name for name, _ in calls] == ["research_planner_v2_1", "advisor_v2_1", "advisor_v2_1", "explainer_v1"]
+        context = calls[-1][1]
+        assert context == repo.get_job(job_id)["workflow"]["role_context:explainer"]
+        summary = assert_empirical_explainer_context(context, report)
+        assert summary["effective_selection_policy"] == "evidence_research_then_pilot"
+        assert summary["eligible_ranking"][0] == report["selected_algorithm_id"]
         assert direct.calls == network_before_job and not network.calls
 
         revision, unrelated = register_corpus(client, corpus["unrelated"], "unrelated")

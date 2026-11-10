@@ -5,10 +5,12 @@ from time import monotonic, sleep
 from uuid import uuid4
 
 import httpx
+import pytest
 from fastapi.testclient import TestClient
 from streamlit.testing.v1 import AppTest
 
 from p_mc_optimizer.api import create_app
+from p_mc_optimizer.reporting import html_bytes
 from p_mc_optimizer.research.transport import Response
 
 TOKEN = "library-ui-test"
@@ -140,3 +142,58 @@ def test_wizard_submits_default_local_library_without_contacting_search_provider
     assert payload["policy"]["retrieval_mode"] == "local_only"
     assert payload["search_provider_ref"] is None
     assert not any("search" in route for _, route in page.session_state["calls"])
+
+
+def _result_page():
+    import streamlit as st
+
+    from p_mc_optimizer.ui.results import report_panel
+
+    report = st.session_state.recorded_report
+
+    def attempt(method, route):
+        assert method == "GET" and route == "/jobs/recorded/report"
+        return {"report": report, "artifacts": []}
+
+    report_panel(attempt, "recorded", report, lambda: None, load_artifact=lambda _: None)
+
+
+@pytest.mark.parametrize(
+    "status,caption,heading",
+    [
+        ("generated", "توضیح مدل زبانی", "توضیح مدل"),
+        ("schema_fallback", "توضیح خودکار برنامه", "توضیح قالبی برنامه"),
+    ],
+)
+def test_recorded_explanation_status_is_independent_of_verified_answer(status, caption, heading, monkeypatch):
+    """VIEW-01/02/03. Existing saved v1 reports render without an Explainer context."""
+    monkeypatch.setitem(sys.modules, "__main__", sys.modules["__main__"])
+    report = {
+        "schema_version": "1.0",
+        "job_id": "recorded",
+        "job_status": "completed",
+        "solution_status": "valid_best_found",
+        "selected_algorithm_id": "de.original",
+        "best_x": [2.0, -1.0],
+        "objective_raw": 0.0,
+        "explanation_status": status,
+        "explanation": {
+            "summary_fa": "بهترین مشاهدهٔ معتبر ثبت شد.",
+            "selection_explanation_fa": "روش ثبت‌شده برای اجرای اصلی به کار رفت.",
+            "limitations_fa": ["بهینگی سراسری اثبات نشده است."],
+            "evidence_refs": ["report:solution", "report:decision"],
+        },
+    }
+    page = AppTest.from_function(_result_page)
+    page.session_state["recorded_report"] = report
+    page.run()
+    assert not page.exception
+    assert page.title[0].value == "جواب معتبر پیدا شد"
+    assert page.metric[0].value == "0"
+    assert any(item.value == caption for item in page.caption)
+    assert any("تأیید شد" in item.value for item in page.success)
+    exported = html_bytes(report).decode()
+    assert f"<h2>{heading}</h2>" in exported
+    assert "<code>valid_best_found</code>" in exported
+    assert "روش ثبت‌شده برای اجرای اصلی به کار رفت." in exported
+    assert "decision_summary" not in exported
