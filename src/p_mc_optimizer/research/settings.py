@@ -12,7 +12,7 @@ from pydantic import Field, SecretStr
 from p_mc_optimizer.application.errors import ApiError
 
 from .contracts import ContractModel, FrozenArray, ResearchLimits, SearchProfile, SourceRule, SourceSnapshot
-from .search import TAVILY_ORIGIN
+from .search import SEARCH_ERROR_MESSAGES, TAVILY_ORIGIN
 from .source_policy import SourcePolicy, SourcePolicyError
 from .transport import ResearchError
 
@@ -236,6 +236,8 @@ class SearchSettings:
             result = {
                 "ok": False, "status": "failed", "code": exc.code, "retry_after": exc.retry_after, "cost": None,
             }
+            if message := SEARCH_ERROR_MESSAGES.get(exc.code):
+                result["message_fa"] = message
         status = "completed" if result["ok"] else "failed"
         self.store.settle(scope, idempotency_key, status, result, monotonic() - started)
         return result

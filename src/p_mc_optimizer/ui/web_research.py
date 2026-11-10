@@ -121,7 +121,7 @@ def _search_connection_controls(attempt, result, status, *, repair, compact):
                 st.success(f"اتصال برقرار شد. تعداد نتایج مجاز آزمون: {test.get('allowed_results', 0)}")
             else:
                 status.warning("آزمون اخیر جست‌وجوی وب موفق نبود.")
-                st.error(f"آزمون اتصال ناموفق بود. {test.get('code') or test.get('status', '')}")
+                st.error(test.get("message_fa") or f"آزمون اتصال ناموفق بود. {test.get('code') or test.get('status', '')}")
             if test.get("retry_after"):
                 st.text(f"زمان اعلام‌شده برای تلاش دوباره · {test['retry_after']}")
     return ready

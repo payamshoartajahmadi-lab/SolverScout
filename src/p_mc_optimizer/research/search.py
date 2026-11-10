@@ -15,7 +15,12 @@ from .transport import ResearchError, request
 TAVILY_ORIGIN = "https://api.tavily.com"
 TAVILY_ENDPOINT = f"{TAVILY_ORIGIN}/search"
 _MAX_RESPONSE = 1024 * 1024
-
+SEARCH_ERROR_MESSAGES = {
+    "SEARCH_ACCESS_DENIED": (
+        "دسترسی این اتصال به Tavily رد شد (HTTP 403). اتصال اینترنت یا VPN را بررسی کنید و دوباره اجرا کنید."
+    ),
+    "SEARCH_TIMEOUT": "مهلت دریافت پاسخ از Tavily تمام شد. اتصال اینترنت و دسترسی به Tavily را بررسی کنید.",
+}
 
 
 def _retry_timestamp(value: str | None) -> str | None:
@@ -74,6 +79,9 @@ class TavilySearch:
             raise ResearchError("SEARCH_TIMEOUT") from None
         except httpx.HTTPError:
             raise ResearchError("SEARCH_OUTCOME_UNKNOWN") from None
+        content_type = response.headers.get("content-type", "").split(";", 1)[0].strip().lower()
+        if response.status == 403 and content_type in {"text/html", "application/xhtml+xml"}:
+            raise ResearchError("SEARCH_ACCESS_DENIED")
         if response.status in {401, 403}:
             raise ResearchError("SEARCH_AUTH_FAILED")
         if response.status == 429:

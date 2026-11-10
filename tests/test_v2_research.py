@@ -214,6 +214,36 @@ def test_ledger_never_replays_unknown_and_manual_retry_uses_cap(store):
     assert len(requests) == 3
 
 
+@pytest.mark.parametrize(("status", "content_type", "expected_code"), [
+    (403, "text/html; charset=utf-8", "SEARCH_ACCESS_DENIED"),
+    (403, "Text/HTML; charset=UTF-8", "SEARCH_ACCESS_DENIED"),
+    (403, "application/xhtml+xml", "SEARCH_ACCESS_DENIED"),
+    (403, "application/json", "SEARCH_AUTH_FAILED"),
+    (403, None, "SEARCH_AUTH_FAILED"),
+    (401, "text/html", "SEARCH_AUTH_FAILED"),
+    (401, "application/json", "SEARCH_AUTH_FAILED"),
+])
+def test_search_access_errors_preserve_auth_semantics_and_do_not_replay(
+    store, status, content_type, expected_code,
+):
+    requests = []
+
+    def handle(request):
+        requests.append(request)
+        headers = {"content-type": content_type} if content_type else {}
+        return reply(status, **headers)
+
+    engine = ResearchGateway(store, search=TavilySearch(transport=httpx.MockTransport(handle)))
+    identifier = job(store)
+    result = engine.run(identifier, PLAN, POLICY, LIMITS, credential=KEY)
+    assert result.status == "failed"
+    assert result.reason_codes == (expected_code,)
+    assert result.search_attempts == result.http_requests == 1
+    assert not result.hits and not result.evidence
+    assert engine.run(identifier, PLAN, POLICY, LIMITS, credential=KEY) == result
+    assert len(requests) == 1
+
+
 def test_cancel_during_research_stops_new_requests(store):
     requests = []
 
