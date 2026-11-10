@@ -108,7 +108,9 @@ class CatalogWorkflow(Workflow):
         if code in {"SEARCH_AUTH_FAILED", "SEARCH_RATE_LIMITED"} and error.get("retryable"):
             self.keep("research_outcome", None)
             return self.needs_configuration(error)
-        message = SEARCH_ERROR_MESSAGES.get(code, "پژوهش برای انتخاب روش به شواهد کافی نرسید.")
+        message = SEARCH_ERROR_MESSAGES.get(code) or error.get("message_fa") or (
+            "پژوهش برای انتخاب روش به شواهد کافی نرسید."
+        )
         self.stop(code or "RESEARCH_EVIDENCE_INSUFFICIENT", message,
                   reason="insufficient_evidence")
         return {"route": "verify"}
