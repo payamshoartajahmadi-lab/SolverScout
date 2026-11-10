@@ -44,3 +44,40 @@ HTTP fixtures. Test data and reports went to isolated directories.
 The official adapter request fields were checked against the
 [Tavily Search API documentation](https://docs.tavily.com/documentation/api-reference/endpoint/search).
 The acceptance matrix records remaining gaps individually.
+
+## Tavily access diagnosis and live rerun, 2026-11-10
+
+The original job `e844ef69-0006-4064-a9df-0d3e80669254` stopped after
+20.01 seconds with `SEARCH_TIMEOUT`. Direct diagnostics reproduced a TLS
+connection timeout and an authenticated HTML 403 response with
+`x-cache: Error from cloudfront`. The response did not establish the
+underlying access policy. After the user changed the network connection,
+the application's live Tavily connection test succeeded in 1.674 seconds.
+
+HTML/XHTML 403 responses now produce `SEARCH_ACCESS_DENIED`, with a
+Persian connection message in the connection test and final job report.
+JSON 403 and HTTP 401 retain the authentication classification. The
+timeout message now identifies Tavily and asks the user to check access.
+
+- Automated research and contract checks passed with 56 tests in
+  0.33 seconds using `.venv/bin/python -m pytest -q tests/test_v2_research.py tests/test_research_contracts.py`.
+  Seven added regression cases cover access/authentication classification,
+  persisted outcomes, charged requests and prevention of same-ID replay.
+- Live job `5b623036-8c6c-4f57-add9-a5ad512f9553` used the original
+  natural-language input, seed, bounds, 20,000-evaluation budget and
+  `web_research_then_pilot` policy through the authenticated local API.
+  Research mode was `live`, with `on_research_failure=stop`. The model
+  asked about additional parameters. The answer confirmed the original
+  frozen model's empty parameter set and the mathematical constant pi.
+- Research completed in 7.077 active seconds with two Tavily searches,
+  ten hits, four documents and eight passages. Six HTTP requests were
+  charged. Two existing documents were revalidated and two were read.
+  Provider cost remains unknown.
+- The advisor returned a schema-valid `insufficient_evidence` response.
+  Retrieved passages covered general metaheuristics, continuous ACO,
+  Black Widow Optimization and Tree-seed. They did not support three
+  candidates from the eligible DE, CMA-ES, ABC, GWO, PSO and WOA cards.
+- The job ended `failed` with `RESEARCH_EVIDENCE_INSUFFICIENT`.
+  Pilot comparison and the main solve were not reached. A partial result
+  from profiling was independently verified, using 502 evaluations in
+  total. Full live solving remains unverified in this rerun.

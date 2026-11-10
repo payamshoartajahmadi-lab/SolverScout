@@ -10,6 +10,7 @@ from p_mc_optimizer.llm.research_v2 import AdvisorContextV2, PlannerContext
 from p_mc_optimizer.research.contracts import (
     AdvisorPlanV2, ExecutionPolicyV2, ResearchLimits, ResearchQueryPlan, ResearchSnapshot, SearchProblemProfile,
 )
+from p_mc_optimizer.research.search import SEARCH_ERROR_MESSAGES
 from p_mc_optimizer.reporting import csv_bytes, json_bytes
 from p_mc_optimizer.selection.policies import rank_pilots
 from p_mc_optimizer.workflow.graph import Workflow, _code, _error, _model
@@ -103,7 +104,8 @@ class CatalogWorkflow(Workflow):
         if code in {"SEARCH_AUTH_FAILED", "SEARCH_RATE_LIMITED"} and error.get("retryable"):
             self.keep("research_outcome", None)
             return self.needs_configuration(error)
-        self.stop(code or "RESEARCH_EVIDENCE_INSUFFICIENT", "پژوهش برای انتخاب روش به شواهد کافی نرسید.",
+        message = SEARCH_ERROR_MESSAGES.get(code, "پژوهش برای انتخاب روش به شواهد کافی نرسید.")
+        self.stop(code or "RESEARCH_EVIDENCE_INSUFFICIENT", message,
                   reason="insufficient_evidence")
         return {"route": "verify"}
 
@@ -149,7 +151,7 @@ class CatalogWorkflow(Workflow):
             reasons = outcome.get("reason_codes") or ["RESEARCH_EVIDENCE_INSUFFICIENT"]
             reason = reasons[0]
             return self._research_failure({
-                **_error(reason, "شاهد قابل استناد بازیابی نشد."),
+                **_error(reason, SEARCH_ERROR_MESSAGES.get(reason, "شاهد قابل استناد بازیابی نشد.")),
                 "retryable": outcome.get("search_attempts", 3) < (
                     snapshot.search_profile.limits.max_search_attempts if snapshot.search_profile else 3
                 ),
