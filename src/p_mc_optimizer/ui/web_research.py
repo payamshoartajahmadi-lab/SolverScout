@@ -11,6 +11,7 @@ import streamlit as st
 
 from p_mc_optimizer.domain.models import strict_json_loads
 from p_mc_optimizer.research.contracts import ResearchLimits, SourceRule
+from p_mc_optimizer.ui.library import display_timestamp
 
 SEARCH_ROUTE = "/settings/search"
 SOURCES_ROUTE = "/settings/research-sources"
@@ -31,6 +32,8 @@ CONTENT_LABELS = {
     "documentation": "مستندات یا متن بخشی از صفحه",
     "full_text": "متن کامل قابل‌دریافت",
 }
+RESEARCH_ORIGINS = {"local_only": "کتابخانهٔ محلی", "direct_refresh": "منابع مستقیم", "web_search": "جست‌وجوی وب"}
+FETCH_LABELS = {"read": "دریافت تازه", "revalidated": "اعتبارسنجی دوباره", "cached": "نسخهٔ ذخیره‌شده", "failed": "ناموفق"}
 SEARCH_BLOCKERS = {
     "SEARCH_CONFIGURATION_REQUIRED",
     "SEARCH_AUTH_FAILED",
@@ -235,6 +238,8 @@ def outcome_panel(outcome, *, details=False):
     )
     if outcome.get("cache_only"):
         st.info("پژوهش از شواهد ذخیره‌شده استفاده کرد. این حالت می‌تواند تماس با مدل زبانی داشته باشد.")
+    if origin := RESEARCH_ORIGINS.get(outcome.get("retrieval_mode")):
+        st.text(f"منشأ پژوهش · {origin}")
     if outcome.get("reason_codes"):
         st.text(" · ".join(outcome["reason_codes"]))
     for query in (outcome.get("query_plan") or {}).get("queries", []):
@@ -246,15 +251,19 @@ def outcome_panel(outcome, *, details=False):
     st.caption(f"هزینهٔ گزارش‌شدهٔ جست‌وجو · {cost if cost is not None else 'نامشخص'}")
     for document in documents:
         label = CONTENT_LABELS.get(document.get("content_level"), "دریافت‌نشده")
-        with st.expander(f"{document['source_id']} · {label} · {document['fetch_status']}"):
+        with st.expander(f"{document['source_id']} · {label} · {FETCH_LABELS.get(document['fetch_status'], document['fetch_status'])}"):
             st.text(document.get("final_url") or document.get("requested_url", ""))
-            st.text(f"تاریخ انتشار · {document.get('published_at') or 'نامشخص'}")
-            st.text(f"دریافت · {document.get('fetched_at') or '—'}")
-            st.text(f"آخرین اعتبارسنجی · {document.get('validated_at') or '—'}")
+            st.text(f"تاریخ انتشار · {display_timestamp(document.get('published_at'))}")
+            st.text(f"دریافت · {display_timestamp(document.get('fetched_at'))}")
+            st.text(f"آخرین اعتبارسنجی · {display_timestamp(document.get('validated_at'))}")
             if document.get("cache_age_hours") is not None:
                 st.text(f"سن حافظه · {document['cache_age_hours']:.2f} ساعت")
             if document.get("truncated"):
                 st.warning("استخراج این متن ناقص است.")
+            if document.get("stale"):
+                st.warning("این نسخه بر اساس اجازهٔ ثبت‌شده برای استفاده از شاهد قدیمی انتخاب شده است.")
+            if version_id := document.get("version_id"):
+                st.text(f"نسخهٔ سند · {version_id}")
             if document.get("reason_code"):
                 st.text(document["reason_code"])
             for row in passages:
@@ -268,17 +277,20 @@ def outcome_panel(outcome, *, details=False):
 
 
 def research_report_panel(report):
-    st.subheader("پژوهش و شواهد وب")
-    requested = (report.get("policy") or {}).get("selection_policy")
+    st.subheader("پژوهش و شواهد")
+    policy = report.get("policy") or {}
+    requested = policy.get("selection_policy")
     effective = report.get("effective_selection_policy") or requested
     if effective:
         st.text(f"سیاست درخواستی · {requested or '—'}\nسیاست مؤثر · {effective}")
     if report.get("research_error"):
         st.text(str(report["research_error"]))
-    if requested == "web_research_then_pilot" and effective == "catalog_llm_then_pilot":
-        st.warning("ادامه بدون شواهد وب کافی")
+    if requested in {"web_research_then_pilot", "evidence_research_then_pilot"} and effective == "catalog_llm_then_pilot":
+        st.warning("ادامه با مشاور کاتالوگ به دلیل ناکافی‌بودن شواهد")
+    if origin := RESEARCH_ORIGINS.get(policy.get("retrieval_mode")):
+        st.caption(f"مسیر پژوهش · {origin}")
     outcome_panel(report.get("research"), details=True)
-    if plan := report.get("advisor_plan_v2"):
+    if plan := report.get("advisor_plan_v21") or report.get("advisor_plan_v2"):
         for candidate in plan.get("candidates", []):
             with st.expander(f"پیشنهاد اجرایی · {candidate['implementation_id']}"):
                 st.text(candidate["rationale_fa"])

@@ -10,6 +10,7 @@ import streamlit as st
 from p_mc_optimizer.ui.catalog import catalog_page
 from p_mc_optimizer.ui.connections import connections_page, model_settings
 from p_mc_optimizer.ui.executions import executions_page
+from p_mc_optimizer.ui.library import library_page
 from p_mc_optimizer.ui.research import research
 from p_mc_optimizer.ui.results import report_panel
 from p_mc_optimizer.ui.theme import UI_CSS
@@ -84,9 +85,13 @@ def show_report(job_id, job):
 def library():
     st.title("منابع و الگوریتم‌ها")
     st.caption("منابع مجاز جست‌وجو و روش‌هایی را که این محیط می‌تواند اجرا کند بررسی کنید.")
-    sources, catalog, experiments = st.tabs(
-        ["منابع وب", "الگوریتم‌ها", "آزمایش پژوهشی"], key="library-tab", on_change="rerun",
+    documents, sources, catalog, experiments = st.tabs(
+        ["کتابخانهٔ منابع", "مجوز منابع", "الگوریتم‌ها", "آزمایش پژوهشی"],
+        key="library-tab", on_change="rerun",
     )
+    if documents.open:
+        with documents:
+            library_page(attempt)
     if sources.open:
         with sources:
             source_settings(attempt)

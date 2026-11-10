@@ -8,6 +8,7 @@ import streamlit as st
 from pydantic import ValidationError
 
 from p_mc_optimizer.llm.models import OPENAI_BASE_URL, ProfileUpdate, origin_of
+from p_mc_optimizer.ui.library import retrieval_settings
 from p_mc_optimizer.ui.web_research import search_settings
 
 PROFILE_ROUTE = "/settings/llm/profile"
@@ -223,4 +224,5 @@ def connections_page(attempt, on_back=None, focus=None):
     with model, st.container(key="ux-model-connection"):
         model_settings(attempt)
     with search, st.container(key="ux-search-connection"):
-        search_settings(attempt, compact=True, expanded=focus in {"search", "tavily"})
+        if retrieval_settings(attempt):
+            search_settings(attempt, compact=True, expanded=focus in {"search", "tavily"})
