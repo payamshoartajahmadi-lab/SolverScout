@@ -7,3 +7,7 @@ Baseline commit `fb483cf`. Tests ran in a separate checkout on macOS arm64 with 
 The version dispatch inventory covers job admission in `application/jobs.py`, research routes and frozen inputs in `api/app.py` and `api/research_v2.py`, workflow selection in `workflow/worker.py`, LLM role schemas and call budgets in `llm/`, report recovery in `persistence/repository.py`, exports in `reporting/` and job creation and display in `ui/`.
 
 The labeled corpus in `tests/fixtures/library_v21_corpus.json` freezes three qualified method families, one fictional research-only method and an unrelated document. It includes text hashes and reference offsets. It represents controlled acceptance data.
+
+## L1 contracts and migration
+
+The migration, contract and prior research suites passed with **47 tests in 0.29 seconds**. The cases cover schema 2 to 3, a paired database and artifact backup, rejection with unfinished work, typed retrieval paths and existing version 2 contracts. Migration tests used temporary databases.
