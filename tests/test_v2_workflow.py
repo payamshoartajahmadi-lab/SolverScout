@@ -12,7 +12,7 @@ from p_mc_optimizer.research.fetch import DocumentFetcher
 from p_mc_optimizer.research.transport import ResearchError, Response
 from p_mc_optimizer.workflow.worker import run_claimed
 from test_llm_gateway import _PROFILE_SETTINGS, _TEST_KEY, checked, completion
-from test_llm_workflow import configure, local_api
+from test_llm_workflow import assert_empirical_explainer_context, configure, local_api
 
 SOURCE = {
     "source_id": "methods", "label": "TEST FIXTURE", "hostname": "methods.example.test",
@@ -59,7 +59,7 @@ class DocumentFixture:
         """)
 
 
-def model_fixture(request):
+def model_fixture(request, explainer_contexts):
     body = json.loads(request.content)
     name = body["response_format"]["json_schema"]["name"]
     assert request.headers["Authorization"] == f"Bearer {_TEST_KEY}"
@@ -74,6 +74,7 @@ def model_fixture(request):
         }]})
     if name == "explainer_v1":
         assert "repair" not in context
+        explainer_contexts.append(context)
         return completion({
             "summary_fa": "بهترین مشاهدهٔ معتبر در بودجهٔ اجرا ثبت شد.",
             "selection_explanation_fa": "روش منتخب در پایلوت عملکرد بهتری داشت.",
@@ -133,9 +134,12 @@ def run_job(repo, client, address, token, payload):
 
 
 def test_v2_web_and_catalog_policies_use_real_pilot_evidence(tmp_path):
+    """FLOW-07. The v2 Explainer passes the existing schema over the real adapter."""
     search = SearchFixture()
     document = DocumentFixture()
-    with local_api(tmp_path, httpx.MockTransport(model_fixture), research_search=search,
+    explainer_contexts = []
+    transport = httpx.MockTransport(lambda request: model_fixture(request, explainer_contexts))
+    with local_api(tmp_path, transport, research_search=search,
                    research_fetch=DocumentFetcher(document)) as (repo, client, address, token):
         catalog = qualify_three(client)
         llm, _ = configure(client, _PROFILE_SETTINGS, _TEST_KEY)
@@ -181,6 +185,11 @@ def test_v2_web_and_catalog_policies_use_real_pilot_evidence(tmp_path):
         assert report["solution_status"] == "valid_best_found"
         assert report["explanation_status"] == "generated"
         assert report["explanation"]["limitations_fa"] == ["نتیجه، برتری آماری یا تضمین موفقیت را اثبات نمی‌کند."]
+        assert len(explainer_contexts) == 1
+        assert explainer_contexts[0] == repo.get_job(job_id)["workflow"]["role_context:explainer"]
+        summary = assert_empirical_explainer_context(explainer_contexts[0], report)
+        assert summary["effective_selection_policy"] == "web_research_then_pilot"
+        assert summary["eligible_ranking"][0] == report["selected_algorithm_id"]
         assert len(report["trials"]) == 10
         assert all(row["started_evaluations"] == 500 for row in report["trials"])
         assert report["budget"]["known_started"] == 5502
@@ -196,11 +205,26 @@ def test_v2_web_and_catalog_policies_use_real_pilot_evidence(tmp_path):
         assert catalog_report["selected_algorithm_id"] == report["selected_algorithm_id"]
         assert catalog_report["score_for_minimization"] == report["score_for_minimization"]
         assert catalog_report["budget"]["known_started"] == 5502
+        assert catalog_report["explanation_status"] == "not_requested" and len(explainer_contexts) == 1
         assert {a["kind"] for a in report_body["artifacts"]} >= {"report_html", "research_json", "sources_csv"}
         html_artifact = next(a for a in report_body["artifacts"] if a["kind"] == "report_html")
         html = client.get(f"/artifacts/{html_artifact['artifact_id']}").text
         assert "<script>" not in html and "Grey Wolf" in html
+        assert "<h2>توضیح مدل</h2>" in html
         assert SEARCH_KEY not in html and _TEST_KEY not in html
+
+        config = catalog["items"][0]
+        fixed_payload = {**catalog_payload, "llm_profile": None, "policy": {
+            **policy, "selection_policy": "catalog_fixed", "max_objective_evaluations": 1002,
+            "fixed_implementation_id": config["implementation_id"], "fixed_config_id": config["config_id"],
+        }}
+        fixed_job, state = run_job(repo, client, address, token, fixed_payload)
+        assert state["job_status"] == "completed", state
+        fixed_report = checked(client.get(f"/jobs/{fixed_job}/report"))["report"]
+        assert fixed_report["solution_status"] == "valid_best_found"
+        assert fixed_report["llm_calls"] == [] and fixed_report["explanation_status"] == "not_requested"
+        assert "role_context:explainer" not in repo.get_job(fixed_job)["workflow"]
+        assert len(explainer_contexts) == 1
 
         search.failure = "SEARCH_AUTH_FAILED"
         failed_job, state = run_job(repo, client, address, token, payload)

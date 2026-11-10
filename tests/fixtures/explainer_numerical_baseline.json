@@ -1,0 +1,45 @@
+{
+  "baseline_commit": "d3cedb84539e1344d114e40bdc5d39f1ab1d23b7",
+  "master_seed": 1405,
+  "best_x": [
+    -0.00023003727572422014,
+    -4.3546060633030056e-05
+  ],
+  "objective_raw": 5.481340761927641e-08,
+  "score_for_minimization": 5.481340761927641e-08,
+  "selected_algorithm_id": "pso.original",
+  "selected_config_id": "pso.default.v1",
+  "solution_status": "valid_best_found",
+  "solution_origin": {
+    "phase": "pilot",
+    "algorithm_id": "pso.original"
+  },
+  "validation_status": "passed",
+  "known_started": 5502,
+  "decision": {
+    "selected_algorithm_id": "pso.original",
+    "metrics": [
+      {
+        "algorithm_id": "abc.original",
+        "eligible": true,
+        "median_score": 0.00031741419313709266,
+        "normalized_iqr": 0.0008559604910681443,
+        "reason": null
+      },
+      {
+        "algorithm_id": "de.original",
+        "eligible": true,
+        "median_score": 0.0001791109431814898,
+        "normalized_iqr": 0.0003170455380959414,
+        "reason": null
+      },
+      {
+        "algorithm_id": "pso.original",
+        "eligible": true,
+        "median_score": 1.2697833573434835e-06,
+        "normalized_iqr": 7.12715557699342e-06,
+        "reason": null
+      }
+    ]
+  }
+}

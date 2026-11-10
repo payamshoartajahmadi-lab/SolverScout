@@ -18,6 +18,7 @@ from p_mc_optimizer.llm.models import (
     SCHEMA_IDS,
     CredentialMutationTarget,
     CredentialStatus,
+    ExplainerDecisionSummary,
     Invocation,
     ProfileUpdate,
     ProviderSnapshot,
@@ -37,7 +38,7 @@ _LLM_POLICIES = {
 }
 _REPORT_FIELDS = {
     "selected_algorithm_id", "selection_status", "solution_status", "solution_origin",
-    "verification", "partial_result", "budget", "optimality_status", "objective_raw",
+    "verification", "partial_result", "budget", "optimality_status", "objective_raw", "decision_summary",
 }
 _PRIVATE_FIELDS = {
     "api_key", "authorization", "credential_ref", "cookie", "internal_token",
@@ -484,6 +485,8 @@ class LLMGateway:
         try:
             context = context_model.model_validate(invocation.context)
             _validate_context_fields(invocation.context)
+            if role == "explainer" and context.report.get("decision_summary") is not None:
+                ExplainerDecisionSummary.model_validate(context.report["decision_summary"])
             data = invocation.model_dump(mode="json")
             request_hash = _hash(data)
         except (ValidationError, ValueError, RecursionError):
@@ -600,3 +603,15 @@ class LLMGateway:
                 card != registry.get(card.get("algorithm_id")) for card in context.solver_cards
             ):
                 raise ApiError(422, "INVALID_SCHEMA", "کارت‌های روش با سبد ثابت یکسان نیستند.")
+        elif role == "explainer":
+            expected = _from_json(job["workflow"]).get("role_context:explainer")
+            actual = context.model_dump(mode="json", exclude={"repair"})
+            if expected is None or _json(actual) != _json(expected):
+                raise ApiError(422, "INVALID_SCHEMA", "زمینهٔ توضیح با snapshot این اجرا یکسان نیست.")
+            if "decision_summary" not in context.report:
+                raise ApiError(422, "INVALID_SCHEMA", "فیلد خلاصهٔ تصمیم در زمینهٔ توضیح الزامی است.")
+            if context.selection_made != (context.report.get("selected_algorithm_id") is not None):
+                raise ApiError(422, "INVALID_SCHEMA", "وضعیت انتخاب با زمینهٔ توضیح این اجرا یکسان نیست.")
+            has_decision = context.report["decision_summary"] is not None
+            if has_decision != ("report:decision" in context.evidence_refs) or (context.selection_made and not has_decision):
+                raise ApiError(422, "INVALID_SCHEMA", "ارجاع تصمیم با شواهد زمینهٔ توضیح یکسان نیست.")
