@@ -25,7 +25,7 @@ def public_research(outcome: ResearchOutcome):
 class ResearchInvocation(ContractModel):
     job_id: Uuid4String
     worker_id: Uuid4String
-    operation: Literal["check", "run"]
+    operation: Literal["check", "run", "refresh"]
 
 
 class ResearchJobs:
@@ -112,7 +112,9 @@ class ResearchJobs:
             if selection == "web_research_then_pilot" and not job["workflow"].get("effective_selection_policy"):
                 self._search_ready(snapshot)
             return {"ready": True}
-        if selection != "web_research_then_pilot" or job["phase"] not in {"searching", "fetching_evidence"}:
+        if payload.operation != "run" or selection != "web_research_then_pilot" or job["phase"] not in {
+            "searching", "fetching_evidence",
+        }:
             raise ApiError(409, "INVALID_JOB_STATE", "درخواست پژوهش در این مرحله مجاز نیست.")
 
         profile = snapshot.search_profile

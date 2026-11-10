@@ -23,3 +23,7 @@ The direct acquisition and existing research suites passed with **62 tests**. Th
 ## L4 local evidence retrieval
 
 Five retrieval tests passed in 0.20 seconds. They check exact passage offsets, targeted variants, snapshot replay after refresh and source revocation, stale policy, observation scoping for web results, safe FTS queries and corrupt artifacts.
+
+## L5 research orchestration
+
+A targeted run of the optional web path, contracts, original research and model gateway passed **54 tests in 2.23 seconds**. The web fixture exercises HTTP 200 and 304, request accounting and exclusion of unrelated library observations. The version 2.1 planner uses qualified catalog cards and the advisor validates evidence references and variant names. A separate combined regression run of retrieval and UI integration passed 60 tests in 2.34 seconds.

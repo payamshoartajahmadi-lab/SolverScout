@@ -150,13 +150,17 @@ class Repository:
         if not findings:
             return
         with self.transaction() as connection:
-            self.check_worker(self.job_row(connection, job_id), worker_id)
+            job = self.job_row(connection, job_id)
+            self.check_worker(job, worker_id)
+            version = json.loads(job["policy"])["policy_version"]
             for finding in findings:
                 identity = [finding.name.strip().casefold(), (finding.variant or "").strip().casefold()]
                 method_id = hashlib.sha256(json_text(identity).encode("utf-8")).hexdigest()
                 record = as_json(finding)
                 record["method_id"] = method_id
-                record["status"] = "mapped" if finding.implementation_match else "known_only"
+                record["status"] = "mapped" if finding.implementation_match else (
+                    "research_only" if version == "2.1" else "known_only"
+                )
                 serialized = json_text(record)
                 record_hash = hashlib.sha256(serialized.encode("utf-8")).hexdigest()
                 connection.execute(
@@ -857,7 +861,7 @@ class Repository:
             "explanation": {"source": "template", "summary_fa": summary, "limitations_fa": [CLAIM_FA]},
         }
         research_exports = []
-        if job["policy"]["policy_version"] == "2.0":
+        if job["policy"]["policy_version"] in {"2.0", "2.1"}:
             policy = job["policy"]["selection_policy"]
             workflow = job["workflow"]
             research = workflow.get("research_outcome") or {
@@ -865,7 +869,8 @@ class Repository:
                 else "not_requested"
             }
             report.update({
-                "schema_version": "2.0", "research": research, "research_error": workflow.get("research_error"),
+                "schema_version": job["policy"]["policy_version"], "research": research,
+                "research_error": workflow.get("research_error"),
                 "advisor_plan_v2": workflow.get("advisor_plan_v2"), "requested_selection_policy": policy,
                 "effective_selection_policy": workflow.get("effective_selection_policy", policy),
             })

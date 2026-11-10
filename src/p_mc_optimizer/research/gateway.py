@@ -240,7 +240,7 @@ class ResearchGateway:
                 self.store.save_document(session.job_id, new, key + ":" + digest(url))
             yield new, text, queries
 
-    def _live(self, session, plan, credential, key, on_phase, documents, hits, reasons):
+    def _live(self, session, plan, credential, key, on_phase, documents, hits, reasons, on_document):
         queries = {query.query_id: query for query in plan.queries}
         on_phase("searching")
         for query in queries.values():
@@ -271,12 +271,22 @@ class ResearchGateway:
             url = hit.canonical_url
             sources = queries[hit.query_id].source_ids
             previous = self.store.lookup_document(session.job_id, url)
+            captured = {}
             if previous:
                 document = SourceDocument.model_validate(previous)
                 text = self.store.load_text(document.text_sha256)
             else:
-                document, text = self.fetch.fetch(session, hit, sources, cached.get(url))
+                if on_document is None:
+                    document, text = self.fetch.fetch(session, hit, sources, cached.get(url))
+                else:
+                    def capture(response, parsed):
+                        captured["raw"] = response.body
+                        captured["title"] = session.sanitize(parsed.get("title") or hit.title)
+
+                    document, text = self.fetch.fetch(session, hit, sources, cached.get(url), capture=capture)
                 self.store.save_document(session.job_id, document, cache_keys[url], text)
+            if on_document is not None and text is not None:
+                on_document(document, text, captured.get("raw"), captured.get("title", hit.title))
             documents.append((document, text, related[url]))
             if document.reason_code:
                 reasons.append(document.reason_code)
@@ -285,7 +295,7 @@ class ResearchGateway:
 
     def run(
         self, job_id, plan, policy, limits, *, mode="live", max_cache_age_hours=24,
-        credential=None, cancelled=lambda: False, sanitize=None, on_phase=None, resume=False,
+        credential=None, cancelled=lambda: False, sanitize=None, on_phase=None, resume=False, on_document=None,
     ):
         if mode not in {"live", "cache_only"}:
             raise ResearchError("SEARCH_CONFIGURATION_REQUIRED")
@@ -326,7 +336,8 @@ class ResearchGateway:
                     phase("fetching_evidence")
                     documents.extend(self._cached(session, plan, max_cache_age_hours, self._policy_key(policy)))
                 else:
-                    self._live(session, plan, credential, self._policy_key(policy), phase, documents, hits, reasons)
+                    self._live(session, plan, credential, self._policy_key(policy), phase, documents, hits, reasons,
+                               on_document)
                 session.check_cancelled()
             except ResearchError as exc:
                 reasons.append(exc.code)

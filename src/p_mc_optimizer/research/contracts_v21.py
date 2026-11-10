@@ -240,7 +240,7 @@ class ResearchSnapshotV21(VersionedContract):
 
 
 class ResearchQueryV21(ResearchQuery):
-    implementation_ids: Annotated[FrozenArray[ImplementationId], Field(max_length=20)] = ()
+    implementation_ids: Annotated[FrozenArray[ImplementationId], Field(max_length=20)]
 
     @model_validator(mode="after")
     def check_targets(self):

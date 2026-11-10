@@ -169,6 +169,8 @@ class LibraryRetriever:
         now = datetime.now(UTC)
         for row in rows:
             observation, version = json.loads(row["observation"]), json.loads(row["version"])
+            if observation.get("raw_available"):
+                version["raw_available"] = True
             if version.get("content_level") not in {"abstract", "documentation", "full_text"}:
                 continue
             document = observation.get("document") or {}
@@ -266,10 +268,10 @@ class LibraryRetriever:
                 document, version = by_id[item["observation_id"]]
                 if document["document_id"] in seen:
                     continue
-                version_id = document["version_id"]
-                if version_id not in verified:
-                    verified[version_id] = self.store.verify_artifacts(version)
-                content = verified[version_id]
+                artifact_key = (document["version_id"], bool(version.get("raw_available")))
+                if artifact_key not in verified:
+                    verified[artifact_key] = self.store.verify_artifacts(version)
+                content = verified[artifact_key]
                 if not content:
                     missing = True
                     continue
@@ -384,6 +386,8 @@ class LibraryRetriever:
                 if row["source_id"] not in eligible or not row["version"]:
                     continue
                 observation, version = json.loads(row["observation"]), json.loads(row["version"])
+                if observation.get("raw_available"):
+                    version["raw_available"] = True
                 try:
                     for target in (observation["requested_url"], *observation.get("redirect_chain", ()),
                                    observation["final_url"]):

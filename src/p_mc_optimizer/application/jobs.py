@@ -11,6 +11,8 @@ from p_mc_optimizer.application.errors import ApiError
 from p_mc_optimizer.domain.models import CreateJob, ExecutionPolicy, ProblemInput
 from p_mc_optimizer.persistence import Repository
 from p_mc_optimizer.persistence.repository import invalid_state, json_text, utc_now, uuid4_text
+from p_mc_optimizer.research.contracts import ExecutionPolicyV2
+from p_mc_optimizer.research.contracts_v21 import ExecutionPolicyV21
 
 Version = Annotated[int, Field(ge=1)]
 ShortId = Annotated[str, StringConstraints(min_length=1, max_length=128)]
@@ -47,7 +49,10 @@ AnswersInput = Annotated[TextualAnswers | StructuredCompletion, Field(discrimina
 
 
 def public_job(job: dict) -> dict:
-    return {key: value for key, value in job.items() if key not in INTERNAL_JOB_FIELDS}
+    public = {key: value for key, value in job.items() if key not in INTERNAL_JOB_FIELDS}
+    if job["policy"]["policy_version"] == "2.1":
+        public["source_sync_run_id"] = job["workflow"].get("source_sync_run_id")
+    return public
 
 
 def not_configured(*_) -> None:
@@ -69,12 +74,10 @@ class ApplicationService:
         idempotency_key = hashlib.sha256(idempotency_key.encode("ascii")).hexdigest()
         payload = request.model_dump(mode="json")
         request_hash = hashlib.sha256(json_text(payload).encode("utf-8")).hexdigest()
-        v2 = request.policy.policy_version == "2.0"
-        policy_type = ExecutionPolicy
-        if v2:
-            from p_mc_optimizer.research.contracts import ExecutionPolicyV2
-
-            policy_type = ExecutionPolicyV2
+        policy_type = {"1.0": ExecutionPolicy, "2.0": ExecutionPolicyV2, "2.1": ExecutionPolicyV21}[
+            request.policy.policy_version
+        ]
+        v2 = policy_type is not ExecutionPolicy
         policy = policy_type.from_input(request.policy).model_dump(mode="json")
         with self.repo.connect() as connection:
             connection.execute("BEGIN")

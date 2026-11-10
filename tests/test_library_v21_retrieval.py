@@ -23,7 +23,7 @@ PLAN = {
         {"query_id": "variants", "text": "bounded continuous optimization", "source_ids": ["methods"],
          "purpose": "implementation_evidence", "implementation_ids": list(CATALOG)},
         {"query_id": "discovery", "text": "bounded continuous optimization", "source_ids": ["methods"],
-         "purpose": "method_discovery"},
+         "purpose": "method_discovery", "implementation_ids": []},
     ],
 }
 
