@@ -1,0 +1,91 @@
+{
+  "positive": [
+    {
+      "url": "https://methods.example.test/manual/de",
+      "title": "Differential Evolution",
+      "text": "Differential Evolution\n\nDifferential Evolution (DE) uses differences between population vectors for bounded continuous optimization. OriginalDE is the implementation documented in this example.",
+      "text_sha256": "f8d616428133859e83be9d7101100d5fbf86e5dda89078cc392c88441231e57a",
+      "reference": {
+        "start": 24,
+        "end": 193,
+        "text": "Differential Evolution (DE) uses differences between population vectors for bounded continuous optimization. OriginalDE is the implementation documented in this example."
+      },
+      "label": {
+        "family": "de",
+        "variant": "OriginalDE",
+        "supports_execution_claim": true,
+        "research_only": false
+      }
+    },
+    {
+      "url": "https://methods.example.test/manual/gwo",
+      "title": "Grey Wolf Optimizer",
+      "text": "Grey Wolf Optimizer\n\nGrey Wolf Optimizer (GWO) updates candidate vectors using the leading wolves for bounded continuous optimization. OriginalGWO is the documented implementation.",
+      "text_sha256": "eb8515dea71d8f37e598f82fd5edaf3ed873e18744b6bf01f9524616deafa93f",
+      "reference": {
+        "start": 21,
+        "end": 180,
+        "text": "Grey Wolf Optimizer (GWO) updates candidate vectors using the leading wolves for bounded continuous optimization. OriginalGWO is the documented implementation."
+      },
+      "label": {
+        "family": "gwo",
+        "variant": "OriginalGWO",
+        "supports_execution_claim": true,
+        "research_only": false
+      }
+    },
+    {
+      "url": "https://methods.example.test/manual/woa",
+      "title": "Whale Optimization Algorithm",
+      "text": "Whale Optimization Algorithm\n\nWhale Optimization Algorithm (WOA) uses encircling and spiral updates for bounded continuous optimization. OriginalWOA is the documented implementation.",
+      "text_sha256": "aa921e2ace0817b0bcd7fb73d8cf303e955facd4512ec904a101a5ea728b18e9",
+      "reference": {
+        "start": 30,
+        "end": 182,
+        "text": "Whale Optimization Algorithm (WOA) uses encircling and spiral updates for bounded continuous optimization. OriginalWOA is the documented implementation."
+      },
+      "label": {
+        "family": "woa",
+        "variant": "OriginalWOA",
+        "supports_execution_claim": true,
+        "research_only": false
+      }
+    },
+    {
+      "url": "https://methods.example.test/manual/research_only",
+      "title": "Orbit Lattice Search",
+      "text": "Orbit Lattice Search\n\nOrbit Lattice Search is a fictional method in this fixture for bounded continuous optimization. No compatible implementation is present in the qualified catalog.",
+      "text_sha256": "c8cfe34444a31a77ae178a62fc10273d419bcfbeb6445314a5105785d0ef8b69",
+      "reference": {
+        "start": 22,
+        "end": 183,
+        "text": "Orbit Lattice Search is a fictional method in this fixture for bounded continuous optimization. No compatible implementation is present in the qualified catalog."
+      },
+      "label": {
+        "family": null,
+        "variant": null,
+        "supports_execution_claim": false,
+        "research_only": true
+      }
+    }
+  ],
+  "unrelated": [
+    {
+      "url": "https://methods.example.test/manual/unrelated",
+      "title": "Cataloguing photographs",
+      "text": "Cataloguing photographs\n\nThis fixture describes storing and indexing photographs. It contains no optimization implementation or experimental result.",
+      "text_sha256": "f2e8c60f2e1515744cefd91ef20f66479cf3d4851c3060a45871a3a6c801df5a",
+      "reference": {
+        "start": 25,
+        "end": 148,
+        "text": "This fixture describes storing and indexing photographs. It contains no optimization implementation or experimental result."
+      },
+      "label": {
+        "family": null,
+        "variant": null,
+        "supports_execution_claim": false,
+        "research_only": false
+      }
+    }
+  ]
+}
