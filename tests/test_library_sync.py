@@ -11,6 +11,7 @@ from p_mc_optimizer.application.errors import ApiError
 from p_mc_optimizer.persistence import Repository
 from p_mc_optimizer.research.contracts import SourceRule, SourceSnapshot
 from p_mc_optimizer.research.contracts_v21 import LibrarySourceUpdate, SourceSyncRequest, SyncLimits
+from p_mc_optimizer.research.library_retrieval import LibraryRetriever
 from p_mc_optimizer.research.library_store import LibraryStore
 from p_mc_optimizer.research.library_sync import SourceSynchronizer
 from p_mc_optimizer.research.storage import ResearchStore, now
@@ -145,6 +146,33 @@ def test_rejects_unsafe_sitemap_and_restricted_redirect(library):
     assert run["status"] == "failed"
     assert set(run["reason_codes"]) == {"SOURCE_NOT_ALLOWED", "SOURCE_SITEMAP_INVALID"}
     assert [url for url, _ in transport.calls] == [BASE + "/robots.txt", SEED, MAP]
+
+
+@pytest.mark.parametrize("unusable", [
+    response(403), response(429), response(200, b"invalid pdf", **{"content-type": "application/pdf"}),
+])
+def test_failed_refresh_retains_the_last_usable_version(library, unusable):
+    library.configure("docs", LibrarySourceUpdate(expected_revision=0, seed_urls=[SEED]))
+    transport = Transport({SEED: html("<p>Verified content</p>")})
+    assert refresh(library, transport)["status"] == "completed"
+    before = library.list_documents()[0]
+    transport.pages[SEED] = unusable
+    assert refresh(library, transport)["status"] == "failed"
+    after = library.list_documents()[0]
+    assert after["version"] == before["version"]
+    assert after["last_successful_validation_at"] == before["last_successful_validation_at"]
+
+
+def test_truncated_tail_is_not_searchable_as_evidence(library):
+    library.configure("docs", LibrarySourceUpdate(expected_revision=0, seed_urls=[SEED]))
+    transport = Transport({SEED: html("<p>" + "general overview " * 100 + "</p><p>OriginalWOA</p>")})
+    assert refresh(library, transport, limits=SyncLimits(max_text_chars=128))["status"] == "completed"
+    version = library.list_documents()[0]["version"]
+    assert version["truncated"] is True
+    assert "OriginalWOA" not in library.verify_artifacts(version)
+    with library.connect() as connection:
+        snapshot = library.source_snapshot(connection)
+    assert LibraryRetriever(library).search("OriginalWOA", snapshot) == []
 
 
 def test_ledger_caps_and_unknown_bytes(library):

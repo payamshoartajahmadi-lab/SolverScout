@@ -13,11 +13,11 @@ from p_mc_optimizer import __version__
 
 ROOT_FILES = {
     "pyproject.toml", "requirements.lock", "requirements-test.lock", "README.md", "README_FA.md",
-    "IMPLEMENTATION_STATUS_V2.md", "TEST_RESULTS_V2.md",
+    "IMPLEMENTATION_STATUS_V2.md", "TEST_RESULTS_V2.md", "TEST_RESULTS_V21.md",
     "QUICKSTART_FA.md", "IMPLEMENTATION_STATUS.md", "TEST_RESULTS.md", "RELEASE_NOTES.md", "run_server.py",
 }
 TREE_FILES = {
-    "src": {".py", ".txt", ".json"},
+    "src": {".py", ".txt", ".json", ".woff2"},
     "scripts": {".sh", ".bat", ".py"},
     "examples": {".json", ".txt"},
     "prompts": {".txt", ".md"},

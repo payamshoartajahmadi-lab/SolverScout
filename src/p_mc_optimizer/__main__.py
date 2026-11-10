@@ -84,13 +84,42 @@ def doctor(data_dir, config):
     return 0
 
 
+def rebuild_library_index(repo):
+    from p_mc_optimizer.persistence.migrations import execute_sql, fts5_available
+    from p_mc_optimizer.research.library_schema import LIBRARY_FTS_SCHEMA
+    from p_mc_optimizer.research.library_store import LibraryStore, normalize_index_text
+    from p_mc_optimizer.research.storage import ResearchStore
+
+    library = LibraryStore(ResearchStore(repo.path, repo.data_dir / "artifacts" / "research"))
+    indexed = skipped = 0
+    with repo.transaction() as connection:
+        if not fts5_available(connection):
+            raise MigrationError("LOCAL_INDEX_UNAVAILABLE: SQLite FTS5 is required")
+        connection.execute("DROP TABLE IF EXISTS library_fts")
+        execute_sql(connection, LIBRARY_FTS_SCHEMA)
+        versions = connection.execute("SELECT rowid,version_id,payload FROM library_versions ORDER BY rowid")
+        for row in versions:
+            version = json.loads(row["payload"])
+            text = library.verify_artifacts(version)
+            if text is None:
+                skipped += 1
+                continue
+            connection.execute(
+                "INSERT INTO library_fts(rowid,version_id,title,body) VALUES(?,?,?,?)",
+                (row["rowid"], row["version_id"], normalize_index_text(version["title"]), normalize_index_text(text)),
+            )
+            indexed += 1
+    print(json.dumps({"indexed_versions": indexed, "skipped_invalid_versions": skipped}))
+    return 0
+
+
 def parser():
     root = argparse.ArgumentParser(prog="p_mc_optimizer")
     root.add_argument("--version", action="version", version=__version__)
     root.add_argument("--data-dir", type=Path)
     root.add_argument("--config", type=Path)
     sub = root.add_subparsers(dest="command", required=True)
-    for command in ("doctor", "start", "stop", "solve", "benchmark", "package", "migrate"):
+    for command in ("doctor", "start", "stop", "solve", "benchmark", "package", "migrate", "library-reindex"):
         part = sub.add_parser(command)
         part.add_argument("--data-dir", type=Path, default=argparse.SUPPRESS)
         part.add_argument("--config", type=Path, default=argparse.SUPPRESS)
@@ -171,6 +200,8 @@ def main(argv=None):
             if args.command == "migrate":
                 print("SQLite schema is ready.")
                 return 0
+            if args.command == "library-reindex":
+                return rebuild_library_index(repo)
             if args.command == "benchmark":
                 from p_mc_optimizer.benchmarks import run_benchmark
                 result = run_benchmark(repo, args.manifest, solve)

@@ -1,4 +1,5 @@
 """Document identity, publication and legacy import in the source library."""
+import json
 from dataclasses import replace
 from datetime import UTC, datetime, timedelta
 from hashlib import sha256
@@ -6,6 +7,7 @@ from uuid import uuid4
 
 import pytest
 
+from p_mc_optimizer.__main__ import main
 from p_mc_optimizer.persistence import Repository
 from p_mc_optimizer.research.contracts import SourceDocument, SourceRule, SourceSnapshot
 from p_mc_optimizer.research.library_store import LibraryEntry, LibraryStore
@@ -121,3 +123,19 @@ def test_repeated_legacy_import_keeps_provenance_and_old_validated_at(library):
     with repo.connect() as db:
         assert store.generation(db) == 1
         assert db.execute("SELECT COUNT(*) FROM source_documents").fetchone()[0] == 1
+
+
+def test_reindex_builds_fts_from_verified_artifacts(library, capsys):
+    repo, store, snapshot = library
+    good = entry("Verified TEST FIXTURE")
+    bad = entry("Corrupted TEST FIXTURE", url=URL + "/invalid")
+    observations = store.publish_documents([good, bad], snapshot)
+    (store.artifact_dir / (bad.document.text_sha256 + ".txt")).write_bytes(b"INVALID FIXTURE")
+    with repo.transaction() as db:
+        db.execute("DROP TABLE library_fts")
+    for _ in range(2):
+        assert main(["library-reindex", "--data-dir", str(repo.data_dir)]) == 0
+        assert json.loads(capsys.readouterr().out) == {"indexed_versions": 1, "skipped_invalid_versions": 1}
+    with repo.connect() as db:
+        assert db.execute("SELECT version_id FROM library_fts").fetchone()[0] == observations[0]["version_id"]
+        assert db.execute("SELECT COUNT(*) FROM library_versions").fetchone()[0] == 2
