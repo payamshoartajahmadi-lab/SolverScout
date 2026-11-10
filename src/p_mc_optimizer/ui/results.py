@@ -186,7 +186,7 @@ def _summary(report, job, point, objective, verified, tab_key):
 
 
 def _research_and_trials(report):
-    if report.get("schema_version") == "2.0":
+    if report.get("schema_version") in {"2.0", "2.1"}:
         research_report_panel(report)
     decision = report.get("decision") or {}
     metrics = {metric["algorithm_id"]: metric for metric in decision.get("metrics", [])}
@@ -206,7 +206,7 @@ def _research_and_trials(report):
     if pilot_rows:
         st.subheader("مقایسهٔ آزمایش‌های کوتاه")
         st.dataframe(pilot_rows, hide_index=True)
-    elif report.get("schema_version") != "2.0":
+    elif report.get("schema_version") not in {"2.0", "2.1"}:
         st.info("برای این اجرا پژوهش وب یا آزمایش مقایسه‌ای ثبت نشده است.")
 
 

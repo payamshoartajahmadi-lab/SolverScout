@@ -222,6 +222,10 @@ def test_connection_forms_save_keys_and_keep_settings_after_restart(tmp_path, mo
         page.session_state["client"] = reopened
         page.run()
         assert not page.exception
+        assert all(field.label != "کلید API جست‌وجو" for field in page.text_input)
+        next(box for box in page.selectbox if box.label == "موتور جست‌وجو").select(True)
+        next(button for button in page.button if button.label == "ثبت تنظیمات پژوهش").click().run()
+        assert not page.exception
         for label in ("نگهداری کلید جدید", "شیوهٔ نگهداری کلید جست‌وجو"):
             assert next(box.value for box in page.selectbox if box.label == label) == "os_keyring"
         next(field for field in page.text_input if field.label == "شناسهٔ مدل").set_value("updated-test-model")
@@ -235,6 +239,7 @@ def test_connection_forms_save_keys_and_keep_settings_after_restart(tmp_path, mo
     with client() as restarted:
         model = checked(restarted.get("/settings/llm/profile"))
         search = checked(restarted.get("/settings/search"))
+        assert checked(restarted.get("/settings/retrieval"))["web_search_enabled"]
         assert model["profile"]["model"] == "updated-test-model"
         assert model["profile"]["test_status"] == "not_tested"
         assert model["credential_status"]["available"] and model["credential_status"]["storage_mode"] == "os_keyring"

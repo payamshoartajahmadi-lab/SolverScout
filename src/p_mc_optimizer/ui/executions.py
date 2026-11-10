@@ -7,18 +7,21 @@ from datetime import datetime
 import streamlit as st
 
 from p_mc_optimizer.domain.models import ProblemInput, strict_json_loads
+from p_mc_optimizer.ui.library import sync_run_panel
 from p_mc_optimizer.ui.web_research import SEARCH_BLOCKERS, outcome_panel, search_settings
+from p_mc_optimizer.ui.workspace import LIBRARY, navigate
 
 
 ACTIVE_STATES = {"queued", "running"}
 TERMINAL_STATES = {"completed", "failed", "cancelled"}
 JOB_LABELS = {
     "queued": "در صف اجرا", "running": "در حال اجرا", "needs_input": "نیازمند پاسخ شما",
-    "needs_configuration": "نیازمند تنظیم اتصال", "completed": "اجرا کامل شد",
+    "needs_configuration": "نیازمند تنظیمات", "completed": "اجرا کامل شد",
     "failed": "اجرا ناموفق بود", "cancelled": "اجرا لغو شد",
 }
 POLICY_LABELS = {
     "web_research_then_pilot": "پژوهش وب و مقایسهٔ روش‌ها",
+    "evidence_research_then_pilot": "پژوهش در منابع و مقایسهٔ روش‌ها",
     "catalog_llm_then_pilot": "پیشنهاد از کتابخانهٔ موجود",
     "catalog_fixed": "روش انتخابی شما",
     "fixed_solver": "روش ثابت",
@@ -35,6 +38,7 @@ PHASES = {
     "preflight": ("input", "در حال بررسی تابع هدف"),
     "profiling": ("input", "در حال نمونه‌برداری اولیه"),
     "research_planning": ("research", "در حال آماده‌سازی جست‌وجو"),
+    "refreshing_sources": ("research", "در حال به‌روزرسانی منابع"),
     "searching": ("research", "در حال جست‌وجوی منابع مجاز"),
     "fetching_evidence": ("research", "در حال خواندن منابع مجاز"),
     "planning": ("selection", "در حال آماده‌سازی روش‌های مناسب"),
@@ -53,6 +57,15 @@ BLOCK_LABELS = {
     "SEARCH_AUTH_FAILED": "Tavily کلید جست‌وجو را نپذیرفت.",
     "SEARCH_RATE_LIMITED": "سرویس جست‌وجو موقتاً درخواست تازه نمی‌پذیرد.",
     "RESEARCH_EVIDENCE_INSUFFICIENT": "شواهد کافی برای ادامهٔ پژوهش پیدا نشد.",
+    "LIBRARY_EMPTY": "کتابخانه برای منابع این اجرا خالی است.",
+    "LIBRARY_EVIDENCE_STALE": "شواهد موجود از سقف تازگی این اجرا قدیمی‌ترند.",
+    "LOCAL_INDEX_UNAVAILABLE": "فهرست جست‌وجوی محلی در دسترس نیست.",
+    "SOURCE_SYNC_IN_PROGRESS": "به‌روزرسانی یکی از منابع هنوز در جریان است.",
+    "SOURCE_CONFIG_CHANGED": "تنظیمات منبع پس از ثبت این اجرا تغییر کرده است.",
+}
+LIBRARY_BLOCKERS = {
+    "LIBRARY_EMPTY", "LIBRARY_EVIDENCE_STALE", "LOCAL_INDEX_UNAVAILABLE",
+    "SOURCE_SYNC_IN_PROGRESS", "SOURCE_CONFIG_CHANGED",
 }
 HISTORY_PAGE_SIZE = 50
 _BOUND_NUMBER = r"[+\-−]?(?:\d+(?:[.٫]\d*)?|[.٫]\d+)(?:[eE][+\-−]?\d+)?"
@@ -67,7 +80,9 @@ def _count(value):
 
 
 def _research_job(job):
-    return job.get("policy", {}).get("selection_policy") == "web_research_then_pilot"
+    return job.get("policy", {}).get("selection_policy") in {
+        "web_research_then_pilot", "evidence_research_then_pilot",
+    }
 
 
 def _stage_tracker(job, current):
@@ -79,7 +94,8 @@ def _stage_tracker(job, current):
     for index, stage in enumerate(stages):
         label = STAGE_LABELS[stage]
         if stage == "selection" and job.get("policy", {}).get("selection_policy") in {
-            "web_research_then_pilot", "catalog_llm_then_pilot", "llm_shortlist_then_pilot", "pilot_only",
+            "web_research_then_pilot", "evidence_research_then_pilot", "catalog_llm_then_pilot",
+            "llm_shortlist_then_pilot", "pilot_only",
         }:
             label = "مقایسهٔ روش‌ها"
         state = "done" if index < current_index else "current" if index == current_index else "pending"
@@ -140,6 +156,19 @@ def _repair_search(attempt, job_id, job, code):
         st.caption("برای ادامه، کلید همان تنظیمات جست‌وجو را ثبت کنید. تغییر منابع یا تنظیمات به اجرای تازه نیاز دارد.")
     if st.button("ادامهٔ پژوهش همین اجرا", type="primary", disabled=not ready and code != "SEARCH_RATE_LIMITED"):
         if attempt("POST", f"/jobs/{job_id}/resume", {"expected_job_version": job["version"]}):
+            st.rerun()
+
+
+def _repair_library(attempt, job, code):
+    st.warning(BLOCK_LABELS[code])
+    st.button("باز کردن کتابخانهٔ منابع", on_click=navigate, args=(LIBRARY,))
+    if code == "SOURCE_CONFIG_CHANGED":
+        st.info("برای استفاده از تنظیمات تازه، اجرای جدیدی بسازید.")
+        return
+    if code == "LOCAL_INDEX_UNAVAILABLE":
+        st.info("برای بررسی فهرست جست‌وجو، فرمان بررسی سلامت نصب را اجرا کنید.")
+    if st.button("ادامهٔ همین اجرا پس از رفع مشکل", type="primary"):
+        if attempt("POST", f"/jobs/{job['job_id']}/resume", {"expected_job_version": job["version"]}):
             st.rerun()
 
 
@@ -248,6 +277,8 @@ def _monitor(attempt, job, model_repair):
             st.warning("درخواست لغو ثبت شد. وضعیت پس از توقف عددی به‌روزرسانی می‌شود.")
         elif state == "running" and stage == "research":
             st.caption("شواهد برای پیشنهاد روش‌های قابل اجرا جمع‌آوری می‌شوند.")
+            if job.get("phase") == "refreshing_sources" and (run_id := job.get("source_sync_run_id")):
+                sync_run_panel(attempt, run_id)
             _research_progress(attempt, job_id)
         elif state in ACTIVE_STATES:
             st.caption("پس از پایان اجرا، نتیجه در همین صفحه نمایش داده می‌شود.")
@@ -260,6 +291,8 @@ def _monitor(attempt, job, model_repair):
             if code in SEARCH_BLOCKERS:
                 st.warning(BLOCK_LABELS.get(code, "برای ادامه، اتصال جست‌وجوی وب را بررسی کنید."))
                 _repair_search(attempt, job_id, job, code)
+            elif code in LIBRARY_BLOCKERS:
+                _repair_library(attempt, job, code)
             else:
                 st.warning("برای ادامهٔ همین اجرا، اتصال مدل زبانی را آماده کنید.")
                 if isinstance(error, dict) and error.get("message_fa"):

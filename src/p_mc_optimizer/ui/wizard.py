@@ -16,7 +16,12 @@ from p_mc_optimizer.domain.models import (
     ProblemInput, strict_json_loads,
 )
 from p_mc_optimizer.research.contracts import CreateJobV2
+from p_mc_optimizer.research.contracts_v21 import CreateJobV21
 from p_mc_optimizer.ui.catalog import CATALOG_ROUTE
+from p_mc_optimizer.ui.library import (
+    LIBRARY_SOURCES_ROUTE, RETRIEVAL_MODES, RETRIEVAL_ROUTE, STALE_POLICIES,
+    sync_limit_caption, sync_limit_fields,
+)
 from p_mc_optimizer.ui.web_research import SEARCH_ROUTE, SOURCES_ROUTE, profile_reference
 
 DRAFT_KEY = "problem-draft"
@@ -29,13 +34,15 @@ DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩٫−", "0123456
 REAL = re.compile(r"[+-]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[Ee][+-]?[0-9]+)?\Z")
 
 WEB = "web_research_then_pilot"
+EVIDENCE = "evidence_research_then_pilot"
 CATALOG = "catalog_llm_then_pilot"
 CATALOG_FIXED = "catalog_fixed"
 FIXED = "fixed_solver"
-V2_POLICIES = {WEB, CATALOG, CATALOG_FIXED}
-LLM_POLICIES = {WEB, CATALOG, "llm_shortlist_then_pilot", "llm_only"}
+V2_POLICIES = {WEB, EVIDENCE, CATALOG, CATALOG_FIXED}
+LLM_POLICIES = {WEB, EVIDENCE, CATALOG, "llm_shortlist_then_pilot", "llm_only"}
 METHOD_LABELS = {
-    WEB: "پژوهش وب و مقایسهٔ روش‌ها",
+    WEB: "پژوهش وب نسخهٔ ۲ و مقایسهٔ روش‌ها",
+    EVIDENCE: "پژوهش در منابع و مقایسهٔ روش‌ها",
     CATALOG: "پیشنهاد از کتابخانهٔ موجود",
     "manual": "انتخاب روش توسط من",
     FIXED: "اجرای روش ثابت",
@@ -47,7 +54,7 @@ METHOD_LABELS = {
     "pilot_only": "مقایسهٔ چهار روش پایه",
 }
 METHOD_CAPTIONS = {
-    WEB: "منابع مجاز بررسی می‌شوند و سه روش در آزمون کوتاه مقایسه می‌شوند. مدل زبانی لازم است و پژوهش زنده از Tavily استفاده می‌کند.",
+    EVIDENCE: "مدل زبانی از شواهد منابع برای پیشنهاد سه روش استفاده می‌کند. کتابخانهٔ محلی، دریافت مستقیم یا جست‌وجوی وب را انتخاب کنید.",
     CATALOG: "مدل از کتابخانه پیشنهاد می‌دهد و سه روش آزمایش می‌شوند. این مسیر به مدل زبانی نیاز دارد و جست‌وجوی وب ندارد.",
     "manual": "یک روش قابل اجرا را خودتان انتخاب می‌کنید. ورودی تابع و متغیرها را می‌توانید محلی حل کنید.",
 }
@@ -371,20 +378,36 @@ def _catalog_configs(attempt, catalog):
     return {row["config_id"]: row for row in rows if row.get("config_id")}
 
 
-def _configuration(attempt, policy, mode):
+def _configuration(attempt, policy, mode, retrieval=None):
     """Read only metadata for the integrations this particular request needs."""
     model = (attempt("GET", "/settings/llm/profile") or {}) if policy in LLM_POLICIES else {}
-    search = (attempt("GET", SEARCH_ROUTE) or {}) if policy == WEB and mode == "live" else {}
+    if policy == EVIDENCE and retrieval is None:
+        retrieval = attempt("GET", RETRIEVAL_ROUTE) or {}
+    engine_enabled = bool((retrieval or {}).get("web_search_enabled"))
+    needs_search = (policy == WEB and mode == "live") or (
+        policy == EVIDENCE and mode == "web_search" and engine_enabled
+    )
+    search = (attempt("GET", SEARCH_ROUTE) or {}) if needs_search else {}
+    library = (attempt("GET", LIBRARY_SOURCES_ROUTE) or {}) if policy == EVIDENCE else {}
     sources = (attempt("GET", SOURCES_ROUTE) or {}) if policy == WEB else {}
     catalog = (attempt("GET", _catalog_route(policy)) or {}) if policy in V2_POLICIES else {}
+    entries = [row for row in library.get("sources", []) if row["rule"]["enabled"]]
     return {
         "model_profile": model.get("profile") or {},
         "model_status": model.get("credential_status") or {},
         "search_profile": search.get("profile") or {},
         "search_ready": bool(search.get("ready")),
         "search_generation": search.get("credential_generation"),
-        "source_revision": sources.get("revision"),
-        "sources": [row for row in sources.get("sources", []) if row["enabled"]],
+        "source_revision": library.get("source_revision") if policy == EVIDENCE else sources.get("revision"),
+        "sources": [row["rule"] for row in entries] if policy == EVIDENCE else [
+            row for row in sources.get("sources", []) if row["enabled"]
+        ],
+        "source_configs": {
+            row["rule"]["source_id"]: row["config"] for row in entries
+            if row.get("config") and not row.get("needs_review")
+        },
+        "library_documents": sum(row.get("usable_documents", 0) for row in entries),
+        "web_search_enabled": engine_enabled,
         "catalog": catalog,
     }
 
@@ -396,6 +419,8 @@ def _binding(config):
         profile_reference(config["search_profile"]),
         config["search_generation"],
         config["source_revision"],
+        tuple((key, value["revision"]) for key, value in sorted(config["source_configs"].items())),
+        config["web_search_enabled"],
         config["catalog"].get("catalog_hash"),
     )
 
@@ -410,19 +435,29 @@ def _requirements(policy, mode, config, *, open_connections, open_library):
         ready = False
         st.warning("برای این روش، کلید مدل زبانی و آزمون موفق اتصال لازم است.")
         st.button("تنظیم اتصال مدل", on_click=open_connections, args=("model",))
-    if policy == WEB and mode == "live" and not config["search_ready"]:
+    needs_search = (policy == WEB and mode == "live") or (policy == EVIDENCE and mode == "web_search")
+    if needs_search and not config["search_ready"]:
         ready = False
         st.warning("برای جست‌وجوی زنده، اتصال Tavily را آماده کنید.")
         st.button("تنظیم Tavily", on_click=open_connections, args=("search",))
-    if policy == WEB and not config["sources"]:
+    source_missing = policy in (WEB, EVIDENCE) and not config["sources"]
+    library_empty = policy == EVIDENCE and mode == "local_only" and not config["library_documents"]
+    direct_missing = policy == EVIDENCE and mode == "direct_refresh" and not config["source_configs"]
+    if source_missing:
         ready = False
         st.warning("برای پژوهش، دست‌کم یک منبع مجاز فعال کنید.")
+    elif library_empty or direct_missing:
+        ready = False
+        message = "کتابخانه خالی است. منبعی را تنظیم و به‌روزرسانی کنید." if library_empty else (
+            "برای دریافت مستقیم، نشانی آغازین یا نقشهٔ دست‌کم یک منبع را ثبت کنید."
+        )
+        st.warning(message)
     catalog_min = 1 if policy == CATALOG_FIXED else 3
     catalog_missing = policy in V2_POLICIES and config["catalog"].get("total", 0) < catalog_min
     if catalog_missing:
         ready = False
         st.warning("کتابخانه هنوز پیکربندی‌های تأییدشدهٔ کافی برای این روش ندارد.")
-    if catalog_missing or (policy == WEB and not config["sources"]):
+    if catalog_missing or source_missing or library_empty or direct_missing:
         st.button("باز کردن منابع و الگوریتم‌ها", on_click=open_library)
     return ready
 
@@ -438,7 +473,7 @@ def _manual_policy(natural):
 def _method_options(main_policy):
     with st.expander("تنظیمات پیشرفته", expanded=bool(_draft()["values"].get("expert_policy"))):
         expert = _field(st.selectbox, "expert_policy", "روش تخصصی",
-                        [None, "llm_shortlist_then_pilot", "llm_only", "random_solver", "rule_based", "pilot_only"],
+                        [None, WEB, "llm_shortlist_then_pilot", "llm_only", "random_solver", "rule_based", "pilot_only"],
                         default=None, format_func=lambda p: METHOD_LABELS[p] if p else "روش انتخاب‌شده در بالا")
         policy = expert or main_policy
         numeric = {
@@ -468,6 +503,41 @@ def _clear_unavailable(name, choices):
         st.session_state.pop(f"{WIDGET_PREFIX}{name}", None)
 
 
+def _library_options(settings):
+    mode = _field(st.radio, "retrieval_mode", "مسیر پژوهش", list(RETRIEVAL_MODES),
+                  default=settings.get("retrieval_mode", "local_only"), format_func=RETRIEVAL_MODES.__getitem__)
+    with st.expander("تازگی شواهد و رفتار پژوهش"):
+        age = _field(st.number_input, "evidence-age", "حداکثر عمر شواهد (ساعت)", 1, 8760,
+                     default=settings.get("max_evidence_age_hours", 168))
+        stale = _field(st.selectbox, "evidence-stale", "سیاست تازگی شواهد", list(STALE_POLICIES),
+                       default=settings.get("stale_evidence_policy", "reject"), format_func=STALE_POLICIES.__getitem__)
+        failure = _field(st.selectbox, "evidence-failure", "رفتار در صورت شکست پژوهش", list(WEB_FAILURES),
+                         default=settings.get("on_research_failure", "stop"), format_func=WEB_FAILURES.__getitem__)
+        limits = sync_limit_fields("wizard-sync", field=_field) if mode == "direct_refresh" else None
+    return {
+        "retrieval_mode": mode, "max_evidence_age_hours": age, "stale_evidence_policy": stale,
+        "on_research_failure": failure, "sync_limits": limits,
+    }
+
+
+def _direct_sources(config, limits):
+    available = config["source_configs"]
+    options = list(available)
+    name = "direct-sources"
+    key = f"{WIDGET_PREFIX}{name}"
+    maximum = limits["max_sources"]
+    chosen = st.session_state.get(key, _draft()["values"].get(name, options[:maximum]))
+    kept = [value for value in chosen if value in available][:maximum]
+    if chosen != kept:
+        _draft()["values"][name] = kept
+        st.session_state.pop(key, None)
+    labels = {rule["source_id"]: rule["label"] for rule in config["sources"]}
+    selected = _field(st.multiselect, name, "منابع برای به‌روزرسانی", options, default=kept,
+                      format_func=labels.__getitem__, max_selections=maximum)
+    sync_limit_caption(limits)
+    return selected
+
+
 def _selected_solver(attempt, policy, config, natural):
     if natural:
         return None, None
@@ -486,13 +556,27 @@ def _selected_solver(attempt, policy, config, natural):
 
 
 def _pilot_evaluations(policy):
-    count = 3 if policy in (WEB, CATALOG) else PILOT_COUNTS.get(policy, 0)
+    count = 3 if policy in (WEB, EVIDENCE, CATALOG) else PILOT_COUNTS.get(policy, 0)
     return count * PILOT_REPEATS * PILOT_EVALUATIONS
 
 
 def _payload(problem, policy, numeric, web, config, solver, fixed):
     llm_profile = profile_reference(config["model_profile"]) if policy in LLM_POLICIES else None
-    if policy in V2_POLICIES:
+    if policy == EVIDENCE:
+        request = CreateJobV21.model_validate({
+            "input": problem, "llm_profile": llm_profile,
+            "search_provider_ref": profile_reference(config["search_profile"]),
+            "source_revision": config["source_revision"], "catalog_hash": config["catalog"]["catalog_hash"],
+            "source_config_refs": [
+                {"source_id": key, "revision": config["source_configs"][key]["revision"]}
+                for key in config.get("direct_source_ids", ())
+            ],
+            "policy": {
+                "policy_version": "2.1", "portfolio_id": "continuous_catalog_v2", "selection_policy": policy,
+                **numeric, **web,
+            },
+        })
+    elif policy in V2_POLICIES:
         request = CreateJobV2.model_validate({
             "schema_version": "2.0", "input": problem, "llm_profile": llm_profile,
             "search_profile": profile_reference(config["search_profile"]),
@@ -525,20 +609,29 @@ def _method(attempt, open_connections, open_library):
     _steps(2)
     with st.container(key="wizard-methods"):
         method = _field(st.radio, "method", "روش انتخاب حل", list(METHOD_CAPTIONS),
-                        default=WEB if natural else "manual", format_func=METHOD_LABELS.__getitem__,
+                        default=EVIDENCE if natural else "manual", format_func=METHOD_LABELS.__getitem__,
                         captions=list(METHOD_CAPTIONS.values()), label_visibility="collapsed", width="stretch")
     main_policy = _manual_policy(natural) if method == "manual" else method
     details = st.container()
     policy, numeric, web = _method_options(main_policy)
-    mode = web.get("research_mode")
-    config = _configuration(attempt, policy, mode)
+    retrieval = None
+    if policy == EVIDENCE:
+        retrieval = attempt("GET", RETRIEVAL_ROUTE) or {}
+        with details:
+            web = _library_options(retrieval)
+    mode = web.get("retrieval_mode") or web.get("research_mode")
+    config = _configuration(attempt, policy, mode, retrieval)
     with details:
+        if mode == "direct_refresh":
+            config["direct_source_ids"] = _direct_sources(config, web["sync_limits"])
         solver, fixed = _selected_solver(attempt, policy, config, natural)
         ready = _requirements(policy, mode, config, open_connections=open_connections, open_library=open_library)
         valid_policy = not natural or policy in LLM_POLICIES
         if not valid_policy:
             st.info("این روش به ورودی تابع و متغیرها نیاز دارد. نوع ورودی یا روش را تغییر دهید.")
         valid_choice = policy != CATALOG_FIXED or bool(fixed)
+        if mode == "direct_refresh":
+            valid_choice = bool(config["direct_source_ids"])
         needed = PREFLIGHT_EVALUATIONS + PROFILE_EVALUATIONS + _pilot_evaluations(policy) + VERIFICATION_EVALUATIONS + 500
         valid_budget = numeric["max_objective_evaluations"] >= needed
         if not valid_budget:
@@ -591,6 +684,14 @@ def _request_summary(review):
         st.text("منابع مجاز · " + "، ".join(row["label"] for row in config["sources"]))
         if policy["research_mode"] == "cache_only":
             st.caption(f"حداکثر عمر شواهد ذخیره‌شده {policy['max_cache_age_hours']} ساعت است.")
+    elif method == EVIDENCE:
+        st.text(f"{RETRIEVAL_MODES[policy['retrieval_mode']]} · {WEB_FAILURES[policy['on_research_failure']]}")
+        selected = set(config.get("direct_source_ids") or ())
+        labels = [row["label"] for row in config["sources"] if not selected or row["source_id"] in selected]
+        st.text("منابع مجاز · " + "، ".join(labels))
+        st.caption(f"سقف تازگی {policy['max_evidence_age_hours']} ساعت · {STALE_POLICIES[policy['stale_evidence_policy']]}")
+        if policy.get("sync_limits"):
+            sync_limit_caption(policy["sync_limits"])
     st.divider()
     st.subheader("محدودیت اجرا")
     budget = policy["max_objective_evaluations"]
@@ -617,7 +718,7 @@ def _review(attempt, open_execution, open_connections, open_library):
     payload = review["payload"]
     policy = payload["policy"]
     method = policy["selection_policy"]
-    mode = policy.get("research_mode")
+    mode = policy.get("retrieval_mode") or policy.get("research_mode")
     st.caption("حل مسئله")
     st.title("مرور درخواست")
     st.caption("مسئله و تنظیمات اجرا را مرور کنید.")
@@ -631,7 +732,7 @@ def _review(attempt, open_execution, open_connections, open_library):
         st.warning("تنظیمات یا منابع از زمان مرور تغییر کرده‌اند. به انتخاب روش برگردید و درخواست را دوباره مرور کنید.")
     if ready and same and method in LLM_POLICIES:
         st.caption("اتصال‌های لازم آماده‌اند.")
-    start = "شروع پژوهش و حل" if method == WEB else "شروع حل" if method in LLM_POLICIES else "شروع حل محلی"
+    start = "شروع پژوهش و حل" if method in (WEB, EVIDENCE) else "شروع حل" if method in LLM_POLICIES else "شروع حل محلی"
     if _actions(start, back=("بازگشت به انتخاب روش", 2), disabled=not (ready and same)):
         pending = draft.get("pending_submission")
         if not pending or pending["payload"] != payload:
