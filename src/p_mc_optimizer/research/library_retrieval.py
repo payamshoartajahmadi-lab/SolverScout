@@ -5,9 +5,10 @@ from __future__ import annotations
 import json
 import re
 import sqlite3
-from collections import defaultdict, deque
+from collections import Counter, defaultdict, deque
 from contextlib import contextmanager
 from datetime import UTC, datetime
+from itertools import chain
 from unicodedata import normalize
 
 from p_mc_optimizer.application.errors import ApiError
@@ -17,9 +18,10 @@ from p_mc_optimizer.research.library_store import normalize_index_text
 from p_mc_optimizer.research.source_policy import SourcePolicy, SourcePolicyError
 from p_mc_optimizer.research.storage import canonical, digest
 
-RETRIEVAL_VERSION = "library_fts5_unicode61_bm25_2_1_v2.1"
-PASSAGE_VERSION = "passage_selection_v2.1"
+RETRIEVAL_VERSION = "library_fts5_unicode61_target_coverage_v2.1.1"
+PASSAGE_VERSION = "passage_selection_v2.1.1"
 _TOKEN = re.compile(r"[^\W_]+", re.UNICODE)
+_ALIAS_TOKEN = re.compile(r"\w+")
 _PARAGRAPH = re.compile(r"\S(?:.*?\S)?(?=\n[ \t]*\n|\Z)", re.DOTALL)
 
 
@@ -37,7 +39,7 @@ def _match_expression(text, aliases=()):
 
 def alias_present(text, alias):
     """Require token boundaries and preserve case for short Latin abbreviations."""
-    words = _TOKEN.findall(normalize("NFKC", alias))
+    words = _ALIAS_TOKEN.findall(normalize("NFKC", alias))
     if not words:
         return False
     short = len(words) == 1 and re.fullmatch(r"[A-Z]{2,3}", words[0])
@@ -45,7 +47,7 @@ def alias_present(text, alias):
         haystack, parts = normalize("NFKC", text), words
     else:
         haystack = normalize_index_text(text)
-        parts = _TOKEN.findall(normalize_index_text(alias))
+        parts = _ALIAS_TOKEN.findall(normalize_index_text(alias))
     pattern = r"(?<!\w)" + r"[^\w]+".join(map(re.escape, parts)) + r"(?!\w)"
     return re.search(pattern, haystack) is not None
 
@@ -55,6 +57,25 @@ def _query_aliases(query, aliases):
         name for identifier in query.get("implementation_ids", ())
         for name in aliases.get(identifier, ())
     ))
+
+
+def _focused_queries(queries, aliases):
+    """Look up every exact variant before trying family aliases."""
+    exact, family = [], []
+    seen = set()
+    for query in queries:
+        for target in query["implementation_ids"]:
+            key = target, frozenset(query["source_ids"])
+            if target not in aliases or key in seen:
+                continue
+            seen.add(key)
+            variant = target.rsplit(":", 1)[-1]
+            focus = {**query, "target": target, "implementation_ids": [target]}
+            exact.append({**focus, "body_aliases": (variant,)})
+            names = tuple(name for name in aliases[target] if name != variant)
+            if names:
+                family.append({**focus, "body_aliases": names})
+    return exact + family
 
 
 def _interleave(groups):
@@ -75,7 +96,8 @@ def _by_source(items):
 
 def _passages(document, text, query, aliases):
     terms = set(_terms(query["text"]))
-    targets = _query_aliases(query, aliases)
+    focus = query.get("body_aliases")
+    targets = focus or _query_aliases(query, aliases)
     ranges = []
     for paragraph in _PARAGRAPH.finditer(text):
         start, end = paragraph.span()
@@ -84,20 +106,63 @@ def _passages(document, text, query, aliases):
             snippet = text[offset:stop]
             matches = len(terms.intersection(_TOKEN.findall(normalize_index_text(snippet))))
             named = any(alias_present(snippet, name) for name in targets)
-            if matches or named:
+            if focus and named:
+                # A name may occupy its own line in source documentation.
+                # Keep adjacent explanation in the same exact, bounded slice.
+                stop = min(len(text), max(stop, offset + 1000))
+                ranges.append((False, -matches, offset, stop))
+            elif not focus and (matches or named):
                 ranges.append((not named, -matches, offset, stop))
+    if focus:
+        # Prefer the first occurrence in this document to later examples or
+        # references from other implementations.
+        ranges.sort(key=lambda row: row[2])
+    else:
+        ranges.sort()
     return [(document, text, query["purpose"], -matches, start, end)
-            for _, matches, start, end in sorted(ranges)[:2]]
+            for _, matches, start, end in ranges[:2]]
 
 
-def _select_passages(items, aliases):
+def _reserve_targets(groups, aliases):
+    selected, reserved, covered = {}, [], set()
+    counts = Counter()
+    for group in groups:
+        for document, text, query in group:
+            target = query["target"]
+            if target in covered:
+                break
+            key = document["document_id"]
+            if key in selected and selected[key][0]["observation_id"] != document["observation_id"]:
+                continue
+            if any(
+                row[0]["observation_id"] == document["observation_id"]
+                and any(alias_present(row[1][row[4]:row[5]], name) for name in query["body_aliases"])
+                for row in reserved
+            ):
+                covered.add(target)
+                break
+            if counts[key] < 2 and (passages := _passages(document, text, query, aliases)):
+                selected.setdefault(key, (document, text, query))
+                reserved.append(passages[0])
+                counts[key] += 1
+                covered.add(target)
+                break
+        if len(covered) == 3:
+            break
+    return selected, reserved
+
+
+def _select_passages(items, aliases, reserved=()):
     rows = []
     remaining = 18_000
-    for document, text, method, matches, start, end in _interleave(
-        [_passages(doc, content, query, aliases) for doc, content, query in items]
-    ):
+    spans = defaultdict(list)
+    extras = _interleave([_passages(doc, text, query, aliases) for doc, text, query in items])
+    for index, (document, text, method, matches, start, end) in enumerate(chain(reserved, extras)):
         if not remaining or len(rows) == 12:
             break
+        used = spans[document["document_id"]]
+        if len(used) == 2 or (index >= len(reserved) and any(start < b and a < end for a, b in used)):
+            continue
         end = min(end, start + remaining)
         passage = EvidencePassageV21(
             evidence_id=digest([PASSAGE_VERSION, document["observation_id"], start, end])[:32],
@@ -107,6 +172,7 @@ def _select_passages(items, aliases):
             text=text[start:end], start=start, end=end, keyword_matches=matches,
         )
         rows.append(passage.model_dump(mode="json"))
+        used.append((start, end))
         remaining -= end - start
     return rows
 
@@ -252,7 +318,12 @@ class LibraryRetriever:
         verified = {}
         ranked, missing = [], False
         for query in queries:
-            expression = _match_expression(query["text"], _query_aliases(query, aliases))
+            focus = query.get("body_aliases")
+            expression = _match_expression("", focus) if focus else _match_expression(
+                query["text"], _query_aliases(query, aliases),
+            )
+            if focus and expression:
+                expression = f"body : ({expression})"
             sources = query["source_ids"]
             if not expression or not sources:
                 ranked.append(())
@@ -274,6 +345,8 @@ class LibraryRetriever:
                 content = verified[artifact_key]
                 if not content:
                     missing = True
+                    continue
+                if focus and not any(alias_present(content, name) for name in focus):
                     continue
                 seen.add(document["document_id"])
                 result.append((document, content, query))
@@ -307,13 +380,15 @@ class LibraryRetriever:
                 (query.model_dump(mode="json") for query in plan.queries),
                 key=lambda query: query["purpose"] != "implementation_evidence",
             )
-            ranked, missing = self._rank(connection, candidates, queries, aliases)
-            selected = {}
-            for document, text, query in _interleave([list(_by_source(group)) for group in ranked]):
+            focused = _focused_queries(queries, aliases)
+            ranked, missing = self._rank(connection, candidates, [*focused, *queries], aliases)
+            selected, reserved = _reserve_targets(ranked[:len(focused)], aliases)
+            general = ranked[len(focused):]
+            for document, text, query in _interleave([list(_by_source(group)) for group in general]):
                 selected.setdefault(document["document_id"], (document, text, query))
                 if len(selected) == 6:
                     break
-            evidence = _select_passages(selected.values(), aliases)
+            evidence = _select_passages(selected.values(), aliases, reserved)
             snapshot = {
                 "schema_version": "2.1", "snapshot_id": str(job_id),
                 "generation": self.store.generation(connection),
