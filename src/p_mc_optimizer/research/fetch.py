@@ -106,7 +106,7 @@ class DocumentFetcher:
             chain.append(url)
         raise ResearchError("SOURCE_REDIRECT_LIMIT")
 
-    def fetch(self, session, hit, sources, cached):
+    def fetch(self, session, hit, sources, cached, *, capture=None, link_limit=0):
         requested = hit.canonical_url
         args = {
             "document_id": digest([session.job_id, requested])[:32],
@@ -162,7 +162,7 @@ class DocumentFetcher:
             try:
                 parsed = extract(
                     response.body, content_type, level,
-                    session.limits.max_text_chars, session.timeout(),
+                    session.limits.max_text_chars, session.timeout(), link_limit=link_limit,
                 )
             finally:
                 session.add_active(monotonic() - started)
@@ -182,11 +182,14 @@ class DocumentFetcher:
                 val = response.headers.get(name)
                 return val if val and len(val) <= 256 and session.sanitize(val) == val else None
 
-            return SourceDocument(
+            document = SourceDocument(
                 **args, content_level=level, fetch_status="read",
                 text_sha256=hashlib.sha256(text.encode()).hexdigest(),
                 truncated=parsed["truncated"], etag=validator("etag"), last_modified=validator("last-modified"),
-            ), text
+            )
+            if capture is not None:
+                capture(response, parsed)
+            return document, text
         except ResearchError as exc:
             if exc.code == "RESEARCH_CANCELLED":
                 raise

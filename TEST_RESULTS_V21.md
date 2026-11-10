@@ -15,3 +15,7 @@ The migration, contract and prior research suites passed with **47 tests in 0.29
 ## L2 library storage
 
 Three storage tests passed in 0.17 seconds. They cover version reuse and observation changes, rollback of staged metadata and index data, quota limits and idempotent import of verified legacy artifacts with their original validation times.
+
+## L3 direct source refresh
+
+The direct acquisition and existing research suites passed with **62 tests**. The six new sync cases cover seed, sitemap and link discovery, request charging, conditional refresh, removal, permissions, XML safety, overlapping runs, cancellation and interrupted reservations.
