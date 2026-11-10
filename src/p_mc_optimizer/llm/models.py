@@ -8,7 +8,7 @@ from uuid import UUID
 from pydantic import Field, SecretStr, field_validator, model_validator
 
 from p_mc_optimizer.domain.models import (
-    CandidatePlan, ContractModel, FiniteReal, ProblemInput, ProblemProfile,
+    CandidatePlan, ContractModel, FiniteReal, ProblemInput, ProblemProfile, Uuid4String,
 )
 
 Role = Literal["formulator", "advisor", "explainer", "research_planner"]
@@ -285,6 +285,56 @@ class AdvisorContext(ContractModel):
     candidate_count: Literal[1, 3]
     evidence_refs: list[str]
     repair: Repair | None = None
+
+
+class ExplainerPilotMetric(ContractModel):
+    algorithm_id: str
+    eligible: bool
+    trial_ids: list[Uuid4String]
+    median_score: FiniteReal | None
+    normalized_iqr: Annotated[FiniteReal, Field(ge=0)] | None
+    reason: str | None
+
+    @field_validator("algorithm_id")
+    @classmethod
+    def algorithm_id_is_present(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("An algorithm identifier is required")
+        return value
+
+    @model_validator(mode="after")
+    def eligible_scores_are_present(self) -> Self:
+        if self.eligible and (self.median_score is None or self.normalized_iqr is None):
+            raise ValueError("Eligible metrics require both a median and an IQR")
+        return self
+
+
+class ExplainerDecisionSummary(ContractModel):
+    schema_version: Literal["1.0"]
+    mode: Literal["empirical_pilots", "policy_assignment"]
+    decision_source: str
+    requested_selection_policy: str
+    effective_selection_policy: str
+    objective_sense: Literal["minimize", "maximize"]
+    score_semantics: Literal["raw_objective", "negated_objective"]
+    score_order: Literal["lower_is_better"]
+    pilot_repeats: Annotated[int, Field(ge=0)]
+    pilot_evaluations: Annotated[int, Field(ge=0)]
+    scale: Annotated[FiniteReal, Field(gt=0)] | None
+    tie_break_order: list[str]
+    metrics: list[ExplainerPilotMetric]
+    eligible_ranking: list[str]
+    decisive_criterion: Literal["median_score", "normalized_iqr", "algorithm_id"] | None
+
+    @model_validator(mode="after")
+    def ranking_matches_eligible_metrics(self) -> Self:
+        identifiers = {metric.algorithm_id for metric in self.metrics}
+        if len(identifiers) != len(self.metrics):
+            raise ValueError("Duplicate algorithm identifiers in metrics")
+        eligible = {metric.algorithm_id for metric in self.metrics if metric.eligible}
+        if set(self.eligible_ranking) != eligible or len(self.eligible_ranking) != len(eligible):
+            raise ValueError("The ranking must contain each eligible algorithm exactly once")
+        return self
 
 
 class ExplainerContext(ContractModel):

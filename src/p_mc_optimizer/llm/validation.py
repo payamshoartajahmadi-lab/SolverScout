@@ -10,10 +10,18 @@ from p_mc_optimizer.llm.models import ExplainerResponse
 
 _FA_OPTIMALITY = r"(?:بهینگی|بهینه[‌ -]?بودن)(?:\s+(?:سراسری|کلی|جهانی|مطلق))?"
 _FA_LIMITATION_TOPIC = rf"(?:{_FA_OPTIMALITY}|برتری\s+اماری|تضمین\s+موفقیت)"
+_HORIZONTAL_SPACE = r"[ \t\u00a0]"
+_SENTENCE_BOUNDARY = re.compile(r"(\r\n|[\r\n\u0085\u2028\u2029.!?؟؛;])")
+_OUTER_NEGATION = re.compile(
+    rf"(?<!\w)(?:(?:این(?:\u200c|{_HORIZONTAL_SPACE})?طور|چنین|درست)"
+    rf"{_HORIZONTAL_SPACE}+نیست|نادرست{_HORIZONTAL_SPACE}+است){_HORIZONTAL_SPACE}+که\b"
+)
 
 # Mask the claim and its explicit negation together, leaving other claims visible.
 _LIMITATION = re.compile(
     rf"{_FA_OPTIMALITY}\s+(?:اثبات|تضمین|تایید)\s+(?:نشده(?:\s+است)?|نمی[‌ ]?شود)\b"
+    rf"|(?<!\w)موفقیت(?:{_HORIZONTAL_SPACE}+قطعی)?{_HORIZONTAL_SPACE}+تضمین"
+    rf"{_HORIZONTAL_SPACE}+نمی(?:\u200c|{_HORIZONTAL_SPACE})?شود\b"
     rf"|{_FA_LIMITATION_TOPIC}(?:\s+(?:یا|و)\s+{_FA_LIMITATION_TOPIC})*"
     r"\s+را\s+(?:اثبات|تایید|تضمین)\s+نمی[‌ ]?کند\b"
     r"|موفقیت\s+را\s+تضمین\s+نمی[‌ ]?کند\b"
@@ -44,7 +52,7 @@ def validate_role_output(role: str, response, context) -> None:
     if role == "advisor":
         _validate_advisor(response, context, allowed)
     else:
-        _validate_explanation(response, context.selection_made, allowed)
+        _validate_explanation(response, context, allowed)
 
 
 def _validate_advisor(response: CandidatePlan, context, allowed: set[str]) -> None:
@@ -62,12 +70,17 @@ def _validate_advisor(response: CandidatePlan, context, allowed: set[str]) -> No
             raise RoleOutputError("candidates.evidence_refs: missing or unknown evidence")
 
 
-def _validate_explanation(
-    response: ExplainerResponse, selection_made: bool, allowed: set[str]
-) -> None:
+def _validate_explanation(response: ExplainerResponse, context, allowed: set[str]) -> None:
     if not response.summary_fa.strip():
         raise RoleOutputError("summary_fa: explanation is empty")
-    if not selection_made and response.selection_explanation_fa is not None:
+    if context.selection_made:
+        if not (response.selection_explanation_fa or "").strip():
+            raise RoleOutputError("selection_explanation_fa: selection explanation is required")
+        if context.report.get("decision_summary") is None or "report:decision" not in allowed:
+            raise RoleOutputError("context: missing selection evidence")
+        if "report:decision" not in response.evidence_refs:
+            raise RoleOutputError("evidence_refs: selection evidence is required")
+    elif response.selection_explanation_fa is not None:
         raise RoleOutputError("selection_explanation_fa: no selection was made")
     if not response.evidence_refs or set(response.evidence_refs) - allowed:
         raise RoleOutputError("evidence_refs: missing or unknown evidence")
@@ -81,5 +94,10 @@ def _validate_explanation(
             char for char in unicodedata.normalize("NFD", text)
             if not unicodedata.combining(char)
         ).replace("ي", "ی").replace("ك", "ک")
-        if _CLAIM.search(_LIMITATION.sub("", normalized)):
+        unmasked = "".join(
+            sentence if _OUTER_NEGATION.search(sentence)
+            else _LIMITATION.sub(lambda match: " " * len(match[0]), sentence)
+            for sentence in _SENTENCE_BOUNDARY.split(normalized)
+        )
+        if _CLAIM.search(unmasked):
             raise RoleOutputError("explanation: unsupported certainty or optimality claim")

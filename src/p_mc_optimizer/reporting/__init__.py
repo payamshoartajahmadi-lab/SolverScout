@@ -173,7 +173,7 @@ svg {{width:100%;max-height:320px;direction:ltr}} .table {{overflow:auto}} summa
 </main></html>""".encode()
 
 
-def template_explanation(report):
+def template_explanation(report, *, decision_context_valid=True):
     """Explain the recorded outcome when no model explanation is available."""
     solution = report["solution_status"]
     summary = {
@@ -184,7 +184,9 @@ def template_explanation(report):
     }[solution]
     selected = report["selected_algorithm_id"]
     decision = report["decision"] or {}
-    if decision.get("selection_status") == "insufficient_evidence":
+    if not decision_context_valid:
+        selection = "جزئیات معتبرِ علت انتخاب برای تولید توضیح در دسترس نیست."
+    elif decision.get("selection_status") == "insufficient_evidence":
         selection = "کمتر از دو روش، هر سه اجرای پایلوت معتبر را داشتند. اجرای اصلی آغاز نشد."
     elif selected and decision.get("decision_source") == "empirical_pilot_selection":
         selection = (f"روش {selected} با ترتیب میانهٔ امتیاز، IQR نرمال‌شده و شناسهٔ روش "
@@ -193,7 +195,7 @@ def template_explanation(report):
         selection = f"روش {selected} بر اساس سیاست ثبت‌شده برای اجرای اصلی تعیین شد."
     else:
         selection = None
-    limitations = ["بهینگی سراسری در نسخهٔ اول اثبات نمی‌شود."]
+    limitations = ["بهینگی سراسری در این اجرا اثبات نشده است."]
     if report["proposal_source"] == "deterministic_fallback":
         limitations.append("پس از پاسخ ساختاری نامعتبر مشاور، برنامهٔ ثابت جایگزین به کار رفت.")
     if report["partial_result"]:

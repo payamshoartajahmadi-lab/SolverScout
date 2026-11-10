@@ -582,22 +582,27 @@ class Workflow:
         if self.cancelled(immediate=True) and report["job_status"] != "cancelled":
             self.build_report_data()
             report = self.report
+        decision_context_valid = True
         if report["explanation_status"] == "pending" and not self.shutdown():
+            from p_mc_optimizer.llm.explanation_context import build_explainer_context
+            from p_mc_optimizer.llm.formulation import RoleOutputError
             from p_mc_optimizer.llm.models import ExplainerResponse
+            from p_mc_optimizer.llm.provider import error_detail
 
-            evidence = ["report:solution", "report:verification", "report:budget"]
-            if report["selected_algorithm_id"] is not None:
-                evidence.append("report:decision")
-            summary = {k: report[k] for k in ("selected_algorithm_id", "selection_status", "solution_status",
-                                               "solution_origin", "verification", "partial_result", "budget",
-                                               "optimality_status", "objective_raw")}
-            context = {"report": summary, "evidence_refs": evidence,
-                       "selection_made": report["selected_algorithm_id"] is not None}
-            explanation, error = self._invoke("explainer", context,
-                                              validate=ExplainerResponse.model_validate)
+            try:
+                context = build_explainer_context(report)
+            except RoleOutputError as exc:
+                decision_context_valid = False
+                explanation = None
+                error = error_detail("LLM_SCHEMA_INVALID", field_errors=exc.field_errors)
+                error["message_fa"] = "زمینهٔ توضیح با داده‌های ثبت‌شدهٔ این اجرا سازگار نیست."
+            else:
+                self.keep("role_context:explainer", context)
+                explanation, error = self._invoke("explainer", context, validate=ExplainerResponse.model_validate)
             if self.cancelled(immediate=True):
                 self.build_report_data()
                 report = self.report
+                decision_context_valid = True
             elif explanation:
                 report["explanation_status"] = "generated"
                 report["explanation"] = _model(explanation)
@@ -607,7 +612,7 @@ class Workflow:
         else:
             self.event("llm_skipped", role="explainer", reason=report["job_status"])
         if not report.get("explanation"):
-            report["explanation"] = template_explanation(report)
+            report["explanation"] = template_explanation(report, decision_context_valid=decision_context_valid)
         report["llm_calls"] = job_call_metadata(self.repo, self.job_id)
         report["timing"]["elapsed_wall_seconds"] = _seconds_since(self.job.get("created_at"))
         report["timing"]["elapsed_llm_seconds"] = sum(
