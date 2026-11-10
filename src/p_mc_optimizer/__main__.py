@@ -47,10 +47,14 @@ def solve(repo, problem, policy):
 
 def doctor(data_dir, config):
     from p_mc_optimizer.persistence import Repository
+    from p_mc_optimizer.persistence.migrations import fts5_available
 
     repo = Repository(data_dir)
     with repo.connect() as connection:
         schema = connection.execute("PRAGMA user_version").fetchone()[0]
+        index_available = fts5_available(connection) and connection.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name='library_fts'"
+        ).fetchone() is not None
     from keyring import get_keyring
     import protego
     import pypdf
@@ -64,6 +68,7 @@ def doctor(data_dir, config):
         "core": "PASS", "project_version": __version__, "python": platform.python_version(),
         "os": platform.platform(), "arch": platform.machine(), "sqlite": sqlite3.sqlite_version,
         "database_schema": schema, "data_dir": str(data_dir),
+        "local_index": "PASS" if index_available else "LOCAL_INDEX_UNAVAILABLE",
         "search": "TAVILY_ADAPTER_AVAILABLE_CONNECTION_NOT_CHECKED",
         "api_url": config.api_url, "ui_url": config.ui_url,
         "api_running": health(config.api_url + "/healthz"),

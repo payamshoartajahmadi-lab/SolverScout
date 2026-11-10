@@ -6,7 +6,7 @@ import pytest
 from p_mc_optimizer.llm.storage import LLM_SCHEMA
 from p_mc_optimizer.persistence import Repository
 from p_mc_optimizer.persistence.migrations import MigrationError
-from p_mc_optimizer.persistence.schema import BASE_SCHEMA
+from p_mc_optimizer.persistence.schema import BASE_SCHEMA, SCHEMA_VERSION
 
 
 def test_upgrade_keeps_v1_report_and_blocks_pending_jobs(tmp_path):
@@ -44,7 +44,7 @@ def test_upgrade_keeps_v1_report_and_blocks_pending_jobs(tmp_path):
         assert db.execute("PRAGMA user_version").fetchone()[0] == 1
         assert db.execute("PRAGMA integrity_check").fetchone()[0] == "ok"
     with repo.connect() as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 2
+        assert db.execute("PRAGMA user_version").fetchone()[0] == SCHEMA_VERSION
         assert db.execute("SELECT payload FROM reports").fetchone()[0] == '{"schema_version":"1.0"}'
         assert db.execute("SELECT charged_unknown FROM stage_executions").fetchone()[0] == 8
         assert db.execute("PRAGMA foreign_key_check").fetchall() == []
