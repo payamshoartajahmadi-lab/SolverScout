@@ -6,11 +6,12 @@ from uuid import uuid4
 import httpx
 
 from p_mc_optimizer.domain.models import CandidatePlan, ExecutionResult, SelectionDecisionV2, TrialRequestV2
-from p_mc_optimizer.llm.research_v2 import AdvisorContextV2, PlannerContext
+from p_mc_optimizer.llm.research_v2 import AdvisorContextV2, AdvisorContextV21, PlannerContext, validate_output
 from p_mc_optimizer.research.contracts import (
     AdvisorPlanV2, ExecutionPolicyV2, ResearchLimits, ResearchQueryPlan, ResearchSnapshot, SearchProblemProfile,
 )
 from p_mc_optimizer.research.search import SEARCH_ERROR_MESSAGES
+from p_mc_optimizer.research.contracts_v21 import AdvisorPlanV21
 from p_mc_optimizer.reporting import csv_bytes, json_bytes
 from p_mc_optimizer.selection.policies import rank_pilots
 from p_mc_optimizer.workflow.graph import Workflow, _code, _error, _model
@@ -43,8 +44,11 @@ class CatalogWorkflow(Workflow):
             url = httpx.URL(self.api_url or "")
             if url.scheme != "http" or url.host != "127.0.0.1":
                 raise ValueError("The gateway must use IPv4 loopback")
-            timeout = self.research.search_profile
-            seconds = timeout.limits.active_timeout_seconds if timeout else 180
+            research = self.research
+            profile = research.search_profile
+            seconds = profile.limits.active_timeout_seconds if profile else 180
+            if operation == "refresh":
+                seconds = research.sync_limits.max_active_seconds + 20
             with httpx.Client(timeout=seconds + 20, trust_env=False, follow_redirects=False) as client:
                 response = client.post(
                     str(url).rstrip("/") + "/internal/research/invoke",
@@ -192,27 +196,38 @@ class CatalogWorkflow(Workflow):
             self.keep("proposal_source", "catalog_fixed")
             return
         wf = self.workflow
-        require_web = self.selection_policy == "web_research_then_pilot" and not wf.get("effective_selection_policy")
+        library = self.policy.policy_version == "2.1"
+        require_web = (library or self.selection_policy == "web_research_then_pilot") and not wf.get(
+            "effective_selection_policy"
+        )
         outcome = wf.get("research_outcome") or {}
         evidence = outcome.get("evidence", []) if require_web else []
         spec = _model(self.revision.spec)
         spec.pop("source_map", None)
         profile = dict(wf["profile"])
         profile.pop("sample_artifact_id", None)
-        context = AdvisorContextV2.model_validate({
+        context_values = {
             "problem": spec, "profile": profile, "solver_cards": cards,
-            "evidence": evidence, "candidate_count": 3, "require_web": require_web,
-        })
+            "evidence": evidence, "candidate_count": 3,
+        }
+        if library:
+            schema = "advisor.v2.1"
+            plan_type = AdvisorPlanV21
+            context = AdvisorContextV21.model_validate({
+                **context_values, "require_evidence": require_web,
+                "library_snapshot_id": outcome.get("snapshot_id") if require_web else None,
+            })
+        else:
+            schema = "advisor.v2"
+            plan_type = AdvisorPlanV2
+            context = AdvisorContextV2.model_validate({**context_values, "require_web": require_web})
 
         def validate(output):
-            plan = AdvisorPlanV2.model_validate(output)
-            plan.validate_references(
-                cards={card["implementation_id"]: (card["implementation_id"], card["config_id"]) for card in cards},
-                evidence_ids={passage["evidence_id"] for passage in evidence}, require_web=require_web,
-            )
+            plan = plan_type.model_validate(output)
+            validate_output(schema, plan, context)
             return plan
 
-        plan, error = self._role("advisor", "advisor.v2", context, validate)
+        plan, error = self._role("advisor", schema, context, validate)
         if plan:
             self.keep("advisor_plan_v2", plan)
             self.repo.record_research_findings(self.job_id, plan.research_findings, worker_id=self.worker_id)
@@ -234,7 +249,8 @@ class CatalogWorkflow(Workflow):
             "uncertainty_notes": None,
         }))
         if not wf.get("proposal_source"):
-            self.keep("proposal_source", "web_research" if require_web else "catalog_advisor")
+            source = "library_research" if library else "web_research"
+            self.keep("proposal_source", source if require_web else "catalog_advisor")
 
     def validate_plan(self):
         plan = self.workflow["candidate_plan"]
@@ -302,7 +318,7 @@ class CatalogWorkflow(Workflow):
             ),
         }
         self.report.update({
-            "schema_version": "2.0",
+            "schema_version": self.policy.policy_version,
             "research_snapshot": {**snapshot, "source_policy_hash": self.research.source_snapshot.hash},
             "research": research,
             "research_error": wf.get("research_error"),
@@ -319,13 +335,18 @@ class CatalogWorkflow(Workflow):
 
     def additional_artifacts(self, report):
         research = report["research"]
+        columns = (
+            "source_id", "requested_url", "final_url", "fetch_status", "content_level", "fetched_at",
+            "validated_at", "text_sha256",
+        )
+        if report["schema_version"] == "2.1":
+            columns += ("version_id", "observation_id", "stale", "parser_version", "truncated")
         return [
             self.repo.save_artifact(
                 self.job_id, "research_json", json_bytes(research), suffix=".json", worker_id=self.worker_id
             ),
             self.repo.save_artifact(
-                self.job_id, "sources_csv", csv_bytes(research.get("documents", []),
-                    ("source_id", "requested_url", "final_url", "fetch_status", "content_level", "fetched_at",
-                     "validated_at", "text_sha256")), suffix=".csv", worker_id=self.worker_id,
+                self.job_id, "sources_csv", csv_bytes(research.get("documents", []), columns),
+                suffix=".csv", worker_id=self.worker_id,
             ),
         ]

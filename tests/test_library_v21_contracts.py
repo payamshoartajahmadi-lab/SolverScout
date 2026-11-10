@@ -83,7 +83,7 @@ def test_query_plan_retains_dynamic_catalog_targets_and_bounds_sync_request():
         },
         {
             "query_id": "q2", "text": "TEST FIXTURE methods", "source_ids": ["fixture"],
-            "purpose": "method_discovery",
+            "purpose": "method_discovery", "implementation_ids": [],
         },
     ]
     plan = ResearchQueryPlanV21.model_validate({"schema_version": "2.1", "queries": queries})

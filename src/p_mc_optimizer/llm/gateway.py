@@ -31,7 +31,10 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("httpcore").setLevel(logging.WARNING)
 
 _ROLE_PHASES = {"formulator": "formulating", "advisor": "planning", "research_planner": "research_planning", "explainer": "reporting"}
-_LLM_POLICIES = {"llm_only", "llm_shortlist_then_pilot", "catalog_llm_then_pilot", "web_research_then_pilot"}
+_LLM_POLICIES = {
+    "llm_only", "llm_shortlist_then_pilot", "catalog_llm_then_pilot", "web_research_then_pilot",
+    "evidence_research_then_pilot",
+}
 _REPORT_FIELDS = {
     "selected_algorithm_id", "selection_status", "solution_status", "solution_origin",
     "verification", "partial_result", "budget", "optimality_status", "objective_raw",
@@ -382,7 +385,8 @@ class LLMGateway:
             (
                 call_id, job_id, role, purpose, invocation_id, test_key,
                 request_hash, attempt_no, _json(snapshot.model_dump(mode="json")), snapshot.profile_id,
-                snapshot.revision, generation, "2.0" if data["schema_id"].endswith(".v2") else PROMPT_VERSION,
+                snapshot.revision, generation,
+                {"v2": "2.0", "v2.1": "2.1"}.get(data["schema_id"].partition(".")[2], PROMPT_VERSION),
                 _json(data), _now(),
             ),
         )
@@ -467,7 +471,7 @@ class LLMGateway:
 
     def invoke(self, invocation: Invocation) -> dict:
         role = invocation.role
-        schema_v2 = invocation.schema_id.endswith(".v2")
+        schema_v2 = invocation.schema_id.endswith((".v2", ".v2.1"))
         if schema_v2:
             from p_mc_optimizer.llm.research_v2 import SCHEMAS
 
@@ -500,9 +504,12 @@ class LLMGateway:
             if job["job_status"] != "running" or job["phase"] != _ROLE_PHASES[role] or job["cancel_requested"]:
                 raise _invalid_job()
             policy = _from_json(job["policy"])
-            version_two = policy.get("policy_version") == "2.0"
-            if role in {"advisor", "research_planner"} and schema_v2 != version_two:
-                raise _invalid_job()
+            policy_version = policy["policy_version"]
+            version_two = policy_version in {"2.0", "2.1"}
+            if role in {"advisor", "research_planner"}:
+                suffix = {"1.0": "v1", "2.0": "v2", "2.1": "v2.1"}[policy_version]
+                if invocation.schema_id != f"{role}.{suffix}":
+                    raise _invalid_job()
             self._validate_job_policy(policy, role, context)
             if schema_v2:
                 self._validate_v2_context(job, role, context)
@@ -546,7 +553,7 @@ class LLMGateway:
         selection = policy.get("selection_policy")
         if selection not in _LLM_POLICIES:
             raise _invalid_job()
-        if role == "research_planner" and selection != "web_research_then_pilot":
+        if role == "research_planner" and selection not in {"web_research_then_pilot", "evidence_research_then_pilot"}:
             raise _invalid_job()
         if role == "explainer":
             if not policy.get("explain_via_llm"):

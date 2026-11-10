@@ -120,7 +120,7 @@ def html_bytes(report: dict) -> bytes:
         "diagnostics": "اطلاعات عیب‌یابی", "budget": "حساب بودجه", "timing": "زمان‌ها",
         "environment": "محیط و نسخه‌ها", "llm_calls": "فراخوانی‌های مدل و مصرف", "error": "خطای اجرا",
     }
-    if report.get("schema_version") == "2.0":
+    if report.get("schema_version") in {"2.0", "2.1"}:
         labels.update({
             "research_snapshot": "منابع و تنظیمات ثابت پژوهش",
             "query_plan": "پرس‌وجوها",

@@ -278,8 +278,9 @@ class LibraryStore:
             raise ResearchError("LIBRARY_SECRET_CONTENT")
         version = None
         if doc.fetch_status != "failed":
+            raw_text = entry.raw.decode("latin-1") if entry.raw is not None else None
             if entry.text is None or self.sanitize(entry.text) != entry.text or (
-                entry.raw is not None and self.sanitize(entry.raw.decode("latin-1")) != entry.raw.decode("latin-1")
+                raw_text is not None and self.sanitize(raw_text) != raw_text
             ):
                 raise ResearchError("LIBRARY_SECRET_CONTENT")
             version_id = digest([requested, doc.bytes_sha256, doc.text_sha256, doc.parser_version])
@@ -303,6 +304,7 @@ class LibraryStore:
             "source_rule": _rule(frozen, doc.source_id).model_dump(mode="json"),
             "requested_url": requested, "final_url": doc.final_url, "redirect_chain": list(doc.redirect_chain),
             "observed_at": observed_at, "validated_at": _stamp(doc.validated_at), "http_status": entry.http_status,
+            "raw_available": entry.raw is not None,
             "status": doc.fetch_status, "reason_code": doc.reason_code, "discovery": entry.discovery,
             "document": safe_doc,
         }
@@ -421,7 +423,10 @@ class LibraryStore:
             ).fetchone()
         if row is None:
             return None, None
-        return SourceDocument.model_validate(json.loads(row["observation"])["document"]), json.loads(row["version"])
+        observation = json.loads(row["observation"])
+        version = json.loads(row["version"])
+        version["raw_available"] |= observation.get("raw_available", False)
+        return SourceDocument.model_validate(observation["document"]), version
 
     @staticmethod
     def public_observation(payload):

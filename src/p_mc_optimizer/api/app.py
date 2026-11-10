@@ -18,6 +18,7 @@ from p_mc_optimizer.application.jobs import ApplicationService, AnswersInput, Jo
 from p_mc_optimizer.domain.models import CreateJob, DomainError, strict_json_loads
 from p_mc_optimizer.persistence import Repository
 from p_mc_optimizer.research.contracts import CreateJobV2, ResearchOutcome
+from p_mc_optimizer.research.contracts_v21 import CreateJobV21
 
 LOGGER = logging.getLogger(__name__)
 TOKEN_HEADER = "X-PMC-Internal-Token"
@@ -94,7 +95,8 @@ def job_routes(repo: Repository, service: ApplicationService, research_store=Non
     router = APIRouter()
 
     @router.post("/jobs", status_code=202)
-    def create_job(payload: CreateJob | CreateJobV2, idempotency_key: Annotated[str, Header(alias="Idempotency-Key")]):
+    def create_job(payload: CreateJob | CreateJobV2 | CreateJobV21,
+                   idempotency_key: Annotated[str, Header(alias="Idempotency-Key")]):
         return public_job(service.create_job(payload, idempotency_key))
 
     @router.get("/jobs")
@@ -149,6 +151,15 @@ def job_routes(repo: Repository, service: ApplicationService, research_store=Non
     @router.get("/jobs/{job_id}/research")
     def job_research(job_id: str):
         job = repo.get_job(canonical_id(job_id))
+        if job["policy"]["policy_version"] == "2.1":
+            return job["workflow"].get("research_outcome") or {
+                "schema_version": "2.1", "retrieval_mode": job["policy"]["retrieval_mode"],
+                "status": {
+                    "failed": "failed", "cancelled": "cancelled",
+                    "completed": "not_requested", "running": "running",
+                }.get(job["job_status"], "pending"),
+                "sync_run_id": job["workflow"].get("source_sync_run_id"),
+            }
         if job["policy"]["policy_version"] != "2.0":
             return {"status": "not_requested"}
         outcome = research_store.outcome(job_id)
@@ -190,12 +201,17 @@ def create_app(
     transport=None,
     research_search=None,
     research_fetch=None,
+    library_transport=None,
     instance_id: str | None = None,
 ) -> FastAPI:
-    from p_mc_optimizer.api.research_v2 import ResearchJobs
+    from p_mc_optimizer.api.library import LibrarySettings, library_router, sync_lifespan
+    from p_mc_optimizer.api.library_jobs import LibraryJobs
     from p_mc_optimizer.catalog import CatalogStore
     from p_mc_optimizer.catalog.routes import catalog_router
     from p_mc_optimizer.research.gateway import ResearchGateway
+    from p_mc_optimizer.research.library_retrieval import LibraryRetriever
+    from p_mc_optimizer.research.library_store import LibraryStore
+    from p_mc_optimizer.research.library_sync import SourceSynchronizer
     from p_mc_optimizer.research.routes import create_research_router
     from p_mc_optimizer.research.settings import SearchSettings
     from p_mc_optimizer.research.storage import ResearchStore
@@ -210,15 +226,21 @@ def create_app(
     research_gateway = ResearchGateway(research_store, search=research_search, fetch=research_fetch)
     search_settings = SearchSettings(research_store, gateway.broker, research_gateway)
     catalog = CatalogStore(repo.path)
-    research_jobs = ResearchJobs(repo, gateway, search_settings, catalog)
+    library = LibraryStore(research_store, sanitize=search_settings.sanitize)
+    retriever = LibraryRetriever(library)
+    synchronizer = SourceSynchronizer(library, transport=library_transport, sanitize=search_settings.sanitize)
+    retrieval = LibrarySettings(library)
+    research_jobs = LibraryJobs(repo, gateway, search_settings, catalog, library, retriever, retrieval, synchronizer)
     service = ApplicationService(repo, profile_snapshot=gateway.profile_snapshot,
                                  resume_check=research_jobs.resume, freeze_v2=research_jobs.freeze)
-    app = FastAPI(title="SolverScout", version="2.0", redirect_slashes=False)
+    app = FastAPI(title="SolverScout", version="2.1", redirect_slashes=False, lifespan=sync_lifespan(synchronizer))
     app.state.repo = repo
     app.state.gateway = gateway
     app.state.service = service
     app.state.search_settings = search_settings
     app.state.catalog = catalog
+    app.state.library = library
+    app.state.synchronizer = synchronizer
 
     @app.middleware("http")
     async def local_boundary(request: Request, call_next):
@@ -235,7 +257,10 @@ def create_app(
                 body = await request.body()
                 if body:
                     payload = strict_json_loads(body, limit=MAX_REQUEST_BYTES)
-                    if request.url.path not in {"/settings/llm/credential", "/settings/search/credential"} and (
+                    if request.url.path not in {
+                        "/settings/llm/credential", "/settings/search/credential",
+                        "/settings/search-providers/tavily/credential",
+                    } and (
                         gateway.payload_contains_secret(payload) or search_settings.sanitize(payload) != payload
                     ):
                         return error_response(
@@ -293,6 +318,7 @@ def create_app(
 
     app.include_router(job_routes(repo, service, research_store))
     app.include_router(create_research_router(search_settings))
+    app.include_router(library_router(library, retriever, search_settings, retrieval, synchronizer))
     app.include_router(research_jobs.router())
     app.include_router(catalog_router(catalog))
     app.include_router(create_llm_router(gateway))

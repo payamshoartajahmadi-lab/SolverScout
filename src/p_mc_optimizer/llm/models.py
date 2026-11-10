@@ -12,7 +12,10 @@ from p_mc_optimizer.domain.models import (
 )
 
 Role = Literal["formulator", "advisor", "explainer", "research_planner"]
-SchemaId = Literal["formulator.v1", "advisor.v1", "explainer.v1", "research_planner.v2", "advisor.v2"]
+SchemaId = Literal[
+    "formulator.v1", "advisor.v1", "explainer.v1", "research_planner.v2", "advisor.v2",
+    "research_planner.v2.1", "advisor.v2.1",
+]
 StorageMode = Literal["session", "os_keyring"]
 OPENAI_BASE_URL = "https://api.openai.com/v1"
 

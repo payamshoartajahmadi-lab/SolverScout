@@ -24,7 +24,12 @@ def run_claimed(repo, job, worker_id, *, api_url=None, token=None, stopped=lambd
     pulse = Thread(target=heartbeat, daemon=True)
     pulse.start()
     workflow_type = Workflow
-    if job["policy"]["policy_version"] == "2.0":
+    version = job["policy"]["policy_version"]
+    if version == "2.1":
+        from p_mc_optimizer.workflow.library_v21 import LibraryWorkflow
+
+        workflow_type = LibraryWorkflow
+    elif version == "2.0":
         from p_mc_optimizer.workflow.catalog_v2 import CatalogWorkflow
 
         workflow_type = CatalogWorkflow
