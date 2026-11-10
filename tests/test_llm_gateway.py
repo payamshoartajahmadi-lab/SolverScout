@@ -17,14 +17,15 @@ from streamlit.testing.v1 import AppTest
 from p_mc_optimizer.api import create_app
 from p_mc_optimizer.domain.models import ProblemInput
 from p_mc_optimizer.llm import credentials
+from p_mc_optimizer.llm.explanation_context import build_explainer_context
 from p_mc_optimizer.llm.formulation import RoleOutputError, convert_formulation
-from p_mc_optimizer.llm.gateway import LLMGateway
+from p_mc_optimizer.llm.gateway import LLMGateway, _hash
 from p_mc_optimizer.llm.models import (
-    ROLE_MODELS, ConnectionTestResponse, ExplainerResponse, FormulatorResponse,
+    ROLE_MODELS, ConnectionTestResponse, ExplainerContext, ExplainerResponse, FormulatorResponse,
     ProviderSettings, SecretSubmission, provider_schema,
 )
 from p_mc_optimizer.llm.validation import validate_role_output
-from p_mc_optimizer.llm.models import ExplainerContext
+from p_mc_optimizer.selection.policies import TIE_BREAK_ORDER
 
 _TEST_TOKEN = "TEST-FIXTURE-INSTANCE-TOKEN-do-not-send-to-provider"
 _TEST_KEY = "TEST-FIXTURE-KEY-sentinel-never-real"
@@ -488,6 +489,289 @@ def test_explainer_rejects_implied_certification(claim):
     context = ExplainerContext(report={}, evidence_refs=["report:solution"], selection_made=False)
     with pytest.raises(RoleOutputError):
         validate_role_output("explainer", model, context)
+
+
+_PASSIVE_CAVEAT = "موفقیت قطعی تضمین نمی‌شود."
+_COMBINED_CLAIM = "موفقیت قطعی تضمین نمی‌شود، اما هیچ جواب بهتری وجود ندارد."
+_OUTER_PREFIXES = (
+    "این‌طور نیست که", "این طور نیست که", "اینطور نیست که",
+    "چنین نیست که", "درست نیست که", "نادرست است که",
+)
+
+
+def explainer_context(*, selected):
+    if not selected:
+        return build_explainer_context({})
+    return build_explainer_context({
+        "selected_algorithm_id": "de.original", "selection_status": "selected", "objective_raw": 0.0,
+        "policy": {"selection_policy": "llm_shortlist_then_pilot", "pilot_repeats": 3, "pilot_evaluations": 500},
+        "problem_revision": {"spec": {"objective": {"sense": "minimize"}}},
+        "decision": {
+            "decision_source": "empirical_pilot_selection", "selection_status": "selected",
+            "selected_algorithm_id": "de.original", "scale": 1.0, "tie_break_order": TIE_BREAK_ORDER,
+            "metrics": [
+                {
+                    "algorithm_id": algorithm_id, "eligible": True, "trial_ids": [],
+                    "median_score": score, "normalized_iqr": 0.1, "reason": None,
+                }
+                for algorithm_id, score in (("de.original", 0.2), ("pso.original", 0.5))
+            ],
+        },
+    })
+
+
+def explainer_response(*, selected=False, **overrides):
+    return {
+        "summary_fa": "این نقطه بهترین مشاهدهٔ معتبر در بودجهٔ اجراست.",
+        "selection_explanation_fa": "میانهٔ امتیاز پایلوت‌ها انتخاب را تعیین کرد." if selected else None,
+        "limitations_fa": [],
+        "evidence_refs": ["report:solution", "report:decision"] if selected else ["report:solution"],
+        **overrides,
+    }
+
+
+@pytest.mark.parametrize("text", [
+    pytest.param(_PASSIVE_CAVEAT, id="NEG-A01"),
+    pytest.param("موفقیت قطعی تضمین نمی شود.", id="NEG-A02"),
+    pytest.param("موفقیت قطعی تضمین نمیشود.", id="NEG-A03"),
+    pytest.param("موفقیت تضمین نمی‌شود.", id="NEG-A04"),
+    pytest.param("موفقيت قطعي تضمين نمي‌شود.", id="NEG-A05"),
+    pytest.param("بهینگی سراسری تضمین نمی‌شود.", id="NEG-A06"),
+    pytest.param("بهینگی سراسری اثبات نشده است.", id="NEG-A07"),
+    pytest.param("این آزمایش برتری آماری را اثبات نمی‌کند.", id="NEG-A08"),
+    pytest.param("نتیجه، برتری آماری یا تضمین موفقیت را اثبات نمی‌کند.", id="NEG-A09"),
+    pytest.param(_PASSIVE_CAVEAT.replace(" ", "\t"), id="NEG-A11-tab"),
+    pytest.param(_PASSIVE_CAVEAT.replace(" ", "\u00a0"), id="NEG-A11-nbsp"),
+])
+def test_explainer_accepts_scoped_negation(text):
+    context = ExplainerContext.model_validate(explainer_context(selected=False))
+    model = ExplainerResponse.model_validate(explainer_response(summary_fa=text))
+    validate_role_output("explainer", model, context)
+    assert model.summary_fa == text
+
+
+@pytest.mark.parametrize("text", [
+    pytest.param("موفقیت قطعی تضمین می‌شود.", id="NEG-R01"),
+    pytest.param("موفقیت تضمین می‌شود.", id="NEG-R02"),
+    pytest.param("این جواب بهینهٔ سراسری است.", id="NEG-R03"),
+    pytest.param("هیچ جواب بهتری وجود ندارد.", id="NEG-R04"),
+    pytest.param(_COMBINED_CLAIM, id="NEG-R05"),
+    pytest.param("بهینگی سراسری تضمین نمی‌شود، ولی این جواب بهینهٔ قطعی است.", id="NEG-R06"),
+    pytest.param("این‌طور نیست که موفقیت قطعی تضمین نمی‌شود.", id="NEG-R07"),
+    pytest.param("این‌طور نیست که بهینگی سراسری تضمین نمی‌شود.", id="NEG-R08"),
+    pytest.param("درست نیست که موفقیت تضمین نمی‌شود.", id="NEG-R09"),
+    pytest.param("نادرست است که بهینگی سراسری اثبات نشده است.", id="NEG-R10"),
+    *(pytest.param(f"{prefix} {_PASSIVE_CAVEAT}", id=f"NEG-R11-{index}")
+      for index, prefix in enumerate(_OUTER_PREFIXES)),
+    *(pytest.param(f"موفقیت قطعی تضمین{separator}نمی‌شود.", id=f"NEG-R20-{index}")
+      for index, separator in enumerate(("\n", "\r", "\r\n", "\u2028", "\u2029"))),
+    pytest.param("ناموفقیت قطعی تضمین نمی‌شود.", id="prefix-word-boundary"),
+    pytest.param("موفقیت قطعی تضمین نمی‌شودند.", id="suffix-word-boundary"),
+])
+def test_explainer_rejects_certainty_outside_caveats(text):
+    context = ExplainerContext.model_validate(explainer_context(selected=False))
+    model = ExplainerResponse.model_validate(explainer_response(summary_fa=text))
+    with pytest.raises(RoleOutputError) as exc:
+        validate_role_output("explainer", model, context)
+    assert exc.value.field_errors == ["explanation: unsupported certainty or optimality claim"]
+
+
+@pytest.mark.parametrize("separator", ("\n", "\r", "\r\n", "\u2028", "\u2029", ".", "!", "?", "؟", "؛", ";"))
+def test_explainer_outer_negation_only_applies_within_sentence(separator):
+    context = ExplainerContext.model_validate(explainer_context(selected=False))
+    response = explainer_response(summary_fa=f"این‌طور نیست که بررسی پایان یافته باشد{separator}{_PASSIVE_CAVEAT}")
+    validate_role_output("explainer", ExplainerResponse.model_validate(response), context)
+
+
+@pytest.mark.parametrize("field", ("summary_fa", "limitations_fa", "selection_explanation_fa"))
+def test_explainer_scoped_negation_applies_to_each_text_field(field):
+    """NEG-A01 / NEG-R05"""
+    context = ExplainerContext.model_validate(explainer_context(selected=True))
+    for text in (_PASSIVE_CAVEAT, _COMBINED_CLAIM):
+        response = explainer_response(selected=True, **{field: [text] if field == "limitations_fa" else text})
+        model = ExplainerResponse.model_validate(response)
+        if text == _PASSIVE_CAVEAT:
+            validate_role_output("explainer", model, context)
+            assert model.model_dump() == response
+        else:
+            with pytest.raises(RoleOutputError) as exc:
+                validate_role_output("explainer", model, context)
+            assert exc.value.field_errors == ["explanation: unsupported certainty or optimality claim"]
+
+
+@pytest.mark.parametrize(("selected", "overrides", "error"), [
+    *(pytest.param(False, {"summary_fa": _PASSIVE_CAVEAT + digit}, "reproducing numbers", id=f"NEG-R12-{index}")
+      for index, digit in enumerate("3۳٣")),
+    pytest.param(False, {"evidence_refs": []}, "missing or unknown evidence", id="NEG-R13"),
+    pytest.param(False, {"evidence_refs": ["unknown"]}, "missing or unknown evidence", id="NEG-R14"),
+    pytest.param(False, {"selection_explanation_fa": "روش انتخاب شد."}, "no selection", id="NEG-R15"),
+    pytest.param(False, {"summary_fa": " \t"}, "explanation is empty", id="NEG-R16"),
+    pytest.param(True, {"selection_explanation_fa": None}, "selection explanation is required", id="NEG-R18-null"),
+    pytest.param(True, {"selection_explanation_fa": " \t"}, "selection explanation is required", id="NEG-R18-empty"),
+    pytest.param(True, {"evidence_refs": ["report:solution"]}, "selection evidence is required", id="NEG-R19"),
+])
+def test_explainer_independent_response_checks(selected, overrides, error):
+    context = ExplainerContext.model_validate(explainer_context(selected=selected))
+    model = ExplainerResponse.model_validate(explainer_response(selected=selected, **overrides))
+    with pytest.raises(RoleOutputError) as exc:
+        validate_role_output("explainer", model, context)
+    assert error in exc.value.field_errors[0]
+
+
+@pytest.mark.parametrize("bad_shape", ("extra", "missing"))
+def test_explainer_output_schema_rejects_malformed_response(bad_shape):
+    """NEG-R17"""
+    data = explainer_response()
+    if bad_shape == "extra":
+        data["extra"] = True
+    else:
+        data.pop("selection_explanation_fa")
+    with pytest.raises(ValidationError):
+        ExplainerResponse.model_validate(data)
+
+
+def start_explainer(client, repo, *, selected=True):
+    profile = ready(client)["profile"]
+    job_input = {
+        "input": {"kind": "natural_language", "text": golden()["original_text"]},
+        "policy": {
+            **_POLICY, "selection_policy": "llm_shortlist_then_pilot",
+            "max_objective_evaluations": 7002, "explain_via_llm": True,
+        },
+        "llm_profile": {name: profile[name] for name in ("profile_id", "revision")},
+    }
+    job_id = checked(client.post("/jobs", json=job_input, headers={"Idempotency-Key": str(uuid4())}), 202)["job_id"]
+    owner = str(uuid4())
+    assert repo.claim_job(owner)["job_id"] == job_id
+    repo.update_job(job_id, phase="reporting", worker_id=owner)
+    context = explainer_context(selected=selected)
+    repo.put_workflow(job_id, "role_context:explainer", context, worker_id=owner)
+    return {
+        "job_id": job_id, "role": "explainer", "schema_id": "explainer.v1",
+        "invocation_id": str(uuid4()), "context": context,
+    }, owner
+
+
+def test_gateway_explainer_passes_snapshot_and_repair_unchanged(local):
+    """GATE-01 / GATE-04 / GATE-07"""
+    client, repo, calls, answers = local
+    body, _ = start_explainer(client, repo)
+    accepted = explainer_response(selected=True, limitations_fa=[_PASSIVE_CAVEAT])
+    answers.extend([completion(explainer_response(selected=True, summary_fa=_COMBINED_CLAIM)), completion(accepted)])
+    first = checked(client.post("/internal/llm/invoke", json=body))
+    assert first["error"]["error_code"] == "LLM_SCHEMA_INVALID"
+    original_context = body["context"]
+    assert json.loads(calls[-1]["body"]["messages"][1]["content"]) == original_context
+    repair_context = {
+        **original_context, "repair": {
+            "previous_output": first["previous_output"],
+            "field_errors": first["error"]["field_errors"],
+        },
+    }
+    repair = {**body, "invocation_id": str(uuid4()), "context": repair_context}
+    second = checked(client.post("/internal/llm/invoke", json=repair))
+    assert second["status"] == "succeeded"
+    assert second["output"] == accepted
+    assert json.loads(calls[-1]["body"]["messages"][1]["content"]) == repair_context
+    assert second == checked(client.post("/internal/llm/invoke", json=repair))
+    changed = {**repair, "context": original_context}
+    conflict = checked(client.post("/internal/llm/invoke", json=changed), 409)
+    assert conflict["error_code"] == "IDEMPOTENCY_CONFLICT"
+    assert len(calls) == 3
+    assert LLMGateway(repo).count_calls(body["job_id"], "explainer") == 2
+
+
+@pytest.mark.parametrize(("field", "expected_message"), [
+    *(pytest.param(field, "زمینهٔ توضیح با snapshot", id=f"GATE-02-{field}")
+      for field in ("median", "winner", "mode", "ranking", "refs", "selection_made", "objective_type")),
+    pytest.param("snapshot", "زمینهٔ توضیح با snapshot", id="GATE-03"),
+    pytest.param("repair", "زمینهٔ توضیح با snapshot", id="GATE-05"),
+    pytest.param("private", "دادهٔ غیرمجاز", id="GATE-08"),
+    pytest.param("unlisted", "فیلد نامجاز", id="report-whitelist"),
+    pytest.param("summary_extra", "دادهٔ نقش با قرارداد سازگار نیست", id="closed-summary-dto"),
+])
+def test_gateway_explainer_rejects_untrusted_context_before_reserving(local, field, expected_message):
+    client, repo, calls, _ = local
+    body, owner = start_explainer(client, repo)
+    context = body["context"]
+    report = context["report"]
+    decision = report["decision_summary"]
+    if field in {"median", "repair"}:
+        decision["metrics"][0]["median_score"] = 0.25
+        if field == "repair":
+            context["repair"] = {"previous_output": "invalid", "field_errors": ["fixture"]}
+    elif field == "winner":
+        report["selected_algorithm_id"] = "pso.original"
+    elif field == "mode":
+        decision.update(
+            mode="policy_assignment", decision_source="deterministic_fallback",
+            metrics=[], eligible_ranking=[], tie_break_order=[], decisive_criterion=None,
+        )
+    elif field == "ranking":
+        decision["eligible_ranking"].reverse()
+    elif field == "refs":
+        context["evidence_refs"].remove("report:budget")
+    elif field == "selection_made":
+        context["selection_made"] = False
+    elif field == "objective_type":
+        report["objective_raw"] = False
+    elif field == "snapshot":
+        repo.put_workflow(body["job_id"], "role_context:explainer", None, worker_id=owner)
+    elif field == "private":
+        decision["evaluation_history"] = []
+    elif field == "unlisted":
+        report["unlisted"] = True
+    elif field == "summary_extra":
+        decision["unlisted"] = True
+    error = checked(client.post("/internal/llm/invoke", json=body), 422)
+    assert error["error_code"] == "INVALID_SCHEMA"
+    assert expected_message in error["message_fa"]
+    assert len(calls) == 1
+    assert LLMGateway(repo).count_calls(body["job_id"], "explainer") == 0
+
+
+def test_gateway_explainer_legacy_replay_keeps_old_context_hash(local):
+    """GATE-06"""
+    client, repo, calls, answers = local
+    body, owner = start_explainer(client, repo)
+    answers.append(completion(explainer_response(selected=True)))
+    previous = checked(client.post("/internal/llm/invoke", json=body))
+    assert previous["status"] == "succeeded"
+
+    # Represent a row written before decision_summary and the snapshot gate existed.
+    body["context"]["report"].pop("decision_summary")
+    with repo.transaction() as conn:
+        conn.execute(
+            "UPDATE llm_calls SET input=?, request_hash=? WHERE invocation_id=?",
+            (json.dumps(body), _hash(body), body["invocation_id"]),
+        )
+    repo.put_workflow(body["job_id"], "role_context:explainer", None, worker_id=owner)
+    repo.update_job(body["job_id"], phase="solving", worker_id=owner)
+
+    replay = checked(client.post("/internal/llm/invoke", json=body))
+    assert replay == previous
+    assert len(calls) == 2
+    assert LLMGateway(repo).count_calls(body["job_id"], "explainer") == 1
+
+
+def test_gateway_explainer_requires_explicit_null_when_no_decision_exists(local):
+    """GATE-10"""
+    client, repo, calls, answers = local
+    body, owner = start_explainer(client, repo, selected=False)
+    legacy_context = deepcopy(body["context"])
+    assert legacy_context["report"].pop("decision_summary") is None
+    repo.put_workflow(body["job_id"], "role_context:explainer", legacy_context, worker_id=owner)
+    missing = checked(client.post("/internal/llm/invoke", json={**body, "context": legacy_context}), 422)
+    assert missing["error_code"] == "INVALID_SCHEMA"
+    assert "فیلد خلاصهٔ تصمیم" in missing["message_fa"]
+    assert len(calls) == 1
+    assert LLMGateway(repo).count_calls(body["job_id"], "explainer") == 0
+
+    repo.put_workflow(body["job_id"], "role_context:explainer", body["context"], worker_id=owner)
+    answers.append(completion(explainer_response()))
+    accepted = checked(client.post("/internal/llm/invoke", json=body))
+    assert accepted["status"] == "succeeded"
+    assert json.loads(calls[-1]["body"]["messages"][1]["content"]) == body["context"]
 
 
 def test_output_dtos_are_closed_and_required():

@@ -606,7 +606,7 @@ class LLMGateway:
         elif role == "explainer":
             expected = _from_json(job["workflow"]).get("role_context:explainer")
             actual = context.model_dump(mode="json", exclude={"repair"})
-            if expected is None or actual != expected:
+            if expected is None or _json(actual) != _json(expected):
                 raise ApiError(422, "INVALID_SCHEMA", "زمینهٔ توضیح با snapshot این اجرا یکسان نیست.")
             if "decision_summary" not in context.report:
                 raise ApiError(422, "INVALID_SCHEMA", "فیلد خلاصهٔ تصمیم در زمینهٔ توضیح الزامی است.")

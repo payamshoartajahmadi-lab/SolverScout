@@ -183,7 +183,7 @@ def template_explanation(report, *, decision_context_valid=True):
         "validation_incomplete": "بررسی مجدد کامل نشد. نقطهٔ مشاهده‌شده در بخش عیب‌یابی قرار دارد.",
     }[solution]
     selected = report["selected_algorithm_id"]
-    decision = report["decision"] or {}
+    decision = report.get("decision") or {}
     if not decision_context_valid:
         selection = "جزئیات معتبرِ علت انتخاب برای تولید توضیح در دسترس نیست."
     elif decision.get("selection_status") == "insufficient_evidence":
