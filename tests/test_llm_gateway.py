@@ -460,6 +460,7 @@ def test_formulator_unknown_required_values_generate_structured_questions():
     "بهینگی سراسری تأیید نشده است و نتیجه، برتری آماری یا تضمین موفقیت را اثبات نمی‌کند.",
     "نتیجه به جست‌وجوی انجام‌شده در این اجرا محدود است؛ بهینگی کلی تأیید نشده است.",
     "این توضیح، ادعایی دربارهٔ بهینگی کلی یا برتری فراتر از این اجرا نیست.",
+    "راستی‌آزمایی سازگاری بازاجرا را پشتیبانی می‌کند، اما بهینگی سراسری یا برتری آماری را اثبات نمی‌کند و موفقیت را تضمین نمی‌کند.",
 ])
 def test_explainer_accepts_explicit_caveats_from_live_responses(caveat):
     model = ExplainerResponse(
@@ -476,6 +477,7 @@ def test_explainer_accepts_explicit_caveats_from_live_responses(caveat):
     "We found the smallest possible value",
     "نتیجه برتری آماری یا تضمین موفقیت را اثبات می‌کند.",
     "نتیجه تضمین موفقیت را اثبات نمی‌کند، اما این پاسخ بهینگی سراسری تضمین‌شده دارد.",
+    "این گزارش موفقیت را تضمین نمی‌کند، ولی جواب سراسری اثبات شده است.",
 ])
 def test_explainer_rejects_implied_certification(claim):
     """LLM-009"""

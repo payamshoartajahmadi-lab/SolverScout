@@ -9,13 +9,14 @@ from p_mc_optimizer.llm.formulation import RoleOutputError, convert_formulation
 from p_mc_optimizer.llm.models import ExplainerResponse
 
 _FA_OPTIMALITY = r"(?:بهینگی|بهینه[‌ -]?بودن)(?:\s+(?:سراسری|کلی|جهانی|مطلق))?"
-_FA_LIMITATION_TOPIC = rf"(?:{_FA_OPTIMALITY}|برتری\s+آماری|تضمین\s+موفقیت)"
+_FA_LIMITATION_TOPIC = rf"(?:{_FA_OPTIMALITY}|برتری\s+اماری|تضمین\s+موفقیت)"
 
 # Mask the claim and its explicit negation together, leaving other claims visible.
 _LIMITATION = re.compile(
     rf"{_FA_OPTIMALITY}\s+(?:اثبات|تضمین|تایید)\s+(?:نشده(?:\s+است)?|نمی[‌ ]?شود)\b"
     rf"|{_FA_LIMITATION_TOPIC}(?:\s+(?:یا|و)\s+{_FA_LIMITATION_TOPIC})*"
     r"\s+را\s+(?:اثبات|تایید|تضمین)\s+نمی[‌ ]?کند\b"
+    r"|موفقیت\s+را\s+تضمین\s+نمی[‌ ]?کند\b"
     rf"|ادعایی\s+درباره\s+{_FA_OPTIMALITY}(?:\s+یا\s+برتری\s+فراتر\s+از\s+این\s+اجرا)?\s+نیست\b"
     r"|(?:هیچ\s+)?تضمینی\s+(?:برای\s+بهینگی\s+)?وجود\s+ندارد"
     r"|(?:global )?optimality (?:has not been|is not|was not) (?:proven|certified|guaranteed)"
