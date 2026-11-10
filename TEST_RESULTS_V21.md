@@ -19,3 +19,7 @@ Three storage tests passed in 0.17 seconds. They cover version reuse and observa
 ## L3 direct source refresh
 
 The direct acquisition and existing research suites passed with **62 tests**. The six new sync cases cover seed, sitemap and link discovery, request charging, conditional refresh, removal, permissions, XML safety, overlapping runs, cancellation and interrupted reservations.
+
+## L4 local evidence retrieval
+
+Five retrieval tests passed in 0.20 seconds. They check exact passage offsets, targeted variants, snapshot replay after refresh and source revocation, stale policy, observation scoping for web results, safe FTS queries and corrupt artifacts.
