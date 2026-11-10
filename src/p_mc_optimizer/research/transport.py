@@ -101,7 +101,10 @@ class PinnedTransport:
         self.resolver = resolver
         self.transport = transport
 
-    def get(self, url: str, timeout: float, size: int, conditional: dict[str, str]) -> Response:
+    def get(
+        self, url: str, timeout: float, size: int, conditional: dict[str, str],
+        *, accept: str = "text/html, text/plain, application/pdf",
+    ) -> Response:
         parts = urlsplit(url)
         host = parts.hostname
         if host is None:
@@ -130,7 +133,7 @@ class PinnedTransport:
         headers.update({
             "Host": host,
             "User-Agent": "P_MC_Research/2.0",
-            "Accept": "text/html, text/plain, application/pdf",
+            "Accept": accept,
             "Accept-Encoding": "gzip, identity",
         })
         try:
