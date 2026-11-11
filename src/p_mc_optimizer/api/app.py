@@ -35,6 +35,9 @@ DOMAIN_CODES = {
     "UNSUPPORTED_PROBLEM", "INVALID_EXPRESSION", "UNKNOWN_VARIABLE",
     "AMBIGUOUS_PROBLEM", "BOUNDS_RANGE_UNSUPPORTED", "PROVIDER_CONFIGURATION_REQUIRED",
 }
+NUMERIC_POLICY_CODES = {"NUMERIC_POLICY_INVALID", "NUMERIC_POLICY_BUDGET_TOO_SMALL",
+                        "NUMERIC_POLICY_ENVIRONMENT_MISMATCH", "NUMERIC_POLICY_QUALIFICATION_REQUIRED",
+                        "NUMERIC_POLICY_AUTHORIZATION_INVALID"}
 DOMAIN_MESSAGES = {
     "UNSUPPORTED_PROBLEM": "مدل مسئله با دامنهٔ نسخهٔ اول سازگار نیست.",
     "INVALID_EXPRESSION": "عبارت تابع هدف با دستور زبان مجاز سازگار نیست.",
@@ -204,6 +207,9 @@ def create_app(
     library_transport=None,
     instance_id: str | None = None,
 ) -> FastAPI:
+    from p_mc_optimizer.runtime_provenance import startup, runtime_status
+
+    startup("api", instance_id=instance_id, data_dir=data_dir)
     from p_mc_optimizer.api.library import LibrarySettings, library_router, sync_lifespan
     from p_mc_optimizer.api.library_jobs import LibraryJobs
     from p_mc_optimizer.catalog import CatalogStore
@@ -287,9 +293,10 @@ def create_app(
 
     @app.exception_handler(DomainError)
     async def handle_domain_error(request: Request, error: DomainError):
-        code = error.code if error.code in DOMAIN_CODES else "INVALID_SCHEMA"
+        code = error.code if error.code in DOMAIN_CODES | NUMERIC_POLICY_CODES else "INVALID_SCHEMA"
         return error_response(
-            request, ApiError(422, code, DOMAIN_MESSAGES.get(code, "ساختار مسئله معتبر نیست.")),
+            request, ApiError(409 if code == "NUMERIC_POLICY_ENVIRONMENT_MISMATCH" else 422, code,
+                             str(error) if code in NUMERIC_POLICY_CODES else DOMAIN_MESSAGES.get(code, "ساختار مسئله معتبر نیست.")),
         )
 
     @app.exception_handler(RequestValidationError)
@@ -315,6 +322,10 @@ def create_app(
     @app.get("/healthz")
     def health():
         return {"status": "ok", "instance_id": instance_id}
+
+    @app.get("/runtime")
+    def runtime():
+        return runtime_status(data_dir)
 
     app.include_router(job_routes(repo, service, research_store))
     app.include_router(create_research_router(search_settings))

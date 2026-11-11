@@ -49,6 +49,19 @@ _GOOD_EXPLANATION = {
 }
 
 
+def evidence_plan(context):
+    """A controlled v2 response copied from the actual outbound context."""
+    return {
+        "schema_version": "2.0", "facts": context["facts"], "facts_hash": context["facts_hash"],
+        "note_ids": [note["note_id"] for note in context["allowed_notes"][:2]],
+        "evidence_refs": context["evidence_refs"],
+    }
+
+
+def evidence_plan_response(body):
+    return evidence_plan(json.loads(body["messages"][-1]["content"]))
+
+
 @contextmanager
 def local_api(data_dir, transport, *, enable_lifespan=False, **app_options):
     token = secrets.token_urlsafe(32)
@@ -99,7 +112,10 @@ def submit(client, profile, problem_text, **policy_overrides):
     return checked(client.post("/jobs", json=payload, headers={"Idempotency-Key": str(uuid4())}), 202)["job_id"]
 
 
-def work(repo, address, token, job_id):
+def work(repo, address, token, job_id, *, legacy_explanation=True):
+    if legacy_explanation:
+        # These fixtures preserve the stored-job explainer.v1 contract.
+        repo.put_workflow(job_id, "execution_contracts", {})
     owner = str(uuid4())
     job = repo.claim_job(owner, lease_seconds=1200)
     assert job is not None and job["job_id"] == job_id
@@ -112,7 +128,7 @@ def fixture_transport(responses, called, *, explainer_requests=None):
         body = json.loads(request.content)
         schema_name = body["response_format"]["json_schema"]["name"]
         called.append(schema_name)
-        if schema_name == "explainer_v1" and explainer_requests is not None:
+        if schema_name in {"explainer_v1", "explainer_v2"} and explainer_requests is not None:
             explainer_requests.append(body)
         assert "X-PMC-Internal-Token" not in request.headers
         assert request.headers["Authorization"] == f"Bearer {_TEST_KEY}"
@@ -120,6 +136,8 @@ def fixture_transport(responses, called, *, explainer_requests=None):
             value = responses.pop(0)
         except IndexError:
             pytest.fail(f"Unexpected provider invocation: {schema_name}")
+        if callable(value):
+            value = value(body)
         return value if isinstance(value, httpx.Response) else completion(value)
     return httpx.MockTransport(post)
 
@@ -192,6 +210,153 @@ def test_end_to_end_language_workflow(tmp_path):
         assert summary["decisive_criterion"] is None
         assert not any(trial["phase"] == "pilot" for trial in report["trials"])
         assert not responses
+
+
+def test_new_v1_envelope_uses_evidence_bound_explainer_v2(tmp_path):
+    """EXP-01/03/15. New jobs retain the v1 envelope and use the v2 explanation."""
+    fixture = golden()
+    called, requests = [], []
+    responses = [{"ok": True}, fixture["response"], _GOOD_PLAN, evidence_plan_response]
+    with local_api(tmp_path, fixture_transport(responses, called, explainer_requests=requests)) as (
+        repo, client, address, token
+    ):
+        profile, _ = configure(client, _PROFILE_SETTINGS, _TEST_KEY)
+        job_id = submit(client, profile, fixture["original_text"])
+        marker = repo.get_job(job_id)["workflow"]["execution_contracts"]
+        assert marker["explanation"] == "evidence_bound_v2"
+        work(repo, address, token, job_id, legacy_explanation=False)
+        report = checked(client.get(f"/jobs/{job_id}/report"))["report"]
+        assert report["solution_status"] == "valid_best_found"
+        assert report["explanation_status"] == "generated"
+        assert report["explanation_contract_version"] == "2.0"
+        assert report["explanation_evidence"]["status"] == "consistent"
+        assert report["explanation_evidence"]["note_selection_source"] == "llm"
+        assert report["explanation_evidence"]["facts"]["selection_reason"] == "policy_assignment"
+        context = json.loads(requests[0]["messages"][-1]["content"])
+        assert context == repo.get_job(job_id)["workflow"]["role_context:explainer"]
+        assert context["facts"]["origin_phase"] == report["solution_origin"]["phase"]
+        assert called == ["connection_test_v1", "formulator_v1", "advisor_v1", "explainer_v2"]
+        assert "بر اساس سیاست ثبت‌شده" in report["explanation"]["selection_explanation_fa"]
+        assert not responses
+
+
+def incorrect_evidence_plan(body):
+    plan = evidence_plan_response(body)
+    plan["facts"] = {**plan["facts"], "selection_reason": "median_score"}
+    return plan
+
+
+@pytest.mark.parametrize("outcomes,expected,calls_count", [
+    pytest.param([incorrect_evidence_plan, evidence_plan_response], "generated", 2, id="plan-repair"),
+    pytest.param([incorrect_evidence_plan, incorrect_evidence_plan], "schema_fallback", 2, id="plan-fallback"),
+    pytest.param([httpx.Response(401)], "provider_error", 1, id="provider-error"),
+])
+def test_new_explanation_failures_preserve_deterministic_text(tmp_path, outcomes, expected, calls_count):
+    """EXP-22/25. Invalid facts cannot change the server-rendered report."""
+    fixture = golden()
+    called, requests = [], []
+    responses = [{"ok": True}, fixture["response"], _GOOD_PLAN, *outcomes]
+    with local_api(tmp_path, fixture_transport(responses, called, explainer_requests=requests)) as (
+        repo, client, address, token
+    ):
+        profile, _ = configure(client, _PROFILE_SETTINGS, _TEST_KEY)
+        job_id = submit(client, profile, fixture["original_text"])
+        work(repo, address, token, job_id, legacy_explanation=False)
+        report = checked(client.get(f"/jobs/{job_id}/report"))["report"]
+        assert report["solution_status"] == "valid_best_found"
+        assert report["explanation_status"] == expected
+        assert report["explanation_evidence"]["status"] == "consistent"
+        assert report["explanation_evidence"]["note_selection_source"] == ("llm" if expected == "generated" else "default")
+        assert "بر اساس سیاست ثبت‌شده" in report["explanation"]["selection_explanation_fa"]
+        assert "کمترین میانه" not in report["explanation"]["selection_explanation_fa"]
+        assert report["budget"]["known_started"] == 1002
+        assert len(requests) == calls_count
+        assert report["verification"]["validation_status"] == "passed"
+        if calls_count == 2:
+            contexts = [json.loads(body["messages"][-1]["content"]) for body in requests]
+            assert "repair" in contexts[1]
+            assert {key: value for key, value in contexts[1].items() if key != "repair"} == contexts[0]
+        assert not responses
+
+
+def test_new_explanation_disabled_still_renders_full_evidence(tmp_path):
+    """EXP-21. Disabling this role retains the server explanation and default notes."""
+    fixture = golden()
+    called = []
+    responses = [{"ok": True}, fixture["response"], _GOOD_PLAN]
+    with local_api(tmp_path, fixture_transport(responses, called)) as (repo, client, address, token):
+        profile, _ = configure(client, _PROFILE_SETTINGS, _TEST_KEY)
+        job_id = submit(client, profile, fixture["original_text"], explain_via_llm=False)
+        work(repo, address, token, job_id, legacy_explanation=False)
+        report = checked(client.get(f"/jobs/{job_id}/report"))["report"]
+        assert report["explanation_status"] == "not_requested"
+        assert report["explanation_evidence"]["note_selection_source"] == "default"
+        assert report["explanation_evidence"]["llm_schema_id"] is None
+        assert report["explanation"]["summary_fa"] and report["explanation_notes"]
+        assert called == ["connection_test_v1", "formulator_v1", "advisor_v1"]
+
+
+@pytest.mark.parametrize("change", ["partial_result", "cancellation"])
+def test_new_explanation_discards_plan_when_facts_change_after_call(tmp_path, monkeypatch, change):
+    """EXP-24. A completed plan cannot describe subsequently changed facts."""
+    invoke = Workflow._invoke
+
+    def change_report(workflow, role, *args, **kwargs):
+        result = invoke(workflow, role, *args, **kwargs)
+        if role == "explainer":
+            if change == "cancellation":
+                state = repo.get_job(workflow.job_id)
+                checked(client.post(f"/jobs/{workflow.job_id}/cancel", json={"expected_job_version": state["version"]}), 202)
+            else:
+                workflow.report["partial_result"] = True
+        return result
+
+    monkeypatch.setattr(Workflow, "_invoke", change_report)
+    fixture = golden()
+    called = []
+    responses = [{"ok": True}, fixture["response"], _GOOD_PLAN, evidence_plan_response]
+    with local_api(tmp_path, fixture_transport(responses, called)) as (repo, client, address, token):
+        profile, _ = configure(client, _PROFILE_SETTINGS, _TEST_KEY)
+        job_id = submit(client, profile, fixture["original_text"])
+        work(repo, address, token, job_id, legacy_explanation=False)
+        report = checked(client.get(f"/jobs/{job_id}/report"))["report"]
+        assert report["solution_status"] == ("validation_incomplete" if change == "cancellation" else "valid_best_found")
+        assert report["explanation_status"] == "schema_fallback"
+        assert report["explanation_error"]["field_errors"] == ["plan.facts: report changed after invocation"]
+        assert report["diagnostics"]["explanation_plan_discard_reason"] == "report_changed"
+        assert report["explanation_evidence"]["facts"]["partial_result"] is True
+        assert report["explanation_evidence"]["note_selection_source"] == "default"
+        assert repo.get_job(job_id)["workflow"]["role_context:explainer"]["facts"]["partial_result"] is False
+        explainer = [call for call in report["llm_calls"] if call["role"] == "explainer"]
+        assert len(explainer) == 1 and explainer[0]["status"] == "succeeded"
+
+
+def test_new_explanation_invalid_context_skips_model_and_preserves_numerics(tmp_path, monkeypatch):
+    original = Workflow.build_report_data
+
+    def inconsistent_context(workflow):
+        original(workflow)
+        workflow.report["decision"]["selected_algorithm_id"] = "abc.original"
+
+    monkeypatch.setattr(Workflow, "build_report_data", inconsistent_context)
+    fixture = golden()
+    called = []
+    responses = [{"ok": True}, fixture["response"], _GOOD_PLAN]
+    with local_api(tmp_path, fixture_transport(responses, called)) as (repo, client, address, token):
+        profile, _ = configure(client, _PROFILE_SETTINGS, _TEST_KEY)
+        job_id = submit(client, profile, fixture["original_text"])
+        work(repo, address, token, job_id, legacy_explanation=False)
+        report = checked(client.get(f"/jobs/{job_id}/report"))["report"]
+        assert report["solution_status"] == "valid_best_found"
+        assert report["explanation_status"] == "schema_fallback"
+        assert report["explanation_evidence"]["status"] == "invalid_context"
+        assert report["explanation_evidence"]["facts"] is None
+        assert report["explanation_evidence"]["facts_hash"] is None
+        assert report["explanation_evidence"]["llm_schema_id"] is None
+        assert report["explanation"]["selection_explanation_fa"] is None
+        assert report["explanation_notes"] == []
+        assert report["budget"]["known_started"] == 1002
+        assert not [call for call in report["llm_calls"] if call["role"] == "explainer"]
 
 
 def test_exhausted_formulator_allows_explicit_structured_completion(tmp_path):

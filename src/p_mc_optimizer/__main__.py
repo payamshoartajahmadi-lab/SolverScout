@@ -80,6 +80,10 @@ def doctor(data_dir, config):
     with repo.connect() as connection:
         if connection.execute("SELECT 1 FROM provider_profiles LIMIT 1").fetchone():
             result["llm"] = "PROFILE_SAVED_CONNECTION_NOT_CHECKED"
+    from p_mc_optimizer.runtime_provenance import inspect_instance
+
+    running = owner(data_dir)
+    result["runtime"] = inspect_instance(data_dir, running["instance_id"] if running else None)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
 
@@ -141,6 +145,11 @@ def parser():
 
 
 def internal(args):
+    from p_mc_optimizer.runtime_provenance import startup
+
+    role = {"_supervise": "supervisor", "_api": "api", "_worker": "worker", "_ui": "ui"}.get(args[0], "headless")
+    startup(role, instance_id=args[3] if args[0] == "_supervise" else os.environ.get("PMC_INSTANCE_ID"),
+            data_dir=Path(args[1]) if args[0] == "_supervise" else os.environ.get("PMC_DATA_DIR"))
     if args[0] == "_supervise":
         supervise(Path(args[1]), LocalConfig.model_validate_json(args[2]), args[3])
         return

@@ -48,3 +48,21 @@ def catalog_trial_request(
         seed=seed, phase=phase, replicate_index=replicate_index, evaluation_quota=evaluation_quota,
         deadline_seconds=deadline_seconds,
     )
+
+
+def apply_budget_configuration(base_trial, snapshot, authorization):
+    """Add a frozen policy envelope while preserving all base selection identifiers."""
+    from p_mc_optimizer.catalog.budget_policy import make_numeric_execution
+    from p_mc_optimizer.catalog.configuration import Parameter
+    from p_mc_optimizer.domain.models import TrialRequestBudgetV1
+
+    base = SolverConfiguration(
+        implementation_id=base_trial.implementation_id, library_version=base_trial.library_version,
+        adapter_version=base_trial.adapter_version, mode=base_trial.mode, boundary_repair=base_trial.boundary_repair,
+        parameters=tuple(Parameter(name=k,value=v) for k,v in sorted(base_trial.configuration_snapshot.items())),
+    )
+    numeric = make_numeric_execution(base,base_trial.evaluation_quota,authorization,snapshot)
+    return TrialRequestBudgetV1.model_validate({
+        **base_trial.model_dump(mode="python"),"schema_version":"2.1",
+        "numeric_execution":numeric,
+    })

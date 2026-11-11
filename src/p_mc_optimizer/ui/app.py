@@ -111,9 +111,30 @@ def connections():
     )
 
 
+@st.cache_data(ttl=15, show_spinner=False)
+def read_runtime(api_url):
+    return call("GET", "/runtime")
+
+
+def runtime_notice():
+    url = os.environ.get("PMC_API_URL")
+    if not url:
+        return
+    try:
+        status = read_runtime(url)
+    except ApiFailure:
+        return
+    if status.get("drift") == "changed":
+        st.warning("فایل‌های برنامه تغییر کرده‌اند. برای استفاده از نسخهٔ تازه، برنامه را دوباره اجرا کنید.")
+        with st.expander("جزئیات نسخهٔ در حال اجرا"):
+            st.text("RUNTIME_RESTART_REQUIRED")
+            st.json(status, expanded=False)
+
+
 def main():
     st.set_page_config(page_title="SolverScout | بهینه‌ساز محلی", layout="wide", initial_sidebar_state="expanded")
     st.html(UI_CSS)
+    runtime_notice()
     pages = {
         PROBLEM: lambda: wizard(attempt, open_execution, open_connections, open_library),
         RUNS: lambda: executions_page(attempt, open_problem, model_settings, show_report),

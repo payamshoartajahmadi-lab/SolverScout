@@ -12,7 +12,7 @@ import pytest
 from p_mc_optimizer.research.fetch import DocumentFetcher
 from p_mc_optimizer.research.transport import Response
 from test_llm_gateway import _PROFILE_SETTINGS, _TEST_KEY, checked, completion
-from test_llm_workflow import _GOOD_EXPLANATION, assert_empirical_explainer_context, configure, local_api
+from test_llm_workflow import _GOOD_EXPLANATION, assert_empirical_explainer_context, configure, evidence_plan, local_api
 from test_v2_workflow import SOURCE, keyed_post, profile_ref, qualify_three, run_job
 
 CORPUS_PATH = Path(__file__).parent / "fixtures" / "library_v21_corpus.json"
@@ -79,12 +79,9 @@ def model_fixture(calls):
                     "text": "new methods for bounded continuous optimization", "implementation_ids": [],
                 }],
             })
-        if name == "explainer_v1":
+        if name == "explainer_v2":
             assert "repair" not in context
-            return completion({
-                **_GOOD_EXPLANATION,
-                "selection_explanation_fa": "در این اجرا، مقایسهٔ پایلوت‌ها روش منتخب را تعیین کرد.",
-            })
+            return completion(evidence_plan(context))
         assert name == "advisor_v2_1"
         candidates = []
         for card in context["solver_cards"]:
@@ -194,7 +191,8 @@ def test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily(tm
         report = bundle["report"]
         assert report["schema_version"] == "2.1" and report["solution_status"] == "valid_best_found"
         assert report["explanation_status"] == "generated"
-        assert report["explanation"]["limitations_fa"] == _GOOD_EXPLANATION["limitations_fa"]
+        assert report["explanation_evidence"]["status"] == "consistent"
+        assert report["explanation"]["limitations_fa"][0] == "بهینگی سراسری در این اجرا اثبات نشده است."
         assert report["budget"]["known_started"] == 5502
         assert len(report["trials"]) == 10
         assert all(trial["started_evaluations"] == 500 for trial in report["trials"])
@@ -212,7 +210,7 @@ def test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily(tm
             if artifact["kind"] in {"research_json", "report_html", "sources_csv"}:
                 exported = client.get(f"/artifacts/{artifact['artifact_id']}").text
                 assert token not in exported and _TEST_KEY not in exported
-        assert [name for name, _ in calls] == ["research_planner_v2_1", "advisor_v2_1", "advisor_v2_1", "explainer_v1"]
+        assert [name for name, _ in calls] == ["research_planner_v2_1", "advisor_v2_1", "advisor_v2_1", "explainer_v2"]
         context = calls[-1][1]
         assert context == repo.get_job(job_id)["workflow"]["role_context:explainer"]
         summary = assert_empirical_explainer_context(context, report)

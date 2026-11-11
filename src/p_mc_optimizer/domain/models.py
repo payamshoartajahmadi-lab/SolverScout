@@ -108,8 +108,7 @@ ExplanationStatus = Literal["pending", "generated", "schema_fallback", "provider
 SelectionStatus = Literal["pending", "selected", "fixed_by_policy", "insufficient_evidence", "not_reached"]
 
 
-class ContractModel(BaseModel):
-    model_config = ConfigDict(extra="forbid", strict=True, frozen=True, allow_inf_nan=False)
+from p_mc_optimizer.domain.base import ContractModel
 
 
 class Variable(ContractModel):
@@ -398,6 +397,27 @@ class TrialRequestV2(_TrialFields):
         return self
 
 
+from p_mc_optimizer.catalog.budget_models import NumericExecutionV1
+
+
+class TrialRequestBudgetV1(TrialRequestV2):
+    schema_version: Literal["2.1"]
+    numeric_execution: NumericExecutionV1
+
+    @model_validator(mode="after")
+    def matching_numeric_execution(self):
+        if self.numeric_execution.base_config_id != self.config_id or self.numeric_execution.evaluation_quota != self.evaluation_quota:
+            raise ValueError("Numeric policy base configuration and quota must match the Trial")
+        return self
+
+
+def parse_catalog_trial(value):
+    if isinstance(value, TrialRequestV2):
+        return value
+    cls = TrialRequestBudgetV1 if value.get("schema_version") == "2.1" else TrialRequestV2
+    return cls.model_validate_json(json.dumps(value,ensure_ascii=False,allow_nan=False))
+
+
 class EvaluationRecord(ContractModel):
     job_id: Uuid4String
     execution_id: Uuid4String
@@ -440,7 +460,7 @@ class ExecutionRequest(ContractModel):
     seed: Annotated[int, Field(ge=0, lt=2**32)]
     evaluation_quota: Annotated[int, Field(gt=0)]
     deadline_seconds: Annotated[FiniteReal, Field(gt=0)]
-    trial: TrialRequest | TrialRequestV2 | None = None
+    trial: TrialRequestBudgetV1 | TrialRequest | TrialRequestV2 | None = None
     verification_reference: EvaluationRecord | None = None
 
     @model_validator(mode="after")
@@ -520,6 +540,7 @@ class ExecutionResult(ContractModel):
     validation: ValidationResult | None
     error: ExecutionError | None
     fingerprint: dict[str, str]
+    runtime_provenance: dict | None = None
 
 
 class PilotMetric(ContractModel):

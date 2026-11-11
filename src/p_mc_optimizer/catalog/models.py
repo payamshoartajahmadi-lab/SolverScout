@@ -20,41 +20,7 @@ ADAPTER_VERSION = "2.0"
 CatalogStatus = Literal["discovered", "needs_configuration", "qualified", "rejected", "disabled"]
 
 
-def canonical_json(value) -> str:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
-
-
-def digest(value) -> str:
-    return hashlib.sha256(canonical_json(value).encode("utf-8")).hexdigest()
-
-
-class Parameter(ContractModel):
-    name: str
-    value: ConstructorValue
-
-
-class SolverConfiguration(ContractModel):
-    schema_version: Literal["2.0"] = "2.0"
-    implementation_id: ImplementationId
-    library_version: str
-    adapter_version: str
-    parameters: tuple[Parameter, ...]
-    boundary_repair: str
-    mode: Literal["single"] = "single"
-
-    @model_validator(mode="after")
-    def canonical_parameters(self):
-        names = [parameter.name for parameter in self.parameters]
-        if names != sorted(set(names)):
-            raise ValueError("Constructor parameters must be sorted and unique")
-        return self
-
-    @property
-    def config_id(self) -> str:
-        return digest(self.model_dump(mode="json"))
-
-    def kwargs(self) -> dict[str, ConstructorValue]:
-        return {parameter.name: parameter.value for parameter in self.parameters}
+from p_mc_optimizer.catalog.configuration import Parameter, SolverConfiguration, canonical_json, digest
 
 
 class ImplementationRecord(ContractModel):

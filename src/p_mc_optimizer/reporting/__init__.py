@@ -21,6 +21,7 @@ TRIAL_COLUMNS = (
     "evaluation_quota", "execution_status", "termination_reason", "started_evaluations",
     "successful_evaluations", "failed_evaluations", "objective_raw", "score_for_minimization",
     "elapsed_compute_seconds", "error_code",
+    "policy_id", "effective_config_hash", "effective_epoch", "effective_pop_size", "derivation_reason",
 )
 
 
@@ -119,6 +120,8 @@ def html_bytes(report: dict) -> bytes:
         "profile": "نمونه‌برداری مسئله", "verification": "اعتبارسنجی مجدد",
         "diagnostics": "اطلاعات عیب‌یابی", "budget": "حساب بودجه", "timing": "زمان‌ها",
         "environment": "محیط و نسخه‌ها", "llm_calls": "فراخوانی‌های مدل و مصرف", "error": "خطای اجرا",
+        "explanation_evidence": "قرارداد توضیح و سازگاری شواهد",
+        "explanation_contract_version": "نسخهٔ قرارداد توضیح",
     }
     if report.get("schema_version") in {"2.0", "2.1"}:
         labels.update({
@@ -134,6 +137,15 @@ def html_bytes(report: dict) -> bytes:
         if report.get(key) is not None:
             data = escaped(json_bytes(report[key]).decode())
             details.append(f'<details open><summary>{label}</summary><pre dir="ltr">{data}</pre></details>')
+    numeric_trials = [
+        {"algorithm_id": trial.get("algorithm_id"), "base_configuration": trial.get("configuration_snapshot"),
+         "numeric_execution": trial["numeric_execution"]}
+        for trial in report.get("trials", []) if trial.get("numeric_execution")
+    ]
+    if numeric_trials:
+        data = escaped(json_bytes(numeric_trials).decode())
+        details.append('<details><summary>پیکربندی پایه و تنظیم اجراشده</summary>'
+                       f'<pre dir="ltr">{data}</pre></details>')
     trial_rows = []
     display_columns = ("algorithm_id", "phase", "seed", "started_evaluations", "objective_raw",
                        "score_for_minimization", "execution_status")
@@ -143,6 +155,17 @@ def html_bytes(report: dict) -> bytes:
     headings = ("روش", "مرحله", "بذر", "FE", "هدف اصلی", "امتیاز کمینه‌سازی", "وضعیت")
     explain = report.get("explanation") or {}
     limits = "".join(f"<li>{escaped(line)}</li>" for line in explain.get("limitations_fa", []))
+    evidence_bound = report.get("explanation_contract_version") == "2.0"
+    explanation_title = "توضیح مبتنی بر شواهد" if evidence_bound else (
+        "توضیح مدل" if report.get("explanation_status") == "generated" else "توضیح قالبی برنامه"
+    )
+    notes = report.get("explanation_notes") or []
+    note_source = (report.get("explanation_evidence") or {}).get("note_selection_source")
+    notes_title = "نکات تکمیلی انتخاب‌شده با مدل زبانی" if note_source == "llm" else "نکات تکمیلی خودکار"
+    notes_section = (f"<h3>{notes_title}</h3><ul>" + "".join(
+        f"<li>{escaped(note['text_fa'])}</li>" for note in notes
+    ) + "</ul>") if notes else ""
+    explanation_consistency = (report.get("explanation_evidence") or {}).get("status", "legacy_unchecked")
     return f"""<!doctype html>
 <html lang="fa" dir="rtl"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>گزارش بهینه‌سازی P_MC</title>
@@ -165,10 +188,11 @@ svg {{width:100%;max-height:320px;direction:ltr}} .table {{overflow:auto}} summa
 <section class="table"><h2>اجرای الگوریتم‌ها</h2><table><thead><tr>
 {"".join(f"<th>{heading}</th>" for heading in headings)}</tr></thead>
 <tbody>{"".join(trial_rows)}</tbody></table></section>
-<section><h2>{'توضیح مدل' if report.get('explanation_status') == 'generated' else 'توضیح قالبی برنامه'}</h2>
+<section><h2>{explanation_title}</h2>
 <p>{escaped(explain.get("summary_fa"))}</p>
 <p>{escaped(explain.get("selection_explanation_fa"))}</p>
-<ul>{limits}</ul><p><code>{escaped(report.get("explanation_status"))}</code></p></section>
+<ul>{limits}</ul>{notes_section}<p>وضعیت تماس مدل <code>{escaped(report.get("explanation_status"))}</code></p>
+<p>سازگاری شواهد <code>{escaped(explanation_consistency)}</code></p></section>
 {"".join(details)}
 </main></html>""".encode()
 

@@ -171,4 +171,7 @@ def run_catalog_solver(evaluator: BudgetedEvaluator, trial: TrialRequestV2) -> N
         or trial.mode != config.mode
     ):
         raise DomainError("SOLVER_CONFIGURATION_MISMATCH", "نسخه یا پیکربندی روش با snapshot تأییدشده تطابق ندارد.")
-    run_mealpy(evaluator, cls, config.kwargs(), seed=trial.seed)
+    from p_mc_optimizer.domain.models import TrialRequestBudgetV1
+    parameters = (trial.numeric_execution.effective_configuration.kwargs()
+                  if isinstance(trial, TrialRequestBudgetV1) else config.kwargs())
+    run_mealpy(evaluator, cls, parameters, seed=trial.seed)

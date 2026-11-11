@@ -12,7 +12,7 @@ from p_mc_optimizer.research.fetch import DocumentFetcher
 from p_mc_optimizer.research.transport import ResearchError, Response
 from p_mc_optimizer.workflow.worker import run_claimed
 from test_llm_gateway import _PROFILE_SETTINGS, _TEST_KEY, checked, completion
-from test_llm_workflow import assert_empirical_explainer_context, configure, local_api
+from test_llm_workflow import assert_empirical_explainer_context, configure, evidence_plan, local_api
 
 SOURCE = {
     "source_id": "methods", "label": "TEST FIXTURE", "hostname": "methods.example.test",
@@ -72,15 +72,10 @@ def model_fixture(request, explainer_contexts):
         return completion({"schema_version": "2.0", "queries": [{
             "query_id": "q1", "text": QUERY, "source_ids": ["methods"], "purpose": "method_discovery",
         }]})
-    if name == "explainer_v1":
+    if name == "explainer_v2":
         assert "repair" not in context
         explainer_contexts.append(context)
-        return completion({
-            "summary_fa": "بهترین مشاهدهٔ معتبر در بودجهٔ اجرا ثبت شد.",
-            "selection_explanation_fa": "روش منتخب در پایلوت عملکرد بهتری داشت.",
-            "limitations_fa": ["نتیجه، برتری آماری یا تضمین موفقیت را اثبات نمی‌کند."],
-            "evidence_refs": ["report:solution", "report:decision"],
-        })
+        return completion(evidence_plan(context))
     assert name == "advisor_v2"
     evidence = [row["evidence_id"] for row in context["evidence"]][:1]
     assert bool(evidence) == context["require_web"]
@@ -117,6 +112,17 @@ def qualify_three(client):
         batch = checked(client.get(f"/catalog/qualifications/{batch_id}"))
     catalog = checked(client.get("/catalog/implementations?status=qualified"))
     assert catalog["qualified_count"] == 3, batch
+    adapted = [row["config_id"] for row in catalog["items"] if row["class_name"] in {"OriginalGWO", "OriginalWOA"}]
+    assert len(adapted) == 2
+    batch = checked(keyed_post(client, "/catalog/qualifications", {
+        "config_ids": adapted, "max_seconds": 300, "scope": "budget_horizon.v1",
+    }), 202)
+    deadline = monotonic() + 300
+    while batch["status"] == "running" and monotonic() < deadline:
+        sleep(0.2)
+        batch = checked(client.get(f"/catalog/qualifications/{batch['qualification_id']}"))
+    assert batch["status"] == "completed", batch
+    assert all(row["status"] == "qualified" for row in batch["reports"]), batch
     return catalog
 
 
@@ -184,7 +190,9 @@ def test_v2_web_and_catalog_policies_use_real_pilot_evidence(tmp_path):
         assert report["schema_version"] == "2.0" and report["selection_status"] == "selected"
         assert report["solution_status"] == "valid_best_found"
         assert report["explanation_status"] == "generated"
-        assert report["explanation"]["limitations_fa"] == ["نتیجه، برتری آماری یا تضمین موفقیت را اثبات نمی‌کند."]
+        assert report["explanation_evidence"]["status"] == "consistent"
+        assert report["explanation_contract_version"] == "2.0"
+        assert report["explanation"]["limitations_fa"][0] == "بهینگی سراسری در این اجرا اثبات نشده است."
         assert len(explainer_contexts) == 1
         assert explainer_contexts[0] == repo.get_job(job_id)["workflow"]["role_context:explainer"]
         summary = assert_empirical_explainer_context(explainer_contexts[0], report)
@@ -210,7 +218,7 @@ def test_v2_web_and_catalog_policies_use_real_pilot_evidence(tmp_path):
         html_artifact = next(a for a in report_body["artifacts"] if a["kind"] == "report_html")
         html = client.get(f"/artifacts/{html_artifact['artifact_id']}").text
         assert "<script>" not in html and "Grey Wolf" in html
-        assert "<h2>توضیح مدل</h2>" in html
+        assert "<h2>توضیح مبتنی بر شواهد</h2>" in html
         assert SEARCH_KEY not in html and _TEST_KEY not in html
 
         config = catalog["items"][0]

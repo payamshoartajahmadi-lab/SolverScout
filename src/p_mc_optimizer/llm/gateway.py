@@ -25,7 +25,9 @@ from p_mc_optimizer.llm.models import (
     SecretSubmission,
     origin_of,
 )
-from p_mc_optimizer.llm.provider import PROMPT_VERSION, call_provider, error_detail
+from p_mc_optimizer.llm.provider import (
+    PROMPT_VERSION, call_provider, error_detail, freeze_prompt_bundle, prepare_provider_request,
+)
 
 # Provider calls must never log transport headers, even in debug runs.
 logging.getLogger("httpx").setLevel(logging.WARNING)
@@ -110,6 +112,7 @@ class LLMGateway:
     """Provider access goes through this singleton in the API process."""
 
     def __init__(self, repo, *, transport: httpx.BaseTransport | None = None, internal_token: str | None = None):
+        freeze_prompt_bundle()
         self.repo = repo
         self._transport = transport
         self._broker = CredentialBroker(internal_token=internal_token)
@@ -374,7 +377,7 @@ class LLMGateway:
     def _reserve(
         self, conn, *, job_id: str | None, role: str | None, purpose: str,
         invocation_id: str | None, test_key: str | None, request_hash: str,
-        attempt_no: int, snapshot: ProviderSnapshot, generation: int, data: dict,
+        attempt_no: int, snapshot: ProviderSnapshot, generation: int, data: dict, prepared=None,
     ) -> str:
         call_id = str(uuid4())
         conn.execute(
@@ -391,6 +394,9 @@ class LLMGateway:
                 _json(data), _now(),
             ),
         )
+        if prepared is not None:
+            conn.execute("UPDATE llm_calls SET metadata=? WHERE call_id=?",
+                         (_json({"provenance": prepared.provenance}), call_id))
         return call_id
 
     @staticmethod
@@ -406,11 +412,11 @@ class LLMGateway:
             "previous_output": row["previous_output"],
         }
 
-    def _call(self, call_id: str, snapshot: ProviderSnapshot, key: str, schema_id: str, context) -> dict:
+    def _call(self, call_id: str, snapshot: ProviderSnapshot, key: str, schema_id: str, context, prepared=None) -> dict:
         sanitize = lambda value: self._broker.sanitize(value, extra_key=key)
         try:
             outcome = call_provider(
-                snapshot, key, schema_id, context, transport=self._transport, sanitize=sanitize
+                snapshot, key, schema_id, context, transport=self._transport, sanitize=sanitize, prepared=prepared
             )
         except Exception:
             # Unknown provider outcome after reserving a potentially billable request.
@@ -419,12 +425,14 @@ class LLMGateway:
                 "error": error_detail("LLM_OUTCOME_UNKNOWN"), "previous_output": None,
             }
         with self.repo.transaction() as conn:
+            reserved_metadata = _from_json(conn.execute("SELECT metadata FROM llm_calls WHERE call_id=?", (call_id,)).fetchone()[0]) or {}
+            metadata = {**reserved_metadata, **(outcome["metadata"] or {})}
             conn.execute(
                 """UPDATE llm_calls SET status=?, output=?, previous_output=?, error=?, metadata=?, finished_at=?
                    WHERE call_id=? AND status='reserved'""",
                 (
                     outcome["status"], _json(outcome["output"]), outcome["previous_output"],
-                    _json(outcome["error"]), _json(outcome["metadata"]), _now(), call_id,
+                    _json(outcome["error"]), _json(metadata), _now(), call_id,
                 ),
             )
             row = conn.execute("SELECT * FROM llm_calls WHERE call_id=?", (call_id,)).fetchone()
@@ -461,19 +469,25 @@ class LLMGateway:
             key = self._read_key(credential)
             if key is None:
                 raise _config_required()
+            prepared = prepare_provider_request(snapshot, "connection_test.v1", None)
             call_id = self._reserve(
                 conn, job_id=None, role=None, purpose="connection_test", invocation_id=None,
                 test_key=test_key, request_hash=request_hash, attempt_no=1, snapshot=snapshot,
-                generation=credential["generation"], data={"schema_id": "connection_test.v1"},
+                generation=credential["generation"], data={"schema_id": "connection_test.v1"}, prepared=prepared,
             )
-        self._call(call_id, snapshot, key, "connection_test.v1", None)
+        self._call(call_id, snapshot, key, "connection_test.v1", None, prepared)
         with self.repo.connect() as conn:
             return self._test_result(conn.execute("SELECT * FROM llm_calls WHERE call_id=?", (call_id,)).fetchone())
 
     def invoke(self, invocation: Invocation) -> dict:
         role = invocation.role
-        schema_v2 = invocation.schema_id.endswith((".v2", ".v2.1"))
-        if schema_v2:
+        explanation_v2 = invocation.schema_id == "explainer.v2"
+        schema_v2 = not explanation_v2 and invocation.schema_id.endswith((".v2", ".v2.1"))
+        if explanation_v2:
+            from p_mc_optimizer.llm.explanation_v2 import ExplainerContextV2
+
+            expected_role, context_model = "explainer", ExplainerContextV2
+        elif schema_v2:
             from p_mc_optimizer.llm.research_v2 import SCHEMAS
 
             expected_role, context_model, _ = SCHEMAS[invocation.schema_id]
@@ -508,6 +522,11 @@ class LLMGateway:
                 raise _invalid_job()
             policy = _from_json(job["policy"])
             policy_version = policy["policy_version"]
+            if role == "explainer":
+                contract = _from_json(job["workflow"]).get("execution_contracts", {}).get("explanation")
+                expected_schema = "explainer.v2" if contract == "evidence_bound_v2" else "explainer.v1"
+                if invocation.schema_id != expected_schema:
+                    raise _invalid_job()
             version_two = policy_version in {"2.0", "2.1"}
             if role in {"advisor", "research_planner"}:
                 suffix = {"1.0": "v1", "2.0": "v2", "2.1": "v2.1"}[policy_version]
@@ -536,10 +555,12 @@ class LLMGateway:
             key, generation = self._ready_key(conn, snapshot)
             if self._broker.sanitize(data, extra_key=key) != data:
                 raise ApiError(422, "INVALID_SCHEMA", "دادهٔ نقش نباید حاوی کلید یا توکن باشد.")
+            producer = _from_json(job["workflow"]).get("runtime:invocation_producers", {}).get(invocation_id)
+            prepared = prepare_provider_request(snapshot, invocation.schema_id, context, producer=producer)
             call_id = self._reserve(
                 conn, job_id=job_id, role=role, purpose="job_role",
                 invocation_id=invocation_id, test_key=None, request_hash=request_hash,
-                attempt_no=len(role_calls) + 1, snapshot=snapshot, generation=generation, data=data,
+                attempt_no=len(role_calls) + 1, snapshot=snapshot, generation=generation, data=data, prepared=prepared,
             )
         with self.repo.transaction() as conn:
             if self._get_job_row(conn, job_id)["cancel_requested"]:
@@ -549,7 +570,7 @@ class LLMGateway:
                 cancelled = False
         if cancelled:
             raise _invalid_job()
-        return self._call(call_id, snapshot, key, invocation.schema_id, context)
+        return self._call(call_id, snapshot, key, invocation.schema_id, context, prepared)
 
     @staticmethod
     def _validate_job_policy(policy: dict, role: str, context) -> None:

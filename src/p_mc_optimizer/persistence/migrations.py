@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import sqlite3
+import re
 from contextlib import closing
 from datetime import UTC, datetime
 from pathlib import Path
@@ -93,6 +94,45 @@ def install_v3_features(connection):
         execute_sql(connection, LIBRARY_FTS_SCHEMA)
 
 
+def install_v4_features(connection):
+    from p_mc_optimizer.catalog.store import NUMERIC_POLICY_QUALIFICATION_SCHEMA
+
+    columns = {row[1]: row for row in connection.execute("PRAGMA table_info(qualification_runs)")}
+    if "scope" not in columns:
+        connection.execute("""ALTER TABLE qualification_runs ADD COLUMN scope TEXT NOT NULL DEFAULT 'base'
+                           CHECK(scope IN ('base','budget_horizon.v1'))""")
+    elif columns["scope"][2:5] != ("TEXT", 1, "'base'"):
+        raise MigrationError("Incompatible qualification_runs.scope column")
+    definition = connection.execute("SELECT sql FROM sqlite_master WHERE name='qualification_runs'").fetchone()[0]
+    if not re.search(r"CHECK\s*\(\s*scope\s+IN\s*\(\s*'base'\s*,\s*'budget_horizon.v1'\s*\)\s*\)", definition, re.IGNORECASE):
+        raise MigrationError("Incompatible qualification_runs.scope constraint")
+    if "numeric_policy_snapshot" not in columns:
+        connection.execute("ALTER TABLE qualification_runs ADD COLUMN numeric_policy_snapshot TEXT")
+    elif columns["numeric_policy_snapshot"][2:5] != ("TEXT", 0, None):
+        raise MigrationError("Incompatible qualification_runs.numeric_policy_snapshot column")
+    present = connection.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name='numeric_policy_qualification_reports'"
+    ).fetchone()
+    if present:
+        expected = ["qualification_id", "config_id", "policy_hash", "environment", "report_hash", "payload", "created_at"]
+        fields = list(connection.execute("PRAGMA table_info(numeric_policy_qualification_reports)"))
+        if ([row[1] for row in fields] != expected
+                or any(row[2] != "TEXT" or row[3] != 1 for row in fields)
+                or [row[5] for row in fields] != [1, 2, 0, 0, 0, 0, 0]):
+            raise MigrationError("Incompatible numeric policy qualification table")
+        keys = {(row[2], row[3], row[4]) for row in connection.execute("PRAGMA foreign_key_list(numeric_policy_qualification_reports)")}
+        if keys != {("qualification_runs", "qualification_id", "qualification_id"),
+                    ("solver_configurations", "config_id", "config_id")}:
+            raise MigrationError("Incompatible numeric policy qualification foreign keys")
+        connection.execute("""CREATE INDEX IF NOT EXISTS numeric_policy_reports_lookup_idx
+                           ON numeric_policy_qualification_reports(config_id,policy_hash,environment,created_at)""")
+    else:
+        execute_sql(connection, NUMERIC_POLICY_QUALIFICATION_SCHEMA)
+    index = list(connection.execute("PRAGMA index_info(numeric_policy_reports_lookup_idx)"))
+    if [row[2] for row in index] != ["config_id", "policy_hash", "environment", "created_at"]:
+        raise MigrationError("Incompatible numeric policy qualification lookup index")
+
+
 def require_idle_state(connection, version: int):
     blocked_jobs = connection.execute(
         """SELECT job_id, job_status FROM jobs WHERE job_status IN
@@ -145,7 +185,7 @@ def migrate(path: Path, connect, *, allow_upgrade: bool):
             if version == SCHEMA_VERSION:
                 connection.rollback()
                 return
-            if version not in (0, 1, 2):
+            if version not in (0, 1, 2, 3):
                 raise MigrationError(f"Unsupported state.sqlite3 schema version {version}")
             if version:
                 if not allow_upgrade:
@@ -160,14 +200,16 @@ def migrate(path: Path, connect, *, allow_upgrade: bool):
                     backup_database(path, 0)
                 execute_sql(connection, BASE_SCHEMA + "\n" + LLM_SCHEMA)
 
-            extend_job_phases(connection)
-            connection.execute("""CREATE TABLE IF NOT EXISTS job_v2_snapshots (
-                job_id TEXT PRIMARY KEY REFERENCES jobs(job_id),
-                payload TEXT NOT NULL
-            )""")
-            if not v2_features_ready(connection):
-                install_v2_features(connection)
-            install_v3_features(connection)
+            if version < 3:
+                extend_job_phases(connection)
+                connection.execute("""CREATE TABLE IF NOT EXISTS job_v2_snapshots (
+                    job_id TEXT PRIMARY KEY REFERENCES jobs(job_id),
+                    payload TEXT NOT NULL
+                )""")
+                if not v2_features_ready(connection):
+                    install_v2_features(connection)
+                install_v3_features(connection)
+            install_v4_features(connection)
             if connection.execute("PRAGMA foreign_key_check").fetchone() is not None:
                 raise MigrationError("Migration would leave invalid foreign keys")
             connection.execute(f"PRAGMA user_version={SCHEMA_VERSION}")

@@ -46,7 +46,7 @@ def _qualification_monitor(attempt, batch_id):
                 attempt("POST", f"/catalog/qualifications/{batch_id}/cancel", idempotency_key=str(uuid4()))
                 st.rerun(scope="app")
         for report in batch.get("reports", []):
-            with st.expander(f"{report['config_id']} · {report['status']}"):
+            with st.expander(f"{report.get('config_id', report.get('base_config_id'))} · {report['status']}"):
                 st.json(report, expanded=False)
         if batch["status"] not in ACTIVE_BATCH and st.button("بازخوانی وضعیت کاتالوگ"):
             st.rerun(scope="app")
@@ -55,23 +55,31 @@ def _qualification_monitor(attempt, batch_id):
 
 
 def _qualification_actions(attempt, result):
+    scope = st.selectbox("نوع تأیید", ["base", "budget_horizon.v1"], format_func=lambda value: {
+        "base": "تأیید سازگاری پایه", "budget_horizon.v1": "آزمون تنظیم اجرا با بودجه",
+    }[value])
+    adapted = scope == "budget_horizon.v1"
     options = {
         row["config_id"]: row
         for row in result.get("suggested_configurations", [])
-        if row.get("config_id") and row.get("status") not in {"qualified", "disabled"}
+        if row.get("config_id") and (
+            row.get("status") == "qualified" and row.get("budget_policy_status") == "NUMERIC_POLICY_QUALIFICATION_REQUIRED"
+            if adapted else row.get("status") not in {"qualified", "disabled"}
+        )
     }
     st.subheader("آزمون سازگاری پیکربندی‌ها")
     st.caption("آزمون‌ها با مسائل نمونه و در فرایند عددی جدا اجرا می‌شوند. مصرف آن‌ها مستقل از اجراهای حل است.")
     if options:
         selected = st.multiselect(
-            "پیکربندی‌ها", list(options), key=f"qualification-configs:{result.get('catalog_hash')}",
+            "پیکربندی‌ها", list(options), key=f"qualification-configs:{scope}:{result.get('catalog_hash')}",
             format_func=lambda config_id: options[config_id]["class_name"],
         )
-        seconds = st.number_input("سقف زمان آزمون (ثانیه)", 1, 120, 120)
-        quota = result.get("qualification_fe_per_config", 3000) * len(selected)
+        seconds = 300 if adapted else st.number_input("سقف زمان آزمون (ثانیه)", 1, 120, 120)
+        quota = result.get("budget_policy_fe_per_config" if adapted else "qualification_fe_per_config",
+                           31996 if adapted else 3000) * len(selected)
         st.caption(f"{len(selected)} پیکربندی · حداکثر {quota:,} FE و {seconds} ثانیه")
         if st.button("شروع آزمون سازگاری", type="primary", disabled=not selected):
-            data = {"config_ids": selected, "max_seconds": seconds}
+            data = {"config_ids": selected, "max_seconds": seconds, "scope": scope}
             pending = st.session_state.get("pending_qualification")
             if not pending or pending["payload"] != data:
                 pending = {"payload": data, "key": str(uuid4())}
@@ -141,6 +149,11 @@ def catalog_page(attempt):
                         else "سازگاری پایلوت ۵۰۰ FE ثبت نشده است."
                     )
                     st.json(report, expanded=False)
+                if item.get("budget_policy_status") not in (None, "not_applicable"):
+                    st.caption("تنظیم اجرا با بودجه تأیید شده است." if item["budget_policy_status"] == "qualified"
+                               else "تنظیم اجرا با بودجه به آزمون جداگانه نیاز دارد.")
+                    if item.get("budget_policy_qualification"):
+                        st.json(item["budget_policy_qualification"], expanded=False)
     elif page is not None:
         st.info("الگوریتمی با این فیلترها پیدا نشد.")
     _qualification_actions(attempt, result)

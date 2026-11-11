@@ -20,6 +20,7 @@ class QualificationRequest(ContractModel):
     schema_version: Literal["2.0"] = "2.0"
     config_ids: Annotated[list[Sha256Hex], Field(min_length=1, max_length=MAX_QUALIFICATION_CONFIGS)]
     max_seconds: Annotated[int, Field(ge=1, le=MAX_QUALIFICATION_SECONDS)] = 120
+    scope: Literal["base", "budget_horizon.v1"] = "base"
 
 
 class AvailabilityRequest(ContractModel):
@@ -67,6 +68,7 @@ def catalog_router(store: CatalogStore) -> APIRouter:
     def qualifications(payload: QualificationRequest, idempotency_key: Annotated[str, Header(alias="Idempotency-Key")]):
         qualification_id, created = store.reserve_batch(
             payload.config_ids, max_seconds=payload.max_seconds, idempotency_key=idempotency_key,
+            scope=payload.scope,
         )
         if created:
             Thread(target=qualify, args=(qualification_id,), daemon=True, name="catalog-qualification").start()

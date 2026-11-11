@@ -11,6 +11,9 @@ from p_mc_optimizer.workflow.graph import Workflow
 
 
 def run_claimed(repo, job, worker_id, *, api_url=None, token=None, stopped=lambda: False):
+    from p_mc_optimizer.runtime_provenance import startup
+
+    startup("worker", data_dir=repo.data_dir)
     done = Event()
     lost = Event()
     job_id = job["job_id"]

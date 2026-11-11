@@ -644,6 +644,8 @@ def start_explainer(client, repo, *, selected=True):
     owner = str(uuid4())
     assert repo.claim_job(owner)["job_id"] == job_id
     repo.update_job(job_id, phase="reporting", worker_id=owner)
+    # The v1 gate/replay fixtures model a persisted pre-upgrade explanation contract.
+    repo.put_workflow(job_id, "execution_contracts", {}, worker_id=owner)
     context = explainer_context(selected=selected)
     repo.put_workflow(job_id, "role_context:explainer", context, worker_id=owner)
     return {

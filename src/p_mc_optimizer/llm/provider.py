@@ -2,6 +2,10 @@
 from __future__ import annotations
 
 import json
+from dataclasses import dataclass
+from hashlib import sha256
+from threading import RLock
+from types import MappingProxyType
 import time
 from datetime import UTC, datetime, timedelta
 from email.utils import parsedate_to_datetime
@@ -29,6 +33,10 @@ _SCHEMA_MODELS = {
     "connection_test.v1": ConnectionTestResponse,
 }
 def _schema_model(schema_id):
+    if schema_id == "explainer.v2":
+        from p_mc_optimizer.llm.explanation_v2 import ExplainerPlanV2
+
+        return ExplainerPlanV2
     if schema_id in _SCHEMA_MODELS:
         return _SCHEMA_MODELS[schema_id]
     from p_mc_optimizer.llm.research_v2 import SCHEMAS
@@ -71,8 +79,62 @@ def error_detail(
     }
 
 
+_PROMPTS = None
+_PROMPT_LOCK = RLock()
+
+
+def freeze_prompt_bundle():
+    global _PROMPTS
+    with _PROMPT_LOCK:
+        if _PROMPTS is None:
+            _PROMPTS = MappingProxyType({path.name[:-4]: path.read_text(encoding="utf-8").strip()
+                                        for path in sorted(PROMPT_DIR.iterdir(), key=lambda item: item.name)
+                                        if path.name.endswith(".txt")})
+        return _PROMPTS
+
+
 def _prompt(name: str) -> str:
-    return PROMPT_DIR.joinpath(f"{name}.txt").read_text(encoding="utf-8").strip()
+    return freeze_prompt_bundle()[name]
+
+
+def prompt_bundle_manifest() -> list[dict]:
+    return [{"path": name + ".txt", "sha256": sha256(text.encode("utf-8")).hexdigest()}
+            for name, text in sorted(freeze_prompt_bundle().items())]
+
+
+@dataclass(frozen=True)
+class PreparedProviderRequest:
+    request: dict
+    response_schema: dict
+    system_message: str
+    body_bytes: bytes
+    provenance: dict
+
+
+def prepare_provider_request(snapshot, schema_id, context, *, producer=None) -> PreparedProviderRequest:
+    from p_mc_optimizer.runtime_provenance import canonical_bytes, get_runtime
+
+    if context is None:
+        data = {}
+    elif schema_id == "explainer.v2":
+        data = context.model_dump(mode="json", exclude_none=False)
+        if data.get("repair") is None:
+            data.pop("repair", None)
+    else:
+        data = context.model_dump(mode="json", exclude_none=True)
+    request = build_request(snapshot, schema_id, data)
+    response_schema = provider_schema(_schema_model(schema_id))
+    body = canonical_bytes(request)
+    identity = get_runtime("api")
+    provenance = {
+        "schema_id": schema_id, "system_message_sha256": sha256(request["messages"][0]["content"].encode("utf-8")).hexdigest(),
+        "response_schema_sha256": sha256(canonical_bytes(response_schema)).hexdigest(),
+        "request_body_sha256": sha256(body).hexdigest(),
+        "prompt_bundle_sha256": sha256(canonical_bytes(prompt_bundle_manifest())).hexdigest(),
+        "request_prepared_at_utc": datetime.now(UTC).isoformat(),
+        "process_run_id": identity["process_run_id"], "gateway": identity, "producer": producer,
+    }
+    return PreparedProviderRequest(request, response_schema, request["messages"][0]["content"], body, provenance)
 
 
 def build_request(snapshot: ProviderSnapshot, schema_id: str, context: dict) -> dict:
@@ -188,6 +250,7 @@ def call_provider(
     *,
     transport: httpx.BaseTransport | None,
     sanitize: Callable[[Any], Any],
+    prepared: PreparedProviderRequest | None = None,
 ) -> dict:
     """Call the configured destination once and return sanitized, replayable data."""
     start = time.monotonic()
@@ -202,8 +265,7 @@ def call_provider(
         "cost": None,
         "elapsed_seconds": None,
     }
-    request_context = context.model_dump(mode="json", exclude_none=True) if context else {}
-    request = build_request(snapshot, schema_id, request_context)
+    prepared = prepared or prepare_provider_request(snapshot, schema_id, context)
     raw_response = bytearray()
     try:
         with httpx.Client(
@@ -214,8 +276,8 @@ def call_provider(
         ) as client, client.stream(
             "POST",
             snapshot.base_url + "/chat/completions",
-            headers={"Authorization": f"Bearer {key}", "Accept": "application/json"},
-            json=request,
+            headers={"Authorization": f"Bearer {key}", "Accept": "application/json", "Content-Type": "application/json"},
+            content=prepared.body_bytes,
         ) as response:
             metadata["request_id"] = sanitize(_string(response.headers.get("x-request-id")))
             for chunk in response.iter_bytes():
@@ -291,7 +353,11 @@ def _parse_response(
         if sanitize(output) != output:
             raise RoleOutputError("response: secret content is prohibited")
         model = _schema_model(schema_id).model_validate(output)
-        if schema_id.endswith((".v2", ".v2.1")):
+        if schema_id == "explainer.v2":
+            from p_mc_optimizer.llm.explanation_v2 import validate_explainer_plan_v2
+
+            validate_explainer_plan_v2(model, context)
+        elif schema_id.endswith((".v2", ".v2.1")):
             from p_mc_optimizer.llm.research_v2 import validate_output
 
             validate_output(schema_id, model, context)

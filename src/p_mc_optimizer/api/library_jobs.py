@@ -108,7 +108,7 @@ class LibraryJobs(ResearchJobs):
         profile = self.llm.profile_snapshot(request.llm_profile.profile_id, request.llm_profile.revision,
                                             require_ready=False)
         return {"catalog": catalog.model_dump(mode="json"), "research": snapshot.model_dump(mode="json"),
-                "llm_profile": profile}
+                "llm_profile": profile, "numeric_execution": self.catalog.numeric_execution_snapshot(catalog)}
 
     def _ready(self, job, snapshot):
         self.llm.require_ready(job["llm_profile"])
