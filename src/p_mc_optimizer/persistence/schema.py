@@ -1,7 +1,7 @@
 """SQLite schema and numbered migrations."""
 from __future__ import annotations
 
-SCHEMA_VERSION = 3
+SCHEMA_VERSION = 4
 
 BASE_SCHEMA = """
 CREATE TABLE problem_revisions (

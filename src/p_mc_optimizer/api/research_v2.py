@@ -40,6 +40,7 @@ class ResearchJobs:
         if snapshot.catalog_hash != request.catalog_hash:
             raise ApiError(409, "STALE_CATALOG", "کاتالوگ تغییر کرده است. آن را بازخوانی کنید.")
         policy = request.policy
+        numeric = self.catalog.numeric_execution_snapshot(snapshot)
         if policy.selection_policy == "catalog_fixed":
             try:
                 card = snapshot.get(policy.fixed_implementation_id, policy.fixed_config_id)
@@ -47,6 +48,10 @@ class ResearchJobs:
                 card = None
             if card is None:
                 raise ApiError(422, "CATALOG_QUALIFICATION_REQUIRED", "پیکربندی انتخابی تأیید نشده است.")
+            excluded = next((row for row in numeric["exclusions"] if row["base_config_id"] == card.config_id), None)
+            if excluded:
+                raise ApiError(409 if excluded["error_code"].endswith("ENVIRONMENT_MISMATCH") else 422,
+                               excluded["error_code"], "پیکربندی انتخابی مجوز تنظیم اجرا با بودجه را ندارد.")
         source_snapshot = SourceSnapshot(revision=1, sources=())
         search_profile = None
         if policy.selection_policy == "web_research_then_pilot":
@@ -68,6 +73,7 @@ class ResearchJobs:
             "catalog": snapshot.model_dump(mode="json"),
             "research": frozen.model_dump(mode="json"),
             "llm_profile": profile,
+            "numeric_execution": numeric,
         }
 
     def _search_ready(self, snapshot):

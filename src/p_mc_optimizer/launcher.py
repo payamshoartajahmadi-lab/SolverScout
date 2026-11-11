@@ -78,6 +78,11 @@ def _wait_ready(data_dir, config, proc, *, open_browser):
         info = owner(data_dir)
         if (info and health(config.api_url + "/healthz", instance_id=info["instance_id"]) and
                 health(config.ui_url + "/_stcore/health")):
+            from p_mc_optimizer.runtime_provenance import inspect_instance
+
+            observed = inspect_instance(data_dir, info["instance_id"])
+            if observed["drift"] == "changed":
+                print("RUNTIME_RESTART_REQUIRED: فایل‌های برنامه پس از آغاز این نمونه تغییر کرده‌اند.")
             if open_browser:
                 webbrowser.open(config.ui_url)
             print(config.ui_url)

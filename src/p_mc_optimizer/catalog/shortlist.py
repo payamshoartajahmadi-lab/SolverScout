@@ -45,12 +45,16 @@ def _fts_ranks(cards: list[SolverCardV2], query: str) -> dict[tuple[str, str], f
         }
 
 
-def shortlist(snapshot: CatalogSnapshot, *, dimension: int, query: str = "", limit: int = 20) -> Shortlist:
+def shortlist(snapshot: CatalogSnapshot, *, dimension: int, query: str = "", limit: int = 20,
+              numeric_exclusions: dict[str, str] | None = None) -> Shortlist:
     if not 1 <= limit <= 20:
         raise ValueError("A shortlist contains at most twenty cards")
     eligible, excluded = [], []
     for card in snapshot.cards:
-        if not card.min_dimension <= dimension <= card.max_dimension or not card.pilot_500_compatible:
+        if numeric_exclusions and card.config_id in numeric_exclusions:
+            excluded.append({"implementation_id": card.implementation_id, "config_id": card.config_id,
+                             "reason": numeric_exclusions[card.config_id]})
+        elif not card.min_dimension <= dimension <= card.max_dimension or not card.pilot_500_compatible:
             excluded.append({
                 "implementation_id": card.implementation_id, "config_id": card.config_id,
                 "reason": "INCOMPATIBLE_DOMAIN" if not card.min_dimension <= dimension <= card.max_dimension

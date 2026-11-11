@@ -150,7 +150,19 @@ def _summary(report, job, point, objective, verified, tab_key):
 
     explanation = report.get("explanation") or {}
     solver = report.get("selected_algorithm_id")
-    if solver or explanation.get("selection_explanation_fa"):
+    evidence_bound = report.get("explanation_contract_version") == "2.0"
+    if evidence_bound:
+        st.divider()
+        st.subheader("توضیح مبتنی بر شواهد")
+        st.text(explanation.get("summary_fa") or "")
+        if line := explanation.get("selection_explanation_fa"):
+            st.text(line)
+        if notes := report.get("explanation_notes"):
+            source = (report.get("explanation_evidence") or {}).get("note_selection_source")
+            st.subheader("نکات تکمیلی انتخاب‌شده با مدل زبانی" if source == "llm" else "نکات تکمیلی خودکار")
+            for note in notes:
+                st.text(note["text_fa"])
+    elif solver or explanation.get("selection_explanation_fa"):
         st.divider()
         st.subheader("چرا این روش؟")
         if solver:
@@ -164,7 +176,7 @@ def _summary(report, job, point, objective, verified, tab_key):
     elif explanation.get("summary_fa"):
         st.text(explanation["summary_fa"])
     with st.expander("محدودیت‌های نتیجه"):
-        if line := explanation.get("summary_fa"):
+        if not evidence_bound and (line := explanation.get("summary_fa")):
             st.text(line)
         for line in explanation.get("limitations_fa") or []:
             st.text(line)
@@ -208,6 +220,17 @@ def _research_and_trials(report):
         st.dataframe(pilot_rows, hide_index=True)
     elif report.get("schema_version") not in {"2.0", "2.1"}:
         st.info("برای این اجرا پژوهش وب یا آزمایش مقایسه‌ای ثبت نشده است.")
+    effective_trials = [trial for trial in report.get("trials") or [] if trial.get("numeric_execution")]
+    if effective_trials:
+        with st.expander("پیکربندی پایه و تنظیم اجراشده"):
+            for trial in effective_trials:
+                numeric = trial["numeric_execution"]
+                st.text(_method_label(trial.get("algorithm_id")))
+                st.write("پیکربندی پایه")
+                st.json(trial.get("configuration_snapshot"), expanded=False)
+                st.write("پیکربندی اجراشده")
+                st.json(numeric["effective_configuration"], expanded=False)
+                st.caption(f"سیاست · {numeric['policy_id']} · علت · {numeric['reason']}")
 
 
 def _technical_report(report, load_artifact):
@@ -219,11 +242,16 @@ def _technical_report(report, load_artifact):
         ("verification", "بررسی مجدد"), ("solution_origin", "منشأ جواب"), ("trials", "جزئیات اجرای روش‌ها"),
         ("diagnostics", "اطلاعات عیب‌یابی"), ("budget", "حساب بودجه"), ("error", "خطا"),
         ("explanation_error", "خطای تولید توضیح مدل"),
+        ("explanation_evidence", "قرارداد توضیح و سازگاری شواهد"),
+        ("explanation_contract_version", "نسخهٔ قرارداد توضیح"),
     ]
     for key, label in detail_labels:
         if report.get(key) is not None:
             with st.expander(label):
                 st.json(report[key], expanded=False)
+    if report.get("explanation_evidence") is None:
+        with st.expander("قرارداد توضیح و سازگاری شواهد"):
+            st.text("legacy_unchecked")
     if histories := report.get("execution_history_artifacts"):
         def history_csv():
             def records():

@@ -210,10 +210,21 @@ def _correction_form(attempt, job_id, job, draft):
         with st.container(key="clarification-answers"), st.form(f"answer-text:{job_id}:{draft['draft_version']}"):
             answers = []
             for index, question in enumerate(questions, start=1):
+                label = f"پاسخ پرسش {_count(index)}"
+                path = re.fullmatch(r"/variables/(\d+)/(lower|upper)", question.get("field_path", ""))
+                variables = (draft.get("extracted_fields") or {}).get("variables", [])
+                if path and int(path[1]) < len(variables):
+                    name = variables[int(path[1])].get("name")
+                    if name:
+                        label = f"کران {'پایین' if path[2] == 'lower' else 'بالای'} {name}"
                 # Keep inequality signs and negative bounds in reading order inside Persian text.
-                st.text(_BOUND_CHAIN.sub(lambda match: f"\u2066{match[0]}\u2069", question["question_fa"]))
-                answer = st.text_input(f"پاسخ پرسش {_count(index)}", max_chars=16000,
+                st.text(label if path else _BOUND_CHAIN.sub(lambda match: f"\u2066{match[0]}\u2069", question["question_fa"]))
+                answer = st.text_input(label, max_chars=16000,
                                        key=f"answer:{job_id}:{draft['draft_version']}:{question['question_id']}")
+                if path:
+                    with st.expander("جزئیات پرسش"):
+                        st.text(question["field_path"])
+                        st.text(question["question_fa"])
                 if answer.strip():
                     answers.append({"question_id": question["question_id"], "answer": answer.strip()})
             send = st.form_submit_button("ثبت پاسخ و ادامه", type="primary")

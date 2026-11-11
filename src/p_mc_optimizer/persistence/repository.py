@@ -279,9 +279,17 @@ class Repository:
             if row is None:
                 return None
             job_id = row["job_id"]
+            from p_mc_optimizer.runtime_provenance import get_runtime, save_runtime
+
+            identity = get_runtime("worker")
+            save_runtime(self.data_dir)
+            workflow = json.loads(self.job_row(connection, job_id)["workflow"])
+            workers = workflow.setdefault("runtime:workers", {})
+            workers[identity["process_run_id"]] = {"identity": identity, "worker_id": str(worker_id)}
             self.write_job(connection, job_id, {
                 "job_status": "running", "owner_id": str(worker_id),
                 "lease_expires_at": (datetime.now(UTC) + timedelta(seconds=lease_seconds)).isoformat(),
+                "workflow": workflow,
             })
             self.write_event(connection, job_id, "job_claimed")
             return self.job_snapshot(connection, self.job_row(connection, job_id))
@@ -535,6 +543,14 @@ class Repository:
                         raise ApiError(409, "IDEMPOTENCY_CONFLICT", "مشخصات اجرای قبلی با درخواست یکسان نیست.")
             if prior is not None:
                 return {**prior, "created": False}
+            if request is not None and request.get("schema_version") in {"2.0", "2.1"}:
+                from p_mc_optimizer.catalog.budget_policy import validate_job_numeric_trial
+
+                frozen = connection.execute(
+                    "SELECT payload FROM job_v2_snapshots WHERE job_id=?", (job_id,),
+                ).fetchone()
+                payload = json.loads(frozen["payload"]) if frozen is not None else {}
+                validate_job_numeric_trial(request, payload.get("numeric_execution"), payload.get("catalog", {}))
             if any(item["execution_status"] == "running" for item in executions):
                 raise ApiError(409, "EXECUTION_ALREADY_RUNNING", "یک فرایند عددی از قبل در حال اجرا است.")
             if phase == "pilot":

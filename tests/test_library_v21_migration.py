@@ -11,7 +11,7 @@ from p_mc_optimizer.llm.storage import LLM_SCHEMA
 from p_mc_optimizer.persistence import Repository
 from p_mc_optimizer.persistence import migrations
 from p_mc_optimizer.persistence.migrations import MigrationError
-from p_mc_optimizer.persistence.schema import BASE_SCHEMA
+from p_mc_optimizer.persistence.schema import BASE_SCHEMA, SCHEMA_VERSION
 
 
 @pytest.fixture
@@ -58,7 +58,7 @@ def test_v2_migration_guards_data_and_preserves_backup(installed_v2):
     assert repo.get_report(report["job_id"])["report"] == report
     assert repo.get_v2_snapshot(report["job_id"]) == {}
     with repo.connect() as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 3
+        assert db.execute("PRAGMA user_version").fetchone()[0] == SCHEMA_VERSION
         assert db.execute("PRAGMA foreign_key_check").fetchall() == []
         assert db.execute("SELECT generation FROM search_credentials").fetchone()[0] == 4
         db.execute("UPDATE jobs SET phase='refreshing_sources'")
@@ -102,6 +102,6 @@ def test_schema_migration_without_fts5_keeps_other_routes_available(tmp_path: Pa
     monkeypatch.setattr(migrations, "fts5_available", lambda _: False)
     repo = Repository(tmp_path)
     with repo.connect() as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 3
+        assert db.execute("PRAGMA user_version").fetchone()[0] == SCHEMA_VERSION
         assert db.execute("SELECT 1 FROM sqlite_master WHERE name='library_fts'").fetchone() is None
         assert db.execute("SELECT COUNT(*) FROM library_versions").fetchone()[0] == 0

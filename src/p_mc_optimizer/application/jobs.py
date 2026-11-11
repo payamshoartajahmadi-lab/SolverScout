@@ -104,15 +104,25 @@ class ApplicationService:
             existing = self._idempotent_job(connection, idempotency_key, request_hash)
             if existing is not None:
                 return existing
+            from p_mc_optimizer.runtime_provenance import get_runtime, save_runtime
+
+            creator = get_runtime()
+            save_runtime(self.repo.data_dir)
+            workflow = {
+                "execution_contracts": {"explanation": "evidence_bound_v2", "renderer_version": "1.0",
+                                        "note_catalog_version": "1.0"},
+                "runtime:creator": creator,
+            }
             if revision_id is not None and connection.execute(
                 "SELECT 1 FROM problem_revisions WHERE problem_revision_id=?", (revision_id,)
             ).fetchone() is None:
                 raise ApiError(404, "PROBLEM_REVISION_NOT_FOUND", "نسخهٔ ثبت‌شدهٔ مسئله پیدا نشد.")
             connection.execute(
                 """INSERT INTO jobs (job_id,input,policy,llm_profile,problem_revision_id,job_status,
-                    phase,created_at,updated_at) VALUES (?,?,?,?,?,'queued','intake',?,?)""",
+                    phase,created_at,updated_at,workflow) VALUES (?,?,?,?,?,'queued','intake',?,?,?)""",
                 (job_id, json_text(request_input), json_text(policy),
-                 json_text(snapshot) if snapshot is not None else None, revision_id, timestamp, timestamp),
+                 json_text(snapshot) if snapshot is not None else None, revision_id, timestamp, timestamp,
+                 json_text(workflow)),
             )
             connection.execute(
                 """INSERT INTO idempotency_records VALUES ('create_job',?,?,?,?)""",

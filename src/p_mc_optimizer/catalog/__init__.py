@@ -1,8 +1,16 @@
 """Local installed implementation catalog and versioned numeric adapter."""
+from importlib import import_module
 
-from p_mc_optimizer.catalog.models import CatalogSnapshot, SolverCardV2
-from p_mc_optimizer.catalog.shortlist import shortlist
-from p_mc_optimizer.catalog.store import CATALOG_SCHEMA, CatalogStore
-from p_mc_optimizer.catalog.trials import catalog_trial_request
+_EXPORTS = {
+    "CatalogSnapshot": "models", "SolverCardV2": "models", "shortlist": "shortlist",
+    "CATALOG_SCHEMA": "store", "CatalogStore": "store", "catalog_trial_request": "trials",
+}
+__all__ = list(_EXPORTS)
 
-__all__ = ["CATALOG_SCHEMA", "CatalogSnapshot", "CatalogStore", "SolverCardV2", "catalog_trial_request", "shortlist"]
+
+def __getattr__(name):
+    if name not in _EXPORTS:
+        raise AttributeError(name)
+    value = getattr(import_module(f"{__name__}.{_EXPORTS[name]}"), name)
+    globals()[name] = value
+    return value

@@ -5,7 +5,7 @@ from uuid import uuid4
 
 import httpx
 
-from p_mc_optimizer.domain.models import CandidatePlan, ExecutionResult, SelectionDecisionV2, TrialRequestV2
+from p_mc_optimizer.domain.models import CandidatePlan, ExecutionResult, SelectionDecisionV2, parse_catalog_trial
 from p_mc_optimizer.llm.research_v2 import AdvisorContextV2, AdvisorContextV21, PlannerContext, validate_output
 from p_mc_optimizer.research.contracts import (
     AdvisorPlanV2, ExecutionPolicyV2, ResearchLimits, ResearchQueryPlan, ResearchSnapshot, SearchProblemProfile,
@@ -31,6 +31,10 @@ class CatalogWorkflow(Workflow):
     @property
     def research(self):
         return ResearchSnapshot.model_validate(self.repo.get_v2_snapshot(self.job_id)["research"])
+
+    @property
+    def numeric_execution(self):
+        return self.repo.get_v2_snapshot(self.job_id).get("numeric_execution")
 
     def pipeline(self):
         pipeline = super().pipeline()
@@ -70,6 +74,17 @@ class CatalogWorkflow(Workflow):
     def prepare_candidates(self):
         from p_mc_optimizer.catalog import shortlist
 
+        numeric = self.numeric_execution
+        if numeric is not None:
+            from p_mc_optimizer.catalog.budget_policy import POLICY_HASH, numeric_runtime_fingerprint_hash
+            from p_mc_optimizer.catalog.models import digest
+
+            if numeric["numeric_runtime_fingerprint_sha256"] != numeric_runtime_fingerprint_hash():
+                return self.stop("NUMERIC_POLICY_ENVIRONMENT_MISMATCH",
+                                 "محیط عددی این فرایند با قرارداد ثبت‌شدهٔ اجرا سازگار نیست.")
+            if numeric["policy_hash"] != POLICY_HASH or digest(numeric["policy_definition"]) != POLICY_HASH:
+                return self.stop("NUMERIC_POLICY_INVALID", "تعریف سیاست عددی ثبت‌شده با این اجرا سازگار نیست.")
+
         if self.selection_policy == "catalog_fixed":
             policy = self.policy
             try:
@@ -82,8 +97,10 @@ class CatalogWorkflow(Workflow):
             return
         dimension = len(self.revision.spec.variables)
         search = self.research.search_profile
+        numeric = self.numeric_execution
+        exclusions = {row["base_config_id"]: row["error_code"] for row in numeric["exclusions"]} if numeric else None
         selection = shortlist(self.catalog, dimension=dimension,
-                              limit=search.limits.max_solver_cards if search else 20)
+                              limit=search.limits.max_solver_cards if search else 20, numeric_exclusions=exclusions)
         self.keep("solver_cards", [_model(card) for card in selection.cards])
         self.keep("catalog_exclusions", [_model(reason) for reason in selection.excluded])
         if len({card.implementation_id for card in selection.cards}) < 3:
@@ -172,10 +189,12 @@ class CatalogWorkflow(Workflow):
         from p_mc_optimizer.catalog import shortlist
 
         settings = self.research.search_profile
+        numeric = self.numeric_execution
         selection = shortlist(
             self.catalog, dimension=len(self.revision.spec.variables),
             query=" ".join(query["text"] for query in plan["queries"]),
             limit=settings.limits.max_solver_cards if settings else 20,
+            numeric_exclusions={row["base_config_id"]: row["error_code"] for row in numeric["exclusions"]} if numeric else None,
         )
         self.keep("solver_cards", [_model(card) for card in selection.cards])
         self.keep("catalog_exclusions", [_model(reason) for reason in selection.excluded])
@@ -262,6 +281,8 @@ class CatalogWorkflow(Workflow):
             raise ValueError("Candidate count differs from frozen policy")
         for row in rows:
             self.catalog.get(row["algorithm_id"], row["config_id"])
+            if row["config_id"] not in {card["config_id"] for card in self.workflow["solver_cards"]}:
+                raise ValueError("Candidate is outside the frozen numeric shortlist")
 
     def _config(self, implementation_id):
         return next(row["config_id"] for row in self.workflow["candidate_plan"]["candidates"]
@@ -276,10 +297,27 @@ class CatalogWorkflow(Workflow):
         from p_mc_optimizer.catalog import catalog_trial_request
 
         implementation_id = fields.pop("algorithm_id")
-        return catalog_trial_request(
+        trial = catalog_trial_request(
             revision, snapshot=self.catalog, implementation_id=implementation_id,
             config_id=self._config(implementation_id), **fields,
         )
+        snapshot = self.numeric_execution
+        if snapshot is None:
+            return trial
+        from p_mc_optimizer.catalog.budget_models import BaseCatalogAuthorization, JobCertificateAuthorization
+        from p_mc_optimizer.catalog.trials import apply_budget_configuration
+
+        base_id = trial.config_id
+        certified = snapshot["certificates"].get(base_id)
+        if certified:
+            authorization = JobCertificateAuthorization(kind="job_certificate",
+                qualification_id=certified["certificate"]["qualification_id"], **certified)
+        else:
+            base_report = snapshot["base_qualification_reports"][base_id]
+            authorization = BaseCatalogAuthorization(kind="base_catalog", base_config_id=base_id,
+                catalog_hash=self.catalog.catalog_hash, qualified_report=base_report["report"],
+                qualified_report_hash=base_report["report_hash"])
+        return apply_budget_configuration(trial, snapshot, authorization)
 
     def select_solver(self):
         self.phase("selecting")
@@ -296,7 +334,7 @@ class CatalogWorkflow(Workflow):
             )
         else:
             results = [
-                (TrialRequestV2.model_validate_json(json_bytes(row["request"])), ExecutionResult.model_validate(row["outcome"]))
+                (parse_catalog_trial(row["request"]), ExecutionResult.model_validate(row["outcome"]))
                 for row in self.repo.list_executions(self.job_id)
                 if row["phase"] == "pilot" and row["outcome"]
             ]
@@ -329,6 +367,7 @@ class CatalogWorkflow(Workflow):
             "catalog_exclusions": wf.get("catalog_exclusions"),
             "requested_selection_policy": self.selection_policy,
             "effective_selection_policy": wf.get("effective_selection_policy", self.selection_policy),
+            "numeric_execution": self.numeric_execution,
         })
         if wf.get("research_partial"):
             self.report["selection_status"] = "insufficient_evidence"
