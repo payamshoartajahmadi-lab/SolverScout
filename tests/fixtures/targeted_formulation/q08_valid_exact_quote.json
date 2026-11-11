@@ -1,0 +1,108 @@
+{
+  "clarification_questions": [],
+  "extracted_fields": {
+    "constraints": [],
+    "deterministic": true,
+    "objective": {
+      "expression": "(x1-2)**2 + (x2+1)**2",
+      "function_id": null,
+      "function_version": null,
+      "sense": "minimize",
+      "source_kind": "expression",
+      "unit": null
+    },
+    "parameters": [],
+    "variables": [
+      {
+        "label_fa": null,
+        "lower": -5,
+        "name": "x1",
+        "type": "real",
+        "unit": null,
+        "upper": 5
+      },
+      {
+        "label_fa": null,
+        "lower": -5,
+        "name": "x2",
+        "type": "real",
+        "unit": null,
+        "upper": 5
+      }
+    ]
+  },
+  "normalizations": [],
+  "source_map": [
+    {
+      "field_path": "/objective/expression",
+      "quote": "(x1-2)**2 + (x2+1)**2",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/objective/sense",
+      "quote": "تابع زیر را کمینه کن:",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/objective/source_kind",
+      "quote": "(x1-2)**2 + (x2+1)**2",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/deterministic",
+      "quote": "تابع قطعی است.",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/parameters",
+      "quote": "پارامتر جداگانه‌ای وجود ندارد.",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/constraints",
+      "quote": "هیچ قید عمومی دیگری وجود ندارد.",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/0/name",
+      "quote": "x1",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/0/type",
+      "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/0/lower",
+      "quote": "کران پایین x1 برابر -5",
+      "source_ref": "answer:b4bce748-b323-435e-92d8-38bb27652a62"
+    },
+    {
+      "field_path": "/variables/0/upper",
+      "quote": "کران بالای آن 5 است.",
+      "source_ref": "answer:b4bce748-b323-435e-92d8-38bb27652a62"
+    },
+    {
+      "field_path": "/variables/1/name",
+      "quote": "x2",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/1/type",
+      "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/1/lower",
+      "quote": "کران پایین x2 برابر -5",
+      "source_ref": "answer:b4bce748-b323-435e-92d8-38bb27652a62"
+    },
+    {
+      "field_path": "/variables/1/upper",
+      "quote": "کران پایین x2 برابر -5 و کران بالای آن 5 است.",
+      "source_ref": "answer:b4bce748-b323-435e-92d8-38bb27652a62"
+    }
+  ],
+  "unsupported_features": []
+}

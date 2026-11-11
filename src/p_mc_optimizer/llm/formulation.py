@@ -165,7 +165,7 @@ def convert_formulation(
     source_map = []
     supported_paths = set()
     evidence_refs = set(sources)
-    for item in dto.source_map:
+    for index, item in enumerate(dto.source_map):
         path = _relative_path(item.field_path)
         value = _pointer_value(extracted, path)
         if value is None and path not in unresolved_bounds:
@@ -174,7 +174,10 @@ def convert_formulation(
             raise RoleOutputError("source_map.source_ref: unknown source identifier")
         matches = _find_quotes(sources[item.source_ref], item.quote)
         if not matches:
-            raise RoleOutputError("source_map.quote: quote does not occur in source")
+            raise RoleOutputError(
+                f"source_map[{index}].quote ({path}, source_ref={item.source_ref}): "
+                "quote does not occur in source"
+            )
         if value is None:
             # Competing quotes explain the question. They do not establish a bound.
             continue

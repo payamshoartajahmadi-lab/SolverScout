@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+from math import isfinite
 import platform
 import tempfile
 from datetime import datetime, timezone
@@ -55,6 +56,25 @@ def _seconds_since(timestamp):
     if not timestamp:
         return None
     return max(0, (datetime.now(timezone.utc) - datetime.fromisoformat(timestamp)).total_seconds())
+
+
+def _inverted_bounds_message(extracted):
+    """Inspect converter-validated values, independently of model error labels."""
+    from pydantic import TypeAdapter, ValidationError
+    from p_mc_optimizer.domain.models import Name
+
+    for variable in (extracted or {}).get("variables") or []:
+        lower, upper = variable.get("lower"), variable.get("upper")
+        if (type(lower) not in (int, float) or type(upper) not in (int, float)
+                or not isfinite(lower) or not isfinite(upper) or lower <= upper):
+            continue
+        try:
+            name = TypeAdapter(Name).validate_python(variable.get("name"))
+        except ValidationError:
+            name = None
+        label = name if name is not None else "یکی از متغیرها"
+        return f"کران پایین {label} از کران بالای آن بزرگ‌تر است. کران‌های مسئله را اصلاح کنید."
+    return None
 
 
 class Workflow:
@@ -224,22 +244,10 @@ class Workflow:
                                      "source_map", "normalizations", "unsupported_features") if k in parsed},
         }
         self.repo.put_draft(self.job_id, persisted, worker_id=self.worker_id)
+        bounds_message = _inverted_bounds_message(parsed.get("extracted_fields"))
+        if bounds_message is not None:
+            return self.stop("UNSUPPORTED_PROBLEM", bounds_message, reason="validation_error")
         if parsed.get("unsupported_features"):
-            if any(feature.get("kind") == "inconsistent_bounds" for feature in parsed["unsupported_features"]):
-                from pydantic import TypeAdapter, ValidationError
-                from p_mc_optimizer.domain.models import Name
-
-                variables = (parsed.get("extracted_fields") or {}).get("variables", [])
-                variable = next((row for row in variables if type(row.get("lower")) in (int, float)
-                                 and type(row.get("upper")) in (int, float) and row["lower"] > row["upper"]), None)
-                try:
-                    name = TypeAdapter(Name).validate_python(variable.get("name") if variable else None)
-                except ValidationError:
-                    name = None
-                if name:
-                    return self.stop("UNSUPPORTED_PROBLEM",
-                        f"کران پایین {name} از کران بالای آن بزرگ‌تر است. کران‌های مسئله را اصلاح کنید.",
-                        reason="validation_error")
             return self.stop("UNSUPPORTED_PROBLEM", "مسئله خارج از دامنهٔ نسخهٔ اول است.",
                              reason="validation_error")
         if parsed.get("problem") is None or parsed.get("ambiguities"):

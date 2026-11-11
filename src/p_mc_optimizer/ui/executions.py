@@ -5,8 +5,9 @@ import re
 from datetime import datetime
 
 import streamlit as st
+from pydantic import TypeAdapter, ValidationError
 
-from p_mc_optimizer.domain.models import ProblemInput, strict_json_loads
+from p_mc_optimizer.domain.models import Name, ProblemInput, strict_json_loads
 from p_mc_optimizer.ui.library import sync_run_panel
 from p_mc_optimizer.ui.web_research import SEARCH_BLOCKERS, outcome_panel, search_settings
 from p_mc_optimizer.ui.workspace import LIBRARY, navigate
@@ -197,11 +198,35 @@ def _problem_model(attempt, job_id, job):
             st.json(draft["missing_fields"], expanded=False)
 
 
+def _question_paths(question):
+    return list(dict.fromkeys(question.get("field_paths") or [question.get("field_path", "")]))
+
+
+def _bound_label(path, variables):
+    if not isinstance(path, str) or not isinstance(variables, list):
+        return None
+    match = re.fullmatch(r"/variables/(0|[1-9]\d*)/(lower|upper)", path)
+    if match is None or int(match[1]) >= len(variables):
+        return None
+    variable = variables[int(match[1])]
+    if not isinstance(variable, dict):
+        return None
+    try:
+        name = TypeAdapter(Name).validate_python(variable.get("name"))
+    except ValidationError:
+        return None
+    return f"کران {'پایین' if match[2] == 'lower' else 'بالای'} {name}"
+
+
 def _correction_form(attempt, job_id, job, draft):
     versions = {"expected_job_version": job["version"], "expected_draft_version": draft["draft_version"]}
     route = f"/jobs/{job_id}/answers"
     questions = draft.get("ambiguities") or []
-    if questions:
+    budget_exhausted = (job.get("job_status") == "needs_input"
+                        and job.get("blocked_reason") == "LLM_BUDGET_EXHAUSTED")
+    if budget_exhausted:
+        st.info("صورت‌بندی مسئله در سهم مجاز تماس‌های مدل کامل نشد. برای ادامه، مدل کامل مسئله را در بخش تکمیل پیشرفته ثبت کنید.")
+    if questions and not budget_exhausted:
         st.subheader("برای ادامه به این پرسش‌ها پاسخ دهید")
         if any(question["reason"] == "contradictory" for question in questions):
             st.caption("بازهٔ درست را برای هر متغیر بنویسید و هر دو کران آن را در پاسخ بیاورید.")
@@ -211,19 +236,23 @@ def _correction_form(attempt, job_id, job, draft):
             answers = []
             for index, question in enumerate(questions, start=1):
                 label = f"پاسخ پرسش {_count(index)}"
-                path = re.fullmatch(r"/variables/(\d+)/(lower|upper)", question.get("field_path", ""))
-                variables = (draft.get("extracted_fields") or {}).get("variables", [])
-                if path and int(path[1]) < len(variables):
-                    name = variables[int(path[1])].get("name")
-                    if name:
-                        label = f"کران {'پایین' if path[2] == 'lower' else 'بالای'} {name}"
+                paths = _question_paths(question)
+                variables = (draft.get("extracted_fields") or {}).get("variables") or []
+                labels = [_bound_label(path, variables) for path in paths]
+                single_bound = len(paths) == 1 and labels[0] is not None
+                if single_bound:
+                    label = labels[0]
                 # Keep inequality signs and negative bounds in reading order inside Persian text.
-                st.text(label if path else _BOUND_CHAIN.sub(lambda match: f"\u2066{match[0]}\u2069", question["question_fa"]))
+                st.text(label if single_bound else _BOUND_CHAIN.sub(
+                    lambda match: f"\u2066{match[0]}\u2069", question["question_fa"],
+                ))
+                if len(paths) > 1 and any(labels):
+                    st.caption("، ".join(label for label in labels if label is not None))
                 answer = st.text_input(label, max_chars=16000,
                                        key=f"answer:{job_id}:{draft['draft_version']}:{question['question_id']}")
-                if path:
+                if single_bound:
                     with st.expander("جزئیات پرسش"):
-                        st.text(question["field_path"])
+                        st.text(paths[0])
                         st.text(question["question_fa"])
                 if answer.strip():
                     answers.append({"question_id": question["question_id"], "answer": answer.strip()})
@@ -233,12 +262,13 @@ def _correction_form(attempt, job_id, job, draft):
                 st.warning("پاسخ دست‌کم یک پرسش را وارد کنید.")
             elif attempt("POST", route, {**versions, "mode": "textual_answers", "answers": answers}):
                 st.rerun()
-    else:
+    elif not budget_exhausted:
         st.info("برای ادامه، مدل کامل مسئله را در بخش تکمیل پیشرفته ثبت کنید.")
-    with st.expander("تکمیل پیشرفته با JSON", expanded=not questions):
+    with st.expander("تکمیل پیشرفته با JSON", expanded=budget_exhausted or not questions):
+        st.caption("این بخش کل مدل معتبر مسئله را دریافت می‌کند؛ فقط دو یا چهار عدد کران کافی نیست.")
         with st.form(f"complete-problem:{job_id}:{draft['draft_version']}"):
             completed = st.text_area("مدل کامل مسئله", height=220)
-            send = st.form_submit_button("ثبت مدل کامل و ادامه", type="secondary" if questions else "primary")
+            send = st.form_submit_button("ثبت مدل کامل و ادامه", type="secondary" if questions and not budget_exhausted else "primary")
         if send:
             try:
                 problem = ProblemInput.model_validate(strict_json_loads(completed, limit=256 * 1024))

@@ -1,0 +1,94 @@
+{
+  "clarification_questions": [
+    {
+      "field_paths": [
+        "/variables/0/lower",
+        "/variables/0/upper",
+        "/variables/1/lower",
+        "/variables/1/upper"
+      ],
+      "question_fa": "کران پایین و بالای متناهیِ هر یک از متغیرهای x1 و x2 چیست؟",
+      "reason": "missing"
+    }
+  ],
+  "extracted_fields": {
+    "constraints": [],
+    "deterministic": true,
+    "objective": {
+      "expression": "(x1-2)**2 + (x2+1)**2",
+      "function_id": null,
+      "function_version": null,
+      "sense": "minimize",
+      "source_kind": "expression",
+      "unit": null
+    },
+    "parameters": [],
+    "variables": [
+      {
+        "label_fa": null,
+        "lower": null,
+        "name": "x1",
+        "type": "real",
+        "unit": null,
+        "upper": null
+      },
+      {
+        "label_fa": null,
+        "lower": null,
+        "name": "x2",
+        "type": "real",
+        "unit": null,
+        "upper": null
+      }
+    ]
+  },
+  "normalizations": [],
+  "source_map": [
+    {
+      "field_path": "/objective/expression",
+      "quote": "(x1-2)**2 + (x2+1)**2",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/objective/sense",
+      "quote": "تابع زیر را کمینه کن:",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/deterministic",
+      "quote": "تابع قطعی است.",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/0/name",
+      "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/0/type",
+      "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/1/name",
+      "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/1/type",
+      "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/parameters",
+      "quote": "پارامتر جداگانه‌ای وجود ندارد.",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/constraints",
+      "quote": "هیچ قید عمومی دیگری وجود ندارد.",
+      "source_ref": "input:text"
+    }
+  ],
+  "unsupported_features": []
+}
