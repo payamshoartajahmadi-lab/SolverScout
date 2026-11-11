@@ -34,7 +34,7 @@ def test_inconsistent_bounds_message_uses_validated_variable_name_and_zero_fe(tm
         if name=="x1":
             assert state["error"]["message_fa"] == "کران پایین x1 از کران بالای آن بزرگ‌تر است. کران‌های مسئله را اصلاح کنید."
         else:
-            assert state["error"]["message_fa"] == "مسئله خارج از دامنهٔ نسخهٔ اول است."
+            assert state["error"]["message_fa"] == "کران پایین یکی از متغیرها از کران بالای آن بزرگ‌تر است. کران‌های مسئله را اصلاح کنید."
             assert name not in state["error"]["message_fa"]
         assert state["budget"]["known_started"] == state["budget"]["reserved_active"] == state["budget"]["charged_unknown"] == 0
         assert repo.list_executions(job_id) == []
