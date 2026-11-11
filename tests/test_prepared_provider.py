@@ -6,8 +6,16 @@ import httpx
 import pytest
 
 from p_mc_optimizer.llm import gateway as gateway_module
+from p_mc_optimizer.llm import credentials
 from p_mc_optimizer.llm.gateway import LLMGateway
-from test_llm_gateway import checked, completion, golden, invocation, local, ready, start_formulator
+from p_mc_optimizer.llm.models import ExplainerResponse
+from p_mc_optimizer.llm.provider import freeze_prompt_bundle
+from p_mc_optimizer.workflow.graph import Workflow
+from test_llm_gateway import (
+    checked, completion, explainer_response, golden, invocation, local, ready, start_explainer,
+    start_formulator,
+)
+from test_llm_workflow import local_api
 
 
 def reserved_provenance(repo, invocation_id):
@@ -44,6 +52,93 @@ def test_prepared_bytes_are_durably_hashed_before_send_and_replay(local, monkeyp
     changed = {**body, "context": {"sources": [{"source_ref": "input:text", "text": "changed"}]}}
     assert checked(client.post("/internal/llm/invoke", json=changed), 409)["error_code"] == "IDEMPOTENCY_CONFLICT"
     assert len(observed) == 1
+
+
+def test_repair_bytes_and_system_are_durably_hashed_against_frozen_snapshot(
+    tmp_path, monkeypatch,
+):
+    """RT-05 repair: real bounded Workflow retry, local API, MockTransport provider."""
+    monkeypatch.setattr(credentials, "_keyring_backend", lambda: None)
+    network_requests = []
+    original_send = httpx.HTTPTransport.handle_request
+
+    def loopback_only(transport, request):
+        # Fail before any socket can reach a real provider, including accidental fallback.
+        assert request.url.host == "127.0.0.1", "Offline repair test attempted external HTTP"
+        network_requests.append(str(request.url))
+        return original_send(transport, request)
+
+    monkeypatch.setattr(httpx.HTTPTransport, "handle_request", loopback_only)
+    rejected = explainer_response(selected=True, summary_fa="موفقیت قطعی تضمین می‌شود.")
+    accepted = explainer_response(selected=True, limitations_fa=["موفقیت قطعی تضمین نمی‌شود."])
+    observed = []
+    provider_requests = []
+    prompts = freeze_prompt_bundle()
+
+    def provider(request):
+        provider_requests.append(request)
+        payload = json.loads(request.content)
+        if payload["response_format"]["json_schema"]["name"] == "connection_test_v1":
+            return completion({"ok": True})
+
+        assert request.url.host == "provider.example.test"
+        with repo.connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM llm_calls WHERE job_id=? AND role='explainer' ORDER BY attempt_no DESC LIMIT 1",
+                (body["job_id"],),
+            ).fetchone()
+        assert row is not None and row["status"] == "reserved"
+        provenance = reserved_provenance(repo, row["invocation_id"])
+        assert sha256(request.content).hexdigest() == provenance["request_body_sha256"]
+        system = payload["messages"][0]["content"]
+        assert payload["messages"][0]["role"] == "system"
+        assert sha256(system.encode("utf-8")).hexdigest() == provenance["system_message_sha256"]
+        assert provenance["schema_id"] == "explainer.v1"
+        assert provenance["process_run_id"] == provenance["gateway"]["process_run_id"]
+        context = json.loads(payload["messages"][1]["content"])
+        assert json.loads(row["input"])["context"] == context
+        assert repo.get_job(body["job_id"])["workflow"]["role_context:explainer"] == snapshot
+        if not observed:
+            assert context == snapshot
+            assert system == prompts["explainer.v1"]
+        else:
+            assert row["attempt_no"] == 2
+            assert {key: value for key, value in context.items() if key != "repair"} == snapshot
+            repair = context["repair"]
+            assert json.loads(repair["previous_output"]) == rejected
+            assert repair["field_errors"]
+            assert system == prompts["explainer.v1"] + "\n\n" + prompts["repair.v1"]
+            assert provenance["prompt_bundle_sha256"] == observed[0]["provenance"]["prompt_bundle_sha256"]
+            assert provenance["request_body_sha256"] != observed[0]["provenance"]["request_body_sha256"]
+            assert provenance["system_message_sha256"] != observed[0]["provenance"]["system_message_sha256"]
+        observed.append({"invocation_id": row["invocation_id"], "provenance": provenance})
+        return completion(rejected if len(observed) == 1 else accepted)
+
+    with local_api(tmp_path, httpx.MockTransport(provider)) as (repo, client, address, token):
+        body, owner = start_explainer(client, repo)
+        snapshot = json.loads(json.dumps(body["context"]))
+        workflow = Workflow(repo, body["job_id"], owner, api_url=address, token=token)
+        result, error = workflow._invoke(
+            "explainer", body["context"], validate=ExplainerResponse.model_validate, schema_id="explainer.v1",
+        )
+        assert error is None
+        assert result.model_dump(mode="json") == accepted
+        assert len(observed) == 2
+        assert len({item["invocation_id"] for item in observed}) == 2
+        assert LLMGateway(repo).count_calls(body["job_id"], "explainer") == 2
+        for index, item in enumerate(observed):
+            with repo.connect() as connection:
+                row = connection.execute(
+                    "SELECT status,metadata,error FROM llm_calls WHERE invocation_id=?", (item["invocation_id"],),
+                ).fetchone()
+            assert row["status"] == ("failed" if index == 0 else "succeeded")
+            assert json.loads(row["metadata"])["provenance"] == item["provenance"]
+            if index == 0:
+                assert json.loads(row["error"])["error_code"] == "LLM_SCHEMA_INVALID"
+        assert workflow.workflow["role_context:explainer"] == snapshot
+
+    assert len(provider_requests) == 3  # One mock connection check and two mock role attempts.
+    assert network_requests and all(url.startswith(address + "/") for url in network_requests)
 
 
 @pytest.mark.parametrize("failure", ["timeout", "exception", "crash"])
