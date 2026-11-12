@@ -33,7 +33,7 @@ from p_mc_optimizer.llm.provider import (
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("httpcore").setLevel(logging.WARNING)
 
-_ROLE_PHASES = {"formulator": "formulating", "advisor": "planning", "research_planner": "research_planning", "explainer": "reporting"}
+_ROLE_PHASES = {"formulator": "formulating", "advisor": "planning", "research_planner": "research_planning", "explainer": "reporting", "report_reviewer": "reporting"}
 _LLM_POLICIES = {
     "llm_only", "llm_shortlist_then_pilot", "catalog_llm_then_pilot", "web_research_then_pilot",
     "evidence_research_then_pilot",
@@ -390,7 +390,7 @@ class LLMGateway:
                 call_id, job_id, role, purpose, invocation_id, test_key,
                 request_hash, attempt_no, _json(snapshot.model_dump(mode="json")), snapshot.profile_id,
                 snapshot.revision, generation,
-                {"v2": "2.0", "v2.1": "2.1"}.get(data["schema_id"].partition(".")[2], PROMPT_VERSION),
+                {"v2": "2.0", "v2.1": "2.1", "v3": "3.0"}.get(data["schema_id"].partition(".")[2], PROMPT_VERSION),
                 _json(data), _now(),
             ),
         )
@@ -481,9 +481,14 @@ class LLMGateway:
 
     def invoke(self, invocation: Invocation) -> dict:
         role = invocation.role
+        narrative_v3 = invocation.schema_id in {"explainer.v3", "narrative_review.v1"}
         explanation_v2 = invocation.schema_id == "explainer.v2"
         schema_v2 = not explanation_v2 and invocation.schema_id.endswith((".v2", ".v2.1"))
-        if explanation_v2:
+        if narrative_v3:
+            from p_mc_optimizer.llm.narrative_models import WriterContextV3, ReviewerContextV1
+            expected_role, context_model = (("explainer", WriterContextV3) if invocation.schema_id == "explainer.v3"
+                                            else ("report_reviewer", ReviewerContextV1))
+        elif explanation_v2:
             from p_mc_optimizer.llm.explanation_v2 import ExplainerContextV2
 
             expected_role, context_model = "explainer", ExplainerContextV2
@@ -499,7 +504,7 @@ class LLMGateway:
         try:
             context = context_model.model_validate(invocation.context)
             _validate_context_fields(invocation.context)
-            if role == "explainer" and context.report.get("decision_summary") is not None:
+            if role == "explainer" and not narrative_v3 and context.report.get("decision_summary") is not None:
                 ExplainerDecisionSummary.model_validate(context.report["decision_summary"])
             data = invocation.model_dump(mode="json")
             request_hash = _hash(data)
@@ -522,9 +527,11 @@ class LLMGateway:
                 raise _invalid_job()
             policy = _from_json(job["policy"])
             policy_version = policy["policy_version"]
-            if role == "explainer":
+            if role in {"explainer", "report_reviewer"}:
                 contract = _from_json(job["workflow"]).get("execution_contracts", {}).get("explanation")
-                expected_schema = "explainer.v2" if contract == "evidence_bound_v2" else "explainer.v1"
+                expected_schema = (("explainer.v3" if role == "explainer" else "narrative_review.v1")
+                                   if contract == "grounded_narrative_v3" else
+                                   "explainer.v2" if contract == "evidence_bound_v2" else "explainer.v1")
                 if invocation.schema_id != expected_schema:
                     raise _invalid_job()
             version_two = policy_version in {"2.0", "2.1"}
@@ -532,8 +539,13 @@ class LLMGateway:
                 suffix = {"1.0": "v1", "2.0": "v2", "2.1": "v2.1"}[policy_version]
                 if invocation.schema_id != f"{role}.{suffix}":
                     raise _invalid_job()
-            self._validate_job_policy(policy, role, context)
-            if schema_v2:
+            if narrative_v3:
+                self._validate_narrative_context(job, invocation, context)
+            else:
+                self._validate_job_policy(policy, role, context)
+            if narrative_v3:
+                pass
+            elif schema_v2:
                 self._validate_v2_context(job, role, context)
             else:
                 self._validate_job_context(conn, job, role, context)
@@ -547,6 +559,12 @@ class LLMGateway:
             ):
                 detail = error_detail("LLM_BUDGET_EXHAUSTED")
                 raise ApiError(422, detail["error_code"], detail["message_fa"])
+            if narrative_v3 and role == "explainer":
+                reviewer_calls = sum(call["role"] == "report_reviewer" for call in charged_calls)
+                if (min(8 if version_two else 6, policy.get("max_llm_calls", 6)) - len(charged_calls) < 2
+                        or reviewer_calls >= min(2, policy.get("max_llm_calls_per_role", 2))):
+                    detail = error_detail("LLM_BUDGET_EXHAUSTED")
+                    raise ApiError(422, detail["error_code"], detail["message_fa"])
             if role_calls:
                 _check_retry_after(role_calls[-1]["error"])
             snapshot = self._job_snapshot(conn, job_id, blocked_only=False)
@@ -571,6 +589,32 @@ class LLMGateway:
         if cancelled:
             raise _invalid_job()
         return self._call(call_id, snapshot, key, invocation.schema_id, context, prepared)
+
+    @staticmethod
+    def _validate_narrative_context(job, invocation, context):
+        from p_mc_optimizer.llm.narrative_models import WriterContextV3
+        workflow = _from_json(job["workflow"])
+        journal = workflow.get("narrative_v3_journal") or {}
+        active = journal.get("active_request") or {}
+        actual = context.model_dump(mode="json")
+        if (workflow.get("execution_contracts", {}).get("explanation") != "grounded_narrative_v3"
+                or not _from_json(job["policy"]).get("explain_via_llm")
+                or active.get("invocation_id") != str(invocation.invocation_id)
+                or active.get("role") != invocation.role
+                or active.get("schema_id") != invocation.schema_id
+                or active.get("context") != actual
+                or active.get("request_hash") != actual["request_hash"]
+                or active.get("status") != "ready"
+                or actual["evidence"]["job_id"] != job["job_id"]
+                or actual["evidence"] != journal.get("evidence")
+                or actual["context_hash"] != journal.get("context_hash")
+                or actual["evidence"]["source_core_sha256"] != journal.get("source_core_sha256")):
+            raise ApiError(422, "INVALID_SCHEMA", "درخواست گزارش با گام ثبت‌شدهٔ سرور یکسان نیست.")
+        without_hash = {key: value for key, value in actual.items() if key != "request_hash"}
+        if _hash(without_hash) != actual["request_hash"]:
+            raise ApiError(422, "INVALID_SCHEMA", "هش درخواست گزارش معتبر نیست.")
+        if len(_json(actual).encode("utf-8")) > 196608:
+            raise ApiError(422, "CONTEXT_TOO_LARGE", "زمینهٔ گزارش بیش از حد مجاز است.")
 
     @staticmethod
     def _validate_job_policy(policy: dict, role: str, context) -> None:

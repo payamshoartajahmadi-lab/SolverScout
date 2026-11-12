@@ -33,6 +33,9 @@ _SCHEMA_MODELS = {
     "connection_test.v1": ConnectionTestResponse,
 }
 def _schema_model(schema_id):
+    if schema_id in {"explainer.v3", "narrative_review.v1"}:
+        from p_mc_optimizer.llm.narrative_models import NarrativeDraftV3, NarrativeReviewV1
+        return NarrativeDraftV3 if schema_id == "explainer.v3" else NarrativeReviewV1
     if schema_id == "explainer.v2":
         from p_mc_optimizer.llm.explanation_v2 import ExplainerPlanV2
 
@@ -116,7 +119,7 @@ def prepare_provider_request(snapshot, schema_id, context, *, producer=None) -> 
 
     if context is None:
         data = {}
-    elif schema_id == "explainer.v2":
+    elif schema_id in {"explainer.v2", "explainer.v3", "narrative_review.v1"}:
         data = context.model_dump(mode="json", exclude_none=False)
         if data.get("repair") is None:
             data.pop("repair", None)
@@ -339,7 +342,7 @@ def _parse_response(
     finish = choice.get("finish_reason")
     metadata["finish_reason"] = sanitize(_string(finish))
     content = message.get("content")
-    prior = sanitize(_string(content, _MAX_REPAIR_OUTPUT))
+    prior = sanitize(_string(content, 196608 if schema_id in {"explainer.v3", "narrative_review.v1"} else _MAX_REPAIR_OUTPUT))
     if finish == "length":
         return _outcome("failed", metadata, error=error_detail("LLM_OUTPUT_TRUNCATED"), prior=prior)
     if message.get("refusal"):
@@ -352,6 +355,11 @@ def _parse_response(
         output = strict_json_loads(content)
         if sanitize(output) != output:
             raise RoleOutputError("response: secret content is prohibited")
+        if schema_id in {"explainer.v3", "narrative_review.v1"}:
+            # The orchestrator localizes section errors before semantic review.
+            # Keep the full sanitized response; a local defect must not erase healthy sections.
+            metadata["narrative_validation"] = "orchestrator"
+            return _outcome("succeeded", metadata, output=output)
         model = _schema_model(schema_id).model_validate(output)
         if schema_id == "explainer.v2":
             from p_mc_optimizer.llm.explanation_v2 import validate_explainer_plan_v2

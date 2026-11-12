@@ -17,6 +17,8 @@ def invoke_role(
     schema_id: str | None = None,
 ) -> dict:
     """Send one internal invocation, returning the same outcome shape for HTTP errors."""
+    if role == "report_reviewer" and schema_id != "narrative_review.v1":
+        raise ValueError("The reviewer requires an explicit narrative_review.v1 schema")
     body = {
         "job_id": job_id,
         "role": role,

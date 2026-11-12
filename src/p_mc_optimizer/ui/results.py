@@ -113,6 +113,12 @@ def _values_table(variables, point):
 
 
 def _summary(report, job, point, objective, verified, tab_key):
+    if report.get("explanation_contract_version") == "3.0" and report.get("narrative_v3"):
+        from p_mc_optimizer.reporting.presentation import build_report_view_model, render_view_model_html
+        # The shared renderer escapes every narrative/source string and emits
+        # only trusted layout plus numeric SVG. st.html strips the SVG chart.
+        st.markdown(render_view_model_html(build_report_view_model(report)), unsafe_allow_html=True)
+        return
     state = job["job_status"]
     if state == "cancelled":
         st.error("اجرا به درخواست کاربر لغو شد.", icon=":material/stop_circle:")
@@ -244,6 +250,7 @@ def _technical_report(report, load_artifact):
         ("explanation_error", "خطای تولید توضیح مدل"),
         ("explanation_evidence", "قرارداد توضیح و سازگاری شواهد"),
         ("explanation_contract_version", "نسخهٔ قرارداد توضیح"),
+        ("narrative_v3", "متن خام، بازبینی خودکار و منشأ گزارش تحلیلی"),
     ]
     for key, label in detail_labels:
         if report.get(key) is not None:

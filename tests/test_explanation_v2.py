@@ -166,6 +166,7 @@ def start_empty_v2_explainer(client, repo):
     owner = str(uuid4())
     assert repo.claim_job(owner)["job_id"] == job_id
     repo.update_job(job_id, phase="reporting", worker_id=owner)
+    repo.put_workflow(job_id, "execution_contracts", {"explanation": "evidence_bound_v2"}, worker_id=owner)
     context = build_explainer_context_v2(not_reached_report())
     repo.put_workflow(job_id, "role_context:explainer", context, worker_id=owner)
     return {"job_id": job_id, "role": "explainer", "schema_id": "explainer.v2",

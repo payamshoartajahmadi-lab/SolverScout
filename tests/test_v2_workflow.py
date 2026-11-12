@@ -133,6 +133,8 @@ def profile_ref(profile):
 def run_job(repo, client, address, token, payload):
     created = checked(keyed_post(client, "/jobs", payload), 202)
     job_id = created["job_id"]
+    # This test helper exercises persisted v2 explanation behavior explicitly.
+    repo.put_workflow(job_id, "execution_contracts", {"explanation": "evidence_bound_v2"})
     worker_id = str(uuid4())
     job = repo.claim_job(worker_id, job_id=job_id, lease_seconds=1200)
     run_claimed(repo, job, worker_id, api_url=address, token=token)

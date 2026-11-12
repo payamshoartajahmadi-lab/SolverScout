@@ -77,7 +77,7 @@ def add_progress(history: Iterable[tuple[Iterable[dict], int, str]]) -> list[dic
     return points
 
 
-def progress_figure(points: list[dict]) -> str:
+def progress_figure(points: list[dict], *, number_formatter=None) -> str:
     if not points:
         return "<p>تاریخچهٔ کافی برای نمودار در دسترس نیست.</p>"
     scores = [p["score_for_minimization"] for p in points]
@@ -95,7 +95,9 @@ def progress_figure(points: list[dict]) -> str:
             vertices.append(f"{x:.2f},{previous_y:.2f}")
         vertices.append(f"{x:.2f},{y:.2f}")
         previous_y = y
-    top_label, bottom_label = format(max(scores), ".5g"), format(min(scores), ".5g")
+    end_label = str(end) if number_formatter is None else number_formatter(end)
+    number_formatter = number_formatter or (lambda value: format(value, ".5g"))
+    top_label, bottom_label = number_formatter(max(scores)), number_formatter(min(scores))
     return f"""<figure style="margin:0">
 <figcaption>بهترین امتیاز کمینه‌سازی بر حسب تعداد فراخوانی آغازشدهٔ هدف (FE)</figcaption>
 <svg viewBox="0 0 735 235" style="width:100%;max-height:320px;direction:ltr"
@@ -105,11 +107,23 @@ def progress_figure(points: list[dict]) -> str:
 <text x="98" y="24" text-anchor="end" fill="#64748b">{top_label}</text>
 <text x="98" y="198" text-anchor="end" fill="#64748b">{bottom_label}</text>
 <text x="106" y="221" text-anchor="middle" fill="#64748b">0</text>
-<text x="706" y="221" text-anchor="middle" fill="#64748b">{end}</text>
+<text x="706" y="221" text-anchor="middle" fill="#64748b">{end_label}</text>
 </svg></figure>"""
 
 
 def html_bytes(report: dict) -> bytes:
+    if report.get("explanation_contract_version") == "3.0" and report.get("narrative_v3"):
+        from p_mc_optimizer.reporting.presentation import build_report_view_model, render_view_model_html
+        view = build_report_view_model(report)
+        body = render_view_model_html(view)
+        return ('<!doctype html><html lang="fa" dir="rtl"><meta charset="utf-8">'
+                '<meta name="viewport" content="width=device-width, initial-scale=1">'
+                '<title>گزارش تحلیلی SolverScout</title>'
+                '<style>body{font:16px/1.8 system-ui,sans-serif;margin:0;padding:20px;background:#181A2F;color:#F7F5FC}'
+                'main{max-width:1040px;margin:auto;min-width:0}a{color:#FDA481}'
+                'section,details{background:#242E49}bdi{unicode-bidi:isolate}'
+                '@media(max-width:480px){body{padding:12px}}</style><main>'
+                + body + '</main></html>').encode('utf-8')
     def escaped(value: Any) -> str:
         return html.escape("—" if value is None else str(value), quote=True)
 
