@@ -36,6 +36,12 @@ def test_typed_narrative_gateway_modes_and_exact_journal_replay(tmp_path, mode):
         job_id=submit(client,profile,golden()['original_text']);owner=str(uuid4());assert repo.claim_job(owner)['job_id']==job_id
         repo.update_job(job_id,phase='reporting',worker_id=owner)
         assert repo.get_job(job_id)['workflow']['execution_contracts']['explanation']=='grounded_narrative_v3'
+        # Preserve this historical 1.0 gateway fixture explicitly; fresh 1.1
+        # wire settings and policy conflicts have their own closure tests.
+        contracts=deepcopy(repo.get_job(job_id)['workflow']['execution_contracts'])
+        contracts.pop('report_generation_policy_version',None);contracts.pop('report_generation_policy',None)
+        contracts.update(evidence_builder_version='1.0',formatter_version='1.0')
+        repo.put_workflow(job_id,'execution_contracts',contracts,worker_id=owner)
         report=json.loads(json.dumps(report).replace(report['job_id'],job_id));original=core_hash(report);calls=[]
         def budget():
             with repo.connect() as db:rows=db.execute('SELECT role FROM llm_calls WHERE job_id=?',(job_id,)).fetchall()

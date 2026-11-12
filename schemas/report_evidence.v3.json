@@ -13,7 +13,8 @@
             "subtract",
             "relative_decrease_percent",
             "bounds_membership",
-            "format_group"
+            "format_group",
+            "common_value"
           ],
           "type": "string"
         },
@@ -390,10 +391,11 @@
       "type": "array"
     },
     "evidence_policy_version": {
-      "type": "string",
       "enum": [
-        "1.0"
-      ]
+        "1.0",
+        "1.1"
+      ],
+      "type": "string"
     }
   },
   "required": [

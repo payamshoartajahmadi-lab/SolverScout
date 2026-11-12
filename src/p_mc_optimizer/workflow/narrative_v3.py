@@ -20,6 +20,7 @@ from p_mc_optimizer.reporting.narrative_validation import (
     NarrativeValidationError, draft_hash, render_sections, request_hash,
     validate_draft, validate_review,
 )
+from p_mc_optimizer.llm.narrative_policy import freeze_narrative_policy
 
 
 JOURNAL_KEY = "narrative_v3_journal"
@@ -94,7 +95,7 @@ class NarrativeOrchestrator:
 
     def __init__(self, report, *, invoke, persist, journal=None, budget=None,
                  current_report=None, cancelled=lambda: False, shutdown=lambda: False,
-                 prompt_bundle_sha256):
+                 prompt_bundle_sha256, report_generation_policy_version=None):
         self.report = deepcopy(report)
         self.invoke, self.persist = invoke, persist
         self.journal = deepcopy(journal or {})
@@ -102,6 +103,19 @@ class NarrativeOrchestrator:
         self.current_report = current_report or (lambda: deepcopy(self.report))
         self.cancelled, self.shutdown = cancelled, shutdown
         self.prompt_bundle_sha256 = prompt_bundle_sha256
+        # A durable journal wins over a new caller's default. It is never upgraded.
+        journal_version = self.journal.get("report_generation_policy_version", "1.0")
+        self.report_generation_policy_version = (journal_version if self.journal else
+                                                 report_generation_policy_version or "1.0")
+        self.generation_policy = freeze_narrative_policy(self.report_generation_policy_version)
+        self.policy_mismatch = bool(self.journal and (
+            report_generation_policy_version not in (None, journal_version)
+            or self.journal.get("report_generation_policy", self.generation_policy if journal_version == "1.0" else None) != self.generation_policy
+            or self.journal.get("report_generation_policy_hash", self.generation_policy["report_generation_policy_hash"] if journal_version == "1.0" else None) != self.generation_policy["report_generation_policy_hash"]
+            or self.journal.get("prompt_bundle_sha256", prompt_bundle_sha256) != prompt_bundle_sha256
+            or any(call.get("context", {}).get("prompt_bundle_sha256", prompt_bundle_sha256) != prompt_bundle_sha256
+                   for call in self.journal.get("calls", {}).values())
+        ))
         self.started = monotonic()
         self.issues = []
         self.accepted = {}
@@ -155,6 +169,19 @@ class NarrativeOrchestrator:
         self._add_issues([_issue("CONTEXT_TOO_LARGE", message="زمینهٔ گزارش از سقف مجاز بزرگ‌تر است؛ شواهد بریده نشدند.")])
         return False
 
+    def _current_policy_matches(self, report):
+        contracts = report.get("execution_contracts") or {}
+        marker = report.get("report_generation_policy_version", contracts.get("report_generation_policy_version"))
+        if marker is not None and marker != self.report_generation_policy_version:
+            return False
+        if contracts and contracts.get("explanation") == "grounded_narrative_v3":
+            version = contracts.get("report_generation_policy_version", "1.0")
+            return (version == self.report_generation_policy_version
+                    and contracts.get("evidence_builder_version", "1.0") == version
+                    and contracts.get("formatter_version", "1.0") == version
+                    and contracts.get("report_generation_policy", self.generation_policy if version == "1.0" else None) == self.generation_policy)
+        return True
+
     def _call(self, key, role, schema_id, operation, context, *, draft_digest=None):
         calls = self.journal.setdefault("calls", {})
         prior = calls.get(key)
@@ -168,7 +195,8 @@ class NarrativeOrchestrator:
             self.interrupted = True
             return None
         try:
-            if self.journal.get("source_core_sha256") != core_hash(self.current_report()):
+            current = self.current_report()
+            if self.journal.get("source_core_sha256") != core_hash(current) or not self._current_policy_matches(current):
                 self._add_issues([_issue("CONTEXT_MISMATCH")])
                 return None
         except (ValueError, TypeError):
@@ -267,7 +295,7 @@ class NarrativeOrchestrator:
         current = self.current_report()
         invalid = self.evidence is None
         try:
-            changed = self.evidence is not None and core_hash(current) != self.journal["source_core_sha256"]
+            changed = self.evidence is not None and (core_hash(current) != self.journal.get("source_core_sha256") or not self._current_policy_matches(current))
         except (ValueError, TypeError):
             changed = True
         if changed or self.cancelled():
@@ -275,7 +303,7 @@ class NarrativeOrchestrator:
             self.omitted.add("mathematical_analysis")
             self._add_issues([_issue("CONTEXT_MISMATCH", message="داده یا وضعیت اجرا پس از تولید متن تغییر کرد؛ متن قبلی منتشر نشد.")])
             try:
-                self.evidence = build_evidence_v3(current)
+                self.evidence = build_evidence_v3(current, policy_version=self.report_generation_policy_version)
                 invalid = False
             except (ValueError, TypeError):
                 self.evidence = None
@@ -288,6 +316,7 @@ class NarrativeOrchestrator:
             provider_failure=self.provider_failure,
             requested=bool(current.get("policy", {}).get("explain_via_llm") and current.get("job_status") == "completed" and not self.cancelled()),
             evidence_invalid=invalid, review_ran=self.review_ran,
+            report_generation_policy_version=self.report_generation_policy_version,
         )
         if not self.shutdown():
             self.journal["result"] = deepcopy(result)
@@ -297,22 +326,34 @@ class NarrativeOrchestrator:
 
     def run(self):
         try:
+            if self.policy_mismatch:
+                self._add_issues([_issue("CONTEXT_MISMATCH", message="سیاست یا prompt فریز‌شدهٔ journal تغییر کرده است؛ ادامهٔ تماس مجاز نیست.")])
+                self.evidence = build_evidence_v3(self.report, policy_version=self.report_generation_policy_version)
+                return self._finish()
             initial_core = core_hash(self.report)
             if self.journal.get("source_core_sha256") not in (None, initial_core):
                 self._add_issues([_issue("CONTEXT_MISMATCH")])
-                self.evidence = build_evidence_v3(self.report)
+                self.evidence = build_evidence_v3(self.report, policy_version=self.report_generation_policy_version)
                 return self._finish()
             if self.journal.get("result") is not None:
                 self.evidence = ReportEvidenceV3.model_validate(self.journal["evidence"])
+                if self.evidence.evidence_policy_version != self.report_generation_policy_version:
+                    raise ValueError("Cached evidence policy mismatch")
                 if core_hash(self.current_report()) == initial_core and not self.cancelled():
                     return deepcopy(self.journal["result"])
                 return self._finish()
-            self.evidence = ReportEvidenceV3.model_validate(self.journal["evidence"]) if self.journal.get("evidence") else build_evidence_v3(self.report)
+            self.evidence = ReportEvidenceV3.model_validate(self.journal["evidence"]) if self.journal.get("evidence") else build_evidence_v3(self.report, policy_version=self.report_generation_policy_version)
+            if self.evidence.evidence_policy_version != self.report_generation_policy_version:
+                raise ValueError("Evidence policy does not match the frozen journal")
         except (ValueError, TypeError):
             self._add_issues([_issue("SCHEMA_INVALID", message="شواهد عددی گزارش معتبر نیستند؛ متن مدل تولید نشد.")])
             return self._finish()
         self.journal.update({"schema_version": "3.0", "context_hash": evidence_hash(self.evidence),
-                             "source_core_sha256": initial_core, "evidence": _json(self.evidence)})
+                             "source_core_sha256": initial_core, "evidence": _json(self.evidence),
+                             "report_generation_policy_version": self.report_generation_policy_version,
+                             "report_generation_policy": deepcopy(self.generation_policy),
+                             "report_generation_policy_hash": self.generation_policy["report_generation_policy_hash"],
+                             "prompt_bundle_sha256": self.prompt_bundle_sha256})
         self.journal.setdefault("calls", {})
         self._save()
         eligible = self.report.get("job_status") == "completed" and self.report.get("policy", {}).get("explain_via_llm")

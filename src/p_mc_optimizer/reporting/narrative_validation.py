@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from collections import Counter
 import json
 import re
 from typing import Any
@@ -172,7 +173,12 @@ def validate_draft(context, raw_response) -> DraftValidation:
             if p.paragraph_id in paragraph_ids:local.append(issue("SCHEMA_INVALID",section_id,p.paragraph_id))
             paragraph_ids.add(p.paragraph_id)
             tokens=TOKEN.findall(p.text_fa);covered.update(tokens)
-            if len(p.fact_refs)!=len(set(p.fact_refs)) or set(p.fact_refs)!=set(tokens):local.append(issue("INVALID_BINDING",section_id,p.paragraph_id))
+            differences={"token_ids_not_in_fact_refs":sorted(set(tokens)-set(p.fact_refs)),
+                         "fact_refs_not_used_as_tokens":sorted(set(p.fact_refs)-set(tokens)),
+                         "duplicate_fact_refs":sorted(f for f,count in Counter(p.fact_refs).items() if count>1)}
+            if any(differences.values()):
+                detail=issue("INVALID_BINDING",section_id,p.paragraph_id,message="اختلاف دقیق اتصال در این پاراگراف: "+json.dumps(differences,ensure_ascii=False,separators=(",",":")))
+                local.append(detail.model_copy(update={"required_change_fa":"توکن‌های همین پاراگراف و fact_refs را مطابق اختلاف ثبت‌شده اصلاح کنید؛ معیار انتخاب را با توکن مربوط در همان بخش بیان کنید. بخش‌های پذیرفته‌شده را تغییر ندهید؛ سرور هیچ ارجاع یا توکنی را خودکار تغییر نمی‌دهد."}))
             for f in set(tokens)|set(p.fact_refs):
                 if f not in facts:local.append(issue("UNKNOWN_FACT",section_id,p.paragraph_id))
             if not p.evidence_refs or len(p.evidence_refs)!=len(set(p.evidence_refs)) or set(p.evidence_refs)-sources.keys():local.append(issue("UNKNOWN_EVIDENCE",section_id,p.paragraph_id))
@@ -183,11 +189,19 @@ def validate_draft(context, raw_response) -> DraftValidation:
             if "{{" in residue or "}}" in residue or "{{fact" in residue:local.append(issue("INVALID_BINDING",section_id,p.paragraph_id))
             if _URL.search(residue) or _UUID.search(residue) or _HASH.search(residue) or _MARKUP.search(residue) or _INTERNAL.search(residue) or _EXECUTABLE.search(residue):local.append(issue("UNSAFE_MARKUP",section_id,p.paragraph_id))
             for word in sorted(technical,key=len,reverse=True):residue=re.sub(r"(?<!\w)"+re.escape(word)+r"(?!\w)","",residue)
-            if any(c.isdigit() for c in residue):local.append(issue("UNBOUND_NUMBER",section_id,p.paragraph_id))
+            number_at=next((i for i,c in enumerate(residue) if c.isdigit()),None)
+            if number_at is not None:
+                snippet=residue[max(0,number_at-32):number_at+48]
+                detail=issue("UNBOUND_NUMBER",section_id,p.paragraph_id,message="کمیت خام بدون اتصال در پاراگراف: "+json.dumps({"paragraph_id":p.paragraph_id,"unbound_number_snippet":snippet},ensure_ascii=False,separators=(",",":")))
+                local.append(detail.model_copy(update={"required_change_fa":"برای قطعهٔ مشخص‌شده از fact موجود و معتبر استفاده کنید، یا جزئیات غیرضروری را حذف کنید؛ مقدار یا روش را از شباهت متن حدس نزنید و بخش‌های پذیرفته‌شده را تغییر ندهید."}))
             # Mathematical constants alone do not ground an interpretation.
             if tokens and all(f.startswith("constant.") for f in tokens) and not any(r.startswith("report:") or r.startswith("source:") for r in p.evidence_refs):local.append(issue("UNKNOWN_EVIDENCE",section_id,p.paragraph_id))
         missing=set(requirements[section_id].required_fact_refs)-covered
-        if missing:local.append(issue("MISSING_REQUIRED_FACT",section_id,message="داده‌های ضروری بخش پوشش داده نشده‌اند: "+", ".join(sorted(missing))))
+        if missing:
+            detail=issue("MISSING_REQUIRED_FACT",section_id,message="داده‌های ضروری بدون توکن در همین بخش: "+json.dumps({"missing_required_fact_tokens":sorted(missing)},ensure_ascii=False,separators=(",",":")))
+            local.append(detail.model_copy(update={"required_change_fa":"هر fact ضروریِ مشخص‌شده را با توکن {{fact:شناسهٔ دقیق}} در همین بخش بیان کنید؛ برای selection معیار selection.decisive_criterion را صریحاً با توکن آن بیاورید. بخش‌های پذیرفته‌شده را تغییر ندهید."}))
+        if ctx.evidence.evidence_policy_version=="1.1" and section_id=="candidate_rationale" and not any("report:proposal" in p.evidence_refs for p in section.paragraphs):
+            local.append(issue("UNKNOWN_EVIDENCE",section_id,message="بخش دلیل پیشنهاد باید دست‌کم به report:proposal همین اجرا ارجاع دهد؛ ارجاع موجود ولی نامرتبط، جای این شاهد را نمی‌گیرد."))
         if local:result.issues.extend(local)
         else:result.valid_sections.append(section)
     if total>16000:

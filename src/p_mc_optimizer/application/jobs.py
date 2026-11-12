@@ -13,6 +13,7 @@ from p_mc_optimizer.persistence import Repository
 from p_mc_optimizer.persistence.repository import invalid_state, json_text, utc_now, uuid4_text
 from p_mc_optimizer.research.contracts import ExecutionPolicyV2
 from p_mc_optimizer.research.contracts_v21 import ExecutionPolicyV21
+from p_mc_optimizer.llm.narrative_policy import freeze_narrative_policy
 
 Version = Annotated[int, Field(ge=1)]
 ShortId = Annotated[str, StringConstraints(min_length=1, max_length=128)]
@@ -110,8 +111,10 @@ class ApplicationService:
             save_runtime(self.repo.data_dir)
             workflow = {
                 "execution_contracts": {"explanation": "grounded_narrative_v3", "writer_schema": "explainer.v3",
-                                        "reviewer_schema": "narrative_review.v1", "evidence_builder_version": "1.0",
-                                        "renderer_version": "3.0.0", "formatter_version": "1.0"},
+                                        "reviewer_schema": "narrative_review.v1", "evidence_builder_version": "1.1",
+                                        "renderer_version": "3.0.0", "formatter_version": "1.1",
+                                        "report_generation_policy_version": "1.1",
+                                        "report_generation_policy": freeze_narrative_policy("1.1")},
                 "runtime:creator": creator,
             }
             if revision_id is not None and connection.execute(
