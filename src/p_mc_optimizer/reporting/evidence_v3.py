@@ -272,7 +272,7 @@ def build_evidence_v3(report: dict) -> ReportEvidenceV3:
     fact("solution.objective_raw", report.get("objective_raw") if verified else None, "number", "/objective_raw", ["report:solution"])
     fact("solution.status", report.get("solution_status"), "text", "/solution_status", ["report:solution"])
     fact("solution.origin_phase", origin.get("phase"), "text", "/solution_origin/phase", ["report:solution"])
-    fact("solution.origin_method_label", labels.get(origin.get("algorithm_id")) if origin.get("algorithm_id") else {"preflight": "بررسی اولیه", "profile": "نمونه‌برداری مسئله"}.get(origin.get("phase")), "text", "/solution_origin/algorithm_id", ["report:solution"])
+    fact("solution.origin_method_label", labels.get(origin.get("algorithm_id")), "text", "/solution_origin/algorithm_id", ["report:solution"])
     fact("solution.optimality_status", report.get("optimality_status"), "text", "/optimality_status", ["report:solution"])
     fact("execution.job_status", report.get("job_status"), "text", "/job_status", ["report:solution"])
     fact("execution.termination_reason", report.get("termination_reason"), "text", "/termination_reason", ["report:solution"])

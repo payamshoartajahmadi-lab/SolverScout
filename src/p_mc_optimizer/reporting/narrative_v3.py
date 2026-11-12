@@ -112,7 +112,11 @@ def fallback_sections(report, evidence, section_ids):
                 text = "تصمیم معتبرِ روش برای توضیح مقایسه‌ای ثبت نشده است. "
         elif sid == "solution":
             if report.get('solution_status') == 'valid_best_found':
-                text = f"نقطهٔ تأییدشده {token('solution.x')} و مقدار اصلی تابع هدف {token('solution.objective_raw')} است. این نقطه در فاز {token('solution.origin_phase')} توسط {token('solution.origin_method_label')} تولید شده است. روش تولیدکنندهٔ نقطه و روش منتخب برای اجرای اصلی دو واقعیت مستقل‌اند."
+                text = f"نقطهٔ تأییدشده {token('solution.x')} و مقدار اصلی تابع هدف {token('solution.objective_raw')} است. "
+                if facts.get('solution.origin_method_label',{}).get('availability') == 'available':
+                    text += f"این نقطه در فاز {token('solution.origin_phase')} توسط {token('solution.origin_method_label')} تولید شده است. روش تولیدکنندهٔ نقطه و روش منتخب برای اجرای اصلی دو واقعیت مستقل‌اند."
+                else:
+                    text += f"این نقطه در فاز {token('solution.origin_phase')} تولید شده است؛ نام روش تولیدکننده در رکورد منشأ ثبت نشده است."
             else:
                 text = "جواب تأییدشده‌ای برای انتشار به‌عنوان نتیجهٔ موفق ثبت نشده است. وضعیت ثبت‌شدهٔ جواب و اطلاعات بازبینی در گزارش حفظ شده است."
         else:
