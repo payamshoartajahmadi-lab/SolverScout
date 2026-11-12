@@ -116,6 +116,8 @@ def work(repo, address, token, job_id, *, legacy_explanation=True):
     if legacy_explanation:
         # These fixtures preserve the stored-job explainer.v1 contract.
         repo.put_workflow(job_id, "execution_contracts", {})
+    elif legacy_explanation is False:
+        repo.put_workflow(job_id, "execution_contracts", {"explanation": "evidence_bound_v2"})
     owner = str(uuid4())
     job = repo.claim_job(owner, lease_seconds=1200)
     assert job is not None and job["job_id"] == job_id
@@ -212,7 +214,7 @@ def test_end_to_end_language_workflow(tmp_path):
         assert not responses
 
 
-def test_new_v1_envelope_uses_evidence_bound_explainer_v2(tmp_path):
+def test_new_v1_defaults_v3_while_explicit_v2_fixture_preserves_explainer_v2(tmp_path):
     """EXP-01/03/15. New jobs retain the v1 envelope and use the v2 explanation."""
     fixture = golden()
     called, requests = [], []
@@ -223,7 +225,7 @@ def test_new_v1_envelope_uses_evidence_bound_explainer_v2(tmp_path):
         profile, _ = configure(client, _PROFILE_SETTINGS, _TEST_KEY)
         job_id = submit(client, profile, fixture["original_text"])
         marker = repo.get_job(job_id)["workflow"]["execution_contracts"]
-        assert marker["explanation"] == "evidence_bound_v2"
+        assert marker["explanation"] == "grounded_narrative_v3"
         work(repo, address, token, job_id, legacy_explanation=False)
         report = checked(client.get(f"/jobs/{job_id}/report"))["report"]
         assert report["solution_status"] == "valid_best_found"

@@ -33,7 +33,7 @@ def test_legacy_job_create_replay_keeps_missing_markers_and_custom_workflow(tmp_
     })
     key = str(uuid4())
     created = service.create_job(request,key)
-    assert created["workflow"]["execution_contracts"]["explanation"] == "evidence_bound_v2"
+    assert created["workflow"]["execution_contracts"]["explanation"] == "grounded_narrative_v3"
     with repo.transaction() as connection:
         repo.write_job(connection,created["job_id"],{"workflow":{"persisted_legacy_field":{"value":True}}})
     before = deepcopy(repo.get_job(created["job_id"])["workflow"])

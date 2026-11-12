@@ -632,6 +632,13 @@ class Workflow:
         if self.cancelled(immediate=True) and report["job_status"] != "cancelled":
             self.build_report_data()
             report = self.report
+        if self.workflow.get("execution_contracts", {}).get("explanation") == "grounded_narrative_v3":
+            self.explain_grounded_narrative(report)
+            report = self.report
+            report["llm_calls"] = job_call_metadata(self.repo, self.job_id)
+            report["timing"]["elapsed_wall_seconds"] = _seconds_since(self.job.get("created_at"))
+            report["timing"]["elapsed_llm_seconds"] = sum(call.get("elapsed_seconds", 0) or 0 for call in report["llm_calls"])
+            return
         if self.workflow.get("execution_contracts", {}).get("explanation") == "evidence_bound_v2":
             self.explain_evidence_bound(report)
             report = self.report
@@ -674,6 +681,48 @@ class Workflow:
         report["timing"]["elapsed_wall_seconds"] = _seconds_since(self.job.get("created_at"))
         report["timing"]["elapsed_llm_seconds"] = sum(
             call.get("elapsed_seconds", 0) or 0 for call in report["llm_calls"])
+
+    def explain_grounded_narrative(self, report):
+        from p_mc_optimizer.workflow.narrative_v3 import NarrativeOrchestrator
+        from p_mc_optimizer.reporting.narrative_v3 import apply_narrative_v3
+        from p_mc_optimizer.llm.provider import prompt_bundle_manifest
+        from p_mc_optimizer.runtime_provenance import get_runtime, canonical_bytes
+
+        def budget():
+            with self.repo.connect() as connection:
+                rows = connection.execute("SELECT role FROM llm_calls WHERE job_id=?", (self.job_id,)).fetchall()
+            counts = {}
+            for row in rows:
+                counts[row["role"]] = counts.get(row["role"], 0) + 1
+            policy = report["policy"]
+            return {"total_used": len(rows), "by_role": counts,
+                    "max_total": min(8 if policy["policy_version"] in {"2.0", "2.1"} else 6, policy["max_llm_calls"]),
+                    "max_per_role": min(2, policy["max_llm_calls_per_role"])}
+
+        def invoke(role, schema_id, context, invocation_id):
+            producers = dict(self.workflow.get("runtime:invocation_producers", {}))
+            identity = get_runtime()
+            producers[invocation_id] = {"process_run_id": identity["process_run_id"], "role": identity["role"],
+                                        "llm_role": role, "schema_id": schema_id}
+            self.keep("runtime:invocation_producers", producers)
+            return invoke_role(self.api_url, self.token, self.job_id, role, context, invocation_id=invocation_id,
+                               request_timeout_seconds=(self.job.get("llm_profile") or {}).get("request_timeout_seconds", 60),
+                               schema_id=schema_id)
+
+        def current_report():
+            # Refresh persisted decisions, trials and numeric ledger, not the cached draft.
+            # This is read-only report assembly and never invokes the objective or solver.
+            self.build_report_data()
+            return self.report
+
+        engine = NarrativeOrchestrator(
+            report, invoke=invoke, persist=lambda value: self.keep("narrative_v3_journal", value),
+            journal=self.workflow.get("narrative_v3_journal"), budget=budget, current_report=current_report,
+            cancelled=lambda: self.cancelled(immediate=True), shutdown=self.shutdown,
+            prompt_bundle_sha256=hashlib.sha256(canonical_bytes(prompt_bundle_manifest())).hexdigest(),
+        )
+        result = engine.run()
+        self.report = apply_narrative_v3(self.report, result)
 
     def explain_evidence_bound(self, report):
         from p_mc_optimizer.llm.explanation_v2 import (

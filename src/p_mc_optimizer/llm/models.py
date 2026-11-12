@@ -11,10 +11,10 @@ from p_mc_optimizer.domain.models import (
     CandidatePlan, ContractModel, FiniteReal, ProblemInput, ProblemProfile, Uuid4String,
 )
 
-Role = Literal["formulator", "advisor", "explainer", "research_planner"]
+Role = Literal["formulator", "advisor", "explainer", "research_planner", "report_reviewer"]
 SchemaId = Literal[
     "formulator.v1", "advisor.v1", "explainer.v1", "explainer.v2", "research_planner.v2", "advisor.v2",
-    "research_planner.v2.1", "advisor.v2.1",
+    "research_planner.v2.1", "advisor.v2.1", "explainer.v3", "narrative_review.v1",
 ]
 StorageMode = Literal["session", "os_keyring"]
 OPENAI_BASE_URL = "https://api.openai.com/v1"

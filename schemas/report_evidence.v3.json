@@ -1,0 +1,412 @@
+{
+  "$defs": {
+    "DerivationRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "operation": {
+          "enum": [
+            "count",
+            "sum",
+            "median",
+            "iqr_linear",
+            "negate",
+            "subtract",
+            "relative_decrease_percent",
+            "bounds_membership",
+            "format_group"
+          ],
+          "type": "string"
+        },
+        "input_fact_refs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "definition_version": {
+          "type": "string",
+          "enum": [
+            "1.0"
+          ]
+        }
+      },
+      "required": [
+        "operation",
+        "input_fact_refs",
+        "definition_version"
+      ],
+      "type": "object"
+    },
+    "EvidenceRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "run_record",
+            "source_passage",
+            "derived_calculation"
+          ],
+          "type": "string"
+        },
+        "locator": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "content_sha256": {
+          "type": "string"
+        },
+        "original_content_sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "excerpt_start": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "excerpt_end": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scope": {
+          "enum": [
+            "run_specific",
+            "family_level",
+            "implementation_level"
+          ],
+          "type": "string"
+        },
+        "stale": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "evidence_id",
+        "kind",
+        "locator",
+        "text",
+        "content_sha256",
+        "original_content_sha256",
+        "excerpt_start",
+        "excerpt_end",
+        "source_url",
+        "source_title",
+        "scope",
+        "stale"
+      ],
+      "type": "object"
+    },
+    "FactRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "fact_id": {
+          "type": "string"
+        },
+        "value_type": {
+          "enum": [
+            "number",
+            "integer",
+            "text",
+            "boolean",
+            "number_vector"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "availability": {
+          "enum": [
+            "available",
+            "missing"
+          ],
+          "type": "string"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "display_text": {
+          "type": "string"
+        },
+        "source_paths": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "origin": {
+          "enum": [
+            "recorded",
+            "derived",
+            "mathematical_constant"
+          ],
+          "type": "string"
+        },
+        "derivation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DerivationRecord"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "fact_id",
+        "value_type",
+        "value",
+        "availability",
+        "unit",
+        "display_text",
+        "source_paths",
+        "evidence_refs",
+        "origin",
+        "derivation"
+      ],
+      "type": "object"
+    },
+    "MethodIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "alias": {
+          "type": "string"
+        },
+        "implementation_id": {
+          "type": "string"
+        },
+        "display_name_fa": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "alias",
+        "implementation_id",
+        "display_name_fa"
+      ],
+      "type": "object"
+    },
+    "OmissionRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "item_ref": {
+          "type": "string"
+        },
+        "reason": {
+          "enum": [
+            "size_limit",
+            "missing",
+            "not_relevant"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "item_ref",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "SectionRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "section_id": {
+          "enum": [
+            "problem",
+            "candidate_rationale",
+            "selection",
+            "solution",
+            "verification_and_limits",
+            "mathematical_analysis"
+          ],
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "required_fact_refs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "allowed_evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "requirement_text_fa": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "section_id",
+        "required",
+        "required_fact_refs",
+        "allowed_evidence_refs",
+        "requirement_text_fa"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": [
+        "3.0"
+      ]
+    },
+    "job_id": {
+      "type": "string"
+    },
+    "source_report_schema_version": {
+      "type": "string"
+    },
+    "source_core_sha256": {
+      "type": "string"
+    },
+    "facts": {
+      "items": {
+        "$ref": "#/$defs/FactRecord"
+      },
+      "type": "array"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/EvidenceRecord"
+      },
+      "type": "array"
+    },
+    "sections": {
+      "items": {
+        "$ref": "#/$defs/SectionRequirement"
+      },
+      "type": "array"
+    },
+    "methods": {
+      "items": {
+        "$ref": "#/$defs/MethodIdentity"
+      },
+      "type": "array"
+    },
+    "omissions": {
+      "items": {
+        "$ref": "#/$defs/OmissionRecord"
+      },
+      "type": "array"
+    },
+    "evidence_policy_version": {
+      "type": "string",
+      "enum": [
+        "1.0"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "job_id",
+    "source_report_schema_version",
+    "source_core_sha256",
+    "facts",
+    "sources",
+    "sections",
+    "methods",
+    "omissions",
+    "evidence_policy_version"
+  ],
+  "type": "object"
+}

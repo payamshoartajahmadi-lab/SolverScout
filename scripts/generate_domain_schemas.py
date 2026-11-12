@@ -7,6 +7,8 @@ from p_mc_optimizer.domain.models import (
     CreateJob, EvaluationRecord, ExecutionPolicyInput, ExecutionResult, ProblemInput, ProblemRevision,
     SelectionDecision, SelectionDecisionV2, TrialRequest, TrialRequestV2,
 )
+from p_mc_optimizer.llm.narrative_models import NarrativeDraftV3, NarrativeReviewV1, ReportEvidenceV3
+from p_mc_optimizer.llm.models import provider_schema
 from p_mc_optimizer.reporting import json_bytes
 from p_mc_optimizer.research.contracts import (
     AdvisorPlanV2, CreateJobV2, EvidencePassage, ExecutionPolicyInputV2, ResearchOutcome,
@@ -51,3 +53,7 @@ if __name__ == "__main__":
     for version, contracts in ((1, SCHEMAS), (2, SCHEMAS_V2)):
         for name, model in contracts.items():
             (root / f"{name}.v{version}.json").write_bytes(json_bytes(model.model_json_schema()) + b"\n")
+
+
+    for name, model in {"explainer.v3": NarrativeDraftV3, "narrative_review.v1": NarrativeReviewV1, "report_evidence.v3": ReportEvidenceV3}.items():
+        (root / (name + ".json")).write_bytes(json_bytes(provider_schema(model)) + b"\n")
