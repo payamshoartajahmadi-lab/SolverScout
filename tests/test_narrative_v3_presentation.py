@@ -89,6 +89,23 @@ def test_fallback_contains_actual_numbers_and_preserves_every_numeric_field():
     assert value['explanation_evidence']['schema_version']=='3.0'
     assert 'note_selection_source' not in value['explanation_evidence']
 
+@pytest.mark.parametrize('phase',['preflight','profile'])
+def test_origin_without_recorded_algorithm_keeps_phase_and_reports_missing_method(phase):
+    original=json.loads(FIXTURE.with_name('F4.json').read_text())
+    original['solution_origin']['phase']=phase
+    original['solution_origin']['algorithm_id']=None
+    before=deepcopy(original);evidence=build_evidence_v3(original)
+    value=apply_narrative_v3(original,finalize_narrative(original,evidence,[]))
+    solution=next(s for s in value['narrative_v3']['rendered_sections'] if s['section_id']=='solution')
+    text=' '.join(p['text_fa'] for p in solution['paragraphs'])
+    assert 'نام روش تولیدکننده در رکورد منشأ ثبت نشده است' in text
+    assert 'توسط' not in text
+    assert ('بررسی اولیه' if phase=='preflight' else 'نمونه‌برداری مسئله') in text
+    vm=build_report_view_model(value)
+    assert vm['origin_method']=='ثبت نشده'
+    assert vm['origin_phase']==('بررسی مقدماتی' if phase=='preflight' else 'نمونه‌برداری')
+    assert core_hash(value)==core_hash(original) and original==before
+
 
 def test_mixed_fallback_keeps_accepted_section_byte_identical_and_removes_unreviewed_math():
     """N3-17/20: only the rejected parts are replaced."""

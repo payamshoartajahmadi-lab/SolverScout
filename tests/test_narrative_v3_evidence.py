@@ -81,7 +81,8 @@ def test_fixed_synthetic_cases_have_distinct_correct_semantics(name):
  if name=='F4':
   assert f['selection.decisive_criterion'].value=='algorithm_id'
   assert f['solution.origin_phase'].value=='preflight'
-  assert f['solution.origin_method_label'].value=='بررسی اولیه'
+  assert f['solution.origin_method_label'].value is None
+  assert f['solution.origin_method_label'].availability=='missing'
 
 @pytest.mark.parametrize('phase',['main','pilot','profile','preflight'])
 def test_recorded_origin_is_separate_from_method_selected(phase):
@@ -89,7 +90,14 @@ def test_recorded_origin_is_separate_from_method_selected(phase):
  r['solution_origin']['algorithm_id']=r['selected_algorithm_id'] if phase in ['main','pilot'] else None
  e=build_evidence_v3(r);f=facts(e)
  assert f['solution.origin_phase'].value==phase
- assert f['solution.origin_method_label'].availability=='available'
+ method=f['solution.origin_method_label']
+ assert method.source_paths==['/solution_origin/algorithm_id']
+ if phase in ['main','pilot']:
+  assert method.availability=='available'
+ else:
+  assert method.availability=='missing' and method.value is None and method.display_text=='ثبت نشده'
+  source=json.loads(next(s.text for s in e.sources if s.evidence_id=='report:solution'))
+  assert source['solution_origin']['algorithm_id'] is None and source['solution_origin']['phase']==phase
 
 @pytest.mark.parametrize('state',['no_valid_solution','validation_failed','validation_incomplete'])
 def test_unverified_or_failed_results_do_not_publish_confirmed_solution_facts(state):
