@@ -1,0 +1,207 @@
+{
+  "provenance": {
+    "evidence_kind": "FRESH_STORED_OFFLINE_SYNTHETIC_TEST",
+    "captured_at_utc": "2026-11-13T20:20:11.982986+00:00",
+    "run_label": "full-final-02",
+    "test_nodeid": "tests/test_llm_workflow.py::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]",
+    "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+    "source_manifest_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+    "harness_manifest_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+    "source_changes_at_start": [],
+    "source_bytes_unchanged_during_run": true,
+    "harness_bytes_unchanged_during_run": true,
+    "source_junit": {
+      "path": "offline/full-final-02.xml",
+      "sha256": "c68b140849b0a41e5a65e3c13c96622512e0a123f1c2f11b6377ed4bce3c5e08",
+      "test_nodeid": "tests/test_llm_workflow.py::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]",
+      "test_status": "PASS",
+      "time_seconds": 54.586,
+      "pytest_tmp_directory_counter": 0,
+      "case_directory_relative_to_basetemp": "test_explainer_receives_full_t0",
+      "mapping_method": "Exact completed JUnit testcase matched in family order to pytest sanitized 30-character tmp_path prefix and numeric directory counter. Only the mapped case database was opened."
+    },
+    "recorded_basetemp": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-f2-4c0c",
+    "source_database_path": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-f2-4c0c\\test_explainer_receives_full_t0\\state.sqlite3",
+    "database_access": "SQLite mode=ro and PRAGMA query_only=ON",
+    "database_bytes_exported": false,
+    "selected_tables": {
+      "reports": [
+        "job_id",
+        "payload",
+        "created_at"
+      ],
+      "llm_calls": [
+        "call_id",
+        "job_id",
+        "role",
+        "invocation_id",
+        "request_hash",
+        "attempt_no",
+        "prompt_version",
+        "input",
+        "output",
+        "previous_output",
+        "status",
+        "error",
+        "started_at",
+        "finished_at"
+      ]
+    },
+    "source_report_storage": "reports.payload UTF-8 bytes",
+    "source_report_payload_sha256": "aa4a3d9fa762b0d4294c145aa97204718607da00f61ca049c747e6d981fa290d",
+    "source_context_hash_definition": "SHA-256 of sorted compact UTF-8 JSON of the context object inside stored llm_calls.input",
+    "context_evidence_limit": "Actual persisted gateway invocation contexts. HTTP body bytes were not independently captured; no reconstructed wire transcript is claimed.",
+    "source_result_path": "offline/full-final-02-result.json",
+    "source_result_sha256": "8f3996ddf72dcdaa8eaef2c5e7be6c9e9054dace8281c1aeb6c5e63565c99055",
+    "capture_script_sha256": "3b68565ecb5d93b46830be1678d874091c7c786b25ab4cdfc5d428f1dc443470",
+    "sanitized_copy": false,
+    "redactions": [],
+    "numeric_execution_authorization_policy": "Public contract objects preserved; no blanket authorization-key removal",
+    "new_test_execution": "NOT_RUN_BY_CAPTURE",
+    "new_model_calls": 0,
+    "new_objective_evaluations": 0,
+    "new_solver_calls": 0
+  },
+  "calls": [
+    {
+      "call_id": "186c8f0f-47db-4339-85fe-15fd8ad25bf3",
+      "job_id": "5d4a7888-98ec-4fe7-8a94-d11ec1d128e1",
+      "role": "explainer",
+      "invocation_id": "68770682-a0ae-4a4c-bb06-53836fb90592",
+      "request_hash": "d11a01425a9a94aa1df039368a22877104a84e753f29085b419389d623847144",
+      "attempt_no": 1,
+      "prompt_version": "1.0",
+      "status": "succeeded",
+      "started_at": "2026-11-13T13:36:15.001865+00:00",
+      "finished_at": "2026-11-13T13:36:15.009869+00:00",
+      "schema_id": "explainer.v1",
+      "context": {
+        "evidence_refs": [
+          "report:solution",
+          "report:verification",
+          "report:budget",
+          "report:decision"
+        ],
+        "report": {
+          "budget": {
+            "allocated": 5502,
+            "charged_unknown": 0,
+            "known_started": 5502,
+            "max_objective_evaluations": 5502,
+            "reserved_active": 0,
+            "unallocated": 0,
+            "unused": 0
+          },
+          "decision_summary": {
+            "decision_source": "empirical_pilot_selection",
+            "decisive_criterion": "algorithm_id",
+            "effective_selection_policy": "llm_shortlist_then_pilot",
+            "eligible_ranking": [
+              "abc.original",
+              "de.original",
+              "pso.original"
+            ],
+            "metrics": [
+              {
+                "algorithm_id": "abc.original",
+                "eligible": true,
+                "median_score": 0.0,
+                "normalized_iqr": 0.0,
+                "reason": null,
+                "trial_ids": [
+                  "ce542859-a9a9-41aa-931d-f91cb150682a",
+                  "24ec29e0-82d0-4fc9-9937-1c99145d343c",
+                  "2eccd2bd-4730-4e0f-8099-7603ed96de7d"
+                ]
+              },
+              {
+                "algorithm_id": "de.original",
+                "eligible": true,
+                "median_score": 0.0,
+                "normalized_iqr": 0.0,
+                "reason": null,
+                "trial_ids": [
+                  "e72337ce-2e3e-4fe0-96a7-070a4ff78366",
+                  "ef935311-6fef-4682-94a6-53ab9c32bf95",
+                  "699c34be-2134-4de0-85d1-247e60d76589"
+                ]
+              },
+              {
+                "algorithm_id": "pso.original",
+                "eligible": true,
+                "median_score": 0.0,
+                "normalized_iqr": 0.0,
+                "reason": null,
+                "trial_ids": [
+                  "1d8344dd-9d5d-4617-9123-23957c1a3821",
+                  "e35e287b-81e5-4e29-8613-ccf08de5c1cb",
+                  "f16b0a1b-c64e-47f5-92ed-f65327b5f5ff"
+                ]
+              }
+            ],
+            "mode": "empirical_pilots",
+            "objective_sense": "minimize",
+            "pilot_evaluations": 500,
+            "pilot_repeats": 3,
+            "requested_selection_policy": "llm_shortlist_then_pilot",
+            "scale": 1.0,
+            "schema_version": "1.0",
+            "score_order": "lower_is_better",
+            "score_semantics": "raw_objective",
+            "tie_break_order": [
+              "median_score",
+              "normalized_iqr",
+              "algorithm_id"
+            ]
+          },
+          "objective_raw": 0.0,
+          "optimality_status": "not_certified",
+          "partial_result": false,
+          "selected_algorithm_id": "abc.original",
+          "selection_status": "selected",
+          "solution_origin": {
+            "algorithm_id": null,
+            "evaluation_id": "0d2659b6-ca19-4778-a0fc-7825fa8a48a0",
+            "execution_id": "73eb1c77-2264-4b6f-bfb6-ec4fd1abdcfd",
+            "phase": "preflight",
+            "trial_id": null
+          },
+          "solution_status": "valid_best_found",
+          "verification": {
+            "absolute_differences": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "numeric_atol": 1e-12,
+            "numeric_rtol": 1e-10,
+            "reference_evaluation_id": "0d2659b6-ca19-4778-a0fc-7825fa8a48a0",
+            "reference_objective_raw": 0.0,
+            "repeat_objective_raw": [
+              0.0,
+              0.0
+            ],
+            "validation_status": "passed"
+          }
+        },
+        "selection_made": true
+      },
+      "output": {
+        "evidence_refs": [
+          "report:solution",
+          "report:decision"
+        ],
+        "limitations_fa": [
+          "موفقیت قطعی تضمین نمی‌شود."
+        ],
+        "selection_explanation_fa": "شناسهٔ روش تساوی را شکست.",
+        "summary_fa": "این نقطه بهترین مشاهدهٔ معتبر در بودجهٔ اجراست."
+      },
+      "previous_output": null,
+      "error": null,
+      "source_input_payload_sha256": "d11a01425a9a94aa1df039368a22877104a84e753f29085b419389d623847144",
+      "source_context_canonical_sha256": "73ea2f001777be370b635448233f5283bb7a63a8f94a95698119af7fa0f446a0",
+      "source_previous_output_sha256": null
+    }
+  ]
+}

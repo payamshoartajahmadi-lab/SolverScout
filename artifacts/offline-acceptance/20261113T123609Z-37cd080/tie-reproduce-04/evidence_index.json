@@ -1,0 +1,21 @@
+{
+  "run_label": "reproduce-04",
+  "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+  "files": [
+    {
+      "path": "report.json",
+      "size_bytes": 123068,
+      "sha256": "12559185b5bd630c17f2d21af4c6b9958a22263b008161ff056563db09189b99"
+    },
+    {
+      "path": "explainer-invocations.json",
+      "size_bytes": 8389,
+      "sha256": "29fd69318071f66e1234cf7dfd0847f838e748b3bffd8d34d7e331f7553d1ec0"
+    },
+    {
+      "path": "diagnosis.json",
+      "size_bytes": 144980,
+      "sha256": "c81ea4eb67121697e18002dba47330d887c9b840465c77db92af1d0937a124ce"
+    }
+  ]
+}

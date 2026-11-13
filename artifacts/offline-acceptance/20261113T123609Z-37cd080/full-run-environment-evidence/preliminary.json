@@ -1,0 +1,512 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "PRELIMINARY_READ_ONLY_FULL_RUN_ENVIRONMENT_OBSERVATIONS",
+  "created_at_utc": "2026-11-13T13:09:16.732956+00:00",
+  "run_label": "full-final-01",
+  "run_status_at_review": "IN_PROGRESS",
+  "new_tests_executed_by_review": 0,
+  "new_model_calls": 0,
+  "new_objective_evaluations": 0,
+  "new_solver_calls": 0,
+  "provenance": {
+    "current_head_sha_observed_read_only": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+    "tested_commit_from_before_run_manifest": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+    "canonical_source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+    "canonical_harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+    "manifest_capture_stage": "before pytest",
+    "source_manifest": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\full-final-01-source_manifest.json",
+      "bytes": 28607,
+      "sha256": "d685f0295cb13b4d2db400dd339163b07c276b19401cafd3491065b7ee260c30"
+    },
+    "harness_manifest": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\full-final-01-harness_manifest.json",
+      "bytes": 10811,
+      "sha256": "6174759ce976cfdfbdccc7a11bbb89aaf177c9ce79dd40518e2ed2a569d4ea6f"
+    },
+    "selected_source_file_records": [
+      {
+        "path": "src/p_mc_optimizer/catalog/qualification.py",
+        "bytes": 14393,
+        "sha256": "98917f9d8f007a88a4280fa8637a7b9de6691d9b8a70be8da949a6369c2b9057"
+      },
+      {
+        "path": "src/p_mc_optimizer/catalog/store.py",
+        "bytes": 35087,
+        "sha256": "04d09b8d42e5a0531a5bc1e14e1f8f505ce7f8e016a02684df9db0107f036a99"
+      },
+      {
+        "path": "src/p_mc_optimizer/execution/supervisor.py",
+        "bytes": 18867,
+        "sha256": "951639593887ba1eb06408dc9776de1dd23069f6cbdd17f73d203b31b3f53fa7"
+      }
+    ],
+    "selected_test_file_records": [
+      {
+        "path": "tests/test_catalog_v2.py",
+        "sha256": "b1811a470f95fc279e057212760cc0e4be113d4b84206197013a888197553fd1"
+      },
+      {
+        "path": "tests/test_library_v21_workflow.py",
+        "sha256": "f255d3946388b14c1bbcb5ee8b29b0c020b1302cecf10b050fd5ebde11eecd36"
+      },
+      {
+        "path": "tests/test_v2_workflow.py",
+        "sha256": "76c7861146a683c6ce92d760293f99496aaa67203726ecac8470c2523545a806"
+      }
+    ],
+    "exact_recorded_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01",
+    "basetemp_source": "Parent agent current full-run command; scoped exclusively to this test basetemp",
+    "progress_source": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\full-final-01-progress.jsonl",
+    "progress_note": "The full progress file is still changing. Only selected existing outcome records are projected below; no claim of final full-suite totals."
+  },
+  "selected_existing_progress": [
+    {
+      "nodeid": "tests/test_catalog_v2.py::test_cat_001_discovery_is_inventory_only",
+      "phase": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.05328439990989864
+    },
+    {
+      "nodeid": "tests/test_catalog_v2.py::test_cat_002_opaque_constructor_needs_configuration",
+      "phase": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.0002848000731319189
+    },
+    {
+      "nodeid": "tests/test_catalog_v2.py::test_cat_003_hash_changes_and_v1_schema_unchanged",
+      "phase": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.006407799897715449
+    },
+    {
+      "nodeid": "tests/test_catalog_v2.py::test_cat_005_num_001_006_qualification_uses_real_subprocesses",
+      "phase": "setup",
+      "outcome": "failed",
+      "duration_seconds": 11.325179599924013
+    },
+    {
+      "nodeid": "tests/test_catalog_v2.py::test_cat_003_004_version_and_qualification_gate",
+      "phase": "setup",
+      "outcome": "failed",
+      "duration_seconds": 0.0002562999725341797
+    },
+    {
+      "nodeid": "tests/test_catalog_v2.py::test_disabling_blocks_new_jobs_without_rewriting_saved_snapshot",
+      "phase": "setup",
+      "outcome": "failed",
+      "duration_seconds": 0.000255499966442585
+    },
+    {
+      "nodeid": "tests/test_catalog_v2.py::test_num_007_maximize_cancel_timeout_and_guard_import",
+      "phase": "setup",
+      "outcome": "failed",
+      "duration_seconds": 0.00029779993928968906
+    },
+    {
+      "nodeid": "tests/test_catalog_v2.py::test_cat_008_cancelled_batch_does_not_consume_fe",
+      "phase": "call",
+      "outcome": "passed",
+      "duration_seconds": 0.10178510006517172
+    },
+    {
+      "nodeid": "tests/test_catalog_v2.py::test_cat_006_007_large_shortlist_has_fixed_bound_and_family_order",
+      "phase": "call",
+      "outcome": "passed",
+      "duration_seconds": 1.0617219998966902
+    },
+    {
+      "nodeid": "tests/test_library_v21_workflow.py::test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily",
+      "phase": "call",
+      "outcome": "failed",
+      "duration_seconds": 10.387031599879265
+    }
+  ],
+  "public_fixture_state_projections": [
+    {
+      "fixture_directory": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0",
+      "synthetic_test_database_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog.sqlite3",
+      "database_access": "SQLite URI mode=ro; selected public qualification fields and jobs count only; no database or credential/profile/header export",
+      "qualification_runs": [
+        {
+          "qualification_id": "170489c4-5f15-4ffe-ae57-0700ddaafbfb",
+          "status": "failed",
+          "max_seconds": 80,
+          "max_evaluations": 6000,
+          "created_at": "2026-11-13T13:03:39.971124+00:00",
+          "finished_at": "2026-11-13T13:03:51.217309+00:00",
+          "scope": "base"
+        }
+      ],
+      "qualification_checks": [
+        {
+          "qualification_id": "170489c4-5f15-4ffe-ae57-0700ddaafbfb",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "sphere_2d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "sphere_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "2ea779e48963fa150929e762e4a96061d0bec4e203bde53437ea701dbc11cb44",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.8440000000409782
+          }
+        },
+        {
+          "qualification_id": "170489c4-5f15-4ffe-ae57-0700ddaafbfb",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "sphere_2d_replay",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "sphere_2d_replay",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "52f568bdbe3c1765133793d6566ded285e5dedd0df063e5e2799e13f91b396cc",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.8590000001713634
+          }
+        },
+        {
+          "qualification_id": "170489c4-5f15-4ffe-ae57-0700ddaafbfb",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "rosenbrock_2d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "rosenbrock_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "bfa8070f86a6590cbb4c34f5111275d173169c92939ab20c58ddd354cd00c699",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.8440000000409782
+          }
+        },
+        {
+          "qualification_id": "170489c4-5f15-4ffe-ae57-0700ddaafbfb",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "shifted_10d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "shifted_10d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "c7b2d4082e344a786fa3320984f2c8836d3db1d82b35b88b6e30904e3b2b7783",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.8909999998286366
+          }
+        },
+        {
+          "qualification_id": "170489c4-5f15-4ffe-ae57-0700ddaafbfb",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "shifted_30d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "shifted_30d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "695d1ca831bd44296e8ddc566f8c30d55f5e2c912b2f7af247fbc94aecc1947c",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.8909999998286366
+          }
+        },
+        {
+          "qualification_id": "170489c4-5f15-4ffe-ae57-0700ddaafbfb",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "controlled_failure",
+          "reserved_evaluations": 500,
+          "result": null
+        }
+      ],
+      "qualification_report_count": 0,
+      "jobs_count": null,
+      "expected_boundary_path": {
+        "absolute_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.traceback.txt",
+        "character_count": 260,
+        "resolved_path": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.traceback.txt",
+        "resolved_character_count": 261,
+        "parent_exists": true,
+        "exists": false,
+        "read_only_stat_error": {
+          "type": "FileNotFoundError",
+          "errno": 2,
+          "winerror": 3,
+          "message": "[WinError 3] The system cannot find the path specified: 'C:\\\\Users\\\\TAJAHM~1\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\catalog-qualification0\\\\catalog-artifacts\\\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\\\controlled_failure.jsonl.traceback.txt'"
+        }
+      },
+      "nearby_paths": [
+        {
+          "absolute_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\sphere_2d_replay.jsonl",
+          "character_count": 244,
+          "resolved_path": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\sphere_2d_replay.jsonl",
+          "resolved_character_count": 245,
+          "parent_exists": true,
+          "exists": true,
+          "bytes": 322222
+        },
+        {
+          "absolute_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl",
+          "character_count": 246,
+          "resolved_path": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl",
+          "resolved_character_count": 247,
+          "parent_exists": true,
+          "exists": true,
+          "bytes": 645
+        },
+        {
+          "absolute_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.part",
+          "character_count": 251,
+          "resolved_path": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.part",
+          "resolved_character_count": 252,
+          "parent_exists": true,
+          "exists": false,
+          "read_only_stat_error": {
+            "type": "FileNotFoundError",
+            "errno": 2,
+            "winerror": 2,
+            "message": "[WinError 2] The system cannot find the file specified: 'C:\\\\Users\\\\TAJAHM~1\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\catalog-qualification0\\\\catalog-artifacts\\\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\\\controlled_failure.jsonl.part'"
+          }
+        }
+      ]
+    },
+    {
+      "fixture_directory": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_library_jobs_preserve_exa0",
+      "synthetic_test_database_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_library_jobs_preserve_exa0\\state.sqlite3",
+      "database_access": "SQLite URI mode=ro; selected public qualification fields and jobs count only; no database or credential/profile/header export",
+      "qualification_runs": [
+        {
+          "qualification_id": "45e6c456-01ee-44ad-9cce-ec838028a583",
+          "status": "failed",
+          "max_seconds": 120,
+          "max_evaluations": 9000,
+          "created_at": "2026-11-13T13:04:00.759050+00:00",
+          "finished_at": "2026-11-13T13:04:10.463285+00:00",
+          "scope": "base"
+        }
+      ],
+      "qualification_checks": [
+        {
+          "qualification_id": "45e6c456-01ee-44ad-9cce-ec838028a583",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "sphere_2d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "sphere_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "410e9e75f4f1f046ae4a344c85ebd0da4ec77b4e70fc951b86f206bae3803e44",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.8910000000614673
+          }
+        },
+        {
+          "qualification_id": "45e6c456-01ee-44ad-9cce-ec838028a583",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "sphere_2d_replay",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "sphere_2d_replay",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "f394256c26b436995c65fbfa58a1b77797484c3ad7fa838e27353b7087f5b992",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.8900000001303852
+          }
+        },
+        {
+          "qualification_id": "45e6c456-01ee-44ad-9cce-ec838028a583",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "rosenbrock_2d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "rosenbrock_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "91fcf7476938f1b2d45ad3454c061b6709cd2c48624874d7fa89d8fab28f9310",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.8910000000614673
+          }
+        },
+        {
+          "qualification_id": "45e6c456-01ee-44ad-9cce-ec838028a583",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "shifted_10d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "shifted_10d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "2b4c2d2b78884eaea0812d3fb80382ae395eb33ee7db8290fdd835a6c5fd0de3",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.9059999999590218
+          }
+        },
+        {
+          "qualification_id": "45e6c456-01ee-44ad-9cce-ec838028a583",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "shifted_30d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "shifted_30d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "5b7c9c0489be9785adbc9dc3f76c3cea1b95bf3d5c2077c9b8680a6ebeb34c58",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.9379999998491257
+          }
+        },
+        {
+          "qualification_id": "45e6c456-01ee-44ad-9cce-ec838028a583",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "controlled_failure",
+          "reserved_evaluations": 500,
+          "result": null
+        }
+      ],
+      "qualification_report_count": 0,
+      "jobs_count": 0,
+      "expected_boundary_path": {
+        "absolute_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_library_jobs_preserve_exa0\\catalog-artifacts\\45e6c456-01ee-44ad-9cce-ec838028a583\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.part",
+        "character_count": 260,
+        "resolved_path": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_library_jobs_preserve_exa0\\catalog-artifacts\\45e6c456-01ee-44ad-9cce-ec838028a583\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.part",
+        "resolved_character_count": 261,
+        "parent_exists": true,
+        "exists": false,
+        "read_only_stat_error": {
+          "type": "FileNotFoundError",
+          "errno": 2,
+          "winerror": 3,
+          "message": "[WinError 3] The system cannot find the path specified: 'C:\\\\Users\\\\TAJAHM~1\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\test_library_jobs_preserve_exa0\\\\catalog-artifacts\\\\45e6c456-01ee-44ad-9cce-ec838028a583\\\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\\\controlled_failure.jsonl.part'"
+        }
+      },
+      "nearby_paths": [
+        {
+          "absolute_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_library_jobs_preserve_exa0\\catalog-artifacts\\45e6c456-01ee-44ad-9cce-ec838028a583\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\sphere_2d_replay.jsonl",
+          "character_count": 253,
+          "resolved_path": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_library_jobs_preserve_exa0\\catalog-artifacts\\45e6c456-01ee-44ad-9cce-ec838028a583\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\sphere_2d_replay.jsonl",
+          "resolved_character_count": 254,
+          "parent_exists": true,
+          "exists": true,
+          "bytes": 322222
+        },
+        {
+          "absolute_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_library_jobs_preserve_exa0\\catalog-artifacts\\45e6c456-01ee-44ad-9cce-ec838028a583\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl",
+          "character_count": 255,
+          "resolved_path": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_library_jobs_preserve_exa0\\catalog-artifacts\\45e6c456-01ee-44ad-9cce-ec838028a583\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl",
+          "resolved_character_count": 256,
+          "parent_exists": true,
+          "exists": false,
+          "read_only_stat_error": {
+            "type": "FileNotFoundError",
+            "errno": 2,
+            "winerror": 2,
+            "message": "[WinError 2] The system cannot find the file specified: 'C:\\\\Users\\\\TAJAHM~1\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\test_library_jobs_preserve_exa0\\\\catalog-artifacts\\\\45e6c456-01ee-44ad-9cce-ec838028a583\\\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\\\controlled_failure.jsonl'"
+          }
+        },
+        {
+          "absolute_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_library_jobs_preserve_exa0\\catalog-artifacts\\45e6c456-01ee-44ad-9cce-ec838028a583\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.part",
+          "character_count": 260,
+          "resolved_path": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_library_jobs_preserve_exa0\\catalog-artifacts\\45e6c456-01ee-44ad-9cce-ec838028a583\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.part",
+          "resolved_character_count": 261,
+          "parent_exists": true,
+          "exists": false,
+          "read_only_stat_error": {
+            "type": "FileNotFoundError",
+            "errno": 2,
+            "winerror": 3,
+            "message": "[WinError 3] The system cannot find the path specified: 'C:\\\\Users\\\\TAJAHM~1\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\test_library_jobs_preserve_exa0\\\\catalog-artifacts\\\\45e6c456-01ee-44ad-9cce-ec838028a583\\\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\\\controlled_failure.jsonl.part'"
+          }
+        }
+      ]
+    }
+  ],
+  "copied_public_history": {
+    "source": {
+      "absolute_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl",
+      "bytes": 645,
+      "sha256": "eca195f81812ed0761397e96968b00ac0c6d4cb42d40f01ad3000a589ad2254f"
+    },
+    "destination_relative_to_this_folder": "catalog-controlled_failure.jsonl",
+    "copy_mode": "byte-exact",
+    "bytes": 645,
+    "sha256": "eca195f81812ed0761397e96968b00ac0c6d4cb42d40f01ad3000a589ad2254f",
+    "synthetic_fixture_marker": "Existing synthetic controlled-failure qualification history; not user/private data and not generated by this review",
+    "row_count": 1,
+    "safe_row_projection": {
+      "sequence": 1,
+      "phase": "pilot",
+      "evaluation_kind": "library_setup",
+      "status": "failed",
+      "error_code": "OBJECTIVE_EVALUATION_FAILED"
+    }
+  },
+  "observed_facts": [
+    "Four catalog tests have a failed setup in the shared qualified fixture; the library test has a failed call phase.",
+    "Both qualification batches have five persisted passed checks with 500 starts each, followed by a reserved controlled_failure check whose result is NULL; no qualification report exists.",
+    "The library test database has zero jobs, so failure precedes the library job workflow and its pilot-budget assertions.",
+    "The catalog controlled_failure history exists and contains one failed library_setup evaluation with expected error OBJECTIVE_EVALUATION_FAILED; the controlled_failure qualification result was not persisted.",
+    "The expected catalog diagnostic path and library initial .part path each have 260 characters under the recorded short-user path, 261 after resolution; their parent directories exist.",
+    "Read-only stat of those two expected boundary paths returns FileNotFoundError errno=2 winerror=3. This is a new metadata observation, not the original pytest exception."
+  ],
+  "preliminary_cause_assessment": {
+    "status": "INFERENCE_PENDING_ORIGINAL_TRACEBACK",
+    "hypothesis": "Windows path length at the nested temporary qualification-artifact paths prevents the next filesystem write.",
+    "catalog_inferred_frame": "src/p_mc_optimizer/execution/supervisor.py:404 diagnostic write after complete history rename at line402; such an exception would occur before returning ExecutionResult and before qualification finish().",
+    "library_inferred_frame": "src/p_mc_optimizer/execution/supervisor.py:266 initial exclusive .part open before child launch at line267; failure would leave reserved controlled_failure with no result and no history.",
+    "exact_original_exception": "NOT_VERIFIED: original pytest exception/traceback is not yet present in current streamed log.",
+    "timeout_assessment": "Stored batch timestamps show approximately 11.25 seconds of 80 and 9.70 seconds of 120; preceding check records are passed. These records do not support a qualification time-budget exhaustion diagnosis.",
+    "required_confirmation": "After this preserved full run ends, inspect its JUnit/log error traceback for exact exception and frame; do not substitute these read-only stat observations for the original exception."
+  },
+  "code_frame_citations": [
+    {
+      "path": "tests/test_catalog_v2.py",
+      "line": 79,
+      "description": "Shared qualified fixture creates catalog-qualification tmp directory; line90 invokes store.run_batch directly."
+    },
+    {
+      "path": "tests/test_library_v21_workflow.py",
+      "line": 152,
+      "description": "qualify_three runs before profile setup, corpus synchronization and job creation."
+    },
+    {
+      "path": "tests/test_v2_workflow.py",
+      "line": 101,
+      "description": "qualify_three waits for base qualification and asserts three qualified implementations at line114."
+    },
+    {
+      "path": "src/p_mc_optimizer/catalog/qualification.py",
+      "line": 243,
+      "description": "Constructs check history path; line244 reserves check, line245 calls supervisor, line255 constructs check and line260 persists finish only after returned result."
+    },
+    {
+      "path": "src/p_mc_optimizer/catalog/store.py",
+      "line": 517,
+      "description": "Qualification history directory contains batch UUID and full config hash; finally at lines543-548 persists failed status on escaping exception."
+    },
+    {
+      "path": "src/p_mc_optimizer/execution/supervisor.py",
+      "line": 266,
+      "description": "Opens .jsonl.part exclusively before child launch."
+    },
+    {
+      "path": "src/p_mc_optimizer/execution/supervisor.py",
+      "line": 402,
+      "description": "Renames completed history; line404 writes optional .traceback.txt; ExecutionResult is returned only at line425."
+    }
+  ],
+  "limitations": [
+    "Preliminary derived evidence only; no fresh test, application import, objective evaluation, solver call or model call was made.",
+    "No private database copy, credential/profile data, environment dump, cookie or connection header is included.",
+    "The original failure traceback is pending; path lengths and surrounding persisted state make the cause plausible but do not independently prove the exact exception raised by the full run.",
+    "The two stored synthetic test databases were queried read-only for the allowlisted public qualification state; no database bytes were copied."
+  ]
+}

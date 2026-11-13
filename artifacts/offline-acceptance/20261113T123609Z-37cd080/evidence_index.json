@@ -1,0 +1,2152 @@
+{
+  "created_at_utc": "2026-11-13T20:30:53.685387+00:00",
+  "evidence_kind": "SELECTED_EXISTING_OFFLINE_ACCEPTANCE_EVIDENCE",
+  "package_root": "20261113T123609Z-37cd080",
+  "tested_commit": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+  "file_count": 159,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "size_bytes": 9,
+      "sha256": "8b9c3028d6467ff3be7c793141927841d70f47f52d0590677438f488ca154992",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "version_relationship": "Final offline evidence for the recorded tested commit"
+    },
+    {
+      "path": ".gitignore",
+      "size_bytes": 36,
+      "sha256": "4a39eb399b703397f49ab8490110980b1f43e3ca29dd99a9115c080f239f3cc9",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "version_relationship": "Final offline evidence for the recorded tested commit"
+    },
+    {
+      "path": "Next_Live_Prerequisites_FA.md",
+      "size_bytes": 3525,
+      "sha256": "15c457d6ff8aa6226ed1ca8b72d46944d5c37d171b5bbc0ded316d0e03e5d85c",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "version_relationship": "Final offline evidence for the recorded tested commit"
+    },
+    {
+      "path": "Offline_Acceptance_Status_FA.md",
+      "size_bytes": 11556,
+      "sha256": "50a88e3be77e764221ec9e4d7def01aaaed3750f8269a1f5f8c91f66231fab3e",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "version_relationship": "Final offline evidence for the recorded tested commit"
+    },
+    {
+      "path": "baseline.json",
+      "size_bytes": 6641,
+      "sha256": "b836c7ce7dd8425d9aff19475f6cba59e5052c9b43bc15117b1d2c9cf6d1cb5d",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "version_relationship": "Baseline/diagnosis; individual runs and dirty fixtures retain their own recorded provenance"
+    },
+    {
+      "path": "build_report.py",
+      "size_bytes": 20111,
+      "sha256": "0766f244cbb8c26e7264779ea6b29b037c5cd15fb4e83378a08672f4aaf1edc3",
+      "scenario": "offline_acceptance_package",
+      "source_sha": null,
+      "version_relationship": "Evidence tooling bytes only; not an application/test execution or a claim this tool was part of the tested source commit"
+    },
+    {
+      "path": "capture-tool-versions/capture_tie_evidence-5f930f11b6e75818f699cd3da845277dff091ce8e9b3f3bd22bb04666ece99c5.py",
+      "size_bytes": 13144,
+      "sha256": "5f930f11b6e75818f699cd3da845277dff091ce8e9b3f3bd22bb04666ece99c5",
+      "scenario": "capture_tool_provenance",
+      "source_sha": null,
+      "version_relationship": "Archived capture-tool bytes identified by SHA-256 in capture records"
+    },
+    {
+      "path": "capture_final_provenance.py",
+      "size_bytes": 3651,
+      "sha256": "9b0a1ad16dc01f0d5dcf9c641f80fdb517ab4449d7be24ab2c3f13ed4ac75818",
+      "scenario": "offline_acceptance_package",
+      "source_sha": null,
+      "version_relationship": "Evidence tooling bytes only; not an application/test execution or a claim this tool was part of the tested source commit"
+    },
+    {
+      "path": "capture_numeric_evidence.py",
+      "size_bytes": 11661,
+      "sha256": "44aa45e75a7dacbb696ef25742afb1dfeb800bb96f84cba788917c67fb8c7dff",
+      "scenario": "offline_acceptance_package",
+      "source_sha": null,
+      "version_relationship": "Evidence tooling bytes only; not an application/test execution or a claim this tool was part of the tested source commit"
+    },
+    {
+      "path": "capture_tie_evidence.py",
+      "size_bytes": 15939,
+      "sha256": "3b68565ecb5d93b46830be1678d874091c7c786b25ab4cdfc5d428f1dc443470",
+      "scenario": "offline_acceptance_package",
+      "source_sha": null,
+      "version_relationship": "Evidence tooling bytes only; not an application/test execution or a claim this tool was part of the tested source commit"
+    },
+    {
+      "path": "diagnosis-before-fix.json",
+      "size_bytes": 5333,
+      "sha256": "d1d7b882373208b99ea36f87781447bccb5f3a15d7492f6411226685796bb6b3",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "version_relationship": "Baseline/diagnosis; individual runs and dirty fixtures retain their own recorded provenance"
+    },
+    {
+      "path": "environment.json",
+      "size_bytes": 931,
+      "sha256": "d232c9d17252b5d1f424adc474c07ea8ab3cb086cfd5f0cba26b3a6bf51c7445",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "version_relationship": "Final offline evidence for the recorded tested commit"
+    },
+    {
+      "path": "full-run-environment-diagnosis.json",
+      "size_bytes": 51770,
+      "sha256": "10c92de737fbfe98db45e8246c34de675f0b6f279b4a581ae7ede9e94b304f3e",
+      "scenario": "offline_acceptance_package",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Read-only environment diagnosis of full-final-01 and its frozen source/harness bytes; not attributed to a later full run"
+    },
+    {
+      "path": "full-run-environment-evidence/catalog-controlled_failure.jsonl",
+      "size_bytes": 645,
+      "sha256": "eca195f81812ed0761397e96968b00ac0c6d4cb42d40f01ad3000a589ad2254f",
+      "scenario": "offline_acceptance_package",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Read-only environment diagnosis of full-final-01 and its frozen source/harness bytes; not attributed to a later full run"
+    },
+    {
+      "path": "full-run-environment-evidence/preliminary.json",
+      "size_bytes": 28299,
+      "sha256": "9a33302bf2414573dc59709b13c9ed0fc527c6d5ac8a70601587d050d0f66b24",
+      "scenario": "offline_acceptance_package",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Read-only environment diagnosis of full-final-01 and its frozen source/harness bytes; not attributed to a later full run"
+    },
+    {
+      "path": "full-run-environment-verification.json",
+      "size_bytes": 4508,
+      "sha256": "d645e722cf2a5a9fc04fdb93d384916fe010ca82aa4973be0270e4b5b850da08",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "version_relationship": "Final offline evidence for the recorded tested commit"
+    },
+    {
+      "path": "git-provenance.json",
+      "size_bytes": 1634,
+      "sha256": "d0180ac0195ab68ff74fe93d2c0c98a3def3ba07548a4338d89d90a82568fcb1",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "version_relationship": "Final offline evidence for the recorded tested commit"
+    },
+    {
+      "path": "harness_manifest.json",
+      "size_bytes": 10774,
+      "sha256": "dacf150ba7f735f92b151bb24570ba3bcf7bddd2ddc5cc9da0f039e6ae2936c1",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "version_relationship": "Final offline evidence for the recorded tested commit"
+    },
+    {
+      "path": "numeric-full-final-01/capture.json",
+      "size_bytes": 7437,
+      "sha256": "5988b80535095e2ddd3e289636388492172082f7c9d608cfc57fd7f091d44927",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-full-final-01/evidence_index.json",
+      "size_bytes": 935,
+      "sha256": "4e7a0a5ef0b59a58b56d81b5e1f0fa677a1bccd653780fd56061a19a7d23888c",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-full-final-01/traces/hung-cancel.json",
+      "size_bytes": 3984,
+      "sha256": "9b49331ac119550fe15529f19f7751876339ee9be4d3addfef48bcbc64396c4e",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-full-final-01/traces/hung-timeout.json",
+      "size_bytes": 3949,
+      "sha256": "3990a22e7370282e352b02c3b9a80803b1380cfb033febf0258ee76726641c6f",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-full-final-01/traces/startup-blocked.json",
+      "size_bytes": 2416,
+      "sha256": "63b6433264fa59fc10d0861789a85e96ad1d9487374ed0689539e8a29fe320ca",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-full-final-01/traces/startup-late-identity-ack.json",
+      "size_bytes": 4069,
+      "sha256": "83850cd419ad75a7a8ea511856cc8f95fbf8495f348ee94e8c09388c2fd1422b",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-full-final-02/capture.json",
+      "size_bytes": 7278,
+      "sha256": "c34ed15c5a952f01d95fbb3a59a5b424f60fadc7630607229595a9915f325c1b",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-full-final-02/evidence_index.json",
+      "size_bytes": 935,
+      "sha256": "dc3f0d5f066748a1bc022292b08147d3bd02aec0059869bcb609a6a3dd43fc89",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-full-final-02/traces/hung-cancel.json",
+      "size_bytes": 3993,
+      "sha256": "87618afb5979d9ce6f4e1b60df4dbc343f89b053aa31bbcf5a664c4c72c3ed20",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-full-final-02/traces/hung-timeout.json",
+      "size_bytes": 3954,
+      "sha256": "746d9fbf6fb14d1315f6b781d48942f0f30fc6a7c0076dfc921ea088170636b4",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-full-final-02/traces/startup-blocked.json",
+      "size_bytes": 2418,
+      "sha256": "82ef166c32bc61df80e0798bd3fbb4ae0d7048f969c172271ad484d58b8f1bf4",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-full-final-02/traces/startup-late-identity-ack.json",
+      "size_bytes": 4070,
+      "sha256": "2e9d5fcd0635f6fa6a3c28f28e0d1e340fa211d341c19bf8bbddd950a5499c41",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-review.json",
+      "size_bytes": 34267,
+      "sha256": "3c4cc59a10104376ea4a7d575bb3036dfffb44a1c675cdd132cebdd384ec74da",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "version_relationship": "Baseline/diagnosis; individual runs and dirty fixtures retain their own recorded provenance"
+    },
+    {
+      "path": "numeric-targeted-01/capture.json",
+      "size_bytes": 7536,
+      "sha256": "02671c4fd9d0d1cae1511062f432e8821c8e5282c38f23414cbffaea4929f4fb",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-01/evidence_index.json",
+      "size_bytes": 933,
+      "sha256": "ea1fcb4052b6eb426e28da3b2405884fda1d0fbf9ee6ab91cda86e23c3a8a601",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-01/traces/hung-cancel.json",
+      "size_bytes": 3992,
+      "sha256": "59c1287afe454e818a36d31271291f9b06f2d2ad99451ffbca2a9ba62b8c154d",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-01/traces/hung-timeout.json",
+      "size_bytes": 3954,
+      "sha256": "d3f255fa242b419c3af6c05b240c511d4a5ffb190ac5dda6dc3a453922d7ce01",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-01/traces/startup-blocked.json",
+      "size_bytes": 2421,
+      "sha256": "1fac8c54566f8b82b977bce900afa30bf88a58836b5febbbdf638c5e59f61ef8",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-01/traces/startup-late-identity-ack.json",
+      "size_bytes": 4072,
+      "sha256": "431a7a8c4f08fa1bb41f811028b034cad0e98df901aa3a997ff27cd73b877e35",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-02/capture.json",
+      "size_bytes": 7550,
+      "sha256": "fe28cb6d11b3d62db377248943856238495ce5b94b26106ab6a8766af93ae25f",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-02/evidence_index.json",
+      "size_bytes": 933,
+      "sha256": "54ca1006e37cb5f6e19007f8ffbafa8aa73d35856bdbb38971d2c7356b335339",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-02/traces/hung-cancel.json",
+      "size_bytes": 3980,
+      "sha256": "87f9c5b1651f47e22e805d0217af6190b59a1175774bf9d29865b7b01603a6f7",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-02/traces/hung-timeout.json",
+      "size_bytes": 3954,
+      "sha256": "dd132d513d759978aa110ec609365893913eae48ad957d9341822288517b6965",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-02/traces/startup-blocked.json",
+      "size_bytes": 2445,
+      "sha256": "a29e2a51f4f8b67571ac89d543c7aaae5c2e0de74ec48cde9e05f04ecab4f010",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-02/traces/startup-late-identity-ack.json",
+      "size_bytes": 4076,
+      "sha256": "0542169886d5ef1d67f2ce3c710f97419f0e6773ce69648f76e598d45ed58ce0",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-03/capture.json",
+      "size_bytes": 7513,
+      "sha256": "fdf553d2aaec658b1b9c64c56ff984d8b7e3b201db9cca50f10901030a963376",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-03/evidence_index.json",
+      "size_bytes": 933,
+      "sha256": "cff1a3c4709aa75213b9a0ab270a9f704edd0f317b4edc1f2c27e3a9dafe9e06",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-03/traces/hung-cancel.json",
+      "size_bytes": 3989,
+      "sha256": "65f3793c2ea164137d853270e4c9e9cceb1a8e5aa9dc94caf31ada783b27fd5c",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-03/traces/hung-timeout.json",
+      "size_bytes": 3918,
+      "sha256": "4b8ae844dc39dafa82f50a3279682afb25d61782835d7914ff535e012b0d10a3",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-03/traces/startup-blocked.json",
+      "size_bytes": 2419,
+      "sha256": "68da8def0ed1851546003eed5687d74cf38c71db3e30fb6d8a07201ef1ffdfbb",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric-targeted-03/traces/startup-late-identity-ack.json",
+      "size_bytes": 4075,
+      "sha256": "a04e5b3b68e09e6b38ca87de0e1f2897f4d4cea221e9415f7aab028bdd0b6907",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "numeric_trace.py",
+      "size_bytes": 16332,
+      "sha256": "d80efea6579ea849ac04a51499c5bc110378b0a6dd17ebddd1b8ad377d646503",
+      "scenario": "offline_acceptance_package",
+      "source_sha": null,
+      "version_relationship": "Evidence tooling bytes only; not an application/test execution or a claim this tool was part of the tested source commit"
+    },
+    {
+      "path": "offline-fixtures.patch",
+      "size_bytes": 21547,
+      "sha256": "754eebb5d5abbae5909769bee49d7e8ed8a24314250cb5fe457d155bd32d1796",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "version_relationship": "Final offline evidence for the recorded tested commit"
+    },
+    {
+      "path": "offline/full-final-01-harness_manifest.json",
+      "size_bytes": 10811,
+      "sha256": "6174759ce976cfdfbdccc7a11bbb89aaf177c9ce79dd40518e2ed2a569d4ea6f",
+      "scenario": "completed_offline_run",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/full-final-01-network-guard.json",
+      "size_bytes": 356,
+      "sha256": "bea1d4ce567b06876111d190e0d9e25573bb475e2afc06fe6a5731ca9f68c2eb",
+      "scenario": "completed_offline_run",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/full-final-01-progress.jsonl",
+      "size_bytes": 165356,
+      "sha256": "72682b158ff8e61b806e4ad3ccf6e40dc405003aebac5689eb87e9d6c39b1025",
+      "scenario": "completed_offline_run",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/full-final-01-result.json",
+      "size_bytes": 2029,
+      "sha256": "9e685e9d27169e0e789fe67663a123bc97ddc4ebc6d7d8b901984cff14512527",
+      "scenario": "completed_offline_run",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/full-final-01-source_manifest.json",
+      "size_bytes": 28607,
+      "sha256": "d685f0295cb13b4d2db400dd339163b07c276b19401cafd3491065b7ee260c30",
+      "scenario": "completed_offline_run",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/full-final-01.log",
+      "size_bytes": 38891,
+      "sha256": "34f73719602c4e52773d36d3ccd7c4868b0ee586585bb854228226e6030aa6d9",
+      "scenario": "completed_offline_run",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/full-final-01.xml",
+      "size_bytes": 153756,
+      "sha256": "f0bec413c46b302b2d90f14e594ddb5b4e1718d214e37c278fe3cfccf30dea93",
+      "scenario": "completed_offline_run",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/full-final-02-harness_manifest.json",
+      "size_bytes": 10811,
+      "sha256": "6174759ce976cfdfbdccc7a11bbb89aaf177c9ce79dd40518e2ed2a569d4ea6f",
+      "scenario": "completed_offline_run",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/full-final-02-network-guard.json",
+      "size_bytes": 356,
+      "sha256": "e40ee20b1569d1790743d492b503feb01771fe8ceba85bdb10ccc21f95f184bd",
+      "scenario": "completed_offline_run",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/full-final-02-progress.jsonl",
+      "size_bytes": 165335,
+      "sha256": "1e940704c262291593688b295bbb2f0c1e33f10ea1f0ae9082b91d73800f834e",
+      "scenario": "completed_offline_run",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/full-final-02-result.json",
+      "size_bytes": 1996,
+      "sha256": "8f3996ddf72dcdaa8eaef2c5e7be6c9e9054dace8281c1aeb6c5e63565c99055",
+      "scenario": "completed_offline_run",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/full-final-02-source_manifest.json",
+      "size_bytes": 28607,
+      "sha256": "d685f0295cb13b4d2db400dd339163b07c276b19401cafd3491065b7ee260c30",
+      "scenario": "completed_offline_run",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/full-final-02.log",
+      "size_bytes": 2860,
+      "sha256": "f9582dbd2d1164ef3e8b691cc7627d73fee358927e1f4050323b2cea33e3e517",
+      "scenario": "completed_offline_run",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/full-final-02.xml",
+      "size_bytes": 120713,
+      "sha256": "c68b140849b0a41e5a65e3c13c96622512e0a123f1c2f11b6377ed4bce3c5e08",
+      "scenario": "completed_offline_run",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/numeric-probe-01-harness_manifest.json",
+      "size_bytes": 10661,
+      "sha256": "5f48de2ebf8b81ccbcdd0df9fa49f3d0b0e2fa1e414af193a8beaf09345418cc",
+      "scenario": "completed_offline_run",
+      "run_label": "numeric-probe-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/numeric-probe-01-network-guard.json",
+      "size_bytes": 356,
+      "sha256": "bea1d4ce567b06876111d190e0d9e25573bb475e2afc06fe6a5731ca9f68c2eb",
+      "scenario": "completed_offline_run",
+      "run_label": "numeric-probe-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/numeric-probe-01-progress.jsonl",
+      "size_bytes": 343,
+      "sha256": "22a81ec6c916edf4e36c7a967c814be3b0167427c2b31f959ddfa06d30cb1d62",
+      "scenario": "completed_offline_run",
+      "run_label": "numeric-probe-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/numeric-probe-01-result.json",
+      "size_bytes": 2158,
+      "sha256": "594f38a0299578ebf78e16c39c31cb90bb4d7cabeb43c1af19f56ecd407d0d3e",
+      "scenario": "completed_offline_run",
+      "run_label": "numeric-probe-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/numeric-probe-01-source_manifest.json",
+      "size_bytes": 28607,
+      "sha256": "1999af4a75ce1acba7e7ef02b45e6d29f6babbbdeb5e66af08dc54245311b5a8",
+      "scenario": "completed_offline_run",
+      "run_label": "numeric-probe-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/numeric-probe-01-test_exe_009_010_supervisor_reaps_hung_objective-False-trace.json",
+      "size_bytes": 7009,
+      "sha256": "acc977a3e46bc23d5270729bfadd8fbcb68b0680fc2f2b2f50bbd67ae17128ec",
+      "scenario": "pre_fix_instrumented_numeric_probe",
+      "run_label": "numeric-probe-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/numeric-probe-01-test_exe_009_010_supervisor_reaps_hung_objective-True-trace.json",
+      "size_bytes": 7670,
+      "sha256": "2ca0e433356c7b0b890abf957b9a1a43d0d7c60fc2c8e27291edcb687809965b",
+      "scenario": "pre_fix_instrumented_numeric_probe",
+      "run_label": "numeric-probe-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/numeric-probe-01.log",
+      "size_bytes": 1498,
+      "sha256": "e96fa9aef7f25d6c9633b17c2a523f5d6ff1e3c6148779311ceb6eeba0483aa5",
+      "scenario": "completed_offline_run",
+      "run_label": "numeric-probe-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/numeric-probe-01.xml",
+      "size_bytes": 1918,
+      "sha256": "769aa54212e071dbdf682033876536a245aa8cc02a4ae41de90c861832f57088",
+      "scenario": "completed_offline_run",
+      "run_label": "numeric-probe-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-01-harness_manifest.json",
+      "size_bytes": 10661,
+      "sha256": "5f48de2ebf8b81ccbcdd0df9fa49f3d0b0e2fa1e414af193a8beaf09345418cc",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-01-network-guard.json",
+      "size_bytes": 356,
+      "sha256": "bea1d4ce567b06876111d190e0d9e25573bb475e2afc06fe6a5731ca9f68c2eb",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-01-progress.jsonl",
+      "size_bytes": 550,
+      "sha256": "5c600146992458f67a678ae61f3fe01b996a45379998b41c25f995cc4a257281",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-01-result.json",
+      "size_bytes": 2278,
+      "sha256": "2696850a05c78404664ab9bdd4623826024e59c231f7eda80445f225e964abeb",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-01-source_manifest.json",
+      "size_bytes": 28607,
+      "sha256": "1999af4a75ce1acba7e7ef02b45e6d29f6babbbdeb5e66af08dc54245311b5a8",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-01.log",
+      "size_bytes": 2867,
+      "sha256": "ca4bc2b240a582270ac6c5fc1404f9f58bf59231eca2c2ffff79b06448e8a770",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-01.xml",
+      "size_bytes": 3606,
+      "sha256": "f1f4dbfea12ca6cd8360a5cde46688efa571a73086af9dc7976f8af5318db164",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-02-harness_manifest.json",
+      "size_bytes": 10661,
+      "sha256": "5f48de2ebf8b81ccbcdd0df9fa49f3d0b0e2fa1e414af193a8beaf09345418cc",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-02-network-guard.json",
+      "size_bytes": 356,
+      "sha256": "bea1d4ce567b06876111d190e0d9e25573bb475e2afc06fe6a5731ca9f68c2eb",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-02-progress.jsonl",
+      "size_bytes": 536,
+      "sha256": "8eb1cd162a8aaf04474d7e188ff07a64bc0f27445f7ed8e728e5998bb189389e",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-02-result.json",
+      "size_bytes": 2279,
+      "sha256": "def8c60f7c783e5a4a293cede60c5185a9f4bafd90d513f2338ba15de6f91423",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-02-source_manifest.json",
+      "size_bytes": 28607,
+      "sha256": "1999af4a75ce1acba7e7ef02b45e6d29f6babbbdeb5e66af08dc54245311b5a8",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-02.log",
+      "size_bytes": 8491,
+      "sha256": "2d7fda290d0a4c28187afb68de2eb7b3bcc47e3ca76dfd2537da849ca9f695c0",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-02.xml",
+      "size_bytes": 9414,
+      "sha256": "a3bfc692cab27bef34f3ac9ce6035f219a338a11bc7d21fe15ce65a32296be3b",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-03-harness_manifest.json",
+      "size_bytes": 10661,
+      "sha256": "5f48de2ebf8b81ccbcdd0df9fa49f3d0b0e2fa1e414af193a8beaf09345418cc",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-03-network-guard.json",
+      "size_bytes": 356,
+      "sha256": "bea1d4ce567b06876111d190e0d9e25573bb475e2afc06fe6a5731ca9f68c2eb",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-03-progress.jsonl",
+      "size_bytes": 537,
+      "sha256": "f5cd7c9d662fc473e578ced8843ee06b09e7aceeb8b09aa14c811f36d78f88a4",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-03-result.json",
+      "size_bytes": 2220,
+      "sha256": "738b44c5f3f36774b72de683a2f169fbdd0e8dda293b7f6aefa36058513bd157",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-03-source_manifest.json",
+      "size_bytes": 28607,
+      "sha256": "1999af4a75ce1acba7e7ef02b45e6d29f6babbbdeb5e66af08dc54245311b5a8",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-03.log",
+      "size_bytes": 5393,
+      "sha256": "bd43691838dcfc05c135c572be208b723b89d0d4df5f335f28b5fe58c48ceb92",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-03.xml",
+      "size_bytes": 5957,
+      "sha256": "aa8de7e5f7d55ad56697b221f9056f137064c93eecfb0e5884172a61e974489a",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-04-harness_manifest.json",
+      "size_bytes": 10661,
+      "sha256": "5f48de2ebf8b81ccbcdd0df9fa49f3d0b0e2fa1e414af193a8beaf09345418cc",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-04",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-04-network-guard.json",
+      "size_bytes": 356,
+      "sha256": "bea1d4ce567b06876111d190e0d9e25573bb475e2afc06fe6a5731ca9f68c2eb",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-04",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-04-progress.jsonl",
+      "size_bytes": 538,
+      "sha256": "1d73b8efe662519c696d7f3dd064af7552dfb72e0215ef4715a6dd1cf8402095",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-04",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-04-result.json",
+      "size_bytes": 2277,
+      "sha256": "d468c288a99e90dc090c5505a097e70ad1bd086c4f4b38e8d020a46afcc95cb0",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-04",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-04-source_manifest.json",
+      "size_bytes": 28607,
+      "sha256": "1999af4a75ce1acba7e7ef02b45e6d29f6babbbdeb5e66af08dc54245311b5a8",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-04",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-04.log",
+      "size_bytes": 11305,
+      "sha256": "ffaf34cfe75dda8592bc6fc82f19e940ed05890ee5c5f524715eb05bde5bbf91",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-04",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/reproduce-04.xml",
+      "size_bytes": 3557,
+      "sha256": "54b15a54455121058e45f252b04fabe05c93729e82f66520ec0b02d70b5f4fab",
+      "scenario": "completed_offline_run",
+      "run_label": "reproduce-04",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-01-harness_manifest.json",
+      "size_bytes": 10811,
+      "sha256": "a30d34b7a63f17226e077fe304736e52dd3ffe61bcb638d9518305aaeacf55e2",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-01-network-guard.json",
+      "size_bytes": 356,
+      "sha256": "e40ee20b1569d1790743d492b503feb01771fe8ceba85bdb10ccc21f95f184bd",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-01-progress.jsonl",
+      "size_bytes": 9557,
+      "sha256": "e47ab1de0f95e7de885ae751d99b4abfa0863192241d2cf10b41f28cd657524b",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-01-result.json",
+      "size_bytes": 2781,
+      "sha256": "2a121a30044d0f9144cc455bc734394e817ca51875b621d949512e2e8e70ab4f",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-01-source_manifest.json",
+      "size_bytes": 28607,
+      "sha256": "1999af4a75ce1acba7e7ef02b45e6d29f6babbbdeb5e66af08dc54245311b5a8",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-01.log",
+      "size_bytes": 111,
+      "sha256": "842ceeaf6511ce4146fb30e8a1d2d75130dce7fed8bf1c01a48a8d70132f02ac",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-01.xml",
+      "size_bytes": 7503,
+      "sha256": "6f9b7afcd8e364b54207376a02f110b638be636a0050b4796a948278ba9d9c37",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-02-harness_manifest.json",
+      "size_bytes": 10811,
+      "sha256": "a30d34b7a63f17226e077fe304736e52dd3ffe61bcb638d9518305aaeacf55e2",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-02-network-guard.json",
+      "size_bytes": 356,
+      "sha256": "e40ee20b1569d1790743d492b503feb01771fe8ceba85bdb10ccc21f95f184bd",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-02-progress.jsonl",
+      "size_bytes": 9551,
+      "sha256": "c003bf53acae6ebbd3fbcff88a3fb4e559501c35137e913edda7fefd2400411d",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-02-result.json",
+      "size_bytes": 2781,
+      "sha256": "95cca458e368001abef29082f8bbf4a1b2121976d2e485bc123d97ebd5b5cea7",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-02-source_manifest.json",
+      "size_bytes": 28607,
+      "sha256": "1999af4a75ce1acba7e7ef02b45e6d29f6babbbdeb5e66af08dc54245311b5a8",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-02.log",
+      "size_bytes": 111,
+      "sha256": "ee76dfcabd28ec7361d0d99d66a3e8dbbf2c6b4f7dbe85222385d3077c5556b6",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-02.xml",
+      "size_bytes": 7503,
+      "sha256": "0e26c0a186cd8eb47f0f250bdac2448a032dd981d117df7e98a9db744f95fb09",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-03-harness_manifest.json",
+      "size_bytes": 10811,
+      "sha256": "a30d34b7a63f17226e077fe304736e52dd3ffe61bcb638d9518305aaeacf55e2",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-03-network-guard.json",
+      "size_bytes": 356,
+      "sha256": "e40ee20b1569d1790743d492b503feb01771fe8ceba85bdb10ccc21f95f184bd",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-03-progress.jsonl",
+      "size_bytes": 9551,
+      "sha256": "f6ca6c35894416fdcfbf0e60157f9b24a6ef47e8281f1ce502423a1e0419f94b",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-03-result.json",
+      "size_bytes": 2781,
+      "sha256": "5d6b05c4fbbc4e1d353d67e8ef781a7f9488ff87b2ce4fe324a0651e04a549e7",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-03-source_manifest.json",
+      "size_bytes": 28607,
+      "sha256": "1999af4a75ce1acba7e7ef02b45e6d29f6babbbdeb5e66af08dc54245311b5a8",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-03.log",
+      "size_bytes": 111,
+      "sha256": "3ac5d3b805d3e9b03ef4bedc4b19c633ac6a3ca7abb6336495f0d52515a6beab",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline/targeted-03.xml",
+      "size_bytes": 7503,
+      "sha256": "655817893bdf7b9e3b905e4f638372d3f06bd89226d2f8bbd98d7021a2884b01",
+      "scenario": "completed_offline_run",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree."
+    },
+    {
+      "path": "offline_network_guard.py",
+      "size_bytes": 2706,
+      "sha256": "66a562d6397667f51fbcd6c54a7f4cd876fd3c5b3805ace67eda289ebdc46a41",
+      "scenario": "offline_acceptance_package",
+      "source_sha": null,
+      "version_relationship": "Evidence tooling bytes only; not an application/test execution or a claim this tool was part of the tested source commit"
+    },
+    {
+      "path": "package_evidence.py",
+      "size_bytes": 21425,
+      "sha256": "2141dc02c43e7ad720cbd2cb7d6da34d719d1b2d66418622c816492f9ec295ae",
+      "scenario": "offline_acceptance_package",
+      "source_sha": null,
+      "version_relationship": "Evidence tooling bytes only; not an application/test execution or a claim this tool was part of the tested source commit"
+    },
+    {
+      "path": "preservation-check.json",
+      "size_bytes": 46432,
+      "sha256": "bb79aaa24c4dae0cc69cd8bf5811329bbce4af38d9b05930d1d56b1291dce939",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "version_relationship": "Preservation of earlier evidence, original worktree, historical documents, and stash; see per-file expected commits and hashes"
+    },
+    {
+      "path": "remote-before-publication.json",
+      "size_bytes": 560,
+      "sha256": "999f6788f398b0abf3d63949425a5f1add814c9dc3f1883bd87e98efb0163b3f",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "version_relationship": "Final offline evidence for the recorded tested commit"
+    },
+    {
+      "path": "run_offline.py",
+      "size_bytes": 4866,
+      "sha256": "9a0e5fb70ea81a86744966aed514f322401b98d98f77997a89ab895432293401",
+      "scenario": "offline_acceptance_package",
+      "source_sha": null,
+      "version_relationship": "Evidence tooling bytes only; not an application/test execution or a claim this tool was part of the tested source commit"
+    },
+    {
+      "path": "source_hashes.py",
+      "size_bytes": 1758,
+      "sha256": "ffbc3e423e97373ad59c6edc739e01a8f5fcb4ba1524665fe9e776cb9a7ca6b0",
+      "scenario": "offline_acceptance_package",
+      "source_sha": null,
+      "version_relationship": "Evidence tooling bytes only; not an application/test execution or a claim this tool was part of the tested source commit"
+    },
+    {
+      "path": "source_manifest.json",
+      "size_bytes": 28570,
+      "sha256": "8173a9129a46c85a53e4331923afb8ba794782b142bc6b9bc5646718a8fbae63",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "version_relationship": "Final offline evidence for the recorded tested commit"
+    },
+    {
+      "path": "summary.json",
+      "size_bytes": 51166,
+      "sha256": "62ebb89ff69124199192da0c03696c9f366cef16082a898f5f6c03c48f914ed2",
+      "scenario": "offline_acceptance_package",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "version_relationship": "Final offline evidence for the recorded tested commit"
+    },
+    {
+      "path": "tie-full-final-01/diagnosis.json",
+      "size_bytes": 236978,
+      "sha256": "e9086844ecbaa2c4f6d2a3ed768fc720b4cfe7e6d1b2f18a6a143d951417e5e3",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-full-final-01/evidence_index.json",
+      "size_bytes": 587,
+      "sha256": "757a378d6f1217b8d091ee4ae70bf5a3b8780281f4ff970a18c35694242f97e9",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-full-final-01/explainer-invocations.json",
+      "size_bytes": 8271,
+      "sha256": "3a14696f2a36249624af984541bf0fe37d4ddc0dd4ac0f1bca85118e58f456b5",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-full-final-01/report.json",
+      "size_bytes": 185608,
+      "sha256": "e80624867fda3cd200c555a0c03cb7fb0dc4c4dc0563511ada53b99fe4a132e0",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-01",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-full-final-02/diagnosis.json",
+      "size_bytes": 236930,
+      "sha256": "d276138ef0234c5172cdde3ae766e2d5775ca2699ba54b72ee7e19aaefad7944",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-full-final-02/evidence_index.json",
+      "size_bytes": 587,
+      "sha256": "2329ee3b16498ab2e97248acb16873cf3af4bc11fd9ca835d4e819dab89c50b7",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-full-final-02/explainer-invocations.json",
+      "size_bytes": 8207,
+      "sha256": "f2680f3e190ae541029de6824c047e78aebd48fe6f8590037fb333576c378121",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-full-final-02/report.json",
+      "size_bytes": 185624,
+      "sha256": "aa4a3d9fa762b0d4294c145aa97204718607da00f61ca049c747e6d981fa290d",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "full-final-02",
+      "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-reproduce-03/diagnosis.json",
+      "size_bytes": 6689,
+      "sha256": "62ce74605674ed9ce04b37317f2031051edd994ea509df6222f1fa124136e7aa",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "reproduce-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE",
+      "capture_dirty_paths_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE; run result supplies its own provenance"
+    },
+    {
+      "path": "tie-reproduce-03/evidence_index.json",
+      "size_bytes": 584,
+      "sha256": "3362f2d9b0c9e0f47fcdc3bf79126c576df586f438bc2ecb575a7fbe89ea46ad",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "reproduce-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE",
+      "capture_dirty_paths_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE; run result supplies its own provenance"
+    },
+    {
+      "path": "tie-reproduce-03/explainer-invocations.json",
+      "size_bytes": 10454,
+      "sha256": "889668f792752d6aad4e97e750fa73a0712030b8d91de43d5957ddc832de5654",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "reproduce-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE",
+      "capture_dirty_paths_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE; run result supplies its own provenance"
+    },
+    {
+      "path": "tie-reproduce-03/report.json",
+      "size_bytes": 17856,
+      "sha256": "dffbfdbc6fc29bb7ce61ade3f8faa6e78bf0574efab83f42cd29703aa5d5df62",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "reproduce-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE",
+      "capture_dirty_paths_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE; run result supplies its own provenance"
+    },
+    {
+      "path": "tie-reproduce-04/diagnosis.json",
+      "size_bytes": 144980,
+      "sha256": "c81ea4eb67121697e18002dba47330d887c9b840465c77db92af1d0937a124ce",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "reproduce-04",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE",
+      "capture_dirty_paths_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE; run result supplies its own provenance"
+    },
+    {
+      "path": "tie-reproduce-04/evidence_index.json",
+      "size_bytes": 586,
+      "sha256": "26689de0acd5a06d0e5b719ce3abde07a79496f29c891609d36bf77b33a1d828",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "reproduce-04",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE",
+      "capture_dirty_paths_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE; run result supplies its own provenance"
+    },
+    {
+      "path": "tie-reproduce-04/explainer-invocations.json",
+      "size_bytes": 8389,
+      "sha256": "29fd69318071f66e1234cf7dfd0847f838e748b3bffd8d34d7e331f7553d1ec0",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "reproduce-04",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE",
+      "capture_dirty_paths_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE; run result supplies its own provenance"
+    },
+    {
+      "path": "tie-reproduce-04/report.json",
+      "size_bytes": 123068,
+      "sha256": "12559185b5bd630c17f2d21af4c6b9958a22263b008161ff056563db09189b99",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "reproduce-04",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_changes_at_start": [],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE",
+      "capture_dirty_paths_status": "NOT_RECORDED_IN_ORIGINAL_CAPTURE; run result supplies its own provenance"
+    },
+    {
+      "path": "tie-targeted-01/diagnosis.json",
+      "size_bytes": 237125,
+      "sha256": "c842ac3b156d01b25f94a3c11da01272b18c9d061a489b0e1ae2da31140a7f5b",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-targeted-01/evidence_index.json",
+      "size_bytes": 585,
+      "sha256": "7bbe5cb298d9db76f5caf641d6d7530c899cd899bd7aa08c9794fc620b0f63f6",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-targeted-01/explainer-invocations.json",
+      "size_bytes": 8383,
+      "sha256": "c3c6cabcd36d4f5721a19b7df18020409e7dc6e259e5c5214d49f8a5a512caa6",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-targeted-01/report.json",
+      "size_bytes": 185649,
+      "sha256": "f0fc41809a95447a10b3c7f8c412a2a18a4d01f0573205823ca4ba8608bb4b9e",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-01",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-targeted-02/diagnosis.json",
+      "size_bytes": 237154,
+      "sha256": "04d810eb923c3f5328e39a72fdd7672fa61c09600969f4f78246e2638ea9ed0f",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-targeted-02/evidence_index.json",
+      "size_bytes": 585,
+      "sha256": "889bf8c65b469646ef3c1f7d80f0b916059eb7618c1e6e15da25617fd9aa43c4",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-targeted-02/explainer-invocations.json",
+      "size_bytes": 8382,
+      "sha256": "772498b615bdd70961e4fe2d9e48c91fa6dfbc242a06dda7229cf34b7d5b25bf",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-targeted-02/report.json",
+      "size_bytes": 185677,
+      "sha256": "e0b90d0b1ea157ad0a861baa9be0ff8a4eba7bc6acbb4a210c80d2784f7296ae",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-02",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-targeted-03/diagnosis.json",
+      "size_bytes": 237116,
+      "sha256": "7efd9c5bb13f7814079b0177d5870305ab4afacefd7736035e526701d70cdbb1",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-targeted-03/evidence_index.json",
+      "size_bytes": 585,
+      "sha256": "266066ab31aaa9b787c6c35e7be10fc137978fa9d0e72f5715b0caa223ed8567",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-targeted-03/explainer-invocations.json",
+      "size_bytes": 8383,
+      "sha256": "c60e3e3f9fd67eeceed04bf1d97caf71669f3c56143cbb32f64f589626e90e49",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    },
+    {
+      "path": "tie-targeted-03/report.json",
+      "size_bytes": 185637,
+      "sha256": "3970c5abb824a31ce2a2f703bbdbbd38dc390e7ae1fd11a9d379adeb583d0786",
+      "scenario": "stored_offline_synthetic_capture",
+      "run_label": "targeted-03",
+      "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+      "source_changes_at_start": [
+        " M tests/test_llm_workflow.py",
+        " M tests/test_numeric.py",
+        "?? tests/numeric_lifecycle_probe.py"
+      ],
+      "version_relationship": "Recorded run HEAD plus its actual source/harness byte manifests; dirty or untracked test changes are not attributed to the HEAD tree.",
+      "capture_junit_hash_status": "RECORDED_AND_VERIFIED",
+      "capture_dirty_paths_status": "RECORDED_AND_VERIFIED"
+    }
+  ],
+  "excluded_paths": [
+    {
+      "path": "__pycache__",
+      "reason": "Private, temporary, or cache directory; contents not read",
+      "contents_read": false
+    },
+    {
+      "path": "_private_test_state",
+      "reason": "Private, temporary, or cache directory; contents not read",
+      "contents_read": false
+    }
+  ],
+  "index_scope": "All selected files; this top-level index and ZIP are excluded to avoid circular hashes. ZIP includes the index.",
+  "secret_policy": "Explicit paths/types, no databases/env/private/temp trees or connection credentials; suspicious content fails closed. Public numeric_execution.authorization objects are retained.",
+  "capture_limit": "Stored synthetic offline fixtures; no live model acceptance or independently captured HTTP wire transcript is claimed.",
+  "new_test_execution": "NOT_RUN_BY_PACKAGER",
+  "new_model_calls": 0,
+  "new_objective_evaluations": 0,
+  "new_solver_calls": 0
+}

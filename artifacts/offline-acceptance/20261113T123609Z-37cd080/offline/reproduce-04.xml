@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="3" time="45.555" timestamp="2026-11-13T16:11:51.108074+03:30" hostname="DESKTOP-RUAEVM4"><testcase classname="tests.test_llm_workflow" name="test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]" time="40.327"><failure message="AssertionError: assert 'provider_error' == 'generated'&#10;  &#10;  - generated&#10;  + provider_error">tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/reproduce-04/test_explainer_receives_full_t0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000192CC6A54C0&gt;
+case = 'identifier_tie'
+
+    @pytest.mark.parametrize("case", ["identifier_tie", "insufficient_evidence"])
+    def test_explainer_receives_full_tie_or_insufficient_evidence(tmp_path, monkeypatch, case):
+        """FLOW-11/12. Use genuine selector outcomes and the provider transport."""
+        is_tie = case == "identifier_tie"
+        if not is_tie:
+            from test_workflow_exports import _inject_trial_failure
+    
+            _inject_trial_failure(monkeypatch, "pilot")
+        problem_path = Path(__file__).parents[1] / "examples" / "quadratic_2d.json"
+        problem = json.loads(problem_path.read_text(encoding="utf-8"))
+        if is_tie:
+            # Every feasible point has the same objective, regardless of pilot or seed.
+            problem["objective"]["source"]["expression"] = "x1-x1+x2-x2"
+        explanation = (
+            {**_GOOD_EXPLANATION, "selection_explanation_fa": "شناسهٔ روش تساوی را شکست."}
+            if is_tie else
+            {**_GOOD_EXPLANATION, "summary_fa": "شواهد پایلوت برای انتخاب روش کافی نبود.",
+             "selection_explanation_fa": None}
+        )
+        called, explainer_requests = [], []
+        responses = [{"ok": True}, _pilot_plan(), explanation]
+        with local_api(tmp_path, fixture_transport(responses, called, explainer_requests=explainer_requests)) as (
+            repo, client, address, token
+        ):
+            profile, _ = configure(client, _PROFILE_SETTINGS, _TEST_KEY)
+            payload = {
+                "input": {"kind": "structured_problem", "problem": problem},
+                "policy": {**_POLICY, "explain_via_llm": True, "selection_policy": "llm_shortlist_then_pilot",
+                           "max_objective_evaluations": 5502},
+                "llm_profile": {"profile_id": profile["profile_id"], "revision": profile["revision"]},
+            }
+            job_id = checked(client.post("/jobs", json=payload, headers={"Idempotency-Key": str(uuid4())}), 202)["job_id"]
+            work(repo, address, token, job_id)
+            report = checked(client.get(f"/jobs/{job_id}/report"))["report"]
+            assert report["job_status"] == "completed"
+            assert report["solution_status"] == "valid_best_found"
+&gt;           assert report["explanation_status"] == "generated"
+E           AssertionError: assert 'provider_error' == 'generated'
+E             
+E             - generated
+E             + provider_error
+
+tests\test_llm_workflow.py:720: AssertionError</failure></testcase><testcase classname="tests.test_numeric" name="test_exe_009_010_supervisor_reaps_hung_objective[False]" time="1.983" /><testcase classname="tests.test_numeric" name="test_exe_009_010_supervisor_reaps_hung_objective[True]" time="1.913" /></testsuite></testsuites>

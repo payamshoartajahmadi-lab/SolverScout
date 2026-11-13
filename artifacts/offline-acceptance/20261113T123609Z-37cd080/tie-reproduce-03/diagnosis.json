@@ -1,0 +1,189 @@
+{
+  "evidence_kind": "FRESH_STORED_OFFLINE_SYNTHETIC_TEST",
+  "captured_at_utc": "2026-11-13T12:43:19.309179+00:00",
+  "run_label": "reproduce-03",
+  "test_nodeid": "tests/test_llm_workflow.py::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]",
+  "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+  "source_manifest_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+  "harness_manifest_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+  "source_database_path": "G:\\projects\\solverscout-narrative-contract-repair\\.pytest-tmp\\oa-reproduce-03\\test_explainer_receives_full_t0\\state.sqlite3",
+  "database_access": "SQLite mode=ro and PRAGMA query_only=ON",
+  "database_bytes_exported": false,
+  "selected_tables": {
+    "reports": [
+      "job_id",
+      "payload",
+      "created_at"
+    ],
+    "llm_calls": [
+      "call_id",
+      "job_id",
+      "role",
+      "invocation_id",
+      "request_hash",
+      "attempt_no",
+      "prompt_version",
+      "input",
+      "output",
+      "previous_output",
+      "status",
+      "error",
+      "started_at",
+      "finished_at"
+    ]
+  },
+  "source_report_storage": "reports.payload UTF-8 bytes",
+  "source_report_payload_sha256": "dffbfdbc6fc29bb7ce61ade3f8faa6e78bf0574efab83f42cd29703aa5d5df62",
+  "source_context_hash_definition": "SHA-256 of sorted compact UTF-8 JSON of the context object inside stored llm_calls.input",
+  "context_evidence_limit": "Actual persisted gateway invocation contexts. HTTP body bytes were not independently captured; no reconstructed wire transcript is claimed.",
+  "source_result_path": "offline/reproduce-03-result.json",
+  "source_result_sha256": "738b44c5f3f36774b72de683a2f169fbdd0e8dda293b7f6aefa36058513bd157",
+  "capture_script_sha256": "5f930f11b6e75818f699cd3da845277dff091ce8e9b3f3bd22bb04666ece99c5",
+  "sanitized_copy": false,
+  "redactions": [],
+  "numeric_execution_authorization_policy": "Public contract objects preserved; no blanket authorization-key removal",
+  "new_test_execution": "NOT_RUN_BY_CAPTURE",
+  "new_model_calls": 0,
+  "new_objective_evaluations": 0,
+  "new_solver_calls": 0,
+  "job_id": "6d9d3097-b643-452e-aa2b-c9e16e32a975",
+  "report_created_at": "2026-11-13T12:39:33.187831+00:00",
+  "report_projection": {
+    "job_status": "completed",
+    "phase": "reporting",
+    "termination_reason": "time_budget",
+    "selection_status": "not_reached",
+    "selected_algorithm_id": null,
+    "decision": null,
+    "explanation_status": "schema_fallback",
+    "explanation_error": {
+      "error_code": "LLM_SCHEMA_INVALID",
+      "field_errors": [
+        "selection_explanation_fa: no selection was made"
+      ],
+      "message_fa": "خروجی مدل با قالب یا قواعد مورد انتظار سازگار نیست.",
+      "provider_http_status": null,
+      "retry_after": null,
+      "retryable": false
+    },
+    "proposal_source": null,
+    "proposal_error": null,
+    "policy": {
+      "explain_via_llm": true,
+      "fixed_algorithm_id": null,
+      "master_seed": 1405,
+      "max_compute_seconds": 45,
+      "max_llm_calls": 6,
+      "max_llm_calls_per_role": 2,
+      "max_objective_evaluations": 5502,
+      "max_trial_attempts": 1,
+      "numeric_atol": 1e-12,
+      "numeric_rtol": 1e-10,
+      "pilot_candidate_count": 3,
+      "pilot_evaluations": 500,
+      "pilot_repeats": 3,
+      "policy_version": "1.0",
+      "portfolio_id": "continuous_v1",
+      "preflight_evaluations": 8,
+      "profile_evaluations": 492,
+      "selection_policy": "llm_shortlist_then_pilot",
+      "use_history": false,
+      "verification_evaluations": 2,
+      "verification_time_reserve_seconds": 10
+    },
+    "budget": {
+      "allocated": 502,
+      "charged_unknown": 0,
+      "known_started": 454,
+      "max_objective_evaluations": 5502,
+      "reserved_active": 0,
+      "unallocated": 5000,
+      "unused": 48
+    },
+    "timing": {
+      "elapsed_compute_seconds": 37.313000000081956,
+      "elapsed_llm_seconds": 0,
+      "elapsed_user_wait_seconds": 0.0,
+      "elapsed_wall_seconds": 39.59397
+    },
+    "profile": null,
+    "candidate_plan": null,
+    "progress": [
+      {
+        "evaluation_id": "8ef6351b-d7f9-44cf-ba43-4801a9e6533d",
+        "score_for_minimization": 0.0,
+        "started_evaluations": 1
+      },
+      {
+        "evaluation_id": "8ef6351b-d7f9-44cf-ba43-4801a9e6533d",
+        "score_for_minimization": 0.0,
+        "started_evaluations": 454
+      }
+    ],
+    "diagnostics": null
+  },
+  "all_recorded_trials": [],
+  "recorded_pilot_count": 0,
+  "explainer_call_count": 2,
+  "explainer_call_projection": [
+    {
+      "attempt_no": 1,
+      "status": "failed",
+      "selection_made": false,
+      "decision_summary": null,
+      "first_or_current_error": {
+        "error_code": "LLM_SCHEMA_INVALID",
+        "field_errors": [
+          "summary_fa: missing",
+          "selection_explanation_fa: missing",
+          "limitations_fa: missing",
+          "evidence_refs: missing",
+          "candidates: extra_forbidden",
+          "uncertainty_notes: extra_forbidden"
+        ],
+        "message_fa": "خروجی مدل با قالب یا قواعد مورد انتظار سازگار نیست.",
+        "provider_http_status": null,
+        "retry_after": null,
+        "retryable": false
+      },
+      "repair_field_errors": null,
+      "stored_mock_output_keys": [
+        "candidates",
+        "uncertainty_notes"
+      ],
+      "stored_fixed_mock_selection_claim": null
+    },
+    {
+      "attempt_no": 2,
+      "status": "failed",
+      "selection_made": false,
+      "decision_summary": null,
+      "first_or_current_error": {
+        "error_code": "LLM_SCHEMA_INVALID",
+        "field_errors": [
+          "selection_explanation_fa: no selection was made"
+        ],
+        "message_fa": "خروجی مدل با قالب یا قواعد مورد انتظار سازگار نیست.",
+        "provider_http_status": null,
+        "retry_after": null,
+        "retryable": false
+      },
+      "repair_field_errors": [
+        "summary_fa: missing",
+        "selection_explanation_fa: missing",
+        "limitations_fa: missing",
+        "evidence_refs: missing",
+        "candidates: extra_forbidden",
+        "uncertainty_notes: extra_forbidden"
+      ],
+      "stored_mock_output_keys": [
+        "evidence_refs",
+        "limitations_fa",
+        "selection_explanation_fa",
+        "summary_fa"
+      ],
+      "stored_fixed_mock_selection_claim": "شناسهٔ روش تساوی را شکست."
+    }
+  ],
+  "interpretation_limit": "Fresh records only. No inferred OS/drive latency cause or historical diagnosis substituted."
+}
