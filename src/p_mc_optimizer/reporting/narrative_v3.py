@@ -10,7 +10,7 @@ from p_mc_optimizer.llm.narrative_models import (
     AcceptedSectionV3, NarrativeParagraphV3, NarrativeSectionV3, NarrativeV3,
     SECTION_ORDER, REQUIRED_SECTIONS,
 )
-from p_mc_optimizer.reporting.presentation import format_value, method_display_name
+from p_mc_optimizer.reporting.presentation import format_value, format_fact_value, method_display_name
 
 
 def _dump(value):
@@ -46,7 +46,7 @@ def _safe_value(value):
         return "ثبت نشده"
 
 
-def _raw_fallback(report, sid):
+def _raw_fallback(report, sid, *, version="1.0"):
     """Only independently recorded display data; no comparison on invalid Evidence."""
     spec = (report.get("problem_revision") or {}).get("spec") or {}
     objective = spec.get("objective") or {}; src = objective.get("source") or {}
@@ -64,7 +64,10 @@ def _raw_fallback(report, sid):
     if sid == "solution":
         if verified:
             origin = report.get("solution_origin") or {}
-            phase = {"main": "اجرای اصلی", "pilot": "پایلوت", "profile": "نمونه‌برداری", "preflight": "بررسی مقدماتی"}.get(origin.get("phase"), "ثبت نشده")
+            phase = (format_fact_value("solution.origin_phase", origin.get("phase"), version="1.1") if version == "1.1"
+                     else {"main": "اجرای اصلی", "pilot": "پایلوت", "profile": "نمونه‌برداری", "preflight": "بررسی مقدماتی"}.get(origin.get("phase"), "ثبت نشده"))
+            if version == "1.1" and not origin.get("algorithm_id"):
+                return _section(sid, f"نقطهٔ تأییدشده {_safe_value(report.get('best_x'))} با مقدار تابع {_safe_value(report.get('objective_raw'))} ثبت شده است. این نقطه در {phase} ثبت شده؛ نام روش تولیدکننده در رکورد منشأ موجود نیست.")
             return _section(sid, f"نقطهٔ تأییدشده {_safe_value(report.get('best_x'))} با مقدار تابع {_safe_value(report.get('objective_raw'))} ثبت شده است. منشأ نقطه {phase} از {method_display_name(origin.get('algorithm_id'))} است.")
         return _section(sid, "جواب تأییدشده برای این اجرا موجود نیست. وضعیت ثبت‌شدهٔ جواب و علت توقف در داده‌های فنی حفظ شده‌اند.")
     budget = report.get("budget") or {}; verification = report.get("verification") or {}
@@ -72,11 +75,14 @@ def _raw_fallback(report, sid):
     return _section(sid, f"وضعیت بازبینی عددی {label} است و مصرف ثبت‌شدهٔ کل {_safe_value(budget.get('known_started'))} ارزیابی است. شواهد این بسته برای توضیح بیشتر کافی نیستند؛ هیچ نتیجهٔ غایبی ساخته نشده است.")
 
 
-def fallback_sections(report, evidence, section_ids):
+def fallback_sections(report, evidence, section_ids, *, report_generation_policy_version=None):
     """Construct useful server paragraphs, retaining all existing required facts."""
     evidence = _dump(evidence)
+    version = report_generation_policy_version or (evidence or {}).get("evidence_policy_version", "1.0")
+    if version not in {"1.0", "1.1"}:
+        raise ValueError("Unsupported narrative fallback policy")
     if evidence is None:
-        return [_raw_fallback(report, sid) for sid in SECTION_ORDER if sid in section_ids and sid != "mathematical_analysis"]
+        return [_raw_fallback(report, sid, version=version) for sid in SECTION_ORDER if sid in section_ids and sid != "mathematical_analysis"]
     facts = {item["fact_id"]: item for item in evidence["facts"]}
     requirements = {item["section_id"]: item for item in evidence["sections"]}
     out = []
@@ -92,7 +98,10 @@ def fallback_sections(report, evidence, section_ids):
         if sid == "problem":
             text = f"مسئلهٔ ثبت‌شده برای {token('problem.sense')}، تابع {token('problem.expression')} را با {token('problem.variable_count')} متغیر بررسی می‌کند. دامنهٔ واقعی متغیرها {token('problem.domain')} است. پارامترهای ثبت‌شده: {token('problem.parameters')}."
         elif sid == "candidate_rationale":
-            text = f"نامزدهای ثبت‌شده {token('proposal.methods')} هستند. منشأ پیشنهاد آن‌ها {token('proposal.source')} و دلیل ثبت‌شده {token('proposal.rationale')} است. پیشنهاد نامزدها با نتیجهٔ مقایسهٔ عددی یکسان نیست."
+            if version == "1.1":
+                text = f"نامزدهای ثبت‌شده {token('proposal.methods')} هستند. منشأ پیشنهاد ثبت‌شده: {token('proposal.source')}. دلایل اصلی هر نامزد، یا نبود دلیل برای آن، در بخش «دلایل ثبت‌شده پیشنهاد» قابل مشاهده است. پیشنهاد نامزدها از معیار انتخاب نهایی در مقایسهٔ عددی جداست."
+            else:
+                text = f"نامزدهای ثبت‌شده {token('proposal.methods')} هستند. منشأ پیشنهاد آن‌ها {token('proposal.source')} و دلیل ثبت‌شده {token('proposal.rationale')} است. پیشنهاد نامزدها با نتیجهٔ مقایسهٔ عددی یکسان نیست."
         elif sid == "selection":
             reason = (report.get("decision") or {}).get("decision_source")
             criterion = next((f for f in evidence['facts'] if f['fact_id'] == 'selection.decisive_criterion'), {}).get('value')
@@ -128,7 +137,7 @@ def fallback_sections(report, evidence, section_ids):
                 'selection.winner_median_score': 'میانهٔ امتیاز روش منتخب', 'selection.runner_up_median_score': 'میانهٔ امتیاز روش بعدی',
                 'selection.runner_up_median_objective_raw': 'میانهٔ مقدار تابع روش بعدی', 'selection.winner_median_objective_raw': 'میانهٔ مقدار تابع روش منتخب',
             }
-            text += ' داده‌های ثبت‌شدهٔ مرتبط: ' + '؛ '.join(labels.get(fid, _fact_label(fid)) + ' ' + token(fid) for fid in remaining) + '.'
+            text += ' داده‌های ثبت‌شدهٔ مرتبط: ' + '؛ '.join(labels.get(fid, _fact_label(fid, version=version)) + ' ' + token(fid) for fid in remaining) + '.'
         evidence_refs = []
         allowed = set(requirements.get(sid, {}).get('allowed_evidence_refs') or [])
         for fid in refs:
@@ -139,25 +148,40 @@ def fallback_sections(report, evidence, section_ids):
     return out
 
 
-def _fact_label(fid):
+def _fact_label(fid, *, version="1.0"):
     if fid.startswith('pilot.'):
         suffix = fid.rsplit('.', 1)[-1]
-        return {'valid_repeats':'تعداد پایلوت معتبر', 'evaluation_counts':'ارزیابی‌های واقعی پایلوت', 'median_score':'میانهٔ امتیاز', 'median_objective_raw':'میانهٔ مقدار اصلی تابع', 'normalized_iqr':'پراکندگی نرمال‌شده'}.get(suffix, 'دادهٔ ثبت‌شده')
+        return {'valid_repeats':'تعداد پایلوت معتبر', 'evaluation_counts':'ارزیابی‌های واقعی پایلوت', 'evaluations_per_repeat':'ارزیابی آغازشده در هر پایلوت', 'median_score':'میانهٔ امتیاز', 'median_objective_raw':'میانهٔ مقدار اصلی تابع', 'normalized_iqr':'پراکندگی نرمال‌شده'}.get(suffix, 'دادهٔ ثبت‌شده')
+    if version == "1.1" and fid in {'solution.optimality_status', 'execution.termination_reason'}:
+        return {'solution.optimality_status':'وضعیت بهینگی', 'execution.termination_reason':'علت توقف ثبت‌شده'}[fid]
     return {'solution.status':'وضعیت جواب', 'selection.status':'وضعیت انتخاب', 'verification.status':'وضعیت بازبینی', 'budget.pilot_started':'مصرف پایلوت‌ها'}.get(fid, 'دادهٔ ثبت‌شده')
 
 
 def finalize_narrative(report, evidence, accepted_sections, *, issues=None, attempts=None,
                        omitted_sections=None, elapsed_reporting_seconds=0.0,
-                       provider_failure=False, requested=True, evidence_invalid=False, review_ran=None):
+                       provider_failure=False, requested=True, evidence_invalid=False, review_ran=None,
+                       report_generation_policy_version=None):
     from p_mc_optimizer.reporting.evidence_v3 import evidence_hash
     from p_mc_optimizer.reporting.narrative_validation import render_sections
+    from p_mc_optimizer.llm.narrative_models import validate_narrative_version_combination
     accepted = [_dump(value) for value in accepted_sections]
+    issues = [_dump(value) for value in issues or []]
+    evidence_dict = _dump(evidence)
+    version = report_generation_policy_version or (evidence_dict or {}).get('evidence_policy_version', '1.0')
+    try:
+        validate_narrative_version_combination((evidence_dict or {}).get('evidence_policy_version'), version, version,
+                                             report_generation_policy_version)
+    except ValueError:
+        evidence_invalid = True
+        version = report_generation_policy_version if report_generation_policy_version in {'1.0','1.1'} else '1.0'
+        issues.append({'section_id':None,'paragraph_id':None,'code':'CONTEXT_MISMATCH',
+                       'message_fa':'نسخهٔ سیاست گزارش با نسخهٔ شواهد یا قالب نمایش سازگار نیست؛ متن قبلی منتشر نشد.',
+                       'evidence_refs':[],'required_change_fa':'با همان نسخه و شواهد ثابت معتبر بازسازی شود؛ ارتقای خاموش مجاز نیست.'})
     if evidence_invalid:
         evidence = None
     if evidence is None or not requested:
         accepted = []
     attempts = [_dump(value) for value in attempts or []]
-    issues = [_dump(value) for value in issues or []]
     evidence_dict = _dump(evidence)
     if review_ran is None:
         review_ran = any(value.get('role') == 'report_reviewer' for value in attempts)
@@ -172,7 +196,7 @@ def finalize_narrative(report, evidence, accepted_sections, *, issues=None, atte
     elif 'mathematical_analysis' not in kept:
         omitted.add('mathematical_analysis')
     missing = [sid for sid in REQUIRED_SECTIONS if sid not in kept]
-    for section in fallback_sections(report, evidence, missing):
+    for section in fallback_sections(report, evidence, missing, report_generation_policy_version=version):
         kept[section.section_id] = {'section':section.model_dump(mode='json'),'origin':'server','source_draft_hash':None,'reviewer_invocation_id':None}
     mode = 'llm' if len(model_required) == len(REQUIRED_SECTIONS) else 'mixed' if model_required else 'deterministic'
     rendered = []
@@ -191,7 +215,7 @@ def finalize_narrative(report, evidence, accepted_sections, *, issues=None, atte
         'accepted_sections':[kept[sid] for sid in SECTION_ORDER if sid in kept], 'rendered_sections':rendered,
         'review_status':'passed' if mode == 'llm' else 'partial' if mode == 'mixed' else 'failed' if review_ran else 'not_run',
         'omitted_sections':[sid for sid in SECTION_ORDER if sid in omitted],'issues':issues,'attempts':attempts,
-        'renderer_version':'3.0.0','formatter_version':'1.0','evidence_builder_version':'1.0',
+        'renderer_version':'3.0.0','formatter_version':version,'evidence_builder_version':version,
         'elapsed_reporting_seconds':max(0.0,float(elapsed_reporting_seconds)),
     }
     # Status reasons are projection inputs, not additions to the closed persisted DTO.
@@ -204,6 +228,8 @@ def apply_narrative_v3(report, payload):
     payload = NarrativeV3.model_validate(payload).model_dump(mode='json')
     result = deepcopy(report)
     result['narrative_v3'] = payload
+    if payload['formatter_version'] == '1.1' or 'report_generation_policy_version' in result:
+        result['report_generation_policy_version'] = payload['formatter_version']
     result['explanation_contract_version'] = '3.0'
     sections = {s['section_id']: '\n\n'.join(p['text_fa'] for p in s['paragraphs']) for s in payload['rendered_sections']}
     refs = sorted({ref for item in payload['accepted_sections'] for p in item['section']['paragraphs'] for ref in p['evidence_refs']})

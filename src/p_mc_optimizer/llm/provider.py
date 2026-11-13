@@ -114,8 +114,14 @@ class PreparedProviderRequest:
     provenance: dict
 
 
-def prepare_provider_request(snapshot, schema_id, context, *, producer=None) -> PreparedProviderRequest:
+def prepare_provider_request(snapshot, schema_id, context, *, producer=None,
+                             report_generation_policy_version="1.0",
+                             max_output_tokens_override=None) -> PreparedProviderRequest:
     from p_mc_optimizer.runtime_provenance import canonical_bytes, get_runtime
+    from p_mc_optimizer.llm.narrative_policy import resolve_narrative_policy
+
+    effective = resolve_narrative_policy(schema_id, snapshot, policy_version=report_generation_policy_version,
+                                         max_output_tokens_override=max_output_tokens_override)
 
     if context is None:
         data = {}
@@ -125,7 +131,8 @@ def prepare_provider_request(snapshot, schema_id, context, *, producer=None) -> 
             data.pop("repair", None)
     else:
         data = context.model_dump(mode="json", exclude_none=True)
-    request = build_request(snapshot, schema_id, data)
+    request = build_request(snapshot, schema_id, data, report_generation_policy_version=report_generation_policy_version,
+                            max_output_tokens_override=max_output_tokens_override)
     response_schema = provider_schema(_schema_model(schema_id))
     body = canonical_bytes(request)
     identity = get_runtime("api")
@@ -136,13 +143,22 @@ def prepare_provider_request(snapshot, schema_id, context, *, producer=None) -> 
         "prompt_bundle_sha256": sha256(canonical_bytes(prompt_bundle_manifest())).hexdigest(),
         "request_prepared_at_utc": datetime.now(UTC).isoformat(),
         "process_run_id": identity["process_run_id"], "gateway": identity, "producer": producer,
+        "report_generation_policy_version": effective.version,
+        "report_generation_policy_hash": effective.policy_hash,
+        "effective_max_output_tokens": effective.effective_max_output_tokens,
+        "prompt_name": effective.prompt_name, "prompt_version": effective.prompt_version,
+        "profile_id": snapshot.profile_id, "profile_revision": snapshot.revision,
     }
     return PreparedProviderRequest(request, response_schema, request["messages"][0]["content"], body, provenance)
 
 
-def build_request(snapshot: ProviderSnapshot, schema_id: str, context: dict) -> dict:
+def build_request(snapshot: ProviderSnapshot, schema_id: str, context: dict, *,
+                  report_generation_policy_version="1.0", max_output_tokens_override=None) -> dict:
+    from p_mc_optimizer.llm.narrative_policy import resolve_narrative_policy
+    effective = resolve_narrative_policy(schema_id, snapshot, policy_version=report_generation_policy_version,
+                                         max_output_tokens_override=max_output_tokens_override)
     schema = provider_schema(_schema_model(schema_id))
-    system = _prompt(schema_id)
+    system = _prompt(effective.prompt_name)
     repair = context.get("repair")
     if repair is not None:
         system += "\n\n" + _prompt("repair.v1")
@@ -163,9 +179,7 @@ def build_request(snapshot: ProviderSnapshot, schema_id: str, context: dict) -> 
         ],
         "stream": False,
         "n": 1,
-        snapshot.token_limit_field: (
-            snapshot.connection_test_max_output_tokens if is_test else snapshot.max_output_tokens
-        ),
+        snapshot.token_limit_field: effective.effective_max_output_tokens,
     }
     if snapshot.response_mode == "json_schema":
         request["response_format"] = {
@@ -269,6 +283,9 @@ def call_provider(
         "elapsed_seconds": None,
     }
     prepared = prepared or prepare_provider_request(snapshot, schema_id, context)
+    metadata.update({name: prepared.provenance[name] for name in (
+        "report_generation_policy_version", "report_generation_policy_hash", "effective_max_output_tokens",
+        "prompt_name", "prompt_version", "profile_id", "profile_revision") if name in prepared.provenance})
     raw_response = bytearray()
     try:
         with httpx.Client(
