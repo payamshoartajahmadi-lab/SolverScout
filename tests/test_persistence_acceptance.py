@@ -347,6 +347,25 @@ def test_loopback_worker_death_and_active_cancel_stop_numeric_child(tmp_path, pa
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
         )
 
+    def terminate_fixture(proc):
+        # Windows venv launchers add a wrapper process above the real interpreter.
+        try:
+            descendants = psutil.Process(proc.pid).children(recursive=True)
+        except psutil.NoSuchProcess:
+            descendants = []
+        for child in reversed(descendants):
+            try:
+                child.terminate()
+            except psutil.NoSuchProcess:
+                pass
+        if proc.poll() is None:
+            proc.terminate()
+        _, alive = psutil.wait_procs(descendants, timeout=5)
+        for child in alive:
+            child.kill()
+        psutil.wait_procs(alive, timeout=5)
+        proc.wait(timeout=5)
+
     def wait_for(check, timeout=30):
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
@@ -376,12 +395,15 @@ def test_loopback_worker_death_and_active_cancel_stop_numeric_child(tmp_path, pa
 
             first = wait_for(active)
             children = [
-                child for child in psutil.Process(worker.pid).children()
+                child for child in psutil.Process(worker.pid).children(recursive=True)
                 if any("spawn_main" in argument for argument in child.cmdline())
             ]
             assert len(children) == 1
             assert "PMC_INTERNAL_TOKEN" not in children[0].environ()
-            worker.kill()
+            # Kill the process that owns the numeric child, not a Windows launcher wrapper.
+            worker_process = children[0].parent()
+            assert worker_process is not None
+            worker_process.kill()
             worker.wait(timeout=5)
 
             def child_stopped():
@@ -439,7 +461,5 @@ def test_loopback_worker_death_and_active_cancel_stop_numeric_child(tmp_path, pa
             try:
                 worker.wait(timeout=10)
             except subprocess.TimeoutExpired:
-                worker.kill()
-                worker.wait(timeout=5)
-        api.terminate()
-        api.wait(timeout=10)
+                terminate_fixture(worker)
+        terminate_fixture(api)

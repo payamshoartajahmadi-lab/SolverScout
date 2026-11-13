@@ -639,7 +639,9 @@ def test_default_policy_runs_three_real_candidates_and_selects_empirically(tmp_p
     ):
         profile, _ = configure(client, _PROFILE_SETTINGS, _TEST_KEY)
         job_id = submit(client, profile, fixture["original_text"],
-                        selection_policy="llm_shortlist_then_pilot", max_objective_evaluations=5502)
+                        selection_policy="llm_shortlist_then_pilot", max_objective_evaluations=5502,
+                        # Nine spawned pilots need startup time on Windows; this tests selection, not deadlines.
+                        max_compute_seconds=300)
         work(repo, address, token, job_id)
         report = checked(client.get(f"/jobs/{job_id}/report"))["report"]
         assert report["solution_status"] == "valid_best_found"
