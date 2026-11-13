@@ -1,0 +1,39 @@
+{
+  "recorded_at_utc": "2026-11-13T12:23:20.476234+00:00",
+  "tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+  "branch": "fix/narrative-contract-repair",
+  "parents": [
+    "0a9908ea9f23081f6be559596765aa16911b8580"
+  ],
+  "dev": "e151aecc0a79a7e6b421b07934df6977bc9068c7",
+  "main": "6837ba01451acb1d4c3cab898c8660daf6f063f0",
+  "dev_main_unchanged": {
+    "dev": true,
+    "main": true
+  },
+  "current_bytes_match_full_run": {
+    "source": true,
+    "harness": true
+  },
+  "origin_dev_after_fetch": "fbecb6edae4b951aaaa1d364d5428500f4596786",
+  "closure_after_fetch": "ad449d252f243ff0400e3d42caae5d25defe5b11",
+  "required_commits_are_ancestors": {
+    "5ddee26ed86cefe9585e3f89fe02fc7a9f4f7816": true,
+    "13184acb677a2dbe96524380057251027e73db41": true,
+    "b4723bf56d4ea76a0aec16f994ae87fa0e4b2713": true,
+    "ad449d252f243ff0400e3d42caae5d25defe5b11": true
+  },
+  "changed_paths_since_integration": [
+    ".gitattributes",
+    "src/p_mc_optimizer/llm/narrative_models.py",
+    "src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt",
+    "src/p_mc_optimizer/reporting/narrative_validation.py",
+    "src/p_mc_optimizer/workflow/narrative_v3.py",
+    "tests/test_narrative_contract_repair.py"
+  ],
+  "implementation_commit": "0a9908ea9f23081f6be559596765aa16911b8580",
+  "source_git_tree": "fe898bcc247705cf26c103afdc74f66bff34922a",
+  "tests_git_tree": "7f1ea7c60577b638638ab7c480ee41bfcb5555bf",
+  "tracked_source_changes_after_tests": [],
+  "reports_will_be_committed_separately": true
+}

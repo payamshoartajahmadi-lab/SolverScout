@@ -1,0 +1,75 @@
+{
+  "files": [
+    {
+      "path": "artifacts/branch-transition/20261113T102853Z-main-to-dev/preservation.json",
+      "bytes": 2159,
+      "sha256": "81ea2e286d6e7457bdc29655289f21dea0b15ed78812b92064419a9136a2852e"
+    },
+    {
+      "path": "artifacts/branch-transition/20261113T102853Z-main-to-dev/stash.json",
+      "bytes": 320,
+      "sha256": "0f7c82c9429a9087eadd16471c6d19496b4df45122ce4faf234e1cdea8f8142c"
+    },
+    {
+      "path": "artifacts/branch-transition/20261113T102853Z-main-to-dev/tests/test_benchmarks.py",
+      "bytes": 3318,
+      "sha256": "4167e6594156647a78e8cbf450cb9d278d98a9ce83434240bc2417b55c6eec90"
+    },
+    {
+      "path": "artifacts/branch-transition/20261113T102853Z-main-to-dev/tests/test_llm_workflow.py",
+      "bytes": 16123,
+      "sha256": "2c9318a33e60793969639133a53c869f7713beec307171db2f9068775fec8a34"
+    },
+    {
+      "path": "artifacts/branch-transition/20261113T102853Z-main-to-dev/tests/test_persistence_acceptance.py",
+      "bytes": 23235,
+      "sha256": "05a1e42197ed4d75a779c59dace07fe674c05c35770d545b6e0c60f848bdf7f7"
+    },
+    {
+      "path": "artifacts/branch-transition/20261113T102853Z-main-to-dev/transition-result.json",
+      "bytes": 513,
+      "sha256": "13210c24b5f66d7e6edd45ea3970c6620138f93de9c59d23413fc96a6c4bea89"
+    },
+    {
+      "path": "artifacts/branch-transition/20261113T102853Z-main-to-dev/windows-test-merge.json",
+      "bytes": 1396,
+      "sha256": "7b52a8e27dc46ff7a1a254d7785b6bda836eeba56322e33c3d72b3b19a5a3745"
+    },
+    {
+      "path": "artifacts/status-recovery/20261113T102200Z-6837ba0/evidence_index.json",
+      "bytes": 62636,
+      "sha256": "4ae3c2c83cbf07143c99f36f63b01c76f625469953769c0fa04dc78f13fff680"
+    },
+    {
+      "path": "artifacts/status-recovery/20261113T102200Z-6837ba0/Recovery_Status_FA.md",
+      "bytes": 23714,
+      "sha256": "b897e2d03d1c4b6a947aa2df4b397b67a241179b94d714d7e087ce0ab1ae0257"
+    },
+    {
+      "path": "artifacts/status-recovery/20261113T102200Z-6837ba0/SolverScout_Recovery_Evidence.zip",
+      "bytes": 189646,
+      "sha256": "4b7daaa519bf7171356355340bf4a662d5694b6acdb3702af1ec5eeb0a41e264"
+    },
+    {
+      "path": "artifacts/status-recovery/20261113T102200Z-6837ba0/summary.json",
+      "bytes": 24053,
+      "sha256": "7a23c60fc3616caaf09c3e59cbb5780918c901d24a2fd3d6f01093143690e5b6"
+    }
+  ],
+  "original_test_backups_match_preservation_record": {
+    "tests/test_benchmarks.py": true,
+    "tests/test_llm_workflow.py": true,
+    "tests/test_persistence_acceptance.py": true
+  },
+  "recovery_zip_matches_recorded_hash": true,
+  "historical_documents": {
+    "docs/FINAL_NARRATIVE_CLOSURE_2026_11_12_FA.md": {
+      "tested_blob": "62a145bebe37a95e6a2e4091b9e1ae3831b471da",
+      "closure_blob": "62a145bebe37a95e6a2e4091b9e1ae3831b471da"
+    },
+    "docs/Delivery_Preparation_Handoff_FA.md": {
+      "tested_blob": "29eda2fd17b65716799db26f98a2b034475ecd72",
+      "closure_blob": "29eda2fd17b65716799db26f98a2b034475ecd72"
+    }
+  }
+}

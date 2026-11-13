@@ -1,0 +1,775 @@
+{
+  "schema_version": "solverscout-contract-repair-status/1.0",
+  "created_at_utc": "2026-11-13T12:25:04.857355+00:00",
+  "branch": "fix/narrative-contract-repair",
+  "worktree": "G:\\projects\\solverscout-narrative-contract-repair",
+  "baseline": {
+    "report_type": "new_contract_repair_mission_baseline",
+    "recorded_date_utc": "2026-11-13",
+    "worktree": "G:\\projects\\solverscout-narrative-contract-repair",
+    "branch": "fix/narrative-contract-repair",
+    "original_worktree": "G:\\projects\\solverscout",
+    "original_branch": "dev",
+    "original_head": "e151aecc0a79a7e6b421b07934df6977bc9068c7",
+    "local_dev": "e151aecc0a79a7e6b421b07934df6977bc9068c7",
+    "local_main": "6837ba01451acb1d4c3cab898c8660daf6f063f0",
+    "fetch": {
+      "command": "git fetch --no-recurse-submodules origin",
+      "exit_code": 0,
+      "remote_dev": "fbecb6edae4b951aaaa1d364d5428500f4596786",
+      "remote_closure": "ad449d252f243ff0400e3d42caae5d25defe5b11",
+      "local_dev_ahead": 3,
+      "local_dev_behind": 0
+    },
+    "initial_uncommitted_changes": [],
+    "new_branch_existed_before": false,
+    "new_worktree_path_existed_before": false,
+    "integration_commit": "7ee1a98a2ca1159d7b75adf001215f644cea472a",
+    "integration_parents": [
+      "e151aecc0a79a7e6b421b07934df6977bc9068c7",
+      "ad449d252f243ff0400e3d42caae5d25defe5b11"
+    ],
+    "integration_conflicts": false,
+    "origin_dev_had_new_commits": false,
+    "windows_commits": [
+      "5ddee26ed86cefe9585e3f89fe02fc7a9f4f7816",
+      "13184acb677a2dbe96524380057251027e73db41"
+    ],
+    "closure_commits": [
+      "b4723bf56d4ea76a0aec16f994ae87fa0e4b2713",
+      "ad449d252f243ff0400e3d42caae5d25defe5b11"
+    ],
+    "live_model_call_budget": 0,
+    "live_acceptance": "NOT_RUN",
+    "previous_recovery_and_7_backup_files": "outside scope; preserved",
+    "evidence_attribution": "New synthetic regression fixtures must not be represented as recovered historical C-L1 raw responses"
+  },
+  "tested_source_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+  "remote_observation_before_publication": {
+    "checked_at_utc": "2026-11-13T12:13:14.191442+00:00",
+    "command": "git ls-remote --heads origin <explicit branch refs>",
+    "exit_code": 0,
+    "destination_verified": "github.com/payamshoartajahmadi-lab/SolverScout",
+    "refs": {
+      "refs/heads/dev": "fbecb6edae4b951aaaa1d364d5428500f4596786",
+      "refs/heads/fix/narrative-v3-closure": "ad449d252f243ff0400e3d42caae5d25defe5b11",
+      "refs/heads/main": "6837ba01451acb1d4c3cab898c8660daf6f063f0"
+    },
+    "repair_branch_exists": false,
+    "earlier_observation": {
+      "checked_at_utc": "2026-11-13T11:08:58.482084+00:00",
+      "command": "git ls-remote --heads origin <explicit branch refs>",
+      "exit_code": 0,
+      "refs": {
+        "refs/heads/dev": "fbecb6edae4b951aaaa1d364d5428500f4596786",
+        "refs/heads/fix/narrative-v3-closure": "ad449d252f243ff0400e3d42caae5d25defe5b11",
+        "refs/heads/main": "6837ba01451acb1d4c3cab898c8660daf6f063f0"
+      },
+      "repair_branch_exists": false
+    }
+  },
+  "implementation_commit": "0a9908ea9f23081f6be559596765aa16911b8580",
+  "runtime_source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+  "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+  "source_hash_semantics": "Existing closure harness definition over working-file bytes; Git blob hashes are separately recorded",
+  "source_after_full_test": "UNCHANGED; later commit contains reports and evidence only",
+  "offline_repair_and_regression_status": "FAIL",
+  "new_contract_regression_cases": {
+    "total": 31,
+    "passed": 31
+  },
+  "test_runs": [
+    {
+      "run_label": "targeted-new-01",
+      "started_at_utc": "2026-11-13T10:55:21.361351+00:00",
+      "finished_at_utc": "2026-11-13T10:55:40.417152+00:00",
+      "elapsed_seconds": 19.063,
+      "cwd": "G:\\projects\\solverscout-narrative-contract-repair",
+      "command_argv": [
+        "G:\\projects\\solverscout\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "not live_provider",
+        "-p",
+        "offline_network_guard",
+        "--junitxml=G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\narrative-contract-repair\\20261113T105151Z-e151aec\\offline\\targeted-new-01.xml",
+        "tests/test_narrative_contract_repair.py"
+      ],
+      "exit_code": 1,
+      "source_import_path": "G:\\projects\\solverscout-narrative-contract-repair\\src",
+      "python": "3.12.3 (tags/v3.12.3:f6650f9, Apr  9 2024, 14:05:25) [MSC v.1938 64 bit (AMD64)]",
+      "package_versions": {
+        "pytest": "9.2.0",
+        "pydantic": "2.14.3",
+        "httpx": "0.28.1",
+        "fastapi": "0.162.2",
+        "psutil": "7.2.2",
+        "numpy": "1.26.0",
+        "mealpy": "3.0.3",
+        "streamlit": "1.67.0"
+      },
+      "junit_counts": {
+        "tests": 26,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 24
+      },
+      "log": "offline\\targeted-new-01.log",
+      "junit": "offline\\targeted-new-01.xml",
+      "guard_report": "offline\\targeted-new-01-network-guard.json",
+      "live_provider_selected": false,
+      "real_model_call_budget": 0,
+      "numeric_execution_scope": "Only selected offline tests; no separate solve or campaign",
+      "failed_testcases": [
+        "tests.test_narrative_contract_repair::test_valid_id_does_not_hide_missing_problem_sense_token[False]",
+        "tests.test_narrative_contract_repair::test_valid_id_does_not_hide_missing_problem_sense_token[True]"
+      ],
+      "failure_messages": [
+        {
+          "testcase": "tests.test_narrative_contract_repair::test_valid_id_does_not_hide_missing_problem_sense_token[False]",
+          "first_line": "assert ('problem.sense' in 'داده\\u200cهای ضروری بدون توکن در همین بخش: {\"missing_required_fact_tokens\":[\"problem.sense\"]}' and 'problem.sense' in 'هر fact ضروریِ مشخص\\u200cشده را با توکن {{fact:شناسهٔ دقیق}} در همین بخش بیان کنید؛ برای selection معیار selection.decisive_criterion را صریحاً با توکن آن بیاورید. بخش\\u200cهای پذیرفته\\u200cشده را تغییر ندهید.')"
+        },
+        {
+          "testcase": "tests.test_narrative_contract_repair::test_valid_id_does_not_hide_missing_problem_sense_token[True]",
+          "first_line": "assert ('problem.sense' in 'داده\\u200cهای ضروری بدون توکن در همین بخش: {\"missing_required_fact_tokens\":[\"problem.sense\"]}' and 'problem.sense' in 'هر fact ضروریِ مشخص\\u200cشده را با توکن {{fact:شناسهٔ دقیق}} در همین بخش بیان کنید؛ برای selection معیار selection.decisive_criterion را صریحاً با توکن آن بیاورید. بخش\\u200cهای پذیرفته\\u200cشده را تغییر ندهید.')"
+        }
+      ]
+    },
+    {
+      "run_label": "targeted-final-01",
+      "started_at_utc": "2026-11-13T10:59:39.545756+00:00",
+      "finished_at_utc": "2026-11-13T11:00:43.001860+00:00",
+      "elapsed_seconds": 63.391,
+      "cwd": "G:\\projects\\solverscout-narrative-contract-repair",
+      "command_argv": [
+        "G:\\projects\\solverscout\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "not live_provider",
+        "-p",
+        "offline_network_guard",
+        "--junitxml=G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\narrative-contract-repair\\20261113T105151Z-e151aec\\offline\\targeted-final-01.xml",
+        "tests\\test_narrative_closure_campaign.py",
+        "tests\\test_narrative_closure_contracts.py",
+        "tests\\test_narrative_closure_evidence.py",
+        "tests\\test_narrative_closure_policy.py",
+        "tests\\test_narrative_closure_presentation.py",
+        "tests\\test_narrative_closure_workflow.py",
+        "tests\\test_narrative_contract_repair.py",
+        "tests\\test_narrative_v3_contracts.py",
+        "tests\\test_narrative_v3_evidence.py",
+        "tests\\test_narrative_v3_gateway.py",
+        "tests\\test_narrative_v3_presentation.py",
+        "tests\\test_narrative_v3_workflow.py",
+        "tests/test_llm_workflow.py::test_default_policy_runs_three_real_candidates_and_selects_empirically",
+        "tests/test_persistence_acceptance.py::test_loopback_worker_death_and_active_cancel_stop_numeric_child",
+        "tests/test_benchmarks.py::test_research_manifest_snapshots_model_only_for_llm_jobs",
+        "tests/test_benchmarks.py::test_ui_requires_explicit_click_and_reuses_comparison"
+      ],
+      "exit_code": 1,
+      "head_sha": "7ee1a98a2ca1159d7b75adf001215f644cea472a",
+      "source_changes_at_start": [
+        " M src/p_mc_optimizer/llm/narrative_models.py",
+        " M src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt",
+        " M src/p_mc_optimizer/reporting/narrative_validation.py",
+        " M src/p_mc_optimizer/workflow/narrative_v3.py",
+        "?? tests/test_narrative_contract_repair.py"
+      ],
+      "source_import_path": "G:\\projects\\solverscout-narrative-contract-repair\\src",
+      "python": "3.12.3 (tags/v3.12.3:f6650f9, Apr  9 2024, 14:05:25) [MSC v.1938 64 bit (AMD64)]",
+      "package_versions": {
+        "pytest": "9.2.0",
+        "pydantic": "2.14.3",
+        "httpx": "0.28.1",
+        "fastapi": "0.162.2",
+        "psutil": "7.2.2",
+        "numpy": "1.26.0",
+        "mealpy": "3.0.3",
+        "streamlit": "1.67.0"
+      },
+      "junit_counts": {
+        "tests": 256,
+        "failures": 15,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 241
+      },
+      "log": "offline\\targeted-final-01.log",
+      "junit": "offline\\targeted-final-01.xml",
+      "guard_report": "offline\\targeted-final-01-network-guard.json",
+      "live_provider_selected": false,
+      "real_model_call_budget": 0,
+      "numeric_execution_scope": "Only selected offline tests; no separate solve or campaign",
+      "deselected": 0,
+      "failed_testcases": [
+        "tests.test_narrative_closure_policy::test_real_gateway_frozen_policy_http_and_exact_replay[json_schema-1.0]",
+        "tests.test_narrative_closure_policy::test_real_gateway_frozen_policy_http_and_exact_replay[json_schema-1.1]",
+        "tests.test_narrative_closure_policy::test_real_gateway_frozen_policy_http_and_exact_replay[json_object-1.0]",
+        "tests.test_narrative_closure_policy::test_real_gateway_frozen_policy_http_and_exact_replay[json_object-1.1]",
+        "tests.test_narrative_closure_policy::test_real_gateway_frozen_policy_http_and_exact_replay[text_json-1.0]",
+        "tests.test_narrative_closure_policy::test_real_gateway_frozen_policy_http_and_exact_replay[text_json-1.1]",
+        "tests.test_narrative_closure_policy::test_new_reporting_policy_cannot_bypass_existing_readiness[connection_proof]",
+        "tests.test_narrative_closure_policy::test_new_reporting_policy_cannot_bypass_existing_readiness[generation]",
+        "tests.test_narrative_v3_gateway::test_typed_narrative_gateway_modes_and_exact_journal_replay[json_schema]",
+        "tests.test_narrative_v3_gateway::test_typed_narrative_gateway_modes_and_exact_journal_replay[json_object]",
+        "tests.test_narrative_v3_gateway::test_typed_narrative_gateway_modes_and_exact_journal_replay[text_json]",
+        "tests.test_narrative_v3_gateway::test_new_full_workflow_uses_writer_reviewer_without_new_objective_calls",
+        "tests.test_narrative_v3_gateway::test_full_workflow_discards_draft_after_persisted_core_changes",
+        "tests.test_llm_workflow::test_default_policy_runs_three_real_candidates_and_selects_empirically",
+        "tests.test_persistence_acceptance::test_loopback_worker_death_and_active_cancel_stop_numeric_child"
+      ],
+      "failure_messages": [
+        {
+          "testcase": "tests.test_narrative_closure_policy::test_real_gateway_frozen_policy_http_and_exact_replay[json_schema-1.0]",
+          "first_line": "ModuleNotFoundError: No module named 'protego'"
+        },
+        {
+          "testcase": "tests.test_narrative_closure_policy::test_real_gateway_frozen_policy_http_and_exact_replay[json_schema-1.1]",
+          "first_line": "ModuleNotFoundError: No module named 'protego'"
+        },
+        {
+          "testcase": "tests.test_narrative_closure_policy::test_real_gateway_frozen_policy_http_and_exact_replay[json_object-1.0]",
+          "first_line": "ModuleNotFoundError: No module named 'protego'"
+        },
+        {
+          "testcase": "tests.test_narrative_closure_policy::test_real_gateway_frozen_policy_http_and_exact_replay[json_object-1.1]",
+          "first_line": "ModuleNotFoundError: No module named 'protego'"
+        },
+        {
+          "testcase": "tests.test_narrative_closure_policy::test_real_gateway_frozen_policy_http_and_exact_replay[text_json-1.0]",
+          "first_line": "ModuleNotFoundError: No module named 'protego'"
+        },
+        {
+          "testcase": "tests.test_narrative_closure_policy::test_real_gateway_frozen_policy_http_and_exact_replay[text_json-1.1]",
+          "first_line": "ModuleNotFoundError: No module named 'protego'"
+        },
+        {
+          "testcase": "tests.test_narrative_closure_policy::test_new_reporting_policy_cannot_bypass_existing_readiness[connection_proof]",
+          "first_line": "ModuleNotFoundError: No module named 'protego'"
+        },
+        {
+          "testcase": "tests.test_narrative_closure_policy::test_new_reporting_policy_cannot_bypass_existing_readiness[generation]",
+          "first_line": "ModuleNotFoundError: No module named 'protego'"
+        },
+        {
+          "testcase": "tests.test_narrative_v3_gateway::test_typed_narrative_gateway_modes_and_exact_journal_replay[json_schema]",
+          "first_line": "ModuleNotFoundError: No module named 'protego'"
+        },
+        {
+          "testcase": "tests.test_narrative_v3_gateway::test_typed_narrative_gateway_modes_and_exact_journal_replay[json_object]",
+          "first_line": "ModuleNotFoundError: No module named 'protego'"
+        },
+        {
+          "testcase": "tests.test_narrative_v3_gateway::test_typed_narrative_gateway_modes_and_exact_journal_replay[text_json]",
+          "first_line": "ModuleNotFoundError: No module named 'protego'"
+        },
+        {
+          "testcase": "tests.test_narrative_v3_gateway::test_new_full_workflow_uses_writer_reviewer_without_new_objective_calls",
+          "first_line": "ModuleNotFoundError: No module named 'protego'"
+        },
+        {
+          "testcase": "tests.test_narrative_v3_gateway::test_full_workflow_discards_draft_after_persisted_core_changes",
+          "first_line": "ModuleNotFoundError: No module named 'protego'"
+        },
+        {
+          "testcase": "tests.test_llm_workflow::test_default_policy_runs_three_real_candidates_and_selects_empirically",
+          "first_line": "ModuleNotFoundError: No module named 'protego'"
+        },
+        {
+          "testcase": "tests.test_persistence_acceptance::test_loopback_worker_death_and_active_cancel_stop_numeric_child",
+          "first_line": "Failed: Local process fixture did not reach the expected state"
+        }
+      ]
+    },
+    {
+      "run_label": "targeted-final-02",
+      "started_at_utc": "2026-11-13T11:01:38.554715+00:00",
+      "finished_at_utc": "2026-11-13T11:04:13.434562+00:00",
+      "elapsed_seconds": 154.812,
+      "cwd": "G:\\projects\\solverscout-narrative-contract-repair",
+      "command_argv": [
+        "G:\\projects\\solverscout\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "not live_provider",
+        "-p",
+        "offline_network_guard",
+        "--junitxml=G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\narrative-contract-repair\\20261113T105151Z-e151aec\\offline\\targeted-final-02.xml",
+        "tests\\test_narrative_closure_campaign.py",
+        "tests\\test_narrative_closure_contracts.py",
+        "tests\\test_narrative_closure_evidence.py",
+        "tests\\test_narrative_closure_policy.py",
+        "tests\\test_narrative_closure_presentation.py",
+        "tests\\test_narrative_closure_workflow.py",
+        "tests\\test_narrative_contract_repair.py",
+        "tests\\test_narrative_v3_contracts.py",
+        "tests\\test_narrative_v3_evidence.py",
+        "tests\\test_narrative_v3_gateway.py",
+        "tests\\test_narrative_v3_presentation.py",
+        "tests\\test_narrative_v3_workflow.py",
+        "tests/test_llm_workflow.py::test_default_policy_runs_three_real_candidates_and_selects_empirically",
+        "tests/test_persistence_acceptance.py::test_loopback_worker_death_and_active_cancel_stop_numeric_child",
+        "tests/test_benchmarks.py::test_research_manifest_snapshots_model_only_for_llm_jobs",
+        "tests/test_benchmarks.py::test_ui_requires_explicit_click_and_reuses_comparison"
+      ],
+      "exit_code": 0,
+      "head_sha": "7ee1a98a2ca1159d7b75adf001215f644cea472a",
+      "source_changes_at_start": [
+        " M src/p_mc_optimizer/llm/narrative_models.py",
+        " M src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt",
+        " M src/p_mc_optimizer/reporting/narrative_validation.py",
+        " M src/p_mc_optimizer/workflow/narrative_v3.py",
+        "?? tests/test_narrative_contract_repair.py"
+      ],
+      "source_import_path": "G:\\projects\\solverscout-narrative-contract-repair\\src",
+      "python": "3.12.3 (tags/v3.12.3:f6650f9, Apr  9 2024, 14:05:25) [MSC v.1938 64 bit (AMD64)]",
+      "package_versions": {
+        "pytest": "9.2.0",
+        "pydantic": "2.14.3",
+        "httpx": "0.28.1",
+        "fastapi": "0.162.2",
+        "psutil": "7.2.2",
+        "numpy": "1.26.0",
+        "mealpy": "3.0.3",
+        "streamlit": "1.67.0",
+        "protego": "0.7.0",
+        "pypdf": "7.0.0"
+      },
+      "junit_counts": {
+        "tests": 256,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 256
+      },
+      "log": "offline\\targeted-final-02.log",
+      "junit": "offline\\targeted-final-02.xml",
+      "guard_report": "offline\\targeted-final-02-network-guard.json",
+      "live_provider_selected": false,
+      "real_model_call_budget": 0,
+      "numeric_execution_scope": "Only selected offline tests; no separate solve or campaign",
+      "deselected": 0,
+      "failed_testcases": [],
+      "failure_messages": []
+    },
+    {
+      "run_label": "full-final-01",
+      "started_at_utc": "2026-11-13T11:04:56.777190+00:00",
+      "finished_at_utc": "2026-11-13T11:36:47.851795+00:00",
+      "elapsed_seconds": 1911.016,
+      "cwd": "G:\\projects\\solverscout-narrative-contract-repair",
+      "command_argv": [
+        "G:\\projects\\solverscout\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "not live_provider",
+        "-p",
+        "offline_network_guard",
+        "--junitxml=G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\narrative-contract-repair\\20261113T105151Z-e151aec\\offline\\full-final-01.xml"
+      ],
+      "exit_code": 1,
+      "head_sha": "0a9908ea9f23081f6be559596765aa16911b8580",
+      "source_changes_at_start": [],
+      "source_import_path": "G:\\projects\\solverscout-narrative-contract-repair\\src",
+      "python": "3.12.3 (tags/v3.12.3:f6650f9, Apr  9 2024, 14:05:25) [MSC v.1938 64 bit (AMD64)]",
+      "package_versions": {
+        "pytest": "9.2.0",
+        "pydantic": "2.14.3",
+        "httpx": "0.28.1",
+        "fastapi": "0.162.2",
+        "psutil": "7.2.2",
+        "numpy": "1.26.0",
+        "mealpy": "3.0.3",
+        "streamlit": "1.67.0",
+        "protego": "0.7.0",
+        "pypdf": "7.0.0"
+      },
+      "junit_counts": {
+        "tests": 801,
+        "failures": 4,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 797
+      },
+      "log": "offline\\full-final-01.log",
+      "junit": "offline\\full-final-01.xml",
+      "guard_report": "offline\\full-final-01-network-guard.json",
+      "live_provider_selected": false,
+      "real_model_call_budget": 0,
+      "numeric_execution_scope": "Only selected offline tests; no separate solve or campaign",
+      "deselected": 1,
+      "failed_testcases": [
+        "tests.test_catalog_v2::test_cat_003_hash_changes_and_v1_schema_unchanged",
+        "tests.test_llm_workflow::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]",
+        "tests.test_numeric::test_exe_009_010_supervisor_reaps_hung_objective[False]",
+        "tests.test_numeric::test_exe_009_010_supervisor_reaps_hung_objective[True]"
+      ],
+      "failure_messages": [
+        {
+          "testcase": "tests.test_catalog_v2::test_cat_003_hash_changes_and_v1_schema_unchanged",
+          "first_line": "assert b'{\\r\\n  \"add...ect\"\\r\\n}\\r\\n' == b'{\\n  \"addit...\"object\"\\n}\\n'"
+        },
+        {
+          "testcase": "tests.test_llm_workflow::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]",
+          "first_line": "AssertionError: assert 'provider_error' == 'generated'"
+        },
+        {
+          "testcase": "tests.test_numeric::test_exe_009_010_supervisor_reaps_hung_objective[False]",
+          "first_line": "AssertionError: assert 0 == 1"
+        },
+        {
+          "testcase": "tests.test_numeric::test_exe_009_010_supervisor_reaps_hung_objective[True]",
+          "first_line": "AssertionError: assert 'timed_out' == 'cancelled'"
+        }
+      ]
+    },
+    {
+      "run_label": "compatibility-final-01",
+      "started_at_utc": "2026-11-13T11:41:58.688339+00:00",
+      "finished_at_utc": "2026-11-13T11:42:17.328705+00:00",
+      "elapsed_seconds": 18.344,
+      "cwd": "G:\\projects\\solverscout-narrative-contract-repair",
+      "command_argv": [
+        "G:\\projects\\solverscout\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "not live_provider",
+        "-p",
+        "offline_network_guard",
+        "--junitxml=G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\narrative-contract-repair\\20261113T105151Z-e151aec\\offline\\compatibility-final-01.xml",
+        "tests/test_catalog_v2.py::test_cat_003_hash_changes_and_v1_schema_unchanged",
+        "tests/test_narrative_contract_repair.py"
+      ],
+      "exit_code": 0,
+      "head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "source_changes_at_start": [],
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_bytes_unchanged_during_run": true,
+      "harness_bytes_unchanged_during_run": true,
+      "source_import_path": "G:\\projects\\solverscout-narrative-contract-repair\\src",
+      "python": "3.12.3 (tags/v3.12.3:f6650f9, Apr  9 2024, 14:05:25) [MSC v.1938 64 bit (AMD64)]",
+      "package_versions": {
+        "pytest": "9.2.0",
+        "pydantic": "2.14.3",
+        "httpx": "0.28.1",
+        "fastapi": "0.162.2",
+        "psutil": "7.2.2",
+        "numpy": "1.26.0",
+        "mealpy": "3.0.3",
+        "streamlit": "1.67.0",
+        "protego": "0.7.0",
+        "pypdf": "7.0.0"
+      },
+      "junit_counts": {
+        "tests": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 32
+      },
+      "log": "offline\\compatibility-final-01.log",
+      "junit": "offline\\compatibility-final-01.xml",
+      "guard_report": "offline\\compatibility-final-01-network-guard.json",
+      "live_provider_selected": false,
+      "real_model_call_budget": 0,
+      "numeric_execution_scope": "Only selected offline tests; no separate solve or campaign",
+      "deselected": 0,
+      "failed_testcases": [],
+      "failure_messages": []
+    },
+    {
+      "run_label": "full-final-02",
+      "started_at_utc": "2026-11-13T11:49:14.094614+00:00",
+      "finished_at_utc": "2026-11-13T12:22:06.376722+00:00",
+      "elapsed_seconds": 1971.766,
+      "cwd": "G:\\projects\\solverscout-narrative-contract-repair",
+      "command_argv": [
+        "G:\\projects\\solverscout\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "not live_provider",
+        "-p",
+        "offline_network_guard",
+        "--junitxml=G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\narrative-contract-repair\\20261113T105151Z-e151aec\\offline\\full-final-02.xml",
+        "--durations=15"
+      ],
+      "exit_code": 1,
+      "head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "source_changes_at_start": [],
+      "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+      "harness_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+      "source_bytes_unchanged_during_run": true,
+      "harness_bytes_unchanged_during_run": true,
+      "source_import_path": "G:\\projects\\solverscout-narrative-contract-repair\\src",
+      "python": "3.12.3 (tags/v3.12.3:f6650f9, Apr  9 2024, 14:05:25) [MSC v.1938 64 bit (AMD64)]",
+      "package_versions": {
+        "pytest": "9.2.0",
+        "pydantic": "2.14.3",
+        "httpx": "0.28.1",
+        "fastapi": "0.162.2",
+        "psutil": "7.2.2",
+        "numpy": "1.26.0",
+        "mealpy": "3.0.3",
+        "streamlit": "1.67.0",
+        "protego": "0.7.0",
+        "pypdf": "7.0.0"
+      },
+      "junit_counts": {
+        "tests": 801,
+        "failures": 3,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 798
+      },
+      "log": "offline\\full-final-02.log",
+      "junit": "offline\\full-final-02.xml",
+      "guard_report": "offline\\full-final-02-network-guard.json",
+      "live_provider_selected": false,
+      "real_model_call_budget": 0,
+      "numeric_execution_scope": "Only selected offline tests; no separate solve or campaign",
+      "deselected": 1,
+      "failed_testcases": [
+        "tests.test_llm_workflow::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]",
+        "tests.test_numeric::test_exe_009_010_supervisor_reaps_hung_objective[False]",
+        "tests.test_numeric::test_exe_009_010_supervisor_reaps_hung_objective[True]"
+      ],
+      "failure_messages": [
+        {
+          "testcase": "tests.test_llm_workflow::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]",
+          "first_line": "AssertionError: assert 'provider_error' == 'generated'"
+        },
+        {
+          "testcase": "tests.test_numeric::test_exe_009_010_supervisor_reaps_hung_objective[False]",
+          "first_line": "AssertionError: assert not True"
+        },
+        {
+          "testcase": "tests.test_numeric::test_exe_009_010_supervisor_reaps_hung_objective[True]",
+          "first_line": "AssertionError: assert 'timed_out' == 'cancelled'"
+        }
+      ]
+    }
+  ],
+  "earlier_failures": {
+    "targeted-new-01": "24 passed, 2 failed: corrective guidance omitted the actual missing problem.sense token; fixed without relaxing assertions",
+    "targeted-final-01": "241 passed, 15 failed: 14 missing-protego import failures and one API fixture startup timeout; installed only declared missing protego/pypdf versions; unchanged source passed rerun"
+  },
+  "new_live_acceptance": "NOT_RUN",
+  "final_delivery_readiness": "NOT_VERIFIED",
+  "live_scenarios": {
+    "C-A2": "NOT_RUN",
+    "C-A1": "NOT_RUN",
+    "C-L1": "NOT_RUN",
+    "C-L4": "NOT_RUN",
+    "C-L2": "NOT_RUN",
+    "C-L3": "NOT_RUN",
+    "C-E1-R": "NOT_RUN"
+  },
+  "new_model_calls": 0,
+  "new_real_model_tokens": 0,
+  "new_objective_evaluations_outside_required_tests": 0,
+  "new_solver_calls_outside_required_tests": 0,
+  "objective_evaluations_within_offline_tests": "Executed by required existing tests; aggregate not instrumented",
+  "solver_calls_within_offline_tests": "Executed by required existing tests; aggregate not instrumented",
+  "network_guards": [
+    {
+      "guard": "pytest process and its threads: only loopback sockets allowed",
+      "blocked_non_loopback_connection_attempts": 0,
+      "pytest_exitstatus": 1,
+      "live_provider_test_selected": false,
+      "real_model_calls_authorized": 0
+    },
+    {
+      "guard": "pytest process and its threads: only loopback sockets allowed",
+      "blocked_non_loopback_connection_attempts": 0,
+      "pytest_exitstatus": 1,
+      "live_provider_test_selected": false,
+      "real_model_calls_authorized": 0
+    },
+    {
+      "guard": "pytest process and its threads: only loopback sockets allowed",
+      "blocked_non_loopback_connection_attempts": 0,
+      "pytest_exitstatus": 0,
+      "live_provider_test_selected": false,
+      "real_model_calls_authorized": 0
+    },
+    {
+      "guard": "pytest process and its threads: only loopback sockets allowed",
+      "blocked_non_loopback_connection_attempts": 0,
+      "pytest_exitstatus": 1,
+      "live_provider_test_selected": false,
+      "real_model_calls_authorized": 0
+    },
+    {
+      "guard": "pytest process and its threads: only loopback sockets allowed",
+      "blocked_non_loopback_connection_attempts": 0,
+      "pytest_exitstatus": 0,
+      "live_provider_test_selected": false,
+      "real_model_calls_authorized": 0,
+      "application_import_path": "G:\\projects\\solverscout-narrative-contract-repair\\src\\p_mc_optimizer\\__init__.py"
+    },
+    {
+      "guard": "pytest process and its threads: only loopback sockets allowed",
+      "blocked_non_loopback_connection_attempts": 0,
+      "pytest_exitstatus": 1,
+      "live_provider_test_selected": false,
+      "real_model_calls_authorized": 0,
+      "application_import_path": "G:\\projects\\solverscout-narrative-contract-repair\\src\\p_mc_optimizer\\__init__.py"
+    }
+  ],
+  "network_guard_limit": "Socket guard covers pytest process and threads; numerical child processes use existing application isolation. Not a machine-wide network audit.",
+  "new_fixtures": "SYNTHETIC_NOT_HISTORICAL; no recovered historical C-L1 raw response claimed",
+  "historical_closure": {
+    "status": "FAIL according to recorded Markdown",
+    "raw_C_L1_artifacts": "NOT_FOUND in prior recovery scope; not reconstructed",
+    "historical_reports_modified": false
+  },
+  "windows_and_closure_commits_included": {
+    "5ddee26ed86cefe9585e3f89fe02fc7a9f4f7816": true,
+    "13184acb677a2dbe96524380057251027e73db41": true,
+    "b4723bf56d4ea76a0aec16f994ae87fa0e4b2713": true,
+    "ad449d252f243ff0400e3d42caae5d25defe5b11": true
+  },
+  "dev_main_modified": false,
+  "new_code_scope": "Narrative prompt, typed repair snapshot, safe structural diagnostics, orchestrator propagation, regression tests, LF schema checkout compatibility",
+  "dependency_setup": {
+    "reason": "Missing declared project dependencies blocked API fixtures in targeted-final-01",
+    "environment": "G:/projects/solverscout/.venv",
+    "command": [
+      "G:/projects/solverscout/.venv/Scripts/python.exe",
+      "-m",
+      "pip",
+      "install",
+      "--disable-pip-version-check",
+      "--no-input",
+      "--no-deps",
+      "protego==0.7.0",
+      "pypdf==7.0.0"
+    ],
+    "exit_code": 0,
+    "installed_versions": {
+      "protego": "0.7.0",
+      "pypdf": "7.0.0"
+    },
+    "existing_packages_upgraded": false,
+    "project_dependency_specification_changed": false,
+    "model_api_called": false
+  },
+  "schema_eol_diagnosis": {
+    "schema_version": "1.0",
+    "diagnostic_kind": "read_only_in_memory_schema_comparison",
+    "recorded_at_utc": "2026-11-13T11:12:28.738211+00:00",
+    "tested_source_sha": "0a9908ea9f23081f6be559596765aa16911b8580",
+    "head_at_diagnosis": "0a9908ea9f23081f6be559596765aa16911b8580",
+    "candidate_root": "G:\\projects\\solverscout-narrative-contract-repair",
+    "runtime_model_import_path": "G:\\projects\\solverscout-narrative-contract-repair\\src\\p_mc_optimizer\\domain\\models.py",
+    "pydantic_version": "2.14.3",
+    "generator": "json_bytes(contract.model_json_schema()) + b\"\\n\"",
+    "test_reference": "tests/test_catalog_v2.py::test_cat_003_hash_changes_and_v1_schema_unchanged (line 75; assertion not executed by this diagnostic)",
+    "compared_paths": [
+      {
+        "path": "schemas/trial_request.v1.json",
+        "runtime_contract": "TrialRequest",
+        "raw_size_bytes": 2849,
+        "raw_crlf_count": 132,
+        "raw_sha256": "149b08b9d458a2e872ec9775a98539953f407287787ce234fac7fefd012bd0c4",
+        "generated_size_bytes": 2717,
+        "generated_sha256": "7e740d0b3afe7bb0b503b657f7c390a1f67e13b2806be86b66c7073181b9faee",
+        "raw_equals_generated": false,
+        "lf_normalized_size_bytes": 2717,
+        "lf_normalized_sha256": "7e740d0b3afe7bb0b503b657f7c390a1f67e13b2806be86b66c7073181b9faee",
+        "lf_normalized_equals_generated": true,
+        "parsed_schema_content_equals_runtime": true,
+        "first_raw_byte_mismatch_index": 1
+      },
+      {
+        "path": "schemas/trial_request.v2.json",
+        "runtime_contract": "TrialRequestV2",
+        "raw_size_bytes": 4038,
+        "raw_crlf_count": 179,
+        "raw_sha256": "7147c4a34046c58093d32d20cac6f49d59e30c85967529ad2faf678ae7d2eb38",
+        "generated_size_bytes": 3859,
+        "generated_sha256": "da532ea7ebd7f4d5e77d25053744a4effcf288b7a2ac0704fbff23a0133574a9",
+        "raw_equals_generated": false,
+        "lf_normalized_size_bytes": 3859,
+        "lf_normalized_sha256": "da532ea7ebd7f4d5e77d25053744a4effcf288b7a2ac0704fbff23a0133574a9",
+        "lf_normalized_equals_generated": true,
+        "parsed_schema_content_equals_runtime": true,
+        "first_raw_byte_mismatch_index": 1
+      }
+    ],
+    "diagnosis": "Both trial request schemas differ only by Windows CRLF checkout conversion. LF-normalized bytes equal the current runtime-generated bytes exactly.",
+    "proposed_attribute": "/schemas/*.json text eol=lf",
+    "pre_existing_out_of_scope_drift": {
+      "path": "schemas/execution_result.v1.json",
+      "status": "OUTSIDE_SCOPE",
+      "finding": "Recorded ExecutionResult schema lacks the runtime_provenance optional property already present in the runtime model.",
+      "recorded_property_present": false,
+      "runtime_property_schema": {
+        "anyOf": [
+          {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Runtime Provenance"
+      },
+      "source_field_path": "src/p_mc_optimizer/domain/models.py:543",
+      "field_introduced_by_commit": "964651875a96b7808c268a5d519df6b56a81017f",
+      "attribution": "Pre-existing model/schema drift; not caused by the narrative repair and not attributed to Pydantic 2.14.3.",
+      "action": "Recorded only; schema/model unchanged. Do not regenerate all schemas as part of the newline fix."
+    },
+    "diagnostic_actions": {
+      "pytest_executed": false,
+      "model_calls": 0,
+      "objective_evaluations": 0,
+      "solver_calls": 0,
+      "source_files_modified": [],
+      "schema_files_normalized": [],
+      "only_written_file": "artifacts/narrative-contract-repair/20261113T105151Z-e151aec/schema-eol-diagnosis.json"
+    }
+  },
+  "schema_eol_compatibility_committed": true,
+  "full_suite_failure_diagnostics": [
+    "schema-eol-diagnosis.json",
+    "numeric-startup-diagnosis.json",
+    "offline/legacy-identifier-tie-diagnostic.json"
+  ],
+  "remaining_full_suite_failures": [
+    "tests.test_llm_workflow::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]",
+    "tests.test_numeric::test_exe_009_010_supervisor_reaps_hung_objective[False]",
+    "tests.test_numeric::test_exe_009_010_supervisor_reaps_hung_objective[True]"
+  ],
+  "latest_failure_cause_limit": "Latest JUnit proves assertion mismatches and exhausted mock response queue. The detailed source diagnoses refer only to full-final-01; the cause of each latest failure is not independently established.",
+  "remaining": [
+    "Recorded full-suite failures must be resolved within an explicitly agreed scope; no budgets or assertions weakened",
+    "Real archived E1 report",
+    "Genuine same-source UI and adversarial audits",
+    "Fresh campaign freeze and separately authorized live acceptance",
+    "Final delivery review"
+  ],
+  "next_live_instructions": "Next_Live_Acceptance_FA.md",
+  "publication": {
+    "remote": "origin",
+    "branch": "fix/narrative-contract-repair",
+    "force": false,
+    "note": "Evidence is prepared before its containing commit. Final push outcome and remote SHA are verified separately and reported in the final response."
+  }
+}
