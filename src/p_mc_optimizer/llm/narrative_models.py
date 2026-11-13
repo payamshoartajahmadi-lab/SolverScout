@@ -213,6 +213,43 @@ class NarrativeSectionV3(ContractModel):
     paragraphs: Annotated[list[NarrativeParagraphV3], Field(max_length=3)]
 
 
+class StructuralFieldErrorV1(ContractModel):
+    """Server-authored diagnostics, without Pydantic inputs or exception context."""
+    field_path: Annotated[str, Field(max_length=240)]
+    error_type: Annotated[str, Field(max_length=80)]
+    expected_rule: Annotated[str, Field(max_length=256)]
+    repair_instruction_fa: Annotated[str, Field(max_length=640)]
+
+
+class RepairParagraphSnapshotV1(ContractModel):
+    """Bounded untrusted input for repair; never a validated narrative paragraph."""
+    paragraph_index: Annotated[int, Field(ge=0, le=2)]
+    paragraph_id: Annotated[str, Field(max_length=160)] | None
+    claim_kind: Annotated[str, Field(max_length=80)] | None
+    text_fa: Annotated[str, Field(max_length=2200)] | None
+    fact_refs: Annotated[list[Annotated[str, Field(max_length=128)]], Field(max_length=32)]
+    evidence_refs: Annotated[list[Annotated[str, Field(max_length=128)]], Field(max_length=32)]
+    truncated: bool
+
+
+class InvalidSectionRepairV1(ContractModel):
+    """A closed projection of invalid input, distinct from accepted report data."""
+    payload_kind: Literal["invalid_section"]
+    section_id: SectionId
+    paragraphs: Annotated[list[RepairParagraphSnapshotV1], Field(max_length=3)]
+    structural_errors: Annotated[list[StructuralFieldErrorV1], Field(min_length=1, max_length=12)]
+    truncated: bool
+
+    @model_validator(mode="after")
+    def bounded_transport(self) -> Self:
+        import json
+        encoded = json.dumps(self.model_dump(mode="json"), ensure_ascii=False,
+                             separators=(",", ":"), allow_nan=False).encode("utf-8")
+        if len(encoded) > 16384:
+            raise ValueError("An invalid-section repair snapshot exceeds its byte limit")
+        return self
+
+
 class WriterContextV3(ContractModel):
     schema_version: Literal["3.0"]
     mode: Literal["draft", "repair"]
@@ -222,10 +259,20 @@ class WriterContextV3(ContractModel):
     request_hash: Sha256
     section_scope: list[SectionId]
     accepted_sections: list[NarrativeSectionV3]
-    failed_sections: list[NarrativeSectionV3]
+    failed_sections: list[NarrativeSectionV3 | InvalidSectionRepairV1]
     previous_response_text: Annotated[str, Field(max_length=8192)] | None
     previous_response_truncated: bool
     repair_issues: list[ValidationIssueV1]
+
+    @model_validator(mode="after")
+    def invalid_snapshots_are_scoped(self) -> Self:
+        snapshots = [s for s in self.failed_sections if isinstance(s, InvalidSectionRepairV1)]
+        accepted = {s.section_id for s in self.accepted_sections}
+        ids = [s.section_id for s in snapshots]
+        if snapshots and (self.mode != "repair" or len(ids) != len(set(ids))
+                          or set(ids) - set(self.section_scope) or set(ids) & accepted):
+            raise ValueError("Invalid-section snapshots belong only to unresolved repair scope")
+        return self
 
 
 class NarrativeDraftV3(ContractModel):

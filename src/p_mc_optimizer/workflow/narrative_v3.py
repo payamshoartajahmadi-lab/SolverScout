@@ -385,7 +385,10 @@ class NarrativeOrchestrator:
         self._mark_invalid("draft", checked.issues)
         self.omitted.update(checked.omitted_sections)
         valid = list(map(_json, checked.valid_sections))
-        structural_failed = []
+        # Schema-invalid sections cannot pass NarrativeSectionV3 again. Carry
+        # the validator's bounded, sanitized repair snapshots without treating
+        # their contents as valid or accepted prose.
+        structural_failed = list(map(_json, checked.invalid_sections))
         if isinstance(raw, dict):
             valid_ids = {item["section_id"] for item in valid}
             for section in raw.get("sections", []):
