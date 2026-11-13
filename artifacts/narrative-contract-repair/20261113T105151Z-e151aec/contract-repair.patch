@@ -1,0 +1,689 @@
+diff --git a/.gitattributes b/.gitattributes
+new file mode 100644
+index 0000000..53480db
+--- /dev/null
++++ b/.gitattributes
+@@ -0,0 +1,2 @@
++# Generated schema contracts have canonical LF bytes on every platform.
++/schemas/*.json text eol=lf
+diff --git a/src/p_mc_optimizer/llm/narrative_models.py b/src/p_mc_optimizer/llm/narrative_models.py
+index 48e65e5..95d5cc5 100644
+--- a/src/p_mc_optimizer/llm/narrative_models.py
++++ b/src/p_mc_optimizer/llm/narrative_models.py
+@@ -213,6 +213,43 @@ class NarrativeSectionV3(ContractModel):
+     paragraphs: Annotated[list[NarrativeParagraphV3], Field(max_length=3)]
+ 
+ 
++class StructuralFieldErrorV1(ContractModel):
++    """Server-authored diagnostics, without Pydantic inputs or exception context."""
++    field_path: Annotated[str, Field(max_length=240)]
++    error_type: Annotated[str, Field(max_length=80)]
++    expected_rule: Annotated[str, Field(max_length=256)]
++    repair_instruction_fa: Annotated[str, Field(max_length=640)]
++
++
++class RepairParagraphSnapshotV1(ContractModel):
++    """Bounded untrusted input for repair; never a validated narrative paragraph."""
++    paragraph_index: Annotated[int, Field(ge=0, le=2)]
++    paragraph_id: Annotated[str, Field(max_length=160)] | None
++    claim_kind: Annotated[str, Field(max_length=80)] | None
++    text_fa: Annotated[str, Field(max_length=2200)] | None
++    fact_refs: Annotated[list[Annotated[str, Field(max_length=128)]], Field(max_length=32)]
++    evidence_refs: Annotated[list[Annotated[str, Field(max_length=128)]], Field(max_length=32)]
++    truncated: bool
++
++
++class InvalidSectionRepairV1(ContractModel):
++    """A closed projection of invalid input, distinct from accepted report data."""
++    payload_kind: Literal["invalid_section"]
++    section_id: SectionId
++    paragraphs: Annotated[list[RepairParagraphSnapshotV1], Field(max_length=3)]
++    structural_errors: Annotated[list[StructuralFieldErrorV1], Field(min_length=1, max_length=12)]
++    truncated: bool
++
++    @model_validator(mode="after")
++    def bounded_transport(self) -> Self:
++        import json
++        encoded = json.dumps(self.model_dump(mode="json"), ensure_ascii=False,
++                             separators=(",", ":"), allow_nan=False).encode("utf-8")
++        if len(encoded) > 16384:
++            raise ValueError("An invalid-section repair snapshot exceeds its byte limit")
++        return self
++
++
+ class WriterContextV3(ContractModel):
+     schema_version: Literal["3.0"]
+     mode: Literal["draft", "repair"]
+@@ -222,11 +259,21 @@ class WriterContextV3(ContractModel):
+     request_hash: Sha256
+     section_scope: list[SectionId]
+     accepted_sections: list[NarrativeSectionV3]
+-    failed_sections: list[NarrativeSectionV3]
++    failed_sections: list[NarrativeSectionV3 | InvalidSectionRepairV1]
+     previous_response_text: Annotated[str, Field(max_length=8192)] | None
+     previous_response_truncated: bool
+     repair_issues: list[ValidationIssueV1]
+ 
++    @model_validator(mode="after")
++    def invalid_snapshots_are_scoped(self) -> Self:
++        snapshots = [s for s in self.failed_sections if isinstance(s, InvalidSectionRepairV1)]
++        accepted = {s.section_id for s in self.accepted_sections}
++        ids = [s.section_id for s in snapshots]
++        if snapshots and (self.mode != "repair" or len(ids) != len(set(ids))
++                          or set(ids) - set(self.section_scope) or set(ids) & accepted):
++            raise ValueError("Invalid-section snapshots belong only to unresolved repair scope")
++        return self
++
+ 
+ class NarrativeDraftV3(ContractModel):
+     schema_version: Literal["3.0"]
+diff --git a/src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt b/src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt
+index d37902f..1d1ff97 100644
+--- a/src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt
++++ b/src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt
+@@ -2,6 +2,8 @@ You write a concise, analytical Persian university report using the frozen Repor
+ 
+ Write your own connected prose, usually about 350–650 Persian words without padding. Each required section answers a distinct question: problem (what objective, sense and domain?), candidate_rationale (why were these particular candidates proposed?), selection (what did these pilots establish and why was this method selected?), solution (what point/value was confirmed and where did it originate?), verification_and_limits (what was checked, how much main/total work was consumed, and what remains uncertified?). All five required sections must be present once. mathematical_analysis is optional; omit it when it adds no useful supported insight. At most three paragraphs per section, 2200 characters per paragraph and 16000 raw text characters total.
+ 
++Every paragraph_id MUST match ^[a-z][a-z0-9_]{0,47}$: start with one lowercase ASCII letter, followed only by lowercase ASCII letters, digits or underscores, with at most 48 characters in total. Use problem_main as a valid example; problem-main is invalid because hyphens are forbidden. IDs must be unique across the entire report, including accepted_sections and every repaired section. These rules apply to both draft and repair even when the provider's JSON schema omits the pattern constraint. Correct IDs in your returned JSON; never assume the server will rename them.
++
+ Numeric facts and textual evidence have different purposes. Every remaining required_fact_ref in the section requirements MUST occur physically as {{fact:ID}} in that section's prose. A reference in fact_refs alone is insufficient, including selection.decisive_criterion and problem.sense. In every paragraph fact_refs must exactly equal its unique fact-token IDs; no extra, missing or duplicate references. Every number, formula, bound, method identity, score, point, count, percentage, criterion and recorded status must use actual fact tokens. Never write raw numbers from documents, including optional configuration strings. Do not add raw implementation classes, IDs, qualified, strategy names or technical enum values to ordinary prose. Use the readable method labels in facts. Paragraph evidence_refs must be unique, exist in this exact evidence, support its claims and belong to the section's allowed references.
+ 
+ Textual reasons in report:proposal are evidence to PARAPHRASE, not a paragraph to paste. Policy 1.1 deliberately has no proposal.rationale fact. Read rationales for all candidates, explain the actual recorded reason briefly in your own words, and cite report:proposal. Cover every candidate individually or with a truthful shared explanation when they share a reason; invent no differences. If a candidate lacks a recorded rationale, state that absence rather than supplying outside knowledge. Retain proposal.methods and proposal.source tokens when required. Source passages establish only their recorded scope (such as method identity or card suitability); they do not prove measured speed, memory, superiority or success. A direct claim about an external passage must also cite that actual source passage. Omit optional class/configuration details that have no usable fact. Do not copy a long rationale and then repeat its summary or each candidate's warning. Put the relevant limitation once, keeping nomination distinct from empirical selection.
+@@ -14,4 +16,6 @@ Display units are already inside policy-1.1 facts. For a scalar example, write 
+ 
+ The selected main method and the method/phase that produced the reported point are independent. Use solution.origin_phase and available solution.origin_method_label, never infer origin from selection. A preflight point with missing origin method was recorded during initial checking and has no recorded producing algorithm; do not call the phase a method. Report main consumption separately from total consumption. Verification repeats support numerical consistency at the point, not a formal global optimum certificate. Mathematical sum-of-squares interpretation may discuss the formula but never claim that a symbolic prover or certificate ran. Keep optimality_status unchanged.
+ 
+-For mode=repair return exactly section_scope, no other sections. Reuse the frozen evidence. accepted_sections are immutable and must not be rewritten, repeated or returned as repaired sections. Read the precise token/ref discrepancy lists and required changes; insert each missing required token into a meaningful sentence and keep fact_refs equal to actual tokens. Use existing facts or remove unnecessary details to repair unbound numbers. Never silently delete inconvenient evidence. A rejected optional mathematical_analysis may be omitted only by returning that scoped section with paragraphs=[]. JSON only.
++For mode=repair return exactly section_scope, no other sections. Reuse the frozen evidence. accepted_sections are immutable and must not be rewritten, repeated or returned as repaired sections. failed_sections may contain an ordinary rejected section or a bounded snapshot with payload_kind="invalid_section". Such a snapshot preserves only relevant untrusted data from a structurally invalid section; it is not an accepted section and must not be copied as an output envelope. Read its structural_errors: field_path identifies the faulty field, error_type identifies the defect, expected_rule states the contract, and repair_instruction_fa explains the required correction. Use the retained paragraph text and references to write a valid NarrativeSectionV3 for that section. Respect truncated markers: omitted content is unknown, not valid or absent evidence. Fix paragraph_id to the exact lowercase-letter/digit/underscore rule above, using an unused ID such as problem_main, without changing accepted sections.
++
++Independently repair token bindings after structural defects: the problem section MUST physically contain {{fact:problem.sense}} in its prose. Writing «کمینه‌سازی» or placing problem.sense only in fact_refs does not satisfy this requirement. Read the precise token/ref discrepancy lists and required changes; insert each missing required token into a meaningful sentence and keep fact_refs equal to actual tokens. A corrected ID does not make invalid bindings valid. Use existing facts or remove unnecessary details to repair unbound numbers. Never silently delete inconvenient evidence. A rejected optional mathematical_analysis may be omitted only by returning that scoped section with paragraphs=[]. JSON only.
+diff --git a/src/p_mc_optimizer/reporting/narrative_validation.py b/src/p_mc_optimizer/reporting/narrative_validation.py
+index 2a90878..e3e5dff 100644
+--- a/src/p_mc_optimizer/reporting/narrative_validation.py
++++ b/src/p_mc_optimizer/reporting/narrative_validation.py
+@@ -11,6 +11,7 @@ from pydantic import ValidationError
+ from p_mc_optimizer.llm.narrative_models import (
+     NarrativeSectionV3, NarrativeDraftV3, NarrativeReviewV1, WriterContextV3, ReviewerContextV1,
+     ReportEvidenceV3, RenderedSectionV1, RenderedParagraphV1, ValidationIssueV1, SECTION_ORDER, REQUIRED_SECTIONS,
++    InvalidSectionRepairV1,
+ )
+ from p_mc_optimizer.reporting.evidence_v3 import canonical_bytes, value_hash, evidence_hash
+ 
+@@ -35,6 +36,7 @@ class DraftValidation:
+     issues: list[ValidationIssueV1] = field(default_factory=list)
+     global_error: bool = False
+     omitted_sections: list[str] = field(default_factory=list)
++    invalid_sections: list[InvalidSectionRepairV1] = field(default_factory=list)
+ 
+     @property
+     def valid(self):
+@@ -116,6 +118,139 @@ def _parse(value):
+     return _data(value)
+ 
+ 
++def _repair_text(value, limit):
++    """Project strings without transporting credentials, headers or private paths.
++
++    This supplements the gateway's known-key sanitizer for synthetic/offline inputs.
++    It is not a reason to copy arbitrary fields into the repair transport.
++    """
++    if not isinstance(value, str):
++        return None, value is not None
++    # Normalize before inspection so removing a control cannot reveal an
++    # uninspected credential name or token (for example api_\x00key).
++    text = "".join("\ufffd" if 0xD800 <= ord(c) <= 0xDFFF else c for c in value if ord(c) >= 32 or c in "\n\r\t")
++    text = re.sub(r"\b(?:sk-|tvly-|gh[pousr]_|github_pat_)[A-Za-z0-9_-]{6,}", "[REDACTED]", text)
++    text = re.sub(r"\bAKIA[A-Z0-9]{16}\b", "[REDACTED]", text)
++    text = re.sub(r"\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b", "[REDACTED]", text)
++    text = re.sub(r"(?i)\b(?:Bearer|Basic)\s+[^\s\"'<>;,]+", "[REDACTED]", text)
++    # A dotted public contract such as numeric_execution.authorization is not a header.
++    text = re.sub(r"(?i)(?<![\w.])(?:authorization|proxy-authorization)[\"']?\s*[:=]\s*[^\r\n]+", "[REDACTED]", text)
++    text = re.sub(r"(?i)(?<![\w.])(?:cookie|set-cookie)[\"']?\s*[:=]\s*[^\r\n]+", "[REDACTED]", text)
++    text = re.sub(r"(?i)(?<![\w.])(?:api[_-]?key|access[_-]?token|refresh[_-]?token|client[_-]?secret|secret|password|token)[\"']?\s*[:=]\s*(?:\"(?:\\.|[^\"\\\r\n])*\"|'(?:\\.|[^'\\\r\n])*'|[^\s,;]+)", "[REDACTED]", text)
++    text = re.sub(r"(?i)https?://[^\s/@]+:[^\s/@]+@[^\s\"'<>]+", "[REDACTED]", text)
++    text = re.sub(r"(?i)(?:[a-z]:[\\/]|/(?:Users|home|private|var|tmp|root)/|~[\\/]|\\\\)[^\s\"'<>]+", "[PRIVATE_PATH]", text)
++    text = re.sub(r"(?i)(?:[^\s\"'<>]*[\\/])?(?:_private_qa[\\/][^\s\"'<>]*|\.env(?:\.[a-z0-9_-]+)?)(?![\w.])", "[PRIVATE_PATH]", text)
++    return text[:limit], text != value or len(text) > limit
++
++
++def _repair_refs(value):
++    if not isinstance(value, list):
++        return [], value is not None
++    output, changed = [], len(value) > 32
++    for item in value[:32]:
++        projected, redacted = _repair_text(item, 128)
++        changed = changed or redacted
++        if projected is not None:
++            output.append(projected)
++        else:
++            changed = True
++    return output, changed
++
++
++def _structural_error(section_index, detail):
++    """Use server-owned rules and safe locations, never exception input/msg/ctx."""
++    fields = {"section_id", "paragraphs", "paragraph_id", "claim_kind", "text_fa", "fact_refs", "evidence_refs"}
++    path = f"sections[{section_index}]"
++    location = detail.get("loc", ())
++    for part in location[:8]:
++        path += f"[{part}]" if type(part) is int else "." + (part if part in fields else "<extra_field>")
++    last = next((part for part in reversed(location) if isinstance(part, str) and part in fields), None)
++    kind = detail.get("type", "schema_invalid")
++    # Pydantic error types are implementation identifiers, not model-supplied text.
++    if not isinstance(kind, str) or not re.fullmatch(r"[a-z_]{1,80}", kind):
++        kind = "schema_invalid"
++    rules = {
++        "paragraph_id": "^[a-z][a-z0-9_]{0,47}$; unique across all new and accepted paragraphs",
++        "paragraphs": "a list of at most three narrative paragraphs",
++        "claim_kind": "one of recorded, derived, interpretation",
++        "text_fa": "a string containing 1 to 2200 characters",
++        "fact_refs": "a list of strings exactly matching the unique fact-token IDs in this paragraph",
++        "evidence_refs": "a list of unique evidence-ID strings belonging to the frozen section evidence",
++        "section_id": "one of " + ", ".join(SECTION_ORDER),
++    }
++    rule = ("only the declared fields are allowed; remove the extra field" if kind == "extra_forbidden"
++            else rules.get(last, "a closed NarrativeSectionV3 object with all required fields"))
++    if kind == "missing":
++        rule = "required field; " + rule
++    instruction = "فیلد مشخص‌شده را طبق قاعدهٔ ثبت‌شده اصلاح کنید؛ بخش‌های پذیرفته‌شده تغییر نکنند."
++    if last == "paragraph_id" and kind != "extra_forbidden":
++        instruction = ("paragraph_id را خودتان با الگوی ^[a-z][a-z0-9_]{0,47}$ بسازید: ابتدا حرف کوچک لاتین، "
++                       "سپس فقط حروف کوچک، رقم یا زیرخط؛ خط تیره مجاز نیست. نمونهٔ معتبر problem_main است. "
++                       "شناسه در کل پاراگراف‌های جدید و پذیرفته‌شده یکتا بماند؛ سرور شناسه را خودکار تغییر نمی‌دهد.")
++    return {"field_path": path[:240], "error_type": kind, "expected_rule": rule[:256],
++            "repair_instruction_fa": instruction[:640]}
++
++
++def _invalid_section_snapshot(section_id, raw, section_index, error):
++    details = (error.errors(include_input=False, include_url=False, include_context=False)
++               if isinstance(error, ValidationError) else [{"loc": (), "type": "schema_invalid"}])
++    snapshots = []
++    paragraphs = raw.get("paragraphs")
++    changed = bool(set(raw) - {"section_id", "paragraphs"})
++    if not isinstance(paragraphs, list):
++        paragraphs, changed = [], True
++    changed = changed or len(paragraphs) > 3 or len(details) > 12
++    paragraph_fields = {"paragraph_id", "claim_kind", "text_fa", "fact_refs", "evidence_refs"}
++    for index, paragraph in enumerate(paragraphs[:3]):
++        modified = not isinstance(paragraph, dict)
++        source = paragraph if isinstance(paragraph, dict) else {}
++        modified = modified or bool(set(source) - paragraph_fields)
++        snapshot = {"paragraph_index": index}
++        for name, limit in (("paragraph_id", 160), ("claim_kind", 80), ("text_fa", 2200)):
++            snapshot[name], trimmed = _repair_text(source.get(name), limit)
++            modified = modified or trimmed
++        for name in ("fact_refs", "evidence_refs"):
++            snapshot[name], trimmed = _repair_refs(source.get(name))
++            modified = modified or trimmed
++        snapshot["truncated"] = modified
++        snapshots.append(snapshot)
++        changed = changed or modified
++    projected = {"payload_kind": "invalid_section", "section_id": section_id,
++                 "paragraphs": snapshots,
++                 "structural_errors": [_structural_error(section_index, item) for item in details[:12]],
++                 "truncated": bool(changed)}
++    # A malicious collection of long refs must not crowd out the useful prose.
++    # Trimming applies only to this explicit snapshot, never to the source draft.
++    while len(canonical_bytes(projected)) > 16384:
++        projected["truncated"] = True
++        ref_lists = [(p, key) for p in snapshots for key in ("fact_refs", "evidence_refs") if p[key]]
++        if ref_lists:
++            paragraph, name = max(ref_lists, key=lambda item: len(canonical_bytes(item[0][item[1]])))
++            paragraph[name].pop()
++            paragraph["truncated"] = True
++            continue
++        texts = [p for p in snapshots if p["text_fa"] and len(p["text_fa"]) > 128]
++        if texts:
++            paragraph = max(texts, key=lambda p: len(p["text_fa"]))
++            paragraph["text_fa"] = paragraph["text_fa"][:max(128, len(paragraph["text_fa"]) // 2)]
++            paragraph["truncated"] = True
++        elif len(projected["structural_errors"]) > 1:
++            projected["structural_errors"].pop()
++        else:
++            # All individual fields are bounded; this final branch is defensive.
++            snapshots.pop()
++    return InvalidSectionRepairV1.model_validate(projected)
++
++
++def _structural_issue(snapshot):
++    first = snapshot.structural_errors[0]
++    diagnostic = {"section_id": snapshot.section_id, "field_errors": [first.model_dump(mode="json")],
++                  "additional_errors_in_snapshot": len(snapshot.structural_errors) - 1}
++    detail = issue("SCHEMA_INVALID", snapshot.section_id,
++                   message="خطای ساختاری بخش؛ جزئیات امن برای اصلاح: " + json.dumps(diagnostic, ensure_ascii=False, separators=(",", ":")))
++    return detail.model_copy(update={"required_change_fa": first.repair_instruction_fa})
++
++
+ def validate_draft(context, raw_response) -> DraftValidation:
+     result=DraftValidation()
+     try:
+@@ -159,8 +294,10 @@ def validate_draft(context, raw_response) -> DraftValidation:
+         if len(matching)!=1:
+             result.issues.append(issue("SCHEMA_INVALID",section_id));continue
+         try:section=NarrativeSectionV3.model_validate(matching[0])
+-        except (ValidationError,ValueError,TypeError):
+-            result.issues.append(issue("SCHEMA_INVALID",section_id));continue
++        except (ValidationError,ValueError,TypeError) as error:
++            snapshot = _invalid_section_snapshot(section_id, matching[0], raw["sections"].index(matching[0]), error)
++            result.invalid_sections.append(snapshot)
++            result.issues.append(_structural_issue(snapshot));continue
+         if section_id in accepted and section_hash(section)!=accepted[section_id]:
+             result.issues.append(issue("OUT_OF_SCOPE_REPAIR",section_id));continue
+         if not section.paragraphs:
+@@ -199,7 +336,8 @@ def validate_draft(context, raw_response) -> DraftValidation:
+         missing=set(requirements[section_id].required_fact_refs)-covered
+         if missing:
+             detail=issue("MISSING_REQUIRED_FACT",section_id,message="داده‌های ضروری بدون توکن در همین بخش: "+json.dumps({"missing_required_fact_tokens":sorted(missing)},ensure_ascii=False,separators=(",",":")))
+-            local.append(detail.model_copy(update={"required_change_fa":"هر fact ضروریِ مشخص‌شده را با توکن {{fact:شناسهٔ دقیق}} در همین بخش بیان کنید؛ برای selection معیار selection.decisive_criterion را صریحاً با توکن آن بیاورید. بخش‌های پذیرفته‌شده را تغییر ندهید."}))
++            required_tokens="، ".join("{{fact:"+fact+"}}" for fact in sorted(missing))
++            local.append(detail.model_copy(update={"required_change_fa":"توکن‌های الزامی "+required_tokens+" را واقعاً در متن همین بخش بیاورید و fact_refs را با توکن‌های متن برابر نگه دارید؛ ذکر مفهوم یا ارجاع به‌تنهایی کافی نیست. بخش‌های پذیرفته‌شده را تغییر ندهید."}))
+         if ctx.evidence.evidence_policy_version=="1.1" and section_id=="candidate_rationale" and not any("report:proposal" in p.evidence_refs for p in section.paragraphs):
+             local.append(issue("UNKNOWN_EVIDENCE",section_id,message="بخش دلیل پیشنهاد باید دست‌کم به report:proposal همین اجرا ارجاع دهد؛ ارجاع موجود ولی نامرتبط، جای این شاهد را نمی‌گیرد."))
+         if local:result.issues.extend(local)
+diff --git a/src/p_mc_optimizer/workflow/narrative_v3.py b/src/p_mc_optimizer/workflow/narrative_v3.py
+index 5d2757d..c8bfd3d 100644
+--- a/src/p_mc_optimizer/workflow/narrative_v3.py
++++ b/src/p_mc_optimizer/workflow/narrative_v3.py
+@@ -385,7 +385,10 @@ class NarrativeOrchestrator:
+         self._mark_invalid("draft", checked.issues)
+         self.omitted.update(checked.omitted_sections)
+         valid = list(map(_json, checked.valid_sections))
+-        structural_failed = []
++        # Schema-invalid sections cannot pass NarrativeSectionV3 again. Carry
++        # the validator's bounded, sanitized repair snapshots without treating
++        # their contents as valid or accepted prose.
++        structural_failed = list(map(_json, checked.invalid_sections))
+         if isinstance(raw, dict):
+             valid_ids = {item["section_id"] for item in valid}
+             for section in raw.get("sections", []):
+diff --git a/tests/test_narrative_contract_repair.py b/tests/test_narrative_contract_repair.py
+new file mode 100644
+index 0000000..81161ab
+--- /dev/null
++++ b/tests/test_narrative_contract_repair.py
+@@ -0,0 +1,384 @@
++"""Synthetic repair regression fixtures; never recovered historical C-L1 responses.
++
++Writers/reviewers below are controlled Python fakes. These tests prove contract
++handling and request construction, not live model quality or historical replay.
++"""
++from copy import deepcopy
++from hashlib import sha256
++import json
++
++import httpx
++import pytest
++
++from p_mc_optimizer.llm.models import provider_schema
++from p_mc_optimizer.llm.narrative_models import NarrativeDraftV3, WriterContextV3
++from p_mc_optimizer.llm.provider import build_request, prepare_provider_request
++from p_mc_optimizer.reporting.evidence_v3 import build_evidence_v3, canonical_bytes, core_hash
++from p_mc_optimizer.reporting.narrative_validation import request_hash, section_hash, validate_draft
++from p_mc_optimizer.workflow.narrative_v3 import build_writer_context
++from test_narrative_closure_policy import snapshot
++from test_narrative_closure_workflow import ClosureDriver
++from test_narrative_v3_workflow import BUNDLE, correct_draft, fixture
++
++
++ID_PATTERN = r"^[a-z][a-z0-9_]{0,47}$"
++
++
++@pytest.fixture(autouse=True)
++def reporting_only_boundaries(monkeypatch):
++    """Any accidental real transport or numerical work must fail this module."""
++    from p_mc_optimizer.execution import evaluator, supervisor
++
++    def forbidden(*args, **kwargs):
++        pytest.fail("Synthetic contract repair must not dispatch HTTP or numerical work")
++
++    monkeypatch.setattr(httpx.HTTPTransport, "handle_request", forbidden)
++    monkeypatch.setattr(evaluator.BudgetedEvaluator, "__call__", forbidden)
++    monkeypatch.setattr(supervisor, "run_execution", forbidden)
++
++
++def writer_context(version="1.1"):
++    return build_writer_context(build_evidence_v3(fixture(), policy_version=version),
++                                prompt_bundle_sha256=BUNDLE)
++
++
++def as_dict(value):
++    return value.model_dump(mode="json") if hasattr(value, "model_dump") else deepcopy(value)
++
++
++def paragraph(raw, section="problem"):
++    return next(s for s in raw["sections"] if s["section_id"] == section)["paragraphs"][0]
++
++
++def synthetic_invalid_draft(context, *, all_sections=False):
++    raw = correct_draft(as_dict(context))
++    for section in raw["sections"]:
++        if all_sections or section["section_id"] == "problem":
++            section["paragraphs"][0]["paragraph_id"] = section["section_id"] + "-main"
++    return raw
++
++
++def prepared_repair():
++    context = writer_context()
++    invalid = synthetic_invalid_draft(context)
++    checked = validate_draft(context, invalid)
++    repair = build_writer_context(
++        context.evidence, prompt_bundle_sha256=BUNDLE, scope=["problem"],
++        accepted_sections=checked.valid_sections, failed_sections=checked.invalid_sections,
++        repair_issues=checked.issues,
++    )
++    return context, invalid, checked, repair
++
++
++def test_invalid_id_has_actionable_field_diagnostic_and_preserved_synthetic_section():
++    context = writer_context()
++    invalid = synthetic_invalid_draft(context)
++    untouched = deepcopy(invalid)
++    result = validate_draft(context, invalid)
++    assert not result.global_error
++    assert {s.section_id for s in result.valid_sections} == {
++        "candidate_rationale", "selection", "solution", "verification_and_limits"
++    }
++    assert len(result.invalid_sections) == 1
++    rejected = as_dict(result.invalid_sections[0])
++    assert rejected["payload_kind"] == "invalid_section"
++    assert rejected["section_id"] == "problem"
++    assert rejected["paragraphs"][0]["paragraph_index"] == 0
++    for key in ("paragraph_id", "text_fa", "claim_kind", "fact_refs", "evidence_refs"):
++        assert rejected["paragraphs"][0][key] == paragraph(invalid)[key]
++    error = next(e for e in rejected["structural_errors"]
++                 if e["field_path"].endswith(".paragraphs[0].paragraph_id"))
++    assert error["error_type"] == "string_pattern_mismatch"
++    assert ID_PATTERN in error["expected_rule"]
++    assert "problem_main" in error["repair_instruction_fa"]
++    schema_issue = next(i for i in result.issues if i.code == "SCHEMA_INVALID")
++    diagnostic = schema_issue.message_fa + " " + schema_issue.required_change_fa
++    assert schema_issue.section_id == "problem"
++    assert error["field_path"] in diagnostic and ID_PATTERN in diagnostic
++    assert "problem_main" in diagnostic
++    assert invalid == untouched
++
++
++def test_invalid_projection_bounds_large_data_and_omits_unknown_sensitive_fields():
++    context = writer_context()
++    invalid = synthetic_invalid_draft(context)
++    section = invalid["sections"][0]
++    section["headers"] = {"Authorization": "Bearer SYNTHETIC_HEADER_SECRET"}
++    section["api_key"] = "SYNTHETIC_KEY_SECRET"
++    section["unrelated_private_payload"] = {"value": "SYNTHETIC_PRIVATE_SECRET"}
++    paragraph(invalid)["unrelated_field"] = "SYNTHETIC_PARAGRAPH_SECRET"
++    paragraph(invalid)["text_fa"] += "x" * 50_000
++    untouched = deepcopy(invalid)
++    result = validate_draft(context, invalid)
++    assert not result.global_error and len(result.invalid_sections) == 1
++    rejected = as_dict(result.invalid_sections[0])
++    serialized = json.dumps(rejected, ensure_ascii=False)
++    assert rejected["truncated"] and len(canonical_bytes(rejected)) <= 16_384
++    assert len(rejected["paragraphs"]) <= 3 and len(rejected["structural_errors"]) <= 12
++    for secret in ("SYNTHETIC_HEADER_SECRET", "SYNTHETIC_KEY_SECRET",
++                   "SYNTHETIC_PRIVATE_SECRET", "SYNTHETIC_PARAGRAPH_SECRET"):
++        assert secret not in serialized
++        assert secret not in json.dumps([as_dict(i) for i in result.issues], ensure_ascii=False)
++    assert "{{fact:problem.sense}}" in rejected["paragraphs"][0]["text_fa"]
++    assert invalid == untouched
++
++
++def test_invalid_projection_redacts_recognizable_inline_credentials_without_mutating_raw():
++    context = writer_context()
++    invalid = synthetic_invalid_draft(context)
++    paragraph(invalid)["text_fa"] += " Authorization: Bearer SYNTHETIC_REPAIR_SECRET_123456789"
++    untouched = deepcopy(invalid)
++    result = validate_draft(context, invalid)
++    public = json.dumps([as_dict(s) for s in result.invalid_sections]
++                        + [as_dict(i) for i in result.issues], ensure_ascii=False)
++    assert "SYNTHETIC_REPAIR_SECRET_123456789" not in public
++    assert invalid == untouched
++
++
++@pytest.mark.parametrize("fragment,secret", [
++    ('{"api_key": "SYNTHETIC_QUOTED_API_SECRET"}', "SYNTHETIC_QUOTED_API_SECRET"),
++    ('{"cookie": "session=SYNTHETIC_QUOTED_COOKIE_SECRET"}', "SYNTHETIC_QUOTED_COOKIE_SECRET"),
++    ('{"api_\x00key": "SYNTHETIC_CONTROL_KEY_SECRET"}', "SYNTHETIC_CONTROL_KEY_SECRET"),
++])
++def test_invalid_projection_redacts_quoted_json_secrets_after_control_normalization(fragment, secret):
++    """Synthetic key names include a real control character, not recovered data."""
++    context = writer_context()
++    invalid = synthetic_invalid_draft(context)
++    paragraph(invalid)["text_fa"] += " " + fragment
++    untouched = deepcopy(invalid)
++    checked = validate_draft(context, invalid)
++    assert len(checked.invalid_sections) == 1
++    public = json.dumps([as_dict(s) for s in checked.invalid_sections]
++                        + [as_dict(i) for i in checked.issues], ensure_ascii=False)
++    assert secret not in public
++    retained = as_dict(checked.invalid_sections[0])["paragraphs"][0]["text_fa"]
++    assert "{{fact:problem.sense}}" in retained and "\x00" not in retained
++    assert invalid == untouched
++
++
++@pytest.mark.parametrize("public_contract", [
++    "numeric_execution.authorization = synthetic_public_execution_contract",
++    '{"numeric_execution.authorization": "synthetic_public_execution_contract"}',
++])
++def test_invalid_projection_preserves_public_numeric_execution_authorization(public_contract):
++    context = writer_context()
++    invalid = synthetic_invalid_draft(context)
++    paragraph(invalid)["text_fa"] += " " + public_contract
++    untouched = deepcopy(invalid)
++    checked = validate_draft(context, invalid)
++    assert len(checked.invalid_sections) == 1
++    retained = as_dict(checked.invalid_sections[0])["paragraphs"][0]["text_fa"]
++    assert public_contract in retained
++    assert invalid == untouched
++
++
++@pytest.mark.parametrize("keep_unused_ref", [False, True])
++def test_valid_id_does_not_hide_missing_problem_sense_token(keep_unused_ref):
++    context = writer_context()
++    invalid = synthetic_invalid_draft(context)
++    paragraph(invalid)["text_fa"] = paragraph(invalid)["text_fa"].replace(
++        "{{fact:problem.sense}}", "کمینه‌سازی")
++    if not keep_unused_ref:
++        paragraph(invalid)["fact_refs"].remove("problem.sense")
++    structural = validate_draft(context, invalid)
++    assert any(i.code == "SCHEMA_INVALID" for i in structural.issues)
++    paragraph(invalid)["paragraph_id"] = "problem_main"
++    before = deepcopy(invalid)
++    checked = validate_draft(context, invalid)
++    codes = {i.code for i in checked.issues if i.section_id == "problem"}
++    assert "SCHEMA_INVALID" not in codes and "MISSING_REQUIRED_FACT" in codes
++    assert ("INVALID_BINDING" in codes) is keep_unused_ref
++    missing = next(i for i in checked.issues if i.code == "MISSING_REQUIRED_FACT")
++    assert "problem.sense" in missing.message_fa and "problem.sense" in missing.required_change_fa
++    assert invalid == before
++
++
++def test_corrected_structural_section_passes_with_snapshot_and_frozen_accepted_hashes():
++    _, invalid, _, repair = prepared_repair()
++    hashes = {s.section_id: section_hash(s) for s in repair.accepted_sections}
++    assert repair.mode == "repair" and len(repair.failed_sections) == 1
++    assert as_dict(repair.failed_sections[0])["paragraphs"][0]["text_fa"] == paragraph(invalid)["text_fa"]
++    corrected = correct_draft(as_dict(repair))
++    paragraph(corrected)["paragraph_id"] = "problem_main"
++    before = deepcopy(corrected)
++    result = validate_draft(repair, corrected)
++    assert not result.global_error and not result.issues
++    assert [s.section_id for s in result.valid_sections] == ["problem"]
++    assert {s.section_id: section_hash(s) for s in repair.accepted_sections} == hashes
++    assert corrected == before and request_hash(repair) == repair.request_hash
++
++
++def test_synthetic_invalid_to_repair_to_review_to_accepted_retains_healthy_sections():
++    driver = ClosureDriver()
++    original_core = core_hash(driver.report)
++    outputs = []
++
++    def writer(context):
++        raw = synthetic_invalid_draft(context) if context["mode"] == "draft" else correct_draft(context)
++        if context["mode"] == "repair":
++            assert context["section_scope"] == ["problem"]
++            failed = context["failed_sections"][0]
++            assert failed["payload_kind"] == "invalid_section"
++            assert failed["paragraphs"][0]["paragraph_id"] == "problem-main"
++            assert failed["paragraphs"][0]["text_fa"] == paragraph(outputs[0])["text_fa"]
++            assert ID_PATTERN in json.dumps(context["repair_issues"], ensure_ascii=False)
++            paragraph(raw)["paragraph_id"] = "problem_main"
++        outputs.append(deepcopy(raw))
++        return raw
++
++    driver.writer = writer
++    result = driver.run()
++    assert result["mode"] == "llm" and result["review_status"] == "passed"
++    assert [s["role"] for s in driver.sent] == ["explainer", "report_reviewer", "explainer", "report_reviewer"]
++    assert driver.used == {"explainer": 2, "report_reviewer": 2}
++    repair = driver.sent[2]["context"]
++    assert "problem" not in driver.sent[1]["context"]["section_scope"]
++    assert driver.sent[3]["context"]["section_scope"] == ["problem"]
++    accepted = {s["section"]["section_id"]: s["section"] for s in result["accepted_sections"]}
++    assert all(section_hash(s) == section_hash(accepted[s["section_id"]]) for s in repair["accepted_sections"])
++    assert accepted["problem"]["paragraphs"][0]["paragraph_id"] == "problem_main"
++    assert paragraph(outputs[0])["paragraph_id"] == "problem-main"
++    assert driver.journal["calls"]["draft"]["result"]["output"] == outputs[0]
++    assert all(s["context"]["evidence"] == driver.sent[0]["context"]["evidence"] for s in driver.sent)
++    assert core_hash(driver.report) == original_core
++    assert driver.run() == result and len(driver.sent) == 4
++
++
++def test_all_structurally_invalid_sections_reach_repair_before_any_mock_reviewer():
++    driver = ClosureDriver()
++    driver.writer = lambda ctx: (synthetic_invalid_draft(ctx, all_sections=True)
++                                if ctx["mode"] == "draft" else correct_draft(ctx))
++    result = driver.run()
++    assert result["mode"] == "llm" and result["review_status"] == "passed"
++    assert [s["role"] for s in driver.sent] == ["explainer", "explainer", "report_reviewer"]
++    repair = driver.sent[1]["context"]
++    assert len(repair["failed_sections"]) == 5 and repair["accepted_sections"] == []
++    assert all(s["payload_kind"] == "invalid_section" for s in repair["failed_sections"])
++
++
++@pytest.mark.parametrize("failure", ["identifier", "sense"])
++def test_failed_second_writer_preserves_call_cap_and_reviewed_fallback(failure):
++    driver = ClosureDriver()
++
++    def writer(context):
++        raw = synthetic_invalid_draft(context)
++        if context["mode"] == "repair" and failure == "sense":
++            paragraph(raw)["paragraph_id"] = "problem_main"
++            paragraph(raw)["text_fa"] = paragraph(raw)["text_fa"].replace("{{fact:problem.sense}}", "کمینه‌سازی")
++        return raw
++
++    driver.writer = writer
++    result = driver.run()
++    assert result["mode"] == "mixed" and result["review_status"] == "partial"
++    assert driver.used == {"explainer": 2, "report_reviewer": 1} and len(driver.sent) == 3
++    origins = {s["section"]["section_id"]: s["origin"] for s in result["accepted_sections"]}
++    assert origins["problem"] == "server" and sum(v == "llm" for v in origins.values()) == 4
++    expected = "SCHEMA_INVALID" if failure == "identifier" else "MISSING_REQUIRED_FACT"
++    assert any(i["code"] == expected and i["section_id"] == "problem" for i in result["issues"])
++    assert driver.run() == result and len(driver.sent) == 3
++
++
++def test_repaired_id_cannot_reuse_an_accepted_paragraph_identifier():
++    _, _, _, repair = prepared_repair()
++    corrected = correct_draft(as_dict(repair))
++    paragraph(corrected)["paragraph_id"] = repair.accepted_sections[0].paragraphs[0].paragraph_id
++    result = validate_draft(repair, corrected)
++    assert not result.valid_sections
++    assert any(i.code == "SCHEMA_INVALID" and i.section_id == "problem" for i in result.issues)
++
++
++@pytest.mark.parametrize("fault", ["scope", "old_hash"])
++def test_structural_repair_cannot_return_accepted_sections_or_old_request_hash(fault):
++    original, _, _, repair = prepared_repair()
++    corrected = correct_draft(as_dict(repair))
++    if fault == "scope":
++        corrected["sections"].append(as_dict(repair.accepted_sections[0]))
++    else:
++        corrected["request_hash"] = original.request_hash
++    result = validate_draft(repair, corrected)
++    assert result.global_error and not result.valid_sections
++    assert any(i.code == ("OUT_OF_SCOPE_REPAIR" if fault == "scope" else "REQUEST_MISMATCH") for i in result.issues)
++
++
++def test_interrupted_structural_repair_reuses_exact_snapshot_hash_and_invocation():
++    driver = ClosureDriver()
++
++    def writer(context):
++        if context["mode"] == "draft":
++            return synthetic_invalid_draft(context)
++        driver.crash_after_send = True
++        return correct_draft(context)
++
++    driver.writer = writer
++    with pytest.raises(RuntimeError, match="process loss"):
++        driver.run()
++    frozen = deepcopy(driver.sent[2])
++    assert frozen["context"]["failed_sections"][0]["payload_kind"] == "invalid_section"
++    driver.writer = lambda context: pytest.fail("Received repair must be replayed, not regenerated")
++    result = driver.run()
++    assert result["mode"] == "llm" and len(driver.sent) == 4
++    assert driver.sent[2] == frozen and driver.used == {"explainer": 2, "report_reviewer": 2}
++    assert request_hash(frozen["context"]) == frozen["context"]["request_hash"]
++
++
++@pytest.mark.parametrize("field", ["text", "instruction"])
++def test_repair_snapshot_and_structural_guidance_are_bound_by_request_hash(field):
++    _, _, _, repair = prepared_repair()
++    altered = as_dict(repair)
++    failed = altered["failed_sections"][0]
++    if field == "text":
++        failed["paragraphs"][0]["text_fa"] += " متن مصنوعی افزوده‌شده"
++    else:
++        failed["structural_errors"][0]["repair_instruction_fa"] += " دستور مصنوعی افزوده‌شده"
++    assert request_hash(altered) != repair.request_hash
++    result = validate_draft(altered, correct_draft(as_dict(repair)))
++    assert result.global_error and any(i.code == "REQUEST_MISMATCH" for i in result.issues)
++
++
++@pytest.mark.parametrize("version", ["1.0", "1.1"])
++@pytest.mark.parametrize("mode", ["draft", "repair"])
++def test_legacy_writer_context_keeps_existing_shape_and_request_hash(version, mode):
++    context = writer_context(version)
++    raw = as_dict(context)
++    if mode == "repair":
++        good = correct_draft(raw)["sections"]
++        raw.update(mode="repair", section_scope=["problem"],
++                   failed_sections=[good[0]], accepted_sections=good[1:])
++        raw["request_hash"] = request_hash(raw)
++    original = deepcopy(raw)
++    restored = WriterContextV3.model_validate_json(json.dumps(raw, ensure_ascii=False))
++    assert as_dict(restored) == original
++    assert request_hash(restored) == original["request_hash"]
++    assert set(original) == {"schema_version", "mode", "prompt_bundle_sha256", "evidence",
++                             "context_hash", "request_hash", "section_scope", "accepted_sections",
++                             "failed_sections", "previous_response_text", "previous_response_truncated", "repair_issues"}
++    assert not validate_draft(restored, correct_draft(as_dict(restored))).issues
++
++
++def schema_contains_pattern(value):
++    if isinstance(value, dict):
++        return "pattern" in value or any(schema_contains_pattern(v) for v in value.values())
++    if isinstance(value, list):
++        return any(schema_contains_pattern(v) for v in value)
++    return False
++
++
++@pytest.mark.parametrize("mode", ["draft", "repair"])
++@pytest.mark.parametrize("response_mode", ["json_schema", "json_object", "text_json"])
++def test_real_prepared_request_teaches_identifier_contract_when_provider_pattern_is_stripped(mode, response_mode):
++    context = writer_context() if mode == "draft" else prepared_repair()[3]
++    profile = snapshot().model_copy(update={"response_mode": response_mode})
++    direct = build_request(profile, "explainer.v3", as_dict(context), report_generation_policy_version="1.1")
++    prepared = prepare_provider_request(profile, "explainer.v3", context, report_generation_policy_version="1.1")
++    assert prepared.request == direct and json.loads(prepared.body_bytes) == direct
++    assert prepared.response_schema == provider_schema(NarrativeDraftV3)
++    assert not schema_contains_pattern(prepared.response_schema)
++    assert ID_PATTERN in prepared.system_message and "problem_main" in prepared.system_message
++    assert "paragraph_id" in prepared.system_message
++    transmitted = json.loads(direct["messages"][1]["content"])
++    assert transmitted == as_dict(context) and request_hash(transmitted) == transmitted["request_hash"]
++    if mode == "repair":
++        assert transmitted["failed_sections"][0]["paragraphs"][0]["paragraph_id"] == "problem-main"
++        assert transmitted["failed_sections"][0]["structural_errors"]
++    assert prepared.provenance["request_body_sha256"] == sha256(prepared.body_bytes).hexdigest()
++    assert prepared.provenance["effective_max_output_tokens"] == 8192

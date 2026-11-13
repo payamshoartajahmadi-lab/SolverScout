@@ -26,7 +26,7 @@ from p_mc_optimizer.llm.models import (
     origin_of,
 )
 from p_mc_optimizer.llm.provider import (
-    PROMPT_VERSION, call_provider, error_detail, freeze_prompt_bundle, prepare_provider_request,
+    PROMPT_VERSION, call_provider, error_detail, freeze_prompt_bundle, prepare_provider_request, prompt_bundle_manifest,
 )
 
 # Provider calls must never log transport headers, even in debug runs.
@@ -390,13 +390,17 @@ class LLMGateway:
                 call_id, job_id, role, purpose, invocation_id, test_key,
                 request_hash, attempt_no, _json(snapshot.model_dump(mode="json")), snapshot.profile_id,
                 snapshot.revision, generation,
-                {"v2": "2.0", "v2.1": "2.1", "v3": "3.0"}.get(data["schema_id"].partition(".")[2], PROMPT_VERSION),
+                (prepared.provenance.get("prompt_version") if prepared is not None else None)
+                or {"v2": "2.0", "v2.1": "2.1", "v3": "3.0"}.get(data["schema_id"].partition(".")[2], PROMPT_VERSION),
                 _json(data), _now(),
             ),
         )
         if prepared is not None:
-            conn.execute("UPDATE llm_calls SET metadata=? WHERE call_id=?",
-                         (_json({"provenance": prepared.provenance}), call_id))
+            metadata = {"provenance": prepared.provenance}
+            metadata.update({key: prepared.provenance[key] for key in (
+                "report_generation_policy_version", "report_generation_policy_hash", "effective_max_output_tokens",
+                "prompt_name", "prompt_version", "profile_id", "profile_revision") if key in prepared.provenance})
+            conn.execute("UPDATE llm_calls SET metadata=? WHERE call_id=?", (_json(metadata), call_id))
         return call_id
 
     @staticmethod
@@ -521,6 +525,24 @@ class LLMGateway:
             if previous is not None:
                 if previous["request_hash"] != request_hash:
                     raise _idempotency_conflict()
+                if narrative_v3:
+                    # Context equality alone does not bind server policy or wire caps.
+                    job = self._get_job_row(conn, job_id)
+                    try:
+                        version = self._narrative_policy_version(job)
+                        frozen_snapshot = self._job_snapshot(conn, job_id, blocked_only=False)
+                        if frozen_snapshot is None:
+                            raise ValueError("Missing frozen provider snapshot")
+                        prepared = prepare_provider_request(frozen_snapshot, invocation.schema_id, context,
+                                                            report_generation_policy_version=version)
+                        prior = (_from_json(previous["metadata"]) or {}).get("provenance") or {}
+                        if (prior.get("request_body_sha256") != prepared.provenance["request_body_sha256"]
+                                or prior.get("report_generation_policy_version", "1.0") != version
+                                or prior.get("report_generation_policy_hash", prepared.provenance["report_generation_policy_hash"] if version == "1.0" else None)
+                                != prepared.provenance["report_generation_policy_hash"]):
+                            raise ValueError("Frozen request policy/body changed")
+                    except (ValueError, ApiError):
+                        raise _idempotency_conflict() from None
                 return self._result(previous)
             job = self._get_job_row(conn, job_id)
             if job["job_status"] != "running" or job["phase"] != _ROLE_PHASES[role] or job["cancel_requested"]:
@@ -574,7 +596,8 @@ class LLMGateway:
             if self._broker.sanitize(data, extra_key=key) != data:
                 raise ApiError(422, "INVALID_SCHEMA", "دادهٔ نقش نباید حاوی کلید یا توکن باشد.")
             producer = _from_json(job["workflow"]).get("runtime:invocation_producers", {}).get(invocation_id)
-            prepared = prepare_provider_request(snapshot, invocation.schema_id, context, producer=producer)
+            prepared = prepare_provider_request(snapshot, invocation.schema_id, context, producer=producer,
+                                                report_generation_policy_version=self._narrative_policy_version(job) if narrative_v3 else "1.0")
             call_id = self._reserve(
                 conn, job_id=job_id, role=role, purpose="job_role",
                 invocation_id=invocation_id, test_key=None, request_hash=request_hash,
@@ -591,12 +614,29 @@ class LLMGateway:
         return self._call(call_id, snapshot, key, invocation.schema_id, context, prepared)
 
     @staticmethod
+    def _narrative_policy_version(job):
+        from p_mc_optimizer.llm.narrative_policy import freeze_narrative_policy
+        contracts = _from_json(job["workflow"]).get("execution_contracts") or {}
+        version = contracts.get("report_generation_policy_version", "1.0")
+        try:
+            frozen = freeze_narrative_policy(version)
+        except ValueError:
+            raise ApiError(422, "INVALID_SCHEMA", "نسخهٔ سیاست گزارش معتبر نیست.") from None
+        if (contracts.get("report_generation_policy", frozen if version == "1.0" else None) != frozen
+                or contracts.get("evidence_builder_version", "1.0") != version
+                or contracts.get("formatter_version", "1.0") != version):
+            raise ApiError(422, "INVALID_SCHEMA", "نسخه‌های سیاست و نمایش گزارش هم‌خوان نیستند.")
+        return version
+
+    @staticmethod
     def _validate_narrative_context(job, invocation, context):
-        from p_mc_optimizer.llm.narrative_models import WriterContextV3
+        from p_mc_optimizer.llm.narrative_policy import freeze_narrative_policy
         workflow = _from_json(job["workflow"])
         journal = workflow.get("narrative_v3_journal") or {}
         active = journal.get("active_request") or {}
         actual = context.model_dump(mode="json")
+        version = LLMGateway._narrative_policy_version(job)
+        frozen = freeze_narrative_policy(version)
         if (workflow.get("execution_contracts", {}).get("explanation") != "grounded_narrative_v3"
                 or not _from_json(job["policy"]).get("explain_via_llm")
                 or active.get("invocation_id") != str(invocation.invocation_id)
@@ -608,7 +648,13 @@ class LLMGateway:
                 or actual["evidence"]["job_id"] != job["job_id"]
                 or actual["evidence"] != journal.get("evidence")
                 or actual["context_hash"] != journal.get("context_hash")
-                or actual["evidence"]["source_core_sha256"] != journal.get("source_core_sha256")):
+                or actual["evidence"]["source_core_sha256"] != journal.get("source_core_sha256")
+                or actual["evidence"]["evidence_policy_version"] != version
+                or journal.get("report_generation_policy_version", "1.0") != version
+                or journal.get("report_generation_policy", frozen if version == "1.0" else None) != frozen
+                or journal.get("report_generation_policy_hash", frozen["report_generation_policy_hash"] if version == "1.0" else None) != frozen["report_generation_policy_hash"]
+                or actual["prompt_bundle_sha256"] != _hash(prompt_bundle_manifest())
+                or journal.get("prompt_bundle_sha256", actual["prompt_bundle_sha256"]) != actual["prompt_bundle_sha256"]):
             raise ApiError(422, "INVALID_SCHEMA", "درخواست گزارش با گام ثبت‌شدهٔ سرور یکسان نیست.")
         without_hash = {key: value for key, value in actual.items() if key != "request_hash"}
         if _hash(without_hash) != actual["request_hash"]:

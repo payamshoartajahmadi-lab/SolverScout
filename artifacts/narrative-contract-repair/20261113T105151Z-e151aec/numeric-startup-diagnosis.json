@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0",
+  "diagnostic_kind": "read_only_failure_and_source_analysis",
+  "recorded_at_utc": "2026-11-13T11:39:38.864670+00:00",
+  "tested_source_sha": "0a9908ea9f23081f6be559596765aa16911b8580",
+  "integration_source_sha": "7ee1a98a2ca1159d7b75adf001215f644cea472a",
+  "evidence": [
+    {
+      "path": "offline/full-final-01.xml",
+      "sha256": "3669158e1adbeabf51b232ed17ae44f28082af9ca385d49504aa8800767d3163"
+    },
+    {
+      "path": "offline/full-final-01-result.json",
+      "sha256": "fae6a5e9a31f5698caba5fa1b07b7f217c87d73003882e16414de9cae34fee46"
+    }
+  ],
+  "test_failures": [
+    {
+      "test_id": "tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[False]",
+      "status": "FAIL",
+      "junit_time_seconds": 1.93,
+      "failure_message": "AssertionError: assert 0 == 1\n +  where 0 = ExecutionResult(job_id='445c22d0-3f76-4c6d-9348-7832db3353f7', execution_id='ce7bf7f5-a7e0-4fba-86ce-bc3ab739a69a', ph...m': 'Windows-11-10.0.22631-SP0', 'architecture': 'AMD64', 'dtype': 'float64', 'rng': 'PCG64'}, runtime_provenance=None).started_evaluations",
+      "observations": {
+        "execution_status": "timed_out (preceding assertion passed)",
+        "history_complete": false,
+        "started_evaluations": 0,
+        "expected_started_evaluations": 1,
+        "runtime_provenance": null,
+        "shared_objective_pid": "NOT_RECORDED_IN_FAILURE",
+        "overshoot_assertion_and_pid_reaping_assertion": "NOT_REACHED"
+      }
+    },
+    {
+      "test_id": "tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[True]",
+      "status": "FAIL",
+      "junit_time_seconds": 1.976,
+      "failure_message": "AssertionError: assert 'timed_out' == 'cancelled'\n  \n  - cancelled\n  + timed_out",
+      "observations": {
+        "execution_status": "timed_out",
+        "expected_execution_status": "cancelled",
+        "started_evaluations": "NOT_RECORDED_IN_FAILURE",
+        "shared_objective_pid": "NOT_RECORDED_IN_FAILURE",
+        "later_assertions": "NOT_REACHED"
+      }
+    }
+  ],
+  "unchanged_acceptance_constraints": {
+    "execution_deadline_seconds": 1.8,
+    "hung_objective_sleep_seconds": 30,
+    "expected_started_evaluations": 1,
+    "overshoot_seconds_strict_upper_bound": 0.75,
+    "supervisor_grace_seconds": 0.1
+  },
+  "source_facts": [
+    {
+      "location": "tests/test_numeric.py:212",
+      "fact": "hang sets shared process_id immediately at objective entry, then sleeps."
+    },
+    {
+      "location": "tests/test_numeric.py:311",
+      "fact": "The request gives preflight a total 1.8-second deadline."
+    },
+    {
+      "location": "tests/test_numeric.py:314",
+      "fact": "Cancellation becomes true only when cancel=True and shared objective process_id is nonzero."
+    },
+    {
+      "location": "src/p_mc_optimizer/execution/supervisor.py:244",
+      "fact": "The deadline starts before _start_isolated(process), including spawn/startup time."
+    },
+    {
+      "location": "src/p_mc_optimizer/execution/supervisor.py:113",
+      "fact": "The child constructs runtime provenance before sending its identity and requesting permission to begin an evaluation."
+    },
+    {
+      "location": "src/p_mc_optimizer/runtime_provenance.py:86",
+      "fact": "Runtime startup hashes package source files, reads dependency versions, and queries Git before returning identity."
+    },
+    {
+      "location": "src/p_mc_optimizer/execution/evaluator.py:87",
+      "fact": "An objective call happens only after on_start permission; deadline/cancel checks precede it."
+    }
+  ],
+  "interpretation": {
+    "status": "CONSISTENT_WITH_STARTUP_DEADLINE_EXHAUSTION",
+    "false_variant": "No identity was received and no objective start acknowledged before timeout. The fixture did not reach its intended hung-objective precondition.",
+    "true_variant": "Timeout won before cancellation was observed. Startup-before-objective timeout is consistent with the source path, but the failure output does not record PID/start counters for this variant.",
+    "not_verified": [
+      "Exact slow startup operation (process creation, imports, filesystem/dependency/Git provenance, or host scheduling).",
+      "Whether an identical baseline run on this host has the same timing behavior.",
+      "A causal timing regression attributable to the narrative repair."
+    ],
+    "scope_note": "Numeric logic and this test are unchanged by the repair. Runtime provenance does read the changed package files, so static analysis alone cannot prove zero indirect timing effect. No numerical semantic change was found."
+  },
+  "source_comparison": [
+    {
+      "path": "tests/test_numeric.py",
+      "integration_blob": "97dda62ca1cd6852a89d3e791271a1b1582a4d2e",
+      "tested_blob": "97dda62ca1cd6852a89d3e791271a1b1582a4d2e",
+      "unchanged_by_narrative_repair": true
+    },
+    {
+      "path": "src/p_mc_optimizer/execution/supervisor.py",
+      "integration_blob": "e46231827c6f8859618f6c12addbb877b08ba0fe",
+      "tested_blob": "e46231827c6f8859618f6c12addbb877b08ba0fe",
+      "unchanged_by_narrative_repair": true
+    },
+    {
+      "path": "src/p_mc_optimizer/execution/evaluator.py",
+      "integration_blob": "0e03fc424551dd7c5b111267c8ddc85c38629aa2",
+      "tested_blob": "0e03fc424551dd7c5b111267c8ddc85c38629aa2",
+      "unchanged_by_narrative_repair": true
+    },
+    {
+      "path": "src/p_mc_optimizer/runtime_provenance.py",
+      "integration_blob": "eec1a0142afc9ebab9249f4841e4c205461b74fe",
+      "tested_blob": "eec1a0142afc9ebab9249f4841e4c205461b74fe",
+      "unchanged_by_narrative_repair": true
+    },
+    {
+      "path": "src/p_mc_optimizer/catalog/budget_policy.py",
+      "integration_blob": "c420ce28b53baf64fb53e05fe07306cfa94f5a7f",
+      "tested_blob": "c420ce28b53baf64fb53e05fe07306cfa94f5a7f",
+      "unchanged_by_narrative_repair": true
+    },
+    {
+      "path": "src/p_mc_optimizer/solvers/registry.py",
+      "integration_blob": "40d8f7c493e4991c9f27b122aeaea528715c1d7c",
+      "tested_blob": "40d8f7c493e4991c9f27b122aeaea528715c1d7c",
+      "unchanged_by_narrative_repair": true
+    }
+  ],
+  "recommended_disposition": "Preserve the actual FAIL results and all existing deadlines, seeds, FE budgets, overshoot bounds and acceptance assertions. No solver or numerical execution change is proposed within this narrative repair mission.",
+  "diagnostic_actions": {
+    "pytest_executed": false,
+    "new_model_calls": 0,
+    "new_objective_evaluations": 0,
+    "new_solver_calls": 0,
+    "source_or_test_files_modified": [],
+    "read_only_scope": "Current run evidence and repository source/Git only"
+  }
+}

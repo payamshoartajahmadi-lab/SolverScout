@@ -1,0 +1,24 @@
+F.                                                                       [100%]
+================================== FAILURES ===================================
+___________ test_exe_009_010_supervisor_reaps_hung_objective[False] ___________
+
+tmp_path = WindowsPath('G:/projects/solverscout-narrative-contract-repair/.pytest-tmp/oa-probe-01/test_exe_009_010_supervisor_re0')
+cancel = False
+
+    @pytest.mark.parametrize("cancel", [False, True])
+    def test_exe_009_010_supervisor_reaps_hung_objective(tmp_path, cancel):
+        process_id = mp.get_context("spawn").Value("i", 0)
+        item = request("preflight", seconds=1.8)
+        result, _ = run(
+            item, tmp_path, _objective_override=partial(hang, process_id=process_id),
+            cancelled=lambda: cancel and process_id.value != 0,
+        )
+        assert result.execution_status == ("cancelled" if cancel else "timed_out")
+>       assert not result.history_complete
+E       AssertionError: assert not True
+E        +  where True = ExecutionResult(job_id='0cdd37ce-e2ca-4bcc-9462-2501bb7ad079', execution_id='ace4de0b-3837-4f84-bb3f-ef4887190df7', ph...82a7'}, {'path': 'workflow/worker.py', 'sha256': '2582fdfe142c3a0e8e460918469c6d3ecbf2d041fde58331858da8300106043e'}]}).history_complete
+
+tests\test_numeric.py:317: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[False]
+1 failed, 1 passed in 5.61s

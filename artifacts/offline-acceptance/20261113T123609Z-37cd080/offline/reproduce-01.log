@@ -1,0 +1,49 @@
+EEE                                                                      [100%]
+=================================== ERRORS ====================================
+_ ERROR at setup of test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie] _
+
+self = WindowsPath('G:/projects/solverscout-narrative-contract-repair/artifacts/offline-acceptance/20261113T123609Z-37cd080/_private_test_state/reproduce-01')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\_private_test_state\\reproduce-01'
+
+C:\Program Files\Python312\Lib\pathlib.py:1311: FileNotFoundError
+__ ERROR at setup of test_exe_009_010_supervisor_reaps_hung_objective[False] __
+
+self = WindowsPath('G:/projects/solverscout-narrative-contract-repair/artifacts/offline-acceptance/20261113T123609Z-37cd080/_private_test_state/reproduce-01')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\_private_test_state\\reproduce-01'
+
+C:\Program Files\Python312\Lib\pathlib.py:1311: FileNotFoundError
+__ ERROR at setup of test_exe_009_010_supervisor_reaps_hung_objective[True] ___
+
+self = WindowsPath('G:/projects/solverscout-narrative-contract-repair/artifacts/offline-acceptance/20261113T123609Z-37cd080/_private_test_state/reproduce-01')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\_private_test_state\\reproduce-01'
+
+C:\Program Files\Python312\Lib\pathlib.py:1311: FileNotFoundError
+=========================== short test summary info ===========================
+ERROR tests/test_llm_workflow.py::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]
+ERROR tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[False]
+ERROR tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[True]
+3 errors in 1.75s

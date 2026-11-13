@@ -1,0 +1,22 @@
+{
+  "platform": "Windows-11-10.0.22631-SP0",
+  "os": "Windows",
+  "windows_version": [
+    "11",
+    "10.0.22631",
+    "SP0",
+    "Multiprocessor Free"
+  ],
+  "machine": "AMD64",
+  "python": "3.12.3 (tags/v3.12.3:f6650f9, Apr  9 2024, 14:05:25) [MSC v.1938 64 bit (AMD64)]",
+  "python_executable": "G:\\projects\\solverscout\\.venv\\Scripts\\python.exe",
+  "active_worktree": "G:\\projects\\solverscout-narrative-contract-repair",
+  "test_import_source": "G:\\projects\\solverscout-narrative-contract-repair\\src",
+  "temporary_storage": {
+    "reproduce-01_02": "deep project artifact path; fixture setup/path errors retained",
+    "reproduce-03_numeric-probe-01": "short G project .pytest-tmp",
+    "reproduce-04_and_final_runs": "fresh C Windows TEMP subdirectories matching prior full-suite environment"
+  },
+  "dependencies_installed_in_this_mission": false,
+  "no_os_drive_latency_causal_claim": true
+}

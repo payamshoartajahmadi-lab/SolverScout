@@ -709,7 +709,12 @@ def test_explainer_receives_full_tie_or_insufficient_evidence(tmp_path, monkeypa
         payload = {
             "input": {"kind": "structured_problem", "problem": problem},
             "policy": {**_POLICY, "explain_via_llm": True, "selection_policy": "llm_shortlist_then_pilot",
-                       "max_objective_evaluations": 5502},
+                       "max_objective_evaluations": 5502,
+                       # Positive selection needs all nine spawned pilots. The 45s
+                       # fixture expired after six on Windows (only 35s before
+                       # verification reserve); use the adjacent selection test's
+                       # allowance without changing quotas, seeds or product policy.
+                       "max_compute_seconds": 300 if is_tie else _POLICY["max_compute_seconds"]},
             "llm_profile": {"profile_id": profile["profile_id"], "revision": profile["revision"]},
         }
         job_id = checked(client.post("/jobs", json=payload, headers={"Idempotency-Key": str(uuid4())}), 202)["job_id"]
@@ -717,6 +722,26 @@ def test_explainer_receives_full_tie_or_insufficient_evidence(tmp_path, monkeypa
         report = checked(client.get(f"/jobs/{job_id}/report"))["report"]
         assert report["job_status"] == "completed"
         assert report["solution_status"] == "valid_best_found"
+        if is_tie:
+            planned_ids = sorted(candidate["algorithm_id"] for candidate in report["candidate_plan"]["candidates"])
+            pilots = [trial for trial in report["trials"] if trial["phase"] == "pilot"]
+            assert len(planned_ids) == 3
+            assert report["policy"]["pilot_repeats"] == 3
+            assert report["policy"]["pilot_evaluations"] == 500
+            assert report["policy"]["master_seed"] == _POLICY["master_seed"]
+            assert report["policy"]["max_objective_evaluations"] == 5502
+            assert sorted((trial["algorithm_id"], trial["replicate_index"]) for trial in pilots) == [
+                (algorithm, repeat) for algorithm in planned_ids for repeat in range(3)
+            ]
+            for trial in pilots:
+                assert trial["execution_status"] == "completed"
+                assert trial["termination_reason"] == "evaluation_budget"
+                assert trial["evaluation_quota"] == trial["started_evaluations"] == trial["successful_evaluations"] == 500
+                assert trial["failed_evaluations"] == trial["rejected_proposals"] == 0
+                assert trial["history_complete"] is True and trial["error"] is None
+            assert report["selection_status"] == "selected"
+            assert report["decision"] is not None
+            assert report["selected_algorithm_id"] == report["decision"]["selected_algorithm_id"] == planned_ids[0]
         assert report["explanation_status"] == "generated"
         assert report["explanation"] == explanation
         assert called == ["connection_test_v1", "advisor_v1", "explainer_v1"]
@@ -725,9 +750,15 @@ def test_explainer_receives_full_tie_or_insufficient_evidence(tmp_path, monkeypa
         context = json.loads(messages[-1]["content"])
         summary = assert_empirical_explainer_context(context, report)
         if is_tie:
+            assert context["selection_made"] is True
             assert summary["decisive_criterion"] == "algorithm_id"
-            assert report["selected_algorithm_id"] == summary["eligible_ranking"][0]
+            assert summary["eligible_ranking"] == planned_ids
+            assert len(summary["metrics"]) == 3 and all(row["eligible"] for row in summary["metrics"])
             assert all(row["median_score"] == row["normalized_iqr"] == 0 for row in summary["metrics"])
+            for metric in summary["metrics"]:
+                assert sorted(metric["trial_ids"]) == sorted(
+                    trial["trial_id"] for trial in pilots if trial["algorithm_id"] == metric["algorithm_id"]
+                )
             instructions = messages[0]["content"]
             assert "algorithm_id" in instructions and "تساوی" in instructions
         else:

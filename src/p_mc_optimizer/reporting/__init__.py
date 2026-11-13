@@ -188,6 +188,7 @@ body {{font:16px/1.8 system-ui,sans-serif;color:#18322d;background:#f4f8f6;margi
 main {{max-width:1040px;margin:auto}} section,details,figure {{background:white;border:1px solid #ccdcd5;
 border-radius:12px;padding:16px;margin:12px 0}} pre {{overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}}
 td,th {{padding:8px;text-align:start;border-bottom:1px solid #ccdcd5}} td,code {{direction:ltr;unicode-bidi:isolate}}
+code {{overflow-wrap:anywhere}}
 svg {{width:100%;max-height:320px;direction:ltr}} .table {{overflow:auto}} summary {{font-weight:600;cursor:pointer}}
 </style><main><h1>گزارش بهینه‌سازی P_MC</h1><p>{CLAIM_FA}</p>
 <section>

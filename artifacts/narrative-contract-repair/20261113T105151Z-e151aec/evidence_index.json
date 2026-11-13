@@ -1,0 +1,542 @@
+{
+  "scope": "Only new mission evidence; no private database, env, credential store, cookie or connection headers",
+  "numeric_execution.authorization_policy": "Public numerical execution contract retained; no blanket key-name redaction",
+  "index_and_archive_self_hash_excluded": true,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 74,
+      "sha256": "a6cd00bd11229253559867f524a70158c48f950d1446411717a32afa1b1f23ee",
+      "relationship": "provenance_or_report",
+      "version_relation": "Current tested source in git-provenance.json; synthetic samples carry their own source-file hashes",
+      "recorded_tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3"
+    },
+    {
+      "path": "Contract_Repair_Status_FA.md",
+      "bytes": 20995,
+      "sha256": "d42988df461b4e8c917276584085410777c4a8724555b851471e0a7f922d8e8a",
+      "relationship": "provenance_or_report",
+      "version_relation": "Current tested source in git-provenance.json; synthetic samples carry their own source-file hashes",
+      "recorded_tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3"
+    },
+    {
+      "path": "Next_Live_Acceptance_FA.md",
+      "bytes": 12078,
+      "sha256": "531c65f6e59acbc2e701ef670c1beabd48e749ee8dd69091fafa474b7e7669a0",
+      "relationship": "provenance_or_report",
+      "version_relation": "Current tested source in git-provenance.json; synthetic samples carry their own source-file hashes",
+      "recorded_tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3"
+    },
+    {
+      "path": "baseline.json",
+      "bytes": 1647,
+      "sha256": "22c47eb97ae6e91ab39d8005131b126410dd3367c244cddacfdd70d0628e9486",
+      "relationship": "provenance_or_report",
+      "version_relation": "Observation at the time recorded in this file; not a test result for the final source"
+    },
+    {
+      "path": "build_report.py",
+      "bytes": 27271,
+      "sha256": "fe1bfa505cee90ce5841b70c8632b7c86e2e4d12ae6bcef07e5bb7fdaf709257",
+      "relationship": "provenance_or_report",
+      "version_relation": "Current tested source in git-provenance.json; synthetic samples carry their own source-file hashes",
+      "recorded_tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3"
+    },
+    {
+      "path": "collect_evidence.py",
+      "bytes": 12804,
+      "sha256": "72e3454c2d2e26d370f781bc2f32aa38418ab3628f427fcc6df1a05861a6e937",
+      "relationship": "provenance_or_report",
+      "version_relation": "Current tested source in git-provenance.json; synthetic samples carry their own source-file hashes",
+      "recorded_tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3"
+    },
+    {
+      "path": "contract-repair.patch",
+      "bytes": 43887,
+      "sha256": "81c0016405639c038a6f9a2632f9f97452d51739acb9f582a8909e230ae4de9c",
+      "relationship": "provenance_or_report",
+      "version_relation": "Current tested source in git-provenance.json; synthetic samples carry their own source-file hashes",
+      "recorded_tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3"
+    },
+    {
+      "path": "dependency-setup.json",
+      "bytes": 609,
+      "sha256": "53f9fbea30e80d29dd19fd982e59307d611c281d077f1e2895959fde9444f6da",
+      "relationship": "provenance_or_report",
+      "version_relation": "Observation at the time recorded in this file; not a test result for the final source"
+    },
+    {
+      "path": "generate_synthetic_repair_example.py",
+      "bytes": 7164,
+      "sha256": "6ace9b3090cc755046a7791ff564a902ed197b26b3a8a747c7b52e28487e348f",
+      "relationship": "synthetic_not_historical",
+      "version_relation": "Current tested source in git-provenance.json; synthetic samples carry their own source-file hashes",
+      "recorded_tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3"
+    },
+    {
+      "path": "git-provenance.json",
+      "bytes": 1548,
+      "sha256": "3c37e96332fa21def609bef39320f321dd92b21f028ef45ec1247dbd23cee9a9",
+      "relationship": "provenance_or_report",
+      "version_relation": "Current tested source in git-provenance.json; synthetic samples carry their own source-file hashes",
+      "recorded_tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3"
+    },
+    {
+      "path": "harness_manifest.json",
+      "bytes": 10711,
+      "sha256": "77b047caa68fa6fc37603e64faa112f316555aea91ad6947cef96e55f4d2d327",
+      "relationship": "provenance_or_report",
+      "version_relation": "Current tested source in git-provenance.json; synthetic samples carry their own source-file hashes",
+      "recorded_tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3"
+    },
+    {
+      "path": "numeric-startup-diagnosis.json",
+      "bytes": 6634,
+      "sha256": "526474b19c5774ef3344d5959f74b8887f0476a404ade66e5eb2ca625f5b184b",
+      "relationship": "read_only_diagnosis_of_first_full_offline_run",
+      "version_relation": "Original full-final-01 failure; not a fresh test or diagnosis of full-final-02",
+      "run_label": "full-final-01",
+      "recorded_head_sha": "0a9908ea9f23081f6be559596765aa16911b8580"
+    },
+    {
+      "path": "offline/compatibility-final-01-harness_manifest.json",
+      "bytes": 10661,
+      "sha256": "2040f9ce6e31c86c5ea336a6fd3f6236a7cc07a712b5a6aca247326d55e2122b",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "compatibility-final-01",
+      "recorded_head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/compatibility-final-01-network-guard.json",
+      "bytes": 356,
+      "sha256": "e40ee20b1569d1790743d492b503feb01771fe8ceba85bdb10ccc21f95f184bd",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "compatibility-final-01",
+      "recorded_head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/compatibility-final-01-progress.jsonl",
+      "bytes": 7328,
+      "sha256": "28a2573122b8567c2a451fee8a3542c8af39d7738ed937392fd0b622ffb7d66b",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "compatibility-final-01",
+      "recorded_head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/compatibility-final-01-result.json",
+      "bytes": 2081,
+      "sha256": "238a7b31ddf4058ab69af6af9a70c368eefe6b78450aa6459e50aae1f7f9d5df",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "compatibility-final-01",
+      "recorded_head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/compatibility-final-01-source_manifest.json",
+      "bytes": 28607,
+      "sha256": "7fe3ddc5c83a42ee4cc6c12905f1c56114b03dabfcc0a4a1a24eff57128e8010",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "compatibility-final-01",
+      "recorded_head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/compatibility-final-01.log",
+      "bytes": 100,
+      "sha256": "ffc20b8b2ca58270da888dfd3f2e21e85eff339063f2a5ebf6170d9dacf57303",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "compatibility-final-01",
+      "recorded_head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/compatibility-final-01.xml",
+      "bytes": 5909,
+      "sha256": "210e29c98162a57cffc3a492129a8f749e28d31940a3599f81c5fd6ab393cd13",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "compatibility-final-01",
+      "recorded_head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/full-final-01-harness_manifest.json",
+      "bytes": 10746,
+      "sha256": "f91530be9b3bdba45362cb7626d5548b45cfa80ec9f9b928a52f00d7c792b249",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "full-final-01",
+      "recorded_head_sha": "0a9908ea9f23081f6be559596765aa16911b8580",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/full-final-01-network-guard.json",
+      "bytes": 237,
+      "sha256": "cab29254148b8e605eead3982377561cfb91e94b9672a0c4fa3fa6f8027c6977",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "full-final-01",
+      "recorded_head_sha": "0a9908ea9f23081f6be559596765aa16911b8580",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/full-final-01-result.json",
+      "bytes": 1638,
+      "sha256": "fae6a5e9a31f5698caba5fa1b07b7f217c87d73003882e16414de9cae34fee46",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "full-final-01",
+      "recorded_head_sha": "0a9908ea9f23081f6be559596765aa16911b8580",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/full-final-01-source_manifest.json",
+      "bytes": 28693,
+      "sha256": "eedaf60ff21c670489d366e128f812e0c55e9c76f81a63e263cf92c7534c265d",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "full-final-01",
+      "recorded_head_sha": "0a9908ea9f23081f6be559596765aa16911b8580",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/full-final-01.log",
+      "bytes": 23844,
+      "sha256": "1b7ba9100c5d53f87a6543ec56bcd9fd65d2be875549301828dcd64e36f4384d",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "full-final-01",
+      "recorded_head_sha": "0a9908ea9f23081f6be559596765aa16911b8580",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/full-final-01.xml",
+      "bytes": 126892,
+      "sha256": "3669158e1adbeabf51b232ed17ae44f28082af9ca385d49504aa8800767d3163",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "full-final-01",
+      "recorded_head_sha": "0a9908ea9f23081f6be559596765aa16911b8580",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/full-final-02-harness_manifest.json",
+      "bytes": 10661,
+      "sha256": "2040f9ce6e31c86c5ea336a6fd3f6236a7cc07a712b5a6aca247326d55e2122b",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "full-final-02",
+      "recorded_head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/full-final-02-network-guard.json",
+      "bytes": 356,
+      "sha256": "bea1d4ce567b06876111d190e0d9e25573bb475e2afc06fe6a5731ca9f68c2eb",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "full-final-02",
+      "recorded_head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/full-final-02-progress.jsonl",
+      "bytes": 164878,
+      "sha256": "78d4b3a457c119e76ab293adbc2e5214c8ad4d27c8dd1f7ea2011dce36ab0564",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "full-final-02",
+      "recorded_head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/full-final-02-result.json",
+      "bytes": 1931,
+      "sha256": "b0bfdba1c093134b29c666f8ee240b673e515b33bf1d8756f941ab30f011b166",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "full-final-02",
+      "recorded_head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/full-final-02-source_manifest.json",
+      "bytes": 28607,
+      "sha256": "7fe3ddc5c83a42ee4cc6c12905f1c56114b03dabfcc0a4a1a24eff57128e8010",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "full-final-02",
+      "recorded_head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/full-final-02.log",
+      "bytes": 24543,
+      "sha256": "675f1a4e607ab7d73df187b1b05059854c4dcc38a86fc8581edb2de7ce5d5ce5",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "full-final-02",
+      "recorded_head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/full-final-02.xml",
+      "bytes": 125695,
+      "sha256": "32f3424d21df63b017257c3ca87b5d34ae6f2bc450079e8581556e39454d253a",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "full-final-02",
+      "recorded_head_sha": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3",
+      "dirty_source_at_run_start": []
+    },
+    {
+      "path": "offline/legacy-identifier-tie-diagnostic.json",
+      "bytes": 8325,
+      "sha256": "bc74dd6c566767a26a4953af0d9c70f3e4cde4a1bbbe51e63eb09d50b07761e3",
+      "relationship": "read_only_diagnosis_of_first_full_offline_run",
+      "version_relation": "Original full-final-01 failure; not a fresh test or diagnosis of full-final-02",
+      "run_label": "full-final-01",
+      "recorded_head_sha": "0a9908ea9f23081f6be559596765aa16911b8580"
+    },
+    {
+      "path": "offline/targeted-final-01-network-guard.json",
+      "bytes": 237,
+      "sha256": "cab29254148b8e605eead3982377561cfb91e94b9672a0c4fa3fa6f8027c6977",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "targeted-final-01",
+      "recorded_head_sha": "7ee1a98a2ca1159d7b75adf001215f644cea472a",
+      "dirty_source_at_run_start": [
+        " M src/p_mc_optimizer/llm/narrative_models.py",
+        " M src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt",
+        " M src/p_mc_optimizer/reporting/narrative_validation.py",
+        " M src/p_mc_optimizer/workflow/narrative_v3.py",
+        "?? tests/test_narrative_contract_repair.py"
+      ]
+    },
+    {
+      "path": "offline/targeted-final-01-result.json",
+      "bytes": 2874,
+      "sha256": "0bab4ee156dc8ea0beeb4e01ef457438db60a24b44afb811521fbe99e8208160",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "targeted-final-01",
+      "recorded_head_sha": "7ee1a98a2ca1159d7b75adf001215f644cea472a",
+      "dirty_source_at_run_start": [
+        " M src/p_mc_optimizer/llm/narrative_models.py",
+        " M src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt",
+        " M src/p_mc_optimizer/reporting/narrative_validation.py",
+        " M src/p_mc_optimizer/workflow/narrative_v3.py",
+        "?? tests/test_narrative_contract_repair.py"
+      ]
+    },
+    {
+      "path": "offline/targeted-final-01.log",
+      "bytes": 42873,
+      "sha256": "0c51c207d55f92def23334c96af9cc9cdcac8bf55b220728f40f111262c49dbc",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "targeted-final-01",
+      "recorded_head_sha": "7ee1a98a2ca1159d7b75adf001215f644cea472a",
+      "dirty_source_at_run_start": [
+        " M src/p_mc_optimizer/llm/narrative_models.py",
+        " M src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt",
+        " M src/p_mc_optimizer/reporting/narrative_validation.py",
+        " M src/p_mc_optimizer/workflow/narrative_v3.py",
+        "?? tests/test_narrative_contract_repair.py"
+      ]
+    },
+    {
+      "path": "offline/targeted-final-01.xml",
+      "bytes": 85215,
+      "sha256": "e75461c31b6ffcaf6c8ef9e492efb6d461dc763710a7c1824cc68e218806c6ce",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "targeted-final-01",
+      "recorded_head_sha": "7ee1a98a2ca1159d7b75adf001215f644cea472a",
+      "dirty_source_at_run_start": [
+        " M src/p_mc_optimizer/llm/narrative_models.py",
+        " M src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt",
+        " M src/p_mc_optimizer/reporting/narrative_validation.py",
+        " M src/p_mc_optimizer/workflow/narrative_v3.py",
+        "?? tests/test_narrative_contract_repair.py"
+      ]
+    },
+    {
+      "path": "offline/targeted-final-02-network-guard.json",
+      "bytes": 237,
+      "sha256": "af3b0cedafae9d32875365a36e0527b2c0aa05cfa723ffc92b25c09db53fedc9",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "targeted-final-02",
+      "recorded_head_sha": "7ee1a98a2ca1159d7b75adf001215f644cea472a",
+      "dirty_source_at_run_start": [
+        " M src/p_mc_optimizer/llm/narrative_models.py",
+        " M src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt",
+        " M src/p_mc_optimizer/reporting/narrative_validation.py",
+        " M src/p_mc_optimizer/workflow/narrative_v3.py",
+        "?? tests/test_narrative_contract_repair.py"
+      ]
+    },
+    {
+      "path": "offline/targeted-final-02-result.json",
+      "bytes": 2922,
+      "sha256": "1897887bb65dad67dc2d35b2709d52005f99477792ced6c6de654c3eff1c9617",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "targeted-final-02",
+      "recorded_head_sha": "7ee1a98a2ca1159d7b75adf001215f644cea472a",
+      "dirty_source_at_run_start": [
+        " M src/p_mc_optimizer/llm/narrative_models.py",
+        " M src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt",
+        " M src/p_mc_optimizer/reporting/narrative_validation.py",
+        " M src/p_mc_optimizer/workflow/narrative_v3.py",
+        "?? tests/test_narrative_contract_repair.py"
+      ]
+    },
+    {
+      "path": "offline/targeted-final-02.log",
+      "bytes": 352,
+      "sha256": "2d9138f0b5e624fcf8a5d21b23dba5fb4e1085e64af9444e52204ca247ffa91f",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "targeted-final-02",
+      "recorded_head_sha": "7ee1a98a2ca1159d7b75adf001215f644cea472a",
+      "dirty_source_at_run_start": [
+        " M src/p_mc_optimizer/llm/narrative_models.py",
+        " M src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt",
+        " M src/p_mc_optimizer/reporting/narrative_validation.py",
+        " M src/p_mc_optimizer/workflow/narrative_v3.py",
+        "?? tests/test_narrative_contract_repair.py"
+      ]
+    },
+    {
+      "path": "offline/targeted-final-02.xml",
+      "bytes": 43600,
+      "sha256": "5346b1112c07321a3d9ec87ef37ac06d2fff2ca4860a1c5a9ede0d04dbe9e791",
+      "relationship": "actual_offline_execution",
+      "version_relation": "Per-run head SHA and dirty-state in the matching result JSON; per-run manifests when available",
+      "run_label": "targeted-final-02",
+      "recorded_head_sha": "7ee1a98a2ca1159d7b75adf001215f644cea472a",
+      "dirty_source_at_run_start": [
+        " M src/p_mc_optimizer/llm/narrative_models.py",
+        " M src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt",
+        " M src/p_mc_optimizer/reporting/narrative_validation.py",
+        " M src/p_mc_optimizer/workflow/narrative_v3.py",
+        "?? tests/test_narrative_contract_repair.py"
+      ]
+    },
+    {
+      "path": "offline/targeted-new-01-network-guard.json",
+      "bytes": 237,
+      "sha256": "cab29254148b8e605eead3982377561cfb91e94b9672a0c4fa3fa6f8027c6977",
+      "relationship": "actual_offline_execution",
+      "version_relation": "NOT_VERIFIED: this early run did not capture HEAD and dirty-source metadata; no version has been reconstructed",
+      "run_label": "targeted-new-01",
+      "recorded_head_sha": null,
+      "dirty_source_at_run_start": null
+    },
+    {
+      "path": "offline/targeted-new-01-result.json",
+      "bytes": 1531,
+      "sha256": "ff65880e4426f371ba7a3e6b6a6c60e0f945725416d0412d1e8d0ea2ef25af40",
+      "relationship": "actual_offline_execution",
+      "version_relation": "NOT_VERIFIED: this early run did not capture HEAD and dirty-source metadata; no version has been reconstructed",
+      "run_label": "targeted-new-01",
+      "recorded_head_sha": null,
+      "dirty_source_at_run_start": null
+    },
+    {
+      "path": "offline/targeted-new-01.log",
+      "bytes": 6382,
+      "sha256": "214864b4fa1849c5ff15c9f2271a5cb16d75e48c992ad685864881228f6fbcce",
+      "relationship": "actual_offline_execution",
+      "version_relation": "NOT_VERIFIED: this early run did not capture HEAD and dirty-source metadata; no version has been reconstructed",
+      "run_label": "targeted-new-01",
+      "recorded_head_sha": null,
+      "dirty_source_at_run_start": null
+    },
+    {
+      "path": "offline/targeted-new-01.xml",
+      "bytes": 11533,
+      "sha256": "465504f927add23cc5e0949ded4722afaf83014909f028b3dfca4dacee30b82a",
+      "relationship": "actual_offline_execution",
+      "version_relation": "NOT_VERIFIED: this early run did not capture HEAD and dirty-source metadata; no version has been reconstructed",
+      "run_label": "targeted-new-01",
+      "recorded_head_sha": null,
+      "dirty_source_at_run_start": null
+    },
+    {
+      "path": "offline_network_guard.py",
+      "bytes": 2706,
+      "sha256": "66a562d6397667f51fbcd6c54a7f4cd876fd3c5b3805ace67eda289ebdc46a41",
+      "relationship": "provenance_or_report",
+      "version_relation": "Current tested source in git-provenance.json; synthetic samples carry their own source-file hashes",
+      "recorded_tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3"
+    },
+    {
+      "path": "preservation-check.json",
+      "bytes": 3074,
+      "sha256": "7c3dcc2bb0be38c2fad149cdea41e79e97401c53e40dc960b0ef27dc81ef83c4",
+      "relationship": "provenance_or_report",
+      "version_relation": "Current tested source in git-provenance.json; synthetic samples carry their own source-file hashes",
+      "recorded_tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3"
+    },
+    {
+      "path": "remote-before-publication.json",
+      "bytes": 973,
+      "sha256": "4b9031ab5d54ef5ec63ea45d375b601b8484f83678c125707f451ca2c74d9f1c",
+      "relationship": "provenance_or_report",
+      "version_relation": "Observation at the time recorded in this file; not a test result for the final source"
+    },
+    {
+      "path": "run_offline.py",
+      "bytes": 4783,
+      "sha256": "eb56a0a3f04bccf2a670d67e2e14948e7ec4fc7ba52897c73130d19e1a01fbea",
+      "relationship": "provenance_or_report",
+      "version_relation": "Current tested source in git-provenance.json; synthetic samples carry their own source-file hashes",
+      "recorded_tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3"
+    },
+    {
+      "path": "schema-eol-diagnosis.json",
+      "bytes": 3636,
+      "sha256": "02f607fc4c79d825c660a39b9314eb466091f348319522700dff42285a9aa662",
+      "relationship": "read_only_diagnosis_of_first_full_offline_run",
+      "version_relation": "Original full-final-01 failure; not a fresh test or diagnosis of full-final-02",
+      "run_label": "full-final-01",
+      "recorded_head_sha": "0a9908ea9f23081f6be559596765aa16911b8580"
+    },
+    {
+      "path": "source_manifest.json",
+      "bytes": 28681,
+      "sha256": "d89beac92d9600d9e31096574486b455b356458e1073cfcba664f2156e5da12e",
+      "relationship": "provenance_or_report",
+      "version_relation": "Current tested source in git-provenance.json; synthetic samples carry their own source-file hashes",
+      "recorded_tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 37382,
+      "sha256": "855ebab4ed29a6b170232b9cd7b81b11a6e6a9b335c99f44f1dc38669d1b00ad",
+      "relationship": "provenance_or_report",
+      "version_relation": "Current tested source in git-provenance.json; synthetic samples carry their own source-file hashes",
+      "recorded_tested_commit": "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3"
+    },
+    {
+      "path": "synthetic-repair-example.json",
+      "bytes": 13375,
+      "sha256": "4a9de3c7de07bcf92094f2cb657505a19295568cb27c986ea7f8dceab84f9893",
+      "relationship": "synthetic_not_historical",
+      "version_relation": "Synthetic fixture; four exact source-file hashes and synthetic prompt hash are recorded within the sample; no historical C-L1 raw response"
+    }
+  ]
+}

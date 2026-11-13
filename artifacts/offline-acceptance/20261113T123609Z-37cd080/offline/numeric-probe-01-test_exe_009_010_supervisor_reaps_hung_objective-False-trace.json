@@ -1,0 +1,205 @@
+{
+  "evidence_kind": "INSTRUMENTED_EXISTING_OFFLINE_TEST_TRACE",
+  "test_nodeid": "tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[False]",
+  "probe_sha256": "d80efea6579ea849ac04a51499c5bc110378b0a6dd17ebddd1b8ad377d646503",
+  "source_files": [
+    {
+      "path": "tests/test_numeric.py",
+      "sha256": "753fc6a1a3270b323997c113b27d90994114fa41b4c0536581280a38435aee8e"
+    },
+    {
+      "path": "src/p_mc_optimizer/execution/supervisor.py",
+      "sha256": "951639593887ba1eb06408dc9776de1dd23069f6cbdd17f73d203b31b3f53fa7"
+    },
+    {
+      "path": "src/p_mc_optimizer/execution/evaluator.py",
+      "sha256": "475bc478bb576b2b7b6d119f8eb08be937806a95342d4f872d6500c6843b6ad4"
+    },
+    {
+      "path": "src/p_mc_optimizer/runtime_provenance.py",
+      "sha256": "6346ee01ad9cdc018ca4b72d05821552e7168aac8373c8a2a3a43ce2c8aefb9f"
+    }
+  ],
+  "request_unchanged": {
+    "job_id": "0cdd37ce-e2ca-4bcc-9462-2501bb7ad079",
+    "execution_id": "ace4de0b-3837-4f84-bb3f-ef4887190df7",
+    "phase": "preflight",
+    "deadline_seconds": 1.8,
+    "evaluation_quota": 8
+  },
+  "clock_origin": "Original supervisor clock, started before child launch; deadline observed from unchanged Process args",
+  "product_started_at_monotonic": 1103341.656,
+  "deadline_monotonic": 1103343.456,
+  "events": [
+    {
+      "event": "run_execution_entered",
+      "observed_at_monotonic": 1103340.281,
+      "job_id": "0cdd37ce-e2ca-4bcc-9462-2501bb7ad079",
+      "execution_id": "ace4de0b-3837-4f84-bb3f-ef4887190df7",
+      "phase": "preflight",
+      "deadline_seconds": 1.8,
+      "evaluation_quota": 8
+    },
+    {
+      "event": "child_process_constructed",
+      "observed_at_monotonic": 1103341.656,
+      "deadline_monotonic": 1103343.456,
+      "product_started_at_monotonic": 1103341.656
+    },
+    {
+      "event": "child_launch_begin",
+      "observed_at_monotonic": 1103341.656
+    },
+    {
+      "event": "child_launch_return",
+      "observed_at_monotonic": 1103341.718,
+      "pid": 27580,
+      "creation_time": 1794573806.2121968,
+      "same_process": true,
+      "same_process_running": true,
+      "status": "running"
+    },
+    {
+      "event": "deadline_observed_reached",
+      "observed_at_monotonic": 1103343.468,
+      "deadline_monotonic": 1103343.456,
+      "observer": "parent_poll_return",
+      "semantics": "Observer saw the unchanged product deadline expire; not an injected timeout"
+    },
+    {
+      "event": "parent_received_ipc",
+      "observed_at_monotonic": 1103343.468,
+      "kind": "identity",
+      "pid": 27580,
+      "role": "numeric",
+      "process_run_id": "c633c79b-2c89-49d5-9d8f-c73b03891308",
+      "source_manifest_sha256": "753d105e2425c37ba08687cb478bf2a6084cf2baca65798eeb96d5b4901944d8"
+    },
+    {
+      "event": "on_identity_callback",
+      "observed_at_monotonic": 1103343.468,
+      "pid": 27580,
+      "role": "numeric",
+      "process_run_id": "c633c79b-2c89-49d5-9d8f-c73b03891308"
+    },
+    {
+      "event": "parent_ack_send_begin",
+      "observed_at_monotonic": 1103343.468,
+      "reply": "accepted",
+      "for_kind": "identity",
+      "sequence": null
+    },
+    {
+      "event": "parent_ack_send_return",
+      "observed_at_monotonic": 1103343.468,
+      "reply": "accepted",
+      "for_kind": "identity",
+      "sequence": null
+    },
+    {
+      "event": "parent_received_ipc",
+      "observed_at_monotonic": 1103343.468,
+      "kind": "done",
+      "execution_status": "cancelled",
+      "termination_reason": "cancelled",
+      "started_evaluations": 0,
+      "successful_evaluations": 0,
+      "failed_evaluations": 0,
+      "rejected_proposals": 0,
+      "error_code": null
+    },
+    {
+      "event": "child_join_begin",
+      "observed_at_monotonic": 1103343.468,
+      "pid": 27580,
+      "force": false,
+      "alive": true,
+      "exitcode": null
+    },
+    {
+      "event": "child_join_return",
+      "observed_at_monotonic": 1103343.593,
+      "multiprocessing_alive": false,
+      "exitcode": -15,
+      "pid": 27580,
+      "same_process_running": false,
+      "observation": "not_found"
+    },
+    {
+      "event": "run_execution_returned",
+      "observed_at_monotonic": 1103343.625,
+      "execution_status": "timed_out",
+      "termination_reason": "time_budget",
+      "started_evaluations": 0,
+      "successful_evaluations": 0,
+      "failed_evaluations": 0,
+      "history_complete": true,
+      "history_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_compute_seconds": 1.9370000001508743,
+      "overshoot_seconds": 0.1370000001508742,
+      "error_code": null,
+      "runtime_identity_projection": {
+        "pid": 27580,
+        "role": "numeric",
+        "process_run_id": "c633c79b-2c89-49d5-9d8f-c73b03891308"
+      }
+    }
+  ],
+  "accepted_evaluation_sequences": [],
+  "objective_wrapper_entry": {
+    "pid": null,
+    "monotonic": null
+  },
+  "original_hang_pid": 0,
+  "cancellation_predicate_poll_count": 56,
+  "cancellation_predicate_returned_true": false,
+  "done_projection": {
+    "kind": "done",
+    "execution_status": "cancelled",
+    "termination_reason": "cancelled",
+    "started_evaluations": 0,
+    "successful_evaluations": 0,
+    "failed_evaluations": 0,
+    "rejected_proposals": 0,
+    "error_code": null
+  },
+  "result_projection": {
+    "execution_status": "timed_out",
+    "termination_reason": "time_budget",
+    "started_evaluations": 0,
+    "successful_evaluations": 0,
+    "failed_evaluations": 0,
+    "history_complete": true,
+    "history_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "elapsed_compute_seconds": 1.9370000001508743,
+    "overshoot_seconds": 0.1370000001508742,
+    "error_code": null,
+    "runtime_identity_projection": {
+      "pid": 27580,
+      "role": "numeric",
+      "process_run_id": "c633c79b-2c89-49d5-9d8f-c73b03891308"
+    }
+  },
+  "history_files": [
+    {
+      "name": "ace4de0b-3837-4f84-bb3f-ef4887190df7.jsonl",
+      "bytes": 0,
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "reaping": {
+    "multiprocessing_alive": false,
+    "exitcode": -15,
+    "pid": 27580,
+    "same_process_running": false,
+    "observation": "not_found"
+  },
+  "exception_type": null,
+  "limitations": [
+    "Instrumented diagnostic, separate from unchanged baseline; observer imports and shared-memory/IPC logging may alter timing.",
+    "Objective wrapper timestamp precedes forwarding to original hang; original hang PID is independently observed from its existing shared value.",
+    "Deadline observation is observer timing, not a modified product clock or a synthetic deadline event.",
+    "No credential, environment dump, connection header, objective vector or provider payload is exported."
+  ]
+}

@@ -1,0 +1,2 @@
+# Generated schema contracts have canonical LF bytes on every platform.
+/schemas/*.json text eol=lf

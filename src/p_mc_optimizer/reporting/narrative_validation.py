@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from collections import Counter
 import json
 import re
 from typing import Any
@@ -10,6 +11,7 @@ from pydantic import ValidationError
 from p_mc_optimizer.llm.narrative_models import (
     NarrativeSectionV3, NarrativeDraftV3, NarrativeReviewV1, WriterContextV3, ReviewerContextV1,
     ReportEvidenceV3, RenderedSectionV1, RenderedParagraphV1, ValidationIssueV1, SECTION_ORDER, REQUIRED_SECTIONS,
+    InvalidSectionRepairV1,
 )
 from p_mc_optimizer.reporting.evidence_v3 import canonical_bytes, value_hash, evidence_hash
 
@@ -34,6 +36,7 @@ class DraftValidation:
     issues: list[ValidationIssueV1] = field(default_factory=list)
     global_error: bool = False
     omitted_sections: list[str] = field(default_factory=list)
+    invalid_sections: list[InvalidSectionRepairV1] = field(default_factory=list)
 
     @property
     def valid(self):
@@ -115,6 +118,139 @@ def _parse(value):
     return _data(value)
 
 
+def _repair_text(value, limit):
+    """Project strings without transporting credentials, headers or private paths.
+
+    This supplements the gateway's known-key sanitizer for synthetic/offline inputs.
+    It is not a reason to copy arbitrary fields into the repair transport.
+    """
+    if not isinstance(value, str):
+        return None, value is not None
+    # Normalize before inspection so removing a control cannot reveal an
+    # uninspected credential name or token (for example api_\x00key).
+    text = "".join("\ufffd" if 0xD800 <= ord(c) <= 0xDFFF else c for c in value if ord(c) >= 32 or c in "\n\r\t")
+    text = re.sub(r"\b(?:sk-|tvly-|gh[pousr]_|github_pat_)[A-Za-z0-9_-]{6,}", "[REDACTED]", text)
+    text = re.sub(r"\bAKIA[A-Z0-9]{16}\b", "[REDACTED]", text)
+    text = re.sub(r"\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b", "[REDACTED]", text)
+    text = re.sub(r"(?i)\b(?:Bearer|Basic)\s+[^\s\"'<>;,]+", "[REDACTED]", text)
+    # A dotted public contract such as numeric_execution.authorization is not a header.
+    text = re.sub(r"(?i)(?<![\w.])(?:authorization|proxy-authorization)[\"']?\s*[:=]\s*[^\r\n]+", "[REDACTED]", text)
+    text = re.sub(r"(?i)(?<![\w.])(?:cookie|set-cookie)[\"']?\s*[:=]\s*[^\r\n]+", "[REDACTED]", text)
+    text = re.sub(r"(?i)(?<![\w.])(?:api[_-]?key|access[_-]?token|refresh[_-]?token|client[_-]?secret|secret|password|token)[\"']?\s*[:=]\s*(?:\"(?:\\.|[^\"\\\r\n])*\"|'(?:\\.|[^'\\\r\n])*'|[^\s,;]+)", "[REDACTED]", text)
+    text = re.sub(r"(?i)https?://[^\s/@]+:[^\s/@]+@[^\s\"'<>]+", "[REDACTED]", text)
+    text = re.sub(r"(?i)(?:[a-z]:[\\/]|/(?:Users|home|private|var|tmp|root)/|~[\\/]|\\\\)[^\s\"'<>]+", "[PRIVATE_PATH]", text)
+    text = re.sub(r"(?i)(?:[^\s\"'<>]*[\\/])?(?:_private_qa[\\/][^\s\"'<>]*|\.env(?:\.[a-z0-9_-]+)?)(?![\w.])", "[PRIVATE_PATH]", text)
+    return text[:limit], text != value or len(text) > limit
+
+
+def _repair_refs(value):
+    if not isinstance(value, list):
+        return [], value is not None
+    output, changed = [], len(value) > 32
+    for item in value[:32]:
+        projected, redacted = _repair_text(item, 128)
+        changed = changed or redacted
+        if projected is not None:
+            output.append(projected)
+        else:
+            changed = True
+    return output, changed
+
+
+def _structural_error(section_index, detail):
+    """Use server-owned rules and safe locations, never exception input/msg/ctx."""
+    fields = {"section_id", "paragraphs", "paragraph_id", "claim_kind", "text_fa", "fact_refs", "evidence_refs"}
+    path = f"sections[{section_index}]"
+    location = detail.get("loc", ())
+    for part in location[:8]:
+        path += f"[{part}]" if type(part) is int else "." + (part if part in fields else "<extra_field>")
+    last = next((part for part in reversed(location) if isinstance(part, str) and part in fields), None)
+    kind = detail.get("type", "schema_invalid")
+    # Pydantic error types are implementation identifiers, not model-supplied text.
+    if not isinstance(kind, str) or not re.fullmatch(r"[a-z_]{1,80}", kind):
+        kind = "schema_invalid"
+    rules = {
+        "paragraph_id": "^[a-z][a-z0-9_]{0,47}$; unique across all new and accepted paragraphs",
+        "paragraphs": "a list of at most three narrative paragraphs",
+        "claim_kind": "one of recorded, derived, interpretation",
+        "text_fa": "a string containing 1 to 2200 characters",
+        "fact_refs": "a list of strings exactly matching the unique fact-token IDs in this paragraph",
+        "evidence_refs": "a list of unique evidence-ID strings belonging to the frozen section evidence",
+        "section_id": "one of " + ", ".join(SECTION_ORDER),
+    }
+    rule = ("only the declared fields are allowed; remove the extra field" if kind == "extra_forbidden"
+            else rules.get(last, "a closed NarrativeSectionV3 object with all required fields"))
+    if kind == "missing":
+        rule = "required field; " + rule
+    instruction = "فیلد مشخص‌شده را طبق قاعدهٔ ثبت‌شده اصلاح کنید؛ بخش‌های پذیرفته‌شده تغییر نکنند."
+    if last == "paragraph_id" and kind != "extra_forbidden":
+        instruction = ("paragraph_id را خودتان با الگوی ^[a-z][a-z0-9_]{0,47}$ بسازید: ابتدا حرف کوچک لاتین، "
+                       "سپس فقط حروف کوچک، رقم یا زیرخط؛ خط تیره مجاز نیست. نمونهٔ معتبر problem_main است. "
+                       "شناسه در کل پاراگراف‌های جدید و پذیرفته‌شده یکتا بماند؛ سرور شناسه را خودکار تغییر نمی‌دهد.")
+    return {"field_path": path[:240], "error_type": kind, "expected_rule": rule[:256],
+            "repair_instruction_fa": instruction[:640]}
+
+
+def _invalid_section_snapshot(section_id, raw, section_index, error):
+    details = (error.errors(include_input=False, include_url=False, include_context=False)
+               if isinstance(error, ValidationError) else [{"loc": (), "type": "schema_invalid"}])
+    snapshots = []
+    paragraphs = raw.get("paragraphs")
+    changed = bool(set(raw) - {"section_id", "paragraphs"})
+    if not isinstance(paragraphs, list):
+        paragraphs, changed = [], True
+    changed = changed or len(paragraphs) > 3 or len(details) > 12
+    paragraph_fields = {"paragraph_id", "claim_kind", "text_fa", "fact_refs", "evidence_refs"}
+    for index, paragraph in enumerate(paragraphs[:3]):
+        modified = not isinstance(paragraph, dict)
+        source = paragraph if isinstance(paragraph, dict) else {}
+        modified = modified or bool(set(source) - paragraph_fields)
+        snapshot = {"paragraph_index": index}
+        for name, limit in (("paragraph_id", 160), ("claim_kind", 80), ("text_fa", 2200)):
+            snapshot[name], trimmed = _repair_text(source.get(name), limit)
+            modified = modified or trimmed
+        for name in ("fact_refs", "evidence_refs"):
+            snapshot[name], trimmed = _repair_refs(source.get(name))
+            modified = modified or trimmed
+        snapshot["truncated"] = modified
+        snapshots.append(snapshot)
+        changed = changed or modified
+    projected = {"payload_kind": "invalid_section", "section_id": section_id,
+                 "paragraphs": snapshots,
+                 "structural_errors": [_structural_error(section_index, item) for item in details[:12]],
+                 "truncated": bool(changed)}
+    # A malicious collection of long refs must not crowd out the useful prose.
+    # Trimming applies only to this explicit snapshot, never to the source draft.
+    while len(canonical_bytes(projected)) > 16384:
+        projected["truncated"] = True
+        ref_lists = [(p, key) for p in snapshots for key in ("fact_refs", "evidence_refs") if p[key]]
+        if ref_lists:
+            paragraph, name = max(ref_lists, key=lambda item: len(canonical_bytes(item[0][item[1]])))
+            paragraph[name].pop()
+            paragraph["truncated"] = True
+            continue
+        texts = [p for p in snapshots if p["text_fa"] and len(p["text_fa"]) > 128]
+        if texts:
+            paragraph = max(texts, key=lambda p: len(p["text_fa"]))
+            paragraph["text_fa"] = paragraph["text_fa"][:max(128, len(paragraph["text_fa"]) // 2)]
+            paragraph["truncated"] = True
+        elif len(projected["structural_errors"]) > 1:
+            projected["structural_errors"].pop()
+        else:
+            # All individual fields are bounded; this final branch is defensive.
+            snapshots.pop()
+    return InvalidSectionRepairV1.model_validate(projected)
+
+
+def _structural_issue(snapshot):
+    first = snapshot.structural_errors[0]
+    diagnostic = {"section_id": snapshot.section_id, "field_errors": [first.model_dump(mode="json")],
+                  "additional_errors_in_snapshot": len(snapshot.structural_errors) - 1}
+    detail = issue("SCHEMA_INVALID", snapshot.section_id,
+                   message="خطای ساختاری بخش؛ جزئیات امن برای اصلاح: " + json.dumps(diagnostic, ensure_ascii=False, separators=(",", ":")))
+    return detail.model_copy(update={"required_change_fa": first.repair_instruction_fa})
+
+
 def validate_draft(context, raw_response) -> DraftValidation:
     result=DraftValidation()
     try:
@@ -158,8 +294,10 @@ def validate_draft(context, raw_response) -> DraftValidation:
         if len(matching)!=1:
             result.issues.append(issue("SCHEMA_INVALID",section_id));continue
         try:section=NarrativeSectionV3.model_validate(matching[0])
-        except (ValidationError,ValueError,TypeError):
-            result.issues.append(issue("SCHEMA_INVALID",section_id));continue
+        except (ValidationError,ValueError,TypeError) as error:
+            snapshot = _invalid_section_snapshot(section_id, matching[0], raw["sections"].index(matching[0]), error)
+            result.invalid_sections.append(snapshot)
+            result.issues.append(_structural_issue(snapshot));continue
         if section_id in accepted and section_hash(section)!=accepted[section_id]:
             result.issues.append(issue("OUT_OF_SCOPE_REPAIR",section_id));continue
         if not section.paragraphs:
@@ -172,7 +310,12 @@ def validate_draft(context, raw_response) -> DraftValidation:
             if p.paragraph_id in paragraph_ids:local.append(issue("SCHEMA_INVALID",section_id,p.paragraph_id))
             paragraph_ids.add(p.paragraph_id)
             tokens=TOKEN.findall(p.text_fa);covered.update(tokens)
-            if len(p.fact_refs)!=len(set(p.fact_refs)) or set(p.fact_refs)!=set(tokens):local.append(issue("INVALID_BINDING",section_id,p.paragraph_id))
+            differences={"token_ids_not_in_fact_refs":sorted(set(tokens)-set(p.fact_refs)),
+                         "fact_refs_not_used_as_tokens":sorted(set(p.fact_refs)-set(tokens)),
+                         "duplicate_fact_refs":sorted(f for f,count in Counter(p.fact_refs).items() if count>1)}
+            if any(differences.values()):
+                detail=issue("INVALID_BINDING",section_id,p.paragraph_id,message="اختلاف دقیق اتصال در این پاراگراف: "+json.dumps(differences,ensure_ascii=False,separators=(",",":")))
+                local.append(detail.model_copy(update={"required_change_fa":"توکن‌های همین پاراگراف و fact_refs را مطابق اختلاف ثبت‌شده اصلاح کنید؛ معیار انتخاب را با توکن مربوط در همان بخش بیان کنید. بخش‌های پذیرفته‌شده را تغییر ندهید؛ سرور هیچ ارجاع یا توکنی را خودکار تغییر نمی‌دهد."}))
             for f in set(tokens)|set(p.fact_refs):
                 if f not in facts:local.append(issue("UNKNOWN_FACT",section_id,p.paragraph_id))
             if not p.evidence_refs or len(p.evidence_refs)!=len(set(p.evidence_refs)) or set(p.evidence_refs)-sources.keys():local.append(issue("UNKNOWN_EVIDENCE",section_id,p.paragraph_id))
@@ -183,11 +326,20 @@ def validate_draft(context, raw_response) -> DraftValidation:
             if "{{" in residue or "}}" in residue or "{{fact" in residue:local.append(issue("INVALID_BINDING",section_id,p.paragraph_id))
             if _URL.search(residue) or _UUID.search(residue) or _HASH.search(residue) or _MARKUP.search(residue) or _INTERNAL.search(residue) or _EXECUTABLE.search(residue):local.append(issue("UNSAFE_MARKUP",section_id,p.paragraph_id))
             for word in sorted(technical,key=len,reverse=True):residue=re.sub(r"(?<!\w)"+re.escape(word)+r"(?!\w)","",residue)
-            if any(c.isdigit() for c in residue):local.append(issue("UNBOUND_NUMBER",section_id,p.paragraph_id))
+            number_at=next((i for i,c in enumerate(residue) if c.isdigit()),None)
+            if number_at is not None:
+                snippet=residue[max(0,number_at-32):number_at+48]
+                detail=issue("UNBOUND_NUMBER",section_id,p.paragraph_id,message="کمیت خام بدون اتصال در پاراگراف: "+json.dumps({"paragraph_id":p.paragraph_id,"unbound_number_snippet":snippet},ensure_ascii=False,separators=(",",":")))
+                local.append(detail.model_copy(update={"required_change_fa":"برای قطعهٔ مشخص‌شده از fact موجود و معتبر استفاده کنید، یا جزئیات غیرضروری را حذف کنید؛ مقدار یا روش را از شباهت متن حدس نزنید و بخش‌های پذیرفته‌شده را تغییر ندهید."}))
             # Mathematical constants alone do not ground an interpretation.
             if tokens and all(f.startswith("constant.") for f in tokens) and not any(r.startswith("report:") or r.startswith("source:") for r in p.evidence_refs):local.append(issue("UNKNOWN_EVIDENCE",section_id,p.paragraph_id))
         missing=set(requirements[section_id].required_fact_refs)-covered
-        if missing:local.append(issue("MISSING_REQUIRED_FACT",section_id,message="داده‌های ضروری بخش پوشش داده نشده‌اند: "+", ".join(sorted(missing))))
+        if missing:
+            detail=issue("MISSING_REQUIRED_FACT",section_id,message="داده‌های ضروری بدون توکن در همین بخش: "+json.dumps({"missing_required_fact_tokens":sorted(missing)},ensure_ascii=False,separators=(",",":")))
+            required_tokens="، ".join("{{fact:"+fact+"}}" for fact in sorted(missing))
+            local.append(detail.model_copy(update={"required_change_fa":"توکن‌های الزامی "+required_tokens+" را واقعاً در متن همین بخش بیاورید و fact_refs را با توکن‌های متن برابر نگه دارید؛ ذکر مفهوم یا ارجاع به‌تنهایی کافی نیست. بخش‌های پذیرفته‌شده را تغییر ندهید."}))
+        if ctx.evidence.evidence_policy_version=="1.1" and section_id=="candidate_rationale" and not any("report:proposal" in p.evidence_refs for p in section.paragraphs):
+            local.append(issue("UNKNOWN_EVIDENCE",section_id,message="بخش دلیل پیشنهاد باید دست‌کم به report:proposal همین اجرا ارجاع دهد؛ ارجاع موجود ولی نامرتبط، جای این شاهد را نمی‌گیرد."))
         if local:result.issues.extend(local)
         else:result.valid_sections.append(section)
     if total>16000:

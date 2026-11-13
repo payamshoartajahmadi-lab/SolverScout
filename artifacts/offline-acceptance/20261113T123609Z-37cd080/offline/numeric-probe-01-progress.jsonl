@@ -1,0 +1,2 @@
+{"nodeid": "tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[False]", "phase": "call", "outcome": "failed", "duration_seconds": 3.3517338999081403}
+{"nodeid": "tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[True]", "phase": "call", "outcome": "passed", "duration_seconds": 1.9399801001418382}

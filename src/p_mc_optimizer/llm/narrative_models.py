@@ -22,10 +22,23 @@ IssueCode = Literal[
     "SOURCE_NOT_SUPPORTING", "INSUFFICIENT_SPECIFICITY", "REDUNDANT_CONTENT", "UNSAFE_MARKUP",
 ]
 FactValue = StrictFloat | StrictInt | StrictStr | StrictBool | list[StrictFloat | StrictInt] | None
+ReportPolicyVersion = Literal["1.0", "1.1"]
+
+
+def validate_narrative_version_combination(evidence_policy_version, builder_version, formatter_version, report_generation_policy_version=None):
+    """Validate a frozen generation's versions without silently upgrading it."""
+    versions = [builder_version, formatter_version]
+    if evidence_policy_version is not None:
+        versions.append(evidence_policy_version)
+    if report_generation_policy_version is not None:
+        versions.append(report_generation_policy_version)
+    if any(v not in {"1.0", "1.1"} for v in versions) or len(set(versions)) != 1:
+        raise ValueError("Incompatible narrative policy, evidence builder or formatter versions")
+    return builder_version
 
 
 class DerivationRecord(ContractModel):
-    operation: Literal["count", "sum", "median", "iqr_linear", "negate", "subtract", "relative_decrease_percent", "bounds_membership", "format_group"]
+    operation: Literal["count", "sum", "median", "iqr_linear", "negate", "subtract", "relative_decrease_percent", "bounds_membership", "format_group", "common_value"]
     input_fact_refs: list[str]
     definition_version: Literal["1.0"]
 
@@ -121,7 +134,7 @@ class ReportEvidenceV3(ContractModel):
     sections: list[SectionRequirement]
     methods: list[MethodIdentity]
     omissions: list[OmissionRecord]
-    evidence_policy_version: Literal["1.0"]
+    evidence_policy_version: ReportPolicyVersion
 
     @model_validator(mode="after")
     def unique_resolvable_identifiers(self) -> Self:
@@ -135,6 +148,46 @@ class ReportEvidenceV3(ContractModel):
         for section in self.sections:
             if set(section.required_fact_refs) - facts or set(section.allowed_evidence_refs) - sources:
                 raise ValueError("Section requirements must resolve in this exact evidence")
+        if self.evidence_policy_version == "1.1" and "proposal.rationale" in facts:
+            raise ValueError("Policy 1.1 preserves individual rationale evidence, not an aggregate rationale fact")
+        by_id = {f.fact_id:f for f in self.facts}
+        sources_by_id = {s.evidence_id:s for s in self.sources}
+        methods_by_alias = {m.alias:m.implementation_id for m in self.methods}
+        for fact in self.facts:
+            if not fact.derivation or fact.derivation.operation != "common_value":
+                continue
+            expected_input = fact.fact_id.removesuffix(".evaluations_per_repeat") + ".evaluation_counts"
+            method_alias = fact.fact_id.removeprefix("pilot.").removesuffix(".evaluations_per_repeat")
+            vector = by_id.get(expected_input)
+            if (self.evidence_policy_version != "1.1" or not fact.fact_id.startswith("pilot.")
+                    or not fact.fact_id.endswith(".evaluations_per_repeat") or method_alias not in methods_by_alias
+                    or fact.value_type != "integer" or fact.availability != "available"
+                    or type(fact.value) is not int or fact.value < 0
+                    or fact.derivation.input_fact_refs != [expected_input]
+                    or vector is None or vector.availability != "available"
+                    or vector.value_type != "number_vector" or not vector.value
+                    or any(type(v) is not int or v < 0 or v != fact.value for v in vector.value)):
+                raise ValueError("common_value requires the complete nonempty, equal nonnegative integer count vector")
+            import json
+            source = sources_by_id.get("derived:"+fact.fact_id)
+            if source is None or source.kind != "derived_calculation" or fact.evidence_refs != [source.evidence_id]:
+                raise ValueError("common_value requires its recorded derivation source")
+            try:
+                payload=json.loads(source.text)
+                recorded_trials=json.loads(sources_by_id["report:trials"].text)
+                if type(recorded_trials) is not list or any(type(t) is not dict for t in recorded_trials):
+                    raise ValueError("Recorded trial summary must be a list of objects")
+                recorded_counts=[t.get("started_evaluations") for t in recorded_trials
+                                 if t.get("phase")=="pilot" and t.get("algorithm_id")==methods_by_alias[method_alias]]
+                valid=(payload["scope"]=="all_recorded_pilots_for_method" and payload["input_vector"]==vector.value
+                       and vector.value==recorded_counts and all(type(v) is int and v>=0 for v in recorded_counts)
+                       and type(payload["input_vector"]) is list and all(type(v) is int for v in payload["input_vector"])
+                       and type(payload["value"]) is int and payload["value"]==fact.value and payload["inputs"]==[expected_input]
+                       and all(payload["condition"][name] is True for name in ["nonempty","complete","nonnegative_integers","all_equal"]))
+            except (ValueError,TypeError,KeyError):
+                valid=False
+            if not valid:
+                raise ValueError("common_value source must record its all-recorded scope, vector and exact equality condition")
         return self
 
 
@@ -160,6 +213,43 @@ class NarrativeSectionV3(ContractModel):
     paragraphs: Annotated[list[NarrativeParagraphV3], Field(max_length=3)]
 
 
+class StructuralFieldErrorV1(ContractModel):
+    """Server-authored diagnostics, without Pydantic inputs or exception context."""
+    field_path: Annotated[str, Field(max_length=240)]
+    error_type: Annotated[str, Field(max_length=80)]
+    expected_rule: Annotated[str, Field(max_length=256)]
+    repair_instruction_fa: Annotated[str, Field(max_length=640)]
+
+
+class RepairParagraphSnapshotV1(ContractModel):
+    """Bounded untrusted input for repair; never a validated narrative paragraph."""
+    paragraph_index: Annotated[int, Field(ge=0, le=2)]
+    paragraph_id: Annotated[str, Field(max_length=160)] | None
+    claim_kind: Annotated[str, Field(max_length=80)] | None
+    text_fa: Annotated[str, Field(max_length=2200)] | None
+    fact_refs: Annotated[list[Annotated[str, Field(max_length=128)]], Field(max_length=32)]
+    evidence_refs: Annotated[list[Annotated[str, Field(max_length=128)]], Field(max_length=32)]
+    truncated: bool
+
+
+class InvalidSectionRepairV1(ContractModel):
+    """A closed projection of invalid input, distinct from accepted report data."""
+    payload_kind: Literal["invalid_section"]
+    section_id: SectionId
+    paragraphs: Annotated[list[RepairParagraphSnapshotV1], Field(max_length=3)]
+    structural_errors: Annotated[list[StructuralFieldErrorV1], Field(min_length=1, max_length=12)]
+    truncated: bool
+
+    @model_validator(mode="after")
+    def bounded_transport(self) -> Self:
+        import json
+        encoded = json.dumps(self.model_dump(mode="json"), ensure_ascii=False,
+                             separators=(",", ":"), allow_nan=False).encode("utf-8")
+        if len(encoded) > 16384:
+            raise ValueError("An invalid-section repair snapshot exceeds its byte limit")
+        return self
+
+
 class WriterContextV3(ContractModel):
     schema_version: Literal["3.0"]
     mode: Literal["draft", "repair"]
@@ -169,10 +259,20 @@ class WriterContextV3(ContractModel):
     request_hash: Sha256
     section_scope: list[SectionId]
     accepted_sections: list[NarrativeSectionV3]
-    failed_sections: list[NarrativeSectionV3]
+    failed_sections: list[NarrativeSectionV3 | InvalidSectionRepairV1]
     previous_response_text: Annotated[str, Field(max_length=8192)] | None
     previous_response_truncated: bool
     repair_issues: list[ValidationIssueV1]
+
+    @model_validator(mode="after")
+    def invalid_snapshots_are_scoped(self) -> Self:
+        snapshots = [s for s in self.failed_sections if isinstance(s, InvalidSectionRepairV1)]
+        accepted = {s.section_id for s in self.accepted_sections}
+        ids = [s.section_id for s in snapshots]
+        if snapshots and (self.mode != "repair" or len(ids) != len(set(ids))
+                          or set(ids) - set(self.section_scope) or set(ids) & accepted):
+            raise ValueError("Invalid-section snapshots belong only to unresolved repair scope")
+        return self
 
 
 class NarrativeDraftV3(ContractModel):
@@ -257,6 +357,12 @@ class NarrativeV3(ContractModel):
     issues: list[ValidationIssueV1]
     attempts: list[NarrativeAttemptV1]
     renderer_version: Literal["3.0.0"]
-    formatter_version: Literal["1.0"]
-    evidence_builder_version: Literal["1.0"]
+    formatter_version: ReportPolicyVersion
+    evidence_builder_version: ReportPolicyVersion
     elapsed_reporting_seconds: Annotated[float, Field(ge=0)]
+
+    @model_validator(mode="after")
+    def compatible_frozen_versions(self) -> Self:
+        validate_narrative_version_combination(self.evidence.evidence_policy_version if self.evidence else None,
+                                              self.evidence_builder_version,self.formatter_version)
+        return self

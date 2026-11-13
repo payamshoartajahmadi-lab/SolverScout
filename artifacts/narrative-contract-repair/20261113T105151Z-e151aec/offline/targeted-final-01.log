@@ -1,0 +1,795 @@
+..........................................................FFFFFFFF...... [ 28%]
+........................................................................ [ 56%]
+................................................FFFFF................... [ 84%]
+....................................FF..                                 [100%]
+================================== FAILURES ===================================
+___ test_real_gateway_frozen_policy_http_and_exact_replay[json_schema-1.0] ____
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_real_gateway_frozen_polic0')
+version = '1.0', mode = 'json_schema'
+
+    @pytest.mark.parametrize('version',['1.0','1.1'])
+    @pytest.mark.parametrize('mode',['json_schema','json_object','text_json'])
+    def test_real_gateway_frozen_policy_http_and_exact_replay(tmp_path,version,mode):
+        sent=[];seen=[]
+        def provider(request):
+            body=json.loads(request.content)
+            if body['messages'][1]['content']=='Return the connection check as JSON.':
+                assert body['max_completion_tokens']==512
+                return completion({'ok':True})
+            context=json.loads(body['messages'][1]['content']);role='explainer' if 'mode' in context else 'report_reviewer'
+            cap=(8192 if role=='explainer' else 4096) if version=='1.1' else 1234
+            assert body['max_completion_tokens']==cap
+            with repo.connect() as db:
+                row=db.execute("SELECT metadata,status,provider_snapshot FROM llm_calls WHERE job_id=? ORDER BY started_at DESC,rowid DESC LIMIT 1",(job_id,)).fetchone()
+            metadata=json.loads(row['metadata']);frozen=json.loads(row['provider_snapshot'])
+            assert row['status']=='reserved' and metadata['effective_max_output_tokens']==cap
+            assert metadata['report_generation_policy_version']==version
+            assert metadata['provenance']['request_body_sha256']==sha256(request.content).hexdigest()
+            assert frozen['max_output_tokens']==1234 and frozen['revision']==profile['revision']
+            assert metadata['prompt_name']==('explainer.v3.1' if role=='explainer' else 'narrative_review.v1.1') if version=='1.1' else metadata['prompt_name'] in {'explainer.v3','narrative_review.v1'}
+            sent.append(role)
+            return completion(correct_draft(context) if role=='explainer' else review_response(context))
+>       with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
+
+tests\test_narrative_closure_policy.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests\test_llm_workflow.py:68: in local_api
+    app = create_app(data_dir, token, transport=transport, **app_options)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\api\app.py:217: in create_app
+    from p_mc_optimizer.research.gateway import ResearchGateway
+src\p_mc_optimizer\research\gateway.py:16: in <module>
+    from .fetch import DocumentFetcher
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Redirect policy, robots checks and extraction for a single document."""
+    
+    from __future__ import annotations
+    
+    import hashlib
+    from time import monotonic
+    from urllib.parse import urljoin, urlsplit
+    
+>   from protego import Protego
+E   ModuleNotFoundError: No module named 'protego'
+
+src\p_mc_optimizer\research\fetch.py:9: ModuleNotFoundError
+___ test_real_gateway_frozen_policy_http_and_exact_replay[json_schema-1.1] ____
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_real_gateway_frozen_polic1')
+version = '1.1', mode = 'json_schema'
+
+    @pytest.mark.parametrize('version',['1.0','1.1'])
+    @pytest.mark.parametrize('mode',['json_schema','json_object','text_json'])
+    def test_real_gateway_frozen_policy_http_and_exact_replay(tmp_path,version,mode):
+        sent=[];seen=[]
+        def provider(request):
+            body=json.loads(request.content)
+            if body['messages'][1]['content']=='Return the connection check as JSON.':
+                assert body['max_completion_tokens']==512
+                return completion({'ok':True})
+            context=json.loads(body['messages'][1]['content']);role='explainer' if 'mode' in context else 'report_reviewer'
+            cap=(8192 if role=='explainer' else 4096) if version=='1.1' else 1234
+            assert body['max_completion_tokens']==cap
+            with repo.connect() as db:
+                row=db.execute("SELECT metadata,status,provider_snapshot FROM llm_calls WHERE job_id=? ORDER BY started_at DESC,rowid DESC LIMIT 1",(job_id,)).fetchone()
+            metadata=json.loads(row['metadata']);frozen=json.loads(row['provider_snapshot'])
+            assert row['status']=='reserved' and metadata['effective_max_output_tokens']==cap
+            assert metadata['report_generation_policy_version']==version
+            assert metadata['provenance']['request_body_sha256']==sha256(request.content).hexdigest()
+            assert frozen['max_output_tokens']==1234 and frozen['revision']==profile['revision']
+            assert metadata['prompt_name']==('explainer.v3.1' if role=='explainer' else 'narrative_review.v1.1') if version=='1.1' else metadata['prompt_name'] in {'explainer.v3','narrative_review.v1'}
+            sent.append(role)
+            return completion(correct_draft(context) if role=='explainer' else review_response(context))
+>       with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
+
+tests\test_narrative_closure_policy.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests\test_llm_workflow.py:68: in local_api
+    app = create_app(data_dir, token, transport=transport, **app_options)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\api\app.py:217: in create_app
+    from p_mc_optimizer.research.gateway import ResearchGateway
+src\p_mc_optimizer\research\gateway.py:16: in <module>
+    from .fetch import DocumentFetcher
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Redirect policy, robots checks and extraction for a single document."""
+    
+    from __future__ import annotations
+    
+    import hashlib
+    from time import monotonic
+    from urllib.parse import urljoin, urlsplit
+    
+>   from protego import Protego
+E   ModuleNotFoundError: No module named 'protego'
+
+src\p_mc_optimizer\research\fetch.py:9: ModuleNotFoundError
+___ test_real_gateway_frozen_policy_http_and_exact_replay[json_object-1.0] ____
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_real_gateway_frozen_polic2')
+version = '1.0', mode = 'json_object'
+
+    @pytest.mark.parametrize('version',['1.0','1.1'])
+    @pytest.mark.parametrize('mode',['json_schema','json_object','text_json'])
+    def test_real_gateway_frozen_policy_http_and_exact_replay(tmp_path,version,mode):
+        sent=[];seen=[]
+        def provider(request):
+            body=json.loads(request.content)
+            if body['messages'][1]['content']=='Return the connection check as JSON.':
+                assert body['max_completion_tokens']==512
+                return completion({'ok':True})
+            context=json.loads(body['messages'][1]['content']);role='explainer' if 'mode' in context else 'report_reviewer'
+            cap=(8192 if role=='explainer' else 4096) if version=='1.1' else 1234
+            assert body['max_completion_tokens']==cap
+            with repo.connect() as db:
+                row=db.execute("SELECT metadata,status,provider_snapshot FROM llm_calls WHERE job_id=? ORDER BY started_at DESC,rowid DESC LIMIT 1",(job_id,)).fetchone()
+            metadata=json.loads(row['metadata']);frozen=json.loads(row['provider_snapshot'])
+            assert row['status']=='reserved' and metadata['effective_max_output_tokens']==cap
+            assert metadata['report_generation_policy_version']==version
+            assert metadata['provenance']['request_body_sha256']==sha256(request.content).hexdigest()
+            assert frozen['max_output_tokens']==1234 and frozen['revision']==profile['revision']
+            assert metadata['prompt_name']==('explainer.v3.1' if role=='explainer' else 'narrative_review.v1.1') if version=='1.1' else metadata['prompt_name'] in {'explainer.v3','narrative_review.v1'}
+            sent.append(role)
+            return completion(correct_draft(context) if role=='explainer' else review_response(context))
+>       with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
+
+tests\test_narrative_closure_policy.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests\test_llm_workflow.py:68: in local_api
+    app = create_app(data_dir, token, transport=transport, **app_options)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\api\app.py:217: in create_app
+    from p_mc_optimizer.research.gateway import ResearchGateway
+src\p_mc_optimizer\research\gateway.py:16: in <module>
+    from .fetch import DocumentFetcher
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Redirect policy, robots checks and extraction for a single document."""
+    
+    from __future__ import annotations
+    
+    import hashlib
+    from time import monotonic
+    from urllib.parse import urljoin, urlsplit
+    
+>   from protego import Protego
+E   ModuleNotFoundError: No module named 'protego'
+
+src\p_mc_optimizer\research\fetch.py:9: ModuleNotFoundError
+___ test_real_gateway_frozen_policy_http_and_exact_replay[json_object-1.1] ____
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_real_gateway_frozen_polic3')
+version = '1.1', mode = 'json_object'
+
+    @pytest.mark.parametrize('version',['1.0','1.1'])
+    @pytest.mark.parametrize('mode',['json_schema','json_object','text_json'])
+    def test_real_gateway_frozen_policy_http_and_exact_replay(tmp_path,version,mode):
+        sent=[];seen=[]
+        def provider(request):
+            body=json.loads(request.content)
+            if body['messages'][1]['content']=='Return the connection check as JSON.':
+                assert body['max_completion_tokens']==512
+                return completion({'ok':True})
+            context=json.loads(body['messages'][1]['content']);role='explainer' if 'mode' in context else 'report_reviewer'
+            cap=(8192 if role=='explainer' else 4096) if version=='1.1' else 1234
+            assert body['max_completion_tokens']==cap
+            with repo.connect() as db:
+                row=db.execute("SELECT metadata,status,provider_snapshot FROM llm_calls WHERE job_id=? ORDER BY started_at DESC,rowid DESC LIMIT 1",(job_id,)).fetchone()
+            metadata=json.loads(row['metadata']);frozen=json.loads(row['provider_snapshot'])
+            assert row['status']=='reserved' and metadata['effective_max_output_tokens']==cap
+            assert metadata['report_generation_policy_version']==version
+            assert metadata['provenance']['request_body_sha256']==sha256(request.content).hexdigest()
+            assert frozen['max_output_tokens']==1234 and frozen['revision']==profile['revision']
+            assert metadata['prompt_name']==('explainer.v3.1' if role=='explainer' else 'narrative_review.v1.1') if version=='1.1' else metadata['prompt_name'] in {'explainer.v3','narrative_review.v1'}
+            sent.append(role)
+            return completion(correct_draft(context) if role=='explainer' else review_response(context))
+>       with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
+
+tests\test_narrative_closure_policy.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests\test_llm_workflow.py:68: in local_api
+    app = create_app(data_dir, token, transport=transport, **app_options)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\api\app.py:217: in create_app
+    from p_mc_optimizer.research.gateway import ResearchGateway
+src\p_mc_optimizer\research\gateway.py:16: in <module>
+    from .fetch import DocumentFetcher
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Redirect policy, robots checks and extraction for a single document."""
+    
+    from __future__ import annotations
+    
+    import hashlib
+    from time import monotonic
+    from urllib.parse import urljoin, urlsplit
+    
+>   from protego import Protego
+E   ModuleNotFoundError: No module named 'protego'
+
+src\p_mc_optimizer\research\fetch.py:9: ModuleNotFoundError
+____ test_real_gateway_frozen_policy_http_and_exact_replay[text_json-1.0] _____
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_real_gateway_frozen_polic4')
+version = '1.0', mode = 'text_json'
+
+    @pytest.mark.parametrize('version',['1.0','1.1'])
+    @pytest.mark.parametrize('mode',['json_schema','json_object','text_json'])
+    def test_real_gateway_frozen_policy_http_and_exact_replay(tmp_path,version,mode):
+        sent=[];seen=[]
+        def provider(request):
+            body=json.loads(request.content)
+            if body['messages'][1]['content']=='Return the connection check as JSON.':
+                assert body['max_completion_tokens']==512
+                return completion({'ok':True})
+            context=json.loads(body['messages'][1]['content']);role='explainer' if 'mode' in context else 'report_reviewer'
+            cap=(8192 if role=='explainer' else 4096) if version=='1.1' else 1234
+            assert body['max_completion_tokens']==cap
+            with repo.connect() as db:
+                row=db.execute("SELECT metadata,status,provider_snapshot FROM llm_calls WHERE job_id=? ORDER BY started_at DESC,rowid DESC LIMIT 1",(job_id,)).fetchone()
+            metadata=json.loads(row['metadata']);frozen=json.loads(row['provider_snapshot'])
+            assert row['status']=='reserved' and metadata['effective_max_output_tokens']==cap
+            assert metadata['report_generation_policy_version']==version
+            assert metadata['provenance']['request_body_sha256']==sha256(request.content).hexdigest()
+            assert frozen['max_output_tokens']==1234 and frozen['revision']==profile['revision']
+            assert metadata['prompt_name']==('explainer.v3.1' if role=='explainer' else 'narrative_review.v1.1') if version=='1.1' else metadata['prompt_name'] in {'explainer.v3','narrative_review.v1'}
+            sent.append(role)
+            return completion(correct_draft(context) if role=='explainer' else review_response(context))
+>       with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
+
+tests\test_narrative_closure_policy.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests\test_llm_workflow.py:68: in local_api
+    app = create_app(data_dir, token, transport=transport, **app_options)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\api\app.py:217: in create_app
+    from p_mc_optimizer.research.gateway import ResearchGateway
+src\p_mc_optimizer\research\gateway.py:16: in <module>
+    from .fetch import DocumentFetcher
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Redirect policy, robots checks and extraction for a single document."""
+    
+    from __future__ import annotations
+    
+    import hashlib
+    from time import monotonic
+    from urllib.parse import urljoin, urlsplit
+    
+>   from protego import Protego
+E   ModuleNotFoundError: No module named 'protego'
+
+src\p_mc_optimizer\research\fetch.py:9: ModuleNotFoundError
+____ test_real_gateway_frozen_policy_http_and_exact_replay[text_json-1.1] _____
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_real_gateway_frozen_polic5')
+version = '1.1', mode = 'text_json'
+
+    @pytest.mark.parametrize('version',['1.0','1.1'])
+    @pytest.mark.parametrize('mode',['json_schema','json_object','text_json'])
+    def test_real_gateway_frozen_policy_http_and_exact_replay(tmp_path,version,mode):
+        sent=[];seen=[]
+        def provider(request):
+            body=json.loads(request.content)
+            if body['messages'][1]['content']=='Return the connection check as JSON.':
+                assert body['max_completion_tokens']==512
+                return completion({'ok':True})
+            context=json.loads(body['messages'][1]['content']);role='explainer' if 'mode' in context else 'report_reviewer'
+            cap=(8192 if role=='explainer' else 4096) if version=='1.1' else 1234
+            assert body['max_completion_tokens']==cap
+            with repo.connect() as db:
+                row=db.execute("SELECT metadata,status,provider_snapshot FROM llm_calls WHERE job_id=? ORDER BY started_at DESC,rowid DESC LIMIT 1",(job_id,)).fetchone()
+            metadata=json.loads(row['metadata']);frozen=json.loads(row['provider_snapshot'])
+            assert row['status']=='reserved' and metadata['effective_max_output_tokens']==cap
+            assert metadata['report_generation_policy_version']==version
+            assert metadata['provenance']['request_body_sha256']==sha256(request.content).hexdigest()
+            assert frozen['max_output_tokens']==1234 and frozen['revision']==profile['revision']
+            assert metadata['prompt_name']==('explainer.v3.1' if role=='explainer' else 'narrative_review.v1.1') if version=='1.1' else metadata['prompt_name'] in {'explainer.v3','narrative_review.v1'}
+            sent.append(role)
+            return completion(correct_draft(context) if role=='explainer' else review_response(context))
+>       with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
+
+tests\test_narrative_closure_policy.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests\test_llm_workflow.py:68: in local_api
+    app = create_app(data_dir, token, transport=transport, **app_options)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\api\app.py:217: in create_app
+    from p_mc_optimizer.research.gateway import ResearchGateway
+src\p_mc_optimizer\research\gateway.py:16: in <module>
+    from .fetch import DocumentFetcher
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Redirect policy, robots checks and extraction for a single document."""
+    
+    from __future__ import annotations
+    
+    import hashlib
+    from time import monotonic
+    from urllib.parse import urljoin, urlsplit
+    
+>   from protego import Protego
+E   ModuleNotFoundError: No module named 'protego'
+
+src\p_mc_optimizer\research\fetch.py:9: ModuleNotFoundError
+_ test_new_reporting_policy_cannot_bypass_existing_readiness[connection_proof] _
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_new_reporting_policy_cann0')
+failure = 'connection_proof'
+
+    @pytest.mark.parametrize('failure',['connection_proof','generation'])
+    def test_new_reporting_policy_cannot_bypass_existing_readiness(tmp_path,failure):
+        external_roles=[]
+        def provider(request):
+            body=json.loads(request.content)
+            if body['messages'][1]['content']=='Return the connection check as JSON.':return completion({'ok':True})
+            external_roles.append(body);raise AssertionError('Not ready: no role request is allowed')
+>       with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
+
+tests\test_narrative_closure_policy.py:118: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests\test_llm_workflow.py:68: in local_api
+    app = create_app(data_dir, token, transport=transport, **app_options)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\api\app.py:217: in create_app
+    from p_mc_optimizer.research.gateway import ResearchGateway
+src\p_mc_optimizer\research\gateway.py:16: in <module>
+    from .fetch import DocumentFetcher
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Redirect policy, robots checks and extraction for a single document."""
+    
+    from __future__ import annotations
+    
+    import hashlib
+    from time import monotonic
+    from urllib.parse import urljoin, urlsplit
+    
+>   from protego import Protego
+E   ModuleNotFoundError: No module named 'protego'
+
+src\p_mc_optimizer\research\fetch.py:9: ModuleNotFoundError
+___ test_new_reporting_policy_cannot_bypass_existing_readiness[generation] ____
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_new_reporting_policy_cann1')
+failure = 'generation'
+
+    @pytest.mark.parametrize('failure',['connection_proof','generation'])
+    def test_new_reporting_policy_cannot_bypass_existing_readiness(tmp_path,failure):
+        external_roles=[]
+        def provider(request):
+            body=json.loads(request.content)
+            if body['messages'][1]['content']=='Return the connection check as JSON.':return completion({'ok':True})
+            external_roles.append(body);raise AssertionError('Not ready: no role request is allowed')
+>       with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
+
+tests\test_narrative_closure_policy.py:118: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests\test_llm_workflow.py:68: in local_api
+    app = create_app(data_dir, token, transport=transport, **app_options)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\api\app.py:217: in create_app
+    from p_mc_optimizer.research.gateway import ResearchGateway
+src\p_mc_optimizer\research\gateway.py:16: in <module>
+    from .fetch import DocumentFetcher
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Redirect policy, robots checks and extraction for a single document."""
+    
+    from __future__ import annotations
+    
+    import hashlib
+    from time import monotonic
+    from urllib.parse import urljoin, urlsplit
+    
+>   from protego import Protego
+E   ModuleNotFoundError: No module named 'protego'
+
+src\p_mc_optimizer\research\fetch.py:9: ModuleNotFoundError
+__ test_typed_narrative_gateway_modes_and_exact_journal_replay[json_schema] ___
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_typed_narrative_gateway_m0')
+mode = 'json_schema'
+
+    @pytest.mark.parametrize('mode', ['json_schema','json_object','text_json'])
+    def test_typed_narrative_gateway_modes_and_exact_journal_replay(tmp_path, mode):
+        report=json.loads((Path(__file__).parent/'fixtures/narrative_v3/F1.json').read_text())
+        sent=[]
+        def provider(request):
+            body=json.loads(request.content);text=body['messages'][1]['content']
+            if text=='Return the connection check as JSON.': return completion({'ok':True})
+            ctx=json.loads(text);sent.append(ctx)
+            assert ctx['evidence']['job_id']==report['job_id']
+            assert len(body['messages'][0]['content'])>100
+            if mode!='json_schema':assert 'JSON Schema:' in body['messages'][0]['content']
+            return completion(correct_draft(ctx) if 'mode' in ctx else review_response(ctx))
+>       with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
+
+tests\test_narrative_v3_gateway.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests\test_llm_workflow.py:68: in local_api
+    app = create_app(data_dir, token, transport=transport, **app_options)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\api\app.py:217: in create_app
+    from p_mc_optimizer.research.gateway import ResearchGateway
+src\p_mc_optimizer\research\gateway.py:16: in <module>
+    from .fetch import DocumentFetcher
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Redirect policy, robots checks and extraction for a single document."""
+    
+    from __future__ import annotations
+    
+    import hashlib
+    from time import monotonic
+    from urllib.parse import urljoin, urlsplit
+    
+>   from protego import Protego
+E   ModuleNotFoundError: No module named 'protego'
+
+src\p_mc_optimizer\research\fetch.py:9: ModuleNotFoundError
+__ test_typed_narrative_gateway_modes_and_exact_journal_replay[json_object] ___
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_typed_narrative_gateway_m1')
+mode = 'json_object'
+
+    @pytest.mark.parametrize('mode', ['json_schema','json_object','text_json'])
+    def test_typed_narrative_gateway_modes_and_exact_journal_replay(tmp_path, mode):
+        report=json.loads((Path(__file__).parent/'fixtures/narrative_v3/F1.json').read_text())
+        sent=[]
+        def provider(request):
+            body=json.loads(request.content);text=body['messages'][1]['content']
+            if text=='Return the connection check as JSON.': return completion({'ok':True})
+            ctx=json.loads(text);sent.append(ctx)
+            assert ctx['evidence']['job_id']==report['job_id']
+            assert len(body['messages'][0]['content'])>100
+            if mode!='json_schema':assert 'JSON Schema:' in body['messages'][0]['content']
+            return completion(correct_draft(ctx) if 'mode' in ctx else review_response(ctx))
+>       with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
+
+tests\test_narrative_v3_gateway.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests\test_llm_workflow.py:68: in local_api
+    app = create_app(data_dir, token, transport=transport, **app_options)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\api\app.py:217: in create_app
+    from p_mc_optimizer.research.gateway import ResearchGateway
+src\p_mc_optimizer\research\gateway.py:16: in <module>
+    from .fetch import DocumentFetcher
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Redirect policy, robots checks and extraction for a single document."""
+    
+    from __future__ import annotations
+    
+    import hashlib
+    from time import monotonic
+    from urllib.parse import urljoin, urlsplit
+    
+>   from protego import Protego
+E   ModuleNotFoundError: No module named 'protego'
+
+src\p_mc_optimizer\research\fetch.py:9: ModuleNotFoundError
+___ test_typed_narrative_gateway_modes_and_exact_journal_replay[text_json] ____
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_typed_narrative_gateway_m2')
+mode = 'text_json'
+
+    @pytest.mark.parametrize('mode', ['json_schema','json_object','text_json'])
+    def test_typed_narrative_gateway_modes_and_exact_journal_replay(tmp_path, mode):
+        report=json.loads((Path(__file__).parent/'fixtures/narrative_v3/F1.json').read_text())
+        sent=[]
+        def provider(request):
+            body=json.loads(request.content);text=body['messages'][1]['content']
+            if text=='Return the connection check as JSON.': return completion({'ok':True})
+            ctx=json.loads(text);sent.append(ctx)
+            assert ctx['evidence']['job_id']==report['job_id']
+            assert len(body['messages'][0]['content'])>100
+            if mode!='json_schema':assert 'JSON Schema:' in body['messages'][0]['content']
+            return completion(correct_draft(ctx) if 'mode' in ctx else review_response(ctx))
+>       with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
+
+tests\test_narrative_v3_gateway.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests\test_llm_workflow.py:68: in local_api
+    app = create_app(data_dir, token, transport=transport, **app_options)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\api\app.py:217: in create_app
+    from p_mc_optimizer.research.gateway import ResearchGateway
+src\p_mc_optimizer\research\gateway.py:16: in <module>
+    from .fetch import DocumentFetcher
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Redirect policy, robots checks and extraction for a single document."""
+    
+    from __future__ import annotations
+    
+    import hashlib
+    from time import monotonic
+    from urllib.parse import urljoin, urlsplit
+    
+>   from protego import Protego
+E   ModuleNotFoundError: No module named 'protego'
+
+src\p_mc_optimizer\research\fetch.py:9: ModuleNotFoundError
+___ test_new_full_workflow_uses_writer_reviewer_without_new_objective_calls ___
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_new_full_workflow_uses_wr0')
+
+    def test_new_full_workflow_uses_writer_reviewer_without_new_objective_calls(tmp_path):
+        sent=[];at_reporting=[]
+        def provider(request):
+            body=json.loads(request.content);text=body['messages'][1]['content']
+            if text=='Return the connection check as JSON.':return completion({'ok':True})
+            ctx=json.loads(text)
+            if 'sources' in ctx and 'evidence' not in ctx:return completion(golden()['response'])
+            if 'candidate_count' in ctx:return completion(deepcopy(_GOOD_PLAN))
+            assert 'evidence' in ctx
+            at_reporting.append(repo.get_job(job_id)['budget']['known_started'])
+            sent.append(ctx);return completion(correct_draft(ctx) if 'mode' in ctx else review_response(ctx))
+>       with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
+
+tests\test_narrative_v3_gateway.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests\test_llm_workflow.py:68: in local_api
+    app = create_app(data_dir, token, transport=transport, **app_options)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\api\app.py:217: in create_app
+    from p_mc_optimizer.research.gateway import ResearchGateway
+src\p_mc_optimizer\research\gateway.py:16: in <module>
+    from .fetch import DocumentFetcher
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Redirect policy, robots checks and extraction for a single document."""
+    
+    from __future__ import annotations
+    
+    import hashlib
+    from time import monotonic
+    from urllib.parse import urljoin, urlsplit
+    
+>   from protego import Protego
+E   ModuleNotFoundError: No module named 'protego'
+
+src\p_mc_optimizer\research\fetch.py:9: ModuleNotFoundError
+_______ test_full_workflow_discards_draft_after_persisted_core_changes ________
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_full_workflow_discards_dr0')
+
+    def test_full_workflow_discards_draft_after_persisted_core_changes(tmp_path):
+        """The post-draft guard must reread persistence, not its cached report."""
+        reporting_requests=[]
+        before={}
+        changed_rationale='دلیل ثبت‌شده پس از تولید پیش‌نویس تغییر کرده است.'
+    
+        def provider(request):
+            body=json.loads(request.content)
+            text=body['messages'][1]['content']
+            if text=='Return the connection check as JSON.':
+                return completion({'ok':True})
+            ctx=json.loads(text)
+            if 'sources' in ctx and 'evidence' not in ctx:
+                return completion(golden()['response'])
+            if 'candidate_count' in ctx:
+                return completion(deepcopy(_GOOD_PLAN))
+            assert 'evidence' in ctx
+            reporting_requests.append(ctx)
+            assert ctx['mode']=='draft', 'No reviewer or repair may use the stale evidence.'
+            before['core']=ctx['evidence']['source_core_sha256']
+            before['budget']=deepcopy(repo.get_job(job_id)['budget'])
+            before['executions']=deepcopy(repo.list_executions(job_id))
+            plan=deepcopy(repo.get_job(job_id)['workflow']['candidate_plan'])
+            plan['candidates'][0]['rationale_fa']=changed_rationale
+            # Simulate a real persisted update arriving while the provider is in flight.
+            # Numerical results, seeds, thresholds and budgets remain untouched.
+            repo.put_workflow(job_id,'candidate_plan',plan)
+            return completion(correct_draft(ctx))
+    
+>       with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
+
+tests\test_narrative_v3_gateway.py:116: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests\test_llm_workflow.py:68: in local_api
+    app = create_app(data_dir, token, transport=transport, **app_options)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\api\app.py:217: in create_app
+    from p_mc_optimizer.research.gateway import ResearchGateway
+src\p_mc_optimizer\research\gateway.py:16: in <module>
+    from .fetch import DocumentFetcher
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Redirect policy, robots checks and extraction for a single document."""
+    
+    from __future__ import annotations
+    
+    import hashlib
+    from time import monotonic
+    from urllib.parse import urljoin, urlsplit
+    
+>   from protego import Protego
+E   ModuleNotFoundError: No module named 'protego'
+
+src\p_mc_optimizer\research\fetch.py:9: ModuleNotFoundError
+___ test_default_policy_runs_three_real_candidates_and_selects_empirically ____
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_default_policy_runs_three0')
+
+    def test_default_policy_runs_three_real_candidates_and_selects_empirically(tmp_path):
+        """FLOW-05/10. Compare a real provider request and pre-fix numeric replay."""
+        fixture = golden()
+        called = []
+        explainer_requests = []
+        explanation = {**_GOOD_EXPLANATION, "selection_explanation_fa": (
+            "مقایسهٔ میانهٔ امتیازهای پایلوت روش منتخب را تعیین کرد."
+        )}
+        responses = [{"ok": True}, fixture["response"], _pilot_plan(), explanation]
+>       with local_api(tmp_path, fixture_transport(responses, called, explainer_requests=explainer_requests)) as (
+            repo, client, address, token
+        ):
+
+tests\test_llm_workflow.py:637: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests\test_llm_workflow.py:68: in local_api
+    app = create_app(data_dir, token, transport=transport, **app_options)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\api\app.py:217: in create_app
+    from p_mc_optimizer.research.gateway import ResearchGateway
+src\p_mc_optimizer\research\gateway.py:16: in <module>
+    from .fetch import DocumentFetcher
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Redirect policy, robots checks and extraction for a single document."""
+    
+    from __future__ import annotations
+    
+    import hashlib
+    from time import monotonic
+    from urllib.parse import urljoin, urlsplit
+    
+>   from protego import Protego
+E   ModuleNotFoundError: No module named 'protego'
+
+src\p_mc_optimizer\research\fetch.py:9: ModuleNotFoundError
+_______ test_loopback_worker_death_and_active_cancel_stop_numeric_child _______
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-4/test_loopback_worker_death_and0')
+payload = {'input': {'kind': 'structured_problem', 'problem': {'schema_version': '1.0', 'variables': [{'name': 'x1', 'label_fa':...': 'continuous_v1', 'selection_policy': 'fixed_solver', 'fixed_algorithm_id': 'de.original', ...}, 'llm_profile': None}
+
+    def test_loopback_worker_death_and_active_cancel_stop_numeric_child(tmp_path, payload):
+        """TEST FIXTURE. Actual processes and numeric calls, with zero provider calls."""
+        with socket.socket() as listener:
+            listener.bind(("127.0.0.1", 0))
+            port = listener.getsockname()[1]
+        stop_path = tmp_path / "worker-stop"
+        base_url = f"http://127.0.0.1:{port}"
+        env = {
+            **os.environ, "PMC_DATA_DIR": str(tmp_path), "PMC_INTERNAL_TOKEN": TEST_TOKEN,
+            "PMC_API_URL": base_url, "PMC_WORKER_STOP": str(stop_path),
+        }
+        payload["policy"]["max_objective_evaluations"] = 1_000_000
+    
+        def start(*args):
+            return subprocess.Popen(
+                [sys.executable, "-m", "p_mc_optimizer", *args], env=env,
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            )
+    
+        def terminate_fixture(proc):
+            # Windows venv launchers add a wrapper process above the real interpreter.
+            try:
+                descendants = psutil.Process(proc.pid).children(recursive=True)
+            except psutil.NoSuchProcess:
+                descendants = []
+            for child in reversed(descendants):
+                try:
+                    child.terminate()
+                except psutil.NoSuchProcess:
+                    pass
+            if proc.poll() is None:
+                proc.terminate()
+            _, alive = psutil.wait_procs(descendants, timeout=5)
+            for child in alive:
+                child.kill()
+            psutil.wait_procs(alive, timeout=5)
+            proc.wait(timeout=5)
+    
+        def wait_for(check, timeout=30):
+            deadline = time.monotonic() + timeout
+            while time.monotonic() < deadline:
+                try:
+                    result = check()
+                except (httpx.HTTPError, psutil.NoSuchProcess):
+                    result = None
+                if result:
+                    return result
+                time.sleep(0.025)
+            pytest.fail("Local process fixture did not reach the expected state")
+    
+        api = start("_api", str(port))
+        worker = None
+        try:
+            with httpx.Client(base_url=base_url, headers=TEST_HEADERS, trust_env=False, timeout=3) as client:
+>               wait_for(lambda: client.get("/healthz").is_success)
+
+tests\test_persistence_acceptance.py:385: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+check = <function test_loopback_worker_death_and_active_cancel_stop_numeric_child.<locals>.<lambda> at 0x000002B49C213C40>
+timeout = 30
+
+    def wait_for(check, timeout=30):
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            try:
+                result = check()
+            except (httpx.HTTPError, psutil.NoSuchProcess):
+                result = None
+            if result:
+                return result
+            time.sleep(0.025)
+>       pytest.fail("Local process fixture did not reach the expected state")
+E       Failed: Local process fixture did not reach the expected state
+
+tests\test_persistence_acceptance.py:379: Failed
+=========================== short test summary info ===========================
+FAILED tests/test_narrative_closure_policy.py::test_real_gateway_frozen_policy_http_and_exact_replay[json_schema-1.0]
+FAILED tests/test_narrative_closure_policy.py::test_real_gateway_frozen_policy_http_and_exact_replay[json_schema-1.1]
+FAILED tests/test_narrative_closure_policy.py::test_real_gateway_frozen_policy_http_and_exact_replay[json_object-1.0]
+FAILED tests/test_narrative_closure_policy.py::test_real_gateway_frozen_policy_http_and_exact_replay[json_object-1.1]
+FAILED tests/test_narrative_closure_policy.py::test_real_gateway_frozen_policy_http_and_exact_replay[text_json-1.0]
+FAILED tests/test_narrative_closure_policy.py::test_real_gateway_frozen_policy_http_and_exact_replay[text_json-1.1]
+FAILED tests/test_narrative_closure_policy.py::test_new_reporting_policy_cannot_bypass_existing_readiness[connection_proof]
+FAILED tests/test_narrative_closure_policy.py::test_new_reporting_policy_cannot_bypass_existing_readiness[generation]
+FAILED tests/test_narrative_v3_gateway.py::test_typed_narrative_gateway_modes_and_exact_journal_replay[json_schema]
+FAILED tests/test_narrative_v3_gateway.py::test_typed_narrative_gateway_modes_and_exact_journal_replay[json_object]
+FAILED tests/test_narrative_v3_gateway.py::test_typed_narrative_gateway_modes_and_exact_journal_replay[text_json]
+FAILED tests/test_narrative_v3_gateway.py::test_new_full_workflow_uses_writer_reviewer_without_new_objective_calls
+FAILED tests/test_narrative_v3_gateway.py::test_full_workflow_discards_draft_after_persisted_core_changes
+FAILED tests/test_llm_workflow.py::test_default_policy_runs_three_real_candidates_and_selects_empirically
+FAILED tests/test_persistence_acceptance.py::test_loopback_worker_death_and_active_cancel_stop_numeric_child
+15 failed, 241 passed in 61.88s (0:01:01)

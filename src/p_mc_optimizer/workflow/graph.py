@@ -625,6 +625,8 @@ class Workflow:
                             "numpy": version("numpy"), "mealpy": version("mealpy"), "rng": "PCG64",
                             "registry_version": "1.0", "prompt_version": "1.0",
                             "master_seed": self.policy.master_seed},
+            "execution_contracts": wf.get("execution_contracts", {}),
+            "report_generation_policy_version": (wf.get("execution_contracts") or {}).get("report_generation_policy_version", "1.0"),
         }
 
     def explain_result(self):
@@ -720,6 +722,7 @@ class Workflow:
             journal=self.workflow.get("narrative_v3_journal"), budget=budget, current_report=current_report,
             cancelled=lambda: self.cancelled(immediate=True), shutdown=self.shutdown,
             prompt_bundle_sha256=hashlib.sha256(canonical_bytes(prompt_bundle_manifest())).hexdigest(),
+            report_generation_policy_version=(self.workflow.get("execution_contracts") or {}).get("report_generation_policy_version", "1.0"),
         )
         result = engine.run()
         self.report = apply_narrative_v3(self.report, result)

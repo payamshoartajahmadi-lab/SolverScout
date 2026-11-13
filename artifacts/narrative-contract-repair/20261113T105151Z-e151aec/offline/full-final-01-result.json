@@ -1,0 +1,49 @@
+{
+  "run_label": "full-final-01",
+  "started_at_utc": "2026-11-13T11:04:56.777190+00:00",
+  "finished_at_utc": "2026-11-13T11:36:47.851795+00:00",
+  "elapsed_seconds": 1911.016,
+  "cwd": "G:\\projects\\solverscout-narrative-contract-repair",
+  "command_argv": [
+    "G:\\projects\\solverscout\\.venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-m",
+    "not live_provider",
+    "-p",
+    "offline_network_guard",
+    "--junitxml=G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\narrative-contract-repair\\20261113T105151Z-e151aec\\offline\\full-final-01.xml"
+  ],
+  "exit_code": 1,
+  "head_sha": "0a9908ea9f23081f6be559596765aa16911b8580",
+  "source_changes_at_start": [],
+  "source_import_path": "G:\\projects\\solverscout-narrative-contract-repair\\src",
+  "python": "3.12.3 (tags/v3.12.3:f6650f9, Apr  9 2024, 14:05:25) [MSC v.1938 64 bit (AMD64)]",
+  "package_versions": {
+    "pytest": "9.2.0",
+    "pydantic": "2.14.3",
+    "httpx": "0.28.1",
+    "fastapi": "0.162.2",
+    "psutil": "7.2.2",
+    "numpy": "1.26.0",
+    "mealpy": "3.0.3",
+    "streamlit": "1.67.0",
+    "protego": "0.7.0",
+    "pypdf": "7.0.0"
+  },
+  "junit_counts": {
+    "tests": 801,
+    "failures": 4,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 797
+  },
+  "log": "offline\\full-final-01.log",
+  "junit": "offline\\full-final-01.xml",
+  "guard_report": "offline\\full-final-01-network-guard.json",
+  "live_provider_selected": false,
+  "real_model_call_budget": 0,
+  "numeric_execution_scope": "Only selected offline tests; no separate solve or campaign",
+  "deselected": 1
+}

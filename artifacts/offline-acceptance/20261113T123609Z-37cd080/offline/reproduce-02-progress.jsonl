@@ -1,0 +1,3 @@
+{"nodeid": "tests/test_llm_workflow.py::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]", "phase": "call", "outcome": "failed", "duration_seconds": 5.790814199950546}
+{"nodeid": "tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[False]", "phase": "call", "outcome": "failed", "duration_seconds": 1.9503207998350263}
+{"nodeid": "tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[True]", "phase": "call", "outcome": "failed", "duration_seconds": 1.963027800200507}
