@@ -4,6 +4,7 @@ from contextlib import contextmanager
 from hashlib import sha256
 import importlib.util
 import json
+import os
 from pathlib import Path
 import sys
 from uuid import uuid4
@@ -210,9 +211,36 @@ def test_verify_rejects_absolute_and_parent_traversing_evidence(tmp_path,evidenc
 
 
 def test_verify_rejects_symlink_escape_in_relative_evidence(tmp_path):
-    m=prepared(tmp_path);outside=tmp_path.parent/'outside-evidence.json';outside.write_text('{}')
-    (tmp_path/'escape.json').symlink_to(outside);write_matrix(m,tmp_path,evidence_path='escape.json')
-    assert 'UNSAFE_EVIDENCE_PATH:FC-01' in m.verify(tmp_path)['errors']
+    m=prepared(tmp_path)
+    outside=tmp_path.parent/(tmp_path.name+'-outside-evidence')
+    outside.mkdir()
+    evidence=outside/'evidence.json';evidence.write_text('{}',encoding='utf-8')
+    link=tmp_path/'escape'
+    junction=False
+    try:
+        link.symlink_to(outside,target_is_directory=True)
+    except OSError as error:
+        if os.name!='nt' or getattr(error,'winerror',None)!=1314:
+            raise
+        # A real junction exercises the same resolve()-based escape boundary
+        # without Windows' symbolic-link privilege. Other errors still fail.
+        import _winapi
+        _winapi.CreateJunction(str(outside),str(link))
+        junction=True
+    try:
+        assert link.resolve()==outside.resolve()
+        assert not link.resolve().is_relative_to(tmp_path.resolve())
+        assert (link/'evidence.json').is_file()
+        assert (link/'evidence.json').read_bytes()==b'{}'
+        write_matrix(m,tmp_path,evidence_path='escape/evidence.json')
+        assert 'UNSAFE_EVIDENCE_PATH:FC-01' in m.verify(tmp_path)['errors']
+    finally:
+        # Remove only the link, leaving its outside target and evidence intact.
+        if junction:
+            link.rmdir()
+        else:
+            link.unlink()
+    assert evidence.read_bytes()==b'{}'
 
 
 def test_unknown_case_type_cannot_bypass_pass_artifact_validation(tmp_path):
