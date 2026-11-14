@@ -66,6 +66,13 @@ def corrected_sections(*, variant=0):
         by_id['candidate_rationale']['paragraphs'][-1]['text_fa']+=' این دلایل مشترکاً مبنای نامزدی‌اند و برتری عملکرد را ثابت نمی‌کنند.'
     else:
         # A different layout and wording, with two relevant distinct cautions.
+        # A direct claim about the WOA document needs that actual passage, not
+        # merely the proposal record which mentions it. Keep this positive
+        # control free of an unrelated SOURCE_NOT_SUPPORTING defect.
+        original={p['paragraph_id']:p for p in by_id['candidate_rationale']['paragraphs']}
+        warning_sources=list(dict.fromkeys(['report:proposal',*[
+            ref for pid in ('candidate_de','candidate_woa')
+            for ref in original[pid]['evidence_refs'] if ref.startswith('source:')]]))
         by_id['candidate_rationale']['paragraphs']=[
             paragraph('offline_candidates',
                 'نامزدهای {{fact:proposal.methods}} از مسیر {{fact:proposal.source}} مطرح شدند. '
@@ -75,7 +82,7 @@ def corrected_sections(*, variant=0):
             paragraph('offline_shared_warning',
                 'این دلیل‌ها توجیه بررسی نامزدها هستند؛ نتیجهٔ مقایسه را شواهد پایلوت تعیین می‌کند. '
                 'کارت تکامل تفاضلی صرفاً تنظیم آزمایش‌شده را پوشش می‌دهد؛ مستند معرفی نهنگ نیز هویت روش را پشتیبانی می‌کند.',
-                ['report:proposal']),
+                warning_sources),
         ]
     budget=next(p for p in by_id['verification_and_limits']['paragraphs'] if p['paragraph_id']=='verification_budget')
     budget['text_fa']=(
@@ -228,6 +235,19 @@ def test_prepared_future_controls_have_full_valid_context_and_nonempty_scoped_po
     output=prescribed_negative_review(reviewer.model_dump(mode='json')) if negative else review_response(reviewer.model_dump(mode='json'))
     checked_review=validate_review(reviewer,output)
     assert {s.section_id for s in checked_review.section_reviews if s.verdict=='accept'}==positive
+
+
+def test_positive_document_claim_cites_the_actual_frozen_method_passages():
+    evidence=build_evidence_v3(report(),policy_version='1.1')
+    sources={s.evidence_id:s for s in evidence.sources}
+    original={p['paragraph_id']:p for s in recorded_sections() for p in s['paragraphs']}
+    expected={ref for pid in ('candidate_de','candidate_woa')
+              for ref in original[pid]['evidence_refs'] if ref.startswith('source:')}
+    warning=next(p for s in acceptance_control_sections(negative=False)
+                 for p in s['paragraphs'] if p['paragraph_id']=='offline_shared_warning')
+    assert expected and expected<=set(warning['evidence_refs'])
+    assert all(sources[ref].kind=='source_passage' for ref in expected)
+    assert 'report:proposal' in warning['evidence_refs']
 
 
 def test_repair_cannot_rewrite_the_two_accepted_sections_or_obtain_a_third_writer():
