@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from hashlib import sha256
 from threading import RLock
 from types import MappingProxyType
@@ -114,13 +114,21 @@ class PreparedProviderRequest:
     provenance: dict
 
 
+def _effective_provider_policy(schema_id, snapshot, *, policy_version="1.0", max_output_tokens_override=None):
+    """Resolve the actual prompt revision independently of the output protocol."""
+    from p_mc_optimizer.llm.narrative_policy import resolve_narrative_policy
+    effective = resolve_narrative_policy(schema_id, snapshot, policy_version=policy_version,
+                                         max_output_tokens_override=max_output_tokens_override)
+    if schema_id == "formulator.v1":
+        return replace(effective, prompt_name="formulator.v1.1", prompt_version="1.1")
+    return effective
+
+
 def prepare_provider_request(snapshot, schema_id, context, *, producer=None,
                              report_generation_policy_version="1.0",
                              max_output_tokens_override=None) -> PreparedProviderRequest:
     from p_mc_optimizer.runtime_provenance import canonical_bytes, get_runtime
-    from p_mc_optimizer.llm.narrative_policy import resolve_narrative_policy
-
-    effective = resolve_narrative_policy(schema_id, snapshot, policy_version=report_generation_policy_version,
+    effective = _effective_provider_policy(schema_id, snapshot, policy_version=report_generation_policy_version,
                                          max_output_tokens_override=max_output_tokens_override)
 
     if context is None:
@@ -154,8 +162,7 @@ def prepare_provider_request(snapshot, schema_id, context, *, producer=None,
 
 def build_request(snapshot: ProviderSnapshot, schema_id: str, context: dict, *,
                   report_generation_policy_version="1.0", max_output_tokens_override=None) -> dict:
-    from p_mc_optimizer.llm.narrative_policy import resolve_narrative_policy
-    effective = resolve_narrative_policy(schema_id, snapshot, policy_version=report_generation_policy_version,
+    effective = _effective_provider_policy(schema_id, snapshot, policy_version=report_generation_policy_version,
                                          max_output_tokens_override=max_output_tokens_override)
     schema = provider_schema(_schema_model(schema_id))
     system = _prompt(effective.prompt_name)

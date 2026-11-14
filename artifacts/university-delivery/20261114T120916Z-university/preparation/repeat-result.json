@@ -1,0 +1,134 @@
+{
+  "schema_version": "demo-preparation/1.0",
+  "preparation_id": "6352a682-8468-4445-9909-948aa09f24ad",
+  "created_at": "2026-11-14T13:06:54.133388+00:00",
+  "status": "completed",
+  "qualification_budget": 100000,
+  "attempts": [
+    {
+      "idempotency_key": "demo:6352a682-8468-4445-9909-948aa09f24ad:0",
+      "scope": "base",
+      "config_ids": [
+        "2c4cf36fd0e40c2ef065e4ce80b34ce5a8084e271132bd30f852a03d1160c0c6",
+        "3bc694544b4307603a59b10a57cb655547ea942ac4b50a0bf76288fd372e437b",
+        "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+        "8cf58e47d5016f4e10d9a16b3694a97aa6f7f7362f327af238c9d003c73626d8",
+        "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+        "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771"
+      ],
+      "quota": 18000,
+      "environment_id": "2.0:Darwin:arm64:3.12:numpy1.26.0",
+      "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+      "qualification_id": "1bed124a-b83a-49f5-8cda-29fe7161deda"
+    },
+    {
+      "idempotency_key": "demo:6352a682-8468-4445-9909-948aa09f24ad:1",
+      "scope": "budget_horizon.v1",
+      "config_ids": [
+        "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+        "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173"
+      ],
+      "quota": 63992,
+      "environment_id": "2.0:Darwin:arm64:3.12:numpy1.26.0",
+      "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+      "qualification_id": "bef50806-939c-44fd-8ade-b91bfe9ee8a1"
+    }
+  ],
+  "requests": {
+    "e92a268f-2ef5-4fc1-98a8-5afdcd4a8096": {
+      "enable_official_source": true,
+      "qualification_budget": 100000
+    },
+    "177afd02-1acb-40f7-812b-6617c8ceda6d": {
+      "enable_official_source": true,
+      "qualification_budget": 100000
+    }
+  },
+  "errors": [],
+  "source_sync_runs": [
+    "770e4feb-8456-4e9e-9697-7e68d644f5d7"
+  ],
+  "owner_pid": 48287,
+  "owner_started": 1794661774.695035,
+  "enable_official_source": true,
+  "environment_id": "2.0:Darwin:arm64:3.12:numpy1.26.0",
+  "numeric_runtime_fingerprint": {
+    "schema_version": "1.0",
+    "environment_id": "2.0:Darwin:arm64:3.12:numpy1.26.0",
+    "python_major_minor": "3.12",
+    "platform_system": "Darwin",
+    "architecture": "arm64",
+    "numpy_version": "1.26.0",
+    "mealpy_version": "3.0.3",
+    "dtype": "float64",
+    "rng": "PCG64",
+    "mode": "single",
+    "mealpy_source_manifest_sha256": "aaa24917df47dba10db01ec9e2243c68deee87c51901b1d73206a86b96f6c649",
+    "numeric_source_manifest_sha256": "3a17103f312f9d27f7545ebac1dbbb08be5186d997ae8a607c1d441c29d5cd38"
+  },
+  "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+  "updated_at": "2026-11-14T13:09:35.492759+00:00",
+  "methods": [
+    {
+      "name": "ABC",
+      "implementation_id": "mealpy:swarm_based.ABC:OriginalABC",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "PSO",
+      "implementation_id": "mealpy:swarm_based.PSO:OriginalPSO",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "CMA-ES",
+      "implementation_id": "mealpy:evolutionary_based.ES:CMA_ES",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "DE",
+      "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "GWO",
+      "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "qualified"
+    },
+    {
+      "name": "WOA",
+      "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "qualified"
+    }
+  ],
+  "target_count": 6,
+  "prepared_count": 6,
+  "charged_evaluations": 78000,
+  "reserved_evaluations": 0,
+  "official_source": {
+    "enabled": true,
+    "usable_documents": 4,
+    "required_documents_ready": true,
+    "covered_implementation_ids": [
+      "mealpy:swarm_based.ABC:OriginalABC",
+      "mealpy:swarm_based.PSO:OriginalPSO",
+      "mealpy:evolutionary_based.ES:CMA_ES",
+      "mealpy:evolutionary_based.DE:OriginalDE",
+      "mealpy:swarm_based.GWO:OriginalGWO",
+      "mealpy:swarm_based.WOA:OriginalWOA"
+    ],
+    "parser_version": "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-class-sections-v2.1.2;max_text_chars=100000"
+  },
+  "ready": true
+}

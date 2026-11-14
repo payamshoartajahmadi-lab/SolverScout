@@ -154,3 +154,105 @@ def test_actual_invocation_serialization_unwraps_advisor_context_for_all_checks(
     assert all(audit['checks'].values()), audit
     changed = deepcopy(row); changed['input']['context']['solver_cards'] = context['solver_cards'][:3]
     assert not m.independent_checks(report, [changed], 'U1')['checks']['six_target_cards_really_sent']
+
+
+def test_saved_report_banner_handles_the_actual_renderer_body_attributes():
+    import re
+    m = module()
+    report = json.loads((Path(__file__).parent / 'fixtures/narrative_v3/F1.json').read_text())
+    original = deepcopy(report)
+    actual = m.html_bytes(report).decode('utf-8')
+    assert re.search(r'<main\b', actual), 'Exercise the actual shared renderer output'
+    rendered = m.stored_report_html(report)
+    assert rendered.count('data-delivery-saved-report="true"') == 1
+    assert re.search(r'(?:<body\b[^>]*>\s*)?<aside data-delivery-saved-report', rendered)
+    assert re.search(r'<title\b[^>]*>گزارش ذخیره‌شده', rendered)
+    assert report == original
+    variant = actual.replace('<main>', '<body class="report" dir="rtl"><main>', 1)
+    assert '<body class="report" dir="rtl">' in variant
+    explicit = m.label_saved_report_html(variant, report['job_id'])
+    assert re.search(r'<body\b[^>]*>\s*<aside data-delivery-saved-report', explicit)
+    assert explicit.count('data-delivery-saved-report="true"') == 1
+
+
+def zero_fe_retry_fixture(m):
+    """Controlled copy of the observed failure shape, not a model-quality test."""
+    text = (m.ROOT / 'examples/university_u2_fa.txt').read_text()
+    request = m.request_for(fake_app(m), 'U2', text); frozen = manifest(m)
+    binding = {'campaign_id': frozen['campaign_id'], 'job_id': 'original-failed-job',
+               'scenario': 'U2', 'request_hash': m.value_hash(request.model_dump(mode='json'))}
+    job = {'job_id': binding['job_id'], 'job_status': 'failed', 'input': request.input.model_dump(mode='json'),
+           'error': {'error_code': 'UNSUPPORTED_PROBLEM'}, 'budget': {'known_started': 0, 'charged_unknown': 0, 'reserved_active': 0}}
+    row = {'call_id': 'original-formulator-call', 'role': 'formulator', 'status': 'succeeded',
+           'input': {'context': {'sources': [{'source_ref': 'input:text', 'text': text}]}},
+           'output': {'unsupported_features': [{'kind': 'solver_selection_and_execution'}],
+                      'extracted_fields': {'objective': {'expression': '(1-x1)**2 + 100*(x2-x1**2)**2', 'sense': 'minimize', 'source_kind': 'expression'},
+                                           'variables': [{'name': 'x1', 'type': 'real', 'lower': -2, 'upper': 2}, {'name': 'x2', 'type': 'real', 'lower': -1, 'upper': 3}],
+                                           'deterministic': True, 'parameters': [], 'constraints': []}}}
+    ledger = {'stop_reason': None, 'attempts': [{'scenario_id': 'U2', 'role': 'formulator', 'status': 'succeeded', 'call_id': row['call_id']}]}
+    return request, frozen, binding, job, row, ledger
+
+
+def test_only_the_exact_zero_fe_workflow_intent_failure_is_retry_eligible():
+    m = module(); req, frozen, binding, job, row, ledger = zero_fe_retry_fixture(m)
+    untouched = deepcopy((job, row, ledger, binding))
+    m.validate_preflight_retry(job, [row], req, frozen, binding, 'U2', ledger)
+    assert (job, row, ledger, binding) == untouched
+
+
+@pytest.mark.parametrize('defect', ['spent_fe', 'unknown_fe', 'pending_fe', 'unknown_response', 'other_unsupported_kind',
+                                  'input_hash_changed', 'request_changed', 'invalid_math', 'third_attempt', 'wrong_scenario'])
+def test_preflight_retry_rejects_every_out_of_scope_or_unsafe_case(defect):
+    m = module(); req, frozen, binding, job, row, ledger = zero_fe_retry_fixture(m); scenario = 'U2'
+    if defect == 'spent_fe': job['budget']['known_started'] = 1
+    elif defect == 'unknown_fe': job['budget']['charged_unknown'] = 1
+    elif defect == 'pending_fe': job['budget']['reserved_active'] = 1
+    elif defect == 'unknown_response': row['status'] = 'outcome_unknown'
+    elif defect == 'other_unsupported_kind': row['output']['unsupported_features'][0]['kind'] = 'integer_variable'
+    elif defect == 'input_hash_changed': frozen['scenarios']['U2']['input_sha256'] = 'b' * 64
+    elif defect == 'request_changed': binding['request_hash'] = 'b' * 64
+    elif defect == 'invalid_math': row['output']['extracted_fields']['variables'][0]['type'] = 'integer'
+    elif defect == 'third_attempt': binding['attempt_number'] = 2
+    else: scenario = 'U1'
+    with pytest.raises(RuntimeError, match='PREFLIGHT_RETRY'):
+        m.validate_preflight_retry(job, [row], req, frozen, binding, scenario, ledger)
+
+
+def test_single_retry_archives_old_failure_and_keeps_cumulative_ledger(tmp_path):
+    m = module(); req, frozen, binding, old_job, row, state = zero_fe_retry_fixture(m)
+    directory = tmp_path / 'private'; directory.mkdir()
+    binding_path = directory / 'U2.binding.json'; m.dump(binding_path, binding); original_binding = binding_path.read_bytes()
+    ledger = directory / 'campaign_ledger.json'; m.dump(ledger, state); original_ledger = ledger.read_bytes()
+    out = tmp_path / 'public/live/U2'; out.mkdir(parents=True)
+    m.dump(out / 'report.json', {'job_id': old_job['job_id'], 'job_status': 'failed'})
+    m.dump(out / 'human-quality-audit.json', {'status': 'NOT_RUN', 'job_id': old_job['job_id']})
+    before = {p.name: p.read_bytes() for p in out.iterdir()}
+    class Service:
+        count = 0
+        jobs = {old_job['job_id']: old_job}
+        @contextmanager
+        def connect(self): yield self
+        def execute(self, *args): return self
+        def fetchall(self): return [{**row, 'input': json.dumps(row['input']), 'output': json.dumps(row['output'])}]
+        def __iter__(self): return iter(self.fetchall())
+        def get_job(self, identity): return self.jobs[identity]
+        def list_trials(self, identity): return []
+        def list_executions(self, identity): return []
+        def create_job(self, request, key):
+            self.count += 1; assert request.model_dump(mode='json') == req.model_dump(mode='json')
+            self.jobs['retry-job'] = {'job_id': 'retry-job', 'job_status': 'queued'}
+            return self.jobs['retry-job']
+    service = Service()
+    new = m.retry_preflight_job(service, service, req, directory, frozen, 'U2', tmp_path / 'public', ledger)
+    assert new['job_id'] == 'retry-job' and service.count == 1
+    assert ledger.read_bytes() == original_ledger
+    archive = out / 'attempt-01-preflight-failure'
+    assert all((archive / name).read_bytes() == value for name, value in before.items())
+    assert (archive / 'original-U2.binding.json').read_bytes() == original_binding
+    assert m.read(binding_path)['prior_job_ids'] == [old_job['job_id']]
+    assert m.retry_preflight_job(service, service, req, directory, frozen, 'U2', tmp_path / 'public', ledger)['job_id'] == 'retry-job'
+    assert service.count == 1
+    service.jobs['retry-job']['job_status'] = 'failed'
+    with pytest.raises(RuntimeError, match='ALREADY_USED'):
+        m.retry_preflight_job(service, service, req, directory, frozen, 'U2', tmp_path / 'public', ledger)
+    assert service.count == 1 and ledger.read_bytes() == original_ledger

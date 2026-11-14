@@ -7,6 +7,7 @@ It never manufactures model output, resets a job, or starts a third problem.
 from __future__ import annotations
 
 import argparse
+import ast
 from contextlib import contextmanager
 from copy import deepcopy
 from datetime import datetime, UTC
@@ -15,7 +16,9 @@ import html
 import json
 import math
 from pathlib import Path
+import re
 import secrets
+import shutil
 import socket
 import sys
 from threading import Thread, local, Lock
@@ -225,6 +228,101 @@ def bind_job(repo, service, request, state_dir, manifest, scenario):
     return repo.get_job(job['job_id'])
 
 
+def validate_preflight_retry(job, call_rows, request, manifest, binding, scenario, ledger):
+    """Recognize only the recorded zero-FE workflow-intent misclassification."""
+    if scenario != 'U2' or binding.get('attempt_number', 1) != 1 or binding.get('prior_job_ids'):
+        raise RuntimeError('PREFLIGHT_RETRY_NOT_ALLOWED')
+    if (binding.get('campaign_id') != manifest['campaign_id'] or
+            binding.get('request_hash') != value_hash(request.model_dump(mode='json')) or
+            job.get('input') != request.input.model_dump(mode='json')):
+        raise RuntimeError('PREFLIGHT_RETRY_INPUT_OR_REQUEST_CHANGED')
+    budget = job.get('budget') or {}
+    if (job.get('job_status') != 'failed' or (job.get('error') or {}).get('error_code') != 'UNSUPPORTED_PROBLEM'
+            or any(budget.get(k) != 0 for k in ('known_started', 'charged_unknown', 'reserved_active'))):
+        raise RuntimeError('PREFLIGHT_RETRY_REQUIRES_ZERO_FE_UNSUPPORTED_FAILURE')
+    if len(call_rows) != 1 or call_rows[0].get('role') != 'formulator' or call_rows[0].get('status') != 'succeeded':
+        raise RuntimeError('PREFLIGHT_RETRY_REQUIRES_ONE_KNOWN_FORMULATOR_CALL')
+    row = call_rows[0]
+    output = row.get('output') or {}
+    unsupported = output.get('unsupported_features')
+    if not isinstance(unsupported, list) or len(unsupported) != 1 or unsupported[0].get('kind') != 'solver_selection_and_execution':
+        raise RuntimeError('PREFLIGHT_RETRY_UNSUPPORTED_KIND_MISMATCH')
+    text = request.input.text
+    if sha256(text.encode('utf-8')).hexdigest() != manifest['scenarios'][scenario]['input_sha256']:
+        raise RuntimeError('PREFLIGHT_RETRY_INPUT_CHANGED')
+    ctx = invocation_context(row)
+    if not any(s.get('source_ref') == 'input:text' and s.get('text') == text for s in ctx.get('sources', [])):
+        raise RuntimeError('PREFLIGHT_RETRY_FORMULATOR_CONTEXT_CHANGED')
+    # Read and validate the extracted mathematical fields; never alter or accept
+    # the historical unsupported response, its output, status, or classification.
+    fields = output.get('extracted_fields') or {}; objective = fields.get('objective') or {}
+    variables = fields.get('variables') or []
+    expected_vars = [('x1', -2, 2), ('x2', -1, 3)]
+    try:
+        expression_matches = ast.dump(ast.parse(objective['expression'], mode='eval'), include_attributes=False) == ast.dump(ast.parse('(1-x1)**2 + 100*(x2-x1**2)**2', mode='eval'), include_attributes=False)
+    except (KeyError, TypeError, ValueError, SyntaxError): expression_matches = False
+    if (not expression_matches or objective.get('sense') != 'minimize' or objective.get('source_kind') != 'expression'
+            or fields.get('deterministic') is not True or fields.get('parameters') not in ([], {}) or fields.get('constraints') != []
+            or len(variables) != 2 or any(v.get('name') != name or v.get('type') != 'real' or v.get('lower') != low or v.get('upper') != high
+                for v, (name, low, high) in zip(variables, expected_vars))):
+        raise RuntimeError('PREFLIGHT_RETRY_EXTRACTED_MATH_NOT_VALID')
+    attempts = [a for a in ledger.get('attempts', []) if a.get('scenario_id') == scenario]
+    if (ledger.get('stop_reason') or len(attempts) != 1 or attempts[0].get('role') != 'formulator'
+            or attempts[0].get('status') != 'succeeded' or attempts[0].get('call_id') != row.get('call_id')):
+        raise RuntimeError('PREFLIGHT_RETRY_LEDGER_NOT_ELIGIBLE')
+
+
+def archive_preflight_failure(evidence_dir, binding_path, old_job_id):
+    out = Path(evidence_dir) / 'live' / 'U2'
+    archive = out / 'attempt-01-preflight-failure'
+    original = [p for p in out.rglob('*') if p.is_file() and archive not in p.parents]
+    if not original or read(out / 'report.json').get('job_id') != old_job_id:
+        raise RuntimeError('PREFLIGHT_RETRY_ORIGINAL_EXPORT_REQUIRED')
+    hashes = {str(p.relative_to(out)): file_hash(p) for p in original}
+    archive.mkdir(parents=True, exist_ok=True)
+    for p in original:
+        target = archive / p.relative_to(out); target.parent.mkdir(parents=True, exist_ok=True)
+        if target.exists() and file_hash(target) != hashes[str(p.relative_to(out))]:
+            raise RuntimeError('PREFLIGHT_RETRY_ARCHIVE_CONFLICT')
+        if not target.exists(): shutil.copyfile(p, target)
+    target_binding = archive / 'original-U2.binding.json'
+    raw = Path(binding_path).read_bytes()
+    if target_binding.exists() and target_binding.read_bytes() != raw: raise RuntimeError('PREFLIGHT_RETRY_ARCHIVE_BINDING_CONFLICT')
+    target_binding.write_bytes(raw)
+    dump(archive / 'archive-manifest.json', {'source_job_id': old_job_id, 'source_status': 'FAIL',
+        'original_file_sha256': hashes, 'original_binding_sha256': sha256(raw).hexdigest(),
+        'reason': 'one explicit bounded retry of a zero-FE workflow-intent misclassification; original failure preserved'})
+    return original, archive
+
+
+def retry_preflight_job(repo, service, request, state_dir, manifest, scenario, evidence_dir, ledger):
+    path = Path(state_dir) / (scenario + '.binding.json')
+    if not path.exists(): raise RuntimeError('PREFLIGHT_RETRY_REQUIRES_EXISTING_BINDING')
+    binding = read(path); previous = repo.get_job(binding['job_id'])
+    if binding.get('attempt_number') == 2:
+        if previous['job_status'] == 'failed': raise RuntimeError('PREFLIGHT_RETRY_ALREADY_USED')
+        if binding['request_hash'] != value_hash(request.model_dump(mode='json')): raise RuntimeError('SCENARIO_JOB_BINDING_CHANGED')
+        return previous  # Crash/reopen reuses attempt 2; there is no attempt 3.
+    with repo.connect() as db:
+        rows = [dict(r) for r in db.execute('SELECT call_id,role,status,input,output FROM llm_calls WHERE job_id=? ORDER BY rowid', (previous['job_id'],))]
+    for row in rows:
+        for key in ('input', 'output'): row[key] = json.loads(row[key]) if row[key] else None
+    validate_preflight_retry(previous, rows, request, manifest, binding, scenario, read(ledger))
+    if repo.list_trials(previous['job_id']) or repo.list_executions(previous['job_id']):
+        raise RuntimeError('PREFLIGHT_RETRY_NUMERICAL_RECORDS_PRESENT')
+    original, archive = archive_preflight_failure(evidence_dir, path, previous['job_id'])
+    key = 'university:' + value_hash({'campaign': manifest['campaign_id'], 'scenario': scenario, 'attempt': 2})
+    created = service.create_job(request, key)
+    dump(path, {**binding, 'job_id': created['job_id'], 'attempt_number': 2,
+        'prior_job_ids': [previous['job_id']], 'original_failure_archive': 'live/U2/attempt-01-preflight-failure',
+        'recovery_reason': 'explicit zero-FE preflight workflow-intent retry; identical text, mathematical criteria, policy and source; cumulative scenario ledger unchanged'})
+    for p in original:
+        if file_hash(p) != file_hash(archive / p.relative_to(Path(evidence_dir) / 'live' / 'U2')):
+            raise RuntimeError('PREFLIGHT_RETRY_ARCHIVE_HASH_MISMATCH')
+        p.unlink()  # Same bytes are now retained in the immutable attempt archive.
+    return repo.get_job(created['job_id'])
+
+
 def invocation_context(row):
     # Gateway persistence stores Invocation.model_dump(), not just its context.
     value = row.get('input') or {}
@@ -288,6 +386,28 @@ def independent_checks(report, invocations, scenario):
             'independent_winner': winner, 'specific_evidence_coverage': covered}
 
 
+def label_saved_report_html(rendered, job_id):
+    """Handle explicit or implicit HTML body without changing shared content."""
+    banner = '<aside data-delivery-saved-report="true" style="padding:1rem;text-align:right;direction:rtl">گزارش ذخیره‌شده · ' + html.escape(str(job_id)) + '</aside>'
+    rendered, count = re.subn(r'(<body\b[^>]*>)', lambda match: match.group(1) + banner,
+                             rendered, count=1, flags=re.IGNORECASE)
+    if count == 0:
+        # The shared renderer may omit body/head tags; HTML then has an implicit
+        # body. Its first main element is the stable content insertion point.
+        rendered, count = re.subn(r'(<main\b[^>]*>)', lambda match: banner + match.group(1),
+                                 rendered, count=1, flags=re.IGNORECASE)
+    if count != 1: raise RuntimeError('SAVED_REPORT_BANNER_MISSING')
+    rendered = re.sub(r'(<title\b[^>]*>)(.*?)</title>',
+                      lambda match: match.group(1) + 'گزارش ذخیره‌شده · ' + match.group(2) + '</title>',
+                      rendered, count=1, flags=re.IGNORECASE | re.DOTALL)
+    return rendered
+
+
+def stored_report_html(report):
+    """Label the static export without changing the shared report renderer."""
+    return label_saved_report_html(html_bytes(report).decode('utf-8'), report['job_id'])
+
+
 def export_run(repo, job, scenario, evidence_dir, broker, ledger, library=None):
     out = Path(evidence_dir) / 'live' / scenario; out.mkdir(parents=True, exist_ok=True)
     with repo.connect() as db:
@@ -302,11 +422,7 @@ def export_run(repo, job, scenario, evidence_dir, broker, ledger, library=None):
     if report is not None:
         dump(out / 'report.json', report, broker)
         reopened = read(out / 'report.json')
-        rendered = html_bytes(reopened).decode('utf-8')
-        banner = '<aside data-delivery-saved-report="true" style="padding:1rem;text-align:right;direction:rtl">گزارش ذخیره‌شده · ' + html.escape(job['job_id']) + '</aside>'
-        rendered = rendered.replace('<body>', '<body>' + banner, 1)
-        if 'data-delivery-saved-report' not in rendered: raise RuntimeError('SAVED_REPORT_BANNER_MISSING')
-        (out / 'report.html').write_text(rendered, encoding='utf-8')
+        (out / 'report.html').write_text(stored_report_html(reopened), encoding='utf-8')
         (out / 'trials.csv').write_bytes(csv_bytes(report.get('trials', []), TRIAL_COLUMNS))
         audit = independent_checks(report, rows, scenario)
         if library is not None:
@@ -344,11 +460,15 @@ def export_run(repo, job, scenario, evidence_dir, broker, ledger, library=None):
                    charged_role_attempts=len(attempts), campaign_role_calls=len(state['attempts']),
                    cost_status='reported' if any(r.get('cost') is not None for r in attempts) else 'not_recorded',
                    role_usage=[{k: r.get(k) for k in ('role', 'call_id', 'status', 'usage', 'cost', 'elapsed_seconds')} for r in attempts])
+    binding = read(Path(ledger).parent / (scenario + '.binding.json'))
+    if binding.get('prior_job_ids'):
+        summary.update(case_attempt_number=binding['attempt_number'], prior_job_ids=binding['prior_job_ids'],
+                       original_failure_archive=binding['original_failure_archive'], first_attempt_success=False)
     dump(out / 'summary.json', summary, broker); dump(Path(evidence_dir) / 'acceptance_campaign_ledger.json', state, broker)
     return summary
 
 
-def run(data_dir, evidence_dir, scenario, source_profile_data, *, live=False):
+def run(data_dir, evidence_dir, scenario, source_profile_data, *, live=False, retry_preflight_failure=False):
     if not live: raise RuntimeError('EXPLICIT_LIVE_FLAG_REQUIRED')
     manifest = validate_manifest(evidence_dir)
     directory = Path(data_dir).resolve()
@@ -362,7 +482,8 @@ def run(data_dir, evidence_dir, scenario, source_profile_data, *, live=False):
         app = create_app(directory, token, transport=transport); transport.bind(app.state.gateway)
         try:
             request = request_for(app, scenario, (ROOT / 'examples' / CASES[scenario]['file']).read_text(encoding='utf-8'))
-            job = bind_job(repo, app.state.service, request, ledger.parent, manifest, scenario)
+            job = (retry_preflight_job(repo, app.state.service, request, ledger.parent, manifest, scenario, evidence_dir, ledger)
+                   if retry_preflight_failure else bind_job(repo, app.state.service, request, ledger.parent, manifest, scenario))
             if job['job_status'] == 'queued' and not read(ledger).get('stop_reason'):
                 with local_server(app) as address:
                     worker = str(uuid4()); claimed = repo.claim_job(worker, job_id=job['job_id'])
@@ -375,9 +496,13 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--data-dir', required=True, type=Path); parser.add_argument('--evidence-dir', required=True, type=Path)
     parser.add_argument('--scenario', required=True, choices=tuple(CASES)); parser.add_argument('--source-profile-data', required=True, type=Path)
-    parser.add_argument('--live', action='store_true'); args = parser.parse_args(argv)
+    parser.add_argument('--live', action='store_true')
+    parser.add_argument('--retry-preflight-failure', action='store_true',
+                        help='Once only: retry the recorded U2 workflow-intent misclassification before any numerical work; cumulative caps are retained.')
+    args = parser.parse_args(argv)
     try:
-        summary = run(args.data_dir, args.evidence_dir, args.scenario, args.source_profile_data, live=args.live)
+        summary = run(args.data_dir, args.evidence_dir, args.scenario, args.source_profile_data,
+                      live=args.live, retry_preflight_failure=args.retry_preflight_failure)
     except Exception as error:
         reason = error.error_code if isinstance(error, ApiError) else str(error) if isinstance(error, RuntimeError) else type(error).__name__
         summary = {'scenario': args.scenario, 'status': 'BLOCKED', 'reason': reason[:240], 'exception_type': type(error).__name__}

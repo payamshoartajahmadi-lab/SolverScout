@@ -1,0 +1,70 @@
+{
+  "scenario": "U2",
+  "status": "FAIL",
+  "job_id": "d3b44e5e-1418-4b88-93f5-3779b2091d72",
+  "checks": {
+    "six_target_cards_really_sent": false,
+    "three_distinct_eligible_nominees": false,
+    "six_targets_in_research_plan": false,
+    "six_specific_evidence_passages": false,
+    "nine_equal_budget_pilots": false,
+    "independent_pilot_metrics_match": false,
+    "winner_matches_empirical_order": false,
+    "finite_point_within_bounds": false,
+    "objective_within_fixed_threshold": false,
+    "independent_function_verification_passed": false,
+    "objective_budget_respected": true,
+    "five_required_llm_sections": false,
+    "job_completed": false,
+    "evidence_offsets_and_document_hashes_match": false
+  },
+  "advisor_sent_count": 0,
+  "advisor_sent_implementation_ids": [],
+  "candidate_implementation_ids": [],
+  "independent_pilot_metrics": {},
+  "independent_winner": null,
+  "specific_evidence_coverage": [],
+  "best_x": null,
+  "objective_raw": null,
+  "selected_algorithm_id": null,
+  "solution_origin": null,
+  "objective_evaluations": 0,
+  "narrative_mode": "deterministic",
+  "source_core_sha256": "81d4fda3163987cb5dbe853e51f119f31d0599991d4c0f7ed2968a39b50be46b",
+  "real_role_calls": 2,
+  "charged_role_attempts": 2,
+  "campaign_role_calls": 10,
+  "cost_status": "not_recorded",
+  "role_usage": [
+    {
+      "role": "formulator",
+      "call_id": "a5708421-e33f-4734-88b9-83c15e3c083d",
+      "status": "succeeded",
+      "usage": {
+        "completion_tokens": 1351,
+        "prompt_tokens": 1530,
+        "total_tokens": 2881
+      },
+      "cost": null,
+      "elapsed_seconds": 18.358491750012035
+    },
+    {
+      "role": "formulator",
+      "call_id": "21bd75d4-b83b-4a28-8cfc-ca955fcc81c6",
+      "status": "succeeded",
+      "usage": {
+        "completion_tokens": 1617,
+        "prompt_tokens": 1530,
+        "total_tokens": 3147
+      },
+      "cost": null,
+      "elapsed_seconds": 13.153337333002128
+    }
+  ],
+  "case_attempt_number": 2,
+  "prior_job_ids": [
+    "d6ebc690-3609-412d-99d4-c21e2b7cfdc0"
+  ],
+  "original_failure_archive": "live/U2/attempt-01-preflight-failure",
+  "first_attempt_success": false
+}

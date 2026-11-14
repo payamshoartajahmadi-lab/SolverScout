@@ -6,7 +6,9 @@ Local, budgeted experiments for choosing and running numerical optimization algo
 
 ## University delivery candidate
 
-Version 2.1.0rc1 prepares six installed MEALPY implementations — ABC, PSO, CMA-ES, DE, GWO and WOA — for bounded, deterministic, single-objective continuous problems. Environment-specific qualification precedes use. The API model proposes three candidates from the qualified catalog; measured pilot runs determine the winner. Reports preserve numerical verification, evidence, evaluation budgets, seeds, implementation versions and the origin of analytical text.
+Version 2.1.0rc2 prepares six installed MEALPY implementations — ABC, PSO, CMA-ES, DE, GWO and WOA — for bounded, deterministic, single-objective continuous problems. Environment-specific qualification precedes use. The API model proposes three candidates from the qualified catalog; measured pilot runs determine the winner. Reports preserve numerical verification, evidence, evaluation budgets, seeds, implementation versions and the origin of analytical text.
+
+The university acceptance campaign on rc1 closed `NOT_READY`: U1 passed, while U2's mathematical problem was incorrectly rejected by the formulator. The rc2 prompt correction is an offline repair; its fresh live acceptance remains untested. See the delivery report rather than treating installation success as completed university acceptance.
 
 Follow the [university installation and demo guide](DELIVERY_GUIDE_FA.md). The delivery acceptance report records whether this candidate passed all 15 university criteria; older campaign failures remain historical facts.
 

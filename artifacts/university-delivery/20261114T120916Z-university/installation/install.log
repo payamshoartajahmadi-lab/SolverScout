@@ -1,0 +1,182 @@
+نصب وابستگی‌های قفل‌شده ممکن است به اینترنت نیاز داشته باشد.
+Looking in links: file://<USER_HOME>/Library/Application%20Support/SolverScout_University_Delivery/20261114T120916Z-university/wheelhouse
+Ignoring cffi: markers 'platform_python_implementation != "PyPy" and sys_platform == "linux"' don't match your environment
+Ignoring cryptography: markers 'sys_platform == "linux"' don't match your environment
+Ignoring httpx2-jsfetch: markers 'sys_platform == "emscripten"' don't match your environment
+Ignoring jeepney: markers 'sys_platform == "linux"' don't match your environment
+Ignoring pycparser: markers 'implementation_name != "PyPy" and platform_python_implementation != "PyPy" and sys_platform == "linux"' don't match your environment
+Ignoring pywin32-ctypes: markers 'sys_platform == "win32"' don't match your environment
+Ignoring secretstorage: markers 'sys_platform == "linux"' don't match your environment
+Ignoring watchdog: markers 'sys_platform != "darwin"' don't match your environment
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/aiosqlite-0.22.1-py3-none-any.whl (from -r requirements.lock (line 3))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/altair-6.3.0-py3-none-any.whl (from -r requirements.lock (line 5))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/annotated_doc-0.0.5-py3-none-any.whl (from -r requirements.lock (line 7))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/annotated_types-0.8.0-py3-none-any.whl (from -r requirements.lock (line 9))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/anyio-4.16.0-py3-none-any.whl (from -r requirements.lock (line 11))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/attrs-26.1.0-py3-none-any.whl (from -r requirements.lock (line 18))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/certifi-2026.10.23-py3-none-any.whl (from -r requirements.lock (line 22))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/charset_normalizer-3.5.2-cp312-cp312-macosx_10_13_universal2.whl (from -r requirements.lock (line 30))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/click-8.5.1-py3-none-any.whl (from -r requirements.lock (line 32))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/contourpy-1.3.3-cp312-cp312-macosx_11_0_arm64.whl (from -r requirements.lock (line 36))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/cycler-0.12.1-py3-none-any.whl (from -r requirements.lock (line 40))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/distro-1.9.0-py3-none-any.whl (from -r requirements.lock (line 42))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/fastapi-0.162.2-py3-none-any.whl (from -r requirements.lock (line 44))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/filelock-4.2.9-py3-none-any.whl (from -r requirements.lock (line 46))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/fonttools-4.68.0-cp312-cp312-macosx_10_13_universal2.whl (from -r requirements.lock (line 48))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/h11-0.16.0-py3-none-any.whl (from -r requirements.lock (line 50))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/httpcore-1.0.9-py3-none-any.whl (from -r requirements.lock (line 55))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/httpcore2-2.16.0-py3-none-any.whl (from -r requirements.lock (line 57))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/httpx-0.28.1-py3-none-any.whl (from -r requirements.lock (line 59))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/httpx2-2.16.0-py3-none-any.whl (from -r requirements.lock (line 64))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/idna-3.20-py3-none-any.whl (from -r requirements.lock (line 68))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/itsdangerous-2.2.0-py3-none-any.whl (from -r requirements.lock (line 74))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/jaraco.classes-3.4.0-py3-none-any.whl (from -r requirements.lock (line 76))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/jaraco_context-6.1.2-py3-none-any.whl (from -r requirements.lock (line 78))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/jaraco_functools-4.6.0-py3-none-any.whl (from -r requirements.lock (line 80))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/jinja2-3.1.6-py3-none-any.whl (from -r requirements.lock (line 86))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/jsonpatch-1.44-py3-none-any.whl (from -r requirements.lock (line 90))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/jsonpointer-3.10-py3-none-any.whl (from -r requirements.lock (line 92))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/jsonschema-4.26.0-py3-none-any.whl (from -r requirements.lock (line 94))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/jsonschema_specifications-2025.9.1-py3-none-any.whl (from -r requirements.lock (line 96))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/keyring-25.7.0-py3-none-any.whl (from -r requirements.lock (line 98))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/kiwisolver-1.5.1-cp312-cp312-macosx_11_0_arm64.whl (from -r requirements.lock (line 100))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/langchain_core-1.7.6-py3-none-any.whl (from -r requirements.lock (line 102))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/langchain_protocol-0.0.21-py3-none-any.whl (from -r requirements.lock (line 108))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/langgraph-1.2.20-py3-none-any.whl (from -r requirements.lock (line 112))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/langgraph_checkpoint-4.3.1-py3-none-any.whl (from -r requirements.lock (line 114))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/langgraph_checkpoint_sqlite-3.1.3-py3-none-any.whl (from -r requirements.lock (line 119))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/langgraph_prebuilt-1.1.1-py3-none-any.whl (from -r requirements.lock (line 121))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/langgraph_sdk-0.4.14-py3-none-any.whl (from -r requirements.lock (line 123))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/langsmith-0.14.17-py3-none-any.whl (from -r requirements.lock (line 125))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/markupsafe-3.0.4-cp312-cp312-macosx_11_0_arm64.whl (from -r requirements.lock (line 127))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/matplotlib-3.11.2-cp312-cp312-macosx_11_0_arm64.whl (from -r requirements.lock (line 129))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/mealpy-3.0.3-py3-none-any.whl (from -r requirements.lock (line 133))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/more_itertools-11.2.1-py3-none-any.whl (from -r requirements.lock (line 135))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/narwhals-2.28.0-py3-none-any.whl (from -r requirements.lock (line 139))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/numpy-1.26.0-cp312-cp312-macosx_11_0_arm64.whl (from -r requirements.lock (line 141))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/opentelemetry_api-1.45.2-py3-none-any.whl (from -r requirements.lock (line 152))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/opfunu-1.0.1-py3-none-any.whl (from -r requirements.lock (line 154))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/orjson-3.13.0-cp312-cp312-macosx_15_0_arm64.whl (from -r requirements.lock (line 158))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/ormsgpack-1.13.1-cp312-cp312-macosx_10_12_universal2.macosx_10_12_x86_64.macosx_11_0_arm64.whl (from -r requirements.lock (line 162))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/packaging-26.3-py3-none-any.whl (from -r requirements.lock (line 164))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/pandas-2.3.3-cp312-cp312-macosx_11_0_arm64.whl (from -r requirements.lock (line 171))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/pillow-13.0.0-cp312-cp312-macosx_11_0_arm64.whl (from -r requirements.lock (line 175))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/platformdirs-4.14.5-py3-none-any.whl (from -r requirements.lock (line 180))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/protobuf-7.36.2-cp310-abi3-macosx_10_9_universal2.whl (from -r requirements.lock (line 182))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/protego-0.7.0-py3-none-any.whl (from -r requirements.lock (line 184))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/psutil-7.2.2-cp36-abi3-macosx_11_0_arm64.whl (from -r requirements.lock (line 186))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/pyarrow-23.0.1-cp312-cp312-macosx_12_0_arm64.whl (from -r requirements.lock (line 188))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/pydantic-2.14.3-py3-none-any.whl (from -r requirements.lock (line 194))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/pydantic_core-2.50.4-cp312-cp312-macosx_11_0_arm64.whl (from -r requirements.lock (line 201))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/pydeck-0.9.3-py2.py3-none-any.whl (from -r requirements.lock (line 203))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/pyparsing-3.3.3-py3-none-any.whl (from -r requirements.lock (line 205))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/pypdf-7.0.0-py3-none-any.whl (from -r requirements.lock (line 207))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/python_dateutil-4.0.0-py3-none-any.whl (from -r requirements.lock (line 209))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/python_multipart-0.0.33-py3-none-any.whl (from -r requirements.lock (line 213))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/pytz-2026.6-py2.py3-none-any.whl (from -r requirements.lock (line 215))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/pyyaml-6.0.3-cp312-cp312-macosx_11_0_arm64.whl (from -r requirements.lock (line 219))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/referencing-0.37.0-py3-none-any.whl (from -r requirements.lock (line 221))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/requests-2.34.2-py3-none-any.whl (from -r requirements.lock (line 225))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/requests_toolbelt-1.0.0-py2.py3-none-any.whl (from -r requirements.lock (line 231))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/rpds_py-2026.9.1-cp312-cp312-macosx_11_0_arm64.whl (from -r requirements.lock (line 233))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/scipy-1.16.3-cp312-cp312-macosx_14_0_arm64.whl (from -r requirements.lock (line 237))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/sniffio-1.3.1-py3-none-any.whl (from -r requirements.lock (line 241))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/sqlite_vec-0.1.9-py3-none-macosx_11_0_arm64.whl (from -r requirements.lock (line 243))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/starlette-1.10.0-py3-none-any.whl (from -r requirements.lock (line 245))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/streamlit-1.67.0-py3-none-any.whl (from -r requirements.lock (line 249))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/tenacity-9.2.1-py3-none-any.whl (from -r requirements.lock (line 251))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/truststore-0.10.5-py3-none-any.whl (from -r requirements.lock (line 253))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/typing_extensions-4.16.0-py3-none-any.whl (from -r requirements.lock (line 257))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/typing_inspection-0.4.5-py3-none-any.whl (from -r requirements.lock (line 273))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/tzdata-2026.6-py2.py3-none-any.whl (from -r requirements.lock (line 277))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/urllib3-2.8.0-py3-none-any.whl (from -r requirements.lock (line 281))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/uuid_utils-0.19.0-cp310-abi3-macosx_10_12_x86_64.macosx_11_0_arm64.macosx_10_12_universal2.whl (from -r requirements.lock (line 283))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/uvicorn-0.54.0-py3-none-any.whl (from -r requirements.lock (line 287))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/websockets-17.4-cp312-cp312-macosx_11_0_arm64.whl (from -r requirements.lock (line 293))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/xxhash-4.0.2-cp312-cp312-macosx_11_0_arm64.whl (from -r requirements.lock (line 298))
+Processing <PRIVATE_INSTALLATION_ROOT>/wheelhouse/zstandard-0.25.0-cp312-cp312-macosx_11_0_arm64.whl (from -r requirements.lock (line 302))
+Installing collected packages: sqlite-vec, pytz, zstandard, xxhash, websockets, uuid-utils, urllib3, tzdata, typing-extensions, truststore, tenacity, sniffio, rpds-py, pyyaml, python-multipart, pypdf, pyparsing, pyarrow, psutil, protobuf, protego, platformdirs, pillow, packaging, ormsgpack, orjson, numpy, narwhals, more-itertools, markupsafe, kiwisolver, jsonpointer, jaraco-context, itsdangerous, idna, h11, fonttools, filelock, distro, cycler, click, charset-normalizer, certifi, attrs, annotated-types, annotated-doc, aiosqlite, uvicorn, typing-inspection, scipy, requests, referencing, python-dateutil, pydantic-core, opentelemetry-api, langchain-protocol, jsonpatch, jinja2, jaraco-functools, jaraco-classes, httpcore2, httpcore, contourpy, anyio, starlette, requests-toolbelt, pydeck, pydantic, pandas, matplotlib, keyring, jsonschema-specifications, httpx2, httpx, opfunu, langsmith, jsonschema, fastapi, mealpy, langchain-core, altair, streamlit, langgraph-sdk, langgraph-checkpoint, langgraph-prebuilt, langgraph-checkpoint-sqlite, langgraph
+
+Successfully installed aiosqlite-0.22.1 altair-6.3.0 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.16.0 attrs-26.1.0 certifi-2026.10.23 charset-normalizer-3.5.2 click-8.5.1 contourpy-1.3.3 cycler-0.12.1 distro-1.9.0 fastapi-0.162.2 filelock-4.2.9 fonttools-4.68.0 h11-0.16.0 httpcore-1.0.9 httpcore2-2.16.0 httpx-0.28.1 httpx2-2.16.0 idna-3.20 itsdangerous-2.2.0 jaraco-classes-3.4.0 jaraco-context-6.1.2 jaraco-functools-4.6.0 jinja2-3.1.6 jsonpatch-1.44 jsonpointer-3.10 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 keyring-25.7.0 kiwisolver-1.5.1 langchain-core-1.7.6 langchain-protocol-0.0.21 langgraph-1.2.20 langgraph-checkpoint-4.3.1 langgraph-checkpoint-sqlite-3.1.3 langgraph-prebuilt-1.1.1 langgraph-sdk-0.4.14 langsmith-0.14.17 markupsafe-3.0.4 matplotlib-3.11.2 mealpy-3.0.3 more-itertools-11.2.1 narwhals-2.28.0 numpy-1.26.0 opentelemetry-api-1.45.2 opfunu-1.0.1 orjson-3.13.0 ormsgpack-1.13.1 packaging-26.3 pandas-2.3.3 pillow-13.0.0 platformdirs-4.14.5 protego-0.7.0 protobuf-7.36.2 psutil-7.2.2 pyarrow-23.0.1 pydantic-2.14.3 pydantic-core-2.50.4 pydeck-0.9.3 pyparsing-3.3.3 pypdf-7.0.0 python-dateutil-4.0.0 python-multipart-0.0.33 pytz-2026.6 pyyaml-6.0.3 referencing-0.37.0 requests-2.34.2 requests-toolbelt-1.0.0 rpds-py-2026.9.1 scipy-1.16.3 sniffio-1.3.1 sqlite-vec-0.1.9 starlette-1.10.0 streamlit-1.67.0 tenacity-9.2.1 truststore-0.10.5 typing-extensions-4.16.0 typing-inspection-0.4.5 tzdata-2026.6 urllib3-2.8.0 uuid-utils-0.19.0 uvicorn-0.54.0 websockets-17.4 xxhash-4.0.2 zstandard-0.25.0
+Looking in links: file://<USER_HOME>/Library/Application%20Support/SolverScout_University_Delivery/20261114T120916Z-university/wheelhouse
+Obtaining file://<USER_HOME>/Library/Application%20Support/SolverScout_University_Delivery/20261114T120916Z-university/Installed%20SolverScout
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: p-mc-optimizer
+  Building editable for p-mc-optimizer (pyproject.toml): started
+  Building editable for p-mc-optimizer (pyproject.toml): finished with status 'done'
+  Created wheel for p-mc-optimizer: filename=p_mc_optimizer-2.1.0rc1-0.editable-py3-none-any.whl size=4997 sha256=9265ca37a5e5fd6212980548cc3a18d86e22cab0b8b7a0036d92f207cb00ca30
+  Stored in directory: /private/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/pip-ephem-wheel-cache-4ecibaph/wheels/24/58/a7/9e5b3d41069f8e576fb99e2460a2a550221c2a7b5d02acb4e7
+Successfully built p-mc-optimizer
+Installing collected packages: p-mc-optimizer
+Successfully installed p-mc-optimizer-2.1.0rc1
+No broken requirements found.
+{
+  "core": "PASS",
+  "project_version": "2.1.0rc1",
+  "python": "3.12.16",
+  "os": "macOS-27.0.1-arm64-arm-64bit",
+  "arch": "arm64",
+  "sqlite": "3.53.1",
+  "database_schema": 4,
+  "data_dir": "/private/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/pmc-smoke.5omyZH",
+  "local_index": "PASS",
+  "search": "TAVILY_ADAPTER_AVAILABLE_CONNECTION_NOT_CHECKED",
+  "api_url": "http://127.0.0.1:8765",
+  "ui_url": "http://127.0.0.1:8501",
+  "api_running": false,
+  "instance_running": false,
+  "llm": "NOT_CONFIGURED",
+  "keyring_backend": "keyring.backends.macOS.Keyring",
+  "pyarrow": "23.0.1",
+  "versions": {
+    "fastapi": "0.162.2",
+    "langgraph": "1.2.20",
+    "mealpy": "3.0.3",
+    "numpy": "1.26.0",
+    "pydantic": "2.14.3",
+    "streamlit": "1.67.0",
+    "keyring": "25.7.0",
+    "pypdf": "7.0.0",
+    "protego": "0.7.0"
+  },
+  "runtime": {
+    "identity": null,
+    "processes": [],
+    "drift": "unknown",
+    "message_code": null
+  }
+}
+{
+  "job_id": "3c88e97e-afcd-4da4-b225-502328867017",
+  "job_status": "completed",
+  "solution_status": "valid_best_found",
+  "optimality_status": "not_certified",
+  "best_x": [
+    1.9780779899881948,
+    -0.9880071434972374
+  ],
+  "objective_raw": 0.000624403130053541,
+  "selected_algorithm_id": "de.original",
+  "budget": {
+    "allocated": 1002,
+    "charged_unknown": 0,
+    "known_started": 1002,
+    "max_objective_evaluations": 1002,
+    "reserved_active": 0,
+    "unallocated": 0,
+    "unused": 0
+  },
+  "error": null,
+  "artifacts": [
+    "/private/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/pmc-smoke.5omyZH/artifacts/3c88e97e-afcd-4da4-b225-502328867017/f18eef24-89bc-448c-8d79-9534e776c599.json",
+    "/private/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/pmc-smoke.5omyZH/artifacts/3c88e97e-afcd-4da4-b225-502328867017/87ea55ef-ba9c-4a43-8843-bdceebbc7246.html",
+    "/private/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/pmc-smoke.5omyZH/artifacts/3c88e97e-afcd-4da4-b225-502328867017/3e01a9ac-dfbd-4e70-a9ee-1b1fec8668a9.csv"
+  ]
+}

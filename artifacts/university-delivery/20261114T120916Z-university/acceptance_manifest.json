@@ -1,0 +1,77 @@
+{
+  "campaign_id": "20261114T120916Z-university",
+  "created_at_utc": "2026-11-14T13:11:13.721081+00:00",
+  "tested_source_commit": "5706be1e5c3c28e3069bacb2c37acfdfc8633fc3",
+  "package_code_commit": "5706be1e5c3c28e3069bacb2c37acfdfc8633fc3",
+  "version": "2.1.0rc1",
+  "source_manifest_sha256": "6ff1028d9f2239b03f75de415b5da077d8fd1fdb5234cd032ca4df48ccd2e285",
+  "prompt_bundle_sha256": "54d724feff1d98bfef42fbc669a52fa7f08697cc38813a19857dcd25e2e58096",
+  "limit_role_calls": 20,
+  "scenario_limits": {
+    "U1": 8,
+    "U2": 8,
+    "U-REPORT": 4
+  },
+  "objective_evaluations_limit": 40000,
+  "qualification_budget_limit": 100000,
+  "settings": {
+    "master_seed": 1405,
+    "max_objective_evaluations": 20000,
+    "max_compute_seconds": 300,
+    "pilot_repeats": 3,
+    "pilot_evaluations": 500,
+    "max_llm_calls": 8,
+    "max_llm_calls_per_role": 2,
+    "use_history": false,
+    "numeric_atol": 1e-12,
+    "numeric_rtol": 1e-10
+  },
+  "scenarios": {
+    "U1": {
+      "input_sha256": "79118ff1a160b381154cac488e16692500fa937e256feb3501b77c544166210d",
+      "threshold": 1e-06,
+      "retrieval_mode": "direct_refresh"
+    },
+    "U2": {
+      "input_sha256": "d27b380742508f7fef0e11178571c27919f7cd840ae8da83d1be2400f30874d2",
+      "threshold": 0.001,
+      "retrieval_mode": "local_only"
+    }
+  },
+  "model": {
+    "model": "gpt-6-luna",
+    "protocol": "chat_completions_v1",
+    "response_mode": "json_schema",
+    "max_output_tokens": 4096,
+    "request_timeout_seconds": 180,
+    "endpoint_sha256": "807aaf9814b3b7fe432f128a9e7aef458a3e4c78cc6e0994f9003a37a6e1b09c"
+  },
+  "versions": {
+    "mealpy": "3.0.3",
+    "numpy": "1.26.0",
+    "pydantic": "2.14.3",
+    "streamlit": "1.67.0",
+    "httpx": "0.28.1",
+    "langgraph": "1.2.20"
+  },
+  "python": "3.12.16",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "numeric_runtime_fingerprint": {
+    "schema_version": "1.0",
+    "environment_id": "2.0:Darwin:arm64:3.12:numpy1.26.0",
+    "python_major_minor": "3.12",
+    "platform_system": "Darwin",
+    "architecture": "arm64",
+    "numpy_version": "1.26.0",
+    "mealpy_version": "3.0.3",
+    "dtype": "float64",
+    "rng": "PCG64",
+    "mode": "single",
+    "mealpy_source_manifest_sha256": "aaa24917df47dba10db01ec9e2243c68deee87c51901b1d73206a86b96f6c649",
+    "numeric_source_manifest_sha256": "3a17103f312f9d27f7545ebac1dbbb08be5186d997ae8a607c1d441c29d5cd38"
+  },
+  "profile_transfer": "Existing local connection proof and OS credential references reused with explicit session authorization; no private key exported",
+  "data_store": "New isolated acceptance datastore, not user history",
+  "live_connection_test": "Not run; U1 first required role call establishes actual access",
+  "historical_campaigns": "Preserved; not resumed/reclassified"
+}
