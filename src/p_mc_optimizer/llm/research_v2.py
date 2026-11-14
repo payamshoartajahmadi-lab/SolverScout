@@ -86,6 +86,11 @@ def validate_output(schema_id, output, context):
             allowed = {card.implementation_id for card in context.solver_cards}
             if any(set(query.implementation_ids) - allowed for query in output.queries):
                 raise ValueError("The query names an implementation outside the catalog shortlist")
+            targeted = {identifier for query in output.queries if query.purpose == "implementation_evidence"
+                        for identifier in query.implementation_ids}
+            if missing := allowed - targeted:
+                raise ValueError("Implementation-evidence queries must together cover every supplied qualified card; "
+                                 "missing implementation_ids: " + ", ".join(sorted(missing)))
         return
     cards = {row["implementation_id"]: (row["implementation_id"], row["config_id"])
              for row in context.solver_cards}

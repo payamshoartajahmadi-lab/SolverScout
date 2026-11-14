@@ -11,7 +11,11 @@ from pathlib import Path
 from .transport import ResearchError
 
 
-PARSER_VERSION = "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-v2.0.1"
+PARSER_VERSION = "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-class-sections-v2.1.2"
+
+
+def extraction_profile(max_text_chars: int) -> str:
+    return f"{PARSER_VERSION};max_text_chars={max_text_chars}"
 
 
 def extract(payload: bytes, content_type: str, level: str, limit: int, timeout: float, *, link_limit: int = 0) -> dict:

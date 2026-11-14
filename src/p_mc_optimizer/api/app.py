@@ -247,6 +247,11 @@ def create_app(
     app.state.catalog = catalog
     app.state.library = library
     app.state.synchronizer = synchronizer
+    from p_mc_optimizer.application.demo import preparation_service
+    from p_mc_optimizer.api.demo import demo_router
+    preparation = preparation_service(repo, catalog=catalog, library=library, settings=search_settings,
+                                      synchronizer=synchronizer)
+    app.state.preparation = preparation
 
     @app.middleware("http")
     async def local_boundary(request: Request, call_next):
@@ -332,6 +337,7 @@ def create_app(
     app.include_router(library_router(library, retriever, search_settings, retrieval, synchronizer))
     app.include_router(research_jobs.router())
     app.include_router(catalog_router(catalog))
+    app.include_router(demo_router(preparation))
     app.include_router(create_llm_router(gateway))
     return app
 

@@ -191,6 +191,16 @@ def test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily(tm
         report = bundle["report"]
         assert report["schema_version"] == "2.1" and report["solution_status"] == "valid_best_found"
         assert report["explanation_status"] == "generated"
+        selection = report["catalog_selection_summary"]
+        assert selection["discovered_count"] == catalog["discovered_count"]
+        assert selection["qualified_count"] == selection["eligible_count"] == selection["shortlist_count"] == 3
+        assert selection["sent_count"] == selection["nominated_count"] == 3
+        assert selection["sent_status"] == "received_response"
+        assert selection["not_nominated_implementation_ids"] == []
+        assert selection["catalog_hash"] == catalog["catalog_hash"]
+        frozen = repo.get_v2_snapshot(job_id)["catalog_readiness"]
+        assert frozen["discovered_count"] == catalog["discovered_count"]
+        assert frozen["qualified_count"] == 3
         assert report["explanation_evidence"]["status"] == "consistent"
         assert report["explanation"]["limitations_fa"][0] == "بهینگی سراسری در این اجرا اثبات نشده است."
         assert report["budget"]["known_started"] == 5502

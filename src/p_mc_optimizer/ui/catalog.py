@@ -98,6 +98,8 @@ def _qualification_actions(attempt, result):
 def catalog_page(attempt):
     st.header("الگوریتم‌ها")
     st.caption("کلاس‌های کتابخانهٔ نصب‌شده و وضعیت پیکربندی‌هایی که این محیط می‌تواند اجرا کند.")
+    from p_mc_optimizer.ui.preparation import preparation_panel
+    preparation_panel(attempt)
     if st.button("بازخوانی کتابخانهٔ نصب‌شده"):
         if attempt("POST", "/catalog/discover", idempotency_key=str(uuid4())) is not None:
             st.rerun()

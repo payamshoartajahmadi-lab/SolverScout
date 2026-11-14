@@ -431,6 +431,16 @@ def _model_ready(profile, status):
 
 def _requirements(policy, mode, config, *, open_connections, open_library):
     ready = True
+    if policy in V2_POLICIES:
+        available = config["catalog"].get("total")
+        if type(available) is int:
+            st.caption(f"پیکربندی‌های تأییدشدهٔ سازگار با این مسیر: {available}")
+        if policy in LLM_POLICIES and config["model_profile"].get("model"):
+            st.text("مدل تنظیم‌شده · " + config["model_profile"]["model"])
+        if config["sources"]:
+            st.caption("منابع فعال · " + "، ".join(row["label"] for row in config["sources"]))
+        if policy == EVIDENCE:
+            st.caption(f"اسناد قابل استفادهٔ منابع فعال · {config['library_documents']}")
     if policy in LLM_POLICIES and not _model_ready(config["model_profile"], config["model_status"]):
         ready = False
         st.warning("برای این روش، کلید مدل زبانی و آزمون موفق اتصال لازم است.")
@@ -456,7 +466,9 @@ def _requirements(policy, mode, config, *, open_connections, open_library):
     catalog_missing = policy in V2_POLICIES and config["catalog"].get("total", 0) < catalog_min
     if catalog_missing:
         ready = False
-        st.warning("کتابخانه هنوز پیکربندی‌های تأییدشدهٔ کافی برای این روش ندارد.")
+        st.warning(f"این روش دست‌کم {catalog_min} پیکربندیِ آزموده‌شده لازم دارد؛ "
+                   f"اکنون {config['catalog'].get('total', 0)} مورد آماده است. "
+                   "در «منابع و الگوریتم‌ها ← الگوریتم‌ها»، آماده‌سازی نسخهٔ دانشگاهی را اجرا کنید.")
     if catalog_missing or source_missing or library_empty or direct_missing:
         st.button("باز کردن منابع و الگوریتم‌ها", on_click=open_library)
     return ready
@@ -523,6 +535,11 @@ def _library_options(settings):
 def _direct_sources(config, limits):
     available = config["source_configs"]
     options = list(available)
+    if not options:
+        st.info("منبعی برای به‌روزرسانی آماده نیست. در «منابع و الگوریتم‌ها ← الگوریتم‌ها»، "
+                "آماده‌سازی نسخهٔ دانشگاهی را با فعال‌سازی منبع رسمی اجرا کنید، "
+                "یا نشانی آغازین منبع مجاز خود را ثبت کنید.")
+        return []
     name = "direct-sources"
     key = f"{WIDGET_PREFIX}{name}"
     maximum = limits["max_sources"]

@@ -139,7 +139,7 @@ def prepare_provider_request(snapshot, schema_id, context, *, producer=None,
     provenance = {
         "schema_id": schema_id, "system_message_sha256": sha256(request["messages"][0]["content"].encode("utf-8")).hexdigest(),
         "response_schema_sha256": sha256(canonical_bytes(response_schema)).hexdigest(),
-        "request_body_sha256": sha256(body).hexdigest(),
+        "request_body_sha256": sha256(body).hexdigest(), "request_body_bytes": len(body),
         "prompt_bundle_sha256": sha256(canonical_bytes(prompt_bundle_manifest())).hexdigest(),
         "request_prepared_at_utc": datetime.now(UTC).isoformat(),
         "process_run_id": identity["process_run_id"], "gateway": identity, "producer": producer,

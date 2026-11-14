@@ -123,7 +123,7 @@ def parser():
     root.add_argument("--data-dir", type=Path)
     root.add_argument("--config", type=Path)
     sub = root.add_subparsers(dest="command", required=True)
-    for command in ("doctor", "start", "stop", "solve", "benchmark", "package", "migrate", "library-reindex"):
+    for command in ("doctor", "start", "stop", "solve", "benchmark", "package", "migrate", "library-reindex", "prepare-demo"):
         part = sub.add_parser(command)
         part.add_argument("--data-dir", type=Path, default=argparse.SUPPRESS)
         part.add_argument("--config", type=Path, default=argparse.SUPPRESS)
@@ -141,6 +141,9 @@ def parser():
             part.add_argument("--manifest", required=True, type=Path)
         elif command == "package":
             part.add_argument("--output", required=True, type=Path)
+        elif command == "prepare-demo":
+            part.add_argument("--enable-official-source", action="store_true")
+            part.add_argument("--qualification-budget", type=int, default=100_000)
     return root
 
 
@@ -211,6 +214,14 @@ def main(argv=None):
                 return 0
             if args.command == "library-reindex":
                 return rebuild_library_index(repo)
+            if args.command == "prepare-demo":
+                from p_mc_optimizer.application.demo import preparation_service
+                result = preparation_service(repo).prepare(
+                    enable_official_source=args.enable_official_source,
+                    qualification_budget=args.qualification_budget,
+                )
+                print(json.dumps(result, ensure_ascii=False, indent=2))
+                return 0 if result["ready"] and result["status"] == "completed" else 4
             if args.command == "benchmark":
                 from p_mc_optimizer.benchmarks import run_benchmark
                 result = run_benchmark(repo, args.manifest, solve)

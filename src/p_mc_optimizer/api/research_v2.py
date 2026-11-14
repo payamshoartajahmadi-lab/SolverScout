@@ -35,6 +35,13 @@ class ResearchJobs:
         self.settings = settings
         self.catalog = catalog
 
+    def catalog_readiness(self, snapshot):
+        metadata = self.catalog.list_implementations(limit=1)
+        if metadata["catalog_hash"] != snapshot.catalog_hash:
+            raise ApiError(409, "STALE_CATALOG", "کاتالوگ تغییر کرده است. آن را بازخوانی کنید.")
+        return {"catalog_hash": snapshot.catalog_hash, "discovered_count": metadata["discovered_count"],
+                "qualified_count": len(snapshot.cards), "source": "admission_snapshot"}
+
     def freeze(self, request):
         snapshot = self.catalog.snapshot()
         if snapshot.catalog_hash != request.catalog_hash:
@@ -74,6 +81,7 @@ class ResearchJobs:
             "research": frozen.model_dump(mode="json"),
             "llm_profile": profile,
             "numeric_execution": numeric,
+            "catalog_readiness": self.catalog_readiness(snapshot),
         }
 
     def _search_ready(self, snapshot):

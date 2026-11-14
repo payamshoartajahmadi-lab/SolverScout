@@ -78,9 +78,9 @@ def _raw_fallback(report, sid, *, version="1.0"):
 def fallback_sections(report, evidence, section_ids, *, report_generation_policy_version=None):
     """Construct useful server paragraphs, retaining all existing required facts."""
     evidence = _dump(evidence)
-    version = report_generation_policy_version or (evidence or {}).get("evidence_policy_version", "1.0")
-    if version not in {"1.0", "1.1"}:
-        raise ValueError("Unsupported narrative fallback policy")
+    from p_mc_optimizer.llm.narrative_policy import freeze_narrative_policy
+    generation_version = report_generation_policy_version or (evidence or {}).get("evidence_policy_version", "1.0")
+    version = freeze_narrative_policy(generation_version)["formatter_version"]
     if evidence is None:
         return [_raw_fallback(report, sid, version=version) for sid in SECTION_ORDER if sid in section_ids and sid != "mathematical_analysis"]
     facts = {item["fact_id"]: item for item in evidence["facts"]}
@@ -167,13 +167,18 @@ def finalize_narrative(report, evidence, accepted_sections, *, issues=None, atte
     accepted = [_dump(value) for value in accepted_sections]
     issues = [_dump(value) for value in issues or []]
     evidence_dict = _dump(evidence)
-    version = report_generation_policy_version or (evidence_dict or {}).get('evidence_policy_version', '1.0')
+    from p_mc_optimizer.llm.narrative_policy import freeze_narrative_policy
+    generation_version = report_generation_policy_version or (evidence_dict or {}).get('evidence_policy_version', '1.0')
     try:
-        validate_narrative_version_combination((evidence_dict or {}).get('evidence_policy_version'), version, version,
+        frozen_policy = freeze_narrative_policy(generation_version)
+        version = frozen_policy['formatter_version']
+        builder_version = frozen_policy['evidence_builder_version']
+        validate_narrative_version_combination((evidence_dict or {}).get('evidence_policy_version'), builder_version, version,
                                              report_generation_policy_version)
     except ValueError:
         evidence_invalid = True
         version = report_generation_policy_version if report_generation_policy_version in {'1.0','1.1'} else '1.0'
+        builder_version = version
         issues.append({'section_id':None,'paragraph_id':None,'code':'CONTEXT_MISMATCH',
                        'message_fa':'نسخهٔ سیاست گزارش با نسخهٔ شواهد یا قالب نمایش سازگار نیست؛ متن قبلی منتشر نشد.',
                        'evidence_refs':[],'required_change_fa':'با همان نسخه و شواهد ثابت معتبر بازسازی شود؛ ارتقای خاموش مجاز نیست.'})
@@ -215,7 +220,7 @@ def finalize_narrative(report, evidence, accepted_sections, *, issues=None, atte
         'accepted_sections':[kept[sid] for sid in SECTION_ORDER if sid in kept], 'rendered_sections':rendered,
         'review_status':'passed' if mode == 'llm' else 'partial' if mode == 'mixed' else 'failed' if review_ran else 'not_run',
         'omitted_sections':[sid for sid in SECTION_ORDER if sid in omitted],'issues':issues,'attempts':attempts,
-        'renderer_version':'3.0.0','formatter_version':version,'evidence_builder_version':version,
+        'renderer_version':'3.0.0','formatter_version':version,'evidence_builder_version':builder_version,
         'elapsed_reporting_seconds':max(0.0,float(elapsed_reporting_seconds)),
     }
     # Status reasons are projection inputs, not additions to the closed persisted DTO.
@@ -229,7 +234,14 @@ def apply_narrative_v3(report, payload):
     result = deepcopy(report)
     result['narrative_v3'] = payload
     if payload['formatter_version'] == '1.1' or 'report_generation_policy_version' in result:
-        result['report_generation_policy_version'] = payload['formatter_version']
+        from p_mc_optimizer.llm.narrative_models import validate_narrative_version_combination
+        generation = result.get('report_generation_policy_version') or (result.get('execution_contracts') or {}).get('report_generation_policy_version')
+        try:
+            validate_narrative_version_combination((payload.get('evidence') or {}).get('evidence_policy_version'),
+                                                 payload['evidence_builder_version'], payload['formatter_version'], generation)
+        except ValueError:
+            generation = None
+        result['report_generation_policy_version'] = generation or payload['formatter_version']
     result['explanation_contract_version'] = '3.0'
     sections = {s['section_id']: '\n\n'.join(p['text_fa'] for p in s['paragraphs']) for s in payload['rendered_sections']}
     refs = sorted({ref for item in payload['accepted_sections'] for p in item['section']['paragraphs'] for ref in p['evidence_refs']})

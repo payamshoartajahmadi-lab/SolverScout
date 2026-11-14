@@ -71,6 +71,16 @@ class CatalogWorkflow(Workflow):
         if error:
             return self.needs_configuration(error)
 
+    def _remember_catalog_selection(self, selection):
+        frozen = self.repo.get_v2_snapshot(self.job_id).get("catalog_readiness") or {}
+        eligible = {card.implementation_id for card in selection.cards}
+        eligible.update(row["implementation_id"] for row in selection.excluded if row["reason"] == "SHORTLIST_LIMIT")
+        self.keep("catalog_selection_summary", {
+            "catalog_hash": self.catalog.catalog_hash, "discovered_count": frozen.get("discovered_count"),
+            "qualified_count": len(self.catalog.cards), "eligible_count": len(eligible),
+            "shortlist_count": len(selection.cards), "source": "frozen_job_snapshot",
+        })
+
     def prepare_candidates(self):
         from p_mc_optimizer.catalog import shortlist
 
@@ -103,6 +113,7 @@ class CatalogWorkflow(Workflow):
                               limit=search.limits.max_solver_cards if search else 20, numeric_exclusions=exclusions)
         self.keep("solver_cards", [_model(card) for card in selection.cards])
         self.keep("catalog_exclusions", [_model(reason) for reason in selection.excluded])
+        self._remember_catalog_selection(selection)
         if len({card.implementation_id for card in selection.cards}) < 3:
             return self.stop("CATALOG_CANDIDATES_INSUFFICIENT", "دست‌کم سه پیاده‌سازی سازگار را تأیید کنید.")
 
@@ -198,6 +209,7 @@ class CatalogWorkflow(Workflow):
         )
         self.keep("solver_cards", [_model(card) for card in selection.cards])
         self.keep("catalog_exclusions", [_model(reason) for reason in selection.excluded])
+        self._remember_catalog_selection(selection)
         if len({card.implementation_id for card in selection.cards}) < 3:
             return self.stop("CATALOG_CANDIDATES_INSUFFICIENT", "دست‌کم سه پیاده‌سازی سازگار را تأیید کنید.")
 
@@ -369,6 +381,22 @@ class CatalogWorkflow(Workflow):
             "effective_selection_policy": wf.get("effective_selection_policy", self.selection_policy),
             "numeric_execution": self.numeric_execution,
         })
+        summary = dict(wf.get("catalog_selection_summary") or {})
+        if summary:
+            context = wf.get("role_context:advisor") or {}
+            sent_ids = [row["implementation_id"] for row in context.get("solver_cards", [])]
+            advisor_calls = [call for call in self.report.get("llm_calls", []) if call.get("role") == "advisor"]
+            received = any(call.get("status") == "succeeded" for call in advisor_calls)
+            nominees = [row["algorithm_id"] for row in (wf.get("candidate_plan") or {}).get("candidates", [])]
+            summary.update({
+                "sent_count": len(sent_ids) if received else None,
+                "sent_implementation_ids": sent_ids if received else [],
+                "sent_status": "received_response" if received else "not_confirmed",
+                "nominated_count": len(nominees), "nominated_implementation_ids": nominees,
+                "not_nominated_implementation_ids": [name for name in sent_ids if name not in nominees] if received else [],
+                "pilot_winner_implementation_id": self.report.get("selected_algorithm_id"),
+            })
+            self.report["catalog_selection_summary"] = summary
         if wf.get("research_partial"):
             self.report["selection_status"] = "insufficient_evidence"
         self.report["timing"]["elapsed_research_seconds"] = research.get("active_seconds")

@@ -430,7 +430,8 @@ class SourceSynchronizer:
         if document.fetch_status == "revalidated":
             raw = self.library.load_raw(document.bytes_sha256)
             parsed = version
-        if session.last_fetch_status == 304 and cached and (raw is None or text is None):
+        if (session.last_fetch_status == 304 and cached and (raw is None or text is None)
+                and document.reason_code != "SOURCE_PARSER_REEXTRACTION_REQUIRED"):
             document = document.model_copy(update={
                 "fetch_status": "failed", "reason_code": "LIBRARY_ARTIFACT_MISSING", "validated_at": None,
             })

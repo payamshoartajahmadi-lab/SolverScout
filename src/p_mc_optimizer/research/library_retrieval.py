@@ -18,11 +18,29 @@ from p_mc_optimizer.research.library_store import normalize_index_text
 from p_mc_optimizer.research.source_policy import SourcePolicy, SourcePolicyError
 from p_mc_optimizer.research.storage import canonical, digest
 
-RETRIEVAL_VERSION = "library_fts5_unicode61_target_coverage_v2.1.1"
-PASSAGE_VERSION = "passage_selection_v2.1.1"
+RETRIEVAL_VERSION = "library_fts5_unicode61_class_sections_v2.1.2"
+PASSAGE_VERSION = "passage_class_sections_v2.1.2"
 _TOKEN = re.compile(r"[^\W_]+", re.UNICODE)
 _ALIAS_TOKEN = re.compile(r"\w+")
 _PARAGRAPH = re.compile(r"\S(?:.*?\S)?(?=\n[ \t]*\n|\Z)", re.DOTALL)
+_SECTION = re.compile(r"^## (?P<anchor>[A-Za-z_][A-Za-z0-9_.:-]{0,255})\n\n", re.MULTILINE)
+
+
+def target_sections(text, implementation_id):
+    """Exact stored class sections, with canonical-text offsets and source anchor."""
+    parts = implementation_id.split(":")
+    expected = ".".join(parts) if len(parts) == 3 else implementation_id
+    headings = list(_SECTION.finditer(text))
+    for index, heading in enumerate(headings):
+        if heading["anchor"] != expected:
+            continue
+        end = headings[index + 1].start() if index + 1 < len(headings) else len(text)
+        yield {"start": heading.start(), "end": end, "anchor": heading["anchor"]}
+
+
+def has_target_evidence(text, implementation_id):
+    # A bare class name or link in a contents list is not a description.
+    return any(text[row["start"]:row["end"]].partition("\n\n")[2].strip() for row in target_sections(text, implementation_id))
 
 
 def _terms(text):
@@ -98,6 +116,11 @@ def _passages(document, text, query, aliases):
     terms = set(_terms(query["text"]))
     focus = query.get("body_aliases")
     targets = focus or _query_aliases(query, aliases)
+    if target := query.get("target"):
+        sections = list(target_sections(text, target))
+        if sections:
+            return [(document, text, query["purpose"], 0, row["start"], min(row["end"], row["start"] + 1500))
+                    for row in sections[:2] if has_target_evidence(text, target)]
     ranges = []
     for paragraph in _PARAGRAPH.finditer(text):
         start, end = paragraph.span()
@@ -114,9 +137,11 @@ def _passages(document, text, query, aliases):
             elif not focus and (matches or named):
                 ranges.append((not named, -matches, offset, stop))
     if focus:
-        # Prefer the first occurrence in this document to later examples or
-        # references from other implementations.
-        ranges.sort(key=lambda row: row[2])
+        # In legacy plain text prefer an actual class definition to a contents
+        # entry. New HTML extracts have exact section anchors above.
+        ranges.sort(key=lambda row: (
+            not bool(re.search(r"\bclass\s+(?:[\w.]+\.)?(?:" + "|".join(map(re.escape, focus)) + r")\b", text[row[2]:row[3]])), row[2],
+        ))
     else:
         ranges.sort()
     return [(document, text, query["purpose"], -matches, start, end)
@@ -125,7 +150,6 @@ def _passages(document, text, query, aliases):
 
 def _reserve_targets(groups, aliases):
     selected, reserved, covered = {}, [], set()
-    counts = Counter()
     for group in groups:
         for document, text, query in group:
             target = query["target"]
@@ -134,21 +158,11 @@ def _reserve_targets(groups, aliases):
             key = document["document_id"]
             if key in selected and selected[key][0]["observation_id"] != document["observation_id"]:
                 continue
-            if any(
-                row[0]["observation_id"] == document["observation_id"]
-                and any(alias_present(row[1][row[4]:row[5]], name) for name in query["body_aliases"])
-                for row in reserved
-            ):
-                covered.add(target)
-                break
-            if counts[key] < 2 and (passages := _passages(document, text, query, aliases)):
+            if passages := _passages(document, text, query, aliases):
                 selected.setdefault(key, (document, text, query))
                 reserved.append(passages[0])
-                counts[key] += 1
                 covered.add(target)
                 break
-        if len(covered) == 3:
-            break
     return selected, reserved
 
 
@@ -156,12 +170,16 @@ def _select_passages(items, aliases, reserved=()):
     rows = []
     remaining = 18_000
     spans = defaultdict(list)
+    section_counts = Counter()
     extras = _interleave([_passages(doc, text, query, aliases) for doc, text, query in items])
     for index, (document, text, method, matches, start, end) in enumerate(chain(reserved, extras)):
         if not remaining or len(rows) == 12:
             break
         used = spans[document["document_id"]]
-        if len(used) == 2 or (index >= len(reserved) and any(start < b and a < end for a, b in used)):
+        heading = next((match["anchor"] for match in _SECTION.finditer(text) if match.start() == start), None)
+        scope = (document["document_id"], heading or (start if index < len(reserved) else None))
+        if (section_counts[scope] >= 2 or (start, end) in used
+                or (index >= len(reserved) and any(start < b and a < end for a, b in used))):
             continue
         end = min(end, start + remaining)
         passage = EvidencePassageV21(
@@ -170,9 +188,11 @@ def _select_passages(items, aliases, reserved=()):
             observation_id=document["observation_id"], source_id=document["source_id"],
             url=document["final_url"], selection_method=method, stale=document["stale"],
             text=text[start:end], start=start, end=end, keyword_matches=matches,
+            section=heading,
         )
         rows.append(passage.model_dump(mode="json"))
         used.append((start, end))
+        section_counts[scope] += 1
         remaining -= end - start
     return rows
 
@@ -389,6 +409,10 @@ class LibraryRetriever:
                 if len(selected) == 6:
                     break
             evidence = _select_passages(selected.values(), aliases, reserved)
+            targets = sorted({identifier for query in queries if query["purpose"] == "implementation_evidence"
+                              for identifier in query["implementation_ids"]})
+            dedicated = {identifier for identifier in targets
+                         if any(passage.get("section") == ".".join(identifier.split(":")) for passage in evidence)}
             snapshot = {
                 "schema_version": "2.1", "snapshot_id": str(job_id),
                 "generation": self.store.generation(connection),
@@ -399,6 +423,9 @@ class LibraryRetriever:
                 "retrieved_at": datetime.now(UTC).isoformat(),
                 "max_evidence_age_hours": max_age_hours, "stale_evidence_policy": stale_policy,
                 "query_plan": plan.model_dump(mode="json"),
+                "target_coverage": {"requested_implementation_ids": targets,
+                                    "dedicated_implementation_ids": sorted(dedicated),
+                                    "missing_dedicated_implementation_ids": sorted(set(targets) - dedicated)},
                 "documents": [document for document, _, _ in selected.values()], "evidence": evidence,
                 "status": "completed" if evidence else "insufficient_evidence",
                 "reason_codes": (["LIBRARY_ARTIFACT_MISSING"] if missing else [])

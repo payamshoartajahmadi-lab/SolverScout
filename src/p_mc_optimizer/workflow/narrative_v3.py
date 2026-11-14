@@ -11,7 +11,7 @@ from uuid import uuid4
 
 from p_mc_optimizer.llm.narrative_models import (
     SECTION_ORDER, REQUIRED_SECTIONS, NarrativeSectionV3, ReportEvidenceV3,
-    ReviewerContextV1, WriterContextV3,
+    ReviewerContextV1, WriterContextV3, reviewer_context_model,
 )
 from p_mc_optimizer.reporting.evidence_v3 import (
     build_evidence_v3, canonical_bytes, core_hash, evidence_hash, value_hash,
@@ -19,6 +19,7 @@ from p_mc_optimizer.reporting.evidence_v3 import (
 from p_mc_optimizer.reporting.narrative_validation import (
     NarrativeValidationError, draft_hash, render_sections, request_hash,
     validate_draft, validate_review,
+    reviewer_repair_snapshot,
 )
 from p_mc_optimizer.llm.narrative_policy import freeze_narrative_policy
 
@@ -67,12 +68,12 @@ def build_writer_context(evidence, *, prompt_bundle_sha256, scope=SECTION_ORDER,
 
 
 def build_reviewer_context(evidence, sections, *, prompt_bundle_sha256, scope=None,
-                           accepted_sections=()):
+                           accepted_sections=(), context_version="1.0", review_repair=None):
     assembled = _ordered(list(accepted_sections) + list(sections))
     context_digest = evidence_hash(evidence)
     scope = [item["section_id"] for item in map(_json, sections)] if scope is None else scope
     raw = {
-        "schema_version": "1.0", "prompt_bundle_sha256": prompt_bundle_sha256,
+        "schema_version": context_version, "prompt_bundle_sha256": prompt_bundle_sha256,
         "evidence": _json(evidence), "context_hash": context_digest, "request_hash": "0" * 64,
         "draft_hash": draft_hash(context_digest, assembled), "draft_sections": assembled,
         "rendered_sections": list(map(_json, render_sections(evidence, assembled))),
@@ -80,8 +81,12 @@ def build_reviewer_context(evidence, sections, *, prompt_bundle_sha256, scope=No
         "accepted_section_hashes": [{"section_id": item["section_id"], "sha256": value_hash(item)}
                                     for item in _ordered(accepted_sections)],
     }
+    if context_version == "1.1":
+        raw["review_repair"] = _json(review_repair)
+    elif context_version != "1.0" or review_repair is not None:
+        raise ValueError("Reviewer repair feedback requires its versioned 1.1 context")
     raw["request_hash"] = request_hash(raw)
-    return ReviewerContextV1.model_validate(raw)
+    return reviewer_context_model(raw).model_validate(raw)
 
 
 class NarrativeOrchestrator:
@@ -108,6 +113,7 @@ class NarrativeOrchestrator:
         self.report_generation_policy_version = (journal_version if self.journal else
                                                  report_generation_policy_version or "1.0")
         self.generation_policy = freeze_narrative_policy(self.report_generation_policy_version)
+        self.evidence_policy_version = self.generation_policy["evidence_policy_version"]
         self.policy_mismatch = bool(self.journal and (
             report_generation_policy_version not in (None, journal_version)
             or self.journal.get("report_generation_policy", self.generation_policy if journal_version == "1.0" else None) != self.generation_policy
@@ -177,8 +183,8 @@ class NarrativeOrchestrator:
         if contracts and contracts.get("explanation") == "grounded_narrative_v3":
             version = contracts.get("report_generation_policy_version", "1.0")
             return (version == self.report_generation_policy_version
-                    and contracts.get("evidence_builder_version", "1.0") == version
-                    and contracts.get("formatter_version", "1.0") == version
+                    and contracts.get("evidence_builder_version", "1.0") == self.generation_policy["evidence_builder_version"]
+                    and contracts.get("formatter_version", "1.0") == self.generation_policy["formatter_version"]
                     and contracts.get("report_generation_policy", self.generation_policy if version == "1.0" else None) == self.generation_policy)
         return True
 
@@ -252,25 +258,50 @@ class NarrativeOrchestrator:
         context = build_reviewer_context(
             self.evidence, sections, prompt_bundle_sha256=self.prompt_bundle_sha256,
             scope=scope, accepted_sections=[item["section"] for item in self.accepted.values()],
+            context_version=self.generation_policy.get("reviewer_context_version", "1.0"),
         )
         raw = _json(context)
-        # Retry only the identical reviewer request, and only within its role cap.
+        # Legacy frozen generations retain their protocol. New generations repair
+        # a received invalid review with explicit feedback, within the same cap.
         for retry in range(2):
             result = self._call(key + (":retry" if retry else ""), "report_reviewer", "narrative_review.v1",
                                 "review_retry" if retry else "review", _json(context), draft_digest=raw["draft_hash"])
             if result is None:
                 return [], []
             self.review_ran = True
-            if result.get("status") != "succeeded" and result.get("output") is None:
+            received = result.get("output")
+            if received is None and result.get("previous_output") is not None:
+                received = result["previous_output"]
+            if result.get("status") != "succeeded" and received is None:
                 # A missing response is not a semantic/schema verdict. Preserve
                 # the actual transport/unknown error and retry this context once.
                 continue
             try:
-                review = validate_review(context, result.get("output"))
+                review = validate_review(context, received)
             except (NarrativeValidationError, ValueError, TypeError) as exc:
                 problems = getattr(exc, "issues", [_issue("SCHEMA_INVALID", message="پاسخ بازبین معتبر نبود.")])
                 self._add_issues(problems)
-                self._mark_invalid(key + (":retry" if retry else ""), problems)
+                call_key = key + (":retry" if retry else "")
+                self._mark_invalid(call_key, problems)
+                diagnostics = list(map(_json, getattr(exc, "diagnostics", [])))
+                call = self.journal["calls"][call_key]
+                if diagnostics:
+                    call["attempt"]["validation_diagnostics"] = diagnostics
+                    self._save()
+                if not retry and context.schema_version == "1.1" and diagnostics:
+                    previous, truncated = reviewer_repair_snapshot(received)
+                    feedback = {
+                        "previous_invocation_id": call["invocation_id"],
+                        "previous_call_id": result.get("call_id"),
+                        "previous_response_text": previous,
+                        "previous_response_truncated": truncated,
+                        "validation_diagnostics": diagnostics,
+                    }
+                    context = build_reviewer_context(
+                        self.evidence, sections, prompt_bundle_sha256=self.prompt_bundle_sha256,
+                        scope=scope, accepted_sections=[item["section"] for item in self.accepted.values()],
+                        context_version="1.1", review_repair=feedback,
+                    )
                 continue
             by_id = {item["section_id"]: item for item in assembled}
             rejected, issues = [], []
@@ -303,7 +334,7 @@ class NarrativeOrchestrator:
             self.omitted.add("mathematical_analysis")
             self._add_issues([_issue("CONTEXT_MISMATCH", message="داده یا وضعیت اجرا پس از تولید متن تغییر کرد؛ متن قبلی منتشر نشد.")])
             try:
-                self.evidence = build_evidence_v3(current, policy_version=self.report_generation_policy_version)
+                self.evidence = build_evidence_v3(current, policy_version=self.evidence_policy_version)
                 invalid = False
             except (ValueError, TypeError):
                 self.evidence = None
@@ -328,24 +359,24 @@ class NarrativeOrchestrator:
         try:
             if self.policy_mismatch:
                 self._add_issues([_issue("CONTEXT_MISMATCH", message="سیاست یا prompt فریز‌شدهٔ journal تغییر کرده است؛ ادامهٔ تماس مجاز نیست.")])
-                self.evidence = build_evidence_v3(self.report, policy_version=self.report_generation_policy_version)
+                self.evidence = build_evidence_v3(self.report, policy_version=self.evidence_policy_version)
                 return self._finish()
             initial_core = core_hash(self.report)
             if self.journal.get("source_core_sha256") not in (None, initial_core):
                 self._add_issues([_issue("CONTEXT_MISMATCH")])
-                self.evidence = build_evidence_v3(self.report, policy_version=self.report_generation_policy_version)
+                self.evidence = build_evidence_v3(self.report, policy_version=self.evidence_policy_version)
                 return self._finish()
             if self.journal.get("result") is not None:
                 self.evidence = ReportEvidenceV3.model_validate(self.journal["evidence"])
-                if self.evidence.evidence_policy_version != self.report_generation_policy_version:
+                if self.evidence.evidence_policy_version != self.evidence_policy_version:
                     raise ValueError("Cached evidence policy mismatch")
                 current = self.current_report()
                 if (core_hash(current) == initial_core and not self.cancelled()
                         and self._current_policy_matches(current)):
                     return deepcopy(self.journal["result"])
                 return self._finish()
-            self.evidence = ReportEvidenceV3.model_validate(self.journal["evidence"]) if self.journal.get("evidence") else build_evidence_v3(self.report, policy_version=self.report_generation_policy_version)
-            if self.evidence.evidence_policy_version != self.report_generation_policy_version:
+            self.evidence = ReportEvidenceV3.model_validate(self.journal["evidence"]) if self.journal.get("evidence") else build_evidence_v3(self.report, policy_version=self.evidence_policy_version)
+            if self.evidence.evidence_policy_version != self.evidence_policy_version:
                 raise ValueError("Evidence policy does not match the frozen journal")
         except (ValueError, TypeError):
             self._add_issues([_issue("SCHEMA_INVALID", message="شواهد عددی گزارش معتبر نیستند؛ متن مدل تولید نشد.")])

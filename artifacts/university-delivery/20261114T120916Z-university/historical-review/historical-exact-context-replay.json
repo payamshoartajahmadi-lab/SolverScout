@@ -1,0 +1,58 @@
+[
+  {
+    "call_id": "cdf5993b-bf90-49f7-a474-4d54d70c3d52",
+    "original_response_validation": "FAIL",
+    "original_diagnostics": [
+      {
+        "field_path": "request_hash",
+        "error_type": "string_pattern_mismatch",
+        "expected_rule": "exactly 64 lowercase hexadecimal characters, copied verbatim from current context.request_hash",
+        "repair_instruction_fa": "مقدار request_hash را از زمینهٔ جاری دقیق و کامل کپی کنید؛ هر ۶۴ نویسهٔ هگز باید حفظ شود و هش بازسازی یا کوتاه نشود. فقط پاسخ بازبین اصلاح شود.",
+        "stage": "structural_validation",
+        "response_sha256": "8d564c0c559c70713b549d30e59927adb6fc8c2b1a72000ca256ddd627b3c562",
+        "response_representation": "canonical_json",
+        "review_contract_version": "narrative_review/1.0"
+      }
+    ],
+    "positive_control_kind": "offline copied response with only request_hash corrected; not historical or live accepted output",
+    "corrected_copy_validation": "PASS",
+    "corrected_copy_section_verdicts": {
+      "problem": "accept",
+      "candidate_rationale": "accept",
+      "selection": "reject",
+      "solution": "reject",
+      "verification_and_limits": "accept"
+    },
+    "frozen_context_sha256": "860d1a83db0eb4e71bb021a93fdeb83459172399c861baa935e7dc4ffa3640ea",
+    "frozen_draft_hash": "4a3d73df5e65c053094f4a64f820c24774d66beac085a6e28778bcf3927d179e",
+    "original_response_preserved": true
+  },
+  {
+    "call_id": "7560aad1-bc6e-40ab-9c44-5b9cd960c8d9",
+    "original_response_validation": "FAIL",
+    "original_diagnostics": [
+      {
+        "field_path": "request_hash",
+        "error_type": "string_pattern_mismatch",
+        "expected_rule": "exactly 64 lowercase hexadecimal characters, copied verbatim from current context.request_hash",
+        "repair_instruction_fa": "مقدار request_hash را از زمینهٔ جاری دقیق و کامل کپی کنید؛ هر ۶۴ نویسهٔ هگز باید حفظ شود و هش بازسازی یا کوتاه نشود. فقط پاسخ بازبین اصلاح شود.",
+        "stage": "structural_validation",
+        "response_sha256": "0df4fe3530c0cccae831c445f5f3f187ed6e843d5e057a10f770445bb593f962",
+        "response_representation": "canonical_json",
+        "review_contract_version": "narrative_review/1.0"
+      }
+    ],
+    "positive_control_kind": "offline copied response with only request_hash corrected; not historical or live accepted output",
+    "corrected_copy_validation": "PASS",
+    "corrected_copy_section_verdicts": {
+      "problem": "accept",
+      "candidate_rationale": "accept",
+      "selection": "accept",
+      "solution": "accept",
+      "verification_and_limits": "accept"
+    },
+    "frozen_context_sha256": "860d1a83db0eb4e71bb021a93fdeb83459172399c861baa935e7dc4ffa3640ea",
+    "frozen_draft_hash": "4a3d73df5e65c053094f4a64f820c24774d66beac085a6e28778bcf3927d179e",
+    "original_response_preserved": true
+  }
+]
