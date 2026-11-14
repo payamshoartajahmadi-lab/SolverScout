@@ -175,6 +175,60 @@ def test_truncated_tail_is_not_searchable_as_evidence(library):
     assert LibraryRetriever(library).search("OriginalWOA", snapshot) == []
 
 
+@pytest.mark.parametrize("unexpected_304", [False, True])
+def test_parser_upgrade_never_relabels_old_cached_text(library, monkeypatch, unexpected_304):
+    from p_mc_optimizer.research import fetch
+    from p_mc_optimizer.research.extraction import extraction_profile
+
+    library.configure("docs", LibrarySourceUpdate(expected_revision=0, seed_urls=[SEED]))
+    content = '<dl class="py class"><dt id="mealpy.swarm_based.GWO.OriginalGWO">class OriginalGWO()</dt>' \
+              '<dd><p>The original Grey Wolf Optimizer population description.</p></dd></dl>'
+    transport = Transport({SEED: html(content, etag='"old"')})
+    with monkeypatch.context() as old_parser:
+        old_parser.setattr(fetch, "extraction_profile", lambda limit: "legacy-prefix-parser")
+        old_parser.setattr(fetch, "extract", lambda *args, **kwargs: {"text":"Old contents list OriginalGWO", "truncated":True})
+        assert refresh(library, transport)["status"] == "completed"
+    before = library.list_documents()[0]
+    original_version = before["version"]
+    transport.pages[SEED] = lambda headers: response(304) if unexpected_304 or headers else html(content, etag='"old"')
+    result = refresh(library, transport)
+    after = library.list_documents()[0]
+    assert transport.calls[-1] == (SEED, {})
+    assert library.load_raw(original_version["bytes_sha256"])
+    if unexpected_304:
+        assert result["status"] == "failed"
+        assert "SOURCE_PARSER_REEXTRACTION_REQUIRED" in result["reason_codes"]
+        assert after["version"] == original_version
+        assert after["last_successful_validation_at"] == before["last_successful_validation_at"]
+    else:
+        assert result["status"] == "completed"
+        assert after["version"]["parser_version"] == extraction_profile(SyncLimits().max_text_chars)
+        assert after["version"]["version_id"] != original_version["version_id"]
+        assert "population description" in library.verify_artifacts(after["version"])
+        assert "Old contents" not in library.verify_artifacts(after["version"])
+        assert any(row["version"] == original_version for row in library.document_versions(after["document_id"]))
+
+
+def test_extraction_limit_change_requires_full_get_before_publishing_a_new_profile(library):
+    from p_mc_optimizer.research.extraction import extraction_profile
+
+    library.configure("docs", LibrarySourceUpdate(expected_revision=0, seed_urls=[SEED]))
+    content = "<p>" + "early introduction " * 30 + "</p><p>Late target OriginalWOA description.</p>"
+    transport = Transport({SEED: html(content, etag='"same-bytes"')})
+    assert refresh(library, transport, limits=SyncLimits(max_text_chars=128))["status"] == "completed"
+    before = library.list_documents()[0]["version"]
+    assert "OriginalWOA" not in library.verify_artifacts(before)
+    transport.pages[SEED] = lambda headers: response(304) if headers else html(content, etag='"same-bytes"')
+    assert refresh(library, transport, limits=SyncLimits(max_text_chars=2048))["status"] == "completed"
+    after = library.list_documents()[0]["version"]
+    assert transport.calls[-1] == (SEED, {})
+    assert after["parser_version"] == extraction_profile(2048)
+    assert before["parser_version"] == extraction_profile(128)
+    assert before["bytes_sha256"] == after["bytes_sha256"]
+    assert before["text_sha256"] != after["text_sha256"]
+    assert "OriginalWOA" in library.verify_artifacts(after)
+
+
 def test_ledger_caps_and_unknown_bytes(library):
     library.configure("docs", LibrarySourceUpdate(expected_revision=0, seed_urls=[SEED]))
     transport = Transport({SEED: html("<p>Optimization</p>")})

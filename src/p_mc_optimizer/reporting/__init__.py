@@ -77,12 +77,27 @@ def add_progress(history: Iterable[tuple[Iterable[dict], int, str]]) -> list[dic
     return points
 
 
-def progress_figure(points: list[dict], *, number_formatter=None) -> str:
+def progress_figure(points: list[dict], *, number_formatter=None, axis_scale="linear") -> str:
+    """Plot the recorded points; an optional signed log axis keeps true zero."""
+    if axis_scale not in {"linear", "symlog"}:
+        raise ValueError("Unsupported progress axis")
     if not points:
         return "<p>تاریخچهٔ کافی برای نمودار در دسترس نیست.</p>"
     scores = [p["score_for_minimization"] for p in points]
-    scale = max(1, max(map(abs, scores)))
-    hi, lo = max(scores) / scale, min(scores) / scale
+    threshold = min([1.0, *(abs(score) for score in scores if score != 0)])
+
+    def transform(score):
+        if axis_scale == "linear" or score == 0:
+            return score
+        exponent = math.log(abs(score)) - math.log(threshold)
+        # Stable log(1 + |score| / threshold), including very large ratios.
+        magnitude = (exponent + math.log1p(math.exp(-exponent)) if exponent > 0
+                     else math.log1p(math.exp(exponent)))
+        return math.copysign(magnitude, score)
+
+    transformed = [transform(score) for score in scores]
+    scale = max(1, max(map(abs, transformed)))
+    hi, lo = max(transformed) / scale, min(transformed) / scale
     extent = hi - lo or 1
     end = points[-1]["started_evaluations"] or 1
     stride = max(1, len(points) // 1000)
@@ -90,7 +105,7 @@ def progress_figure(points: list[dict], *, number_formatter=None) -> str:
     previous_y = None
     for point in [*points[::stride], points[-1]]:
         x = 106 + point["started_evaluations"] / end * 600
-        y = 20 + (hi - point["score_for_minimization"] / scale) / extent * 175
+        y = 20 + (hi - transform(point["score_for_minimization"]) / scale) / extent * 175
         if previous_y is not None:
             vertices.append(f"{x:.2f},{previous_y:.2f}")
         vertices.append(f"{x:.2f},{y:.2f}")
@@ -98,8 +113,12 @@ def progress_figure(points: list[dict], *, number_formatter=None) -> str:
     end_label = str(end) if number_formatter is None else number_formatter(end)
     number_formatter = number_formatter or (lambda value: format(value, ".5g"))
     top_label, bottom_label = number_formatter(max(scores)), number_formatter(min(scores))
-    return f"""<figure style="margin:0">
+    axis_note = ("<p>محور عمودی لگاریتمی متقارن است: sign(y) × log(1 + |y| / t)، "
+                 f"با t = {html.escape(number_formatter(threshold))}. صفر و علامت مقدار واقعی حفظ می‌شوند؛ "
+                 "برچسب‌ها امتیاز اصلی‌اند.</p>" if axis_scale == "symlog" else "")
+    return f"""<figure style="margin:0" data-axis-scale="{axis_scale}">
 <figcaption>بهترین امتیاز کمینه‌سازی بر حسب تعداد فراخوانی آغازشدهٔ هدف (FE)</figcaption>
+{axis_note}
 <svg viewBox="0 0 735 235" style="width:100%;max-height:320px;direction:ltr"
  role="img" aria-label="نمودار بهترین امتیاز بر حسب FE" font-size="13">
 <path d="M106 20 V198 H706" fill="none" stroke="#94a3b8"/>
@@ -123,7 +142,7 @@ def html_bytes(report: dict) -> bytes:
                 'main{max-width:1040px;margin:auto;min-width:0}a{color:#FDA481}'
                 'section,details{background:#242E49}bdi{unicode-bidi:isolate}'
                 '@media(max-width:480px){body{padding:12px}}</style><main>'
-                + body + '</main></html>').encode('utf-8')
+                + '<h1>نتیجهٔ اجرای SolverScout</h1>' + body + '</main></html>').encode('utf-8')
     def escaped(value: Any) -> str:
         return html.escape("—" if value is None else str(value), quote=True)
 

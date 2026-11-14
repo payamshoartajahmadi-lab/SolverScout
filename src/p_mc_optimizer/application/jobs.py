@@ -113,8 +113,8 @@ class ApplicationService:
                 "execution_contracts": {"explanation": "grounded_narrative_v3", "writer_schema": "explainer.v3",
                                         "reviewer_schema": "narrative_review.v1", "evidence_builder_version": "1.1",
                                         "renderer_version": "3.0.0", "formatter_version": "1.1",
-                                        "report_generation_policy_version": "1.1",
-                                        "report_generation_policy": freeze_narrative_policy("1.1")},
+                                        "report_generation_policy_version": "1.2",
+                                        "report_generation_policy": freeze_narrative_policy("1.2")},
                 "runtime:creator": creator,
             }
             if revision_id is not None and connection.execute(

@@ -31,7 +31,9 @@ def validate_narrative_version_combination(evidence_policy_version, builder_vers
     if evidence_policy_version is not None:
         versions.append(evidence_policy_version)
     if report_generation_policy_version is not None:
-        versions.append(report_generation_policy_version)
+        # Generation 1.2 changes the reviewer input/repair protocol only.
+        # Its explicitly frozen evidence and formatter contracts remain 1.1.
+        versions.append("1.1" if report_generation_policy_version == "1.2" else report_generation_policy_version)
     if any(v not in {"1.0", "1.1"} for v in versions) or len(set(versions)) != 1:
         raise ValueError("Incompatible narrative policy, evidence builder or formatter versions")
     return builder_version
@@ -310,6 +312,33 @@ class ReviewerContextV1(ContractModel):
     accepted_section_hashes: list[SectionHashV1]
 
 
+class ReviewValidationDiagnosticV1(StructuralFieldErrorV1):
+    """Safe server-owned response diagnostics; never exception input or ctx."""
+    stage: Literal["parsing", "structural_validation", "relational_validation", "context_validation"]
+    response_sha256: Sha256 | None
+    response_representation: Literal["canonical_json", "utf8", "unavailable"]
+    review_contract_version: Literal["narrative_review/1.0"]
+
+
+class ReviewRepairFeedbackV1(ContractModel):
+    previous_invocation_id: str
+    previous_call_id: str | None
+    previous_response_text: Annotated[str, Field(max_length=8192)]
+    previous_response_truncated: bool
+    validation_diagnostics: Annotated[list[ReviewValidationDiagnosticV1], Field(min_length=1, max_length=20)]
+
+
+class ReviewerContextV1_1(ReviewerContextV1):
+    """Versioned response-repair input; legacy frozen 1.0 stays closed."""
+    schema_version: Literal["1.1"]
+    review_repair: ReviewRepairFeedbackV1 | None
+
+
+def reviewer_context_model(value):
+    version = value.get("schema_version") if isinstance(value, dict) else getattr(value, "schema_version", None)
+    return ReviewerContextV1_1 if version == "1.1" else ReviewerContextV1
+
+
 class SectionReviewV1(ContractModel):
     section_id: SectionId
     verdict: Literal["accept", "reject"]
@@ -341,6 +370,7 @@ class NarrativeAttemptV1(ContractModel):
     draft_hash: Sha256 | None
     status: Literal["succeeded", "failed", "unknown", "cancelled"]
     error_code: str | None
+    validation_diagnostics: list[ReviewValidationDiagnosticV1] = Field(default_factory=list)
 
 
 class NarrativeV3(ContractModel):

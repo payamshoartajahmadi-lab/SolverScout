@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "version": "2.1.0rc1",
+  "venv_is_new": true,
+  "python": "3.12.16",
+  "pip_check": "No broken requirements found.",
+  "source_commit": "5706be1e5c3c28e3069bacb2c37acfdfc8633fc3",
+  "source_manifest_sha256": "6ff1028d9f2239b03f75de415b5da077d8fd1fdb5234cd032ca4df48ccd2e285",
+  "source_matches_tested_code": true,
+  "paths_with_spaces_tested": true,
+  "dependency_source": "requirements.lock with locally cached unmodified locked wheels",
+  "smoke": {
+    "job_status": "completed",
+    "solution_status": "valid_best_found",
+    "objective_raw": 0.000624403130053541,
+    "selected_algorithm_id": "de.original",
+    "budget": {
+      "allocated": 1002,
+      "charged_unknown": 0,
+      "known_started": 1002,
+      "max_objective_evaluations": 1002,
+      "reserved_active": 0,
+      "unallocated": 0,
+      "unused": 0
+    },
+    "error": null
+  },
+  "smoke_is_separate_from_U1_U2": true,
+  "doctor": {
+    "core": "PASS",
+    "project_version": "2.1.0rc1",
+    "python": "3.12.16",
+    "os": "macOS-27.0.1-arm64-arm-64bit",
+    "arch": "arm64",
+    "database_schema": 4,
+    "local_index": "PASS",
+    "versions": {
+      "fastapi": "0.162.2",
+      "langgraph": "1.2.20",
+      "mealpy": "3.0.3",
+      "numpy": "1.26.0",
+      "pydantic": "2.14.3",
+      "streamlit": "1.67.0",
+      "keyring": "25.7.0",
+      "pypdf": "7.0.0",
+      "protego": "0.7.0"
+    }
+  },
+  "fresh_acceptance_data": "Not yet initialized; existing user datastore untouched"
+}

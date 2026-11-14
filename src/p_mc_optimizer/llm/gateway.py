@@ -489,9 +489,9 @@ class LLMGateway:
         explanation_v2 = invocation.schema_id == "explainer.v2"
         schema_v2 = not explanation_v2 and invocation.schema_id.endswith((".v2", ".v2.1"))
         if narrative_v3:
-            from p_mc_optimizer.llm.narrative_models import WriterContextV3, ReviewerContextV1
+            from p_mc_optimizer.llm.narrative_models import WriterContextV3, reviewer_context_model
             expected_role, context_model = (("explainer", WriterContextV3) if invocation.schema_id == "explainer.v3"
-                                            else ("report_reviewer", ReviewerContextV1))
+                                            else ("report_reviewer", reviewer_context_model(invocation.context)))
         elif explanation_v2:
             from p_mc_optimizer.llm.explanation_v2 import ExplainerContextV2
 
@@ -623,8 +623,8 @@ class LLMGateway:
         except ValueError:
             raise ApiError(422, "INVALID_SCHEMA", "نسخهٔ سیاست گزارش معتبر نیست.") from None
         if (contracts.get("report_generation_policy", frozen if version == "1.0" else None) != frozen
-                or contracts.get("evidence_builder_version", "1.0") != version
-                or contracts.get("formatter_version", "1.0") != version):
+                or contracts.get("evidence_builder_version", "1.0") != frozen["evidence_builder_version"]
+                or contracts.get("formatter_version", "1.0") != frozen["formatter_version"]):
             raise ApiError(422, "INVALID_SCHEMA", "نسخه‌های سیاست و نمایش گزارش هم‌خوان نیستند.")
         return version
 
@@ -649,7 +649,8 @@ class LLMGateway:
                 or actual["evidence"] != journal.get("evidence")
                 or actual["context_hash"] != journal.get("context_hash")
                 or actual["evidence"]["source_core_sha256"] != journal.get("source_core_sha256")
-                or actual["evidence"]["evidence_policy_version"] != version
+                or actual["evidence"]["evidence_policy_version"] != frozen["evidence_policy_version"]
+                or (invocation.role == "report_reviewer" and actual["schema_version"] != frozen.get("reviewer_context_version", "1.0"))
                 or journal.get("report_generation_policy_version", "1.0") != version
                 or journal.get("report_generation_policy", frozen if version == "1.0" else None) != frozen
                 or journal.get("report_generation_policy_hash", frozen["report_generation_policy_hash"] if version == "1.0" else None) != frozen["report_generation_policy_hash"]

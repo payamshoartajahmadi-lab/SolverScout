@@ -62,6 +62,16 @@ class LibraryWorkflow(CatalogWorkflow):
             if error:
                 return self._research_failure(error)
             self.keep("query_plan", plan)
+        if not self.workflow.get("query_plan_target_coverage"):
+            required = {row["implementation_id"] for row in self.workflow["solver_cards"]}
+            targeted = {identifier for query in self.workflow["query_plan"]["queries"]
+                        if query["purpose"] == "implementation_evidence" for identifier in query["implementation_ids"]}
+            coverage = {"required_implementation_ids": sorted(required), "targeted_implementation_ids": sorted(targeted),
+                        "missing_implementation_ids": sorted(required - targeted)}
+            self.keep("query_plan_target_coverage", coverage)
+        if self.workflow["query_plan_target_coverage"]["missing_implementation_ids"]:
+            return self._research_failure(_error("RESEARCH_TARGET_COVERAGE_INCOMPLETE",
+                                                "طرح پژوهش همهٔ روش‌های قابل اجرا را پوشش نمی‌دهد."))
         outcome = self.workflow.get("research_outcome")
         if outcome is None:
             self.phase("searching" if snapshot.retrieval_mode == "web_search" else "fetching_evidence")
@@ -92,3 +102,5 @@ class LibraryWorkflow(CatalogWorkflow):
             research["sync_run"] = sync
         if sync_id := self.workflow.get("source_sync_run_id"):
             research["sync_run_id"] = sync_id
+        if coverage := self.workflow.get("query_plan_target_coverage"):
+            research["query_plan_target_coverage"] = coverage

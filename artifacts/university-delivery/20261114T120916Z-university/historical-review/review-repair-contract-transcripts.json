@@ -1,0 +1,372 @@
+[
+  {
+    "case": "structural_review_repair",
+    "witness_kind": "controlled_mock_contract_transcript; does not establish real model Q5/Q6 quality",
+    "mode": "llm",
+    "real_model_calls": 0,
+    "controlled_invocations": {
+      "explainer": 1,
+      "report_reviewer": 2
+    },
+    "core_before": "2662a4b65bc86072026c062cc5b0ad8417c86f9aae657fb296457e256570527c",
+    "core_after": "2662a4b65bc86072026c062cc5b0ad8417c86f9aae657fb296457e256570527c",
+    "replay_result_equal": true,
+    "replay_invocations_added": 0,
+    "calls": [
+      {
+        "role": "explainer",
+        "schema_id": "explainer.v3",
+        "invocation_id": "67715a40-5237-4526-9c1f-9804760c2230",
+        "input_contract_version": "3.0",
+        "request_hash": "b9497fc63c8b1b6007e9bd9d5c72a7ddc8fc140a6722f9d6122ea2c71ffd2812",
+        "context_hash": "f8a339350e5bfc6b43cea37e773d1b56e13008fb609834487ad58e65fcb9eda2",
+        "draft_hash": null,
+        "section_scope": [
+          "problem",
+          "candidate_rationale",
+          "selection",
+          "solution",
+          "verification_and_limits",
+          "mathematical_analysis"
+        ],
+        "accepted_section_hashes": [],
+        "feedback_present": false,
+        "diagnostics": []
+      },
+      {
+        "role": "report_reviewer",
+        "schema_id": "narrative_review.v1",
+        "invocation_id": "9eaf0ef9-02c5-4117-add6-caf5fef4bc74",
+        "input_contract_version": "1.1",
+        "request_hash": "59cae76fc20911183feaf6e061594bc7adc4c550652bcf074bbb80e40db745a6",
+        "context_hash": "f8a339350e5bfc6b43cea37e773d1b56e13008fb609834487ad58e65fcb9eda2",
+        "draft_hash": "82d8fa527096df1ecb8e397ae5f23481abeba8bb860c23f52b53e1eff4e739f2",
+        "section_scope": [
+          "problem",
+          "candidate_rationale",
+          "selection",
+          "solution",
+          "verification_and_limits"
+        ],
+        "accepted_section_hashes": [],
+        "feedback_present": false,
+        "diagnostics": []
+      },
+      {
+        "role": "report_reviewer",
+        "schema_id": "narrative_review.v1",
+        "invocation_id": "b96c5dc8-551e-4569-a38c-b756e1f6f617",
+        "input_contract_version": "1.1",
+        "request_hash": "cb3d678ea21e1ff7cf9de2e4ad18529d5c9532714a0daedeb6c49e9ce1585f3b",
+        "context_hash": "f8a339350e5bfc6b43cea37e773d1b56e13008fb609834487ad58e65fcb9eda2",
+        "draft_hash": "82d8fa527096df1ecb8e397ae5f23481abeba8bb860c23f52b53e1eff4e739f2",
+        "section_scope": [
+          "problem",
+          "candidate_rationale",
+          "selection",
+          "solution",
+          "verification_and_limits"
+        ],
+        "accepted_section_hashes": [],
+        "feedback_present": true,
+        "diagnostics": [
+          {
+            "field_path": "request_hash",
+            "error_type": "string_pattern_mismatch",
+            "expected_rule": "exactly 64 lowercase hexadecimal characters, copied verbatim from current context.request_hash",
+            "repair_instruction_fa": "مقدار request_hash را از زمینهٔ جاری دقیق و کامل کپی کنید؛ هر ۶۴ نویسهٔ هگز باید حفظ شود و هش بازسازی یا کوتاه نشود. فقط پاسخ بازبین اصلاح شود.",
+            "stage": "structural_validation",
+            "response_sha256": "67da574d96750b97acf8cb883beda0750408ea36f0d0375705e96ff90620ce15",
+            "response_representation": "canonical_json",
+            "review_contract_version": "narrative_review/1.0"
+          }
+        ]
+      }
+    ],
+    "accepted_sections": [
+      {
+        "section_id": "problem",
+        "origin": "llm",
+        "sha256": "2b5736315a6a2dcf337058ed6e990f76d4c7d26c8ea983b696aa2fe0352f00e4"
+      },
+      {
+        "section_id": "candidate_rationale",
+        "origin": "llm",
+        "sha256": "95cbe90eecc641376554ca74a68446afd5ad0123cddcaf5595c7daea72371c1e"
+      },
+      {
+        "section_id": "selection",
+        "origin": "llm",
+        "sha256": "7f79ff19cdc280e72e4e3c7300ca75828ca3c0695d5c0b8af3d2ba9ccefd9acc"
+      },
+      {
+        "section_id": "solution",
+        "origin": "llm",
+        "sha256": "699b2b84f59f73c39b8e3d5259629bee50e97cdc821518c341f61cfba2757d81"
+      },
+      {
+        "section_id": "verification_and_limits",
+        "origin": "llm",
+        "sha256": "5e0a2b400adf5b443da9201c0f7854e3e173036f1c2ca427b558fa4e56a5fb26"
+      }
+    ]
+  },
+  {
+    "case": "scoped_semantic_writer_repair",
+    "witness_kind": "controlled_mock_contract_transcript; does not establish real model Q5/Q6 quality",
+    "mode": "llm",
+    "real_model_calls": 0,
+    "controlled_invocations": {
+      "explainer": 2,
+      "report_reviewer": 2
+    },
+    "core_before": "2662a4b65bc86072026c062cc5b0ad8417c86f9aae657fb296457e256570527c",
+    "core_after": "2662a4b65bc86072026c062cc5b0ad8417c86f9aae657fb296457e256570527c",
+    "replay_result_equal": true,
+    "replay_invocations_added": 0,
+    "calls": [
+      {
+        "role": "explainer",
+        "schema_id": "explainer.v3",
+        "invocation_id": "8c13c110-ee78-4804-bbe1-f16e44b7e8b6",
+        "input_contract_version": "3.0",
+        "request_hash": "b9497fc63c8b1b6007e9bd9d5c72a7ddc8fc140a6722f9d6122ea2c71ffd2812",
+        "context_hash": "f8a339350e5bfc6b43cea37e773d1b56e13008fb609834487ad58e65fcb9eda2",
+        "draft_hash": null,
+        "section_scope": [
+          "problem",
+          "candidate_rationale",
+          "selection",
+          "solution",
+          "verification_and_limits",
+          "mathematical_analysis"
+        ],
+        "accepted_section_hashes": [],
+        "feedback_present": false,
+        "diagnostics": []
+      },
+      {
+        "role": "report_reviewer",
+        "schema_id": "narrative_review.v1",
+        "invocation_id": "36937e32-2c73-48b9-9b32-1ac59c4082df",
+        "input_contract_version": "1.1",
+        "request_hash": "59cae76fc20911183feaf6e061594bc7adc4c550652bcf074bbb80e40db745a6",
+        "context_hash": "f8a339350e5bfc6b43cea37e773d1b56e13008fb609834487ad58e65fcb9eda2",
+        "draft_hash": "82d8fa527096df1ecb8e397ae5f23481abeba8bb860c23f52b53e1eff4e739f2",
+        "section_scope": [
+          "problem",
+          "candidate_rationale",
+          "selection",
+          "solution",
+          "verification_and_limits"
+        ],
+        "accepted_section_hashes": [],
+        "feedback_present": false,
+        "diagnostics": []
+      },
+      {
+        "role": "explainer",
+        "schema_id": "explainer.v3",
+        "invocation_id": "77d1c4bc-fd59-4a26-95d4-f41e072a990a",
+        "input_contract_version": "3.0",
+        "request_hash": "d3b239b58729ca9ba8f05edb95dea4c73cb30a54c55d6ef87c1bfb592841df7e",
+        "context_hash": "f8a339350e5bfc6b43cea37e773d1b56e13008fb609834487ad58e65fcb9eda2",
+        "draft_hash": null,
+        "section_scope": [
+          "selection"
+        ],
+        "accepted_section_hashes": [
+          {
+            "section_id": "problem",
+            "sha256": "2b5736315a6a2dcf337058ed6e990f76d4c7d26c8ea983b696aa2fe0352f00e4"
+          },
+          {
+            "section_id": "candidate_rationale",
+            "sha256": "95cbe90eecc641376554ca74a68446afd5ad0123cddcaf5595c7daea72371c1e"
+          },
+          {
+            "section_id": "solution",
+            "sha256": "699b2b84f59f73c39b8e3d5259629bee50e97cdc821518c341f61cfba2757d81"
+          },
+          {
+            "section_id": "verification_and_limits",
+            "sha256": "5e0a2b400adf5b443da9201c0f7854e3e173036f1c2ca427b558fa4e56a5fb26"
+          }
+        ],
+        "feedback_present": false,
+        "diagnostics": []
+      },
+      {
+        "role": "report_reviewer",
+        "schema_id": "narrative_review.v1",
+        "invocation_id": "a077bc33-a263-44c6-a862-59731214eb83",
+        "input_contract_version": "1.1",
+        "request_hash": "18a36275c36d6073d09e580a0342ad05034450a8c476a6b02a7d0210f048405c",
+        "context_hash": "f8a339350e5bfc6b43cea37e773d1b56e13008fb609834487ad58e65fcb9eda2",
+        "draft_hash": "82d8fa527096df1ecb8e397ae5f23481abeba8bb860c23f52b53e1eff4e739f2",
+        "section_scope": [
+          "selection"
+        ],
+        "accepted_section_hashes": [
+          {
+            "section_id": "problem",
+            "sha256": "2b5736315a6a2dcf337058ed6e990f76d4c7d26c8ea983b696aa2fe0352f00e4"
+          },
+          {
+            "section_id": "candidate_rationale",
+            "sha256": "95cbe90eecc641376554ca74a68446afd5ad0123cddcaf5595c7daea72371c1e"
+          },
+          {
+            "section_id": "solution",
+            "sha256": "699b2b84f59f73c39b8e3d5259629bee50e97cdc821518c341f61cfba2757d81"
+          },
+          {
+            "section_id": "verification_and_limits",
+            "sha256": "5e0a2b400adf5b443da9201c0f7854e3e173036f1c2ca427b558fa4e56a5fb26"
+          }
+        ],
+        "feedback_present": false,
+        "diagnostics": []
+      }
+    ],
+    "accepted_sections": [
+      {
+        "section_id": "problem",
+        "origin": "llm",
+        "sha256": "2b5736315a6a2dcf337058ed6e990f76d4c7d26c8ea983b696aa2fe0352f00e4"
+      },
+      {
+        "section_id": "candidate_rationale",
+        "origin": "llm",
+        "sha256": "95cbe90eecc641376554ca74a68446afd5ad0123cddcaf5595c7daea72371c1e"
+      },
+      {
+        "section_id": "selection",
+        "origin": "llm",
+        "sha256": "7f79ff19cdc280e72e4e3c7300ca75828ca3c0695d5c0b8af3d2ba9ccefd9acc"
+      },
+      {
+        "section_id": "solution",
+        "origin": "llm",
+        "sha256": "699b2b84f59f73c39b8e3d5259629bee50e97cdc821518c341f61cfba2757d81"
+      },
+      {
+        "section_id": "verification_and_limits",
+        "origin": "llm",
+        "sha256": "5e0a2b400adf5b443da9201c0f7854e3e173036f1c2ca427b558fa4e56a5fb26"
+      }
+    ]
+  },
+  {
+    "case": "review_budget_exhausted",
+    "witness_kind": "controlled_mock_contract_transcript; does not establish real model Q5/Q6 quality",
+    "mode": "mixed",
+    "real_model_calls": 0,
+    "controlled_invocations": {
+      "explainer": 1,
+      "report_reviewer": 2
+    },
+    "core_before": "2662a4b65bc86072026c062cc5b0ad8417c86f9aae657fb296457e256570527c",
+    "core_after": "2662a4b65bc86072026c062cc5b0ad8417c86f9aae657fb296457e256570527c",
+    "replay_result_equal": true,
+    "replay_invocations_added": 0,
+    "calls": [
+      {
+        "role": "explainer",
+        "schema_id": "explainer.v3",
+        "invocation_id": "939fec4f-96ee-47d7-b155-222f6e8b0918",
+        "input_contract_version": "3.0",
+        "request_hash": "b9497fc63c8b1b6007e9bd9d5c72a7ddc8fc140a6722f9d6122ea2c71ffd2812",
+        "context_hash": "f8a339350e5bfc6b43cea37e773d1b56e13008fb609834487ad58e65fcb9eda2",
+        "draft_hash": null,
+        "section_scope": [
+          "problem",
+          "candidate_rationale",
+          "selection",
+          "solution",
+          "verification_and_limits",
+          "mathematical_analysis"
+        ],
+        "accepted_section_hashes": [],
+        "feedback_present": false,
+        "diagnostics": []
+      },
+      {
+        "role": "report_reviewer",
+        "schema_id": "narrative_review.v1",
+        "invocation_id": "c0bcb26e-cb72-483d-8c8a-0cff7acc847b",
+        "input_contract_version": "1.1",
+        "request_hash": "59cae76fc20911183feaf6e061594bc7adc4c550652bcf074bbb80e40db745a6",
+        "context_hash": "f8a339350e5bfc6b43cea37e773d1b56e13008fb609834487ad58e65fcb9eda2",
+        "draft_hash": "82d8fa527096df1ecb8e397ae5f23481abeba8bb860c23f52b53e1eff4e739f2",
+        "section_scope": [
+          "problem",
+          "candidate_rationale",
+          "selection",
+          "solution",
+          "verification_and_limits"
+        ],
+        "accepted_section_hashes": [],
+        "feedback_present": false,
+        "diagnostics": []
+      },
+      {
+        "role": "report_reviewer",
+        "schema_id": "narrative_review.v1",
+        "invocation_id": "eee23e1b-7ea1-44bb-9420-2c3bd3cec504",
+        "input_contract_version": "1.1",
+        "request_hash": "05f16a013593d6aa0d83497aac741b9ff7d754ca00b1a5ff1880016e70f2403e",
+        "context_hash": "f8a339350e5bfc6b43cea37e773d1b56e13008fb609834487ad58e65fcb9eda2",
+        "draft_hash": "82d8fa527096df1ecb8e397ae5f23481abeba8bb860c23f52b53e1eff4e739f2",
+        "section_scope": [
+          "problem",
+          "candidate_rationale",
+          "selection",
+          "solution",
+          "verification_and_limits"
+        ],
+        "accepted_section_hashes": [],
+        "feedback_present": true,
+        "diagnostics": [
+          {
+            "field_path": "request_hash",
+            "error_type": "string_pattern_mismatch",
+            "expected_rule": "exactly 64 lowercase hexadecimal characters, copied verbatim from current context.request_hash",
+            "repair_instruction_fa": "مقدار request_hash را از زمینهٔ جاری دقیق و کامل کپی کنید؛ هر ۶۴ نویسهٔ هگز باید حفظ شود و هش بازسازی یا کوتاه نشود. فقط پاسخ بازبین اصلاح شود.",
+            "stage": "structural_validation",
+            "response_sha256": "67da574d96750b97acf8cb883beda0750408ea36f0d0375705e96ff90620ce15",
+            "response_representation": "canonical_json",
+            "review_contract_version": "narrative_review/1.0"
+          }
+        ]
+      }
+    ],
+    "accepted_sections": [
+      {
+        "section_id": "problem",
+        "origin": "llm",
+        "sha256": "2b5736315a6a2dcf337058ed6e990f76d4c7d26c8ea983b696aa2fe0352f00e4"
+      },
+      {
+        "section_id": "candidate_rationale",
+        "origin": "server",
+        "sha256": "435d60917d1ad35051f0e1c9d81e79922abc040559de179770debc3f0242e956"
+      },
+      {
+        "section_id": "selection",
+        "origin": "llm",
+        "sha256": "7f79ff19cdc280e72e4e3c7300ca75828ca3c0695d5c0b8af3d2ba9ccefd9acc"
+      },
+      {
+        "section_id": "solution",
+        "origin": "llm",
+        "sha256": "699b2b84f59f73c39b8e3d5259629bee50e97cdc821518c341f61cfba2757d81"
+      },
+      {
+        "section_id": "verification_and_limits",
+        "origin": "llm",
+        "sha256": "5e0a2b400adf5b443da9201c0f7854e3e173036f1c2ca427b558fa4e56a5fb26"
+      }
+    ]
+  }
+]

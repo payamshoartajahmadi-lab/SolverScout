@@ -1,0 +1,17 @@
+{
+  "source_job_id": "d6ebc690-3609-412d-99d4-c21e2b7cfdc0",
+  "source_status": "FAIL",
+  "original_file_sha256": {
+    "summary.json": "10f247ebebc90f5a1d1b88246947982f2d1a7ecfeb03b52fc6b4a9827c0bf5e8",
+    "workflow.json": "b2ba70b80616ce35d809390e72d5091d72d9176d1959cb04784d7fcea1098e2b",
+    "trials.csv": "25027b464e86b3c13c222bded5f3bbb79df21842825873fb4cc59c196d26f1bc",
+    "report.json": "ff5819e2284faab4a96b4ba296074f712c6db665fb744654ceb933bdf2123432",
+    "invocations.json": "e847dc1fe4b724baa316575b9af329e3d6de998b3ef16500028bce3404688fdb",
+    "human-quality-audit.json": "8c89fa66d4f25551a34b19042473d2c35bcbae0167d8bc574e5d6529d1f8df21",
+    "job.json": "36144336b005cb74a195d163af40ea4d82c98e5e4a617ccae9d326ea4b244205",
+    "documents.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "report.html": "b4551a28d71b7bc5b1e6627e62619508b852d1729638032f1eaa7fd042dfce97"
+  },
+  "original_binding_sha256": "d52fcc7006f03c06ddc358e0d7afb14991274d005760d386f7aaf86d0468c30f",
+  "reason": "one explicit bounded retry of a zero-FE workflow-intent misclassification; original failure preserved"
+}

@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "scope": "rc2 installation update/import/dependencies/source-integrity only; not successful university end-to-end acceptance",
+  "version": "2.1.0rc2",
+  "code_commit": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+  "source_manifest_sha256": "b6f9bcf1468276502e32792f1930a566c2a908414687e04e64c9c34e47769bd8",
+  "new_isolated_venv_created_during_rc1_install": true,
+  "rc2_source_rebuilt_from_committed_archive": true,
+  "rc2_editable_install_succeeded": true,
+  "pip_check": "No broken requirements found.",
+  "all_345_source_files_verified": true,
+  "new_smoke_or_model_runs_during_update": 0,
+  "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+  "existing_genuine_six_qualifications_reused": true,
+  "fresh_live_rc2": "NOT_RUN",
+  "closed_campaign_sends_still": 10,
+  "runtime_paths_changed_since_live_rc1": [
+    "src/p_mc_optimizer/__init__.py",
+    "src/p_mc_optimizer/llm/prompts/formulator.v1.1.txt",
+    "src/p_mc_optimizer/llm/provider.py"
+  ],
+  "ui_reporting_and_numeric_source_unchanged_since_rc1": true
+}

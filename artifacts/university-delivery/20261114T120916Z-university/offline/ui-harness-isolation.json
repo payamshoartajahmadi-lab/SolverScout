@@ -1,0 +1,23 @@
+{
+  "scope": "Offline test harness isolation regression; not a numerical engine change",
+  "command": ".venv/bin/python -m pytest -q tests/test_university_presentation.py tests/test_workflow_exports.py tests/test_v2_workflow.py",
+  "baseline_commit": "a13db656bf56f3fea80051c88198afe9c25352d0",
+  "before": {
+    "passed": 15,
+    "failed": 5,
+    "duration_seconds": 2.3,
+    "cause": "multiprocessing.spawn reexecuted AppTest temporary __main__ and raised NameError for __args"
+  },
+  "after": {
+    "passed": 20,
+    "failed": 0,
+    "duration_seconds": 94.91
+  },
+  "fix": "Finally restore the original __main__ module, __file__, __spec__ and sys.argv after both AppTest cases; preserve every existing assertion.",
+  "changed_tracked_files": [
+    "tests/test_university_presentation.py"
+  ],
+  "production_code_changed": false,
+  "test_sha256_before": "340f9511eb4493e995f931af87ababd95466add55e0f0712193e4f1fc52fa2ee",
+  "test_sha256_after": "1c06665be52a5a15e92dc32137dfc9e539712b637f7f5e19d56b865c41d24c9c"
+}

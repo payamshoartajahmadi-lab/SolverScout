@@ -1,0 +1,4 @@
+project = 'MEALPY'
+copyright = '2021, Thieu'
+author = 'Thieu'
+release = '3.1.0'

@@ -1,0 +1,17 @@
+[
+  {
+    "control": "scanner-control-clean.zip",
+    "status": "PASS",
+    "finding_categories": [],
+    "no_secret_in_output": true
+  },
+  {
+    "control": "scanner-control-negative.zip",
+    "status": "FAIL",
+    "finding_categories": [
+      "private_or_environment_file",
+      "exact_secret_match"
+    ],
+    "no_secret_in_output": true
+  }
+]

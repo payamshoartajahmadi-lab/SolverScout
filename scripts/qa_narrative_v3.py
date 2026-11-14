@@ -37,7 +37,8 @@ from p_mc_optimizer.reporting.narrative_v3 import apply_narrative_v3
 from p_mc_optimizer.runtime_provenance import get_runtime,source_manifest
 from p_mc_optimizer.workflow.narrative_v3 import NarrativeOrchestrator
 
-SCENARIO_LIMITS={'L1':4,'L2':4,'L3':4,'L4':4,'A1':1,'A2':1,'E1':8}
+SCENARIO_LIMITS={'L1':4,'L2':4,'L3':4,'L4':4,'A1':1,'A2':1,'E1':8,
+                 'U1':8,'U2':8,'U-REPORT':4}
 PRIVATE={'credential_ref','credential_generation','api_key','api_token','authorization','headers','base_url','provider_snapshot'}
 
 

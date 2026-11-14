@@ -12,6 +12,7 @@ from p_mc_optimizer.llm.narrative_models import (
     NarrativeSectionV3, NarrativeDraftV3, NarrativeReviewV1, WriterContextV3, ReviewerContextV1,
     ReportEvidenceV3, RenderedSectionV1, RenderedParagraphV1, ValidationIssueV1, SECTION_ORDER, REQUIRED_SECTIONS,
     InvalidSectionRepairV1,
+    ReviewValidationDiagnosticV1, reviewer_context_model,
 )
 from p_mc_optimizer.reporting.evidence_v3 import canonical_bytes, value_hash, evidence_hash
 
@@ -25,8 +26,9 @@ _EXECUTABLE = re.compile(r"\b(?:eval|exec|compile|__import__)\s*\(|\bos\.system\
 
 
 class NarrativeValidationError(ValueError):
-    def __init__(self, *issues):
+    def __init__(self, *issues, diagnostics=()):
         self.issues = list(issues[0]) if len(issues) == 1 and isinstance(issues[0], list) else list(issues)
+        self.diagnostics = list(diagnostics)
         super().__init__(self.issues[0].message_fa if self.issues else "متن با قرارداد گزارش سازگار نیست.")
 
 
@@ -347,29 +349,136 @@ def validate_draft(context, raw_response) -> DraftValidation:
     return result
 
 
+def _review_response_fingerprint(raw):
+    try:
+        if isinstance(raw, (str, bytes)):
+            from hashlib import sha256
+            content = raw if isinstance(raw, bytes) else raw.encode("utf-8", errors="replace")
+            return sha256(content).hexdigest(), "utf8"
+        if raw is not None:
+            return value_hash(_data(raw)), "canonical_json"
+    except (ValueError, TypeError, UnicodeError):
+        pass
+    return None, "unavailable"
+
+
+def _review_diagnostic(raw, stage, path, kind, rule, instruction=None):
+    digest, representation = _review_response_fingerprint(raw)
+    return ReviewValidationDiagnosticV1(
+        stage=stage, field_path=path[:240], error_type=kind[:80], expected_rule=rule[:256],
+        repair_instruction_fa=instruction or "فقط پاسخ بازبین را مطابق قاعدهٔ این فیلد اصلاح کنید؛ متن نویسنده، شواهد و بخش‌های پذیرفته‌شده تغییر نکنند.",
+        response_sha256=digest, response_representation=representation,
+        review_contract_version="narrative_review/1.0",
+    )
+
+
+def _review_structural_diagnostics(raw, error):
+    fields = {"schema_version", "context_hash", "request_hash", "draft_hash", "section_reviews", "section_id", "verdict",
+              "issues", "paragraph_id", "code", "evidence_refs", "message_fa", "required_change_fa"}
+    rules = {
+        "schema_version": 'the response schema_version is exactly "1.0"',
+        "context_hash": "exactly 64 lowercase hexadecimal characters, copied verbatim from current context.context_hash",
+        "request_hash": "exactly 64 lowercase hexadecimal characters, copied verbatim from current context.request_hash",
+        "draft_hash": "exactly 64 lowercase hexadecimal characters, copied verbatim from current context.draft_hash",
+        "section_reviews": "one verdict for each section_scope ID, with no extra or duplicate section",
+        "section_id": "one section ID from the current section_scope",
+        "verdict": "one of accept or reject; accept requires empty issues, reject requires actionable issues",
+        "issues": "a list of closed ValidationIssueV1 objects; empty for accept and nonempty for reject",
+        "code": "one IssueCode allowed by the frozen response JSON schema",
+        "paragraph_id": "null or an existing paragraph ID of this reviewed section",
+        "evidence_refs": "a list of IDs present in the frozen evidence sources",
+        "message_fa": "a string briefly describing the actual error",
+        "required_change_fa": "a string giving a specific correction for that error",
+    }
+    output = []
+    for detail in error.errors(include_input=False, include_context=False, include_url=False)[:20]:
+        location = detail.get("loc", ())
+        path = ""
+        for part in location[:12]:
+            path += f"[{part}]" if type(part) is int else ("." if path else "") + (part if part in fields else "<extra_field>")
+        last = next((part for part in reversed(location) if isinstance(part, str) and part in fields), None)
+        kind = detail.get("type", "schema_invalid")
+        if not isinstance(kind, str) or not re.fullmatch(r"[a-z_]{1,80}", kind): kind = "schema_invalid"
+        rule = "remove the unknown field; only declared response fields are allowed" if kind == "extra_forbidden" else rules.get(last, "a closed NarrativeReviewV1 object with all required fields")
+        if kind == "missing": rule = "required field; " + rule
+        instruction = None
+        if last in {"context_hash", "request_hash", "draft_hash"}:
+            instruction = f"مقدار {last} را از زمینهٔ جاری دقیق و کامل کپی کنید؛ هر ۶۴ نویسهٔ هگز باید حفظ شود و هش بازسازی یا کوتاه نشود. فقط پاسخ بازبین اصلاح شود."
+        output.append(_review_diagnostic(raw, "structural_validation", path or "$", kind, rule, instruction))
+    return output
+
+
+def reviewer_repair_snapshot(raw):
+    """Bounded, sanitized response projection for review feedback, not evidence."""
+    try:
+        parsed = _parse(raw)
+    except (ValueError, TypeError, UnicodeError):
+        text = raw.decode("utf-8", errors="replace") if isinstance(raw, bytes) else raw if isinstance(raw, str) else "null"
+        return _repair_text(text, 8192)
+    if not isinstance(parsed, dict):
+        return _repair_text(json.dumps(parsed, ensure_ascii=False, default=lambda _: "[invalid value]"), 8192)
+    projected = {k: parsed[k] for k in ("schema_version", "context_hash", "request_hash", "draft_hash") if k in parsed and isinstance(parsed[k], (str, int, bool, type(None)))}
+    rows = parsed.get("section_reviews")
+    if isinstance(rows, list):
+        projected["section_reviews"] = []
+        for row in rows[:6]:
+            if not isinstance(row, dict): continue
+            item = {k: row[k] for k in ("section_id", "verdict") if k in row and isinstance(row[k], (str, type(None)))}
+            if isinstance(row.get("issues"), list):
+                item["issues"] = []
+                for detail in row["issues"][:12]:
+                    if not isinstance(detail, dict): continue
+                    projected_issue = {k: detail[k] for k in ("section_id", "paragraph_id", "code", "message_fa", "required_change_fa")
+                                       if k in detail and isinstance(detail[k], (str, type(None)))}
+                    if isinstance(detail.get("evidence_refs"), list):
+                        projected_issue["evidence_refs"] = [ref for ref in detail["evidence_refs"][:32] if isinstance(ref, str)]
+                    item["issues"].append(projected_issue)
+            projected["section_reviews"].append(item)
+    text = json.dumps(projected, ensure_ascii=False, default=lambda _: "[invalid value]", separators=(",", ":"))
+    safe, changed = _repair_text(text, 8192)
+    return safe or "null", changed or projected != parsed
+
+
 def validate_review(context, raw_response) -> NarrativeReviewV1:
     try:
-        ctx=ReviewerContextV1.model_validate(_data(context));errors=_context_checks(ctx)
+        ctx=reviewer_context_model(context).model_validate(_data(context));errors=_context_checks(ctx)
         if errors:raise NarrativeValidationError(errors)
-        result=NarrativeReviewV1.model_validate(_parse(raw_response))
     except NarrativeValidationError:raise
-    except (ValidationError,ValueError,TypeError,UnicodeError):raise NarrativeValidationError(issue("SCHEMA_INVALID")) from None
-    issues=[]
-    if result.context_hash!=ctx.context_hash:issues.append(issue("CONTEXT_MISMATCH"))
-    if result.request_hash!=ctx.request_hash:issues.append(issue("REQUEST_MISMATCH"))
-    if result.draft_hash!=ctx.draft_hash or draft_hash(ctx.context_hash,ctx.draft_sections)!=ctx.draft_hash:issues.append(issue("DRAFT_MISMATCH"))
-    if [_data(s) for s in render_sections(ctx.evidence,ctx.draft_sections)]!=[_data(s) for s in ctx.rendered_sections]:issues.append(issue("DRAFT_MISMATCH"))
+    except (ValidationError,ValueError,TypeError,UnicodeError):
+        raise NarrativeValidationError(issue("SCHEMA_INVALID"), diagnostics=[_review_diagnostic(raw_response,"context_validation","$","invalid_context","the frozen reviewer context must validate before any response is accepted")]) from None
+    try:
+        raw = _parse(raw_response)
+    except (ValueError,TypeError,UnicodeError):
+        raise NarrativeValidationError(issue("SCHEMA_INVALID"), diagnostics=[_review_diagnostic(raw_response,"parsing","$","invalid_json","a complete JSON object conforming to NarrativeReviewV1")]) from None
+    try:
+        result=NarrativeReviewV1.model_validate(raw)
+    except ValidationError as exc:
+        diagnostics = _review_structural_diagnostics(raw_response, exc)
+        detail = issue("SCHEMA_INVALID", message="ساختار پاسخ بازبین معتبر نیست؛ محل خطا: " + ", ".join(d.field_path for d in diagnostics))
+        raise NarrativeValidationError(detail, diagnostics=diagnostics) from None
+    issues, diagnostics = [], []
+    def invalid(code, path, kind, rule, section=None, paragraph=None):
+        issues.append(issue(code,section,paragraph,message="پاسخ بازبین با قرارداد رابطه‌ای سازگار نیست؛ " + rule))
+        diagnostics.append(_review_diagnostic(raw_response,"relational_validation",path,kind,rule))
+    if result.context_hash!=ctx.context_hash:invalid("CONTEXT_MISMATCH","context_hash","context_hash_mismatch","context_hash must equal the frozen evidence hash")
+    if result.request_hash!=ctx.request_hash:invalid("REQUEST_MISMATCH","request_hash","request_hash_mismatch","request_hash must equal the current request hash, copied verbatim")
+    if result.draft_hash!=ctx.draft_hash or draft_hash(ctx.context_hash,ctx.draft_sections)!=ctx.draft_hash:invalid("DRAFT_MISMATCH","draft_hash","draft_hash_mismatch","draft_hash must equal the frozen assembled draft hash")
+    if [_data(s) for s in render_sections(ctx.evidence,ctx.draft_sections)]!=[_data(s) for s in ctx.rendered_sections]:invalid("DRAFT_MISMATCH","rendered_sections","rendered_draft_mismatch","rendered prose must match the frozen draft and evidence")
     by_id={s.section_id:s for s in ctx.draft_sections}
-    if len(by_id)!=len(ctx.draft_sections):issues.append(issue("SCHEMA_INVALID"))
+    if len(by_id)!=len(ctx.draft_sections):invalid("SCHEMA_INVALID","draft_sections","duplicate_draft_section","draft section IDs must be unique")
     expected={s.section_id:s.sha256 for s in ctx.accepted_section_hashes}
-    if len(expected)!=len(ctx.accepted_section_hashes) or any(k not in by_id or section_hash(by_id[k])!=v for k,v in expected.items()):issues.append(issue("OUT_OF_SCOPE_REPAIR"))
+    if len(expected)!=len(ctx.accepted_section_hashes) or any(k not in by_id or section_hash(by_id[k])!=v for k,v in expected.items()):invalid("OUT_OF_SCOPE_REPAIR","accepted_section_hashes","accepted_section_changed","accepted sections must retain their exact registered hashes")
     reviews=[r.section_id for r in result.section_reviews]
-    if len(reviews)!=len(set(reviews)) or set(reviews)!=set(ctx.section_scope):issues.append(issue("OUT_OF_SCOPE_REPAIR"))
+    if len(reviews)!=len(set(reviews)) or set(reviews)!=set(ctx.section_scope):invalid("OUT_OF_SCOPE_REPAIR","section_reviews","section_scope_mismatch","return exactly one verdict per section_scope ID, without omissions, duplicates or extras")
     sources={s.evidence_id for s in ctx.evidence.sources}
-    for review in result.section_reviews:
-        if (review.verdict=="accept" and review.issues) or (review.verdict=="reject" and not review.issues):issues.append(issue("SCHEMA_INVALID",review.section_id))
+    for index,review in enumerate(result.section_reviews):
+        if review.verdict=="accept" and review.issues:invalid("SCHEMA_INVALID",f"section_reviews[{index}].issues","accept_with_issues","accept requires issues=[]",review.section_id)
+        if review.verdict=="reject" and not review.issues:invalid("SCHEMA_INVALID",f"section_reviews[{index}].issues","reject_without_issues","reject requires at least one actionable issue",review.section_id)
         paragraph_ids={p.paragraph_id for p in by_id.get(review.section_id,NarrativeSectionV3(section_id=review.section_id,paragraphs=[])).paragraphs}
-        for detail in review.issues:
-            if detail.section_id!=review.section_id or (detail.paragraph_id is not None and detail.paragraph_id not in paragraph_ids) or set(detail.evidence_refs)-sources:issues.append(issue("UNKNOWN_EVIDENCE",review.section_id,detail.paragraph_id))
-    if issues:raise NarrativeValidationError(issues)
+        for offset,detail in enumerate(review.issues):
+            prefix=f"section_reviews[{index}].issues[{offset}]"
+            if detail.section_id!=review.section_id:invalid("UNKNOWN_EVIDENCE",prefix+".section_id","issue_section_mismatch","issue section_id must match its parent section review",review.section_id)
+            if detail.paragraph_id is not None and detail.paragraph_id not in paragraph_ids:invalid("UNKNOWN_EVIDENCE",prefix+".paragraph_id","unknown_paragraph","paragraph_id must identify an existing paragraph in this reviewed section, or null",review.section_id)
+            if set(detail.evidence_refs)-sources:invalid("UNKNOWN_EVIDENCE",prefix+".evidence_refs","unknown_evidence","every evidence ref must exist in the frozen evidence sources",review.section_id)
+    if issues:raise NarrativeValidationError(issues,diagnostics=diagnostics[:20])
     return result

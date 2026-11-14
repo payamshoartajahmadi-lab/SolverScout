@@ -1,0 +1,25 @@
+{
+  "attempt": 3,
+  "version": "2.1.0rc2",
+  "source_sha": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+  "source_manifest_sha256": "b6f9bcf1468276502e32792f1930a566c2a908414687e04e64c9c34e47769bd8",
+  "prompt_bundle_sha256": "882e689ac63de30bfa877b0bf276d5faedbf7452d1b449ffddb462c6eeeb7634",
+  "started_at_utc": "2026-11-14T13:54:23.616629+00:00",
+  "argv": [
+    "/Users/payam/projects/uni_projects/machine_turing/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "numerical_cost_observer",
+    "--junitxml=artifacts/university-delivery/20261114T120916Z-university/offline/junit.xml"
+  ],
+  "cwd": ".",
+  "pytest_addopts": "-m 'not live_provider'",
+  "observer_scope": "Read-only parent cost observation; numerical results, budgets, seeds unchanged",
+  "observer_sha256": "97e6425c750b5c1787d4a267fc8f657775d36b29201fb013e07f66b3b8dd9dc3",
+  "previous_attempt": "attempt-02/summary.json",
+  "reason_for_repeat": "Actual U2 formulator misclassification corrected by versioned offline prompt/provider provenance fix; current rc2 live acceptance NOT_RUN; prior campaign CLOSED_NOT_READY",
+  "exit_code": 0,
+  "finished_at_utc": "2026-11-14T14:02:33.143441+00:00"
+}

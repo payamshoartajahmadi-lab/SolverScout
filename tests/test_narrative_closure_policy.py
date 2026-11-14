@@ -27,6 +27,7 @@ def snapshot():
 
 @pytest.mark.parametrize("schema,version,expected", [
     ("explainer.v3", "1.1", 8192), ("narrative_review.v1", "1.1", 4096),
+    ("explainer.v3", "1.2", 8192), ("narrative_review.v1", "1.2", 4096),
     ("explainer.v3", "1.0", 1234), ("narrative_review.v1", "1.0", 1234),
     ("formulator.v1", "1.1", 1234), ("connection_test.v1", "1.1", 512),
 ])
@@ -43,11 +44,11 @@ def test_explicit_lower_user_cap_and_unknown_versions():
     resolved=resolve_narrative_policy('explainer.v3',p,policy_version='1.1',max_output_tokens_override=2048)
     assert resolved.effective_max_output_tokens==2048
     assert resolved.policy_hash!=freeze_narrative_policy('1.1')['report_generation_policy_hash']
-    with pytest.raises(ValueError):freeze_narrative_policy('1.2')
+    with pytest.raises(ValueError):freeze_narrative_policy('9.9')
     with pytest.raises(ValueError):freeze_narrative_policy('1.1',max_output_tokens_override=True)
 
 
-@pytest.mark.parametrize('version',['1.0','1.1'])
+@pytest.mark.parametrize('version',['1.0','1.1','1.2'])
 @pytest.mark.parametrize('mode',['json_schema','json_object','text_json'])
 def test_real_gateway_frozen_policy_http_and_exact_replay(tmp_path,version,mode):
     sent=[];seen=[]
@@ -57,7 +58,7 @@ def test_real_gateway_frozen_policy_http_and_exact_replay(tmp_path,version,mode)
             assert body['max_completion_tokens']==512
             return completion({'ok':True})
         context=json.loads(body['messages'][1]['content']);role='explainer' if 'mode' in context else 'report_reviewer'
-        cap=(8192 if role=='explainer' else 4096) if version=='1.1' else 1234
+        cap=(8192 if role=='explainer' else 4096) if version in {'1.1','1.2'} else 1234
         assert body['max_completion_tokens']==cap
         with repo.connect() as db:
             row=db.execute("SELECT metadata,status,provider_snapshot FROM llm_calls WHERE job_id=? ORDER BY started_at DESC,rowid DESC LIMIT 1",(job_id,)).fetchone()
@@ -66,7 +67,8 @@ def test_real_gateway_frozen_policy_http_and_exact_replay(tmp_path,version,mode)
         assert metadata['report_generation_policy_version']==version
         assert metadata['provenance']['request_body_sha256']==sha256(request.content).hexdigest()
         assert frozen['max_output_tokens']==1234 and frozen['revision']==profile['revision']
-        assert metadata['prompt_name']==('explainer.v3.1' if role=='explainer' else 'narrative_review.v1.1') if version=='1.1' else metadata['prompt_name'] in {'explainer.v3','narrative_review.v1'}
+        expected_prompt=('explainer.v3.1' if role=='explainer' else 'narrative_review.v1.2' if version=='1.2' else 'narrative_review.v1.1')
+        assert metadata['prompt_name']==expected_prompt if version in {'1.1','1.2'} else metadata['prompt_name'] in {'explainer.v3','narrative_review.v1'}
         sent.append(role)
         return completion(correct_draft(context) if role=='explainer' else review_response(context))
     with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
@@ -74,6 +76,12 @@ def test_real_gateway_frozen_policy_http_and_exact_replay(tmp_path,version,mode)
         job_id=submit(client,profile,golden()['original_text'])
         owner=str(uuid4());repo.claim_job(owner);repo.update_job(job_id,phase='reporting',worker_id=owner)
         contracts=deepcopy(repo.get_job(job_id)['workflow']['execution_contracts'])
+        # This regression explicitly exercises the historical frozen 1.1 policy;
+        # new jobs now default to the versioned 1.2 reviewer repair protocol.
+        if version=='1.1':
+            contracts.update(report_generation_policy_version='1.1', report_generation_policy=freeze_narrative_policy('1.1'),
+                             evidence_builder_version='1.1', formatter_version='1.1')
+            repo.put_workflow(job_id,'execution_contracts',contracts,worker_id=owner)
         if version=='1.0':
             contracts.update(evidence_builder_version='1.0',formatter_version='1.0')
             contracts.pop('report_generation_policy_version');contracts.pop('report_generation_policy')
@@ -87,7 +95,7 @@ def test_real_gateway_frozen_policy_http_and_exact_replay(tmp_path,version,mode)
         result=NarrativeOrchestrator(report,invoke=invoke,persist=lambda value:repo.put_workflow(job_id,'narrative_v3_journal',value,worker_id=owner),
             prompt_bundle_sha256=sha256(canonical_bytes(prompt_bundle_manifest())).hexdigest(),report_generation_policy_version=version).run()
         assert result['mode']=='llm',{'issues':result['issues'],'attempts':result['attempts'],'sent':sent}
-        assert result['evidence_builder_version']==result['formatter_version']==version
+        assert result['evidence_builder_version']==result['formatter_version']==('1.1' if version=='1.2' else version)
         assert core_hash(report)==initial_core and sent==['explainer','report_reviewer']
         role,schema,ctx,invocation=seen[-1]
         replay=invoke_role(address,token,job_id,role,ctx,invocation_id=invocation,schema_id=schema)
@@ -118,6 +126,10 @@ def test_new_reporting_policy_cannot_bypass_existing_readiness(tmp_path,failure)
     with local_api(tmp_path,httpx.MockTransport(provider)) as (repo,client,address,token):
         profile,_=configure(client,_PROFILE_SETTINGS,_TEST_KEY);job_id=submit(client,profile,golden()['original_text'])
         owner=str(uuid4());repo.claim_job(owner);repo.update_job(job_id,phase='reporting',worker_id=owner)
+        contracts=deepcopy(repo.get_job(job_id)['workflow']['execution_contracts'])
+        contracts.update(report_generation_policy_version='1.1',report_generation_policy=freeze_narrative_policy('1.1'),
+                         evidence_builder_version='1.1',formatter_version='1.1')
+        repo.put_workflow(job_id,'execution_contracts',contracts,worker_id=owner)
         with repo.transaction() as db:
             if failure=='connection_proof':db.execute("DELETE FROM llm_calls WHERE purpose='connection_test'")
             else:db.execute('UPDATE credential_refs SET generation=generation+1')

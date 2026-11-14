@@ -472,7 +472,9 @@ def validate_freeze(root):
     frozen=read(root/'freeze.json')
     if runtime_manifest()!=frozen['runtime'] or harness_manifest()!=frozen['harness']:raise RuntimeError('FROZEN_SOURCE_OR_HARNESS_CHANGED')
     if value_hash(prompt_bundle_manifest())!=frozen['prompt_bundle_sha256']:raise RuntimeError('FROZEN_PROMPTS_CHANGED')
+    if file_hash(root/'fixtures_manifest.json')!=frozen['fixtures_manifest_sha256']:raise RuntimeError('FROZEN_FIXTURE_MANIFEST_CHANGED')
     if input_manifest(root)!=read(root/'fixtures_manifest.json'):raise RuntimeError('FROZEN_INPUT_CHANGED')
+    if file_hash(root/'offline/full-final.xml')!=frozen['full_regression_junit_sha256']:raise RuntimeError('FROZEN_REGRESSION_EVIDENCE_CHANGED')
     for case,digest in frozen['prepared_cases'].items():
         if file_hash(root/'prepared'/f'{case}.json')!=digest:raise RuntimeError('FROZEN_ADVERSARIAL_CASE_CHANGED')
     return frozen
@@ -595,6 +597,8 @@ def verify(root):
             if path.exists():
                 result=read(path);summaries.append(result)
                 if result['scenario_id']!=case or result['status'] not in STATUSES:errors.append('INVALID_SCENARIO_RESULT')
+                expected_type='report_only' if case in REPORT_CASES else 'reviewer_adversarial'
+                if result.get('case_type')!=expected_type:errors.append('INVALID_SCENARIO_CASE_TYPE:'+case)
                 if result['status']=='PASS' and result['case_type']=='report_only':
                     r=read(path.parent/'report.json');n=r['narrative_v3'];accepted=n['accepted_sections'];ids=[s['section']['section_id'] for s in accepted]
                     rubric=result['quality_rubric'];paragraphs={p['paragraph_id'] for s in n['rendered_sections'] for p in s['paragraphs']}
@@ -619,6 +623,8 @@ def verify(root):
             if len(scenarios)!=7 or {s['scenario_id'] for s in scenarios}!=set(ORDER):errors.append('SUMMARY_SCENARIO_SET')
             for s in scenarios:
                 if s.get('status') not in STATUSES or s.get('fresh_live_status','NOT_RUN') not in STATUSES:errors.append('INVALID_OVERALL_SCENARIO_STATUS')
+                if s.get('case_type')!=('report_only' if s['scenario_id'] in REPORT_CASES else 'reviewer_adversarial'):
+                    errors.append('INVALID_OVERALL_CASE_TYPE:'+s['scenario_id'])
                 path=root/'live'/s['scenario_id']/'summary.json'
                 if path.exists() and read(path)['status']!=s.get('status'):errors.append('OVERALL_SCENARIO_STATUS_MISMATCH:'+s['scenario_id'])
                 if not path.exists() and s.get('status')=='PASS':errors.append('MISSING_LIVE_PASS:'+s['scenario_id'])
@@ -629,9 +635,30 @@ def verify(root):
             if len(matrix)!=34 or {r['requirement_id'] for r in matrix}!={f'FC-{i:02d}' for i in range(1,35)}:errors.append('MATRIX_REQUIREMENT_SET')
             for row in matrix:
                 if row['status'] not in STATUSES:errors.append('INVALID_MATRIX_STATUS')
+                paths=json.loads(row['evidence_paths'])
+                safe_paths=isinstance(paths,list) and all(isinstance(p,str) and p and not Path(p).is_absolute()
+                    and '..' not in Path(p).parts and (root/Path(p)).resolve().is_relative_to(root.resolve()) for p in paths)
+                if not safe_paths:errors.append('UNSAFE_EVIDENCE_PATH:'+row['requirement_id'])
                 if row['status']=='PASS':
-                    paths=json.loads(row['evidence_paths'])
-                    if not paths or not all((root/p).is_file() for p in paths):errors.append('MISSING_PASS_EVIDENCE:'+row['requirement_id'])
+                    if not safe_paths or not paths or not all((root/p).is_file() for p in paths):errors.append('MISSING_PASS_EVIDENCE:'+row['requirement_id'])
+                    live_gates={'FC-21':'C-L1','FC-22':'C-L2','FC-23':'C-L3','FC-24':'C-L4',
+                        'FC-25':'C-A1','FC-26':'C-A2','FC-27':'C-E1-R'}
+                    if row['requirement_id'] in live_gates:
+                        case=live_gates[row['requirement_id']]
+                        if not any(s.get('scenario_id')==case and s.get('status')=='PASS' for s in summaries):
+                            errors.append('LIVE_GATE_RESULT_MISMATCH:'+row['requirement_id'])
+                    if row['requirement_id']=='FC-20' and frozen is None:errors.append('MISSING_FROZEN_SOURCE_FOR_ACCEPTANCE')
+            if (root/'summary.json').exists() and len(matrix)==34 and {r['requirement_id'] for r in matrix}=={f'FC-{i:02d}' for i in range(1,35)}:
+                def aggregate(selected):
+                    states=[r['status'] for r in selected]
+                    return 'FAIL' if 'FAIL' in states else 'BLOCKED' if not states or any(s!='PASS' for s in states) else 'PASS'
+                candidate=aggregate([r for r in matrix if r['requirement_id']!='FC-33'])
+                closure=aggregate(matrix)
+                if overall.get('candidate_acceptance_status')!=candidate:errors.append('CANDIDATE_AGGREGATE_MISMATCH')
+                if overall.get('narrative_closure_status')!=closure:errors.append('CLOSURE_AGGREGATE_MISMATCH')
+                if overall.get('delivery_preparation_readiness')!=('READY' if closure=='PASS' else 'NOT_READY'):errors.append('READINESS_AGGREGATE_MISMATCH')
+                if overall.get('packaging_validation')!='NOT_RUN' or overall.get('professor_machine_installation')!='NOT_RUN':errors.append('UNSUPPORTED_DELIVERY_CLAIM')
+        elif (root/'summary.json').exists():errors.append('MISSING_ACCEPTANCE_MATRIX')
         return {'status':'FAIL' if errors else 'PASS','verification_scope':'integrity/accounting only; never upgrades feature acceptance','errors':errors,
             'charged_role_attempts':len(rows),'external_dispatches':ledger['external_dispatches'],'fresh_objective_evaluations':ledger['fresh_objective_evaluations'],
             'solver_calls':ledger['solver_calls'],'frozen':frozen is not None,'scenarios_with_results':len(summaries)}

@@ -1,0 +1,174 @@
+{
+  "schema_version": "university-human-quality-audit/1.0",
+  "scenario": "U1",
+  "job_id": "207d1434-67ec-4f46-b761-01b7d6b2fb3a",
+  "status": "PASS",
+  "audit_scope": "Read-only manual inspection of actual stored live output, its recorded rationale, source passages, journal and numerical records. No extra provider, solver or evaluation call.",
+  "reviewed_at_utc": "2026-11-14T13:22:21.611983+00:00",
+  "report_sha256": "54d589564fbc41f0a52f9ad3e2a35123d1497e9d7e2cb047cafa51f027da5981",
+  "report_file_sha256": "4ffac7149a5d32744c7d05710826e9aa91632385648aa5de3cbe2ee5d7bd5684",
+  "narrative_mode": "llm",
+  "five_required_origins": {
+    "problem": "llm",
+    "candidate_rationale": "llm",
+    "selection": "llm",
+    "solution": "llm",
+    "verification_and_limits": "llm"
+  },
+  "first_reviewer_issues": [],
+  "first_reviewer_scope": [
+    "candidate_rationale",
+    "selection",
+    "solution",
+    "verification_and_limits"
+  ],
+  "first_draft_server_issues": [
+    {
+      "code": "INVALID_BINDING",
+      "evidence_refs": [],
+      "message_fa": "اختلاف دقیق اتصال در این پاراگراف: {\"token_ids_not_in_fact_refs\":[],\"fact_refs_not_used_as_tokens\":[\"problem.sense\"],\"duplicate_fact_refs\":[]}",
+      "paragraph_id": "problem_main",
+      "required_change_fa": "توکن‌های همین پاراگراف و fact_refs را مطابق اختلاف ثبت‌شده اصلاح کنید؛ معیار انتخاب را با توکن مربوط در همان بخش بیان کنید. بخش‌های پذیرفته‌شده را تغییر ندهید؛ سرور هیچ ارجاع یا توکنی را خودکار تغییر نمی‌دهد.",
+      "section_id": "problem"
+    },
+    {
+      "code": "MISSING_REQUIRED_FACT",
+      "evidence_refs": [],
+      "message_fa": "داده‌های ضروری بدون توکن در همین بخش: {\"missing_required_fact_tokens\":[\"problem.sense\"]}",
+      "paragraph_id": null,
+      "required_change_fa": "توکن‌های الزامی {{fact:problem.sense}} را واقعاً در متن همین بخش بیاورید و fact_refs را با توکن‌های متن برابر نگه دارید؛ ذکر مفهوم یا ارجاع به‌تنهایی کافی نیست. بخش‌های پذیرفته‌شده را تغییر ندهید.",
+      "section_id": "problem"
+    }
+  ],
+  "repair_scope": [
+    "problem"
+  ],
+  "repair_cause_fa": "نویسنده ابتدا problem.sense را در fact_refs آورده بود ولی توکن آن را در متن نداشت؛ سرور همین بخش را رد کرد. بازبین نخست چهار بخش سالم را پذیرفت. فقط problem اصلاح و در بازبینی دوم پذیرفته شد.",
+  "accepted_section_hash_preservation": [
+    {
+      "section_id": "candidate_rationale",
+      "before_sha256": "ba60ddd38c5e8d5a1b9d44cd31eba46e9f3e2e22d401e9a71b814f180ed27388",
+      "after_sha256": "ba60ddd38c5e8d5a1b9d44cd31eba46e9f3e2e22d401e9a71b814f180ed27388",
+      "unchanged": true
+    },
+    {
+      "section_id": "selection",
+      "before_sha256": "fd3a9742fd33562784f53515d035a8cceeefc5809079f9ca5b949c27f2b5eced",
+      "after_sha256": "fd3a9742fd33562784f53515d035a8cceeefc5809079f9ca5b949c27f2b5eced",
+      "unchanged": true
+    },
+    {
+      "section_id": "solution",
+      "before_sha256": "fdf7c19ab755bafe01658a50aebc195ffa4c31ce9f2957c6cc9afe4b9e8d7753",
+      "after_sha256": "fdf7c19ab755bafe01658a50aebc195ffa4c31ce9f2957c6cc9afe4b9e8d7753",
+      "unchanged": true
+    },
+    {
+      "section_id": "verification_and_limits",
+      "before_sha256": "4ddefe2beb981edda5b90f6274ecd9d4840bf7aa5cbe662ebcde3c3487c2c0ec",
+      "after_sha256": "4ddefe2beb981edda5b90f6274ecd9d4840bf7aa5cbe662ebcde3c3487c2c0ec",
+      "unchanged": true
+    }
+  ],
+  "reporting_calls": 4,
+  "review_response_structural_repair_exercised_live": false,
+  "review_response_structural_repair_witness": "Offline contract/mock evidence only; this U1 did not require a structurally invalid reviewer response repair.",
+  "findings": [
+    {
+      "topic": "problem_and_result",
+      "status": "PASS",
+      "paragraph_ids": [
+        "problem_main",
+        "solution_point"
+      ],
+      "finding_fa": "تابع، جهت کمینه‌سازی، دو متغیر حقیقی و کران‌های [-5,5] با ورودی منطبق‌اند. نقطه [1.4,-2.2] و مقدار صفر مطابق رکورد جواب هستند."
+    },
+    {
+      "topic": "candidate_specificity_and_source_scope",
+      "status": "PASS",
+      "paragraph_ids": [
+        "candidate_de",
+        "candidate_cma",
+        "candidate_pso"
+      ],
+      "finding_fa": "برای DE سازوکار تفاضلی و جهش/تقاطع، برای CMA-ES سازگاری کوواریانس و تفاوت وزن مختصات، و برای PSO مؤلفه‌های محلی/سراسری ذکر شده‌اند. شواهد، بخش اختصاصی کلاس‌های مربوط‌اند. تناسب با همین تابع به‌عنوان استنباط یا دلیل ثبت‌شده معرفی شده و به مستندات ادعای برتری عددی نسبت داده نشده است.",
+      "evidence_refs": [
+        "source:e5688c521c108eeba033f3bbe2816445",
+        "source:2bc5c5f74e7e8201bd86153c7be2ea80",
+        "source:f90f919ef50faa4f1605f3b5cc8a551a"
+      ]
+    },
+    {
+      "topic": "joint_candidate_paragraph_reading",
+      "status": "PASS",
+      "paragraph_ids": [
+        "candidate_de",
+        "candidate_cma",
+        "candidate_pso"
+      ],
+      "finding_fa": "هر سه پاراگراف کنار هم خوانده شدند. توضیح DE، استنباط تناسب را از نتیجه تجربی جدا می‌کند؛ جمله CMA-ES محدودیت شاهد آن روش را روشن می‌کند؛ پایان PSO نقش مستقل پایلوت در انتخاب را یک‌بار جمع‌بندی می‌کند. دلایل مستقل حفظ شده‌اند و هشدار یکسانی با سه بیان جایگزین دلایل هر سه روش نشده است. این ارزیابی فقط همین متن واقعی است؛ آزمون تازه‌ای برای توان کشف کنترل منفی تاریخی نیست."
+    },
+    {
+      "topic": "empirical_selection",
+      "status": "PASS",
+      "paragraph_ids": [
+        "selection_pilots"
+      ],
+      "finding_fa": "برنده PSO و معیار میانه امتیاز درست‌اند؛ سه تکرار و 500 ارزیابی برای هر پایلوت مطابق رکوردهاست. متن از میانه پایین‌تر، برتری در همه تکرارها یا معناداری آماری نتیجه نمی‌گیرد."
+    },
+    {
+      "topic": "solution_origin",
+      "status": "PASS",
+      "paragraph_ids": [
+        "solution_point"
+      ],
+      "finding_fa": "روش تولیدکننده PSO و مرحله main هستند و هر دو صریح و مطابق solution_origin گزارش شده‌اند؛ از نام روش منتخب به‌تنهایی منشأ استنتاج نشده است."
+    },
+    {
+      "topic": "budget_semantic_scope",
+      "status": "PASS",
+      "paragraph_ids": [
+        "verification_budget"
+      ],
+      "finding_fa": "14998 صریحاً مصرف اجرای اصلی و 20000 صریحاً مصرف کل اجرای کامل نامیده شده است. متن، 20000 را جمع main+pilot معرفی نمی‌کند و باقی‌مانده را به مرحله‌ای حدسی نسبت نمی‌دهد.",
+      "recorded_counts": {
+        "main": 14998,
+        "pilot": 4500,
+        "whole_job": 20000,
+        "main_plus_pilot": 19498
+      }
+    },
+    {
+      "topic": "verification_and_limits",
+      "status": "PASS",
+      "paragraph_ids": [
+        "verification_check"
+      ],
+      "finding_fa": "بازبینی عددی موفق و مقادیر تکرار صفر دقیق‌اند. سازگاری نقطه از گواهی بهینگی سراسری جدا شده و هیچ تضمین کلی یا گواهی صادرنشده به حل‌گر نسبت داده نشده است."
+    },
+    {
+      "topic": "readability",
+      "status": "PASS",
+      "paragraph_ids": [
+        "problem_main",
+        "candidate_de",
+        "candidate_cma",
+        "candidate_pso",
+        "selection_pilots",
+        "solution_point",
+        "verification_check",
+        "verification_budget"
+      ],
+      "finding_fa": "پنج بخش اصلی قابل فهم‌اند و نام فارسی روش‌ها آمده است. جمله آغاز DE و پایان پاراگراف جواب کمی طولانی‌اند؛ این نکته سلیقه‌ای است و نقص واقعی یا مانع پذیرش این سند محسوب نمی‌شود."
+    }
+  ],
+  "samples": {
+    "candidate_cma": "برای سازگاری ماتریس کوواریانس (CMA-ES)، دلیل ثبت‌شده سازگاری ماتریس کوواریانس با ساختار ناهمسانگرد تابع، یعنی تفاوت وزن مختصات، بود؛ آزمودن این ویژگی برای مسئله استنباطی متناسب دانسته شد. منبع، نام روش و ماهیت سازگاری کوواریانس را شرح می‌دهد، نه برتری آن در این اجرا.",
+    "selection_pilots": "روش منتخب ازدحام ذرات (PSO) بود و معیار تصمیم، میانهٔ امتیاز پایلوت. در پایلوت ازدحام ذرات (PSO)، میانهٔ امتیاز 1.1796532e-06 و میانهٔ مقدار خام تابع 1.1796532e-06 ثبت شد؛ 3 تکرار معتبر داشت و در هر پایلوت ثبت‌شدهٔ این روش 500 ارزیابی آغاز شد. روش بعدی، تکامل تفاضلی (DE)، میانهٔ امتیاز 0.0001671537 و میانهٔ مقدار خام تابع 0.0001671537 داشت؛ 3 تکرار معتبر ثبت شد و در هر پایلوت ثبت‌شدهٔ آن 500 ارزیابی آغاز شد. با توجه به هدف کمینه‌سازی، میانهٔ پایین‌ترِ روش منتخب مبنای این گزینش بود؛ این مقایسه نتیجهٔ پایلوت‌ها را بیان می‌کند و به‌تنهایی برتری در هر تکرار را ثابت نمی‌کند.",
+    "verification_budget": "در اجرای اصلی، شمار ارزیابی‌های آغازشده 14998 بود. کل کارِ آغازشده در سطح اجرای کامل، شامل کار بیرون از اجرای اصلی نیز، 20000 ثبت شد؛ این دو عدد دامنه‌های متفاوتی دارند و کل اجرا را نباید فقط به اجرای اصلی یا پایلوت‌ها نسبت داد."
+  },
+  "historical_adversarial_campaign": "UNCHANGED; no new claim that previous Q5/Q6 negative-control campaigns passed",
+  "new_model_calls": 0,
+  "new_solver_executions": 0,
+  "new_objective_evaluations": 0
+}

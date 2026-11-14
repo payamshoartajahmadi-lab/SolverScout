@@ -9,7 +9,7 @@ from urllib.parse import urljoin, urlsplit
 from protego import Protego
 
 from .contracts import SourceDocument
-from .extraction import PARSER_VERSION, extract, metadata_date
+from .extraction import extract, extraction_profile, metadata_date
 from .source_policy import SourcePolicyError
 from .storage import digest, now
 from .transport import PinnedTransport, ResearchError
@@ -112,12 +112,13 @@ class DocumentFetcher:
             "document_id": digest([session.job_id, requested])[:32],
             "source_id": hit.source_id,
             "requested_url": requested,
-            "parser_version": PARSER_VERSION,
+            "parser_version": extraction_profile(session.limits.max_text_chars),
             "published_at": hit.published_at,
             "updated_at": hit.updated_at,
         }
         conditional = {}
-        if cached:
+        same_extraction = cached is not None and cached.parser_version == args["parser_version"]
+        if same_extraction:
             for name, value in (("If-None-Match", cached.etag), ("If-Modified-Since", cached.last_modified)):
                 if value and value.isascii() and "\r" not in value and "\n" not in value:
                     conditional[name] = value
@@ -129,6 +130,8 @@ class DocumentFetcher:
             args.update(final_url=final_url, redirect_chain=chain)
             validated_at = now()
             if response.status == 304:
+                if cached is not None and not same_extraction:
+                    raise ResearchError("SOURCE_PARSER_REEXTRACTION_REQUIRED")
                 if not cached or not conditional or cached.final_url != final_url:
                     raise ResearchError("SOURCE_INVALID_REVALIDATION")
                 text = session.store.load_text(cached.text_sha256)

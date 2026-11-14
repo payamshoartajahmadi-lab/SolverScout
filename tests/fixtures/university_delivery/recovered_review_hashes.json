@@ -1,0 +1,116 @@
+{
+  "provenance": "Recovered two reviewer responses from the manual baseline job; only closed review fields retained. Not synthetic model output. Full frozen context/original report retained in private historical evidence.",
+  "source_job_id": "1793b4ff-a644-479e-891f-bf77c7208a7b",
+  "output_contract": "NarrativeReviewV1/1.0",
+  "expected_request_hash": "375d8f6dbbbb113e6aaf26e404aedc07f2d25333d1c591d38579d2535e1b35dc",
+  "cases": [
+    {
+      "call_id": "cdf5993b-bf90-49f7-a474-4d54d70c3d52",
+      "journal_key": "review",
+      "response": {
+        "context_hash": "c24afdecba670f76fc345eb14f7d569ad67f6fa9fe36d7e3c7d3c780e21c5a34",
+        "draft_hash": "4a3d73df5e65c053094f4a64f820c24774d66beac085a6e28778bcf3927d179e",
+        "request_hash": "375d8f6dbbbb113e6aaf26e404aedc07f2d25333e1b5d84e1b35dc",
+        "schema_version": "1.0",
+        "section_reviews": [
+          {
+            "issues": [],
+            "section_id": "problem",
+            "verdict": "accept"
+          },
+          {
+            "issues": [],
+            "section_id": "candidate_rationale",
+            "verdict": "accept"
+          },
+          {
+            "issues": [
+              {
+                "code": "REDUNDANT_CONTENT",
+                "evidence_refs": [
+                  "report:decision"
+                ],
+                "message_fa": "نام روش منتخب در عبارت «روش ثبت‌شدهٔ منتخب ...، یعنی ...» دوبار یکسان آمده است.",
+                "paragraph_id": "selection_medians",
+                "required_change_fa": "ذکر تکراری نام روش را حذف کنید و نام منتخب را فقط یک‌بار بیاورید.",
+                "section_id": "selection"
+              }
+            ],
+            "section_id": "selection",
+            "verdict": "reject"
+          },
+          {
+            "issues": [
+              {
+                "code": "REDUNDANT_CONTENT",
+                "evidence_refs": [
+                  "report:solution"
+                ],
+                "message_fa": "در متن رندرشده، «اجرای» در عبارت «اجرای اجرای اصلی» تکرار شده است.",
+                "paragraph_id": "solution_point",
+                "required_change_fa": "تکرار واژه را حذف کنید تا عبارت منشأ نقطه روشن و روان باشد.",
+                "section_id": "solution"
+              }
+            ],
+            "section_id": "solution",
+            "verdict": "reject"
+          },
+          {
+            "issues": [],
+            "section_id": "verification_and_limits",
+            "verdict": "accept"
+          }
+        ]
+      },
+      "expected_error": {
+        "field_path": "request_hash",
+        "error_type": "string_pattern_mismatch",
+        "actual_characters": 54,
+        "required_characters": 64
+      }
+    },
+    {
+      "call_id": "7560aad1-bc6e-40ab-9c44-5b9cd960c8d9",
+      "journal_key": "review:retry",
+      "response": {
+        "context_hash": "c24afdecba670f76fc345eb14f7d569ad67f6fa9fe36d7e3c7d3c780e21c5a34",
+        "draft_hash": "4a3d73df5e65c053094f4a64f820c24774d66beac085a6e28778bcf3927d179e",
+        "request_hash": "375d8f6dbbbb113e6aaf26e404aedc07f2d25333e1b35dc",
+        "schema_version": "1.0",
+        "section_reviews": [
+          {
+            "issues": [],
+            "section_id": "problem",
+            "verdict": "accept"
+          },
+          {
+            "issues": [],
+            "section_id": "candidate_rationale",
+            "verdict": "accept"
+          },
+          {
+            "issues": [],
+            "section_id": "selection",
+            "verdict": "accept"
+          },
+          {
+            "issues": [],
+            "section_id": "solution",
+            "verdict": "accept"
+          },
+          {
+            "issues": [],
+            "section_id": "verification_and_limits",
+            "verdict": "accept"
+          }
+        ]
+      },
+      "expected_error": {
+        "field_path": "request_hash",
+        "error_type": "string_pattern_mismatch",
+        "actual_characters": 47,
+        "required_characters": 64
+      }
+    }
+  ]
+}

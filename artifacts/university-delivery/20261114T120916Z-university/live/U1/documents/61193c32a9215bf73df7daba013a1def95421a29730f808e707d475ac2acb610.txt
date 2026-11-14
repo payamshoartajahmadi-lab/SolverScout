@@ -1,0 +1,1669 @@
+## mealpy.evolutionary_based.BWOA.OriginalBWOA
+
+Bases: Optimizer
+
+The original version of: Black Widow Optimization Algorithm (BWOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+pp (float) – Procreating rate, in range (0.0, 1.0). Default is 0.6.
+
+cr (float) – Cannibalism rate, in range (0.0, 1.0). Default is 0.44.
+
+pm (float) – Mutation rate, in range (0.0, 1.0). Default is 0.4.
+
+References
+
+Hayyolalam, V. and Pourhaji Kazem, A.A., 2020.
+
+Black widow optimization algorithm: A novel meta-heuristic approach for solving engineering optimization problems.
+
+Engineering Applications of Artificial Intelligence, 87, 103249. https://doi.org/10.1016/j.engappai.2019.103249
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, BWOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function,
+
+>>> }
+
+>>>
+
+>>> model = BWOA.OriginalBWOA(epoch=1000, pop_size=50, pp=0.6, cr=0.44, pm=0.4)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.CRO.OCRO
+
+Bases: OriginalCRO
+
+The original version of: Opposition-based Coral Reefs Optimization (OCRO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+po (float) – The rate between free/occupied at the beginning, in range (0.0, 1.0). Default is 0.4.
+
+Fb (float) – BroadcastSpawner/ExistingCorals rate, in range (0.0, 1.0). Default is 0.9.
+
+Fa (float) – Fraction of corals duplicates its self and tries to settle in a different part of the reef, in range (0.0, 1.0). Default is 0.1.
+
+Fd (float) – Fraction of the worse health corals in reef will be applied depredation, in range (0.0, 1.0). Default is 0.1.
+
+Pd (float) – Probability of depredation, in range (0.0, 1.0). Default is 0.5.
+
+GCR (float) – Probability for mutation process, in range (0.0, 1.0). Default is 0.1.
+
+gamma_min (float) – Factor for mutation process, in range [0.01, 0.1]. Default is 0.02.
+
+gamma_max (float) – Factor for mutation process, in range [0.1, 0.5]. Default is 0.2.
+
+n_trials (int) – Number of attempts for a larva to set in the reef, in range [2, int(pop_size / 2)]. Default is 3.
+
+restart_count (int) – Reset the whole population after global best solution is not improved after restart_count times, in range [2, int(epoch / 2)]. Default is 20.
+
+References
+
+Nguyen, T., Nguyen, T., Nguyen, B.M. and Nguyen, G., 2019.
+
+Efficient time-series forecasting using neural network and opposition-based coral reefs optimization.
+
+International Journal of Computational Intelligence Systems, 12(2), p.1144.
+
+https://dx.doi.org/10.2991/ijcis.d.190930.003
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, CRO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = CRO.OCRO(epoch=1000, pop_size=50, po = 0.4, Fb = 0.9, Fa = 0.1, Fd = 0.1, Pd = 0.5, GCR = 0.1, gamma_min = 0.02, gamma_max = 0.2, n_trials = 5, restart_count = 50)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.CRO.OriginalCRO
+
+Bases: Optimizer
+
+The original version of: Coral Reefs Optimization (CRO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+po (float) – The rate between free/occupied at the beginning, in range (0.0, 1.0). Default is 0.4.
+
+Fb (float) – BroadcastSpawner/ExistingCorals rate, in range (0.0, 1.0). Default is 0.9.
+
+Fa (float) – Fraction of corals duplicates its self and tries to settle in a different part of the reef, in range (0.0, 1.0). Default is 0.1.
+
+Fd (float) – Fraction of the worse health corals in reef will be applied depredation, in range (0.0, 1.0). Default is 0.1.
+
+Pd (float) – The maximum of probability of depredation, in range (0.0, 1.0). Default is 0.5.
+
+GCR (float) – Probability for mutation process, in range (0.0, 1.0). Default is 0.1.
+
+gamma_min (float) – Factor for mutation process, in range (0.0, 0.15). Default is 0.02.
+
+gamma_max (float) – Factor for mutation process, in range (0.15, 1.0). Default is 0.2.
+
+n_trials (int) – Number of attempts for a larva to set in the reef, in range [2, int(pop_size / 2)]. Default is 3.
+
+References
+
+Salcedo-Sanz, S., Del Ser, J., Landa-Torres, I., Gil-López, S. and Portilla-Figueras, J.A., 2014.
+
+The coral reefs optimization algorithm: a novel metaheuristic for efficiently solving optimization problems.
+
+The Scientific World Journal, 2014. https://doi.org/10.1155/2014/739768
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, CRO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = CRO.OriginalCRO(epoch=1000, pop_size=50, po = 0.4, Fb = 0.9, Fa = 0.1, Fd = 0.1, Pd = 0.5, GCR = 0.1, gamma_min = 0.02, gamma_max = 0.2, n_trials = 5)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.DE.JADE
+
+Bases: Optimizer
+
+The original version of: Adaptive Differential Evolution (JADE)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+miu_f (float) – Initial adaptive f, in range (0.0, 1.0). Default is 0.5.
+
+miu_cr (float) – Initial adaptive cr, in range (0.0, 1.0). Default is 0.5.
+
+pt (float) – The percent of top best agents (p in the paper), in range (0.0, 1.0). Default is 0.1.
+
+ap (float) – The Adaptation Parameter control value of f and cr (c in the paper), in range (0.0, 1.0). Default is 0.1.
+
+References
+
+Zhang, J. and Sanderson, A.C., 2009.
+
+JADE: adaptive differential evolution with optional external archive.
+
+IEEE Transactions on evolutionary computation, 13(5), pp.945-958. https://doi.org/10.1109/TEVC.2009.2014613
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, DE
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = DE.JADE(epoch=1000, pop_size=50, miu_f = 0.5, miu_cr = 0.5, pt = 0.1, ap = 0.1)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.DE.OriginalDE
+
+Bases: Optimizer
+
+The original version of: Differential Evolution (DE)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+wf (float) – Weighting factor, in range (-3.0, 3.0). Default is 0.1.
+
+cr (float) – Crossover rate, in range [0.5, 0.95]. Default is 0.9.
+
+strategy (int) – There are lots of variant version of DE algorithm, in range [0, 5].
+
+- 0: DE/rand/1/bin
+
+- 1: DE/best/1/bin
+
+- 2: DE/best/2/bin
+
+- 3: DE/rand/2/bin
+
+- 4: DE/current-to-best/1/bin
+
+- 5: DE/current-to-rand/1/bin
+
+References
+
+Storn, R., & Price, K. (1997). Differential evolution–a simple and efficient heuristic for global
+
+optimization over continuous spaces. Journal of global optimization, 11(4), 341-359.
+
+https://doi.org/10.1023/A:1008202821328
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, DE
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = DE.OriginalDE(epoch=1000, pop_size=50, wf = 0.7, cr = 0.9, strategy = 0)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.DE.SADE
+
+Bases: Optimizer
+
+The original version of: Self-Adaptive Differential Evolution (SADE)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+References
+
+Qin, A.K. and Suganthan, P.N., 2005, September.
+
+Self-adaptive differential evolution algorithm for numerical optimization.
+
+In 2005 IEEE congress on evolutionary computation (Vol. 2, pp. 1785-1791). IEEE.
+
+https://doi.org/10.1109/CEC.2005.1554904
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, DE
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = DE.SADE(epoch=1000, pop_size=50)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.DE.SAP_DE
+
+Bases: Optimizer
+
+The original version of: Self-Adaptive Populations Differential Evolution (SAP-DE)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 1000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+branch (str) – Gaussian (absolute) or uniform (relative) method, in [“ABS”, “REL”]. Default is “ABS”.
+
+References
+
+Teo, J., 2006. Exploring dynamic self-adaptive populations in differential evolution.
+
+Soft Computing, 10(8), pp.673-686. https://doi.org/10.1007/s00500-005-0537-1
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, DE
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = DE.SAP_DE(epoch=1000, pop_size=50, branch = "ABS")
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.EP.LevyEP
+
+Bases: OriginalEP
+
+Our developed Levy-flight version: Evolutionary Programming (LevyEP)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size (miu in the paper), in range [5, 10000]. Default is 100.
+
+bout_size (float) – Percentage of child agents implement tournament selection, in range (0.0, 1.0). Default is 0.05.
+
+Note
+
+Levy-flight is applied to EP, flow and some equations is changed.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, EP
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = EP.LevyEP(epoch=1000, pop_size=50, bout_size = 0.05)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.EP.OriginalEP
+
+Bases: Optimizer
+
+The original version of: Evolutionary Programming (EP)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size (miu in the paper), in range [5, 10000]. Default is 100.
+
+bout_size (float) – Percentage of child agents implement tournament selection, in range (0.0, 1.0). Default is 0.05.
+
+Links
+
+https://cleveralgorithms.com/nature-inspired/evolution/evolutionary_programming.html
+
+https://github.com/clever-algorithms/CleverAlgorithms
+
+References
+
+Yao, X., Liu, Y. and Lin, G., 1999. Evolutionary programming made faster.
+
+IEEE Transactions on Evolutionary computation, 3(2), pp.82-102.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, EP
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = EP.OriginalEP(epoch=1000, pop_size=50, bout_size = 0.05)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.ES.CMA_ES
+
+Bases: Optimizer
+
+The original version of: Covariance Matrix Adaptation Evolution Strategy (CMA-ES)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size (miu in the paper), in range [5, 10000]. Default is 100.
+
+References
+
+Hansen, Nikolaus, Sibylle D. Müller, and Petros Koumoutsakos.
+
+Reducing the time complexity of the derandomized evolution strategy with covariance matrix adaptation (CMA-ES).
+
+Evolutionary computation 11.1 (2003): 1-18. https://doi.org/10.1162/106365603321828970
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, ES
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = ES.CMA_ES(epoch=1000, pop_size=50)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.ES.LevyES
+
+Bases: OriginalES
+
+Our developed Levy-flight version: Evolution Strategies (ES)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size (miu in the paper), in range [5, 10000]. Default is 100.
+
+lamda (float) – Percentage of child agents evolving in the next generation, in range (0.0, 1.0). Default is 0.75.
+
+Note
+
+The Levy-flight is applied, the flow and equations is changed
+
+Link: https://cleveralgorithms.com/nature-inspired/evolution/evolution_strategies.html
+
+References
+
+1. Beyer, H.G. and Schwefel, H.P., 2002. Evolution strategies–a comprehensive introduction.
+
+Natural computing, 1(1), pp.3-52. https://doi.org/10.1023/A:1015059928466
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, ES
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = ES.LevyES(epoch=1000, pop_size=50, lamda = 0.75)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.ES.OriginalES
+
+Bases: Optimizer
+
+The original version of: Evolution Strategies (ES)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size (miu in the paper), in range [5, 10000]. Default is 100.
+
+lamda (float) – Percentage of child agents evolving in the next generation, in range (0.0, 1.0). Default is 0.75.
+
+Links
+
+https://cleveralgorithms.com/nature-inspired/evolution/evolution_strategies.html
+
+https://github.com/Jason2Brownlee/CleverAlgorithms
+
+References
+
+Beyer, H.G. and Schwefel, H.P., 2002. Evolution strategies–a comprehensive introduction.
+
+Natural computing, 1(1), pp.3-52. https://doi.org/10.1023/A:1015059928466
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, ES
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = ES.OriginalES(epoch=1000, pop_size=50, lamda = 0.75)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.ES.Simple_CMA_ES
+
+Bases: Optimizer
+
+The simplified version of: Covariance Matrix Adaptation Evolution Strategy (Simple-CMA-ES)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size (miu in the paper), in range [5, 10000]. Default is 100.
+
+Note
+
+This implementation is inspired from this version: https://github.com/jenkspt/CMA-ES
+
+References
+
+Hansen, N., & Ostermeier, A. (2001). Completely derandomized self-adaptation in evolution strategies.
+
+Evolutionary computation, 9(2), 159-195. https://doi.org/10.1162/106365601750190398
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, ES
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = ES.Simple_CMA_ES(epoch=1000, pop_size=50)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.FPA.OriginalFPA
+
+Bases: Optimizer
+
+The original version of: Flower Pollination Algorithm (FPA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+p_s (float) – Switch probability, in range (0.0, 1.0). Default is 0.8.
+
+levy_multiplier (float) – Multiplier factor of Levy-flight trajectory, in range (-10000.0, 10000.0). Default is 0.1.
+
+References
+
+Yang, X.S., 2012, September. Flower pollination algorithm for global optimization.
+
+In International conference on unconventional computing and natural computation (pp. 240-249).
+
+Springer, Berlin, Heidelberg. https://doi.org/10.1007/978-3-642-32894-7_27
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, FPA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = FPA.OriginalFPA(epoch=1000, pop_size=50, p_s = 0.8, levy_multiplier = 0.2)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.GA.BaseGA
+
+Bases: Optimizer
+
+The original version of: Genetic Algorithm (GA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+pc (float) – Cross-over probability, in range (0.0, 1.0). Default is 0.95.
+
+pm (float) – Mutation probability, in range (0.0, 1.0). Default is 0.025.
+
+selection (str, optional) – Selection method, in [“tournament”, “random”, “roulette”]. Default is “tournament”.
+
+k_way (float, optional) – Set it when use “tournament” selection, in range (0.0, 1.0). Default is 0.2.
+
+crossover (str, optional) – Crossover method, in [“one_point”, “multi_points”, “uniform”, “arithmetic”]. Default is “uniform”.
+
+mutation_multipoints (bool, optional) – Effect on mutation process. Default is True.
+
+mutation (str, optional) – Mutation method, can be [“flip”, “swap”] for multipoints and [“flip”, “swap”, “scramble”, “inversion”] for one-point. Default is “flip”.
+
+Links
+
+https://www.tutorialspoint.com/genetic_algorithms/genetic_algorithms_quick_guide.htm
+
+https://www.analyticsvidhya.com/blog/2017/07/introduction-to-genetic-algorithm/
+
+References
+
+Whitley, D., 1994. A genetic algorithm tutorial. Statistics and computing, 4(2), pp.65-85.
+
+https://doi.org/10.1007/BF00175354
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, GA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "obj_func": objective_function,
+
+>>> "minmax": "min",
+
+>>> }
+
+>>>
+
+>>> model = GA.BaseGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+>>>
+
+>>> model2 = GA.BaseGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05, selection="tournament", k_way=0.4, crossover="multi_points")
+
+>>>
+
+>>> model3 = GA.BaseGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05, crossover="one_point", mutation="scramble")
+
+>>>
+
+>>> model4 = GA.BaseGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05, crossover="arithmetic", mutation_multipoints=True, mutation="swap")
+
+>>>
+
+>>> model5 = GA.BaseGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05, selection="roulette", crossover="multi_points")
+
+>>>
+
+>>> model6 = GA.BaseGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05, selection="random", mutation="inversion")
+
+>>>
+
+>>> model7 = GA.BaseGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05, crossover="arithmetic", mutation="flip")
+
+## mealpy.evolutionary_based.GA.EliteMultiGA
+
+Bases: MultiGA
+
+The developed elite multipoints-mutation version of: Genetic Algorithm (GA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Population size, which equals elite_group (elite_best + elite_worst) + non_elite_group. Default is 100.
+
+pc (float) – Cross-over probability, in range [0.7, 0.95]. Default is 0.95.
+
+pm (float) – Mutation probability, in range [0.01, 0.2]. Default is 0.025.
+
+selection (str) – Selection method, in [“roulette”, “tournament”, “random”]. Default is “tournament”.
+
+k_way (float) – Set it when use “tournament” selection. Default is 0.2.
+
+crossover (str) – Crossover method, in [“one_point”, “multi_points”, “uniform”, “arithmetic”]. Default is “uniform”.
+
+mutation (str) – Mutation method, in [“flip”, “swap”] for multipoints.
+
+elite_best (float or int) – Percentage of the best in elite group (float), or the number of best elite (int). Default is 0.1.
+
+elite_worst (float or int) – Percentage of the worst in elite group (float), or the number of worst elite (int). Default is 0.3.
+
+strategy (int) – Selection strategy, can be 0 or 1. If 0, the selection selects parents from (elite_worst + non_elite_group).
+
+Else, the selection will select dad from elite_worst and mom from non_elite_group.
+
+Note
+
+This implementation is inspired from this article https://www.baeldung.com/cs/elitism-in-evolutionary-algorithms
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, GA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "obj_func": objective_function,
+
+>>> "minmax": "min",
+
+>>> }
+
+>>>
+
+>>> model = GA.EliteMultiGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05, selection = "roulette", crossover = "uniform", mutation = "swap")
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.GA.EliteSingleGA
+
+Bases: SingleGA
+
+The developed elite single-point mutation of: Genetic Algorithm (GA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Population size, which equals elite_group (elite_best + elite_worst) + non_elite_group. Default is 100.
+
+pc (float) – Cross-over probability, in range [0.7, 0.95]. Default is 0.95.
+
+pm (float) – Mutation probability, in range [0.01, 0.2]. Default is 0.025.
+
+selection (str) – Selection method, in [“roulette”, “tournament”, “random”]. Default is “tournament”.
+
+crossover (str) – Crossover method, in [“one_point”, “multi_points”, “uniform”, “arithmetic”]. Default is “uniform”.
+
+mutation (str) – Mutation method, in [“flip”, “swap”, “scramble”, “inversion”] for one-point.
+
+k_way (float) – Set it when use “tournament” selection. Default is 0.2.
+
+elite_best (float or int) – Percentage of the best in elite group (float), or the number of best elite (int). Default is 0.1.
+
+elite_worst (float or int) – Percentage of the worst in elite group (float), or the number of worst elite (int). Default is 0.3.
+
+strategy (int) – Selection strategy, can be 0 or 1. If 0, the selection selects parents from (elite_worst + non_elite_group).
+
+Else, the selection will select dad from elite_worst and mom from non_elite_group.
+
+Note
+
+This implementation is inspired from this article https://www.baeldung.com/cs/elitism-in-evolutionary-algorithms
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, GA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "obj_func": objective_function,
+
+>>> "minmax": "min",
+
+>>> }
+
+>>>
+
+>>> model = GA.EliteSingleGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, selection = "roulette", crossover = "uniform",
+
+>>> mutation = "swap", elite_best = 0.1, elite_worst = 0.3, strategy = 0)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+>>>
+
+>>> model2 = GA.EliteSingleGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, selection="tournament", k_way=0.4, crossover="multi_points")
+
+>>>
+
+>>> model3 = GA.EliteSingleGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, crossover="one_point", mutation="scramble")
+
+>>>
+
+>>> model4 = GA.EliteSingleGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, crossover="arithmetic", mutation="swap")
+
+>>>
+
+>>> model5 = GA.EliteSingleGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, selection="roulette", crossover="multi_points")
+
+>>>
+
+>>> model6 = GA.EliteSingleGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, selection="random", mutation="inversion")
+
+>>>
+
+>>> model7 = GA.EliteSingleGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, crossover="arithmetic", mutation="flip")
+
+## mealpy.evolutionary_based.GA.MultiGA
+
+Bases: BaseGA
+
+The developed multipoints-mutation version of: Genetic Algorithm (GA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+pc (float) – Cross-over probability, in range [0.7, 0.95]. Default is 0.95.
+
+pm (float) – Mutation probability, in range [0.01, 0.2]. Default is 0.025.
+
+selection (str) – Selection method, in [“roulette”, “tournament”, “random”]. Default is “tournament”.
+
+crossover (str) – Crossover method, in [“one_point”, “multi_points”, “uniform”, “arithmetic”]. Default is “uniform”.
+
+mutation (str) – Mutation method, in [“flip”, “swap”] for multipoints.
+
+k_way (float) – Set it when use “tournament” selection. Default is 0.2.
+
+Links
+
+https://www.tutorialspoint.com/genetic_algorithms/genetic_algorithms_quick_guide.htm
+
+https://www.analyticsvidhya.com/blog/2017/07/introduction-to-genetic-algorithm/
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, GA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "obj_func": objective_function,
+
+>>> "minmax": "min",
+
+>>> }
+
+>>>
+
+>>> model = GA.MultiGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, selection = "roulette", crossover = "uniform", mutation = "swap", k_way=0.2)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+>>>
+
+>>> model2 = GA.MultiGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, selection="tournament", k_way=0.4, crossover="multi_points")
+
+>>>
+
+>>> model3 = GA.MultiGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, crossover="one_point", mutation="flip")
+
+>>>
+
+>>> model4 = GA.MultiGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, crossover="arithmetic", mutation_multipoints=True, mutation="swap")
+
+>>>
+
+>>> model5 = GA.MultiGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, selection="roulette", crossover="multi_points")
+
+>>>
+
+>>> model6 = GA.MultiGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, selection="random", mutation="swap")
+
+>>>
+
+>>> model7 = GA.MultiGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, crossover="arithmetic", mutation="flip")
+
+## mealpy.evolutionary_based.GA.OriginalGA
+
+Bases: Optimizer
+
+The fully tuned version of: Genetic Algorithm (GA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+pc (float) – Cross-over probability, in range [0.7, 0.95]. Default is 0.95.
+
+pm (float) – Mutation probability, in range [0.01, 0.2]. Default is 0.025.
+
+selection (str) – Selection method, in [“roulette”, “tournament”, “random”]. Default is “tournament”.
+
+crossover (str) – Crossover method, in [“one_point”, “multi_points”, “uniform”, “arithmetic”]. Default is “uniform”.
+
+mutation (str) – Mutation method, can be [“flip”, “swap”] for multipoints and [“flip”, “swap”, “scramble”, “inversion”] for one-point.
+
+k_way (float) – Set it when use “tournament” selection. Default is 0.2.
+
+mutation_multipoints (bool) – Effect on mutation process. Default is True.
+
+Links
+
+https://www.tutorialspoint.com/genetic_algorithms/genetic_algorithms_quick_guide.htm
+
+https://www.analyticsvidhya.com/blog/2017/07/introduction-to-genetic-algorithm/
+
+References
+
+Holland, J. H. (1992). Adaptation in natural and artificial systems: an introductory analysis
+
+with applications to biology, control, and artificial intelligence. MIT press.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, GA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "obj_func": objective_function,
+
+>>> "minmax": "min",
+
+>>> }
+
+>>>
+
+>>> model = GA.OriginalGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+>>>
+
+>>> model2 = GA.BaseGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05, selection="tournament", k_way=0.4, crossover="multi_points")
+
+>>>
+
+>>> model3 = GA.BaseGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05, crossover="one_point", mutation="scramble")
+
+>>>
+
+>>> model4 = GA.BaseGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05, crossover="arithmetic", mutation_multipoints=True, mutation="swap")
+
+>>>
+
+>>> model5 = GA.BaseGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05, selection="roulette", crossover="multi_points")
+
+>>>
+
+>>> model6 = GA.BaseGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05, selection="random", mutation="inversion")
+
+>>>
+
+>>> model7 = GA.BaseGA(epoch=1000, pop_size=50, pc=0.9, pm=0.05, crossover="arithmetic", mutation="flip")
+
+## mealpy.evolutionary_based.GA.SingleGA
+
+Bases: BaseGA
+
+The developed single-point mutation of: Genetic Algorithm (GA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+pc (float) – Cross-over probability, in range [0.7, 0.95]. Default is 0.95.
+
+pm (float) – Mutation probability, in range [0.01, 0.2]. Default is 0.025.
+
+selection (str) – Selection method, in [“roulette”, “tournament”, “random”]. Default is “tournament”.
+
+crossover (str) – Crossover method, in [“one_point”, “multi_points”, “uniform”, “arithmetic”]. Default is “uniform”.
+
+mutation (str) – Mutation method, in [“flip”, “swap”, “scramble”, “inversion”] for one-point.
+
+k_way (float) – Set it when use “tournament” selection. Default is 0.2.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, GA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "obj_func": objective_function,
+
+>>> "minmax": "min",
+
+>>> }
+
+>>>
+
+>>> model = GA.SingleGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, selection = "roulette", crossover = "uniform", mutation = "swap")
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+>>>
+
+>>> model2 = GA.SingleGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, selection="tournament", k_way=0.4, crossover="multi_points")
+
+>>>
+
+>>> model3 = GA.SingleGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, crossover="one_point", mutation="scramble")
+
+>>>
+
+>>> model4 = GA.SingleGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, crossover="arithmetic", mutation="swap")
+
+>>>
+
+>>> model5 = GA.SingleGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, selection="roulette", crossover="multi_points")
+
+>>>
+
+>>> model6 = GA.SingleGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, selection="random", mutation="inversion")
+
+>>>
+
+>>> model7 = GA.SingleGA(epoch=1000, pop_size=50, pc=0.9, pm=0.8, crossover="arithmetic", mutation="flip")
+
+## mealpy.evolutionary_based.MA.OriginalMA
+
+Bases: Optimizer
+
+The original version of: Memetic Algorithm (MA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+pc (float) – Cross-over probability, in range (0.0, 1.0). Default is 0.85.
+
+pm (float) – Mutation probability, in range (0.0, 1.0). Default is 0.15.
+
+p_local (float) – Probability of local search for each agent, in range (0.0, 1.0). Default is 0.5.
+
+max_local_gens (int) – Number of local search agent will be created during local search mechanism, in range [2, int(pop_size/2)]. Default is 10.
+
+bits_per_param (int) – Number of bits to decode a real number to 0-1 bitstring, in range [2, 32]. Default is 4.
+
+Links
+
+https://cleveralgorithms.com/nature-inspired/physical/memetic_algorithm.html
+
+https://github.com/clever-algorithms/CleverAlgorithms
+
+References
+
+Moscato, P., 1989. On evolution, search, optimization, genetic algorithms and martial arts:
+
+Towards memetic algorithms. Caltech concurrent computation program, C3P Report, 826, p.1989.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, MA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "obj_func": objective_function,
+
+>>> "minmax": "min",
+
+>>> }
+
+>>>
+
+>>> model = MA.OriginalMA(epoch=1000, pop_size=50, pc = 0.85, pm = 0.15, p_local = 0.5, max_local_gens = 10, bits_per_param = 4)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.SHADE.DevL_SHADE
+
+Bases: Optimizer
+
+The developed version of: Linear Population Size Reduction Success-History Adaptation Differential Evolution (L-SHADE)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 750.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+miu_f (float) – Initial weighting factor, in range (0.0, 1.0). Default is 0.5.
+
+miu_cr (float) – Initial cross-over probability, in range (0.0, 1.0). Default is 0.5.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SHADE
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "obj_func": objective_function,
+
+>>> "minmax": "min",
+
+>>> }
+
+>>>
+
+>>> model = SHADE.DevL_SHADE(epoch=1000, pop_size=50, miu_f = 0.5, miu_cr = 0.5)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.SHADE.DevSHADE
+
+Bases: Optimizer
+
+The developed version of: Success-History Adaptation Differential Evolution (SHADE)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 750.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+miu_f (float) – Initial weighting factor, in range (0.0, 1.0). Default is 0.5.
+
+miu_cr (float) – Initial cross-over probability, in range (0.0, 1.0). Default is 0.5.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SHADE
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "obj_func": objective_function,
+
+>>> "minmax": "min",
+
+>>> }
+
+>>>
+
+>>> model = SHADE.DevSHADE(epoch=1000, pop_size=50, miu_f = 0.5, miu_cr = 0.5)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.SHADE.L_SHADE
+
+Bases: DevL_SHADE
+
+Deprecated alias of DevL_SHADE.
+
+Deprecated since version 3.1.0: L_SHADE is deprecated and will be removed in version 4.0.0. Use DevL_SHADE to preserve
+
+the behavior of the previous Mealpy implementation, or OriginalL_SHADE for the original L-SHADE algorithm.
+
+## mealpy.evolutionary_based.SHADE.OriginalL_SHADE
+
+Bases: Optimizer
+
+The original version of: Linear Population Size Reduction Success-History Adaptation Differential Evolution (L-SHADE)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 750.
+
+pop_size (int) – Initial number of individuals in the population, in range [4, 10000]. The population size is progressively
+
+reduced during the search using linear population size reduction. Default is 100.
+
+miu_f (float) – Initial value of the historical memory for the scaling factor F, in range (0.0, 1.0). Default is 0.5.
+
+miu_cr (float) – Initial value of the historical memory for the crossover rate CR, in range (0.0, 1.0). Default is 0.5.
+
+memory_size (int) – Number of entries in the historical parameter memories for F and CR, in range [2, 1000].
+
+The original L-SHADE configuration uses 6. Default is 6.
+
+p (float) – Proportion of top-ranked individuals considered when randomly selecting the p-best individual
+
+in the current-to-pbest mutation strategy, in range (0.0, 1.0). The original L-SHADE
+
+configuration uses 0.11. Default is 0.11.
+
+arc_rate (float) – Archive-size ratio controlling the maximum number of individuals stored in the external archive
+
+relative to the current population size, in range (0.0, 10.0). The archive capacity is approximately
+
+arc_rate * current_population_size. The original L-SHADE configuration uses 2.6. Default is 2.6.
+
+References
+
+Tanabe, R. and Fukunaga, A.S., 2014, July.
+
+Improving the search performance of SHADE using linear population size reduction.
+
+In 2014 IEEE congress on evolutionary computation (CEC) (pp. 1658-1665). IEEE.
+
+https://metahack.org/CEC2014-Tanabe-Fukunaga.pdf
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SHADE
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "obj_func": objective_function,
+
+>>> "minmax": "min",
+
+>>> }
+
+>>>
+
+>>> model = SHADE.OriginalL_SHADE(epoch=1000, pop_size=50, miu_f = 0.5, miu_cr = 0.5, memory_size=20, p=0.2, arc_rate=1.5)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.evolutionary_based.SHADE.OriginalSHADE
+
+Bases: Optimizer
+
+The original version of: Success-History Adaptation Differential Evolution (SHADE)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 750.
+
+pop_size (int) – Number of individuals in the population, in range [5, 10000]. Default is 100.
+
+miu_f (float) – Initial value of the historical memory for the scaling factor F, in range (0.0, 1.0). Default is 0.5.
+
+miu_cr (float) – Initial value of the historical memory for the crossover rate CR, in range (0.0, 1.0). Default is 0.5.
+
+memory_size (int, optional) – Number of entries in the historical parameter memories for F and CR, in range [2, 10000].
+
+If None, the memory size is set equal to pop_size. Default is None.
+
+Note
+
+This implementation was corrected in version 3.1.0 to align with the original SHADE formulation.
+
+Its behavior may differ from earlier Mealpy versions. Use DevSHADE to reproduce the legacy Mealpy implementation.
+
+References
+
+Tanabe, R. and Fukunaga, A., 2013, June.
+
+Success-history based parameter adaptation for differential evolution.
+
+In 2013 IEEE congress on evolutionary computation (pp. 71-78). IEEE. https://doi.org/10.1109/CEC.2013.6557555

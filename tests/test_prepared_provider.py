@@ -36,6 +36,7 @@ def test_prepared_bytes_are_durably_hashed_before_send_and_replay(local, monkeyp
         provenance = reserved_provenance(repo, body["invocation_id"])
         observed.append(provenance)
         assert sha256(request.content).hexdigest() == provenance["request_body_sha256"]
+        assert provenance["request_body_bytes"] == len(request.content)
         payload = json.loads(request.content)
         assert sha256(payload["messages"][0]["content"].encode()).hexdigest() == provenance["system_message_sha256"]
         assert request.headers["content-type"] == "application/json"

@@ -8,6 +8,7 @@ import pytest
 from p_mc_optimizer.reporting.evidence_v3 import build_evidence_v3,core_hash,value_hash
 from p_mc_optimizer.reporting.narrative_validation import render_sections,validate_draft
 from p_mc_optimizer.workflow.narrative_v3 import NarrativeOrchestrator,build_writer_context
+from p_mc_optimizer.llm.narrative_policy import freeze_narrative_policy
 from test_narrative_v3_workflow import Driver,fixture,correct_draft,review_response,BUNDLE
 
 
@@ -87,6 +88,40 @@ def test_restart_same_journal_reuses_exact_invocation_and_request():
     assert result['mode']=='llm' and driver.used=={'explainer':1,'report_reviewer':1}
     assert driver.sent[0]==first and len(driver.sent)==2
     assert driver.run()==result and len(driver.sent)==2
+
+
+@pytest.mark.parametrize('change',['definition','marker','formatter'])
+def test_completed_journal_does_not_publish_cached_model_text_after_current_policy_drift(change):
+    """A numerical-core match alone cannot authorize a cached narrative."""
+    driver=ClosureDriver()
+    driver.report['report_generation_policy_version']='1.1'
+    driver.report['execution_contracts']={
+        'explanation':'grounded_narrative_v3','report_generation_policy_version':'1.1',
+        'evidence_builder_version':'1.1','formatter_version':'1.1',
+        'report_generation_policy':freeze_narrative_policy('1.1'),
+    }
+    before=core_hash(driver.report)
+    completed=driver.run()
+    assert completed['mode']=='llm' and completed['review_status']=='passed'
+    calls=deepcopy(driver.journal['calls']);sent=deepcopy(driver.sent)
+    # These are server reporting fields outside the numerical projection. They
+    # can disagree even though the point, trials, budgets and core are identical.
+    contracts=driver.report['execution_contracts']
+    if change=='definition':
+        contracts['report_generation_policy']['roles']['explainer.v3']['max_output_tokens']=1024
+    elif change=='marker':
+        driver.report['report_generation_policy_version']='1.0'
+        contracts['report_generation_policy_version']='1.0'
+    else:
+        contracts['formatter_version']='1.0'
+    assert core_hash(driver.report)==before
+    reopened=driver.run()
+    assert reopened['mode']=='deterministic'
+    assert all(item['origin']=='server' for item in reopened['accepted_sections'])
+    assert any(issue['code']=='CONTEXT_MISMATCH' for issue in reopened['issues'])
+    assert driver.sent==sent and driver.journal['calls']==calls
+    assert driver.journal['report_generation_policy_version']=='1.1'
+    assert core_hash(driver.report)==before
 
 
 def test_server_policy_change_during_writer_discards_old_prose_without_next_call():

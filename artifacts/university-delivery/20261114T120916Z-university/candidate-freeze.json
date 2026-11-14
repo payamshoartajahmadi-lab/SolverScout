@@ -1,0 +1,11 @@
+{
+  "candidate_commit": "a13db656bf56f3fea80051c88198afe9c25352d0",
+  "version": "2.1.0rc1",
+  "branch": "fix/final-university-delivery",
+  "mandatory_acceptance": "AC01..AC15",
+  "historical_failures": "Unchanged",
+  "current_live_dispatches": 0,
+  "qualification_acceptance_environment": "NOT_RUN; must be in fresh candidate installation",
+  "full_tests": "RUNNING",
+  "optional_development": "Out of scope after acceptance closure"
+}

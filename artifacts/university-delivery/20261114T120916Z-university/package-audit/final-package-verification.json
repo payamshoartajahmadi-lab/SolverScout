@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "privacy_status": "PASS",
+  "package_path": "/Users/payam/projects/uni_projects/machine_turing/artifacts/university-delivery/20261114T120916Z-university/SolverScout_University_Delivery_2.1.0rc2.zip",
+  "package_sha256": "661848419b25b52c2ed47ac52460a2fa531929ffd692bfe665be35ca8ed76b61",
+  "checksum_path": "/Users/payam/projects/uni_projects/machine_turing/artifacts/university-delivery/20261114T120916Z-university/SolverScout_University_Delivery_2.1.0rc2.zip.sha256",
+  "code_commit": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+  "version": "2.1.0rc2",
+  "source_manifest_sha256": "b6f9bcf1468276502e32792f1930a566c2a908414687e04e64c9c34e47769bd8",
+  "known_secret_scan": "PASS",
+  "known_secret_count": 4,
+  "archive_members_scanned": 378,
+  "zip_crc": "PASS",
+  "stored_reports_labeled": true,
+  "acceptance_status": "NOT_READY",
+  "model_keys_venv_private_databases_backups": "Excluded",
+  "privacy_scanner_sha256": "169c1c8c869a26b6fa1d085b168bee45bad6edcaad3d15cd98f82f2526a30483"
+}

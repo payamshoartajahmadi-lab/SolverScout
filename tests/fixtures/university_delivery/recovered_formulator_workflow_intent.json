@@ -1,0 +1,250 @@
+{
+  "provenance": "Actual recorded U2 formulator failures from the closed university acceptance campaign; related mathematical text and role outputs only. No credentials or provider details.",
+  "legacy_prompt_file_sha256": "aebd5418e96757b9e618f75e780b3c420a87b65a68687c6dcd923bbcca20a830",
+  "cases": [
+    {
+      "attempt": "attempt01",
+      "job_id": "d6ebc690-3609-412d-99d4-c21e2b7cfdc0",
+      "call_id": "a5708421-e33f-4734-88b9-83c15e3c083d",
+      "source_ref_to_text": {
+        "input:text": "تابع زیر را کمینه کن:\n\n(1-x1)**2 + 100*(x2-x1**2)**2\n\nمتغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.\nکران پایین x1 برابر -2 و کران بالای آن برابر 2 است.\nکران پایین x2 برابر -1 و کران بالای آن برابر 3 است.\nتابع قطعی است.\nهیچ پارامتر جداگانه‌ای وجود ندارد؛ تمام عددهای داخل فرمول ثابت و معلوم هستند.\nهیچ قید عمومی دیگری وجود ندارد.\n\nبا استفاده از منابع آماده‌شده، سه روش مناسب را از میان روش‌های قابل اجرا پیشنهاد بده.\nبرنامه آن‌ها را با پایلوت مقایسه کند، روش منتخب را برای حل به کار ببرد\nو دلیل پیشنهاد، دلیل انتخاب نهایی و نتیجهٔ حل را توضیح بده.\n"
+      },
+      "response": {
+        "clarification_questions": [],
+        "extracted_fields": {
+          "constraints": [],
+          "deterministic": true,
+          "objective": {
+            "expression": "(1-x1)**2 + 100*(x2-x1**2)**2",
+            "function_id": null,
+            "function_version": null,
+            "sense": "minimize",
+            "source_kind": "expression",
+            "unit": null
+          },
+          "parameters": [],
+          "variables": [
+            {
+              "label_fa": null,
+              "lower": -2.0,
+              "name": "x1",
+              "type": "real",
+              "unit": null,
+              "upper": 2.0
+            },
+            {
+              "label_fa": null,
+              "lower": -1.0,
+              "name": "x2",
+              "type": "real",
+              "unit": null,
+              "upper": 3.0
+            }
+          ]
+        },
+        "normalizations": [],
+        "source_map": [
+          {
+            "field_path": "/objective/expression",
+            "quote": "(1-x1)**2 + 100*(x2-x1**2)**2",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/objective/sense",
+            "quote": "تابع زیر را کمینه کن:",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/0/name",
+            "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/0/type",
+            "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/0/lower",
+            "quote": "کران پایین x1 برابر -2 و کران بالای آن برابر 2 است.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/0/upper",
+            "quote": "کران پایین x1 برابر -2 و کران بالای آن برابر 2 است.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/1/name",
+            "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/1/type",
+            "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/1/lower",
+            "quote": "کران پایین x2 برابر -1 و کران بالای آن برابر 3 است.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/1/upper",
+            "quote": "کران پایین x2 برابر -1 و کران بالای آن برابر 3 است.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/deterministic",
+            "quote": "تابع قطعی است.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/parameters",
+            "quote": "هیچ پارامتر جداگانه‌ای وجود ندارد؛ تمام عددهای داخل فرمول ثابت و معلوم هستند.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/constraints",
+            "quote": "هیچ قید عمومی دیگری وجود ندارد.",
+            "source_ref": "input:text"
+          }
+        ],
+        "unsupported_features": [
+          {
+            "description_fa": "درخواست پیشنهاد و مقایسهٔ روش‌های حل با پایلوت، انتخاب روش و اجرای آن برای ارائهٔ نتیجهٔ حل، خارج از استخراج مشخصات مدل است؛ منابعی برای روش‌های آماده‌شده یا پایلوت ارائه نشده‌اند.",
+            "evidence_refs": [
+              "input:text"
+            ],
+            "kind": "solver_selection_and_execution"
+          }
+        ]
+      },
+      "response_canonical_sha256": "d197b64e128e1bfc5b65ff35872c8444e6c50eb5e48fd133160b5ccf3705dba0",
+      "actual_prompt_name": "formulator.v1",
+      "actual_prompt_version": "1.0"
+    },
+    {
+      "attempt": "attempt02",
+      "job_id": "d3b44e5e-1418-4b88-93f5-3779b2091d72",
+      "call_id": "21bd75d4-b83b-4a28-8cfc-ca955fcc81c6",
+      "source_ref_to_text": {
+        "input:text": "تابع زیر را کمینه کن:\n\n(1-x1)**2 + 100*(x2-x1**2)**2\n\nمتغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.\nکران پایین x1 برابر -2 و کران بالای آن برابر 2 است.\nکران پایین x2 برابر -1 و کران بالای آن برابر 3 است.\nتابع قطعی است.\nهیچ پارامتر جداگانه‌ای وجود ندارد؛ تمام عددهای داخل فرمول ثابت و معلوم هستند.\nهیچ قید عمومی دیگری وجود ندارد.\n\nبا استفاده از منابع آماده‌شده، سه روش مناسب را از میان روش‌های قابل اجرا پیشنهاد بده.\nبرنامه آن‌ها را با پایلوت مقایسه کند، روش منتخب را برای حل به کار ببرد\nو دلیل پیشنهاد، دلیل انتخاب نهایی و نتیجهٔ حل را توضیح بده.\n"
+      },
+      "response": {
+        "clarification_questions": [],
+        "extracted_fields": {
+          "constraints": [],
+          "deterministic": true,
+          "objective": {
+            "expression": "(1-x1)**2 + 100*(x2-x1**2)**2",
+            "function_id": null,
+            "function_version": null,
+            "sense": "minimize",
+            "source_kind": "expression",
+            "unit": null
+          },
+          "parameters": [],
+          "variables": [
+            {
+              "label_fa": null,
+              "lower": -2.0,
+              "name": "x1",
+              "type": "real",
+              "unit": null,
+              "upper": 2.0
+            },
+            {
+              "label_fa": null,
+              "lower": -1.0,
+              "name": "x2",
+              "type": "real",
+              "unit": null,
+              "upper": 3.0
+            }
+          ]
+        },
+        "normalizations": [],
+        "source_map": [
+          {
+            "field_path": "/objective/expression",
+            "quote": "(1-x1)**2 + 100*(x2-x1**2)**2",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/objective/sense",
+            "quote": "تابع زیر را کمینه کن:",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/0/name",
+            "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/0/type",
+            "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/0/lower",
+            "quote": "کران پایین x1 برابر -2 و کران بالای آن برابر 2 است.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/0/upper",
+            "quote": "کران پایین x1 برابر -2 و کران بالای آن برابر 2 است.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/1/name",
+            "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/1/type",
+            "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/1/lower",
+            "quote": "کران پایین x2 برابر -1 و کران بالای آن برابر 3 است.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/variables/1/upper",
+            "quote": "کران پایین x2 برابر -1 و کران بالای آن برابر 3 است.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/deterministic",
+            "quote": "تابع قطعی است.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/parameters",
+            "quote": "هیچ پارامتر جداگانه‌ای وجود ندارد؛ تمام عددهای داخل فرمول ثابت و معلوم هستند.",
+            "source_ref": "input:text"
+          },
+          {
+            "field_path": "/constraints",
+            "quote": "هیچ قید عمومی دیگری وجود ندارد.",
+            "source_ref": "input:text"
+          }
+        ],
+        "unsupported_features": [
+          {
+            "description_fa": "پیشنهاد و مقایسهٔ سه روش با پایلوت، انتخاب و اجرای روش، و گزارش دلیل انتخاب و نتیجهٔ حل، قابلیت‌های فراتر از استخراج مشخصات مسئله در این نسخه هستند.",
+            "evidence_refs": [
+              "input:text"
+            ],
+            "kind": "روش‌شناسی و اجرای حل"
+          }
+        ]
+      },
+      "response_canonical_sha256": "a88c678d26e1b4e8fcf3307897098f80452db01b2d7fd544d69ec7590d312702",
+      "actual_prompt_name": "formulator.v1",
+      "actual_prompt_version": "1.0"
+    }
+  ]
+}

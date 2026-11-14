@@ -1,0 +1,9 @@
+{
+  "scope": "Read-only UI/browser QA; archived rc1 results displayed by rc2 application",
+  "expected_fresh_role_calls_from_closed_campaign": 10,
+  "fresh_role_calls_after_read_only_qa": 10,
+  "jobs_after_read_only_qa": 3,
+  "qualification_batches_after_read_only_qa": 2,
+  "fresh_live_rc2": "NOT_RUN",
+  "result": "PASS; no increase beyond the closed 10-role-call campaign"
+}

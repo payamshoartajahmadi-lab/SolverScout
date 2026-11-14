@@ -54,7 +54,10 @@ def _notice(key, level, message):
 
 def _key_fields(result):
     credential = result.get("credential_status") or {}
-    key = st.text_input("کلید API", type="password", autocomplete="off")
+    key = st.text_input("کلید API", type="password", autocomplete="off",
+                        help="کلید را از بخش کلیدهای API پنل همان ارائه‌دهندهٔ مدل تهیه کنید و اینجا وارد کنید.")
+    st.caption("کلید باید متعلق به همان سرویس و مدلی باشد که در بالا تنظیم کرده‌اید. "
+               "برای حفظ کلید پس از بستن برنامه، نگهداری در مخزن امن سیستم‌عامل را انتخاب کنید.")
     choices = ["os_keyring", "session"] if result.get("os_keyring_available") else ["session"]
     storage = st.selectbox(
         "نگهداری کلید جدید", choices, format_func=STORAGE_LABELS.__getitem__,

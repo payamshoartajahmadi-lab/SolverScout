@@ -305,11 +305,40 @@ def build_evidence_v3(report: dict, *, policy_version="1.0") -> ReportEvidenceV3
     budget = report.get("budget") or {}
     pilot_counts = [t.get("started_evaluations") for t in trials if t.get("phase") == "pilot"]
     main_counts = [t.get("started_evaluations") for t in trials if t.get("phase") == "main"]
-    source("report:budget", {"budget": budget, "pilot_started": sum(pilot_counts) if all(type(x) is int for x in pilot_counts) else None, "main_started": sum(main_counts) if all(type(x) is int for x in main_counts) else None, "numeric_compute_seconds": (report.get("timing") or {}).get("elapsed_compute_seconds")}, "/budget")
+    def complete_counts(counts):
+        return bool(counts) and all(type(x) is int and x >= 0 for x in counts)
+    phase_values={name:sum(counts) if complete_counts(counts) else None
+                  for name,counts in [("main",main_counts),("pilot",pilot_counts)]}
+    total=budget.get("known_started")
+    main_plus_pilot=(phase_values["main"]+phase_values["pilot"]
+                     if all(phase_values[name] is not None for name in ("main","pilot")) else None)
+    if policy_version=="1.1" and total is not None and any(value is not None and value>total for value in phase_values.values()):
+        raise EvidenceBuildError("CONTEXT_MISMATCH", "شمار کامل یک فاز از مصرف کل کار بیشتر است؛ مشتق بودجه منتشر نشد.")
+    if policy_version=="1.1" and main_plus_pilot is not None and total is not None and total < main_plus_pilot:
+        raise EvidenceBuildError("CONTEXT_MISMATCH", "مصرف کل کار از جمع شمارهای کامل اجرای اصلی و پایلوت‌ها کمتر است؛ مشتق بودجه منتشر نشد.")
+    other=(total-main_plus_pilot if type(total) is int and main_plus_pilot is not None else None)
+    budget_record={"budget": budget, "pilot_started": sum(pilot_counts) if all(type(x) is int for x in pilot_counts) else None, "main_started": sum(main_counts) if all(type(x) is int for x in main_counts) else None, "numeric_compute_seconds": (report.get("timing") or {}).get("elapsed_compute_seconds")}
+    if policy_version=="1.1":
+        budget_record.update(main_started=phase_values["main"],pilot_started=phase_values["pilot"])
+        budget_record["scopes"]={
+            "budget.total_started":{"scope":"whole_job_known_started","count_kind":"started_evaluations","source_paths":["/budget/known_started"],"complete":type(total) is int,"value":total,"not_equivalent_to":"main_and_pilot_only"},
+            **{"budget."+name+"_started":{"scope":"all_recorded_trials_in_phase","phase":name,"count_kind":"started_evaluations","source_paths":["/trials"],"input_vector":counts,"complete":complete_counts(counts),"value":phase_values[name],"includes_failed_trials":True,"does_not_imply":"successful_or_completed_evaluations"}
+               for name,counts in [("main",main_counts),("pilot",pilot_counts)]},
+            "budget.main_plus_pilot_started":{"scope":"main_and_pilot_only","count_kind":"started_evaluations","source_paths":["/trials"],"operation":"sum","input_fact_refs":["budget.main_started","budget.pilot_started"],"complete":main_plus_pilot is not None,"value":main_plus_pilot},
+            "budget.other_started":{"scope":"whole_job_outside_main_and_pilot_unattributed","count_kind":"started_evaluations","source_paths":["/budget/known_started","/trials"],"operation":"subtract","input_fact_refs":["budget.total_started","budget.main_plus_pilot_started"],"complete":other is not None,"value":other,"phase_attribution":None,"not_a_phase_breakdown":True}}
+    source("report:budget", budget_record, "/budget")
     fact("budget.total_started", budget.get("known_started"), "integer", "/budget/known_started", ["report:budget"])
     for name, counts in [("pilot", pilot_counts), ("main", main_counts)]:
         fact("budget."+name+"_counts", counts if counts and all(type(x) is int for x in counts) else None,"number_vector","/trials",["report:trials"])
         fact("budget."+name+"_started", sum(counts) if counts and all(type(x) is int for x in counts) else None, "integer", "/trials", ["report:budget", "report:trials"], operation="sum" if counts and all(type(x) is int for x in counts) else None, inputs=["budget."+name+"_counts"])
+    if policy_version=="1.1":
+        for identifier,value,operation,inputs,values in [
+            ("budget.main_plus_pilot_started",main_plus_pilot,"sum",["budget.main_started","budget.pilot_started"],[phase_values["main"],phase_values["pilot"]]),
+            ("budget.other_started",other,"subtract",["budget.total_started","budget.main_plus_pilot_started"],[total,main_plus_pilot])]:
+            scope=budget_record["scopes"][identifier]
+            derived_source(identifier,value,inputs,details={"operation":operation,"input_values":values,"scope":scope["scope"],"complete":scope["complete"],"phase_attribution":None})
+            fact(identifier,value,"integer","/trials",["derived:"+identifier,"report:budget"],operation=operation,inputs=inputs)
+            facts[-1]=facts[-1].model_copy(update={"source_paths":scope["source_paths"]})
     fact("timing.numeric_compute_seconds", (report.get("timing") or {}).get("elapsed_compute_seconds"), "number", "/timing/elapsed_compute_seconds", ["report:budget"], unit="seconds")
     source("report:profile", {key: (report.get("profile") or {}).get(key) for key in ("n_variables", "objective_sense", "sample_count", "normalized_iqr", "normalized_std")}, "/profile")
     for name, value in [("zero", 0), ("one", 1), ("two", 2)]:
