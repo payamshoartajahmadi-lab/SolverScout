@@ -1,0 +1,126 @@
+{
+  "identity": {
+    "schema_version": "runtime-provenance/1.0",
+    "process_run_id": "000d970e-db73-4429-a9fd-e2204d1d6f50",
+    "role": "api",
+    "instance_id": "28efddf6-6a9e-4ad8-8ec4-1ff21301d10b",
+    "pid": 10336,
+    "started_at_utc": "2026-11-14T17:16:19.290061+00:00",
+    "project_version": "2.1.0rc2",
+    "git_commit_observed_at_startup": "d4f38e3bf5ce42544adb493ab257577f3865fb04",
+    "git_dirty_observed_at_startup": true,
+    "source_observation": "startup_manifest",
+    "source_manifest_sha256": "39147c82e7cb914990596ff12e3d3510db6c5eca8bed1f7ff6fca87c628c7492",
+    "source_manifest_status": "complete",
+    "python_version": "3.12.3",
+    "dependency_versions": {
+      "numpy": "1.26.0",
+      "mealpy": "3.0.3",
+      "pydantic": "2.14.3",
+      "httpx": "0.28.1",
+      "langgraph": "1.2.20",
+      "fastapi": "0.162.2",
+      "streamlit": "1.67.0"
+    }
+  },
+  "drift": "unchanged",
+  "processes": [
+    {
+      "schema_version": "runtime-provenance/1.0",
+      "process_run_id": "000d970e-db73-4429-a9fd-e2204d1d6f50",
+      "role": "api",
+      "instance_id": "28efddf6-6a9e-4ad8-8ec4-1ff21301d10b",
+      "pid": 10336,
+      "started_at_utc": "2026-11-14T17:16:19.290061+00:00",
+      "project_version": "2.1.0rc2",
+      "git_commit_observed_at_startup": "d4f38e3bf5ce42544adb493ab257577f3865fb04",
+      "git_dirty_observed_at_startup": true,
+      "source_observation": "startup_manifest",
+      "source_manifest_sha256": "39147c82e7cb914990596ff12e3d3510db6c5eca8bed1f7ff6fca87c628c7492",
+      "source_manifest_status": "complete",
+      "python_version": "3.12.3",
+      "dependency_versions": {
+        "fastapi": "0.162.2",
+        "httpx": "0.28.1",
+        "langgraph": "1.2.20",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "pydantic": "2.14.3",
+        "streamlit": "1.67.0"
+      }
+    },
+    {
+      "schema_version": "runtime-provenance/1.0",
+      "process_run_id": "0db66011-2456-4e0f-8039-501c70edfa63",
+      "role": "supervisor",
+      "instance_id": "28efddf6-6a9e-4ad8-8ec4-1ff21301d10b",
+      "pid": 29440,
+      "started_at_utc": "2026-11-14T17:16:17.244943+00:00",
+      "project_version": "2.1.0rc2",
+      "git_commit_observed_at_startup": "d4f38e3bf5ce42544adb493ab257577f3865fb04",
+      "git_dirty_observed_at_startup": true,
+      "source_observation": "startup_manifest",
+      "source_manifest_sha256": "39147c82e7cb914990596ff12e3d3510db6c5eca8bed1f7ff6fca87c628c7492",
+      "source_manifest_status": "complete",
+      "python_version": "3.12.3",
+      "dependency_versions": {
+        "fastapi": "0.162.2",
+        "httpx": "0.28.1",
+        "langgraph": "1.2.20",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "pydantic": "2.14.3",
+        "streamlit": "1.67.0"
+      }
+    },
+    {
+      "schema_version": "runtime-provenance/1.0",
+      "process_run_id": "a61d25d6-ae67-4a4d-b682-e43934312d74",
+      "role": "ui",
+      "instance_id": "28efddf6-6a9e-4ad8-8ec4-1ff21301d10b",
+      "pid": 4544,
+      "started_at_utc": "2026-11-14T17:16:21.705833+00:00",
+      "project_version": "2.1.0rc2",
+      "git_commit_observed_at_startup": "d4f38e3bf5ce42544adb493ab257577f3865fb04",
+      "git_dirty_observed_at_startup": true,
+      "source_observation": "startup_manifest",
+      "source_manifest_sha256": "39147c82e7cb914990596ff12e3d3510db6c5eca8bed1f7ff6fca87c628c7492",
+      "source_manifest_status": "complete",
+      "python_version": "3.12.3",
+      "dependency_versions": {
+        "fastapi": "0.162.2",
+        "httpx": "0.28.1",
+        "langgraph": "1.2.20",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "pydantic": "2.14.3",
+        "streamlit": "1.67.0"
+      }
+    },
+    {
+      "schema_version": "runtime-provenance/1.0",
+      "process_run_id": "e7a155a3-c7ca-4e78-a9e5-95d083e48eb2",
+      "role": "worker",
+      "instance_id": "28efddf6-6a9e-4ad8-8ec4-1ff21301d10b",
+      "pid": 4560,
+      "started_at_utc": "2026-11-14T17:16:21.705833+00:00",
+      "project_version": "2.1.0rc2",
+      "git_commit_observed_at_startup": "d4f38e3bf5ce42544adb493ab257577f3865fb04",
+      "git_dirty_observed_at_startup": true,
+      "source_observation": "startup_manifest",
+      "source_manifest_sha256": "39147c82e7cb914990596ff12e3d3510db6c5eca8bed1f7ff6fca87c628c7492",
+      "source_manifest_status": "complete",
+      "python_version": "3.12.3",
+      "dependency_versions": {
+        "fastapi": "0.162.2",
+        "httpx": "0.28.1",
+        "langgraph": "1.2.20",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "pydantic": "2.14.3",
+        "streamlit": "1.67.0"
+      }
+    }
+  ],
+  "message_code": null
+}

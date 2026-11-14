@@ -1,0 +1,32 @@
+{
+  "schema_version": "university-windows-input-audit/1.0",
+  "created_at_utc": "2026-11-14T16:50:35.560292+00:00",
+  "files_modified": false,
+  "runner_text_read_semantics": "UTF-8 text with universal newline normalization; raw bytes retained for runner manifest validation",
+  "scenarios": {
+    "U1": {
+      "path": "examples/university_u1_fa.txt",
+      "raw_sha256": "1467fb5a6591d8c0d732005c5908cdb3aad6f7f1a5d7c94b400c5335bef4d4b5",
+      "raw_bytes": 887,
+      "crlf_count": 13,
+      "normalized_utf8_sha256": "79118ff1a160b381154cac488e16692500fa937e256feb3501b77c544166210d",
+      "normalized_utf8_bytes": 874,
+      "git_blob_sha256": "79118ff1a160b381154cac488e16692500fa937e256feb3501b77c544166210d",
+      "normalized_text_equals_git_blob_text": true,
+      "historical_original_input_sha256": "79118ff1a160b381154cac488e16692500fa937e256feb3501b77c544166210d",
+      "normalized_hash_equals_historical_original": true
+    },
+    "U2": {
+      "path": "examples/university_u2_fa.txt",
+      "raw_sha256": "e57822ff41ee8e9845b1a57bb89cf2fb7ae17e77466d9fb0b08227ff1bfb27c0",
+      "raw_bytes": 964,
+      "crlf_count": 14,
+      "normalized_utf8_sha256": "d27b380742508f7fef0e11178571c27919f7cd840ae8da83d1be2400f30874d2",
+      "normalized_utf8_bytes": 950,
+      "git_blob_sha256": "d27b380742508f7fef0e11178571c27919f7cd840ae8da83d1be2400f30874d2",
+      "normalized_text_equals_git_blob_text": true,
+      "historical_original_input_sha256": "d27b380742508f7fef0e11178571c27919f7cd840ae8da83d1be2400f30874d2",
+      "normalized_hash_equals_historical_original": true
+    }
+  }
+}

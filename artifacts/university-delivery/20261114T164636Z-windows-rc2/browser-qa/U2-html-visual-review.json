@@ -1,0 +1,28 @@
+{
+  "schema_version": "browser-visual-review/1.0",
+  "reviewed_at_utc": "2026-11-14T17:15:45.306645+00:00",
+  "scenario": "U2",
+  "surface": "saved_html",
+  "screenshots_visually_inspected": [
+    "U2-html-390.png",
+    "U2-html-390-viewport.png",
+    "U2-html-390-candidate-rationale.png",
+    "U2-html-390-verification.png",
+    "U2-html-1440-viewport.png",
+    "U2-html-1440-candidate-rationale.png"
+  ],
+  "native_resolution_detail_images_used": true,
+  "findings": {
+    "persian_paragraphs_readable": true,
+    "rtl_prose_and_ltr_numbers_readable": true,
+    "text_clipping_or_overlap_observed": false,
+    "page_horizontal_overflow": false,
+    "mobile_cards_and_paragraphs_wrap": true,
+    "model_narrative_and_review_labels_visible": true,
+    "solution_origin_main_abc_and_objective_1_7111162e_minus06_visible": true,
+    "numerical_verification_and_noncertification_statement_visible": true
+  },
+  "dom_evidence": "U2-html-summary.json",
+  "passed": true,
+  "scope_limit": "Actual app UI is still pending app restart; this result covers the saved HTML rendered by Edge only."
+}

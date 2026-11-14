@@ -1,0 +1,41 @@
+{
+  "schema_version": "windows-dns-fix/1.0",
+  "verified_at_utc": "2026-11-14T16:54:26.198522+00:00",
+  "finding": "Isolated Windows getaddrinfo fails with environment={} and succeeds when only SystemRoot is retained.",
+  "changed_files": [
+    "src/p_mc_optimizer/research/transport.py",
+    "tests/test_v2_research.py"
+  ],
+  "behavior": "Windows DNS child receives only the existing case-insensitive SystemRoot variable. Linux/macOS DNS child environment remains empty; timeout, isolated interpreter and destination validation unchanged.",
+  "regression_before": {
+    "exit_code": 1,
+    "failed": 3,
+    "passed": 2,
+    "deselected": 17,
+    "log": "regression-before.log"
+  },
+  "targeted_after": {
+    "command": [
+      "G:\\projects\\solverscout\\.venv\\Scripts\\python.exe",
+      "-m",
+      "pytest",
+      "tests/test_v2_research.py",
+      "-q",
+      "--tb=short"
+    ],
+    "exit_code": 0,
+    "log": "targeted-tests.log",
+    "stdout_summary": "22 passed in 2.42s"
+  },
+  "git_diff_check": {
+    "exit_code": 0,
+    "output": "warning: in the working copy of 'src/p_mc_optimizer/research/transport.py', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'tests/test_v2_research.py', LF will be replaced by CRLF the next time Git touches it\n"
+  },
+  "consumption": {
+    "function_evaluations": 0,
+    "model_calls": 0,
+    "source_sync_runs": 0,
+    "external_http_requests": 0
+  },
+  "app_restart_required": true
+}

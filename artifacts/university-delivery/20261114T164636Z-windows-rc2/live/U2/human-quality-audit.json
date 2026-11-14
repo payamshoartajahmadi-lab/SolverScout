@@ -1,0 +1,309 @@
+{
+  "schema_version": "university-human-quality-audit/1.0",
+  "scenario": "U2",
+  "job_id": "83182fba-8962-43d6-84aa-ac8b6086433d",
+  "status": "PASS",
+  "audit_scope": "Independent agent manual semantic inspection of actual completed live output plus read-only checks of recorded data. No new provider, solver or objective evaluation; no simulated narrative substituted.",
+  "reviewed_at_utc": "2026-11-14T17:12:11.344953+00:00",
+  "platform": "Windows",
+  "source_manifest_sha256": "39147c82e7cb914990596ff12e3d3510db6c5eca8bed1f7ff6fca87c628c7492",
+  "evidence_file_sha256": {
+    "summary.json": "24a7569725bc582968ac0d00d7f3d75d56fa990057531c26cc4071848a49c528",
+    "report.json": "d90d5631cda47aa3181a81af4e5231c070b576f69c57ff0fddff7b74a5f13a09",
+    "job.json": "7233993c3d21eb2d6524e42fd4c58bd93cf5f8ae0c610c5df7732ea20fd169e2",
+    "workflow.json": "9335805f522355b46994fa52b2a438086a292b4d8092d0d34d54d63c46fe7db2",
+    "invocations.json": "b7613d1e5aafa2958fc33293eee6131b1dcdfcf7fc3b8b4b06e9600fb1b3f75d",
+    "report.html": "691d4d54d6ba405c74e2c2f364d3cd505d37a6c512e61c11b18e9a483f6a0bc6",
+    "documents.json": "4e8adc26e147340fe63d6341503fcb19c49bab78bd599f7796bd39fc414d68e9",
+    "trials.csv": "a7a32267fee57dc274783369d6eed4dac76a82724251aad305befb5aeaa26b1e"
+  },
+  "record_checks": {
+    "original_full_input_sent_unchanged": true,
+    "correct_mathematical_expression_ast": true,
+    "correct_sense_bounds_types": true,
+    "deterministic_no_parameters_no_constraints": true,
+    "workflow_intent_not_misclassified": true,
+    "source_map_quotes_and_offsets_match_original": true,
+    "workflow_continued_to_research_pilot_main_review": true,
+    "fixed_policy_and_approved_profile": true,
+    "six_real_windows_qualified_cards": true,
+    "candidate_config_ids_match_sent_cards": true,
+    "source_passages_exactly_match_exported_document_bytes": true,
+    "independent_pilot_medians_select_abc": true,
+    "solution_origin_matches_actual_trial_and_evaluation": true,
+    "recorded_verification_consistent": true,
+    "recorded_counts_and_threshold": true,
+    "five_sections_genuine_model_and_reviewed": true,
+    "repair_preserves_three_accepted_sections": true,
+    "repair_only_failed_two_sections": true,
+    "html_contains_every_final_rendered_paragraph": true,
+    "all_role_sends_bounded_including_repairs": true
+  },
+  "runner_checks_rechecked": {
+    "checks": {
+      "six_target_cards_really_sent": true,
+      "three_distinct_eligible_nominees": true,
+      "six_targets_in_research_plan": true,
+      "six_specific_evidence_passages": true,
+      "nine_equal_budget_pilots": true,
+      "independent_pilot_metrics_match": true,
+      "winner_matches_empirical_order": true,
+      "finite_point_within_bounds": true,
+      "objective_within_fixed_threshold": true,
+      "independent_function_verification_passed": true,
+      "objective_budget_respected": true,
+      "five_required_llm_sections": true,
+      "job_completed": true
+    },
+    "advisor_sent_count": 6,
+    "advisor_sent_implementation_ids": [
+      "mealpy:evolutionary_based.DE:OriginalDE",
+      "mealpy:evolutionary_based.ES:CMA_ES",
+      "mealpy:swarm_based.ABC:OriginalABC",
+      "mealpy:swarm_based.GWO:OriginalGWO",
+      "mealpy:swarm_based.PSO:OriginalPSO",
+      "mealpy:swarm_based.WOA:OriginalWOA"
+    ],
+    "candidate_implementation_ids": [
+      "mealpy:evolutionary_based.DE:OriginalDE",
+      "mealpy:evolutionary_based.ES:CMA_ES",
+      "mealpy:swarm_based.ABC:OriginalABC"
+    ],
+    "independent_pilot_metrics": {
+      "mealpy:evolutionary_based.DE:OriginalDE": {
+        "median_score": 0.02427419044223635,
+        "normalized_iqr": 0.027613068464430325
+      },
+      "mealpy:evolutionary_based.ES:CMA_ES": {
+        "median_score": 0.1050400504956689,
+        "normalized_iqr": 0.3933677942569239
+      },
+      "mealpy:swarm_based.ABC:OriginalABC": {
+        "median_score": 0.018087191876695052,
+        "normalized_iqr": 0.02069645698576104
+      }
+    },
+    "independent_winner": "mealpy:swarm_based.ABC:OriginalABC",
+    "specific_evidence_coverage": [
+      "mealpy:swarm_based.ABC:OriginalABC",
+      "mealpy:swarm_based.PSO:OriginalPSO",
+      "mealpy:evolutionary_based.ES:CMA_ES",
+      "mealpy:evolutionary_based.DE:OriginalDE",
+      "mealpy:swarm_based.GWO:OriginalGWO",
+      "mealpy:swarm_based.WOA:OriginalWOA"
+    ]
+  },
+  "findings": [
+    {
+      "topic": "problem_and_workflow",
+      "status": "PASS",
+      "finding_fa": "فرمول روزنبروک، کمینه‌سازی، دو متغیر حقیقی و کران‌های x1=[-2,2] و x2=[-1,3] عین ورودی‌اند. درخواست کامل پیشنهاد، مقایسه، حل و توضیح به صورت‌بند رسیده؛ unsupported_features خالی است و گردش کار تا پایان ادامه یافته است."
+    },
+    {
+      "topic": "actual_cards_and_candidate_scope",
+      "status": "PASS",
+      "finding_fa": "شش کارت واقعی دارای گواهی همین ویندوز به advisor رسیده‌اند. سه نامزد DE، CMA-ES و ABC با شناسه پیکربندی همان کارت‌ها و شاهد اختصاصی پیشنهاد شده‌اند. دلایل هر سه به ویژگی غیرخطی و پیوسته مسئله مرتبط است و تناسب استنباطی از اثبات برتری عددی جدا شده است."
+    },
+    {
+      "topic": "source_scope_and_traceability",
+      "status": "PASS",
+      "finding_fa": "مستندات هویت CMA-ES، زمینه پیوسته و راهبرد DE، و محدودیت آزمون پیش از رهاسازی منبع غذا برای ABC را نشان می‌دهند. متن از این شواهد تضمین برتری یا تأیید پیکربندی نتیجه نمی‌گیرد؛ offset و hash تمام قطعات با اسناد صادرشده منطبق‌اند."
+    },
+    {
+      "topic": "empirical_selection",
+      "status": "PASS",
+      "finding_fa": "سه پایلوت ۵۰۰ ارزیابی برای هر یک از سه نامزد ثبت شده است. میانه ABC برابر 0.018087191876695052 از DE برابر 0.02427419044223635 و CMA-ES برابر 0.1050400504956689 کمتر است؛ متن، دلیل انتخاب را میانه و نه پیشنهاد اولیه مدل معرفی می‌کند و برتری همه تکرارها یا معناداری آماری را ادعا نمی‌کند."
+    },
+    {
+      "topic": "numeric_result_and_origin",
+      "status": "PASS",
+      "finding_fa": "نقطه و مقدار گزارش دقیقاً با بهترین ارزیابی trial اصلی ABC و شناسه بازبینی منطبق‌اند. مقدار 1.7111162045690602e-06 زیر آستانه ثابت 0.001 است. منشأ اجرای اصلی و نام تولیدکننده در متن مستقل و درست بیان شده‌اند."
+    },
+    {
+      "topic": "verification_and_budget",
+      "status": "PASS",
+      "finding_fa": "دو مقدار بازبینی ثبت‌شده با مقدار مرجع برابرند. متن، 14998 ارزیابی اجرای اصلی را از 20000 کل کار جدا کرده است؛ 4500 پایلوت را کل مصرف معرفی نمی‌کند. وضعیت گواهی‌نشده و نبود اثبات بهینگی سراسری روشن است."
+    },
+    {
+      "topic": "narrative_repair",
+      "status": "PASS",
+      "finding_fa": "پیش‌نویس اول برای problem توکن problem.sense را نداشت و candidate_rationale بیش از سه پاراگراف داشت؛ feedback واقعی هر دو علت را منتقل کرده است. فقط همین دو بخش اصلاح شدند؛ hash سه بخش قبلاً پذیرفته‌شده ثابت ماند. پنج بخش نهایی origin=llm و بازبینی معتبر دارند."
+    },
+    {
+      "topic": "readability_and_html_text",
+      "status": "PASS",
+      "finding_fa": "پنج بخش با نام فارسی روش‌ها خوانا و مرتبط‌اند. پاراگراف‌های نامزدها در کنار هم، دلایل مستقل و محدودیت شاهد را منتقل می‌کنند. تمام هشت پاراگراف نهایی با همان متن در HTML صادرشده وجود دارند؛ این بررسی متنی، ادعای آزمون بصری UI نیست."
+    }
+  ],
+  "blocking_findings": [],
+  "actual_sent_card_ids": [
+    "mealpy:evolutionary_based.DE:OriginalDE",
+    "mealpy:evolutionary_based.ES:CMA_ES",
+    "mealpy:swarm_based.ABC:OriginalABC",
+    "mealpy:swarm_based.GWO:OriginalGWO",
+    "mealpy:swarm_based.PSO:OriginalPSO",
+    "mealpy:swarm_based.WOA:OriginalWOA"
+  ],
+  "candidate_ids": [
+    "mealpy:evolutionary_based.DE:OriginalDE",
+    "mealpy:evolutionary_based.ES:CMA_ES",
+    "mealpy:swarm_based.ABC:OriginalABC"
+  ],
+  "candidate_rationales": [
+    {
+      "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "rationale_fa": "این مسئله دو متغیر حقیقی با کران‌های محدود و تابع هدف پیوسته دارد؛ کارت OriginalDE آن را به‌عنوان پیاده‌سازی تک‌هدفهٔ پیوستهٔ قطعی و سازگار با پایلوت ۵۰۰ ارزیابی، با clipping کران‌ها، مشخص می‌کند. مستندات برای همین واریانت می‌گویند strategy=0 برابر DE/rand/1/bin است و DE را برای بهینه‌سازی روی فضاهای پیوسته توصیف می‌کنند. بنابراین آزمودن این راهبرد جمعیتی روی جملهٔ کوپل‌شده و غیرخطی (x2-x1²) در این مسئله معقول است؛ این دلیلِ آزمون، استنباط دربارهٔ تناسب مسئله است، نه ادعای برتری عددی یا تأیید پیکربندی از سوی مستندات.",
+      "evidence_refs": [
+        "e966114fb207ec86cd5b8b7540db792f"
+      ]
+    },
+    {
+      "implementation_id": "mealpy:evolutionary_based.ES:CMA_ES",
+      "rationale_fa": "مسئله پیوسته، دوبعدی و کراندار است و کارت CMA_ES آن را به‌عنوان پیاده‌سازی تک‌هدفهٔ پیوستهٔ قطعی، سازگار با پایلوت ۵۰۰ ارزیابی و همراه با clipping کران‌ها ثبت کرده است. متن منبع واریانت را صریحاً Covariance Matrix Adaptation Evolution Strategy (CMA-ES) معرفی می‌کند. با توجه به وابستگی غیرخطی x2 به x1² در تابع هدف، آزمودن روشی که نامش سازگارسازی ماتریس کوواریانس را مشخص می‌کند معقول است؛ این ارتباط، فرضیهٔ تناسب برای مقایسه است، نه چیزی که منبع آن را دربارهٔ این مسئله یا برتری عددی اثبات کند و نه تأییدی بر پیکربندی کارت.",
+      "evidence_refs": [
+        "beb20ed2fa491ee934a3c415c6c34cca"
+      ]
+    },
+    {
+      "implementation_id": "mealpy:swarm_based.ABC:OriginalABC",
+      "rationale_fa": "این تابع هدف روی دو متغیر حقیقیِ کراندار تعریف شده و کارت OriginalABC آن را پیاده‌سازی تک‌هدفهٔ پیوستهٔ قطعی و سازگار با پایلوت ۵۰۰ ارزیابی، با clipping کران‌ها، معرفی می‌کند. مستندات همین واریانت می‌گویند n_limits تعداد آزمون‌ها پیش از رها کردن یک منبع غذا را محدود می‌کند. آزمودن این سازوکار در کنار روش‌های دیگر برای مسئله‌ای با جملهٔ کوپل‌شده و غیرخطی می‌تواند نشان دهد رفتار آن در جست‌وجوی این فضای محدود چگونه است؛ این انگیزه استنباطی است، نه ادعای برتری یا تضمین کیفیت، و منبع نیز پیکربندی کارت را تأیید نمی‌کند.",
+      "evidence_refs": [
+        "49aa6b06e2b0821a6002299c1cd31104"
+      ]
+    }
+  ],
+  "pilot_medians": {
+    "mealpy:evolutionary_based.DE:OriginalDE": 0.02427419044223635,
+    "mealpy:evolutionary_based.ES:CMA_ES": 0.1050400504956689,
+    "mealpy:swarm_based.ABC:OriginalABC": 0.018087191876695052
+  },
+  "best_x": [
+    0.9991700272776016,
+    0.9982396364623556
+  ],
+  "objective_raw": 1.7111162045690602e-06,
+  "threshold": 0.001,
+  "solution_origin": {
+    "algorithm_id": "mealpy:swarm_based.ABC:OriginalABC",
+    "evaluation_id": "0f90732b-72ed-4a81-a6f0-f72e40195e84",
+    "execution_id": "4cea73c0-317a-4af2-874b-4adf53dd609c",
+    "phase": "main",
+    "trial_id": "320f8625-c1cd-4885-9594-481355923dd0"
+  },
+  "recorded_verification": {
+    "absolute_differences": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "numeric_atol": 1e-12,
+    "numeric_rtol": 1e-10,
+    "reference_evaluation_id": "0f90732b-72ed-4a81-a6f0-f72e40195e84",
+    "reference_objective_raw": 1.7111162045690602e-06,
+    "repeat_objective_raw": [
+      1.7111162045690602e-06,
+      1.7111162045690602e-06
+    ],
+    "validation_status": "passed"
+  },
+  "narrative_mode": "llm",
+  "five_required_origins": {
+    "problem": "llm",
+    "candidate_rationale": "llm",
+    "selection": "llm",
+    "solution": "llm",
+    "verification_and_limits": "llm"
+  },
+  "first_draft_server_issues": [
+    {
+      "code": "INVALID_BINDING",
+      "evidence_refs": [],
+      "message_fa": "اختلاف دقیق اتصال در این پاراگراف: {\"token_ids_not_in_fact_refs\":[],\"fact_refs_not_used_as_tokens\":[\"problem.sense\"],\"duplicate_fact_refs\":[]}",
+      "paragraph_id": "problem_main",
+      "required_change_fa": "توکن‌های همین پاراگراف و fact_refs را مطابق اختلاف ثبت‌شده اصلاح کنید؛ معیار انتخاب را با توکن مربوط در همان بخش بیان کنید. بخش‌های پذیرفته‌شده را تغییر ندهید؛ سرور هیچ ارجاع یا توکنی را خودکار تغییر نمی‌دهد.",
+      "section_id": "problem"
+    },
+    {
+      "code": "MISSING_REQUIRED_FACT",
+      "evidence_refs": [],
+      "message_fa": "داده‌های ضروری بدون توکن در همین بخش: {\"missing_required_fact_tokens\":[\"problem.sense\"]}",
+      "paragraph_id": null,
+      "required_change_fa": "توکن‌های الزامی {{fact:problem.sense}} را واقعاً در متن همین بخش بیاورید و fact_refs را با توکن‌های متن برابر نگه دارید؛ ذکر مفهوم یا ارجاع به‌تنهایی کافی نیست. بخش‌های پذیرفته‌شده را تغییر ندهید.",
+      "section_id": "problem"
+    },
+    {
+      "code": "SCHEMA_INVALID",
+      "evidence_refs": [],
+      "message_fa": "خطای ساختاری بخش؛ جزئیات امن برای اصلاح: {\"section_id\":\"candidate_rationale\",\"field_errors\":[{\"field_path\":\"sections[1].paragraphs\",\"error_type\":\"too_long\",\"expected_rule\":\"a list of at most three narrative paragraphs\",\"repair_instruction_fa\":\"فیلد مشخص‌شده را طبق قاعدهٔ ثبت‌شده اصلاح کنید؛ بخش‌های پذیرفته‌شده تغییر نکنند.\"}],\"additional_errors_in_snapshot\":0}",
+      "paragraph_id": null,
+      "required_change_fa": "فیلد مشخص‌شده را طبق قاعدهٔ ثبت‌شده اصلاح کنید؛ بخش‌های پذیرفته‌شده تغییر نکنند.",
+      "section_id": "candidate_rationale"
+    }
+  ],
+  "repair_scope": [
+    "problem",
+    "candidate_rationale"
+  ],
+  "accepted_section_hash_preservation": [
+    {
+      "section_id": "selection",
+      "before_sha256": "38b503bce1391c7a806d5318e581b0d67678948cdb9d301a7bea6dc1e56600af",
+      "after_sha256": "38b503bce1391c7a806d5318e581b0d67678948cdb9d301a7bea6dc1e56600af",
+      "unchanged": true
+    },
+    {
+      "section_id": "solution",
+      "before_sha256": "b57bf5f36d792811a3ade3a1ac4222cf0cd9bd62a07276019782ab1c621f060f",
+      "after_sha256": "b57bf5f36d792811a3ade3a1ac4222cf0cd9bd62a07276019782ab1c621f060f",
+      "unchanged": true
+    },
+    {
+      "section_id": "verification_and_limits",
+      "before_sha256": "abc1d7b6824577aa361636f0686e5a6a216cd95550cad3bda1235db3bb4ccc8e",
+      "after_sha256": "abc1d7b6824577aa361636f0686e5a6a216cd95550cad3bda1235db3bb4ccc8e",
+      "unchanged": true
+    }
+  ],
+  "actual_planner_failure": {
+    "error_code": "LLM_SCHEMA_INVALID",
+    "field_errors": [
+      "queries.2.text: string_too_long"
+    ],
+    "message_fa": "خروجی مدل با قالب یا قواعد مورد انتظار سازگار نیست.",
+    "provider_http_status": null,
+    "retry_after": null,
+    "retryable": false
+  },
+  "planner_repair_succeeded": true,
+  "reporting_calls": 4,
+  "real_role_calls": 8,
+  "consumption_scope": {
+    "whole_job_fe": 20000,
+    "main_fe": 14998,
+    "pilot_fe": 4500,
+    "remaining_preflight_profile_verification_fe": 502,
+    "extra_audit_fe": 0,
+    "extra_audit_model_calls": 0
+  },
+  "html_text_consistency": "PASS",
+  "ui_visual_inspection": "PASS_SEPARATE_BROWSER_AUDIT",
+  "samples": {
+    "problem_main": "هدف مسئله کمینه‌سازی تابع (1-x1)**2 + 100*(x2-x1**2)**2 است؛ بنابراین مسئله یافتن مقدارهای متغیرها برای کمینه‌کردن این تابع در دامنهٔ ثبت‌شده است. مسئله شامل 2 متغیر حقیقی است و دامنهٔ آن x1 در بازهٔ [-2, 2]؛ x2 در بازهٔ [-1, 3] ثبت شده است.",
+    "candidate_de": "نامزدهای تکامل تفاضلی (DE)، سازگاری ماتریس کوواریانس (CMA-ES)، کلونی زنبور مصنوعی (ABC) با اتکا به پیشنهاد مدل با استفاده از شواهد کتابخانهٔ محلی مطرح شدند؛ دلیل مشترک ثبت‌شده، پیوستگی تابع و کراندار بودن فضای متغیرهای حقیقی بود و کارت‌های این روش‌ها نیز برای آزمون پایلوت مناسب دانسته شدند. به‌طور خاص، برای تکامل تفاضلی (DE) آزمودن یک روش جمعیتی روی جملهٔ غیرخطیِ کوپل‌کنندهٔ تابع معقول شمرده شد؛ سند بیرونی این روش را در چارچوب بهینه‌سازی فضاهای پیوسته معرفی می‌کند.",
+    "candidate_cma": "برای سازگاری ماتریس کوواریانس (CMA-ES)، دلیل ثبت‌شده این بود که سازگارسازی ماتریس کوواریانسِ دلالت‌شده در نام روش، در کنار جملهٔ غیرخطی تابع، فرضیه‌ای برای آزمون و مقایسه فراهم می‌کند. سند بیرونی هویت روش را تأیید می‌کند؛ این پیوند انگیزهٔ آزمون است، نه نتیجه‌ای دربارهٔ کارایی آن در مسئله.",
+    "candidate_abc": "در مورد کلونی زنبور مصنوعی (ABC)، انگیزهٔ ثبت‌شده بررسی رفتار آن در جست‌وجوی فضای محدود و غیرخطی مسئله بود؛ مستندات روش سازوکاری را برای محدودکردن آزمون‌های ناموفق پیش از رهاکردن منبع غذا توصیف می‌کند. این دلایل توضیح می‌دهند چرا روش‌ها نامزد آزمون شدند؛ انتخاب نهایی جداگانه بر نتیجهٔ پایلوت‌ها استوار است.",
+    "selection_pilots": "معیار ثبت‌شده، میانهٔ امتیاز پایلوت بود و بر این مبنا کلونی زنبور مصنوعی (ABC) انتخاب شد. برای کلونی زنبور مصنوعی (ABC)، میانهٔ امتیاز پایلوت 0.018087192 و میانهٔ مقدار خام تابع هدف 0.018087192 بود؛ این آمار بر 3 تکرار معتبر استوار بود و در هر پایلوت ثبت‌شدهٔ این روش 500 ارزیابی آغاز شد. روش بعدی در مقایسه، تکامل تفاضلی (DE)، میانهٔ امتیاز 0.02427419 و میانهٔ مقدار خام 0.02427419 داشت؛ بر پایهٔ 3 تکرار معتبر، در هر پایلوت ثبت‌شدهٔ آن 500 ارزیابی آغاز شد. پس انتخاب بر مقایسهٔ میانه‌ها استوار است و به‌تنهایی ادعای برتری در همهٔ تکرارها یا تضمین بهینگی نمی‌کند.",
+    "solution_point": "نقطهٔ گزارش‌شده برابر [0.99917003, 0.99823964] و مقدار خام تابع هدف در آن 1.7111162e-06 است. منشأ ثبت‌شدهٔ این نقطه اجرای اصلی بوده و روش تولیدکنندهٔ ثبت‌شده کلونی زنبور مصنوعی (ABC) است؛ این منشأ از انتخاب پایلوت مستقل گزارش می‌شود.",
+    "verification_check": "بازبینی عددی با وضعیت موفق ثبت شد؛ مقدار تابع هدف در تکرارهای بازبینی‌شده [1.7111162e-06, 1.7111162e-06] بود. این بررسی از سازگاری عددی در نقطهٔ گزارش‌شده پشتیبانی می‌کند، اما گواهی بهینگی سراسری نیست؛ وضعیت بهینگی ثبت‌شده: گواهی‌نشده.",
+    "verification_budget": "در اجرای اصلی، 14998 ارزیابی آغازشده ثبت شد. کل ارزیابی‌های آغازشدهٔ ثبت‌شده در کل کار 20000 بود؛ این کل، محدود به اجرای اصلی و پایلوت‌ها نیست. بنابراین این ارقام مصرف ثبت‌شده را توصیف می‌کنند، نه گواهی کیفیت یا اثبات بهینگی جواب."
+  },
+  "new_model_calls": 0,
+  "new_solver_executions": 0,
+  "new_objective_evaluations": 0,
+  "historical_mac_acceptance": "UNCHANGED; this is fresh Windows U2 evidence only",
+  "ui_visual_evidence": [
+    "../../browser-qa/final-summary.json",
+    "../../browser-qa/final-visual-review.json"
+  ],
+  "ui_visual_scope": "Delegated browser inspection of actual UI and saved HTML at1440/390; honest model/server origins; no fresh calls or numerical work."
+}

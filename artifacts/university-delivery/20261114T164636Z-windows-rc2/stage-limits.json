@@ -1,0 +1,81 @@
+{
+  "schema_version": "university-windows-stage-limits/1.0",
+  "campaign_id": "20261114T164636Z-windows-rc2-dns-fix",
+  "created_at_utc": "2026-11-14T16:50:35.632875+00:00",
+  "runner_contract_unchanged": {
+    "limit_role_calls": 20,
+    "scenario_limits": {
+      "U1": 8,
+      "U2": 8,
+      "U-REPORT": 4
+    }
+  },
+  "effective_stage_limits": {
+    "real_provider_submissions_including_retries": 17,
+    "new_connection_test_submissions": 1,
+    "scenario_role_submissions": {
+      "U2": 8,
+      "U1": 8
+    },
+    "full_pipeline_role_submissions": 16,
+    "acceptance_objective_evaluations_total": 40000,
+    "acceptance_objective_evaluations_per_scenario": 20000,
+    "preparation_objective_evaluations": 100000,
+    "setup_smoke_objective_evaluations": 1002
+  },
+  "scenario_order": [
+    "U2",
+    "U1"
+  ],
+  "U1_start_condition": "U2 status PASS with the original scenario and fixed thresholds/settings",
+  "retrieval_modes": {
+    "U2": "local_only",
+    "U1": "direct_refresh"
+  },
+  "U-REPORT": {
+    "status": "NOT_RUN",
+    "authorized_in_this_stage": false,
+    "role_submissions": 0
+  },
+  "connection_test_policy": "The single authorized normal-UI connection test already succeeded. No additional connection tests are authorized in this stage.",
+  "ledger_policy": "Original zero-role-call binding archived byte-for-byte after source fix; fresh binding uses new campaign id and exact current source manifest. The prior connection test remains charged against the same stage maximum of 17. No historical or current consumption is reset.",
+  "accounting_scope": "Preparation and setup smoke are separate from the 40000 acceptance objective evaluations. The optional connection test is separate from role calls but included in the total of 17 provider submissions.",
+  "historical_campaigns": "Preserved, not resumed or reclassified",
+  "initialization_consumption": {
+    "role_submissions": 0,
+    "connection_test_submissions": 0,
+    "objective_evaluations": 0
+  },
+  "updated_at_utc": "2026-11-14T17:02:54.344993+00:00",
+  "initialization_archive": {
+    "prior_campaign_id": "20261114T164636Z-windows-rc2",
+    "evidence_directory": "initialization-before-dns-fix",
+    "data_dir_binding_archive": "C:\\Users\\TajAhmadi\\AppData\\Local\\P_MC_Optimizer\\university-acceptance-initial-20261114T164636Z",
+    "prior_role_calls": 0,
+    "prior_acceptance_objective_evaluations": 0,
+    "reason": "Windows DNS source patch changed executable source before any acceptance roles or objective evaluations; original zero-call binding fully preserved"
+  },
+  "approved_model_deviations": [
+    {
+      "field": "request_timeout_seconds",
+      "historical_contract": 180,
+      "approved_effective_value": 60,
+      "approval": "Explicit user instruction to continue with 60 seconds, relayed by root agent in this session; no profile database mutation performed by campaign initialization",
+      "scope": "Windows U2/U1 acceptance campaign only"
+    }
+  ],
+  "consumed_before_acceptance": {
+    "connection_test_submissions": 1,
+    "connection_test_prompt_tokens": 59,
+    "connection_test_completion_tokens": 14,
+    "connection_test_total_tokens": 73,
+    "role_submissions": 0,
+    "acceptance_objective_evaluations": 0
+  },
+  "remaining_submissions": {
+    "connection_tests": 0,
+    "U2_roles": 8,
+    "U1_roles": 8,
+    "all_provider_submissions": 16
+  }
+}

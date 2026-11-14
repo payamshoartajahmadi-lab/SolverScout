@@ -1,0 +1,66 @@
+[
+  {
+    "path": "advisor.v1.txt",
+    "sha256": "5584a5f2fc240a8521e609b9658a10ce0061b3b86167dd87b1c1c864ad9aa02c"
+  },
+  {
+    "path": "advisor.v2.txt",
+    "sha256": "d4832b44ee050dbabba07fb11875dc899ada4bfdd0e98c913ebf28cc7eae9d19"
+  },
+  {
+    "path": "advisor.v2.1.txt",
+    "sha256": "ce00f1119111a65a772e1bb9140d5cb139699de603f3884b7741c61ba2a73a83"
+  },
+  {
+    "path": "connection_test.v1.txt",
+    "sha256": "1d39f6f0e94649b4c8b3f4bad6b3bea4d2c45e87b8a7dc3b72fdf594de561cb0"
+  },
+  {
+    "path": "explainer.v1.txt",
+    "sha256": "62a68a24fec25d728ac1b8348b7d4039b963e079891fa6f1971dce4bdc5360b2"
+  },
+  {
+    "path": "explainer.v2.txt",
+    "sha256": "68c027fbced24469f77f8944dfcf539a7433eab8cade57195cf99c28858b3339"
+  },
+  {
+    "path": "explainer.v3.txt",
+    "sha256": "1e0ea666d08b5c424ea32127a3f1cfa170c6f48db014a535e3e75bf085ab3963"
+  },
+  {
+    "path": "explainer.v3.1.txt",
+    "sha256": "c14e77bfaae7c98c7d0cbd8eddc11d44b8384da46b57a441277b117b5719d418"
+  },
+  {
+    "path": "formulator.v1.txt",
+    "sha256": "de3321eca7dc7f0bbd601671df0e8bf9f12d18a2be55aac7420a842e64d93faa"
+  },
+  {
+    "path": "formulator.v1.1.txt",
+    "sha256": "488ce02d822133b6527f27204950979e267360f63440eb705e460e9037c21b48"
+  },
+  {
+    "path": "narrative_review.v1.txt",
+    "sha256": "d0570145d20ac5f554e0794229663196ff5163d328b9a943affcb02de8fb253d"
+  },
+  {
+    "path": "narrative_review.v1.1.txt",
+    "sha256": "00f04fe990fd6194706a702f36fc394733899efe1488bffc8d090da24ddf7ca3"
+  },
+  {
+    "path": "narrative_review.v1.2.txt",
+    "sha256": "055c3ce97289c6ea1a11415bdcfd9a23e847fffbe74eec11ee5e099688396b27"
+  },
+  {
+    "path": "repair.v1.txt",
+    "sha256": "461399134a58a4b4f526f5f5e8733e500ac25c418f2494f65a81a7f8334dfd9c"
+  },
+  {
+    "path": "research_planner.v2.txt",
+    "sha256": "5d28ad8a5cc45b1a4ad38409e3f22ffa0c854565f715d7414eeb64ad2804fb55"
+  },
+  {
+    "path": "research_planner.v2.1.txt",
+    "sha256": "d1fe403b06aa761acdd2c906536ca5eac6543cf380f126c65dacb2ed1da66b2c"
+  }
+]

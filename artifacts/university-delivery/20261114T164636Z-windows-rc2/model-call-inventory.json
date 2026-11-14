@@ -1,0 +1,138 @@
+[
+  {
+    "call_id": "6e841aee-ee77-4b68-98d2-cd29b49f5aa1",
+    "purpose": "connection_test",
+    "role": null,
+    "status": "succeeded",
+    "started_at": "2026-11-14T16:53:03.681188+00:00",
+    "finished_at": "2026-11-14T16:53:05.698489+00:00"
+  },
+  {
+    "call_id": "7bd333cf-ea0e-48f3-b29e-a58da7c2c610",
+    "purpose": "job_role",
+    "role": "formulator",
+    "status": "succeeded",
+    "started_at": "2026-11-14T17:04:00.722424+00:00",
+    "finished_at": "2026-11-14T17:04:10.108885+00:00"
+  },
+  {
+    "call_id": "88ed88c7-3496-4785-832a-f502cc44e39d",
+    "purpose": "job_role",
+    "role": "research_planner",
+    "status": "failed",
+    "started_at": "2026-11-14T17:04:19.966781+00:00",
+    "finished_at": "2026-11-14T17:04:25.313526+00:00"
+  },
+  {
+    "call_id": "7c6cb17a-5d75-48aa-a86c-5b801bfefa0b",
+    "purpose": "job_role",
+    "role": "research_planner",
+    "status": "succeeded",
+    "started_at": "2026-11-14T17:04:25.521622+00:00",
+    "finished_at": "2026-11-14T17:04:30.046209+00:00"
+  },
+  {
+    "call_id": "841a3a8e-a164-4599-a3d4-c483ed5c44d8",
+    "purpose": "job_role",
+    "role": "advisor",
+    "status": "succeeded",
+    "started_at": "2026-11-14T17:04:30.564916+00:00",
+    "finished_at": "2026-11-14T17:04:45.813286+00:00"
+  },
+  {
+    "call_id": "c01f89eb-2525-4b6f-afd4-ecb62c52d9fb",
+    "purpose": "job_role",
+    "role": "explainer",
+    "status": "succeeded",
+    "started_at": "2026-11-14T17:08:27.427856+00:00",
+    "finished_at": "2026-11-14T17:08:54.497035+00:00"
+  },
+  {
+    "call_id": "8e9c2c2c-cb34-4043-8e76-50843c74d905",
+    "purpose": "job_role",
+    "role": "report_reviewer",
+    "status": "succeeded",
+    "started_at": "2026-11-14T17:08:54.991060+00:00",
+    "finished_at": "2026-11-14T17:09:05.060626+00:00"
+  },
+  {
+    "call_id": "197a68f7-faf9-4d19-8324-8403fb3ad7ce",
+    "purpose": "job_role",
+    "role": "explainer",
+    "status": "succeeded",
+    "started_at": "2026-11-14T17:09:05.618533+00:00",
+    "finished_at": "2026-11-14T17:09:30.358693+00:00"
+  },
+  {
+    "call_id": "79d5c1e7-5abb-459f-aaa2-3ce27b5f3fdd",
+    "purpose": "job_role",
+    "role": "report_reviewer",
+    "status": "succeeded",
+    "started_at": "2026-11-14T17:09:30.856877+00:00",
+    "finished_at": "2026-11-14T17:09:38.827060+00:00"
+  },
+  {
+    "call_id": "12028d10-e8f8-49e4-8907-58beecdd171a",
+    "purpose": "job_role",
+    "role": "formulator",
+    "status": "succeeded",
+    "started_at": "2026-11-14T17:10:14.177986+00:00",
+    "finished_at": "2026-11-14T17:10:22.638687+00:00"
+  },
+  {
+    "call_id": "058cda5e-03d4-4dcd-b81d-ebc8924ce686",
+    "purpose": "job_role",
+    "role": "research_planner",
+    "status": "failed",
+    "started_at": "2026-11-14T17:10:37.855341+00:00",
+    "finished_at": "2026-11-14T17:10:42.701427+00:00"
+  },
+  {
+    "call_id": "7db1370b-e4b0-460f-8667-bdd6a9410965",
+    "purpose": "job_role",
+    "role": "research_planner",
+    "status": "succeeded",
+    "started_at": "2026-11-14T17:10:42.899605+00:00",
+    "finished_at": "2026-11-14T17:10:46.906890+00:00"
+  },
+  {
+    "call_id": "9a114cce-acc7-41b5-b739-37f1915581e0",
+    "purpose": "job_role",
+    "role": "advisor",
+    "status": "succeeded",
+    "started_at": "2026-11-14T17:10:47.460124+00:00",
+    "finished_at": "2026-11-14T17:10:58.516447+00:00"
+  },
+  {
+    "call_id": "c6fb8a88-202e-40ec-8b53-459bc1860fad",
+    "purpose": "job_role",
+    "role": "explainer",
+    "status": "succeeded",
+    "started_at": "2026-11-14T17:14:35.188370+00:00",
+    "finished_at": "2026-11-14T17:15:14.127893+00:00"
+  },
+  {
+    "call_id": "2a0c651b-b221-447b-b1be-714426fa3e52",
+    "purpose": "job_role",
+    "role": "report_reviewer",
+    "status": "succeeded",
+    "started_at": "2026-11-14T17:15:14.631644+00:00",
+    "finished_at": "2026-11-14T17:15:20.562013+00:00"
+  },
+  {
+    "call_id": "70f7811d-ebc6-4b78-9260-7afd20a8c173",
+    "purpose": "job_role",
+    "role": "explainer",
+    "status": "succeeded",
+    "started_at": "2026-11-14T17:15:21.148378+00:00",
+    "finished_at": "2026-11-14T17:15:35.081732+00:00"
+  },
+  {
+    "call_id": "de7117df-a599-45bc-bffb-2ccb89ed8a00",
+    "purpose": "job_role",
+    "role": "report_reviewer",
+    "status": "succeeded",
+    "started_at": "2026-11-14T17:15:35.599006+00:00",
+    "finished_at": "2026-11-14T17:15:39.674794+00:00"
+  }
+]

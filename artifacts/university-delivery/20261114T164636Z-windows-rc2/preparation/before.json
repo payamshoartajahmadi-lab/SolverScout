@@ -1,0 +1,67 @@
+{
+  "schema_version": "demo-preparation/1.0",
+  "preparation_id": "81f6d876-cec4-495d-bec8-693675b2064e",
+  "created_at": "2026-11-14T16:49:08.761184+00:00",
+  "status": "not_started",
+  "qualification_budget": null,
+  "attempts": [],
+  "requests": {},
+  "errors": [],
+  "source_sync_runs": [],
+  "methods": [
+    {
+      "name": "ABC",
+      "implementation_id": "mealpy:swarm_based.ABC:OriginalABC",
+      "status": "missing",
+      "pilot_500_compatible": false,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "PSO",
+      "implementation_id": "mealpy:swarm_based.PSO:OriginalPSO",
+      "status": "missing",
+      "pilot_500_compatible": false,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "CMA-ES",
+      "implementation_id": "mealpy:evolutionary_based.ES:CMA_ES",
+      "status": "missing",
+      "pilot_500_compatible": false,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "DE",
+      "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "status": "missing",
+      "pilot_500_compatible": false,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "GWO",
+      "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+      "status": "missing",
+      "pilot_500_compatible": false,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "WOA",
+      "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+      "status": "missing",
+      "pilot_500_compatible": false,
+      "budget_policy_status": "not_applicable"
+    }
+  ],
+  "target_count": 6,
+  "prepared_count": 0,
+  "charged_evaluations": 0,
+  "reserved_evaluations": 0,
+  "official_source": {
+    "enabled": false,
+    "usable_documents": 0,
+    "required_documents_ready": false,
+    "covered_implementation_ids": [],
+    "parser_version": "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-class-sections-v2.1.2;max_text_chars=100000"
+  },
+  "ready": false
+}

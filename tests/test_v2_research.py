@@ -2,6 +2,8 @@ import gzip
 import io
 import json
 import sqlite3
+import sys
+from types import SimpleNamespace
 from uuid import uuid4
 
 import httpx
@@ -186,6 +188,42 @@ def test_transport_pins_dns_strips_keys_and_rejects_expansion():
         with pytest.raises(ResearchError, match="SOURCE_NOT_ALLOWED"):
             transport.get("https://example.org/docs/x", 1, 1024, {})
     assert len(requests) == 1
+
+
+@pytest.mark.parametrize(("platform_name", "root_name", "expected"), [
+    ("win32", "SystemRoot", {"SystemRoot": r"C:\Windows"}),
+    ("win32", "SYSTEMROOT", {"SYSTEMROOT": r"C:\Windows"}),
+    ("linux", "SystemRoot", {}),
+    ("darwin", "SystemRoot", {}),
+])
+def test_dns_resolver_preserves_only_windows_systemroot(monkeypatch, platform_name, root_name, expected):
+    from p_mc_optimizer.research import transport
+
+    monkeypatch.setattr(transport, "sys", SimpleNamespace(platform=platform_name, executable=sys.executable))
+    monkeypatch.setattr(transport, "os", SimpleNamespace(environ={
+        root_name: r"C:\Windows", "OPENAI_API_KEY": KEY, "HTTPS_PROXY": "https://proxy.invalid",
+        "PYTHONPATH": "/untrusted", "PATH": "/untrusted",
+    }), raising=False)
+    calls = []
+
+    def run(command, **kwargs):
+        calls.append((command, kwargs))
+        return SimpleNamespace(stdout=b'["8.8.8.8"]')
+
+    monkeypatch.setattr(transport.subprocess, "run", run)
+    assert transport._resolve("example.org", 2.5) == ["8.8.8.8"]
+    assert len(calls) == 1
+    command, options = calls[0]
+    assert command[:3] == [sys.executable, "-I", "-c"]
+    assert command[-1] == "example.org"
+    assert options == {"timeout": 2.5, "capture_output": True, "check": True, "env": expected}
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="Windows resolver environment regression")
+def test_windows_isolated_dns_resolves_localhost_without_external_network():
+    from p_mc_optimizer.research.transport import _resolve
+
+    assert set(_resolve("localhost", 5.0)) & {"127.0.0.1", "::1"}
 
 
 def test_ledger_never_replays_unknown_and_manual_retry_uses_cap(store):

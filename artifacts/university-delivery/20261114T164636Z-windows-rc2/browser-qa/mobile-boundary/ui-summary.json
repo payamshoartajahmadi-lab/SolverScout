@@ -1,0 +1,26 @@
+{
+  "schema_version": "actual-ui-browser-audit/1.0",
+  "captured_at_utc": "2026-11-14T17:20:32.638Z",
+  "url": "http://127.0.0.1:8501",
+  "browser_version": "157.0.4341.57",
+  "passed": true,
+  "results": [
+    {
+      "scenario": "U2",
+      "job_id": "83182fba-8962-43d6-84aa-ac8b6086433d",
+      "width": 390,
+      "narrative_mode": "llm",
+      "narrative_review_status": "passed",
+      "paragraph_count": 8,
+      "all_paragraphs_exact": true,
+      "origin_labels_correct": true,
+      "document_width": 390,
+      "page_errors": [],
+      "blocked_requests": [],
+      "passed": true
+    }
+  ],
+  "scope": "Presentation correctness only. U1 remains a failed live acceptance because its candidate rationale is server fallback.",
+  "model_calls": 0,
+  "function_evaluations": 0
+}

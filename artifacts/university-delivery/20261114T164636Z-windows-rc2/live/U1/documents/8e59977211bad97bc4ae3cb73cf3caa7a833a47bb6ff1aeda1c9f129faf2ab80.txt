@@ -1,0 +1,4126 @@
+## mealpy.swarm_based.ABC.OriginalABC
+
+Bases: Optimizer
+
+The original version of: Artificial Bee Colony (ABC)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+n_limits (int) – Limit of trials before abandoning a food source, default=25.
+
+References
+
+Karaboga, Dervis, and Bahriye Basturk. “A powerful and efficient algorithm for numerical
+
+function optimization: artificial bee colony (ABC) algorithm.” Journal of global
+
+optimization 39.3 (2007): 459-471. https://doi.org/10.1007/s10898-007-9149-x
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, ABC
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(so
+
+## mealpy.swarm_based.ACOR.OriginalACOR
+
+Bases: Optimizer
+
+The original version of: Ant Colony Optimization Continuous (ACOR)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+n_limits (int) – Limit of trials before abandoning a food source, default=25.
+
+sample_count (int) – Valid range [2, 10000], Number of Newly Generated Samples, default = 25.
+
+intent_factor (float) – Good range [0.2, 1.0], Intensification Factor (Selection Pressure), (q in the paper), default = 0.5.
+
+zeta (float) – Good range [1, 2, 3], Deviation-Distance Ratio, default = 1.0.
+
+References
+
+Socha, K. and Dorigo, M., 2008. Ant colony optimization for continuous d
+
+## mealpy.swarm_based.AGTO.MGTO
+
+Bases: Optimizer
+
+The original version of: Modified Gorilla Troops Optimization (mGTO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+pp (float) – The probability of transition in exploration phase (p in the paper), default = 0.03
+
+References
+
+Mostafa, R. R., Gaheen, M. A., Abd ElAziz, M., Al-Betar, M. A., & Ewees, A. A. (2023).
+
+An improved gorilla troops optimizer for global optimization problems and feature selection.
+
+Knowledge-Based Systems, 110462. https://doi.org/10.1016/j.knosys.2023.110462
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, AGTO
+
+>>>
+
+>>> def obje
+
+## mealpy.swarm_based.AGTO.OriginalAGTO
+
+Bases: Optimizer
+
+The original version of: Artificial Gorilla Troops Optimization (AGTO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+p1 (float) – The probability of transition in exploration phase (p in the paper), default = 0.03.
+
+p2 (float) – The probability of transition in exploitation phase (w in the paper), default = 0.8.
+
+beta (float) – Coefficient in updating equation, should be in [-5.0, 5.0], default = 3.0.
+
+References
+
+Abdollahzadeh, B., Soleimanian Gharehchopogh, F., & Mirjalili, S. (2021). Artificial gorilla
+
+troops optimizer: a new nature‐inspired metaheuristic algorithm 
+
+## mealpy.swarm_based.AHO.OriginalAHO
+
+Bases: Optimizer
+
+The original version of: Archerfish Hunting Optimizer (AHO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+theta (float) – Good range [0, pi], The swapping angle between exploration and exploitation, default: pi/12.
+
+omega (float) – Good range [0, 100.], The attractiveness rate, default: 0.01.
+
+Danger
+
+Empirical evaluations have exposed several critical flaws in its fundamental design:
+
+Architectural Inefficiency: Unlike standard metaheuristic algorithms that
+
+operate with O(N) population loops, AHO explicitly employs deeply nested
+
+O(N^2) population loops during its exp
+
+## mealpy.swarm_based.ALO.DevALO
+
+Bases: OriginalALO
+
+Our developed version: Ant Lion Optimizer (ALO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Note
+
+Improved performance by removing the for loop when creating n random walks
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, ALO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "obj_func": objective_function,
+
+>>> "minmax": "min",
+
+>>> }
+
+>>>
+
+>>> model = ALO.DevALO(epoch=1000, pop_size=50)
+
+>>> g_best = model.solve(proble
+
+## mealpy.swarm_based.ALO.OriginalALO
+
+Bases: Optimizer
+
+The original version of: Ant Lion Optimizer (ALO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Links
+
+https://www.mathworks.com/matlabcentral/fileexchange/49920-ant-lion-optimizer-alo
+
+https://dx.doi.org/10.1016/j.advengsoft.2015.01.010
+
+References
+
+Mirjalili, S., 2015. The ant lion optimizer. Advances in engineering software, 83, pp.80-98.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, ALO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, 
+
+## mealpy.swarm_based.AO.AAO
+
+Bases: Optimizer
+
+The original version of: Adaptive Aquila Optimizer (AAO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+sharpness (float) – Variable that controls the sharpness of the transition between exploration and exploitation.
+
+Default is 10.0, valid range: [0.1, 10000.0].
+
+sigmoid_midpoint (float) – Variable that controls the midpoint of the sigmoid function as it determines when the
+
+transition should be applied, default is 0.5, valid range: [0.0, 1.0].
+
+References
+
+Al-Selwi, S. M., Hassan, M. F., Abdulkadir, S. J., Ragab, M. G., Alqushaibi, A., & Sumiea, E. H. (2024).
+
+Smart gr
+
+## mealpy.swarm_based.AO.OriginalAO
+
+Bases: Optimizer
+
+The original version of: Aquila Optimization (AO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Abualigah, L., Yousri, D., Abd Elaziz, M., Ewees, A.A., Al-Qaness, M.A. and Gandomi, A.H., 2021.
+
+Aquila optimizer: a novel meta-heuristic optimization algorithm. Computers & Industrial
+
+Engineering, 157, p.107250. https://doi.org/10.1016/j.cie.2021.107250
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, AO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 
+
+## mealpy.swarm_based.ARO.IARO
+
+Bases: Optimizer
+
+Our improved version of ARO: Improved Artificial Rabbits Optimization (IARO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, ARO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "obj_func": objective_function,
+
+>>> "minmax": "min",
+
+>>> }
+
+>>>
+
+>>> model = ARO.IARO(epoch=1000, pop_size=50)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness
+
+## mealpy.swarm_based.ARO.LARO
+
+Bases: Optimizer
+
+The original version of: Levy flight Artificial Rabbit Algorithm (LARO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Wang, Y., Huang, L., Zhong, J., & Hu, G. (2022). LARO: Opposition-based learning boosted
+
+artificial rabbits-inspired optimization algorithm with Lévy flight. Symmetry, 14(11), 2282.
+
+https://doi.org/10.3390/sym14112282
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, ARO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) 
+
+## mealpy.swarm_based.ARO.OriginalARO
+
+Bases: Optimizer
+
+The original version of: Artificial Rabbits Optimization (ARO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Wang, L., Cao, Q., Zhang, Z., Mirjalili, S., & Zhao, W. (2022). Artificial rabbits optimization: A new
+
+bio-inspired meta-heuristic algorithm for solving engineering optimization problems.
+
+Engineering Applications of Artificial Intelligence, 114, 105082.
+
+https://doi.org/10.1016/j.engappai.2022.105082
+
+Van Thieu, Nguyen, and Ngoc Hung Nguyen. “Artificial Rabbits Optimizer.”
+
+Encyclopedia of Engineering Optimization and Heuristics.
+
+Singapore: Springe
+
+## mealpy.swarm_based.AVOA.OriginalAVOA
+
+Bases: Optimizer
+
+The original version of: African Vultures Optimization Algorithm (AVOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+p1 (float) – The probability of status transition, default 0.6
+
+p2 (float) – The probability of status transition, default 0.4
+
+p3 (float) – The probability of status transition, default 0.6
+
+alpha (float) – The probability of 1st best, default = 0.8.
+
+gama (float) – The factor in the paper (not much affect to algorithm), default = 2.5
+
+Links
+
+https://doi.org/10.1016/j.cie.2021.107408
+
+https://www.mathworks.com/matlabcentral/fileexchange/94820-african-vu
+
+## mealpy.swarm_based.BA.AdaptiveBA
+
+Bases: Optimizer
+
+Our adaptive version of BA: Adaptive Bat-inspired Algorithm (ABA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+loudness_min (float) – A_min - loudness, default=1.0. Good range [0.5, 1.5].
+
+loudness_max (float) – The range is [1.5, 3.0], A_max - loudness, default=2.0
+
+pr_min (float) – Pulse rate / emission rate min, default = 0.15.
+
+pr_max (float) – Pulse rate / emission rate min, default = 0.85.
+
+pf_min (float) – The pulse frequency min, default=0.
+
+pf_max (float) – The pulse frequency max, default = 10.
+
+Note
+
+The value of A and r are changing after each iteration
+
+Ex
+
+## mealpy.swarm_based.BA.DevBA
+
+Bases: Optimizer
+
+Our developed version: Developed Bat-inspired Algorithm (DBA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+pulse_rate (float) – Good range [0.7, 1.0], pulse rate / emission rate, default = 0.95
+
+pf_min (float) – The pulse frequency min, default = 0.
+
+pf_max (float) – The pulse frequency, default = 10.
+
+Note
+
+A (loudness) parameter is removed.
+
+Flow is changed:
+
+1st the exploration phase is proceed (using frequency)
+
+2nd: If new position has better fitness, replace the old position
+
+3rd: Otherwise, proceed exploitation phase (using finding around the best position so fa
+
+## mealpy.swarm_based.BA.OriginalBA
+
+Bases: Optimizer
+
+The original version of: Bat-inspired Algorithm (BA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+loudness (float) – The range is (0.0, 1.0), loudness, default = 0.8.
+
+pulse_rate (float) – Good range (0.15, 0.85), pulse rate / emission rate, default = 0.95.
+
+pf_min (float) – The pulse frequency min, default=0.1. Range in [0, 3.0]
+
+pf_max (float) – The pulse frequency max, default = 10. Range in [5., 20.]
+
+Note
+
+The value of A and r parameters are constant
+
+References
+
+Yang, X.S., 2010. A new metaheuristic bat-inspired algorithm. In Nature inspired cooperative
+
+strategi
+
+## mealpy.swarm_based.BES.OriginalBES
+
+Bases: Optimizer
+
+The original version of: Bald Eagle Search (BES)
+
+Parameters
+
+epoch (int) – Maximum number of iterations. Default is 10000.
+
+pop_size (int) – Number of population size. Default is 100.
+
+a_factor (int) – Determines the corner between point search in the central point, in range [5, 10]. Default is 10.
+
+R_factor (float) – Determines the number of search cycles, in range [0.5, 2.0]. Default is 1.5.
+
+alpha (float) – Parameter for controlling the changes in position, in range [1.5, 2.0]. Default is 2.0.
+
+c1 (float) – Increases the movement intensity of bald eagles towards the best and centre points, in range [1.0, 2.0]. Default is 2.0.
+
+c2 (float) – Increases the
+
+## mealpy.swarm_based.BFO.ABFO
+
+Bases: Optimizer
+
+The original version of: Adaptive Bacterial Foraging Optimization (ABFO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations. Default is 10000.
+
+pop_size (int) – Number of population size. Default is 100.
+
+C_s (float) – Step size start. Default is 0.1.
+
+C_e (float) – Step size end. Default is 0.001.
+
+Ped (float) – Probability of elimination. Default is 0.01.
+
+Ns (int) – Swim length. Default is 4.
+
+N_adapt (int) – Dead threshold value. Default is 2.
+
+N_split (int) – Split threshold value. Default is 40.
+
+References
+
+Nguyen, T., Nguyen, B.M. and Nguyen, G., 2019, April. Building resource auto-scaler with functional-link
+
+neural network and adaptive bacter
+
+## mealpy.swarm_based.BFO.OriginalBFO
+
+Bases: Optimizer
+
+The original version of: Bacterial Foraging Optimization (BFO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Ci (float) – Step size, in range [0.01, 0.3]. Default is 0.01.
+
+Ped (float) – Probability of elimination, in range [0.1, 0.5]. Default is 0.25.
+
+Ned (int) – Number of elimination-dispersal steps. Default is 5.
+
+Nre (int) – Number of reproduction steps. Default is 50.
+
+Nc (int) – Number of chemotactic steps (reduced to Original Nc/2), in range [3, 10]. Default is 5.
+
+Ns (int) – Swim length, in range [2, 10]. Default is 4.
+
+d_attract (float) – Coefficient to calcul
+
+## mealpy.swarm_based.BSA.OriginalBSA
+
+Bases: Optimizer
+
+The original version of: Bird Swarm Algorithm (BSA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations. Default is 10000.
+
+pop_size (int) – Number of population size. Default is 100.
+
+ff (int) – Flight frequency. Default is 10.
+
+pff (float) – The probability of foraging for food. Default is 0.8.
+
+c1 (float) – Cognitive accelerated coefficient same as PSO. Default is 1.5.
+
+c2 (float) – Social accelerated coefficient same as PSO. Default is 1.5.
+
+a1 (float) – The indirect effect on the birds’ vigilance behaviours. Default is 1.0.
+
+a2 (float) – The direct effect on the birds’ vigilance behaviours. Default is 1.0.
+
+fc (float) – The followed coefficient. De
+
+## mealpy.swarm_based.BWO.OriginalBWO
+
+Bases: Optimizer
+
+The original version of: Beluga Whale Optimization (BWO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Zhong, Changting, Gang Li, and Zeng Meng. “Beluga whale optimization: A novel nature-inspired metaheuristic
+
+algorithm.” Knowledge-based systems 251 (2022): 109215. https://doi.org/10.1016/j.knosys.2022.109215
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, BWO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>>
+
+## mealpy.swarm_based.BeesA.CleverBookBeesA
+
+Bases: Optimizer
+
+The original version of BeesA in clever book: Bees Algorithm (CB-BeesA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+n_elites (int) – Number of employed bees which provided for good location.
+
+n_others (int) – Number of employed bees which provided for other location.
+
+patch_size (float) – Calculated as patch_variables = patch_variables * patch_reduction.
+
+patch_reduction (float) – The reduction factor.
+
+n_sites (int) – Number of sites for 3 bees (employed bees, onlookers and scouts).
+
+n_elite_sites (int) – Number of elite sites (1 good partition).
+
+Note
+
+This version 
+
+## mealpy.swarm_based.BeesA.OriginalBeesA
+
+Bases: Optimizer
+
+The original version of: Bees Algorithm (BeesA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+selected_site_ratio (float) – Ratio of the selected sites. Default is 0.5.
+
+elite_site_ratio (float) – Ratio of the elite sites. Default is 0.4.
+
+selected_site_bee_ratio (float) – Ratio of bees assigned to the selected sites. Default is 0.1.
+
+elite_site_bee_ratio (float) – Ratio of bees assigned to the elite sites. Default is 2.0.
+
+dance_radius (float) – Initial radius of the bees’ dance (search space). Default is 0.1.
+
+dance_reduction (float) – Reduction factor for the dance r
+
+## mealpy.swarm_based.BeesA.ProbBeesA
+
+Bases: Optimizer
+
+The original version of: Probabilistic Bees Algorithm (P-BeesA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations. Default is 10000.
+
+pop_size (int) – Number of population size. Default is 100.
+
+recruited_bee_ratio (float) – Percent of bees recruited. Default is 0.1.
+
+dance_radius (float) – Bees dance radius. Default is 0.1.
+
+dance_reduction (float) – Bees dance radius reduction rate. Default is 0.99.
+
+References
+
+Pham, D.T. and Castellani, M., 2015. A comparative study of the Bees Algorithm as a tool for
+
+function optimisation. Cogent Engineering, 2(1), p.1091540. https://doi.org/10.1080/23311916.2015.1091540
+
+Examples
+
+>>> import numpy as np
+
+>>> fr
+
+## mealpy.swarm_based.CCO.OriginalCCO
+
+Bases: Optimizer
+
+The original version of: Cuckoo Catfish Optimizer (CCO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+alpha (float) – Good range (0, 10.0), alpha parameter, default = 1.34 (as in Matlab code).
+
+beta (float) – Good range (0, 10.0), beta parameter, default = 0.3 (as in Matlab code).
+
+Danger
+
+Excessive Complexity: This is the most complex and convoluted algorithm we have ever implemented.
+
+It is packed with nested operators that seem entirely disconnected from the actual behavior of a Cuckoo Catfish.
+
+Arbitrary Logic: We get the distinct impression that the authors simply 
+
+## mealpy.swarm_based.COA.OriginalCOA
+
+Bases: Optimizer
+
+The original version of: Coyote Optimization Algorithm (COA)
+
+Links
+
+https://doi.org/10.1109/CEC.2018.8477769
+
+https://github.com/jkpir/COA/blob/master/COA.py (Old version Mealpy < 1.2.2)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+n_coyotes (int) – Good range [3, 15], number of coyotes per group, default=5
+
+References
+
+Pierezan, J. and Coelho, L.D.S., 2018, July. Coyote optimization algorithm: a new metaheuristic for
+
+global optimization problems. In 2018 IEEE congress on evolutionary computation (CEC) (pp. 1-8). IEEE.
+
+Examples
+
+>>> import numpy as np
+
+>>> from meal
+
+## mealpy.swarm_based.CSA.OriginalCSA
+
+Bases: Optimizer
+
+The original version of: Cuckoo Search Algorithm (CSA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+p_a (float) – Good range [0.1, 0.7], probability a, default=0.3
+
+References
+
+Yang, X.S. and Deb, S., 2009, December. Cuckoo search via Lévy flights. In 2009 World
+
+congress on nature & biologically inspired computing (NaBIC) (pp. 210-214). Ieee.
+
+https://doi.org/10.1109/NABIC.2009.5393690
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, CSA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "boun
+
+## mealpy.swarm_based.CSO.OriginalCSO
+
+Bases: Optimizer
+
+The original version of: Cat Swarm Optimization (CSO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations. Default is 10000.
+
+pop_size (int) – Number of population size. Default is 100.
+
+mixture_ratio (float) – Ratio for joining seeking mode with tracing mode. Default is 0.15.
+
+smp (int) – Seeking memory pool (e.g., clones). Larger is better but time-consuming. Default is 5.
+
+spc (bool) – Self-position considering flag. Default is False.
+
+cdc (float) – Counts of dimension to change. Larger provides more diversity but slow convergence. Default is 0.8.
+
+srd (float) – Seeking range of the selected dimension. Smaller is better but slow convergence. Default 
+
+## mealpy.swarm_based.ChOA.OriginalChOA
+
+Bases: Optimizer
+
+The original version of: Chimp Optimization Algorithm (ChOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Khishe, M. and Mosavi, M.R., 2020. Chimp optimization algorithm.
+
+Expert systems with applications, 149, p.113338. https://doi.org/10.1016/j.eswa.2020.113338
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, ChOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_fu
+
+## mealpy.swarm_based.ChameleonSA.IChameleonSA
+
+Bases: Optimizer
+
+The original version of: Improved Chameleon Swarm Algorithm (ICSA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+beta (float) – Lévy flight constant (Eq. 13), default = 1.5.
+
+r_chaos (float) – Control parameter for logistic mapping (Eq. 10), default = 0.3
+
+k_spiral (int) – Variation coefficient for spiral search (Eq. 11), default = 5
+
+p1 (float) – Valid range [0, 10.] Personal best influence (From PSO), default=2.0.
+
+p2 (float) – Valid range [0, 10.] Global best influence (From PSO), default=2.0.
+
+Warning
+
+Despite being claimed as an improved version, this algorithm sti
+
+## mealpy.swarm_based.ChameleonSA.OriginalChameleonSA
+
+Bases: Optimizer
+
+The original version of: Chameleon Swarm Algorithm (ChameleonSA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+pp (float) – Valid range [0, 1] Probability of the chameleon perceiving prey, default=0.1
+
+p1 (float) – Valid range [0, 5.0] Exploration control parameter 1 (From PSO), default=0.25.
+
+p2 (float) – Valid range [0, 5.0] Exploration control parameter 2 (From PSO), default=1.50.
+
+c1 (float) – Valid range [0, 5.0] Personal best influence (From PSO), default=1.75.
+
+c2 (float) – Valid range [0, 5.0] Global best influence (From PSO), default=1.75.
+
+gama (float) – Valid
+
+## mealpy.swarm_based.CoatiOA.OriginalCoatiOA
+
+Bases: Optimizer
+
+The original version of: Coati Optimization Algorithm (CoatiOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Links
+
+https://www.sciencedirect.com/science/article/pii/S0950705122011042
+
+https://www.mathworks.com/matlabcentral/fileexchange/116965-coa-coati-optimization-algorithm
+
+Danger
+
+Algorithm design is similar to Zebra Optimization Algorithm (ZOA), Osprey Optimization Algorithm (OOA),
+
+Pelican optimization algorithm (POA), Siberian Tiger Optimization (STO), Language Education Optimization (LEO),
+
+Serval Optimization Algorithm (SOA), Walrus Optimization Algorithm (WO
+
+## mealpy.swarm_based.CrayfishOA.OriginalCrayfishOA
+
+Bases: Optimizer
+
+The original version of: Crayfish Optimization Algorithm (COA)
+
+Parameters
+
+(int) (+ pop_size) –
+
+(int) –
+
+References
+
+Jia, H., Rao, H., Wen, C., & Mirjalili, S. (2023). Crayfish optimization algorithm.
+
+Artificial Intelligence Review, 56(Suppl 2), 1919-1979. https://doi.org/10.1007/s10462-023-10567-4
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, CrayfishOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = CrayfishOA.OriginalCrayfi
+
+## mealpy.swarm_based.DBO.OriginalDBO
+
+Bases: Optimizer
+
+The original version of: Dung Beetle Optimizer (DBO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+kk (float) – Deflection coefficient in rolling behavior, in range [0.0, 2.0]. Default is 0.1.
+
+bb (float) – Attraction toward worst position, in range [0.0, 1.0]. Default is 0.3.
+
+ss (float) – Attraction factor toward local best position, in range [0.0, 1.0]. Default is 0.3.
+
+Links
+
+https://doi.org/10.1007/s11227-022-04959-6
+
+https://github.com/Lancephil/Dung-Beetle-Optimizer
+
+References
+
+Xue, J., & Shen, B. (2022). Dung beetle optimizer: A new meta-heuristic
+
+algorithm fo
+
+## mealpy.swarm_based.DMOA.DevDMOA
+
+Bases: Optimizer
+
+Our developed version: Dwarf Mongoose Optimization Algorithm (DMOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+peep (float) – Peep parameter, in range [1.0, 10.0]. Default is 2.0.
+
+note:: (..) –
+
+Removed the parameter n_baby_sitter
+
+Changed in section # Next Mongoose position
+
+Removed the meaningless variable tau
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, DMOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minm
+
+## mealpy.swarm_based.DMOA.OriginalDMOA
+
+Bases: Optimizer
+
+The original version of: Dwarf Mongoose Optimization Algorithm (DMOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+n_baby_sitter (int) – Number of baby sitters, in range [2, 10]. Default is 3.
+
+peep (float) – Peep parameter, in range [1.0, 10.0]. Default is 2.0.
+
+Note
+
+The Matlab code differs slightly from the original paper
+
+There are some parameters and equations in the Matlab code that don’t seem to have any meaningful purpose.
+
+The algorithm seems to be weak on solving several problems.
+
+Links
+
+https://doi.org/10.1016/j.cma.2022.114570
+
+https://www.mathworks.com/ma
+
+## mealpy.swarm_based.DO.OriginalDO
+
+Bases: Optimizer
+
+The original version of: Dragonfly Optimization (DO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Mirjalili, S., 2016. Dragonfly algorithm: a new meta-heuristic optimization technique for
+
+solving single-objective, discrete, and multi-objective problems. Neural computing and
+
+applications, 27(4), pp.1053-1073. https://doi.org/10.1007/s00521-015-1920-1
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, DO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) 
+
+## mealpy.swarm_based.DSO.OriginalDSO
+
+Bases: Optimizer
+
+The original version of: Dove Swarm Optimization (DSO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+lamda (float) – Satiety decay rate, in range [0.0, 1.0]. Default is 0.9.
+
+eta (float) – Scaled-step for position updates, in range [-100.0, 100.0]. Default is 0.2.
+
+Note
+
+This algorithm is of low quality as it lacks any novel or specialized operators, making it highly prone to getting trapped in local optima.
+
+Relying on fitness and distance within the operator is not an effective approach to improving algorithmic performance.
+
+## mealpy.swarm_based.DandelionO.DevDandelionO
+
+Bases: Optimizer
+
+The developed version: Dandelion Optimizer (DandelionO)
+
+Parameters
+
+(int) (+ pop_size) –
+
+(int) –
+
+Danger
+
+This dev version was contributed by the user “Halil”. Several parameters—such as alpha, a, b,
+
+and k, differ from the original paper.
+
+Furthermore, the Levy function is applied to the entire population simultaneously, whereas the paper
+
+specifies generating a Levy step for each individual. If you choose to use this version,
+
+it must be clearly stated that it is not the original implementation.
+
+References
+
+Zhao, S., Zhang, T., Ma, S., & Chen, M. (2022). Dandelion Optimizer: A nature-inspired
+
+metaheuristic algorithm for engineering applications. Engin
+
+## mealpy.swarm_based.DandelionO.OriginalDandelionO
+
+Bases: Optimizer
+
+The original version: Dandelion Optimizer (DandelionO)
+
+Parameters
+
+(int) (+ pop_size) –
+
+(int) –
+
+Warning
+
+This version is implemented exactly as described in the paper and the author’s original MATLAB code.
+
+However, in the MATLAB code, the author omitted the 0.01 multiplier in the Levy function,
+
+despite it being explicitly mentioned in the paper.
+
+Links
+
+https://www.mathworks.com/matlabcentral/fileexchange/114680-dandelion-optimizer
+
+https://doi.org/10.1016/j.engappai.2022.105075
+
+References
+
+Zhao, S., Zhang, T., Ma, S., & Chen, M. (2022). Dandelion Optimizer: A nature-inspired metaheuristic
+
+algorithm for engineering applications. Engineering Applicati
+
+## mealpy.swarm_based.EEFO.OriginalEEFO
+
+Bases: Optimizer
+
+The original version of: Electric Eel Foraging Optimization (EEFO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Links
+
+https://doi.org/10.1016/j.eswa.2023.122200
+
+https://www.mathworks.com/matlabcentral/fileexchange/153461-electric-eel-foraging-optimization-eefo
+
+References
+
+Zhao, W., Wang, L., Zhang, Z., Fan, H., Zhang, J., Mirjalili, S., Khodadadi, N. and Cao, Q., 2024.
+
+Electric eel foraging optimization: A new bio-inspired optimizer for engineering applications.
+
+Expert systems with applications, 238, p.122200.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy imp
+
+## mealpy.swarm_based.EHO.OriginalEHO
+
+Bases: Optimizer
+
+The original version of: Elephant Herding Optimization (EHO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+alpha (float) – A factor that determines the influence of the best in each clan, in range [0.3, 0.8]. Default is 0.5.
+
+beta (float) – A factor that determines the influence of the x_center, in range [0.3, 0.8]. Default is 0.5.
+
+n_clans (int) – The number of clans, in range [3, 10]. Default is 5.
+
+References
+
+Wang, G.G., Deb, S. and Coelho, L.D.S., 2015, December. Elephant herding optimization.
+
+In 2015 3rd international symposium on computational and business intel
+
+## mealpy.swarm_based.EPC.DevEPC
+
+Bases: Optimizer
+
+Our developed version of: Emperor Penguins Colony (EPC)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+heat_damping_factor (float) – Damping factor for heat radiation, in range [0.0, 1.0]. Default is 0.95.
+
+mutation_factor (float) – Mutation factor for random movement, in range [0.0, 1.0]. Default is 0.5.
+
+spiral_a (float) – Constant for logarithmic spiral movement, in range [0.0, 100.0]. Default is 1.0.
+
+spiral_b (float) – Constant for logarithmic spiral movement, in range [0.0, 100.0]. Default is 0.5.
+
+Error
+
+This algorithm 
+
+## mealpy.swarm_based.ESOA.OriginalESOA
+
+Bases: Optimizer
+
+The original version of: Egret Swarm Optimization Algorithm (ESOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Links
+
+https://www.mathworks.com/matlabcentral/fileexchange/115595-egret-swarm-optimization-algorithm-esoa
+
+https://www.mdpi.com/2313-7673/7/4/144
+
+References
+
+Chen, Z., Francis, A., Li, S., Liao, B., Xiao, D., Ha, T. T., … & Cao, X. (2022).
+
+Egret Swarm Optimization Algorithm: An Evolutionary Computation Approach for Model
+
+Free Optimization. Biomimetics, 7(4), 144.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, ESOA
+
+>>>
+
+>>> def object
+
+## mealpy.swarm_based.FA.OriginalFA
+
+Bases: Optimizer
+
+The original version of: Fireworks Algorithm (FA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+max_sparks (int) – Parameter controlling the total number of sparks generated by the pop_size fireworks, in range [2, 10000]. Default is 100.
+
+p_a (float) – Percent (const parameter), in range (0.0, 1.0). Default is 0.04.
+
+p_b (float) – Percent (const parameter), in range (0.0, 1.0). Default is 0.8.
+
+max_ea (int) – Maximum explosion amplitude, in range [2, 100]. Default is 40.
+
+m_sparks (int) – Number of sparks generated in each ex
+
+## mealpy.swarm_based.FDO.OriginalFDO
+
+Bases: Optimizer
+
+The original version of: Fitness Dependent Optimizer (FDO)
+
+Warning
+
+Inspired by the bee swarming reproductive process, this algorithm optimizes solutions based on
+
+their fitness values by relying primarily on Lévy flight techniques. Owing to random number generation
+
+following the Lévy distribution, the algorithm demonstrates strong convergence capabilities.
+
+However, a major drawback lies in its fitness weight design, where an update is virtually
+
+impossible when the fitness weight equals 1
+
+References
+
+[1] Abdullah, J. M., & Ahmed, T. (2019). Fitness dependent optimizer: inspired by the bee
+
+swarming reproductive process. IEEe Access, 7, 43473-43486. htt
+
+## mealpy.swarm_based.FFA.MLFA_GD
+
+Bases: Optimizer
+
+The original version of: Multiple Learning FA based on Gender Difference (MLFA-GD)
+
+Parameters
+
+(int) (+ m_females) –
+
+(int) –
+
+(int) –
+
+(float) (+ k_rw) –
+
+(float) –
+
+(float) –
+
+(float) –
+
+Warning
+
+This algorithm suffers from severe numerical instabilities:
+
+Distance Underflow (Eq. 3 & 12): The attractiveness term exp(-gama * r^2)
+
+evaluates to exactly 0.0 in large search bounds. Without distance normalization,
+
+attraction drops to zero, and the swarm paralyzes.
+
+Cauchy Mutation Explosion (Eq. 13): The female update utilizes an unscaled
+
+Cauchy distribution. Due to its heavy tails, it frequently generates massive
+
+values, throwing fireflies out of the sear
+
+## mealpy.swarm_based.FFA.OriginalFFA
+
+Bases: Optimizer
+
+The original version of: Firefly Algorithm (FFA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+gamma (float) – Light Absorption Coefficient, in range (0.0, 1.0). Default is 0.001.
+
+beta_base (float) – Attraction Coefficient Base Value, in range (0.0, 3.0). Default is 2.0.
+
+alpha (float) – Mutation Coefficient, in range (0.0, 1.0). Default is 0.2.
+
+alpha_damp (float) – Mutation Coefficient Damp Rate, in range (0.0, 1.0). Default is 0.99.
+
+delta (float) – Mutation Step Size, in range (0.0, 1.0). Default is 0.05.
+
+exponent (int)
+
+## mealpy.swarm_based.FFO.OriginalFFO
+
+Bases: Optimizer
+
+The original version of: Fennec Fox Optimization (FFO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+gamma (float) – Light Absorption Coefficient, in range (0.0, 1.0). Default is 0.001.
+
+beta_base (float) – Attraction Coefficient Base Value, in range (0.0, 3.0). Default is 2.0.
+
+alpha (float) – Mutation Coefficient, in range (0.0, 1.0). Default is 0.2.
+
+alpha_damp (float) – Mutation Coefficient Damp Rate, in range (0.0, 1.0). Default is 0.99.
+
+delta (float) – Mutation Step Size, in range (0.0, 1.0). Default is 0.05.
+
+exponent
+
+## mealpy.swarm_based.FHO.OriginalFHO
+
+Bases: Optimizer
+
+The original version of: Fire Hawk Optimization (FHO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Note
+
+There are discrepancies between the author’s MATLAB code and the paper.
+
+This Python version strictly follows what is written in the paper.
+
+Links
+
+https://doi.org/10.1007/s10462-022-10173-w
+
+https://www.mathworks.com/matlabcentral/fileexchange/114325-fire-hawk-optimizer-fho-a-novel-metaheuristic-algorithm
+
+References
+
+Azizi, M., Talatahari, S., & Gandomi, A. H. (2022). Fire Hawk Optimizer: a novel metaheuristic algorithm. Artificial Intelligence Review, 1-77.
+
+Exam
+
+## mealpy.swarm_based.FOA.DevFOA
+
+Bases: OriginalFOA
+
+Our developed version: Fruit-fly Optimization Algorithm (FOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, FOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = FOA.DevFOA(epoch=1000, pop_size=50)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.ta
+
+## mealpy.swarm_based.FOA.OriginalFOA
+
+Bases: Optimizer
+
+The original version of: Fruit-fly Optimization Algorithm (FOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Pan, W.T., 2012. A new fruit fly optimization algorithm: taking the financial distress model
+
+as an example. Knowledge-Based Systems, 26, pp.69-74. https://doi.org/10.1016/j.knosys.2011.07.001
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, FOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax":
+
+## mealpy.swarm_based.FOA.WhaleFOA
+
+Bases: OriginalFOA
+
+The original version of: Whale Fruit-fly Optimization Algorithm (WFOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Fan, Y., Wang, P., Heidari, A.A., Wang, M., Zhao, X., Chen, H. and Li, C., 2020.
+
+Boosted hunting-based fruit fly optimization and advances in real-world problems.
+
+Expert Systems with Applications, 159, p.113502. https://doi.org/10.1016/j.eswa.2020.113502
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, FOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds"
+
+## mealpy.swarm_based.FOX.DevFOX
+
+Bases: Optimizer
+
+Our developed version of: Fox Optimizer (FOX)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+c1 (float) – The coefficient of jumping (c1 in the paper). Default is 0.18.
+
+c2 (float) – The coefficient of jumping (c2 in the paper). Default is 0.82.
+
+pp (float) – The probability of choosing the exploration and exploitation phase. Default is 0.5.
+
+Note
+
+Set parameter pp = 0.18 if you want to same as Original version
+
+The different between Dev and Original version is the equation:
+
+self.g_best.solution + self.generator.standard_normal(self.problem.n_dims) * (self.mint * aa)
+
+E
+
+## mealpy.swarm_based.FOX.OriginalFOX
+
+Bases: Optimizer
+
+The original version of: Fox Optimizer (FOX)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+c1 (float) – The coefficient of jumping (c1 in the paper). Default is 0.18.
+
+c2 (float) – The coefficient of jumping (c2 in the paper). Default is 0.82.
+
+Note
+
+The equation used to calculate the distance_S_travel value in the Matlab code seems to be lacking in meaning.
+
+The if-else conditions used with p > 0.18 seem to lack a clear justification. The authors seem to
+
+have simply chosen the best value based on their experiments without explaining the rationale behind it.
+
+Links
+
+ht
+
+## mealpy.swarm_based.GJA.OriginalGJA
+
+Bases: Optimizer
+
+The original version of: Gekko Japonicus Algorithm (GJA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations. Default is 10000.
+
+pop_size (int) – Population size (number of trees). Default is 100.
+
+beta_start (float) – Starting value for the beta parameter, in range [1.0, 1.5]. Default is 1.2.
+
+beta_end (float) – Ending value for the beta parameter, in range [0.1, 0.5]. Default is 0.3.
+
+alpha_ratio (float) – Ratio to calculate alpha from beta, in range [0.4, 0.8]. Default is 0.6.
+
+Note
+
+The algorithm draws inspiration from the predation strategies and survival behaviors
+
+of the Gekko japonicus (Japanese gecko). It simulates various biological behaviors 
+
+## mealpy.swarm_based.GJO.OriginalGJO
+
+Bases: Optimizer
+
+The original version of: Golden jackal optimization (GJO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Links
+
+https://www.sciencedirect.com/science/article/abs/pii/S095741742200358X
+
+https://www.mathworks.com/matlabcentral/fileexchange/108889-golden-jackal-optimization-algorithm
+
+References
+
+Chopra, N., & Ansari, M. M. (2022). Golden jackal optimization: A novel nature-inspired
+
+optimizer for engineering applications. Expert Systems with Applications, 198, 116924.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, GJO
+
+>>>
+
+>>> def objective_function(s
+
+## mealpy.swarm_based.GOA.OriginalGOA
+
+Bases: Optimizer
+
+The original version of: Grasshopper Optimization Algorithm (GOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+c_min (float) – Coefficient c min, in range [0.00001, 0.2]. Default is 0.00004.
+
+c_max (float) – Coefficient c max, in range [0.2, 5.0]. Default is 2.0.
+
+Links
+
+https://dx.doi.org/10.1016/j.advengsoft.2017.01.004
+
+https://www.mathworks.com/matlabcentral/fileexchange/61421-grasshopper-optimisation-algorithm-goa
+
+References
+
+Saremi, S., Mirjalili, S. and Lewis, A., 2017. Grasshopper optimisation algorithm: theory
+
+and
+
+## mealpy.swarm_based.GTO.Matlab101GTO
+
+Bases: Optimizer
+
+The conversion of Matlab code (version 1.0.1 - 29/11/2022) to Python code of: Giant Trevally Optimizer (GTO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Attention
+
+This algorithm costs a huge amount of computational resources in each epoch.
+
+Therefore, be careful when using the maximum number of generations as a stopping condition.
+
+Other algorithms update around K*pop_size times in each epoch, this algorithm updates around 2*pop_size^2 + pop_size times
+
+This version is used by the authors to compared with other algorithms in their paper.
+
+Links
+
+https://www.mathworks
+
+## mealpy.swarm_based.GTO.Matlab102GTO
+
+Bases: Optimizer
+
+The conversion of Matlab code (version 1.0.2 - 27/04/2023) to Python code of: Giant Trevally Optimizer (GTO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Attention
+
+The author sent me an email asking to update the algorithm. In this version, they removed 2 for
+
+loops in the epoch (generations) based on my comments on their Matlab code is wrong, so the
+
+computation time will reduce to 3*pop_size from 2*pop_size^2 + pop_size. However, this will
+
+also lead to a reduction in performance results. My question: Are the results in the paper valid?
+
+I have decided to implement 
+
+## mealpy.swarm_based.GTO.OriginalGTO
+
+Bases: Optimizer
+
+The original version of: Giant Trevally Optimizer (GTO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+A (float) – A position-change-controlling parameter (recommended range from 0.3 to 0.4), in range [-10.0, 10.0]. Default is 0.4.
+
+H (float) – Initial value for specifies the jumping slope function, in range [1.0, 10.0]. Default is 2.0.
+
+Note
+
+There is a minor difference between Matlab code and the paper. So, this version is implemented exactly as described in the paper.
+
+https://www.mathworks.com/matlabcentral/fileexchange/12
+
+## mealpy.swarm_based.GWO.CG_GWO
+
+Bases: Optimizer
+
+The original version of: Cauchy‑Gaussian mutation and improved search strategy GWO (CG‑GWO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Caution
+
+This algorithm can’t be parallelized because of the ‘single’ update mode.
+
+Meaning that the updating of the pack is based on order and sequence of the wolves.
+
+References
+
+Li, K., Li, S., Huang, Z. et al. Grey Wolf Optimization algorithm based on Cauchy-Gaussian mutation and
+
+improved search strategy. Sci Rep 12, 18961 (2022). https://doi.org/10.1038/s41598-022-23713-9
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import
+
+## mealpy.swarm_based.GWO.ChaoticGWO
+
+Bases: Optimizer
+
+The original version of: Chaotic-based Grey Wolf Optimizer (Chaotic-GWO or C-GWO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+chaotic_name (str) – Name of the chaotic map to use (e.g., ‘bernoulli’, ‘logistic’, ‘chebyshev’, ‘circle’,
+
+‘cubic’, ‘icmic’, ‘piecewise’, ‘singer’, ‘sinusoidal’, ‘tent’). Default is ‘chebyshev’.
+
+initial_chaotic_value (float) – Initial value for the chaotic map, in range [0.0, 1.0]. Default is 0.7.
+
+References
+
+Kohli, M., & Arora, S. (2018). Chaotic grey wolf optimization algorithm for constrained optimization problems.
+
+Journal of computation
+
+## mealpy.swarm_based.GWO.DS_GWO
+
+Bases: Optimizer
+
+The original version of: Diversity enhanced Strategy based Grey Wolf Optimizer (DS-GWO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+explore_ratio (float) – Ratio to control exploration, in range [0.0, 1.0]. Default is 0.4.
+
+n_groups (int) – Number of groups for group-stage competition, in range [5, 100]. Default is 5.
+
+Note
+
+This implementation includes:
+
+Group-stage competition mechanism
+
+Exploration-exploitation balance mechanism
+
+References
+
+Jiang, Jianhua, Ziying Zhao, Yutong Liu, Weihua Li, and Huan Wang. “DSGWO: An improved grey wolf optimizer
+
+with diversity en
+
+## mealpy.swarm_based.GWO.DevGWO
+
+Bases: Optimizer
+
+The developed version of: Grey Wolf Optimizer (GWO)
+
+This variant modifies the original Grey Wolf Optimizer (GWO) by introducing
+
+two additional selection mechanisms:
+
+The Alpha, Beta, and Delta wolves are selected from the best three solutions of the current
+
+population at each iteration, rather than being maintained as persistent historical leaders.
+
+A greedy selection strategy is applied between each current wolf and its newly generated candidate,
+
+so that the better solution is retained for the next iteration.
+
+These modifications introduce additional selection pressure and make the search dynamics different
+
+from those of the original GWO proposed by M
+
+## mealpy.swarm_based.GWO.ER_GWO
+
+Bases: Optimizer
+
+The original version of: Efficient and Robust Grey Wolf Optimizer (ER-GWO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+a_initial (float) – Initial value of coefficient a, in range [0.0, 10.0]. Default is 2.0.
+
+a_final (float) – Final value of coefficient a, in range [0.0, a_initial]. Default is 0.0.
+
+miu_factor (float) – Nonlinear coefficient for equation (8), in range [1.0001, 1.01]. Default is 1.0001.
+
+Caution
+
+Slow convergence speed due to the (miu_factor)^(iteration) ==> Big number
+
+Three more parameters than original GWO, increase the complexity of the algorithm.
+
+## mealpy.swarm_based.GWO.ExGWO
+
+Bases: Optimizer
+
+The original version of: Expanded Grey Wolf Optimizer (Ex-GWO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Note
+
+When calling the solve() function, you need to set the mode to “swarm” to use this algorithm as original version.
+
+They update the position of whole population before calculating the fitness of each agent.
+
+References
+
+Seyyedabbasi, A., & Kiani, F. (2021). I-GWO and Ex-GWO: improved algorithms of the Grey Wolf Optimizer to
+
+solve global optimization problems. Engineering with Computers, 37(1), 509-532.
+
+https://doi.org/10.1007/s00366-019-00837-7
+
+Examples
+
+
+
+## mealpy.swarm_based.GWO.FuzzyGWO
+
+Bases: Optimizer
+
+The original version of: Fuzzy Hierarchical Operator - Grey Wolf Optimizer (FHO-GWO or FuzzyGWO or F-GWO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+fuzzy_name (str) – Type of fuzzy operator to use (e.g., ‘increase’, ‘decrease’). Default is ‘increase’.
+
+References
+
+Rodríguez, Luis, Oscar Castillo, José Soria, Patricia Melin, Fevrier Valdez, Claudia I. Gonzalez,
+
+Gabriela E. Martinez, and Jesus Soto. “A fuzzy hierarchical operator in the grey wolf
+
+optimizer algorithm.” Applied Soft Computing 57 (2017): 315-328. https://doi.org/10.1016/j.asoc.2017.03.048
+
+Examples
+
+>>
+
+## mealpy.swarm_based.GWO.GWO_WOA
+
+Bases: OriginalGWO
+
+The original version of: Hybrid Grey Wolf - Whale Optimization Algorithm (GWO-WOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Obadina, O. O., Thaha, M. A., Althoefer, K., & Shaheed, M. H. (2022). Dynamic characterization
+
+of a master–slave robotic manipulator using a hybrid grey wolf–whale optimization algorithm.
+
+Journal of Vibration and Control, 28(15-16), 1992-2003. https://doi.org/10.1177/10775463211003402
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, GWO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**
+
+## mealpy.swarm_based.GWO.IGWO
+
+Bases: OriginalGWO
+
+The original version of: Improved Grey Wolf Optimization (IGWO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+a_min (float) – Lower bound of a, in range (0.0, 1.6). Default is 0.02.
+
+a_max (float) – Upper bound of a, in range [1.0, 4.0]. Default is 2.2.
+
+References
+
+Kaveh, A., & Zakian, P. (2018). Improved GWO algorithm for optimal design of truss structures.
+
+Engineering with Computers, 34(4), 685-707. https://doi.org/10.1007/s00366-017-0567-1
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, GWO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> retu
+
+## mealpy.swarm_based.GWO.IOBL_GWO
+
+Bases: Optimizer
+
+The original version of: Improved Opposite-based Learning Grey Wolf Optimizer (IOBL-GWO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Note
+
+In the paper, they called it “Improved Grey Wolf Optimizer (IGWO)”, but there are many improved versions of GWO.
+
+So based on their proposed equations, we called it as “Improved Opposite-based Learning Grey Wolf Optimizer (IOBL-GWO)”.
+
+This algorithm is heavily (4x - 6X slower than original) because of multiple times of calculating the fitness of agent in each population.
+
+References
+
+Bansal, J. C., & Singh, S. (2021). A better exp
+
+## mealpy.swarm_based.GWO.IncrementalGWO
+
+Bases: Optimizer
+
+The original version of: Incremental model-based Grey Wolf Optimizer (IncrementalGWO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+explore_factor (float) – Factor to control exploration, in range [0.0, 5.0]. Default is 1.5.
+
+Note
+
+When calling the solve() function, you need to set the mode to “swarm” to use this algorithm as original version.
+
+They update the position of whole population before calculating the fitness of each agent.
+
+References
+
+Seyyedabbasi, A., & Kiani, F. (2021). I-GWO and Ex-GWO: improved algorithms of the Grey Wolf Optimizer
+
+to solve global optim
+
+## mealpy.swarm_based.GWO.OGWO
+
+Bases: Optimizer
+
+The original version of: Opposition-based learning Grey Wolf Optimizer (OGWO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+miu_factor (float) – Nonlinear coefficient for equation (11), in range [0.0, 10.0]. Default is 2.0.
+
+jumping_rate (float) – Jumping rate for OBL (Opposition-Based Learning), in range [0.0, 1.0]. Default is 0.05.
+
+References
+
+Yu, X., Xu, W., & Li, C. (2021). Opposition-based learning grey wolf optimizer for global
+
+optimization. Knowledge-Based Systems, 226, 107139. https://doi.org/10.1016/j.knosys.2021.107139
+
+Examples
+
+>>> import numpy as np
+
+>>> 
+
+## mealpy.swarm_based.GWO.OriginalGWO
+
+Bases: Optimizer
+
+The original version of: Grey Wolf Optimizer (GWO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Links
+
+https://doi.org/10.1016/j.advengsoft.2013.12.007
+
+https://www.mathworks.com/matlabcentral/fileexchange/44974-grey-wolf-optimizer-gwo?s_tid=FX_rc3_behav
+
+References
+
+Mirjalili, S., Mirjalili, S.M. and Lewis, A., 2014. Grey wolf optimizer. Advances in engineering software, 69, pp.46-61.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, GWO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bound
+
+## mealpy.swarm_based.GWO.RW_GWO
+
+Bases: Optimizer
+
+The original version of: Random Walk Grey Wolf Optimizer (RW-GWO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Gupta, S. and Deep, K., 2019. A novel random walk grey wolf optimizer.
+
+Swarm and evolutionary computation, 44, pp.101-112. https://doi.org/10.1016/j.swevo.2018.01.001
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, GWO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func"
+
+## mealpy.swarm_based.HBA.OriginalHBA
+
+Bases: Optimizer
+
+The original version of: Honey Badger Algorithm (HBA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Links
+
+https://doi.org/10.1016/j.matcom.2021.08.013
+
+https://www.mathworks.com/matlabcentral/fileexchange/98204-honey-badger-algorithm
+
+References
+
+Hashim, F. A., Houssein, E. H., Hussain, K., Mabrouk, M. S., & Al-Atabany, W. (2022).
+
+Honey Badger Algorithm: New metaheuristic algorithm for solving optimization problems.
+
+Mathematics and Computers in Simulation, 192, 84-110.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, HBA
+
+>>>
+
+>>> def objective_fun
+
+## mealpy.swarm_based.HGS.OriginalHGS
+
+Bases: Optimizer
+
+The original version of: Hunger Games Search (HGS)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+PUP (float) – The probability of updating position (L in the paper), in range (0, 1.0). Default is 0.08.
+
+LH (float) – Largest hunger / threshold, in range [1, 20000]. Default is 10000.
+
+References
+
+Yang, Y., Chen, H., Heidari, A.A. and Gandomi, A.H., 2021. Hunger games search: Visions,
+
+conception, implementation, deep analysis, perspectives, and towards performance shifts.
+
+Expert Systems with Applications, 177, p.114864. https:
+
+## mealpy.swarm_based.HHO.OriginalHHO
+
+Bases: Optimizer
+
+The original version of: Harris Hawks Optimization (HHO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Heidari, A.A., Mirjalili, S., Faris, H., Aljarah, I., Mafarja, M. and Chen, H., 2019.
+
+Harris hawks optimization: Algorithm and applications.
+
+Future generation computer systems, 97, pp.849-872. https://doi.org/10.1016/j.future.2019.02.028
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, HHO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(1
+
+## mealpy.swarm_based.JA.DevJA
+
+Bases: Optimizer
+
+Our developed version: Jaya Algorithm (JA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Rao, R., 2016. Jaya: A simple and new optimization algorithm for solving constrained and unconstrained
+
+optimization problems. International Journal of Industrial Engineering Computations, 7(1), pp.19-34.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, JA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>
+
+## mealpy.swarm_based.JA.LevyJA
+
+Bases: DevJA
+
+The original version of: Levy-flight Jaya Algorithm (LJA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Note
+
+All third loops in this version also are removed
+
+The beta value of Levy-flight equal to 1.8 as the best value in the paper.
+
+References
+
+Iacca, G., dos Santos Junior, V.C. and de Melo, V.V., 2021. An improved Jaya optimization
+
+algorithm with Lévy flight. Expert Systems with Applications, 165, p.113902.
+
+https://doi.org/10.1016/j.eswa.2020.113902
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, JA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> 
+
+## mealpy.swarm_based.JA.OriginalJA
+
+Bases: DevJA
+
+The original version of: Jaya Algorithm (JA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Rao, R., 2016. Jaya: A simple and new optimization algorithm for solving constrained and
+
+unconstrained optimization problems. International Journal of Industrial
+
+Engineering Computations, 7(1), pp.19-34. https://www.growingscience.com/ijiec/Vol7/IJIEC_2015_32.pdf
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, JA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 
+
+## mealpy.swarm_based.MFO.OriginalMFO
+
+Bases: Optimizer
+
+The original version: Moth-Flame Optimization (MFO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Mirjalili, S., 2015. Moth-flame optimization algorithm: A novel nature-inspired heuristic paradigm.
+
+Knowledge-based systems, 89, pp.228-249. https://doi.org/10.1016/j.knosys.2015.07.006
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, MFO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_
+
+## mealpy.swarm_based.MGO.OriginalMGO
+
+Bases: Optimizer
+
+The original version of: Mountain Gazelle Optimizer (MGO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Links
+
+https://www.sciencedirect.com/science/article/abs/pii/S0965997822001831
+
+https://www.mathworks.com/matlabcentral/fileexchange/118680-mountain-gazelle-optimizer
+
+References
+
+Abdollahzadeh, B., Gharehchopogh, F. S., Khodadadi, N., & Mirjalili, S. (2022).
+
+Mountain gazelle optimizer: a new nature-inspired metaheuristic algorithm for
+
+global optimization problems. Advances in Engineering Software, 174, 103282.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy impo
+
+## mealpy.swarm_based.MPA.OriginalMPA
+
+Bases: Optimizer
+
+The original version: Marine Predators Algorithm (MPA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Note
+
+To use the original paper, set the training mode = “swarm”
+
+They update the whole population at the same time before update the fitness
+
+Two variables that they consider it as constants which are FADS = 0.2 and P = 0.5
+
+Links
+
+https://doi.org/10.1016/j.eswa.2020.113377
+
+https://www.mathworks.com/matlabcentral/fileexchange/74578-marine-predators-algorithm-mpa
+
+References
+
+Faramarzi, A., Heidarinejad, M., Mirjalili, S., & Gandomi, A. H. (2020).
+
+Marine Predators Algo
+
+## mealpy.swarm_based.MRFO.OriginalMRFO
+
+Bases: Optimizer
+
+The original version of: Manta Ray Foraging Optimization (MRFO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+somersault_range (float) – Somersault factor that decides the somersault range of manta rays, in range [1.0, 5.0]. Default is 2.0.
+
+References
+
+Zhao, W., Zhang, Z. and Wang, L., 2020. Manta ray foraging optimization: An effective
+
+bio-inspired optimizer for engineering applications. Engineering Applications of
+
+Artificial Intelligence, 87, p.103300. https://doi.org/10.1016/j.engappai.2019.103300
+
+Examples
+
+>>> import 
+
+## mealpy.swarm_based.MRFO.WMQIMRFO
+
+Bases: Optimizer
+
+The original version of: Wavelet Mutation and Quadratic Interpolation MRFO (WMQIMRFO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+somersault_range (float) – Somersault factor that decides the somersault range of manta rays, in range [1.0, 5.0]. Default is 2.0.
+
+pm (float) – Probability mutation, in range (0.0, 1.0). Default is 0.5.
+
+References
+
+G. Hu, M. Li, X. Wang et al., An enhanced manta ray foraging optimization algorithm for shape optimization of
+
+complex CCG-Ball curves, Knowledge-Based Systems (2022). https://doi.or
+
+## mealpy.swarm_based.MSA.OriginalMSA
+
+Bases: Optimizer
+
+The original version: Moth Search Algorithm (MSA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations. Default is 10000.
+
+pop_size (int) – Population size. Default is 100.
+
+n_best (int) – How many of the best moths to keep from one generation to the next, in range [3, 10]. Default is 5.
+
+partition (float) – The proportional of first partition, in range [0.3, 0.8]. Default is 0.5.
+
+max_step_size (float) – Max step size used in Levy-flight technique, in range [0.5, 2.0]. Default is 1.0.
+
+Links
+
+https://www.mathworks.com/matlabcentral/fileexchange/59010-moth-search-ms-algorithm
+
+https://doi.org/10.1007/s12293-016-0212-3
+
+References
+
+Wang, G.G., 2018. Moth 
+
+## mealpy.swarm_based.MShOA.DevMShOA
+
+Bases: Optimizer
+
+Our developed version of: Mantis Shrimp Optimization Algorithm (MShOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+k_value (float) – Upper bound for k parameter in defense/shelter phase (Strategy 3, Equation 15).
+
+k is sampled from U(0, k_value), in range (0.0, 10000.0). Default is 0.3.
+
+Note
+
+This version is implemented by “Gunbaz” with the help of AI-generated code.
+
+This implementation uses PTI-based strategy selection exactly as described in Algorithm 1 and Algorithm 2. All equations match the paper exactly:
+
+Algorithm 
+
+## mealpy.swarm_based.MShOA.OriginalMShOA
+
+Bases: Optimizer
+
+The original version of: Mantis Shrimp Optimization Algorithm (MShOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Warning
+
+Mathematical formulas and notations in the paper are ambiguous, making direct implementation is hard.
+
+This Python code was translated directly from the author’s MATLAB implementation.
+
+Use this algorithm with caution due to the questionable quality of the paper.
+
+The main point of this algorithm is changing the position of global best solution instead of current position.
+
+Links
+
+https://doi.org/10.3390/math13091500
+
+https://www.mathworks.com/mat
+
+## mealpy.swarm_based.NGO.OriginalNGO
+
+Bases: Optimizer
+
+The original version of: Northern Goshawk Optimization (NGO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Danger
+
+This is somewhat concerning, as there appears to be a high degree of similarity between the
+
+source code for this algorithm and the Pelican Optimization Algorithm (POA).
+
+Algorithm design is highly similar to Zebra Optimization Algorithm (ZOA), Osprey Optimization
+
+Algorithm (OOA), Coati Optimization Algorithm (CoatiOA), Siberian Tiger Optimization (STO),
+
+Language Education Optimization (LEO), Serval Optimization Algorithm (SOA), Walrus Optimization
+
+Algor
+
+## mealpy.swarm_based.NMRA.ImprovedNMRA
+
+Bases: Optimizer
+
+Our improved version of: Improved Naked Mole-Rat Algorithm (I-NMRA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+pb (float) – Breeding probability, in range (0.0, 1.0). Default is 0.75.
+
+pm (float) – Probability of mutation, in range (0.0, 1.0). Default is 0.01.
+
+Note
+
+Use mutation probability idea
+
+Use crossover operator
+
+Use Levy-flight technique
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, NMRA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>
+
+## mealpy.swarm_based.NMRA.OriginalNMRA
+
+Bases: Optimizer
+
+The original version of: Naked Mole-Rat Algorithm (NMRA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+pb (float) – Probability of breeding, in range (0.0, 1.0). Default is 0.75.
+
+References
+
+Salgotra, R. and Singh, U., 2019. The naked mole-rat algorithm. Neural Computing and
+
+Applications, 31(12), pp.8837-8857. https://www.doi.org10.1007/s00521-019-04464-7
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, NMRA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict
+
+## mealpy.swarm_based.NWOA.OriginalNO
+
+Bases: Optimizer
+
+The original version of: Narwhal Optimization (NO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+alpha (float) – Signal intensity control factor, in range [-100.0, 100.0]. Default is 2.0.
+
+sigma0 (float) – Initial standard deviation for signal propagation, in range [-100.0, 100.0]. Default is 2.0.
+
+References
+
+Medjahed, Seyyid Ahmed, and Fatima Boukhatem. “Narwhal Optimizer: A Novel Nature-Inspired
+
+Metaheuristic Algorithm”. Int. Arab J. Inf. Technol. 21.3 (2024): 418-426. https://doi.org/10.34028/iajit/21/3/6
+
+Examples
+
+>>> 
+
+## mealpy.swarm_based.NWOA.OriginalNWOA
+
+Bases: Optimizer
+
+The original version of: Narwhal Optimization Algorithm (NWOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+amplitude (float) – Wave amplitude, in range [-100.0, 100.0]. Default is 1.0.
+
+delta_decay (float) – Decay constant, in range (0.0, 1.0). Default is 0.01.
+
+lamda_decay (float) – Energy decay rate, in range (0.0, 1.0). Default is 0.001.
+
+References
+
+Masadeh, R., Almomani, O., Zaqebah, A., Masadeh, S., Alshqurat, K., Sharieh, A., & Alsharman, N. (2025).
+
+Narwhal Optimizer: A Nature-Inspired Optimization Algorithm for Sol
+
+## mealpy.swarm_based.OOA.OriginalOOA
+
+Bases: Optimizer
+
+The original version of: Osprey Optimization Algorithm (OOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Caution
+
+Algorithm design is similar to Zebra Optimization Algorithm (ZOA), Osprey Optimization Algorithm (OOA),
+
+Pelican optimization algorithm (POA), Siberian Tiger Optimization (STO), Language Education Optimization (LEO),
+
+Serval Optimization Algorithm (SOA), Walrus Optimization Algorithm (WOA), Fennec Fox Optimization (FFO),
+
+Three-periods optimization algorithm (TPOA), Teamwork optimization algorithm (TOA), Northern goshawk optimization (NGO),
+
+Tasmanian devi
+
+## mealpy.swarm_based.ORCA.OriginalOrcaOA
+
+Bases: Optimizer
+
+The original version of: Orca Optimization Algorithm (OrcaOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+p_percent (float) – The percentage of worst orcas to remove and regenerate per iteration, default = 0.1.
+
+R0 (float) – The initial radius of the ice floe, default=2.0.
+
+References
+
+Golilarz, N. A., Gao, H., Addeh, A., & Pirasteh, S. (2020, December).
+
+ORCA optimization algorithm: A new meta-heuristic tool for complex optimization problems.
+
+In 2020 17th International Computer Conference on Wavelet Active Media Technology and
+
+Information Processing (ICCWAMTIP) (pp
+
+## mealpy.swarm_based.ORCA.OriginalOrcaPA
+
+Bases: Optimizer
+
+The original version of: Orca Predation Algorithm (OrcaPA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+p1 (float) – Probability to select driving vs encircling, in range [0.0, 1.0]. Default is 0.5.
+
+p2 (float) – Probability for position adjustment, in range [0.0, 1.0]. Default is 0.1.
+
+q (float) – Probability parameter for driving methods, in range [0.0, 1.0]. Default is 0.9.
+
+Caution
+
+1. This algorithm uses approximately 2x more Number of Function Evaluations (NFEs) than other algorithms.
+
+That is, it calls the fitness fun
+
+## mealpy.swarm_based.OSA.OriginalOSA
+
+Bases: Optimizer
+
+The original version: Owl Search Algorithm (OSA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 100000]. Default is 100.
+
+alpha_max (float) – Maximum value of alpha, in range (0.0, 10.0). Default is 0.5.
+
+beta_max (float) – Maximum value of beta, in range (0.0, 10.0). Default is 1.9.
+
+Warning
+
+There are two MATLAB versions of this algorithm available. However, neither is from the original authors,
+
+and their implementations do not accurately reflect the original paper. This algorithm was published
+
+in a low-tier journal, lacks any unique update operat
+
+## mealpy.swarm_based.PFA.OriginalPFA
+
+Bases: Optimizer
+
+The original version of: Pathfinder Algorithm (PFA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Yapici, H. and Cetinkaya, N., 2019. A new meta-heuristic optimizer: Pathfinder algorithm.
+
+Applied soft computing, 78, pp.545-568. https://doi.org/10.1016/j.asoc.2019.03.012
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, PFA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": object
+
+## mealpy.swarm_based.POA.OriginalPOA
+
+Bases: Optimizer
+
+The original version of: Pelican Optimization Algorithm (POA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Caution
+
+This is somewhat concerning, as there appears to be a high degree of similarity between the
+
+source code for this algorithm and the Northern Goshawk Optimization (NGO)
+
+Algorithm design is similar to Zebra Optimization Algorithm (ZOA), Osprey Optimization Algorithm (OOA),
+
+Coati Optimization Algorithm (CoatiOA), Siberian Tiger Optimization (STO), Language Education Optimization (LEO),
+
+Serval Optimization Algorithm (SOA), Walrus Optimization Algorithm (WO
+
+## mealpy.swarm_based.PSO.AIW_PSO
+
+Bases: Optimizer
+
+The original version of: Adaptive Inertia Weight Particle Swarm Optimization (AIW-PSO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+c1 (float) – Local coefficient, in range (0.0, 5.0). Default is 2.05.
+
+c2 (float) – Global coefficient, in range (0.0, 5.0). Default is 2.05.
+
+alpha (float) – The positive constant, in range [0.0, 1.0]. Default is 0.4.
+
+References
+
+Qin, Z., Yu, F., Shi, Z., Wang, Y. (2006). Adaptive Inertia Weight Particle Swarm Optimization.
+
+In: Rutkowski, L., Tadeusiewicz, R., Zadeh, L.A., Żurada, J.M. (eds) 
+
+## mealpy.swarm_based.PSO.CL_PSO
+
+Bases: Optimizer
+
+The original version of: Comprehensive Learning Particle Swarm Optimization (CL-PSO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+c_local (float) – Local coefficient, in range (0.0, 5.0). Default is 1.2.
+
+w_min (float) – Weight min of bird, in range (0.0, 0.5). Default is 0.4.
+
+w_max (float) – Weight max of bird, in range [0.5, 2.0]. Default is 0.9.
+
+max_flag (int) – Number of times, in range [2, 100]. Default is 7.
+
+References
+
+Liang, J.J., Qin, A.K., Suganthan, P.N. and Baskar, S., 2006.
+
+Comprehensive learning particle sw
+
+## mealpy.swarm_based.PSO.C_PSO
+
+Bases: P_PSO
+
+The original version of: Chaos Particle Swarm Optimization (C-PSO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+c1 (float) – Local coefficient, in range (0.0, 5.0). Default is 2.05.
+
+c2 (float) – Global coefficient, in range (0.0, 5.0). Default is 2.05.
+
+w_min (float) – Weight min of bird, in range (0.0, 0.5). Default is 0.4.
+
+w_max (float) – Weight max of bird, in range [0.5, 2.0]. Default is 0.9.
+
+References
+
+Liu, B., Wang, L., Jin, Y.H., Tang, F. and Huang, D.X., 2005. Improved particle swarm optimization combined
+
+with chaos
+
+## mealpy.swarm_based.PSO.HPSO_TVAC
+
+Bases: P_PSO
+
+The original version of: Hierarchical PSO Time-Varying Acceleration (HPSO-TVAC)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+ci (float) – c initial, in range [0.3, 1.0]. Default is 0.5.
+
+cf (float) – c final, in range [0.0, 0.3]. Default is 0.1.
+
+References
+
+Ghasemi, M., Aghaei, J. and Hadipour, M., 2017. New self-organising hierarchical PSO with
+
+jumping time-varying acceleration coefficients. Electronics Letters, 53(20), pp.1360-1362.
+
+https://doi.org/10.1049/el.2017.2112
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy impo
+
+## mealpy.swarm_based.PSO.LDW_PSO
+
+Bases: Optimizer
+
+The original version of: Linearly Decreasing inertia Weight Particle Swarm Optimization (LDW-PSO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+c1 (float) – Local coefficient, in range (0.0, 5.0). Default is 2.05.
+
+c2 (float) – Global coefficient, in range (0.0, 5.0). Default is 2.05.
+
+w_min (float) – Weight min of bird, in range (0.0, 0.5). Default is 0.4.
+
+w_max (float) – Weight max of bird, in range [0.5, 2.0]. Default is 0.9.
+
+References
+
+Shi, Yuhui, and Russell Eberhart. “A modified particle swarm optimizer.” In 1998 IEE
+
+## mealpy.swarm_based.PSO.OriginalPSO
+
+Bases: Optimizer
+
+The original version of: Particle Swarm Optimization (PSO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+c1 (float) – Local coefficient, in range (0.0, 5.0). Default is 2.05.
+
+c2 (float) – Global coefficient, in range (0.0, 5.0). Default is 2.05.
+
+w (float) – Weight min of bird, in range (0.0, 1.0). Default is 0.4.
+
+References
+
+Kennedy, J. and Eberhart, R., 1995, November. Particle swarm optimization. In Proceedings of
+
+ICNN’95-international conference on neural networks (Vol. 4, pp. 1942-1948). IEEE.
+
+https://doi.org/10.1109
+
+## mealpy.swarm_based.PSO.P_PSO
+
+Bases: Optimizer
+
+The original version of: Phasor Particle Swarm Optimization (P-PSO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+References
+
+Ghasemi, M., Akbari, E., Rahimnejad, A., Razavi, S.E., Ghavidel, S. and Li, L., 2019.
+
+Phasor particle swarm optimization: a simple and efficient variant of PSO.
+
+Soft Computing, 23(19), pp.9701-9718. https://doi.org/10.1007/s00500-018-3536-8
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, PSO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> prob
+
+## mealpy.swarm_based.PSO.QDPSO
+
+Bases: Optimizer
+
+The original version of: Quantum Delta-Potential-Well-Based Particle Swarm Optimization (QDPSO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 1000.
+
+pop_size (int) – Number of particles in the swarm, in range [2, 10000]. Default is 20.
+
+g (float) – Control parameter used to determine the characteristic length of the Delta potential well.
+
+It must satisfy g > ln(sqrt(2)) according to Eq. (38). The experiments in the
+
+original paper use g = 0.96. Default is 0.96.
+
+Note
+
+QDPSO does not use a velocity vector. Each particle is represented
+
+only by its current position and personal-best position.
+
+The local attractor p 
+
+## mealpy.swarm_based.RFO.OriginalRFO
+
+Bases: Optimizer
+
+The original version of: Red Fox Optimization (RFO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+phi_0 (float) – Fox observation angle set at the beginning. Default is 0.785 (pi/4).
+
+theta (float) – Weather condition parameter. Default is 0.5.
+
+References
+
+Połap, Dawid, and Marcin Woźniak. “Red fox optimization algorithm.”
+
+Expert Systems with Applications 166 (2021): 114107. https://doi.org/10.1016/j.eswa.2020.114107
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, RFO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+
+## mealpy.swarm_based.RSA.OriginalRSA
+
+Bases: Optimizer
+
+The original version of: Reptile Search Algorithm (RSA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+alpha (float) – Current range from (0.0, 100.0).
+
+beta (float) – Current range from (0.0, 100.0).
+
+References
+
+Abualigah, L., Abd Elaziz, M., Sumari, P., Geem, Z. W., & Gandomi, A. H. (2022).
+
+Reptile Search Algorithm (RSA): A nature-inspired meta-heuristic optimizer.
+
+Expert Systems with Applications, 191, 116158. https://doi.org/10.1016/j.eswa.2021.116158
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, RSA
+
+>>>
+
+>>> def objective_function(solution)
+
+## mealpy.swarm_based.SCSO.OriginalSCSO
+
+Bases: Optimizer
+
+The original version of: Sand Cat Swarm Optimization (SCSO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Links
+
+https://link.springer.com/article/10.1007/s00366-022-01604-x
+
+https://www.mathworks.com/matlabcentral/fileexchange/110185-sand-cat-swarm-optimization
+
+References
+
+Seyyedabbasi, A., & Kiani, F. (2022). Sand Cat swarm optimization: a nature-inspired algorithm to
+
+solve global optimization problems. Engineering with Computers, 1-25.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SCSO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np
+
+## mealpy.swarm_based.SFO.ImprovedSFO
+
+Bases: Optimizer
+
+Our improved version: Improved Sailfish Optimizer (I-SFO)
+
+An enhanced variant of the Sailfish Optimizer (SFO) designed to balance
+
+exploration and exploitation while accelerating convergence speed.
+
+Parameters
+
+epoch (int, default=10000) – Maximum number of iterations. Must be in range [1, 100000].
+
+pop_size (int, default=100) – Number of Sailfish in the population. Must be in range [5, 10000].
+
+pp (float, default=0.1) – The ratio between Sailfish and Sardines population size ($N_{sf} = N_s imes pp$).
+
+Recommended range for fine-tuning: [0.1, 0.25]. Must be in range (0.0, 1.0).
+
+Note
+
+Key modifications in I-SFO compared to standard SFO:
+
+Reformed energy eq
+
+## mealpy.swarm_based.SFO.OriginalSFO
+
+Bases: Optimizer
+
+The original version of: SailFish Optimizer (SFO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, SailFish pop size, in range [5, 10000]. Default is 100.
+
+pp (float) – The rate between SailFish and Sardines (N_sf = N_s * pp) = 0.25, 0.2, 0.1, in range (0.0, 1.0). Default is 0.1.
+
+AP (float) – Coefficient for decreasing the value of Power Attack linearly from AP to 0, in range (0.0, 100.0). Default is 4.0.
+
+epsilon (float) – Should be 0.0001, 0.001, in range (0.0, 0.1). Default is 0.0001.
+
+References
+
+Shadravan, S., Naji, H.R. and Bardsiri, V.K., 2019. The Sailfish 
+
+## mealpy.swarm_based.SHO.OriginalSHO
+
+Bases: Optimizer
+
+The original version of: Spotted Hyena Optimizer (SHO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+h_factor (float) – Coefficient linearly decreased from 5.0 to 0, in range (0.5, 10.0). Default is 5.0.
+
+n_trials (int) – In range [1, 1000000]. Default is 10.
+
+References
+
+Dhiman, G. and Kumar, V., 2017. Spotted hyena optimizer: a novel bio-inspired based
+
+metaheuristic technique for engineering applications.
+
+Advances in Engineering Software, 114, pp.48-70. https://doi.org/10.1016/j.advengsoft.2017.05.014
+
+Examples
+
+>>> impor
+
+## mealpy.swarm_based.SLO.ImprovedSLO
+
+Bases: ModifiedSLO
+
+The original version: Improved Sea Lion Optimization (ImprovedSLO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+c1 (float) – Local coefficient same as PSO, in range (0.0, 5.0). Default is 1.2.
+
+c2 (float) – Global coefficient same as PSO, in range (0.0, 5.0). Default is 1.2.
+
+References
+
+Nguyen, Binh Minh, Trung Tran, Thieu Nguyen, and Giang Nguyen. “An improved sea lion optimization
+
+for workload elasticity prediction with neural networks.” International Journal of Computational
+
+Intelligence Systems 15, no. 1 (2022): 90.
+
+## mealpy.swarm_based.SLO.ModifiedSLO
+
+Bases: Optimizer
+
+Our modified version: Modified Sea Lion Optimization (M-SLO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Note
+
+Local best idea in PSO is inspired
+
+Levy-flight technique is used
+
+Shrink encircling idea is used
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SLO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = SLO.ModifiedSLO(epoch=1000, pop_siz
+
+## mealpy.swarm_based.SLO.OriginalSLO
+
+Bases: Optimizer
+
+The original version of: Sea Lion Optimization Algorithm (SLO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Caution
+
+There are some unclear equations and parameters in the original paper https://doi.org/10.14569/IJACSA.2019.0100548
+
+References
+
+Masadeh, R., Mahafzah, B.A. and Sharieh, A., 2019. Sea lion optimization algorithm. Sea, 10(5), p.388.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SLO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) *
+
+## mealpy.swarm_based.SMO.DevSMO
+
+Bases: Optimizer
+
+Our developed version of: Spider Monkey Optimization (SMO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+max_groups (int) – Maximum number of groups for spider monkeys, in range [2, 100]. Default is 5.
+
+perturbation_rate (float) – Perturbation rate for spider monkeys, in range [0.0, 1.0]. Default is 0.7.
+
+Danger
+
+The original paper is truly difficult to read and unclear. The operators are somewhat more
+
+understandable, but the pseudocode they provide is inaccurate. In addition, the design
+
+of the two parameters - local_leader
+
+## mealpy.swarm_based.SRSR.OriginalSRSR
+
+Bases: Optimizer
+
+The original version of: Swarm Robotics Search And Rescue (SRSR)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Bakhshipour, M., Ghadi, M.J. and Namdari, F., 2017. Swarm robotics search & rescue: A novel
+
+artificial intelligence-inspired optimization approach. Applied Soft Computing, 57, pp.708-726.
+
+https://doi.org/10.1016/j.asoc.2017.02.028
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SRSR
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=
+
+## mealpy.swarm_based.SSA.DevSSA
+
+Bases: Optimizer
+
+The developed version: Sparrow Search Algorithm (SSA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+ST (float) – ST in [0.5, 1.0], safety threshold value, in range (0.0, 1.0). Default is 0.8.
+
+PD (float) – Number of producers (percentage), in range (0.0, 1.0). Default is 0.2.
+
+SD (float) – Number of sparrows who perceive the danger, in range (0.0, 1.0). Default is 0.1.
+
+Note
+
+First, the population is sorted to find g-best and g-worst
+
+In Eq. 4, the self.generator.normal() gaussian distribution is used instead of A+ and L
+
+Exa
+
+## mealpy.swarm_based.SSA.OriginalSSA
+
+Bases: DevSSA
+
+The original version of: Sparrow Search Algorithm (SSA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+ST (float) – Safety threshold value, in range [0.5, 1.0]. Default is 0.8.
+
+PD (float) – Number of producers (percentage). Default is 0.2.
+
+SD (float) – Number of sparrows who perceive the danger. Default is 0.1.
+
+Note
+
+The paper contains some unclear equations and symbol https://doi.org/10.1080/21642583.2019.1708830
+
+References
+
+Xue, J. and Shen, B., 2020. A novel swarm intelligence optimization approach:
+
+sparrow search algorithm. Systems Science & Control Engineering, 8(
+
+## mealpy.swarm_based.SSO.OriginalSSO
+
+Bases: Optimizer
+
+The original version of: Salp Swarm Optimization (SSO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+References
+
+Mirjalili, S., Gandomi, A.H., Mirjalili, S.Z., Saremi, S., Faris, H. and Mirjalili, S.M., 2017.
+
+Salp Swarm Algorithm: A bio-inspired optimizer for engineering design problems.
+
+Advances in Engineering Software, 114, pp.163-191. https://doi.org/10.1016/j.advengsoft.2017.07.002
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SSO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "boun
+
+## mealpy.swarm_based.SSpiderA.DevSSpiderA
+
+Bases: Optimizer
+
+Our developed version of: Social Spider Algorithm (DevSSpiderA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+r_a (float) – The rate of vibration attenuation when propagating over the spider web, in range (0.0, 5.0). Default is 1.0.
+
+p_c (float) – Controls the probability of the spiders changing their dimension mask in the random walk step, in range (0.0, 1.0). Default is 0.7.
+
+p_m (float) – The probability of each value in a dimension mask to be one, in range (0.0, 1.0). Default is 0.1.
+
+Note
+
+The version of the algorithm av
+
+## mealpy.swarm_based.SSpiderO.OriginalSSpiderO
+
+Bases: Optimizer
+
+The original version of: Social Spider Optimization (SSpiderO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+fp_min (float) – Female Percent min, in range (0.0, 1.0). Default is 0.65.
+
+fp_max (float) – Female Percent max, in range (0.0, 1.0). Default is 0.9.
+
+References
+
+Luque-Chang, A., Cuevas, E., Fausto, F., Zaldivar, D. and Pérez, M., 2018.
+
+Social spider optimization algorithm: modifications, applications, and perspectives.
+
+Mathematical Problems in Engineering, 2018. https://doi.org/10.1155/2018/6843923
+
+Examples
+
+>>> i
+
+## mealpy.swarm_based.STO.OriginalSTO
+
+Bases: Optimizer
+
+The original version of: Siberian Tiger Optimization (STO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Attention
+
+This is somewhat concerning, as there appears to be a high degree of similarity between the
+
+source code for this algorithm and the Osprey Optimization Algorithm (OOA)
+
+Algorithm design is similar to Zebra Optimization Algorithm (ZOA), Osprey Optimization Algorithm (OOA),
+
+Coati Optimization Algorithm (CoatiOA), Northern Goshawk Optimization (NGO), Language Education Optimization (LEO),
+
+Serval Optimization Algorithm (SOA), Walrus Optimization Algorithm (W
+
+## mealpy.swarm_based.SeaHO.OriginalSeaHO
+
+Bases: Optimizer
+
+The original version of: Sea-Horse Optimization (SeaHO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Links
+
+https://link.springer.com/article/10.1007/s10489-022-03994-3
+
+https://www.mathworks.com/matlabcentral/fileexchange/115945-sea-horse-optimizer
+
+References
+
+Zhao, S., Zhang, T., Ma, S., & Wang, M. (2022). Sea-horse optimizer: a novel nature-inspired
+
+meta-heuristic for global optimization problems. Applied Intelligence, 1-28.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SeaHO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solu
+
+## mealpy.swarm_based.ServalOA.OriginalServalOA
+
+Bases: Optimizer
+
+The original version of: Serval Optimization Algorithm (ServalOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Danger
+
+It’s concerning that the author seems to be reusing the same algorithms with minor variations.
+
+Algorithm design is similar to Zebra Optimization Algorithm (ZOA), Osprey Optimization Algorithm (OOA),
+
+Coati Optimization Algorithm (CoatiOA), Siberian Tiger Optimization (STO), Language Education Optimization (LEO),
+
+Pelican Optimization Algorithm (POA), Walrus Optimization Algorithm (WOA), Fennec Fox Optimization (FFO),
+
+Three-periods optimization algori
+
+## mealpy.swarm_based.SquirrelSA.OriginalSquirrelSA
+
+Bases: Optimizer
+
+The original version of: Squirrel Search Algorithm (SquirrelSA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+n_food_sources (int) – Number of food sources (1 hickory + 3 acorn trees), in range [1, 10]. Default is 4.
+
+predator_prob (float) – Predator presence probability (P_dp), in range [0.0, 1.0]. Default is 0.1.
+
+gliding_constant (float) – Gliding constant (G_c) for exploration/exploitation balance, in range [0.0, 10.0]. Default is 1.9.
+
+scaling_factor (float) – Scaling factor for gliding distance, in range [1, 100]. Defau
+
+## mealpy.swarm_based.TDO.OriginalTDO
+
+Bases: Optimizer
+
+The original version of: Tasmanian Devil Optimization (TDO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Attention
+
+This is somewhat concerning, as there appears to be a high degree of similarity between
+
+the source code for this algorithm and the Osprey Optimization Algorithm (OOA)
+
+Algorithm design is similar to Zebra Optimization Algorithm (ZOA), Osprey Optimization Algorithm (OOA),
+
+Pelican optimization algorithm (POA), Siberian Tiger Optimization (STO), Language Education Optimization (LEO),
+
+Serval Optimization Algorithm (SOA), Walrus Optimization Algorithm (WOA)
+
+## mealpy.swarm_based.TSO.OriginalTSO
+
+Bases: Optimizer
+
+The original version of: Tuna Swarm Optimization (TSO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Note
+
+Two variables that authors consider it as a constants (aa = 0.7 and zz = 0.05)
+
+https://www.hindawi.com/journals/cin/2021/9210050/
+
+https://www.mathworks.com/matlabcentral/fileexchange/101734-tuna-swarm-optimization
+
+References
+
+Xie, L., Han, T., Zhou, H., Zhang, Z. R., Han, B., & Tang, A. (2021).
+
+Tuna swarm optimization: a novel swarm-based metaheuristic algorithm for global optimization.
+
+Computational intelligence and Neuroscience, 2021.
+
+Examples
+
+>>> import n
+
+## mealpy.swarm_based.WOA.DevWOA
+
+Bases: Optimizer
+
+Our developed version of: Whale Optimization Algorithm (WOA)
+
+Note
+
+Hanlding simple vector instead of loop through whole dimensions
+
+Using greedy to update position
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, WOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = WOA.DevWOA(epoch=1000, pop_size=50)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solu
+
+## mealpy.swarm_based.WOA.DevWOAmM
+
+Bases: OriginalWOAmM
+
+Our developed version of: Whale Optimization Algorithm with Modified Mutualism (WOAmM)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Population size, in range [5, 10000]. Default is 100.
+
+mut_rand (bool) – Whether mutualism random coefficients are generated per dimension. Default is False.
+
+patience (int) – Number of stagnant epochs before restarting worst agents. Set 0 to disable, in range [0, 100000]. Default is 0.
+
+restart_rate (float) – Ratio of worst agents to restart when stagnation occurs, in range [0.0, 1.0]. Default is 0.2.
+
+bound (str) – Boundary handling method. Supported: “
+
+## mealpy.swarm_based.WOA.HI_WOA
+
+Bases: Optimizer
+
+The original version of: Hybrid Improved Whale Optimization Algorithm (HI-WOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+feedback_max (int) – Maximum iterations of each feedback, in range [2, 2 + int(epoch/2)]. Default is 10.
+
+References
+
+Tang, C., Sun, W., Wu, W. and Xue, M., 2019, July. A hybrid improved whale optimization algorithm.
+
+In 2019 IEEE 15th International Conference on Control and Automation (ICCA) (pp. 362-367). IEEE.
+
+https://doi.org/10.1109/ICCA.2019.8900003
+
+Examples
+
+>>> import numpy as np
+
+>>> from meal
+
+## mealpy.swarm_based.WOA.OriginalWOA
+
+Bases: Optimizer
+
+The original version of: Whale Optimization Algorithm (WOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Links
+
+https://doi.org/10.1016/j.advengsoft.2016.01.008
+
+https://mathworks.com/matlabcentral/fileexchange/55667-the-whale-optimization-algorithm
+
+References
+
+Mirjalili, S. and Lewis, A., 2016. The whale optimization algorithm. Advances in engineering software, 95, pp.51-67.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, WOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": Float
+
+## mealpy.swarm_based.WOA.OriginalWOAmM
+
+Bases: Optimizer
+
+The original version of: Whale Optimization Algorithm with Modified Mutualism (WOAmM)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Population size, in range [5, 10000]. Default is 100.
+
+mut_rand (bool) – Whether mutualism random coefficients are generated per dimension. Default is False.
+
+patience (int) – Number of stagnant epochs before restarting worst agents. Set 0 to disable, in range [0, 100000]. Default is 0.
+
+restart_rate (float) – Ratio of worst agents to restart when stagnation occurs, in range [0.0, 1.0]. Default is 0.2.
+
+bound (str) – Boundary handling method. Supported: “clip”
+
+## mealpy.swarm_based.WSO.OriginalWSO
+
+Bases: Optimizer
+
+The original version: White Shark Optimizer (WSO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Population size, in range [5, 100000]. Default is 100.
+
+tau (float) – Acceleration coefficient used to derive the constriction factor mu, in range [0.0, 100.0]. Default is 4.125.
+
+p_min (float) – Initial velocities to control the effect of global and local best positions, in range [0.0, 10.0]. Default is 0.5.
+
+p_max (float) – Subordinate velocities to control the effect of global and local best positions, in range [0.0, 100.0]. Default is 1.5.
+
+f_min (float) – Minimum frequencies of the undulati
+
+## mealpy.swarm_based.WaOA.OriginalWaOA
+
+Bases: Optimizer
+
+The original version of: Walrus Optimization Algorithm (WaOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Attention
+
+This is somewhat concerning, as there appears to be a high degree of similarity between the
+
+source code for this algorithm and the Northern Goshawk Optimization (NGO)
+
+Algorithm design is similar to Zebra Optimization Algorithm (ZOA), Osprey Optimization Algorithm (OOA),
+
+Coati Optimization Algorithm (CoatiOA), Siberian Tiger Optimization (STO), Language Education Optimization (LEO),
+
+Serval Optimization Algorithm (SOA), Northern Goshawk Optimization (
+
+## mealpy.swarm_based.ZOA.OriginalZOA
+
+Bases: Optimizer
+
+The original version of: Zebra Optimization Algorithm (ZOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, default = 10000.
+
+pop_size (int) – Number of population size, default = 100.
+
+Caution
+
+It’s concerning that the author seems to be reusing the same algorithms with minor variations.
+
+Algorithm design is similar to Zebra Optimization Algorithm (ZOA), Osprey Optimization Algorithm (OOA),
+
+Pelican optimization algorithm (POA), Siberian Tiger Optimization (STO), Language Education Optimization (LEO),
+
+Serval Optimization Algorithm (SOA), Walrus Optimization Algorithm (WOA), Fennec Fox Optimization (FFO),
+
+Three-periods optimization algorithm (TPO

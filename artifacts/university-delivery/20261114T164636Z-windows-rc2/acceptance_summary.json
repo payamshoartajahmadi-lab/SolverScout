@@ -1,0 +1,1249 @@
+{
+  "schema_version": "university-delivery-summary/1.0",
+  "status": "NOT_READY",
+  "provisional": false,
+  "provisional_reason": null,
+  "run_id": "20261114T164636Z-windows-rc2",
+  "generated_at_utc": "2026-11-14T17:22:07.006031+00:00",
+  "campaign_state": "closed_at_effective_stage_caps_u1_reporting_failed",
+  "criteria_counts": {
+    "PASS": 12,
+    "FAIL": 2,
+    "NOT_RUN": 1
+  },
+  "windows_verification_counts": {
+    "PASS": 11,
+    "FAIL": 2,
+    "NOT_RUN": 2
+  },
+  "criteria": [
+    {
+      "id": "AC01",
+      "requirement_fa": "مبنای کد، قراردادها و شواهد تاریخی محفوظ و روشن‌اند",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "evidence_basis": "fresh_windows_plus_preserved_history",
+      "scope_fa": "همین checkout ویندوز، اصلاح مشخص DNS و حفظ تاریخچه",
+      "evidence": [
+        "baseline.json",
+        "environment-verification.json",
+        "scenario-input-integrity.json",
+        "acceptance_manifest.json",
+        "initialization-dns-fix.json",
+        "windows-dns-fix/source-patch-at-freeze.diff"
+      ],
+      "explanation_fa": "HEAD شاخه dev همان d4f38e3 است؛ دو فایل اصلاح DNS و آزمون مرتبط ثبت‌نشده‌اند و patch و hash منبع دقیق در manifest ثبت است. مهاجرت دیتابیس و حفظ ردیف‌ها و ۷ artifact تاریخی تأیید شد. binding اولیه بدون تماس نقش بایگانی و کمپین تازه به منبع اصلاح‌شده متصل شد؛ متن سناریوها و نتایج مک تغییر نکرده‌اند.",
+      "historical_status": "PASS",
+      "historical_scope_fa": "ثبت مبنا و ردگیری تاریخی",
+      "provisional": false
+    },
+    {
+      "id": "AC02",
+      "requirement_fa": "شش پیاده‌سازی هدف برای محیط و مثال‌های دوبعدی معتبرند",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "evidence_basis": "fresh_windows_qualification",
+      "scope_fa": "شش گواهی واقعی ویندوز و دو سیاست بودجه",
+      "evidence": [
+        "preparation/status.json",
+        "preparation/qualification-batches.json",
+        "consumption_summary.json",
+        "windows-dns-fix/summary.json"
+      ],
+      "explanation_fa": "ABC، PSO، CMA-ES، DE، GWO و WOA همگی در همین محیط qualified و سازگار با پایلوت ۵۰۰ هستند؛ سیاست بودجه GWO و WOA نیز qualified است. ۷۸۰۰۰ ارزیابی آماده‌سازی و رزرو صفر ثبت شد. پس از اصلاح DNS، چهار سند رسمی آماده و ready=true شد؛ آماده‌سازی عددی تکرار نشد.",
+      "historical_status": "PASS",
+      "historical_scope_fa": "صلاحیت محیط و سازگاری دوبعدی؛ حل زنده U2 انجام نشد",
+      "provisional": false
+    },
+    {
+      "id": "AC03",
+      "requirement_fa": "مدل در هر دو مثال شش کارت واقعی بگیرد و سه نامزد مجاز بدهد",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "evidence_basis": "fresh_live_windows_both_cases",
+      "scope_fa": "شش کارت واقعی و سه نامزد در هر دو اجرای تازه",
+      "evidence": [
+        "live/U2/invocations.json",
+        "live/U1/invocations.json",
+        "live/U2/human-quality-audit.json",
+        "live/U1/human-quality-audit.json"
+      ],
+      "explanation_fa": "در U2 و U1 هر بار شش کارت دارای گواهی همین ویندوز واقعاً در context advisor هستند. U2 نامزدهای DE/CMA-ES/ABC و U1 نامزدهای DE/CMA-ES/PSO را با شناسه پیکربندی مجاز پیشنهاد کرده‌اند؛ ورودی کامل و درخواست اجرای مراحل بدون حذف به صورت‌بند رسیده‌اند.",
+      "historical_status": "FAIL",
+      "historical_scope_fa": "کمپین واقعی rc1؛ اجرای زنده rc2 انجام نشده",
+      "provisional": false
+    },
+    {
+      "id": "AC04",
+      "requirement_fa": "شواهد اختصاصی شش روش درست و قابل ردگیری باشند",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "evidence_basis": "fresh_live_windows_both_cases",
+      "scope_fa": "منابع واقعی آماده و قابل ردگیری؛ U2 محلی و U1 به‌روزرسانی مستقیم",
+      "evidence": [
+        "preparation/status.json",
+        "preparation/source-diagnosis.json",
+        "windows-dns-fix/summary.json",
+        "live/U2/documents.json",
+        "live/U1/documents.json",
+        "live/U2/summary.json",
+        "live/U1/summary.json",
+        "live/U2/human-quality-audit.json",
+        "live/U1/human-quality-audit.json"
+      ],
+      "explanation_fa": "پس از اصلاح محیط DNS ویندوز، چهار سند رسمی قابل استفاده‌اند. هر دو اجرای تازه پوشش اختصاصی شش روش، سقف متن، تطابق offset و hash با اسناد صادرشده را پاس کردند. شکست اولیه DEMO_SOURCES_NOT_READY در شواهد تشخیص محفوظ است.",
+      "historical_status": "PASS",
+      "historical_scope_fa": "آزمون زیرسامانه و شواهد واقعی U1؛ رفتار پژوهش در rc2 تغییر نکرد",
+      "provisional": false
+    },
+    {
+      "id": "AC05",
+      "requirement_fa": "انتخاب نهایی با ۹ پایلوت ۵۰۰-FE و معیار موجود منطبق باشد",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "evidence_basis": "fresh_live_windows_both_cases",
+      "scope_fa": "۹ پایلوت واقعی ۵۰۰ ارزیابی برای هر مسئله",
+      "evidence": [
+        "live/U2/trials.csv",
+        "live/U1/trials.csv",
+        "live/U2/summary.json",
+        "live/U1/summary.json",
+        "live/U2/human-quality-audit.json",
+        "live/U1/human-quality-audit.json"
+      ],
+      "explanation_fa": "هر دو مسئله سه نامزد با سه تکرار ۵۰۰ ارزیابی دارند. بازحساب مستقل میانه و IQR با تصمیم منطبق است: U2 برنده ABC با میانه 0.018087191876695052 و U1 برنده PSO با میانه 1.1796532249553844e-06 است.",
+      "historical_status": "FAIL",
+      "historical_scope_fa": "الزام هر دو مثال تکمیل نشده",
+      "provisional": false
+    },
+    {
+      "id": "AC06",
+      "requirement_fa": "محل و نوع خطای بازبین قابل تشخیص باشد",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "evidence_basis": "historical_reviewer_diagnostics_plus_fresh_writer_validation_evidence",
+      "scope_fa": "تشخیص خطای تاریخی بازبین محفوظ؛ خطای تازه نویسنده دقیقاً مشخص است",
+      "evidence": [
+        "../20261114T120916Z-university/historical-review/historical-diagnosis.json",
+        "../20261114T120916Z-university/historical-review/historical-exact-context-replay.json",
+        "../20261114T120916Z-university/historical-review/offline-reporting-verification.json",
+        "live/U1/human-quality-audit.json",
+        "live/U1/report.json"
+      ],
+      "explanation_fa": "شواهد تاریخی تشخیص خطای بازبین بدون تغییر معتبرند. در U1 تازه، شکست دقیقاً INVALID_BINDING بخش candidate_rationale و پاراگراف candidate_reasons است: problem.expression در fact_refs هست ولی توکن متن ندارد. پاسخ‌های بازبین معتبرند؛ این شکست، JSON خراب بازبین یا خطای عددی نیست.",
+      "historical_status": "PASS",
+      "historical_scope_fa": "بازپخش تاریخی و آزمون آفلاین تشخیص",
+      "provisional": false
+    },
+    {
+      "id": "AC07",
+      "requirement_fa": "repair بازبین feedback واقعی و حفظ سقف و hash داشته باشد",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "evidence_basis": "historical_reviewer_contract_plus_actual_bounded_writer_repair",
+      "scope_fa": "feedback واقعی، حفظ بخش پذیرفته‌شده و سقف repair؛ موفقیت نهایی جدا سنجیده شد",
+      "evidence": [
+        "live/U2/human-quality-audit.json",
+        "live/U1/human-quality-audit.json",
+        "live/U2/invocations.json",
+        "live/U1/invocations.json",
+        "../20261114T120916Z-university/historical-review/review-repair-contract-transcripts.json",
+        "../20261114T120916Z-university/historical-review/offline-reporting-verification.json",
+        "../20261114T120916Z-university/live/U1/human-quality-audit.json"
+      ],
+      "explanation_fa": "در هر دو اجرا feedback واقعی به نویسنده منتقل شد و hash سه بخش پذیرفته‌شده در repair ثابت ماند؛ مجموع نویسنده/بازبین چهار تماس است. U2 دو بخش را ترمیم کرد؛ U1 انتخاب را ترمیم کرد ولی همان خطای اتصال بخش نامزدها تکرار شد. این ردیف صحت سازوکار و توقف در سقف را تأیید می‌کند؛ موفقیت پنج بخش U1 در AC09 مردود است. کنترل ساختاری repair خود بازبین همچنان دامنه شاهد تاریخی دارد.",
+      "historical_status": "PASS",
+      "historical_scope_fa": "قرارداد و انتقال خطا؛ کنترل منفی زنده تاریخی تکرار نشده",
+      "provisional": false
+    },
+    {
+      "id": "AC08",
+      "requirement_fa": "گزارش به داده وفادار و کنترل بودجه، منشأ و قطعیت حفظ باشد",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "evidence_basis": "fresh_manual_fidelity_audit_both_cases",
+      "scope_fa": "وفاداری خروجی واقعی شامل fallback صادقانه U1",
+      "evidence": [
+        "live/U2/human-quality-audit.json",
+        "live/U1/human-quality-audit.json",
+        "live/U2/report.json",
+        "live/U1/report.json"
+      ],
+      "explanation_fa": "ممیزی متن واقعی هر دو اجرا، مسئله، دلیل انتخاب، عدد، منشأ main و نام روش تولیدکننده را تأیید کرد. ۱۴۹۹۸ ارزیابی main از ۲۰۰۰۰ کل جداست و گواه بهینگی سراسری ادعا نشده است. U1 صریحاً mixed با چهار بخش مدل و یک بخش server است؛ PASS وفاداری، پذیرش کامل متن مدل محسوب نمی‌شود.",
+      "historical_status": "NOT_RUN",
+      "historical_scope_fa": "پذیرش کامل نسخه نهایی پس از اصلاح صورت‌بند انجام نشده",
+      "provisional": false
+    },
+    {
+      "id": "AC09",
+      "requirement_fa": "پنج بخش مدل در هر دو مثال پذیرفته و منتشر شوند",
+      "status": "FAIL",
+      "windows_status": "FAIL",
+      "evidence_basis": "fresh_live_windows_reporting_failure",
+      "scope_fa": "U2 پنج بخش مدل دارد؛ U1 فقط چهار بخش مدل پذیرفته دارد",
+      "evidence": [
+        "live/U2/human-quality-audit.json",
+        "live/U1/human-quality-audit.json",
+        "live/U2/summary.json",
+        "live/U1/summary.json",
+        "live/U1/report.json",
+        "live/U1/invocations.json"
+      ],
+      "explanation_fa": "U2 با mode=llm و هر پنج بخش پذیرفته PASS است. U1 پس از یک repair هنوز در candidate_reasons توکن {{fact:problem.expression}} را حذف می‌کند؛ candidate_rationale با origin=server جایگزین و mode=mixed شده است. چهار تماس گزارش‌نویسی و هشت تماس کل U1 مصرف شده؛ تکرار بیشتر در سقف این مرحله مجاز نیست.",
+      "historical_status": "FAIL",
+      "historical_scope_fa": "موفقیت U1 متعلق به rc1 است؛ rc2 زنده NOT_RUN",
+      "provisional": false
+    },
+    {
+      "id": "AC10",
+      "requirement_fa": "UI و HTML اطلاعات و منشأ متن را خوانا و مشترک نمایش دهند",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "evidence_basis": "fresh_actual_windows_ui_and_html_browser_evidence",
+      "scope_fa": "نمای واقعی UI و HTML هر دو اجرا در عرض ۳۹۰ و ۱۴۴۰",
+      "evidence": [
+        "browser-qa/final-summary.json",
+        "browser-qa/final-visual-review.json",
+        "browser-qa/read-only-count-verification.json",
+        "live/U2/human-quality-audit.json",
+        "live/U1/human-quality-audit.json",
+        "live/U2/report.html",
+        "live/U1/report.html"
+      ],
+      "explanation_fa": "پاراگراف‌ها در UI واقعی و HTML با report همان اجرا دقیقاً منطبق‌اند: U2 هشت پاراگراف و پنج بخش مدل؛ U1 پنج پاراگراف با چهار بخش مدل و candidate_rationale خودکار. بررسی بصری خوانایی، نبود برش/هم‌پوشانی و نمایش صادقانه origin=server را تأیید کرد. شمار jobs، تماس‌ها، ارزیابی‌ها و sync پیش و پس از مشاهده ثابت ماند. PASS نمایش، شکست پذیرش متن U1 را تغییر نمی‌دهد.",
+      "historical_status": "PASS",
+      "historical_scope_fa": "بازکردن فقط‌خواندنی گزارش‌های واقعی قدیمی در UI فعلی rc2",
+      "provisional": false
+    },
+    {
+      "id": "AC11",
+      "requirement_fa": "مصرف، زمان و هزینه با دامنه روشن گزارش شوند",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "evidence_basis": "fresh_complete_stage_accounting",
+      "scope_fa": "مصرف کامل ویندوز، جدا از مک و بدون رزرو نامعلوم",
+      "evidence": [
+        "consumption_summary.json",
+        "call_usage.csv",
+        "call_usage.json",
+        "acceptance_campaign_ledger.json",
+        "connection-test.json",
+        "smoke-summary.json",
+        "preparation/status.json"
+      ],
+      "explanation_fa": "آماده‌سازی ۷۸۰۰۰، smoke برابر ۱۰۰۲ و پذیرش برابر ۴۰۰۰۰ ارزیابی‌اند. ۱۶ ارسال نقش شامل repairها و یک آزمون اتصال، جمعاً ۱۷ ارسال واقعی و تمام سقف مؤثر مصرف شده است؛ U-REPORT صفر است. ۲۱۳۸۰۰ توکن گزارش شده؛ هزینه پولی ثبت نشده و صفر فرض نمی‌شود. رزرو یا نتیجه نامعلوم باقی نمانده است.",
+      "historical_status": "PASS",
+      "historical_scope_fa": "ledger واقعی کمپین و مشاهده خروجی‌های آزمون آفلاین",
+      "provisional": false
+    },
+    {
+      "id": "AC12",
+      "requirement_fa": "هر دو جواب در آستانه ثابت معتبر باشند",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "evidence_basis": "fresh_live_windows_numeric_acceptance",
+      "scope_fa": "هر دو جواب تازه داخل آستانه ثابت و بازبینی‌شده‌اند",
+      "evidence": [
+        "live/U2/summary.json",
+        "live/U1/summary.json",
+        "live/U2/human-quality-audit.json",
+        "live/U1/human-quality-audit.json",
+        "live/U2/report.json",
+        "live/U1/report.json"
+      ],
+      "explanation_fa": "U2 نقطه [0.9991700272776016,0.9982396364623556] با مقدار 1.7111162045690602e-06 کمتر از 0.001 و منشأ main/ABC دارد. U1 نقطه [1.4,-2.2] با مقدار صفر کمتر از 1e-6 و منشأ main/PSO دارد. دو تکرار بازبینی هر مسئله موفق‌اند؛ نقص گزارش U1 صحت عددی آن را تغییر نمی‌دهد.",
+      "historical_status": "FAIL",
+      "historical_scope_fa": "U1 PASS قدیمی؛ U2 حل نشده، نه شکست صحت حل‌گر",
+      "provisional": false
+    },
+    {
+      "id": "AC13",
+      "requirement_fa": "مجموعه آفلاین نهایی بدون شکست اجرا شود",
+      "status": "PASS",
+      "windows_status": "NOT_RUN",
+      "evidence_basis": "historical_full_suite_only_plus_separate_windows_targeted_tests",
+      "scope_fa": "۹۶۵ آزمون تاریخی محفوظ؛ ۲۲ آزمون هدفمند ویندوز جدا",
+      "evidence": [
+        "../20261114T120916Z-university/offline/summary.json",
+        "../20261114T120916Z-university/offline/run-manifest.json",
+        "../20261114T120916Z-university/offline/pytest.log",
+        "../20261114T120916Z-university/offline/junit.xml",
+        "windows-dns-fix/targeted-tests.log",
+        "windows-dns-fix/summary.json"
+      ],
+      "explanation_fa": "نتیجه تاریخی ۹۶۵ آزمون آفلاین موفق در 412ab7346f76d93ef3095ef14befa4a754e3f558 حفظ شده و مجموعه کامل در ویندوز تکرار نشده است. برای مشکل مشخص DNS ویندوز، ۲۲ آزمون مرتبط موفق شدند؛ این شاهد جداگانه است و جای اجرای کامل تازه یا پذیرش مدل محسوب نمی‌شود.",
+      "historical_status": "PASS",
+      "historical_scope_fa": "رگرسیون آفلاین کد rc2",
+      "provisional": false
+    },
+    {
+      "id": "AC14",
+      "requirement_fa": "بسته در venv/data-dir تازه مک نصب، آماده و هر دو مثال کامل شوند",
+      "status": "FAIL",
+      "windows_status": "FAIL",
+      "evidence_basis": "literal_mac_requirement_preserved_and_windows_scope_separate",
+      "scope_fa": "معیار اصلی مک مردود تاریخی؛ ویندوز موجود ارتقا یافته، نصب کاملاً تازه ادعا نمی‌شود",
+      "evidence": [
+        "environment-verification.json",
+        "setup.log",
+        "smoke-summary.json",
+        "final-doctor.json",
+        "preparation/status.json",
+        "live/U2/summary.json",
+        "live/U1/summary.json",
+        "live/U2/human-quality-audit.json",
+        "live/U1/human-quality-audit.json",
+        "../20261114T120916Z-university/acceptance_summary.json"
+      ],
+      "explanation_fa": "FAIL تاریخی معیار صریح نصب و تکمیل هر دو مثال در venv/data-dir تازه مک تغییر نکرده است. در این ویندوز از venv موجود استفاده و بسته ارتقا یافت؛ دیتابیس موجود مهاجرت شد، نصب کاملاً تازه انجام نشد. doctor، lock، smoke، منابع و صلاحیت‌ها موفق‌اند؛ U2 کامل PASS و U1 به‌علت گزارش mixed FAIL است. این نتیجه پذیرش تازه مک نیست.",
+      "historical_status": "FAIL",
+      "historical_scope_fa": "زیرگیت نصب و به‌روزرسانی rc2 PASS؛ مسیر کامل کاربر در محیط تازه ناقص",
+      "provisional": false
+    },
+    {
+      "id": "AC15",
+      "requirement_fa": "بسته و راهنما نسخه‌دار، کامل و بدون اطلاعات خصوصی باشند",
+      "status": "NOT_RUN",
+      "windows_status": "NOT_RUN",
+      "evidence_basis": "no_new_package_covering_current_windows_dns_patch",
+      "scope_fa": "بسته تاریخی محفوظ؛ بسته تازه حاوی اصلاح جاری ساخته نشده",
+      "evidence": [
+        "acceptance_manifest.json",
+        "windows-dns-fix/source-patch-at-freeze.diff",
+        "../20261114T120916Z-university/acceptance_summary.json"
+      ],
+      "explanation_fa": "PASS تاریخی بسته مک فقط به همان ZIP و کد تاریخی مربوط است. بسته تازه شامل patch DNS و نتیجه ویندوز ساخته و اسکن نشده است؛ با شکست AC09، تحویل پذیرفته‌شده یا بسته جدید موفق اعلام نمی‌شود.",
+      "historical_status": "PASS",
+      "historical_scope_fa": "کامل بودن بسته کاندید؛ وضعیت کلی محصول همچنان NOT_READY",
+      "provisional": false
+    }
+  ],
+  "status_interpretation": "Final observed Windows results with original15 requirement texts retained. AC13 full-suite PASS remains historical only; Windows22 targeted tests are separate. AC14 literal macOS FAIL unchanged. U1 five-LLM-section acceptance FAIL; current package NOT_RUN. Overall NOT_READY.",
+  "branch": "dev",
+  "upstream": "origin/dev",
+  "baseline_commit": "d4f38e3bf5ce42544adb493ab257577f3865fb04",
+  "version": "2.1.0rc2",
+  "python": "3.12.3",
+  "platform": "Windows-11-10.0.22631-SP0",
+  "architecture": "AMD64",
+  "data_dir": "C:\\Users\\TajAhmadi\\AppData\\Local\\P_MC_Optimizer",
+  "api_url": "http://127.0.0.1:8765",
+  "ui_url": "http://127.0.0.1:8501",
+  "installation": {
+    "setup": "PASS",
+    "doctor": "PASS",
+    "dependency_lock": "PASS",
+    "active_locked_requirements": 89,
+    "history_preservation": "PASS",
+    "schema_before": 1,
+    "schema_after": 4,
+    "fresh_windows_venv": false,
+    "fresh_empty_data_dir": false,
+    "existing_venv_upgraded": true,
+    "existing_history_preserved": true,
+    "current_version": "2.1.0rc2"
+  },
+  "preparation": {
+    "status": "PASS",
+    "ready": true,
+    "qualified_methods": [
+      "ABC",
+      "PSO",
+      "CMA-ES",
+      "DE",
+      "GWO",
+      "WOA"
+    ],
+    "qualified_method_count": 6,
+    "gwo_woa_budget_policy": "PASS",
+    "official_source_enabled": true,
+    "usable_documents": 4,
+    "required_documents_ready": true,
+    "charged_evaluations": 78000,
+    "reserved_evaluations": 0,
+    "source_fix": {
+      "status": "PASS",
+      "targeted_tests": 22,
+      "source_acquisition_after_fix": "PASS",
+      "additional_numerical_evaluations_after_fix": 0
+    },
+    "prior_source_failure_preserved": "preparation/source-diagnosis.json"
+  },
+  "provider": {
+    "status": "READY_WITH_USER_APPROVED_TIMEOUT_DEVIATION",
+    "profile_present": true,
+    "credential_available": true,
+    "storage_mode": "os_keyring",
+    "os_keyring_available": true,
+    "connection_test": "PASS",
+    "connection_test_submissions": 1,
+    "connection_test_remaining": 0,
+    "model": "gpt-6-luna",
+    "profile_id": "e763b97f-c5b0-453e-85bb-2ee63a3bea42",
+    "revision": 1,
+    "request_timeout_seconds": 60,
+    "historical_timeout_seconds": 180,
+    "timeout_deviation_explicitly_approved": true,
+    "model_contract_observed": true,
+    "evidence": [
+      "profile-status.json",
+      "connection-test.json"
+    ],
+    "contract_matches": true,
+    "keyring_available_after_restart": true
+  },
+  "scenarios": {
+    "U2": {
+      "scenario": "U2",
+      "status": "PASS",
+      "job_id": "83182fba-8962-43d6-84aa-ac8b6086433d",
+      "checks": {
+        "six_target_cards_really_sent": true,
+        "three_distinct_eligible_nominees": true,
+        "six_targets_in_research_plan": true,
+        "six_specific_evidence_passages": true,
+        "nine_equal_budget_pilots": true,
+        "independent_pilot_metrics_match": true,
+        "winner_matches_empirical_order": true,
+        "finite_point_within_bounds": true,
+        "objective_within_fixed_threshold": true,
+        "independent_function_verification_passed": true,
+        "objective_budget_respected": true,
+        "five_required_llm_sections": true,
+        "job_completed": true,
+        "evidence_offsets_and_document_hashes_match": true
+      },
+      "advisor_sent_count": 6,
+      "advisor_sent_implementation_ids": [
+        "mealpy:evolutionary_based.DE:OriginalDE",
+        "mealpy:evolutionary_based.ES:CMA_ES",
+        "mealpy:swarm_based.ABC:OriginalABC",
+        "mealpy:swarm_based.GWO:OriginalGWO",
+        "mealpy:swarm_based.PSO:OriginalPSO",
+        "mealpy:swarm_based.WOA:OriginalWOA"
+      ],
+      "candidate_implementation_ids": [
+        "mealpy:evolutionary_based.DE:OriginalDE",
+        "mealpy:evolutionary_based.ES:CMA_ES",
+        "mealpy:swarm_based.ABC:OriginalABC"
+      ],
+      "independent_pilot_metrics": {
+        "mealpy:evolutionary_based.DE:OriginalDE": {
+          "median_score": 0.02427419044223635,
+          "normalized_iqr": 0.027613068464430325
+        },
+        "mealpy:evolutionary_based.ES:CMA_ES": {
+          "median_score": 0.1050400504956689,
+          "normalized_iqr": 0.3933677942569239
+        },
+        "mealpy:swarm_based.ABC:OriginalABC": {
+          "median_score": 0.018087191876695052,
+          "normalized_iqr": 0.02069645698576104
+        }
+      },
+      "independent_winner": "mealpy:swarm_based.ABC:OriginalABC",
+      "specific_evidence_coverage": [
+        "mealpy:swarm_based.ABC:OriginalABC",
+        "mealpy:swarm_based.PSO:OriginalPSO",
+        "mealpy:evolutionary_based.ES:CMA_ES",
+        "mealpy:evolutionary_based.DE:OriginalDE",
+        "mealpy:swarm_based.GWO:OriginalGWO",
+        "mealpy:swarm_based.WOA:OriginalWOA"
+      ],
+      "best_x": [
+        0.9991700272776016,
+        0.9982396364623556
+      ],
+      "objective_raw": 1.7111162045690602e-06,
+      "selected_algorithm_id": "mealpy:swarm_based.ABC:OriginalABC",
+      "solution_origin": {
+        "algorithm_id": "mealpy:swarm_based.ABC:OriginalABC",
+        "evaluation_id": "0f90732b-72ed-4a81-a6f0-f72e40195e84",
+        "execution_id": "4cea73c0-317a-4af2-874b-4adf53dd609c",
+        "phase": "main",
+        "trial_id": "320f8625-c1cd-4885-9594-481355923dd0"
+      },
+      "objective_evaluations": 20000,
+      "narrative_mode": "llm",
+      "source_core_sha256": "2881205c87e308600e737be968995dcec41a618aea09e8d220d054ba39894558",
+      "real_role_calls": 8,
+      "charged_role_attempts": 8,
+      "campaign_role_calls": 8,
+      "cost_status": "not_recorded",
+      "role_usage": [
+        {
+          "role": "formulator",
+          "call_id": "7bd333cf-ea0e-48f3-b29e-a58da7c2c610",
+          "status": "succeeded",
+          "usage": {
+            "completion_tokens": 1002,
+            "prompt_tokens": 1888,
+            "total_tokens": 2890
+          },
+          "cost": null,
+          "elapsed_seconds": 9.375
+        },
+        {
+          "role": "research_planner",
+          "call_id": "88ed88c7-3496-4785-832a-f502cc44e39d",
+          "status": "failed",
+          "usage": {
+            "completion_tokens": 515,
+            "prompt_tokens": 1032,
+            "total_tokens": 1547
+          },
+          "cost": null,
+          "elapsed_seconds": 5.297000000020489
+        },
+        {
+          "role": "research_planner",
+          "call_id": "7c6cb17a-5d75-48aa-a86c-5b801bfefa0b",
+          "status": "succeeded",
+          "usage": {
+            "completion_tokens": 354,
+            "prompt_tokens": 1450,
+            "total_tokens": 1804
+          },
+          "cost": null,
+          "elapsed_seconds": 4.516000000061467
+        },
+        {
+          "role": "advisor",
+          "call_id": "841a3a8e-a164-4599-a3d4-c483ed5c44d8",
+          "status": "succeeded",
+          "usage": {
+            "completion_tokens": 1347,
+            "prompt_tokens": 11486,
+            "total_tokens": 12833
+          },
+          "cost": null,
+          "elapsed_seconds": 15.234000000171363
+        },
+        {
+          "role": "explainer",
+          "call_id": "c01f89eb-2525-4b6f-afd4-ecb62c52d9fb",
+          "status": "succeeded",
+          "usage": {
+            "completion_tokens": 2614,
+            "prompt_tokens": 19121,
+            "total_tokens": 21735
+          },
+          "cost": null,
+          "elapsed_seconds": 27.062999999849126
+        },
+        {
+          "role": "report_reviewer",
+          "call_id": "8e9c2c2c-cb34-4043-8e76-50843c74d905",
+          "status": "succeeded",
+          "usage": {
+            "completion_tokens": 288,
+            "prompt_tokens": 20414,
+            "total_tokens": 20702
+          },
+          "cost": null,
+          "elapsed_seconds": 10.062000000150874
+        },
+        {
+          "role": "explainer",
+          "call_id": "197a68f7-faf9-4d19-8324-8403fb3ad7ce",
+          "status": "succeeded",
+          "usage": {
+            "completion_tokens": 1898,
+            "prompt_tokens": 21153,
+            "total_tokens": 23051
+          },
+          "cost": null,
+          "elapsed_seconds": 24.734000000171363
+        },
+        {
+          "role": "report_reviewer",
+          "call_id": "79d5c1e7-5abb-459f-aaa2-3ce27b5f3fdd",
+          "status": "succeeded",
+          "usage": {
+            "completion_tokens": 522,
+            "prompt_tokens": 21813,
+            "total_tokens": 22335
+          },
+          "cost": null,
+          "elapsed_seconds": 7.952999999979511
+        }
+      ],
+      "human_quality_audit_status": "PASS",
+      "started": true,
+      "retrieval_mode": "local_only",
+      "ui_visual_audit": "PASS"
+    },
+    "U1": {
+      "scenario": "U1",
+      "status": "FAIL",
+      "job_id": "cf73fe30-ef5a-4995-8fd7-4aa6256f3085",
+      "checks": {
+        "six_target_cards_really_sent": true,
+        "three_distinct_eligible_nominees": true,
+        "six_targets_in_research_plan": true,
+        "six_specific_evidence_passages": true,
+        "nine_equal_budget_pilots": true,
+        "independent_pilot_metrics_match": true,
+        "winner_matches_empirical_order": true,
+        "finite_point_within_bounds": true,
+        "objective_within_fixed_threshold": true,
+        "independent_function_verification_passed": true,
+        "objective_budget_respected": true,
+        "five_required_llm_sections": false,
+        "job_completed": true,
+        "evidence_offsets_and_document_hashes_match": true
+      },
+      "advisor_sent_count": 6,
+      "advisor_sent_implementation_ids": [
+        "mealpy:evolutionary_based.DE:OriginalDE",
+        "mealpy:evolutionary_based.ES:CMA_ES",
+        "mealpy:swarm_based.ABC:OriginalABC",
+        "mealpy:swarm_based.GWO:OriginalGWO",
+        "mealpy:swarm_based.PSO:OriginalPSO",
+        "mealpy:swarm_based.WOA:OriginalWOA"
+      ],
+      "candidate_implementation_ids": [
+        "mealpy:evolutionary_based.DE:OriginalDE",
+        "mealpy:evolutionary_based.ES:CMA_ES",
+        "mealpy:swarm_based.PSO:OriginalPSO"
+      ],
+      "independent_pilot_metrics": {
+        "mealpy:evolutionary_based.DE:OriginalDE": {
+          "median_score": 0.00016715369554070285,
+          "normalized_iqr": 5.374687987214092e-05
+        },
+        "mealpy:evolutionary_based.ES:CMA_ES": {
+          "median_score": 0.018437940990615142,
+          "normalized_iqr": 0.014996213048082782
+        },
+        "mealpy:swarm_based.PSO:OriginalPSO": {
+          "median_score": 1.1796532249553844e-06,
+          "normalized_iqr": 2.136283581942276e-05
+        }
+      },
+      "independent_winner": "mealpy:swarm_based.PSO:OriginalPSO",
+      "specific_evidence_coverage": [
+        "mealpy:swarm_based.ABC:OriginalABC",
+        "mealpy:swarm_based.PSO:OriginalPSO",
+        "mealpy:evolutionary_based.ES:CMA_ES",
+        "mealpy:evolutionary_based.DE:OriginalDE",
+        "mealpy:swarm_based.GWO:OriginalGWO",
+        "mealpy:swarm_based.WOA:OriginalWOA"
+      ],
+      "best_x": [
+        1.4,
+        -2.2
+      ],
+      "objective_raw": 0.0,
+      "selected_algorithm_id": "mealpy:swarm_based.PSO:OriginalPSO",
+      "solution_origin": {
+        "algorithm_id": "mealpy:swarm_based.PSO:OriginalPSO",
+        "evaluation_id": "76267b7d-8a41-4732-9f09-faa2cee36f19",
+        "execution_id": "204151aa-1871-4a03-8b2a-e0e1744d2681",
+        "phase": "main",
+        "trial_id": "48d8f56a-d981-4c65-9f86-6b4fe7093b7d"
+      },
+      "objective_evaluations": 20000,
+      "narrative_mode": "mixed",
+      "source_core_sha256": "54d18a696c7522c362ca563340115353312c4ea113115156e195d6d8cd2b467a",
+      "real_role_calls": 8,
+      "charged_role_attempts": 8,
+      "campaign_role_calls": 16,
+      "cost_status": "not_recorded",
+      "role_usage": [
+        {
+          "role": "formulator",
+          "call_id": "12028d10-e8f8-49e4-8907-58beecdd171a",
+          "status": "succeeded",
+          "usage": {
+            "completion_tokens": 1072,
+            "prompt_tokens": 1875,
+            "total_tokens": 2947
+          },
+          "cost": null,
+          "elapsed_seconds": 8.437999999849126
+        },
+        {
+          "role": "research_planner",
+          "call_id": "058cda5e-03d4-4dcd-b81d-ebc8924ce686",
+          "status": "failed",
+          "usage": {
+            "completion_tokens": 468,
+            "prompt_tokens": 1032,
+            "total_tokens": 1500
+          },
+          "cost": null,
+          "elapsed_seconds": 4.8439999998081475
+        },
+        {
+          "role": "research_planner",
+          "call_id": "7db1370b-e4b0-460f-8667-bdd6a9410965",
+          "status": "succeeded",
+          "usage": {
+            "completion_tokens": 422,
+            "prompt_tokens": 1397,
+            "total_tokens": 1819
+          },
+          "cost": null,
+          "elapsed_seconds": 4.0
+        },
+        {
+          "role": "advisor",
+          "call_id": "9a114cce-acc7-41b5-b739-37f1915581e0",
+          "status": "succeeded",
+          "usage": {
+            "completion_tokens": 1556,
+            "prompt_tokens": 11467,
+            "total_tokens": 13023
+          },
+          "cost": null,
+          "elapsed_seconds": 11.047000000020489
+        },
+        {
+          "role": "explainer",
+          "call_id": "c6fb8a88-202e-40ec-8b53-459bc1860fad",
+          "status": "succeeded",
+          "usage": {
+            "completion_tokens": 3172,
+            "prompt_tokens": 19401,
+            "total_tokens": 22573
+          },
+          "cost": null,
+          "elapsed_seconds": 38.89099999982864
+        },
+        {
+          "role": "report_reviewer",
+          "call_id": "2a0c651b-b221-447b-b1be-714426fa3e52",
+          "status": "succeeded",
+          "usage": {
+            "completion_tokens": 259,
+            "prompt_tokens": 20176,
+            "total_tokens": 20435
+          },
+          "cost": null,
+          "elapsed_seconds": 5.921000000089407
+        },
+        {
+          "role": "explainer",
+          "call_id": "70f7811d-ebc6-4b78-9260-7afd20a8c173",
+          "status": "succeeded",
+          "usage": {
+            "completion_tokens": 1975,
+            "prompt_tokens": 21247,
+            "total_tokens": 23222
+          },
+          "cost": null,
+          "elapsed_seconds": 13.922000000020489
+        },
+        {
+          "role": "report_reviewer",
+          "call_id": "de7117df-a599-45bc-bffb-2ccb89ed8a00",
+          "status": "succeeded",
+          "usage": {
+            "completion_tokens": 264,
+            "prompt_tokens": 21047,
+            "total_tokens": 21311
+          },
+          "cost": null,
+          "elapsed_seconds": 4.062999999849126
+        }
+      ],
+      "human_quality_audit_status": "FAIL",
+      "started": true,
+      "retrieval_mode": "direct_refresh",
+      "ui_visual_audit": "PASS",
+      "failure_stage": "reporting -> explainer section validation -> repair exhausted",
+      "failure_code": "INVALID_BINDING",
+      "failed_section": "candidate_rationale",
+      "failed_paragraph": "candidate_reasons",
+      "missing_token": "{{fact:problem.expression}}",
+      "published_origins": {
+        "problem": "llm",
+        "candidate_rationale": "server",
+        "selection": "llm",
+        "solution": "llm",
+        "verification_and_limits": "llm"
+      },
+      "numerical_status": "PASS"
+    },
+    "U-REPORT": {
+      "status": "NOT_RUN",
+      "authorized_in_this_stage": false,
+      "real_role_sends": 0,
+      "objective_evaluations": 0
+    }
+  },
+  "consumption": {
+    "scope": "Fresh Windows stage only; historical Mac consumption excluded",
+    "qualification_fe": 78000,
+    "qualification_base_fe": 15006,
+    "qualification_budget_policy_fe": 62994,
+    "qualification_reserved_fe": 0,
+    "qualification_limit": 100000,
+    "installation_smoke_fe": 1002,
+    "installation_smoke_limit": 1002,
+    "acceptance_fe": 40000,
+    "acceptance_fe_limit": 40000,
+    "real_role_sends": 16,
+    "role_sends_by_scenario": {
+      "U2": 8,
+      "U1": 8,
+      "U-REPORT": 0
+    },
+    "new_connection_tests": 1,
+    "total_new_provider_submissions": 17,
+    "total_new_provider_submissions_limit": 17,
+    "remaining_total_provider_submissions": 0,
+    "remaining_connection_tests": 0,
+    "prompt_tokens": 196058,
+    "completion_tokens": 17742,
+    "total_tokens": 213800,
+    "charged_unknown_fe": 0,
+    "reserved_active_fe": 0,
+    "unknown_or_reserved_model_calls": 0,
+    "cost_status": "not_recorded",
+    "monetary_cost": null,
+    "retries_included": true,
+    "historical_consumption_included": false
+  },
+  "offline": {
+    "status": "PASS",
+    "evidence_scope": "historical_only",
+    "fresh_windows_full_suite": "NOT_RUN",
+    "source_sha": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+    "passed": 965,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "deselected": 1,
+    "windows_targeted_tests": {
+      "status": "PASS",
+      "passed": 22,
+      "evidence": "windows-dns-fix/targeted-tests.log",
+      "scope": "Windows DNS transport fix; separate from inherited historical 965 full-suite result"
+    }
+  },
+  "historical": {
+    "evidence_dir": "../20261114T120916Z-university",
+    "status": "NOT_READY",
+    "current_code_live_acceptance": "NOT_RUN; formulation prompt changed after the closed rc1 campaign",
+    "mac_rc2_live_acceptance": "NOT_RUN",
+    "mac_AC14": "FAIL",
+    "criteria_counts": {
+      "PASS": 9,
+      "FAIL": 5,
+      "NOT_RUN": 1
+    },
+    "criteria": [
+      {
+        "id": "AC01",
+        "requirement_fa": "مبنای کد، قراردادها و شواهد تاریخی محفوظ و روشن‌اند",
+        "status": "PASS",
+        "scope_fa": "ثبت مبنا و ردگیری تاریخی",
+        "evidence": [
+          "baseline.json",
+          "historical-review/historical-diagnosis.json",
+          "historical-review/historical-exact-context-replay.json"
+        ],
+        "explanation_fa": "مبنای checkout جدیدتر از سند حفظ شد؛ گزارش دستی با SHA منطبق یافت شد و پاسخ‌های تاریخی دقیقاً بازپخش شدند. نتایج FAIL قدیمی تغییر نکردند."
+      },
+      {
+        "id": "AC02",
+        "requirement_fa": "شش پیاده‌سازی هدف برای محیط و مثال‌های دوبعدی معتبرند",
+        "status": "PASS",
+        "scope_fa": "صلاحیت محیط و سازگاری دوبعدی؛ حل زنده U2 انجام نشد",
+        "evidence": [
+          "preparation/verification.json",
+          "preparation/result.json",
+          "numerical-core-preservation.json"
+        ],
+        "explanation_fa": "شش گواهی پایه و دو گواهی سیاست بودجه در محیط مک مرجع معتبرند و آماده‌سازی تکراری، آزمون یا سند تازه نساخته است. این نتیجه به معنای حل U2 نیست."
+      },
+      {
+        "id": "AC03",
+        "requirement_fa": "مدل در هر دو مثال شش کارت واقعی بگیرد و سه نامزد مجاز بدهد",
+        "status": "FAIL",
+        "scope_fa": "کمپین واقعی rc1؛ اجرای زنده rc2 انجام نشده",
+        "evidence": [
+          "live/U1/invocations.json",
+          "live/U1/summary.json",
+          "live/U2/summary.json"
+        ],
+        "explanation_fa": "U1 واقعاً شش کارت دریافت کرد و DE/CMA-ES/PSO را پیشنهاد داد؛ U2 در صورت‌بندی متوقف شد و هیچ advisor اجرا نشد."
+      },
+      {
+        "id": "AC04",
+        "requirement_fa": "شواهد اختصاصی شش روش درست و قابل ردگیری باشند",
+        "status": "PASS",
+        "scope_fa": "آزمون زیرسامانه و شواهد واقعی U1؛ رفتار پژوهش در rc2 تغییر نکرد",
+        "evidence": [
+          "live/U1/documents.json",
+          "live/U1/summary.json",
+          "public-documents/snapshot_manifest.json",
+          "offline/summary.json"
+        ],
+        "explanation_fa": "کنترل‌های فهرست مطالب، بخش کلاس، چهار روش در یک سند، سقف متن و 304 در رگرسیون وجود دارند؛ U1 پوشش شش هدف و تطابق متن، offset و hash سند را اثبات کرد. U2 به پژوهش نرسید."
+      },
+      {
+        "id": "AC05",
+        "requirement_fa": "انتخاب نهایی با ۹ پایلوت ۵۰۰-FE و معیار موجود منطبق باشد",
+        "status": "FAIL",
+        "scope_fa": "الزام هر دو مثال تکمیل نشده",
+        "evidence": [
+          "live/U1/trials.csv",
+          "live/U1/summary.json",
+          "live/U2/trials.csv"
+        ],
+        "explanation_fa": "بازحساب مستقل میانه‌ها و IQR برای U1 برنده PSO را تأیید کرد؛ U2 پایلوتی ندارد."
+      },
+      {
+        "id": "AC06",
+        "requirement_fa": "محل و نوع خطای بازبین قابل تشخیص باشد",
+        "status": "PASS",
+        "scope_fa": "بازپخش تاریخی و آزمون آفلاین تشخیص",
+        "evidence": [
+          "historical-review/historical-diagnosis.json",
+          "historical-review/historical-exact-context-replay.json",
+          "historical-review/offline-reporting-verification.json"
+        ],
+        "explanation_fa": "دو پاسخ تاریخی request_hash کوتاه ۵۴ و ۴۷ نویسه‌ای داشتند؛ قاعده ۶۴ نویسه است. تشخیص امن parsing/structural/relational آزموده شد و خطاهای واقعی محفوظ‌اند."
+      },
+      {
+        "id": "AC07",
+        "requirement_fa": "repair بازبین feedback واقعی و حفظ سقف و hash داشته باشد",
+        "status": "PASS",
+        "scope_fa": "قرارداد و انتقال خطا؛ کنترل منفی زنده تاریخی تکرار نشده",
+        "evidence": [
+          "historical-review/review-repair-contract-transcripts.json",
+          "historical-review/offline-reporting-verification.json",
+          "live/U1/human-quality-audit.json"
+        ],
+        "explanation_fa": "mock کنترل‌شده تغییر request_hash همراه با ثبات draft/evidence/بخش پذیرفته‌شده، سقف چهار تماس و replay را اثبات می‌کند؛ U1 نیز repair فقط problem و حفظ hash چهار بخش سالم را نشان داد. توان تشخیص معنایی مدل واقعی از mock نتیجه نشده است."
+      },
+      {
+        "id": "AC08",
+        "requirement_fa": "گزارش به داده وفادار و کنترل بودجه، منشأ و قطعیت حفظ باشد",
+        "status": "NOT_RUN",
+        "scope_fa": "پذیرش کامل نسخه نهایی پس از اصلاح صورت‌بند انجام نشده",
+        "evidence": [
+          "live/U1/human-quality-audit.json",
+          "offline/summary.json",
+          "live/U2/report.json"
+        ],
+        "explanation_fa": "رگرسیون‌ها و متن واقعی U1 وفاداری را نشان می‌دهند؛ ارزیابی کامل دو گزارش مدل پس از اصلاح rc2 انجام نشده و U2 متن تحلیلی مدل ندارد."
+      },
+      {
+        "id": "AC09",
+        "requirement_fa": "پنج بخش مدل در هر دو مثال پذیرفته و منتشر شوند",
+        "status": "FAIL",
+        "scope_fa": "موفقیت U1 متعلق به rc1 است؛ rc2 زنده NOT_RUN",
+        "evidence": [
+          "live/U1/report.json",
+          "live/U2/report.json",
+          "offline/formulator-scope-repair/diagnosis-and-scope.json"
+        ],
+        "explanation_fa": "U1 پنج بخش با mode=llm دارد؛ U2 فقط fallback سرور است. پرامپت اصلاح‌شده rc2 شاهد زنده تازه ندارد."
+      },
+      {
+        "id": "AC10",
+        "requirement_fa": "UI و HTML اطلاعات و منشأ متن را خوانا و مشترک نمایش دهند",
+        "status": "PASS",
+        "scope_fa": "بازکردن فقط‌خواندنی گزارش‌های واقعی قدیمی در UI فعلی rc2",
+        "evidence": [
+          "browser-final/browser-qa.json",
+          "browser-final/read-only-count-audit.json",
+          "live/U1/report.html",
+          "live/U2/report.html"
+        ],
+        "explanation_fa": "هشت نمای UI/HTML در عرض ۳۹۰ و ۱۴۴۰ پیکسل با داده ذخیره‌شده بررسی شد؛ جدول و نمودار U1 خوانا و U2 بدون جواب/نمودار ساختگی است. این PASS مربوط به درستی نمایش است، نه موفقیت مدل U2."
+      },
+      {
+        "id": "AC11",
+        "requirement_fa": "مصرف، زمان و هزینه با دامنه روشن گزارش شوند",
+        "status": "PASS",
+        "scope_fa": "ledger واقعی کمپین و مشاهده خروجی‌های آزمون آفلاین",
+        "evidence": [
+          "consumption_summary.json",
+          "call_usage.csv",
+          "acceptance_campaign_ledger.json",
+          "offline/observed-offline-numerical-usage.json"
+        ],
+        "explanation_fa": "۱۰ ارسال واقعی، توکن‌ها، هزینه ثبت‌نشده و FE پذیرش/آماده‌سازی/smoke جدا هستند. شمار آفلاین جمع شروع‌های گزارش‌شده در خروجی supervisor و evaluator است و می‌تواند شامل fixture مصنوعی باشد؛ شمار دقیق فیزیکی آفلاین اندازه‌گیری نشده و برابری جمع زمان‌های هم‌پوشان ادعا نشده است."
+      },
+      {
+        "id": "AC12",
+        "requirement_fa": "هر دو جواب در آستانه ثابت معتبر باشند",
+        "status": "FAIL",
+        "scope_fa": "U1 PASS قدیمی؛ U2 حل نشده، نه شکست صحت حل‌گر",
+        "evidence": [
+          "live/U1/report.json",
+          "live/U1/summary.json",
+          "live/U2/report.json"
+        ],
+        "explanation_fa": "U1 مقدار صفر و نقطه [1.4,-2.2] با بازبینی موفق دارد؛ U2 هر دو بار پیش از اولین ارزیابی متوقف شد و جواب ندارد. بذر، آستانه و بودجه تغییر نکردند."
+      },
+      {
+        "id": "AC13",
+        "requirement_fa": "مجموعه آفلاین نهایی بدون شکست اجرا شود",
+        "status": "PASS",
+        "scope_fa": "رگرسیون آفلاین کد rc2",
+        "evidence": [
+          "offline/summary.json",
+          "offline/run-manifest.json",
+          "offline/pytest.log",
+          "offline/junit.xml"
+        ],
+        "explanation_fa": "نسخه نهایی 412ab7346f76d93ef3095ef14befa4a754e3f558 با 965 passed، 0 failed، 0 errors، 0 skipped و 1 deselected ثبت شد. مورد live_provider طبق تنظیم مخزن حذف شده است."
+      },
+      {
+        "id": "AC14",
+        "requirement_fa": "بسته در venv/data-dir تازه مک نصب، آماده و هر دو مثال کامل شوند",
+        "status": "FAIL",
+        "scope_fa": "زیرگیت نصب و به‌روزرسانی rc2 PASS؛ مسیر کامل کاربر در محیط تازه ناقص",
+        "evidence": [
+          "installation/verification.json",
+          "installation/rc2-update-verification.json",
+          "preparation/verification.json",
+          "live/U1/summary.json",
+          "live/U2/summary.json"
+        ],
+        "explanation_fa": "نصب اولیه rc1 در محیط تازه و مسیر دارای فاصله، pip check، doctor و smoke موفق‌اند؛ شش روش آماده شدند. rc2 از archive کد در همان venv تازه مجدداً نصب و pip check و انطباق هر ۳۴۵ فایل تأیید شد؛ smoke/API تازه اجرا نشد. کل معیار به‌دلیل تکمیل‌نشدن U2 FAIL است."
+      },
+      {
+        "id": "AC15",
+        "requirement_fa": "بسته و راهنما نسخه‌دار، کامل و بدون اطلاعات خصوصی باشند",
+        "status": "PASS",
+        "scope_fa": "کامل بودن بسته کاندید؛ وضعیت کلی محصول همچنان NOT_READY",
+        "evidence": [
+          "package-audit/final-package-verification.json",
+          "public-documents/snapshot_manifest.json"
+        ],
+        "explanation_fa": "PASS فقط پس از وجود ZIP واقعی، انطباق checksum و گزارش موفق پاک‌سازی بسته ثبت می‌شود؛ این وضعیت آمادگی علمی همه معیارها را تضمین نمی‌کند."
+      }
+    ],
+    "consumption": {
+      "real_role_sends": 10,
+      "campaign_limit": 20,
+      "full_pipeline_sends": 10,
+      "full_pipeline_limit": 16,
+      "report_only_sends": 0,
+      "report_only_limit": 4,
+      "new_connection_tests": 0,
+      "monetary_cost": null,
+      "cost_status": "not_recorded",
+      "qualification_fe": 78000,
+      "qualification_limit": 100000,
+      "installation_smoke_fe": 1002,
+      "acceptance_fe": 20000,
+      "acceptance_fe_limit": 40000,
+      "U2_math_problem_was_not_evaluated": true,
+      "U2_formulator_sends": 2,
+      "U2_formulator_limit": 2,
+      "status": "NOT_READY",
+      "stop_reason": "U2_FORMULATOR_ROLE_BUDGET_EXHAUSTED_AFTER_REPEATED_WORKFLOW_INTENT_MISCLASSIFICATION",
+      "prompt_tokens": 102910,
+      "prompt_tokens_complete": true,
+      "completion_tokens": 11044,
+      "completion_tokens_complete": true,
+      "total_tokens": 113954,
+      "total_tokens_complete": true
+    },
+    "unchanged": true
+  },
+  "remaining_blockers": [
+    {
+      "code": "U1_NARRATIVE_REPEATED_INVALID_BINDING",
+      "scope": "candidate_rationale/candidate_reasons omitted problem.expression token after repair; final mixed report with4LLM+1server"
+    },
+    {
+      "code": "EFFECTIVE_STAGE_CAP_EXHAUSTED",
+      "scope": "17 actual provider submissions and40000 acceptance FE used; no further model calls or acceptance retries authorized"
+    },
+    {
+      "code": "MAC_FRESH_ACCEPTANCE_UNCHANGED",
+      "scope": "Original AC14 remains historical FAIL; Windows result does not close a macOS requirement"
+    },
+    {
+      "code": "FRESH_WINDOWS_PACKAGE_NOT_BUILT",
+      "scope": "No new verified package containing current uncommitted DNS patch; AC15 NOT_RUN"
+    }
+  ],
+  "delivery_ready": false,
+  "evidence_as_of_sha256": {
+    "consumption_summary.json": "9760afc32beb13ef15b116b7e4c16086d57bac2ce0a1373c78f76ab79b09030b",
+    "final-doctor.json": "d271a21cfa6fffeaa881b2d6438a228ba5bbc6b0f9c5f6d06c779ff5cf801a8b",
+    "profile-status.json": "a232b165bc2e0676eb07a2018b1594e31bce3a17927a6c65e16ca9a19e72ee0a",
+    "preparation/status.json": "ea3571e0cddf793657a7e04d065f566d035aaebf33db1f5efa7a9b849c794ea4",
+    "acceptance_manifest.json": "6196e6be82c89112c8ca8ca6eb47ea43025b80c29d4c6e14cf850cc05f9bf7c7",
+    "acceptance_campaign_ledger.json": "9cecb0904c24bdf89ab8de96d6e2aa21e51e3e47071028626c4547bb3722d559",
+    "live/U2/summary.json": "24a7569725bc582968ac0d00d7f3d75d56fa990057531c26cc4071848a49c528",
+    "live/U2/human-quality-audit.json": "645b29bdf5da644e8c2947f6fe8d88443a455909452416f0aa1da36201a01c92",
+    "live/U2/report.json": "d90d5631cda47aa3181a81af4e5231c070b576f69c57ff0fddff7b74a5f13a09",
+    "live/U1/summary.json": "b6642ff0763c7a4cfb22819caec77398cf4cf2c947cc8251aef5604b29517482",
+    "live/U1/human-quality-audit.json": "7df73da45f8e97b416ffab69121b66413c3042efd4667f3ed0ea889a6e3a639f",
+    "live/U1/report.json": "13b35d1d0b30d275684ed6e2703014c6d9a71dfb4569d7888985c49a629700fb",
+    "browser-qa/final-summary.json": "0584dbf666e1757bfc86116c9fbff30c101a594eda6bb07c644a5bcd2f9b4404",
+    "browser-qa/read-only-count-verification.json": "b9ab2d0d2eefaf53ed39e51394d62853f297a41a8d3e2f0b4c2c205812a5a9aa"
+  },
+  "campaign_id": "20261114T164636Z-windows-rc2-dns-fix",
+  "current_source_manifest_sha256": "39147c82e7cb914990596ff12e3d3510db6c5eca8bed1f7ff6fca87c628c7492",
+  "tested_source_state": "HEAD plus declared uncommitted Windows DNS environment patch; source manifest is the exact executable source fingerprint",
+  "source_patch": {
+    "path": "windows-dns-fix/source-patch-at-freeze.diff",
+    "sha256": "f3b4a3969429bc8b06c185fe06a44ad8f8dd8dfa21ac4f75acb999e61df28bbe",
+    "files": {
+      "src/p_mc_optimizer/research/transport.py": "f8c4d11561648019fe9537d8d4325db8b95221075ebcc51251a9213f13443b98",
+      "tests/test_v2_research.py": "4a612da78705b3a1c24a5e01cc7091b07ee8e10a28a9557c77a1e9cb5ed2c55d"
+    },
+    "targeted_tests": {
+      "status": "PASS",
+      "passed": 22,
+      "evidence": "windows-dns-fix/targeted-tests.log"
+    },
+    "commit_status": "uncommitted"
+  },
+  "approved_model_deviations": [
+    {
+      "field": "request_timeout_seconds",
+      "historical_contract": 180,
+      "approved_effective_value": 60,
+      "approval": "Explicit user instruction to continue with 60 seconds, relayed by root agent in this session; no profile database mutation performed by campaign initialization",
+      "scope": "Windows U2/U1 acceptance campaign only"
+    }
+  ],
+  "initialization_archive": {
+    "prior_campaign_id": "20261114T164636Z-windows-rc2",
+    "evidence_directory": "initialization-before-dns-fix",
+    "data_dir_binding_archive": "C:\\Users\\TajAhmadi\\AppData\\Local\\P_MC_Optimizer\\university-acceptance-initial-20261114T164636Z",
+    "prior_role_calls": 0,
+    "prior_acceptance_objective_evaluations": 0,
+    "reason": "Windows DNS source patch changed executable source before any acceptance roles or objective evaluations; original zero-call binding fully preserved"
+  },
+  "current_code_live_acceptance": "Fresh Windows U2 PASS and U1 FAIL; historical macOS rc2 live acceptance remains NOT_RUN",
+  "application_running": true,
+  "windows_installation_scope": "Existing Windows venv upgraded; existing data-dir migrated and preserved, not a new empty venv/data-dir installation",
+  "runtime_source_drift": "unchanged",
+  "consumption_details": {
+    "schema_version": "windows-stage-consumption/1.0",
+    "recorded_at_utc": "2026-11-14T17:17:34.403745+00:00",
+    "smoke": {
+      "evaluations": 1002,
+      "limit": 1002,
+      "evidence": "smoke-summary.json"
+    },
+    "preparation": {
+      "evaluations": 78000,
+      "base_evaluations": 15006,
+      "budget_policy_evaluations": 62994,
+      "after_dns_fix_evaluations": 0,
+      "limit": 100000,
+      "charged_unknown": 0,
+      "reserved_active": 0
+    },
+    "acceptance": {
+      "evaluations": 40000,
+      "limit": 40000,
+      "charged_unknown": 0,
+      "reserved_active": 0,
+      "scenarios": {
+        "U2": {
+          "status": "PASS",
+          "job_id": "83182fba-8962-43d6-84aa-ac8b6086433d",
+          "objective_evaluations": 20000,
+          "real_role_calls": 8,
+          "charged_role_attempts": 8,
+          "objective_raw": 1.7111162045690602e-06,
+          "best_x": [
+            0.9991700272776016,
+            0.9982396364623556
+          ],
+          "selected_algorithm_id": "mealpy:swarm_based.ABC:OriginalABC",
+          "narrative_mode": "llm",
+          "cost_status": "not_recorded"
+        },
+        "U1": {
+          "status": "FAIL",
+          "job_id": "cf73fe30-ef5a-4995-8fd7-4aa6256f3085",
+          "objective_evaluations": 20000,
+          "real_role_calls": 8,
+          "charged_role_attempts": 8,
+          "objective_raw": 0.0,
+          "best_x": [
+            1.4,
+            -2.2
+          ],
+          "selected_algorithm_id": "mealpy:swarm_based.PSO:OriginalPSO",
+          "narrative_mode": "mixed",
+          "cost_status": "not_recorded"
+        }
+      }
+    },
+    "model": {
+      "role_submissions": 16,
+      "connection_test_submissions": 1,
+      "total_real_submissions": 17,
+      "total_limit": 17,
+      "remaining": 0,
+      "database_call_rows": 17,
+      "unknown_or_reserved_calls": 0,
+      "retries_included": true,
+      "U_REPORT_submissions": 0,
+      "prompt_tokens": 196058,
+      "completion_tokens": 17742,
+      "total_tokens": 213800,
+      "cost": null,
+      "cost_status": "not_recorded",
+      "user_approved_timeout_seconds": 60
+    },
+    "targeted_offline_tests": {
+      "passed": 22,
+      "new_model_submissions": 0,
+      "function_evaluations": 0,
+      "full_965_suite_rerun": false
+    },
+    "history": "Historical Mac consumption and results not included or modified."
+  },
+  "failure": {
+    "scenario": "U1",
+    "stage": "reporting -> explainer section validation -> repair exhausted",
+    "code": "INVALID_BINDING",
+    "section": "candidate_rationale",
+    "paragraph": "candidate_reasons",
+    "omitted_token": "{{fact:problem.expression}}",
+    "repair_repeated_same_error": true,
+    "numerical_solution_passed": true,
+    "reviewer_outputs_structurally_valid": true,
+    "accepted_model_sections": 4,
+    "server_fallback_sections": 1,
+    "narrative_mode": "mixed",
+    "evidence": "live/U1/human-quality-audit.json"
+  },
+  "reported_timing_by_scenario": {
+    "U2": {
+      "elapsed_compute_seconds": 229.32800000044517,
+      "elapsed_llm_seconds": 104.2340000004042,
+      "elapsed_research_seconds": null,
+      "elapsed_user_wait_seconds": 0.0,
+      "elapsed_wall_seconds": 339.086815
+    },
+    "U1": {
+      "elapsed_compute_seconds": 225.4370000003837,
+      "elapsed_llm_seconds": 91.12599999946542,
+      "elapsed_research_seconds": null,
+      "elapsed_user_wait_seconds": 0.0,
+      "elapsed_wall_seconds": 326.436389
+    }
+  },
+  "timing_note": "Recorded wall, compute, model and reporting durations retain their own scopes; overlapping durations are not asserted to sum to wall time.",
+  "ui_presentation": {
+    "status": "PASS",
+    "evidence": "browser-qa/final-summary.json",
+    "widths": [
+      390,
+      1440
+    ],
+    "new_model_calls": 0,
+    "new_objective_evaluations": 0,
+    "read_only_counts_unchanged": true
+  }
+}

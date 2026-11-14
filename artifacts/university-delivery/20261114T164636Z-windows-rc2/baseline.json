@@ -1,0 +1,66 @@
+{
+  "created_at_utc": "2026-11-14T16:46:36.767002+00:00",
+  "evidence_dir": "G:\\projects\\solverscout\\artifacts\\university-delivery\\20261114T164636Z-windows-rc2",
+  "head": "d4f38e3bf5ce42544adb493ab257577f3865fb04",
+  "branch": "dev",
+  "upstream": "origin/dev",
+  "git_status_short_initial": "",
+  "python": "3.12.3 (tags/v3.12.3:f6650f9, Apr  9 2024, 14:05:25) [MSC v.1938 64 bit (AMD64)]",
+  "python_executable": "G:\\projects\\solverscout\\.venv\\Scripts\\python.exe",
+  "platform": "Windows-11-10.0.22631-SP0",
+  "architecture": "AMD64",
+  "default_data_dir": "C:\\Users\\TajAhmadi\\AppData\\Local\\P_MC_Optimizer",
+  "installed_app_metadata": "1.0.0",
+  "lock": {
+    "checked": 89,
+    "platform_ignored": 6,
+    "mismatches": [
+      {
+        "package": "jaraco-classes",
+        "expected": "==3.4.0",
+        "actual": null
+      },
+      {
+        "package": "jaraco-context",
+        "expected": "==6.1.2",
+        "actual": null
+      },
+      {
+        "package": "jaraco-functools",
+        "expected": "==4.6.0",
+        "actual": null
+      }
+    ],
+    "normalization_correction": "Initial probe normalized underscore but not dot: the three jaraco entries were false missing reports, not actual dependency gaps. See canonicalized environment-verification.json; setup confirmed them already satisfied."
+  },
+  "initial_doctor": {
+    "message": "MIGRATION_REQUIRED: run p_mc_optimizer migrate with the app stopped",
+    "exit_code_note": "Nonzero observed; exact native exit code was not separately captured in the initial multi-command invocation."
+  },
+  "historical": {
+    "rc2_offline_tested_commit": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+    "offline_passed": 965,
+    "rc2_live": "NOT_RUN",
+    "delivery": "NOT_READY"
+  },
+  "existing_store": {
+    "schema": 1,
+    "table_counts": {
+      "problem_revisions": 1,
+      "jobs": 1,
+      "problem_drafts": 0,
+      "trials": 1,
+      "artifacts": 7,
+      "trial_attempts": 1,
+      "stage_executions": 3,
+      "decisions": 1,
+      "events": 28,
+      "reports": 1,
+      "idempotency_records": 1,
+      "credential_refs": 0,
+      "provider_profiles": 0,
+      "active_provider_profile": 0,
+      "llm_calls": 0
+    }
+  }
+}

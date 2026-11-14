@@ -1,0 +1,43 @@
+{
+  "schema_version": "browser-visual-review/1.0",
+  "reviewed_at_utc": "2026-11-14T17:21:14.446697+00:00",
+  "surfaces": [
+    "actual Streamlit UI",
+    "saved HTML"
+  ],
+  "viewports": [
+    1440,
+    390
+  ],
+  "scenarios": [
+    "U2",
+    "U1"
+  ],
+  "screenshots_visually_inspected": [
+    "U2-ui-390-viewport.png",
+    "U2-ui-1440-viewport.png",
+    "U2-ui-390-candidate_rationale.png",
+    "U1-ui-390-viewport.png",
+    "U1-ui-390-candidate_rationale.png",
+    "U1-ui-1440-candidate_rationale.png",
+    "U1-ui-390-verification_and_limits.png",
+    "U1-html-390-viewport.png",
+    "U1-html-390-candidate-rationale.png",
+    "U1-html-1440-candidate-rationale.png",
+    "U1-html-390-verification.png",
+    "mobile-boundary/candidate-selection-boundary.png"
+  ],
+  "native_resolution_detail_images_used": true,
+  "findings": {
+    "readable_persian_and_numbers": true,
+    "text_clipping_or_overlap_observed": false,
+    "horizontal_page_overflow": false,
+    "mobile_candidate_to_selection_boundary_readable": true,
+    "u2_main_abc_origin_and_objective_visible": true,
+    "u1_main_pso_origin_and_objective_zero_visible": true,
+    "u1_candidate_server_fallback_label_visible": "تکمیل خودکار بر پایهٔ داده‌های اجرا",
+    "u1_other_four_model_sections_review_label_visible": "بازبینی خودکار متن انجام شد.",
+    "u1_failed_narrative_not_misrepresented_as_model_success": true
+  },
+  "passed": true
+}
