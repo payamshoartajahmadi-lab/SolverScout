@@ -188,7 +188,7 @@ def _read_narrative(report):
         return value, None
     except (ValueError, KeyError, TypeError):
         from p_mc_optimizer.reporting.narrative_v3 import finalize_narrative
-        version = markers[0] if markers[0] in {'1.0','1.1','1.2'} else '1.0'
+        version = markers[0] if markers[0] in {'1.0','1.1','1.2','1.3'} else '1.0'
         fallback = finalize_narrative(report, None, [], requested=False, evidence_invalid=True,
                                      report_generation_policy_version=version)
         return fallback, 'نسخه، شواهد یا پیوند داده‌های این گزارش قابل بازسازی معتبر نیست؛ متن جایگزین سرور نمایش داده می‌شود و متن مدل دوباره تولید نشد.'
@@ -441,6 +441,14 @@ def build_report_view_model(report):
         narrative_issues=narrative.get('issues') or [],
         catalog_selection_summary=report.get('catalog_selection_summary'),
     )
+    replay = report.get('qa_reporting') or {}
+    if (isinstance(replay, dict) and replay.get('schema_version') == 'u1-report-replay/1.0'
+            and replay.get('scope') == 'report_only'):
+        view['report_scope_notice'] = (
+            'این متن گزارش بر پایهٔ محاسبات ذخیره‌شده بازتولید شده است. '
+            'جواب، پایلوت‌ها، نمودار، شمار ارزیابی‌ها و زمان محاسبات عددی متعلق به اجرای اصلی‌اند. '
+            'در بازتولید گزارش، حل‌گر و تابع هدف دوباره اجرا نشده‌اند؛ زمان کل و تماس‌های مدل مربوط به همین بازتولید گزارش‌اند.'
+        )
     return view
 
 
@@ -450,6 +458,8 @@ def render_view_model_html(vm):
     e = lambda value: escape(str(value if value is not None else "ثبت نشده"), quote=True)
     ltr = lambda value: '<bdi dir="ltr">' + e(value) + '</bdi>'
     out = ['<div class="narrative-v3" dir="rtl">', '<style>.narrative-v3{font-size:16px;line-height:1.8;overflow-wrap:anywhere;max-width:100%;min-width:0}.narrative-v3 p{white-space:pre-wrap}.narrative-v3 section{margin:1rem 0;padding:1rem;border:1px solid #8893a955;border-radius:12px;min-width:0}.narrative-v3 .table-scroll{overflow-x:auto;max-width:100%;overscroll-behavior-x:contain}.narrative-v3 table{border-collapse:collapse;min-width:680px;width:100%}.narrative-v3 th,.narrative-v3 td{padding:.6rem;text-align:start;border-bottom:1px solid #8893a955}.narrative-v3 td bdi{white-space:nowrap}.narrative-v3 bdi[dir=ltr],.narrative-v3 code{direction:ltr;unicode-bidi:isolate;overflow-wrap:normal;word-break:normal}.narrative-v3 a{overflow-wrap:anywhere}.narrative-v3 details{max-width:100%;padding:.75rem;margin-block:.75rem;border-radius:10px}.narrative-v3 summary{cursor:pointer;font-weight:650}.narrative-v3 pre{white-space:pre-wrap;overflow-wrap:anywhere}.narrative-v3 h2{font-size:1.3rem;line-height:1.55;margin:.3rem 0 .8rem}.narrative-v3 h3{font-size:1.1rem;line-height:1.6;margin:.2rem 0 .6rem}.narrative-v3 .math-line{overflow-x:auto;direction:ltr;text-align:left;white-space:nowrap}.narrative-v3 [data-block=progress]{overflow-x:auto;max-width:100%}.narrative-v3 [data-block=progress] figure{min-width:620px}.narrative-v3 svg{font-size:16px}.narrative-v3 svg text{fill:#C7CDDA}.narrative-v3 svg polyline{stroke:#FDA481}.narrative-v3 .source-summary{font-size:.93em}.narrative-v3 .count-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.25rem 1rem}</style>']
+    if vm.get('report_scope_notice'):
+        out.append('<p class="report-scope" role="status">' + e(vm['report_scope_notice']) + '</p>')
     out.append('<section data-block="solution"><h2>جواب و بررسی عددی</h2><p>وضعیت جواب: ' + e(vm['solution_label']) + '</p>')
     if vm.get('read_error'):
         out.append('<p class="narrative-read-error" role="status">' + e(vm['read_error']) + '</p>')

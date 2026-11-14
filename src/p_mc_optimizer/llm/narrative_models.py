@@ -31,9 +31,9 @@ def validate_narrative_version_combination(evidence_policy_version, builder_vers
     if evidence_policy_version is not None:
         versions.append(evidence_policy_version)
     if report_generation_policy_version is not None:
-        # Generation 1.2 changes the reviewer input/repair protocol only.
+        # Generations 1.2/1.3 change reporting boundaries, not evidence facts.
         # Its explicitly frozen evidence and formatter contracts remain 1.1.
-        versions.append("1.1" if report_generation_policy_version == "1.2" else report_generation_policy_version)
+        versions.append("1.1" if report_generation_policy_version in {"1.2", "1.3"} else report_generation_policy_version)
     if any(v not in {"1.0", "1.1"} for v in versions) or len(set(versions)) != 1:
         raise ValueError("Incompatible narrative policy, evidence builder or formatter versions")
     return builder_version
