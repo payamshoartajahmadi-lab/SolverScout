@@ -1,0 +1,263 @@
+............F..FFF.F                                                     [100%]
+=================================== FAILURES ===================================
+___________ test_maximize_job_verifies_and_exports_from_same_engine ____________
+
+tmp_path = PosixPath('/private/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/pytest-of-payam/pytest-72/test_maximize_job_verifies_and0')
+
+    def test_maximize_job_verifies_and_exports_from_same_engine(tmp_path):
+        """FLOW-09. A fixed-solver job produces no model calls or Explainer snapshot."""
+        repo = Repository(tmp_path / "داده آزمون")
+        model = json.loads((EXAMPLES / "quadratic_2d_max.json").read_text())
+        policy = {
+            "policy_version": "1.0", "portfolio_id": "continuous_v1", "selection_policy": "fixed_solver",
+            "fixed_algorithm_id": "de.original", "max_objective_evaluations": 1002, "max_compute_seconds": 300,
+            "master_seed": 1405, "explain_via_llm": False,
+        }
+        output = solve(repo, model, policy)
+        report = output["report"]
+>       assert output["complete"] and report["solution_status"] == "valid_best_found"
+E       assert (False)
+
+tests/test_workflow_exports.py:24: AssertionError
+----------------------------- Captured stderr call -----------------------------
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/tmpzl67v577/b099dd4928875dd34ad47bc2188ce331", line 13, in <module>
+    _actual_preparation_page(*__args, **__kwargs)
+                              ^^^^^^
+NameError: name '__args' is not defined
+___ test_exe_018_dat_013_main_failure_preserves_and_verifies_profile_origin ____
+
+tmp_path = PosixPath('/private/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/pytest-of-payam/pytest-72/test_exe_018_dat_013_main_fail0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x13e70ffe0>
+
+    def test_exe_018_dat_013_main_failure_preserves_and_verifies_profile_origin(tmp_path, monkeypatch):
+        _inject_trial_failure(monkeypatch, "main")
+        repo = Repository(tmp_path)
+        problem = json.loads((EXAMPLES / "quadratic_2d.json").read_bytes())
+        output = solve(repo, problem, _test_policy("fixed_solver"))
+        report = output["report"]
+>       assert report["job_status"] == "completed"
+E       AssertionError: assert 'failed' == 'completed'
+E         
+E         - completed
+E         + failed
+
+tests/test_workflow_exports.py:104: AssertionError
+----------------------------- Captured stderr call -----------------------------
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/tmpzl67v577/b099dd4928875dd34ad47bc2188ce331", line 13, in <module>
+    _actual_preparation_page(*__args, **__kwargs)
+                              ^^^^^^
+NameError: name '__args' is not defined
+________ test_sel_005_007_failed_pilots_are_not_retried_or_reallocated _________
+
+tmp_path = PosixPath('/private/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/pytest-of-payam/pytest-72/test_sel_005_007_failed_pilots0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x13e718140>
+
+    def test_sel_005_007_failed_pilots_are_not_retried_or_reallocated(tmp_path, monkeypatch):
+        _inject_trial_failure(monkeypatch, "pilot")
+        repo = Repository(tmp_path)
+        problem = json.loads((EXAMPLES / "quadratic_2d.json").read_bytes())
+        report = solve(repo, problem, _test_policy("pilot_only"))["report"]
+>       assert report["job_status"] == "completed"
+E       AssertionError: assert 'failed' == 'completed'
+E         
+E         - completed
+E         + failed
+
+tests/test_workflow_exports.py:120: AssertionError
+----------------------------- Captured stderr call -----------------------------
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/tmpzl67v577/b099dd4928875dd34ad47bc2188ce331", line 13, in <module>
+    _actual_preparation_page(*__args, **__kwargs)
+                              ^^^^^^
+NameError: name '__args' is not defined
+_____ test_objective_failure_publishes_diagnostic_and_charges_failed_call ______
+
+tmp_path = PosixPath('/private/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/pytest-of-payam/pytest-72/test_objective_failure_publish0')
+
+    def test_objective_failure_publishes_diagnostic_and_charges_failed_call(tmp_path):
+        repo = Repository(tmp_path)
+        model = json.loads((EXAMPLES / "quadratic_2d.json").read_bytes())
+        model["objective"]["source"]["expression"] = "log(-1)"
+        result = solve(repo, model, _test_policy("fixed_solver"))["report"]
+        assert result["job_status"] == "failed"
+>       assert result["error"]["error_code"] == "OBJECTIVE_EVALUATION_FAILED"
+E       AssertionError: assert 'NUMERIC_OUTCOME_UNKNOWN' == 'OBJECTIVE_EVALUATION_FAILED'
+E         
+E         - OBJECTIVE_EVALUATION_FAILED
+E         + NUMERIC_OUTCOME_UNKNOWN
+
+tests/test_workflow_exports.py:137: AssertionError
+----------------------------- Captured stderr call -----------------------------
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/tmpzl67v577/b099dd4928875dd34ad47bc2188ce331", line 13, in <module>
+    _actual_preparation_page(*__args, **__kwargs)
+                              ^^^^^^
+NameError: name '__args' is not defined
+___________ test_v2_web_and_catalog_policies_use_real_pilot_evidence ___________
+
+tmp_path = PosixPath('/private/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/pytest-of-payam/pytest-72/test_v2_web_and_catalog_polici0')
+
+    def test_v2_web_and_catalog_policies_use_real_pilot_evidence(tmp_path):
+        """FLOW-07. The v2 Explainer passes the existing schema over the real adapter."""
+        search = SearchFixture()
+        document = DocumentFixture()
+        explainer_contexts = []
+        transport = httpx.MockTransport(lambda request: model_fixture(request, explainer_contexts))
+        with local_api(tmp_path, transport, research_search=search,
+                       research_fetch=DocumentFetcher(document)) as (repo, client, address, token):
+>           catalog = qualify_three(client)
+                      ^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_v2_workflow.py:152: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <httpx.Client object at 0x13e77fb90>
+
+    def qualify_three(client):
+        catalog = checked(client.post("/catalog/discover"))
+        assert catalog["discovered_count"] >= 6 and catalog["qualified_count"] == 0
+        algorithms = {"OriginalGWO", "OriginalWOA", "OriginalDE"}
+        configs = [row["config_id"] for row in catalog["suggested_configurations"] if row["class_name"] in algorithms]
+        assert len(configs) == 3
+        batch = checked(keyed_post(client, "/catalog/qualifications", {"config_ids": configs, "max_seconds": 120}), 202)
+        batch_id = batch["qualification_id"]
+        deadline = monotonic() + 120
+        while batch["status"] == "running" and monotonic() < deadline:
+            sleep(0.2)
+            batch = checked(client.get(f"/catalog/qualifications/{batch_id}"))
+        catalog = checked(client.get("/catalog/implementations?status=qualified"))
+>       assert catalog["qualified_count"] == 3, batch
+E       AssertionError: {'schema_version': '2.0', 'scope': 'base', 'qualification_id': '39ad18ea-97ad-448c-95d2-600161fb15d4', 'status': 'completed', ...}
+E       assert 0 == 3
+
+tests/test_v2_workflow.py:114: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-11-14 16:20:53.163 Started server process [44018]
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/tmpzl67v577/b099dd4928875dd34ad47bc2188ce331", line 13, in <module>
+    _actual_preparation_page(*__args, **__kwargs)
+                              ^^^^^^
+NameError: name '__args' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/tmpzl67v577/b099dd4928875dd34ad47bc2188ce331", line 13, in <module>
+    _actual_preparation_page(*__args, **__kwargs)
+                              ^^^^^^
+NameError: name '__args' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 131, in _main
+    prepare(preparation_data)
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "<USER_HOME>/.local/share/uv/python/cpython-3.12.16-macos-aarch64-none/lib/python3.12/multiprocessing/spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/tmpzl67v577/b099dd4928875dd34ad47bc2188ce331", line 13, in <module>
+    _actual_preparation_page(*__args, **__kwargs)
+                              ^^^^^^
+NameError: name '__args' is not defined
+2026-11-14 16:20:53.469 Shutting down
+2026-11-14 16:20:53.571 Finished server process [44018]
+------------------------------ Captured log call -------------------------------
+INFO     uvicorn.error:server.py:103 Started server process [44018]
+INFO     uvicorn.error:server.py:282 Shutting down
+INFO     uvicorn.error:server.py:113 Finished server process [44018]
+=========================== short test summary info ============================
+FAILED tests/test_workflow_exports.py::test_maximize_job_verifies_and_exports_from_same_engine
+FAILED tests/test_workflow_exports.py::test_exe_018_dat_013_main_failure_preserves_and_verifies_profile_origin
+FAILED tests/test_workflow_exports.py::test_sel_005_007_failed_pilots_are_not_retried_or_reallocated
+FAILED tests/test_workflow_exports.py::test_objective_failure_publishes_diagnostic_and_charges_failed_call
+FAILED tests/test_v2_workflow.py::test_v2_web_and_catalog_policies_use_real_pilot_evidence
+5 failed, 15 passed in 2.30s

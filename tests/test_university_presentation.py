@@ -1,7 +1,7 @@
 """Offline display/interaction contracts; not evidence of live model quality."""
 from copy import deepcopy
-from html.parser import HTMLParser
 import re
+import sys
 from types import SimpleNamespace
 
 import pytest
@@ -17,6 +17,26 @@ from test_narrative_closure_presentation import fixture, prepare
 SIX = ['mealpy:swarm_based.ABC:OriginalABC', 'mealpy:swarm_based.PSO:OriginalPSO',
        'mealpy:evolutionary_based.ES:CMA_ES', 'mealpy:evolutionary_based.DE:OriginalDE',
        'mealpy:swarm_based.GWO:OriginalGWO', 'mealpy:swarm_based.WOA:OriginalWOA']
+
+
+@pytest.fixture
+def isolated_streamlit_main():
+    """AppTest replaces __main__; later spawn children must reexecute pytest."""
+    original_main = sys.modules['__main__']
+    missing = object()
+    attributes = {name: getattr(original_main, name, missing) for name in ('__file__', '__spec__')}
+    original_argv, values = sys.argv, sys.argv[:]
+    try:
+        yield
+    finally:
+        sys.modules['__main__'] = original_main
+        for name, value in attributes.items():
+            if value is missing:
+                original_main.__dict__.pop(name, None)
+            else:
+                setattr(original_main, name, value)
+        original_argv[:] = values
+        sys.argv = original_argv
 
 
 def test_frozen_six_card_counts_and_non_nominees_are_shared_without_live_catalog(monkeypatch):
@@ -132,7 +152,7 @@ def _preparation_page():
     preparation_panel(attempt)
 
 
-def test_prepare_ui_explicit_source_activation_same_api_and_idempotent_retry():
+def test_prepare_ui_explicit_source_activation_same_api_and_idempotent_retry(isolated_streamlit_main):
     page = AppTest.from_function(_preparation_page)
     page.session_state['requests'] = []
     page.run()
@@ -174,7 +194,7 @@ def _actual_preparation_page():
     preparation_panel(attempt)
 
 
-def test_prepare_panel_fresh_store_uses_real_api_with_unset_budget_without_qualification(tmp_path):
+def test_prepare_panel_fresh_store_uses_real_api_with_unset_budget_without_qualification(tmp_path, isolated_streamlit_main):
     from p_mc_optimizer.api import create_app
     app = create_app(tmp_path, 'offline-university-ui-contract')
     with TestClient(app, headers={'X-PMC-Internal-Token': 'offline-university-ui-contract'}) as client:

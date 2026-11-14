@@ -1,0 +1,12 @@
+{
+  "profile_configured": true,
+  "model": "gpt-6-luna",
+  "protocol": "chat_completions_v1",
+  "response_mode": "json_schema",
+  "endpoint_sha256": "807aaf9814b3b7fe432f128a9e7aef458a3e4c78cc6e0994f9003a37a6e1b09c",
+  "credential_available": true,
+  "credential_storage_mode": "os_keyring",
+  "last_connection_proof": "succeeded",
+  "live_connection_test": "NOT_RUN; first U1 role call will establish actual access",
+  "fresh_model_calls": 0
+}
