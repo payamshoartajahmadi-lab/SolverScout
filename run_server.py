@@ -17,10 +17,8 @@ def main():
 
     args = sys.argv[1:]
     command = args.pop(0) if args[:1] == ["stop"] else "start"
-    preview_config = root / ".solverscout-v2-preview" / "preview-config.json"
-    overrides = {"--data-dir", "--config"}
-    if preview_config.is_file() and not any(arg.partition("=")[0] in overrides for arg in args):
-        args = ["--data-dir", str(preview_config.parent), "--config", str(preview_config), *args]
+    # Use the CLI's stable per-user data directory for both start and stop.
+    # Preview/test stores must be selected explicitly with --data-dir.
 
     try:
         return subprocess.call([str(python), "-m", "p_mc_optimizer", command, *args])
