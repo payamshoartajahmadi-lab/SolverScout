@@ -1,0 +1,119 @@
+{
+  "status": "PASS",
+  "scope": "Final installed rc2 server startup and read-only health; no live acceptance rerun",
+  "observed_at_utc": "2026-11-14T14:25:25.454255+00:00",
+  "ui_url": "http://127.0.0.1:60865/",
+  "api_health_http_status": 200,
+  "ui_health_http_status": 200,
+  "code_commit": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+  "version": "2.1.0rc2",
+  "source_manifest_sha256": "b6f9bcf1468276502e32792f1930a566c2a908414687e04e64c9c34e47769bd8",
+  "runtime_identities": [
+    {
+      "schema_version": "runtime-provenance/1.0",
+      "process_run_id": "e704eb01-8327-4356-bc88-9281605917be",
+      "role": "api",
+      "instance_id": "d3a12fa3-9813-4dc6-b84d-6eca04e96d5f",
+      "pid": 57736,
+      "started_at_utc": "2026-11-14T14:23:22.885726+00:00",
+      "project_version": "2.1.0rc2",
+      "git_commit_observed_at_startup": null,
+      "git_dirty_observed_at_startup": null,
+      "source_observation": "startup_manifest",
+      "source_manifest_sha256": "b6f9bcf1468276502e32792f1930a566c2a908414687e04e64c9c34e47769bd8",
+      "source_manifest_status": "complete",
+      "python_version": "3.12.16",
+      "dependency_versions": {
+        "fastapi": "0.162.2",
+        "httpx": "0.28.1",
+        "langgraph": "1.2.20",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "pydantic": "2.14.3",
+        "streamlit": "1.67.0"
+      }
+    },
+    {
+      "schema_version": "runtime-provenance/1.0",
+      "process_run_id": "5886c5dd-7b33-4287-b5ee-a4e40a015bf5",
+      "role": "ui",
+      "instance_id": "d3a12fa3-9813-4dc6-b84d-6eca04e96d5f",
+      "pid": 57741,
+      "started_at_utc": "2026-11-14T14:23:23.970296+00:00",
+      "project_version": "2.1.0rc2",
+      "git_commit_observed_at_startup": null,
+      "git_dirty_observed_at_startup": null,
+      "source_observation": "startup_manifest",
+      "source_manifest_sha256": "b6f9bcf1468276502e32792f1930a566c2a908414687e04e64c9c34e47769bd8",
+      "source_manifest_status": "complete",
+      "python_version": "3.12.16",
+      "dependency_versions": {
+        "fastapi": "0.162.2",
+        "httpx": "0.28.1",
+        "langgraph": "1.2.20",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "pydantic": "2.14.3",
+        "streamlit": "1.67.0"
+      }
+    },
+    {
+      "schema_version": "runtime-provenance/1.0",
+      "process_run_id": "02f584f3-b363-467a-ad93-93c72831a8c2",
+      "role": "supervisor",
+      "instance_id": "d3a12fa3-9813-4dc6-b84d-6eca04e96d5f",
+      "pid": 57734,
+      "started_at_utc": "2026-11-14T14:23:21.839783+00:00",
+      "project_version": "2.1.0rc2",
+      "git_commit_observed_at_startup": null,
+      "git_dirty_observed_at_startup": null,
+      "source_observation": "startup_manifest",
+      "source_manifest_sha256": "b6f9bcf1468276502e32792f1930a566c2a908414687e04e64c9c34e47769bd8",
+      "source_manifest_status": "complete",
+      "python_version": "3.12.16",
+      "dependency_versions": {
+        "fastapi": "0.162.2",
+        "httpx": "0.28.1",
+        "langgraph": "1.2.20",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "pydantic": "2.14.3",
+        "streamlit": "1.67.0"
+      }
+    },
+    {
+      "schema_version": "runtime-provenance/1.0",
+      "process_run_id": "e97bbd87-cf6f-4f04-9bf8-458064dc9fa8",
+      "role": "worker",
+      "instance_id": "d3a12fa3-9813-4dc6-b84d-6eca04e96d5f",
+      "pid": 57740,
+      "started_at_utc": "2026-11-14T14:23:23.970229+00:00",
+      "project_version": "2.1.0rc2",
+      "git_commit_observed_at_startup": null,
+      "git_dirty_observed_at_startup": null,
+      "source_observation": "startup_manifest",
+      "source_manifest_sha256": "b6f9bcf1468276502e32792f1930a566c2a908414687e04e64c9c34e47769bd8",
+      "source_manifest_status": "complete",
+      "python_version": "3.12.16",
+      "dependency_versions": {
+        "fastapi": "0.162.2",
+        "httpx": "0.28.1",
+        "langgraph": "1.2.20",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "pydantic": "2.14.3",
+        "streamlit": "1.67.0"
+      }
+    }
+  ],
+  "installed_archive_has_no_git_metadata": true,
+  "closed_campaign_job_role_calls": 10,
+  "jobs_by_status": {
+    "completed": 1,
+    "failed": 2
+  },
+  "fresh_live_rc2": "NOT_RUN",
+  "startup_new_solver_or_model_runs": 0,
+  "private_data_directory_excluded_from_package": true,
+  "original_user_data_directory_unchanged": true
+}
