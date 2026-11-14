@@ -1,0 +1,36 @@
+{
+  "schema_version": "clean-windows-install-restart-browser-audit/1.0",
+  "status": "PASS",
+  "observed_at_utc": "2026-11-14T19:50:52.629Z",
+  "ui_url": "http://127.0.0.1:8501",
+  "expected_restarted_instance_id": "364c74dd-48bc-40d5-9362-446c0451d6ea",
+  "expected_instance_binding": "Root separately verified API/runtime ownership for this restart; browser verifies rendered homepage only.",
+  "browser_version": "157.0.4341.57",
+  "title": "SolverScout | بهینه‌ساز محلی",
+  "checks": {
+    "homepage_visible": true,
+    "no_application_exception": true,
+    "no_numeric_environment_mismatch": true,
+    "no_source_drift_warning": true,
+    "no_horizontal_overflow": true,
+    "no_page_errors": true,
+    "no_console_errors": true,
+    "no_blocked_requests": true
+  },
+  "geometry": {
+    "viewport_width": 1440,
+    "document_width": 1440
+  },
+  "page_errors": [],
+  "console_errors": [],
+  "blocked_requests": [],
+  "screenshot": "home-1440.png",
+  "screenshot_sha256": "2a73440e2f693bc1a4abccf894de9c4e4690bd4b92f9bc8273bb7aca5488b495",
+  "actions": [
+    "GET local homepage; no clicks or form input"
+  ],
+  "live_model_calls": 0,
+  "connection_tests": 0,
+  "solver_invocations": 0,
+  "function_evaluations": 0
+}

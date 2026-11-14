@@ -1,0 +1,216 @@
+{
+  "schema_version": "windows-rc3-publication-privacy-audit/1.0",
+  "status": "PASS",
+  "scope": "New release documentation and curated public evidence, not a retroactive history rewrite. The audit file itself is excluded from its digest inventory to avoid a circular hash.",
+  "files_scanned": 47,
+  "json_files_parsed": 36,
+  "checks": {
+    "exact_current_api_key_absent": true,
+    "exact_credential_references_absent": true,
+    "actual_provider_endpoint_absent": true,
+    "private_home_and_development_paths_absent": true,
+    "no_private_database_or_unrelated_members": true,
+    "generic_credential_pattern_scan_clear": true,
+    "all_curated_public_and_original_hashes_match": true,
+    "branch_rename_evidence_included": true,
+    "new_delivery_tree_git_text_normalization_disabled": true
+  },
+  "findings": [],
+  "read_only_local_credential_lookup": true,
+  "credential_values_or_digests_output": false,
+  "model_submissions": 0,
+  "connection_tests": 0,
+  "solver_runs": 0,
+  "objective_evaluations": 0,
+  "tests": 0,
+  "scanned_files": [
+    {
+      "path": "docs/delivery/windows-rc3/.gitattributes",
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/branch-renames.json",
+      "sha256": "b0e3830abb7970945298cb3aaa0bf90b02bd8c12ddaac770301b62a62eebf444"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/.gitattributes",
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/clean-install/historical-preservation.json",
+      "sha256": "58e8b54209f48a04908c2d1f3b4dd1799b3ec3679254eec9821d8c91c92d25a2"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/clean-install/installed-environment.json",
+      "sha256": "c2ba5b62026b3c55c6badebfc4e9d70f846c4690d232595b60338150414327a6"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/clean-install/package-audit-summary.json",
+      "sha256": "b8575c5586b8f54058186fcc69445028c241b52f54ce5d6d8b664c3783ada052"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/clean-install/runtime-first.json",
+      "sha256": "9ed572e6c78d604f7f20a7029ead27a44224db66992551587c9c7036db65e774"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/clean-install/runtime-restarted.json",
+      "sha256": "8dc8f427a3d83aefbd787d22ba2bac341e7c06c843a36dc31df071eaf357537b"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/clean-install/runtime-stopped.json",
+      "sha256": "c9e96b74b4159c5e527f430557ff86a287667c583b8f245d55cccb4814d30139"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/clean-install/setup-result.json",
+      "sha256": "253886adb055bb6fbb921b84fd984c534f11eabeaad8f60e08fcfb5ca8dcfffd"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/clean-install/summary.json",
+      "sha256": "f216b3790ba0a8886d2f9d8efff6473fd2f5f2aba8512e6991f203049eb39ed1"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/clean-install/ui/programmatic-summary.json",
+      "sha256": "4e6421cdf778311bd5d6e1f4471cb348a5af26069ebace497e194ce15b7c4d19"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/clean-install/ui/settings-1440.png",
+      "sha256": "7c6d5af61edfc37e40b1e4f85f0ff873b03381ce299a0ba4e91995618a246671"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/clean-install/ui/visual-review.json",
+      "sha256": "f416d2d93305f52f6dacb46bc61295921cb99df9cc0063527281ca8aca25b2a1"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/clean-install/ui-restart/summary.json",
+      "sha256": "7adfde82f6916c3ac842c041c5a3ac5a324052806c93512be07653e599ebdc62"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/clean-install/ui-restart/visual-review.json",
+      "sha256": "143d848d46dbbf083c878de8f77c8eab441fde906ffdad6ae5e418a02e5f417b"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/clean-install/usage-ledger.json",
+      "sha256": "fe09bf9d159b13aca9e57930a9dab93ca482ab2774fc578f7cd15b5b28b9c863"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/historical-windows-rc2/consumption_summary.json",
+      "sha256": "9760afc32beb13ef15b116b7e4c16086d57bac2ce0a1373c78f76ab79b09030b"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/provenance.json",
+      "sha256": "73fb029008aa1cc9a7aa5de2b594b83aef7931d5a629a7b25373d9fbf8a509d9"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/acceptance_matrix.csv",
+      "sha256": "9cbd1633d2d8cb62a8c2f5ad6b3c4a5269d0a5a65a66369edf807a997d765f46"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/acceptance_summary.json",
+      "sha256": "383ff1020a96a51770c74de5ed7b136448e7b106538df625cda23ed030f51e75"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/browser-qa/final-summary.json",
+      "sha256": "8d8854d7883e6caf53f79c5fb4292f6264146e80161478e1deee438678455d7b"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/browser-qa/read-only-verification.json",
+      "sha256": "d20f4d5bb6f078e5ef9a81ae26cf653e4b9b9d6391b215f8fae49dd220f2f417"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/browser-qa/ui-1440-full.png",
+      "sha256": "ed34c13cae756b618fb2fe06ae91a81d7598e8a91566e58e33f4315480f6b03e"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/browser-qa/visual-review.json",
+      "sha256": "2683596326b3d5bf35e61212eccae6af752c6d31f033d4ad38033f57412c3b04"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/live/U1-report/campaign_ledger.json",
+      "sha256": "91809c1e6fab52d770a6b79ab10582d6a2f426f7d897609be33d2810e06f326c"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/live/U1-report/human-quality-audit.json",
+      "sha256": "5a34da58fed339484a374f60d6425dea0a5f66e0ffb22a874ff4d03a4ea40ab9"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/live/U1-report/journal.json",
+      "sha256": "dacdd97ec589745719a4920e25a0d1fcf9ec4b37265db1eabce3de24048402cb"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/live/U1-report/report.html",
+      "sha256": "e239c18dd5fb76ac1501e87ba966a59803e45282371e8b65e47f5ff2c4173eba"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/live/U1-report/report.json",
+      "sha256": "43d62f6c6cb1690a6745df7a31180fc0f5e555e2ba960faad72a64bdfc1de7a0"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/live/U1-report/run_manifest.json",
+      "sha256": "51eebdbb35c91b3c9012655a6a7cefd8e0d2a92e32704cc8aded3bea5cef52fd"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/live/U1-report/summary.json",
+      "sha256": "1d2145d0eef625c121d212a5399bcacf16ac3ffd6c334e8c7896d10e6b696e37"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/offline/attempt-01/summary.json",
+      "sha256": "c96281baa347258f74416c419de91202fef6fb4ee52a9e0d460cf2f86c1cd8d4"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/offline/normalization-targeted-summary.json",
+      "sha256": "b97a359fffeca17d79a0db5c6b1a0a59cf367b9745f98836a7a7a87affcdbc69"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/offline/observed-offline-numerical-usage.json",
+      "sha256": "b340463c30bb94a3bb78482ce5e4bfed6796b0b13d44657e45a3e8c000175be9"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/offline/report-replay-targeted-summary.json",
+      "sha256": "f952859b556bed17cb1b6144415b48687f30abc89f134e24914cedde1d734b37"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/offline/run-manifest.json",
+      "sha256": "d365f5484ef18ebebcd8ea189a5c93af331856dfdcacf051ab5854f48fc1905a"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/offline/summary.json",
+      "sha256": "2fb7ec0f67fbf4aa060245d7f23196bba54c7a609e53bd50f79601bf884cdc5e"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/offline/windows-compatibility-targeted-summary.json",
+      "sha256": "62d88f6fffae1288d7003b5c6983b20bf8980bd7d89753828e4bac059ec29015"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/evidence/report-replay/real-U1-binding-diagnosis.json",
+      "sha256": "90480fd08c3b606d8f76abd78fa58d5e79828bbdee9ff7af256180db9ca987ca"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/history-audit.json",
+      "sha256": "95eb29ef40551481e768017de90162237a0409313b647a6346af41368eb00589"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/PROVENANCE_FA.md",
+      "sha256": "f440a18defd183dba01ff1f426dcaee83b3e8581f41e8c17c4ab26bc56f9f3ab"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/RELEASE_BODY_FA.md",
+      "sha256": "625d5d5fc1afc5496e0f912c69ea87e5b65cf120daf8ad690eb14d178ace3585"
+    },
+    {
+      "path": "docs/delivery/windows-rc3/rename-plan.json",
+      "sha256": "a943708b57511f25e9e3a15deb951a6d3b21874778a2d242a4e015ff532027f8"
+    },
+    {
+      "path": "README.md",
+      "sha256": "e6fa20ac7bdde135b979e8f0c2f5688b15f80d77316acb4f3612484b9cadac25"
+    },
+    {
+      "path": "README_FA.md",
+      "sha256": "55628260ef52ebadc12de9d7c67a8ef01d89e704fefbbcde72580c9c5989dd54"
+    },
+    {
+      "path": "RELEASE_NOTES.md",
+      "sha256": "c7f49e5cddffb4917f015544da3f540460cf6f0579cd3d5f710d3fa290013de8"
+    }
+  ]
+}

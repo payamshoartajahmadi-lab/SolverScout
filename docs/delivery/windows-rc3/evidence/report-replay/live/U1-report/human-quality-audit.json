@@ -1,0 +1,454 @@
+{
+  "schema_version": "u1-report-replay-human-quality-audit/1.0",
+  "status": "PASS",
+  "report_sha256": "43d62f6c6cb1690a6745df7a31180fc0f5e555e2ba960faad72a64bdfc1de7a0",
+  "reviewed_at_utc": "2026-11-14T19:09:03.472479+00:00",
+  "scope": "Read-only manual semantic inspection of all actual final model paragraphs and independent deterministic fidelity/hash/binding checks. This audits regenerated U1 reporting based on stored computation, not a fresh full solve.",
+  "checks": {
+    "report_hash_matches_runner_and_expected_output": true,
+    "immutable_input_copy_matches_historical_bytes": true,
+    "historical_report_matches_reference_sha256": true,
+    "every_numerical_core_field_unchanged": true,
+    "core_hash_matches_original_reference_and_runner": true,
+    "historical_mixed_result_unchanged": true,
+    "historical_151_artifacts_unchanged_per_integrity_audit": true,
+    "historical_database_unchanged_per_integrity_audit": true,
+    "explicit_new_policy_only_reporting_projection": true,
+    "five_model_sections_and_passed_semantic_review": true,
+    "evidence_context_matches_frozen_journal": true,
+    "draft_raw_effective_chain": true,
+    "repair_raw_effective_chain": true,
+    "mandatory_problem_sense_defect_still_rejected": true,
+    "repair_strictly_valid_for_problem_selection": true,
+    "review_effective_hash_and_response_chain": true,
+    "repair_review_effective_hash_and_response_chain": true,
+    "actual_repair_scope_exactly_problem_and_selection": true,
+    "three_accepted_sections_immutable_through_repair": true,
+    "all_final_accepted_sections_pass_unchanged_strict_validator": true,
+    "published_rendered_text_equals_accepted_model_templates": true,
+    "every_required_fact_token_present": true,
+    "historical_optional_candidate_defect_absent_in_new_raw_draft": true,
+    "all_seven_final_paragraphs_exist_in_saved_html": true,
+    "saved_and_reopened_html_identical": true,
+    "report_only_provenance_marker_present": true,
+    "historic_compute_seconds_preserved": true,
+    "four_real_dispatches_no_extra_roles": true,
+    "dispatches_link_to_exported_invocations": true,
+    "actual_reported_token_usage_reconciles": true,
+    "zero_new_solver_objective_connection_work": true,
+    "tested_source_frozen_in_manifest": true,
+    "separate_ui_and_html_browser_audits_match_report": true
+  },
+  "source_core_sha256": "54d18a696c7522c362ca563340115353312c4ea113115156e195d6d8cd2b467a",
+  "source_core_fields_equal": {
+    "job_id": true,
+    "job_status": true,
+    "schema_version": true,
+    "input": true,
+    "problem_revision": true,
+    "problem_math_hash": true,
+    "evaluation_contract_hash": true,
+    "policy": true,
+    "profile": true,
+    "solver_cards": true,
+    "candidate_plan": true,
+    "decision": true,
+    "proposal_source": true,
+    "proposal_error": true,
+    "selection_status": true,
+    "selected_algorithm_id": true,
+    "selected_config_id": true,
+    "solution_origin": true,
+    "best_evaluation_id": true,
+    "best_x": true,
+    "objective_raw": true,
+    "score_for_minimization": true,
+    "verification": true,
+    "verification_error": true,
+    "solution_status": true,
+    "optimality_status": true,
+    "termination_reason": true,
+    "main_success": true,
+    "partial_result": true,
+    "trials": true,
+    "progress": true,
+    "execution_history_artifacts": true,
+    "budget": true,
+    "error": true,
+    "research_snapshot": true,
+    "research": true,
+    "research_error": true,
+    "query_plan": true,
+    "advisor_plan_v2": true,
+    "catalog_exclusions": true,
+    "requested_selection_policy": true,
+    "effective_selection_policy": true,
+    "numeric_execution": true
+  },
+  "artifact_sha256": {
+    "report.json": "43d62f6c6cb1690a6745df7a31180fc0f5e555e2ba960faad72a64bdfc1de7a0",
+    "report.html": "e239c18dd5fb76ac1501e87ba966a59803e45282371e8b65e47f5ff2c4173eba",
+    "reopened.html": "e239c18dd5fb76ac1501e87ba966a59803e45282371e8b65e47f5ff2c4173eba",
+    "source_report.json": "13b35d1d0b30d275684ed6e2703014c6d9a71dfb4569d7888985c49a629700fb",
+    "journal.json": "dacdd97ec589745719a4920e25a0d1fcf9ec4b37265db1eabce3de24048402cb",
+    "invocations.json": "6b35a1b10b3105d08d371187cfbdf45ab2bf1f548ab80e902d35c1089d61ed6a",
+    "campaign_ledger.json": "91809c1e6fab52d770a6b79ab10582d6a2f426f7d897609be33d2810e06f326c",
+    "summary.json": "1d2145d0eef625c121d212a5399bcacf16ac3ffd6c334e8c7896d10e6b696e37",
+    "run_manifest.json": "1f585ec6be10403812c6940c5879090264d970575e9d1f7af25cbc28f87a1c18"
+  },
+  "writer_raw_effective_audits": [
+    {
+      "operation": "draft",
+      "invocation_id": "98a94e5b-5ed1-4935-b020-05d436ccc7b1",
+      "checks": {
+        "journal_raw_object_equals_gateway_invocation_output": true,
+        "journal_context_equals_actual_sent_context": true,
+        "request_hash_matches_actual_context": true,
+        "raw_provider_message_text_preserved_and_hash_matches": true,
+        "raw_object_hash_matches": true,
+        "effective_object_hash_matches": true,
+        "recomputed_normalization_equals_effective": true,
+        "normalization_idempotent": true,
+        "actual_delta_empty_text_refs_unchanged": true
+      },
+      "metadata_normalization": {
+        "effective_response_sha256": "dee10e628f8bf3f70c55bdae9aa87be075f821f0fdaaba5655992c9e46941e5b",
+        "evidence_refs_changed": false,
+        "raw_response_sha256": "dee10e628f8bf3f70c55bdae9aa87be075f821f0fdaaba5655992c9e46941e5b",
+        "raw_response_text_redacted": false,
+        "raw_response_text_representation": "sanitized_provider_message_content_utf8",
+        "raw_response_text_sha256": "dee10e628f8bf3f70c55bdae9aa87be075f821f0fdaaba5655992c9e46941e5b",
+        "reason": "no_eligible_unused_fact_refs",
+        "removed_fact_refs": [],
+        "report_generation_policy_version": "1.3",
+        "schema_version": "1.0",
+        "status": "unchanged",
+        "text_changed": false
+      },
+      "strict_validation_global_error": false,
+      "strict_validation_issue_codes": [
+        "INVALID_BINDING",
+        "MISSING_REQUIRED_FACT"
+      ],
+      "strictly_valid_section_ids": [
+        "candidate_rationale",
+        "selection",
+        "solution",
+        "verification_and_limits"
+      ]
+    },
+    {
+      "operation": "repair",
+      "invocation_id": "fc5bfef3-6dbd-480d-a1af-6db09ec3341a",
+      "checks": {
+        "journal_raw_object_equals_gateway_invocation_output": true,
+        "journal_context_equals_actual_sent_context": true,
+        "request_hash_matches_actual_context": true,
+        "raw_provider_message_text_preserved_and_hash_matches": true,
+        "raw_object_hash_matches": true,
+        "effective_object_hash_matches": true,
+        "recomputed_normalization_equals_effective": true,
+        "normalization_idempotent": true,
+        "actual_delta_empty_text_refs_unchanged": true
+      },
+      "metadata_normalization": {
+        "effective_response_sha256": "42a28d4e180f0cd8bbf761c764accb25597395d4527c347548a0583c8a28e6cc",
+        "evidence_refs_changed": false,
+        "raw_response_sha256": "42a28d4e180f0cd8bbf761c764accb25597395d4527c347548a0583c8a28e6cc",
+        "raw_response_text_redacted": false,
+        "raw_response_text_representation": "sanitized_provider_message_content_utf8",
+        "raw_response_text_sha256": "42a28d4e180f0cd8bbf761c764accb25597395d4527c347548a0583c8a28e6cc",
+        "reason": "no_eligible_unused_fact_refs",
+        "removed_fact_refs": [],
+        "report_generation_policy_version": "1.3",
+        "schema_version": "1.0",
+        "status": "unchanged",
+        "text_changed": false
+      },
+      "strict_validation_global_error": false,
+      "strict_validation_issue_codes": [],
+      "strictly_valid_section_ids": [
+        "problem",
+        "selection"
+      ]
+    }
+  ],
+  "reviewer_hash_audits": [
+    {
+      "operation": "review",
+      "invocation_id": "4ab91958-509b-4437-b693-7a5723cdfd28",
+      "draft_hash": "da72e0f2b9753de4f8dc85896eb3980d9d0693072437133a1e78aa87ae5bf324",
+      "section_scope": [
+        "candidate_rationale",
+        "selection",
+        "solution",
+        "verification_and_limits"
+      ],
+      "checks": {
+        "reviewer_received_effective_valid_sections_plus_accepted": true,
+        "draft_hash_is_actual_effective_assembled_hash": true,
+        "actual_sent_context_matches_journal": true,
+        "actual_response_matches_journal": true,
+        "request_hash_matches_actual_context": true,
+        "rendered_review_text_matches_effective_sections": true
+      },
+      "section_reviews": [
+        {
+          "issues": [],
+          "section_id": "candidate_rationale",
+          "verdict": "accept"
+        },
+        {
+          "issues": [
+            {
+              "code": "REDUNDANT_CONTENT",
+              "evidence_refs": [
+                "report:decision"
+              ],
+              "message_fa": "نام روش منتخب در عبارت «ازدحام ذرات (PSO) (ازدحام ذرات (PSO))» دو بار آمده است و تکرار، متن را زائد می‌کند.",
+              "paragraph_id": "selection_pilot",
+              "required_change_fa": "نام روش منتخب را یک‌بار بیاورید و عبارت تکراری را حذف کنید.",
+              "section_id": "selection"
+            }
+          ],
+          "section_id": "selection",
+          "verdict": "reject"
+        },
+        {
+          "issues": [],
+          "section_id": "solution",
+          "verdict": "accept"
+        },
+        {
+          "issues": [],
+          "section_id": "verification_and_limits",
+          "verdict": "accept"
+        }
+      ]
+    },
+    {
+      "operation": "repair_review",
+      "invocation_id": "31faf2e9-e8ce-4d12-af06-c3d88d92d371",
+      "draft_hash": "4d073880de0986526d853e6b1ea905aa777b7b1e3125018fa81bbd2ffd039513",
+      "section_scope": [
+        "problem",
+        "selection"
+      ],
+      "checks": {
+        "reviewer_received_effective_valid_sections_plus_accepted": true,
+        "draft_hash_is_actual_effective_assembled_hash": true,
+        "actual_sent_context_matches_journal": true,
+        "actual_response_matches_journal": true,
+        "request_hash_matches_actual_context": true,
+        "rendered_review_text_matches_effective_sections": true
+      },
+      "section_reviews": [
+        {
+          "issues": [],
+          "section_id": "problem",
+          "verdict": "accept"
+        },
+        {
+          "issues": [],
+          "section_id": "selection",
+          "verdict": "accept"
+        }
+      ]
+    }
+  ],
+  "required_fact_coverage": {
+    "problem": {
+      "required_fact_refs": [
+        "problem.domain",
+        "problem.expression",
+        "problem.sense",
+        "problem.variable_count"
+      ],
+      "missing_required_tokens": []
+    },
+    "candidate_rationale": {
+      "required_fact_refs": [
+        "proposal.methods",
+        "proposal.source"
+      ],
+      "missing_required_tokens": []
+    },
+    "selection": {
+      "required_fact_refs": [
+        "method.m1.label",
+        "method.m3.label",
+        "pilot.m1.evaluations_per_repeat",
+        "pilot.m1.median_objective_raw",
+        "pilot.m1.median_score",
+        "pilot.m1.valid_repeats",
+        "pilot.m3.evaluations_per_repeat",
+        "pilot.m3.median_objective_raw",
+        "pilot.m3.median_score",
+        "pilot.m3.valid_repeats",
+        "selection.decisive_criterion",
+        "selection.method_label"
+      ],
+      "missing_required_tokens": []
+    },
+    "solution": {
+      "required_fact_refs": [
+        "solution.objective_raw",
+        "solution.origin_method_label",
+        "solution.origin_phase",
+        "solution.x"
+      ],
+      "missing_required_tokens": []
+    },
+    "verification_and_limits": {
+      "required_fact_refs": [
+        "budget.main_started",
+        "budget.total_started",
+        "solution.optimality_status",
+        "verification.status"
+      ],
+      "missing_required_tokens": []
+    }
+  },
+  "accepted_section_hash_preservation": [
+    {
+      "section_id": "candidate_rationale",
+      "sha256": "c191a4ab633e06adc8cac919e17e60d87242710cc4adfe00a22e02d8394ef11c",
+      "unchanged": true,
+      "original_reviewer_invocation_id": "4ab91958-509b-4437-b693-7a5723cdfd28"
+    },
+    {
+      "section_id": "solution",
+      "sha256": "8c8a5623b1023f3279ff2eb20110d157a484ed80750cf077bdb4bd68ff7b240d",
+      "unchanged": true,
+      "original_reviewer_invocation_id": "4ab91958-509b-4437-b693-7a5723cdfd28"
+    },
+    {
+      "section_id": "verification_and_limits",
+      "sha256": "fb19a767198297fe50e81e748fbc8918c05ce86fd85e374540f72598f4c05188",
+      "unchanged": true,
+      "original_reviewer_invocation_id": "4ab91958-509b-4437-b693-7a5723cdfd28"
+    }
+  ],
+  "actual_repair": {
+    "scope": [
+      "problem",
+      "selection"
+    ],
+    "issues": [
+      {
+        "code": "INVALID_BINDING",
+        "evidence_refs": [],
+        "message_fa": "اختلاف دقیق اتصال در این پاراگراف: {\"token_ids_not_in_fact_refs\":[],\"fact_refs_not_used_as_tokens\":[\"problem.sense\"],\"duplicate_fact_refs\":[]}",
+        "paragraph_id": "problem_main",
+        "required_change_fa": "اختلاف فقط در همین بخش و پاراگراف اصلاح شود. fact_refs باید دقیقاً شناسه‌های یکتای توکن‌های همان پاراگراف باشد. ارجاع ضروریِ بخش را حذف نکنید؛ توکن آن را در متن مناسب همان بخش بیاورید. توکن بدون ارجاع، ارجاع تکراری یا ناشناخته و توکن ناقص باید اصلاح شوند. متن و شواهد و بخش‌های پذیرفته‌شده را خارج از دامنهٔ اصلاح تغییر ندهید. جزئیات: {\"section_id\":\"problem\",\"paragraph_id\":\"problem_main\",\"mandatory_unused_fact_refs\":[\"problem.sense\"],\"token_ids_not_in_fact_refs\":[],\"fact_refs_not_used_as_tokens\":[\"problem.sense\"]}",
+        "section_id": "problem"
+      },
+      {
+        "code": "MISSING_REQUIRED_FACT",
+        "evidence_refs": [],
+        "message_fa": "داده‌های ضروری بدون توکن در همین بخش: {\"missing_required_fact_tokens\":[\"problem.sense\"]}",
+        "paragraph_id": null,
+        "required_change_fa": "توکن‌های الزامی {{fact:problem.sense}} را واقعاً در متن همین بخش بیاورید و fact_refs را با توکن‌های متن برابر نگه دارید؛ ذکر مفهوم یا ارجاع به‌تنهایی کافی نیست. بخش‌های پذیرفته‌شده را تغییر ندهید.",
+        "section_id": "problem"
+      },
+      {
+        "code": "REDUNDANT_CONTENT",
+        "evidence_refs": [
+          "report:decision"
+        ],
+        "message_fa": "نام روش منتخب در عبارت «ازدحام ذرات (PSO) (ازدحام ذرات (PSO))» دو بار آمده است و تکرار، متن را زائد می‌کند.",
+        "paragraph_id": "selection_pilot",
+        "required_change_fa": "نام روش منتخب را یک‌بار بیاورید و عبارت تکراری را حذف کنید.",
+        "section_id": "selection"
+      }
+    ],
+    "reason": "Required problem.sense token absent despite fact_ref and literal minimization wording; first semantic reviewer separately rejected adjacent duplicate selected-method naming as REDUNDANT_CONTENT. Optional metadata removal could not hide the mandatory defect.",
+    "final_result": "Both repaired sections strictly valid and accepted by second real semantic review; other three remain unchanged."
+  },
+  "normalization_live_scope": "No eligible extra optional fact_refs in either actual writer response: status=unchanged, empty delta. Historical optional candidate-reference correction is covered by offline regression, not claimed to have occurred here.",
+  "historical_response_preservation": "Old response objects and unchanged source artifacts retained. New writer raw text is recorded as sanitized provider message content UTF-8 with redacted=false and verified hash; it is not a full HTTP wire capture.",
+  "findings": [
+    {
+      "topic": "problem",
+      "status": "PASS",
+      "finding_fa": "صورت‌بندی و دامنهٔ همان مسئلهٔ کمینه‌سازی درجه‌دو، دو متغیر پیوسته و کران‌های ثبت‌شده حفظ شده است. پس از repair، توکن ضروری sense نیز واقعاً در متن آمده است."
+    },
+    {
+      "topic": "individual_candidate_reasons_and_sources",
+      "status": "PASS",
+      "finding_fa": "دلایل سه نامزد جداگانه و وفادار به پیشنهاد ذخیره‌شده‌اند: DE برای آزمون روش جمعیتی پیوسته و کراندار، CMA-ES برای تفاوت مقیاس/انحنا و سازگاری کوواریانس، PSO برای بررسی نقش محلی/سراسری. هر پاراگراف به proposal و منبع واقعی همان روش متصل است. دلیل نامزدی از نتیجهٔ مقایسه جدا و برتری یا تأیید پیکربندی از مستندات استنتاج نشده است."
+    },
+    {
+      "topic": "selection",
+      "status": "PASS",
+      "finding_fa": "PSO بر اساس میانهٔ امتیاز پایلوت بر DE انتخاب شده است؛ هر دو میانهٔ امتیاز و مقدار خام، سه تکرار معتبر و ۵۰۰ ارزیابی آغازشده برای هر پایلوت درست آمده‌اند. IQR عامل تعیین‌کننده نبوده و متن آن را عامل انتخاب معرفی نمی‌کند. ادعای برتری در همهٔ تکرارها یا معناداری آماری وجود ندارد."
+    },
+    {
+      "topic": "solution_and_origin",
+      "status": "PASS",
+      "finding_fa": "نقطهٔ [1.4,-2.2] و مقدار صفر متعلق به ارزیابی اجرای اصلی PSO است؛ رکوردهای منشأ و trial بدون تغییرند. متن منشأ را با صرف انتخاب روش خلط نمی‌کند."
+    },
+    {
+      "topic": "verification_budget_limits",
+      "status": "PASS",
+      "finding_fa": "بازبینی موفق و دو مقدار بازبینی صفر درست ذکر شده‌اند. ۱۴۹۹۸ ارزیابی اصلی از کل ۲۰۰۰۰ جداست؛ متن کل را فقط main+pilot نمی‌نامد و ۵۰۲ ارزیابی دیگر را بدون شاهد به فاز خاصی منتسب نمی‌کند. گواهی بهینگی سراسری ادعا نشده است."
+    },
+    {
+      "topic": "readability",
+      "status": "PASS",
+      "finding_fa": "هفت پاراگراف در پنج بخش روشن و سازگارند. تکرار چسبیدهٔ نام PSO در پیش‌نویس با repair حذف شده؛ نام روش در دو جملهٔ مستقلِ متن نهایی کارکرد توضیحی دارد. هیچ بند اضافی سرور جای متن مدل قرار نگرفته است."
+    },
+    {
+      "topic": "metadata_normalization_actual_behavior",
+      "status": "PASS",
+      "finding_fa": "در این اجرای واقعی هیچ fact_ref اختیاری اضافیِ واجد شرایط وجود نداشت؛ delta هر دو پاسخ خالی و raw/effective برابر است. حذف محدود ارجاعِ نمونهٔ تاریخی با آزمون آفلاین واقعی اثبات شده، نه با ادعای حذف در این اجرای زنده."
+    },
+    {
+      "topic": "real_repair_and_immutability",
+      "status": "PASS",
+      "finding_fa": "repair واقعی فقط problem و selection را تغییر داد: توکن ضروری problem.sense اضافه شد و افزونگی معنایی نام روش اصلاح شد. candidate_rationale، solution و verification_and_limits با همان hash و متن پذیرفته‌شدهٔ نخست محفوظ ماندند."
+    }
+  ],
+  "rendered_model_section_count": 5,
+  "rendered_model_paragraph_count": 7,
+  "narrative_mode": "llm",
+  "five_required_origins": {
+    "problem": "llm",
+    "candidate_rationale": "llm",
+    "selection": "llm",
+    "solution": "llm",
+    "verification_and_limits": "llm"
+  },
+  "published_html_text_consistency": "PASS",
+  "ui_visual_inspection": "PASS_SEPARATE_BROWSER_AUDIT",
+  "ui_visual_evidence": {
+    "final-summary.json": "3cbd0249b73d0e1c3c927502360a24cca58e9aa38f5e9b7f1d1d52713c9e2497",
+    "visual-review.json": "2683596326b3d5bf35e61212eccae6af752c6d31f033d4ad38033f57412c3b04"
+  },
+  "html_text_extraction": "HTMLParser handle_data concatenation decodes entities and removes numeric-direction markup before exact paragraph comparison. A raw HTML substring comparison is not appropriate because numbers are wrapped in markup.",
+  "package_audit": "PENDING_SEPARATE_FINAL_ZIP_AUDIT",
+  "actual_replay_usage": {
+    "real_model_submissions": 4,
+    "explainer_submissions": 2,
+    "reviewer_submissions": 2,
+    "tokens": {
+      "prompt_tokens": 84850,
+      "completion_tokens": 6530,
+      "total_tokens": 91380
+    },
+    "connection_tests": 0,
+    "solver_executions": 0,
+    "objective_evaluations": 0,
+    "preparation_evaluations": 0,
+    "smoke_evaluations": 0,
+    "monetary_cost": null,
+    "monetary_cost_status": "not_recorded"
+  },
+  "new_work_performed_by_this_audit": {
+    "model_submissions": 0,
+    "connection_tests": 0,
+    "solver_executions": 0,
+    "objective_evaluations": 0
+  },
+  "remaining_delivery_scope": "Fresh clean Mac installation criterion remains unpassed. Current Windows environment is upgraded. Original rc2 campaign remains NOT_READY with 17 consumed calls and mixed U1 report; no historical acceptance is rewritten."
+}

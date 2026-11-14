@@ -1,0 +1,24 @@
+{
+  "started_at_utc": "2026-11-14T18:29:51.346910+00:00",
+  "argv": [
+    "<DEVELOPMENT_CHECKOUT>\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "numerical_cost_observer",
+    "--junitxml=<DEVELOPMENT_CHECKOUT>\\artifacts\\university-delivery\\20261114T173517Z-u1-report-rc3\\offline\\junit.xml"
+  ],
+  "source_commit": "7ca14742dc34933b1c4868f113412aacc59f1f70",
+  "source_manifest_sha256": "b44ec58d471514684d367dccf3cb37dd34b51ad3d18bc34424c6ad02df18450a",
+  "prompt_bundle_sha256": "424d80c1edd004f701e34978c9581b7d5957ec01e6734b5e2395057f21b68dbe",
+  "project_version": "2.1.0rc3",
+  "historical_965_result_is_separate": true,
+  "observer_sha256": "2c76472ae51a92f86b218eac831c2a5fb10e0446b3ded36e80b597a470651e59",
+  "scope": "Final offline suite; no live_provider tests; numerical fixture work accounted separately.",
+  "finished_at_utc": "2026-11-14T19:02:50.529228+00:00",
+  "exit_code": 0,
+  "final_source_manifest_sha256": "b44ec58d471514684d367dccf3cb37dd34b51ad3d18bc34424c6ad02df18450a"
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "status": "PASS",
+  "completed_at_utc": "2026-11-14T17:53:27.290815+00:00",
+  "command": ".venv/Scripts/python.exe -m pytest -q tests/test_narrative_optional_fact_refs.py tests/test_narrative_closure_policy.py tests/test_university_review_repair.py",
+  "passed": 75,
+  "failed": 0,
+  "duration_seconds": 28.24,
+  "full_suite": false,
+  "log": "normalization-targeted-tests.log",
+  "real_model_calls": 0,
+  "function_evaluations": 0,
+  "gateway_transport": "Loopback local API and httpx.MockTransport only",
+  "historical_windows_u1_result": "FAIL",
+  "historical_raw_invocations_sha256": "2d56cfcdc1b8dfedbfd98636c37c73e5ab7597ece37f35e691f4ae0b0dcb4f64",
+  "historical_raw_invocations_unchanged": true,
+  "tested_behaviors": [
+    "Exact original and repair U1 payloads reproduce legacy strict candidate failure; original mandatory selection omission stays rejected",
+    "Policies1.0/1.1/1.2 unchanged; frozen1.2 policy hash remains identical to actual historical metadata",
+    "Policy1.3 removes only known unused section-optional fact_refs with raw/effective hashes and idempotent audit",
+    "Unknown references/tokens, duplicate references, malformed tokens/containers, raw numbers, evidence defects, invalid claim_kind, request/scope/context mismatch and mandatory omissions remain rejected",
+    "Text,evidence references,numerical core,accepted repair sections and original journal results remain unchanged",
+    "Independent prescribed FALSE_CERTIFICATION rejection still forces server fallback; this is not a real-model semantic quality evaluation",
+    "Reviewer request/draft hashes bind effective sections; restart reuses journal; new caller cannot upgrade frozen1.2 journal",
+    "Actual gateway wire in3 response modes preserves exact sanitized policy1.3 writer message text including whitespace in DB and journal; canonical raw/effective payloads and text hashes differ honestly; reviewer and legacy policies unchanged"
+  ],
+  "files": {
+    "tests/test_narrative_optional_fact_refs.py": "05fecc667ea084ee66469122d272953e272a8833d424d76a4e772d8df8e14ecf",
+    "tests/test_narrative_closure_policy.py": "f2b1ce81279457da429b5a87ca0b89a7a1bb283fd0e20e29db66ac780703339f",
+    "tests/test_university_review_repair.py": "3ec3377888a9bca1f57769ab898ef069b16919669bd016a63daf9eab0a10084f",
+    "tests/fixtures/narrative_v3/U1_windows_unused_optional_fact_ref.json": "3264fbfa2c49c7d7fb1061b549385acece04ac6067ba43ffa6a5957b3867d7b4"
+  }
+}

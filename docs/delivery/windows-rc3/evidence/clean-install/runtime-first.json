@@ -1,0 +1,32 @@
+{
+  "health": {
+    "api": {
+      "url": "http://127.0.0.1:8765/healthz",
+      "status": 200,
+      "body": "{\"status\":\"ok\",\"instance_id\":\"858aead5-a1e4-4808-a8f7-f431e86c2a83\"}"
+    },
+    "ui": {
+      "url": "http://127.0.0.1:8501/_stcore/health",
+      "status": 200,
+      "body": "ok"
+    }
+  },
+  "database_counts": {
+    "jobs": 0,
+    "reports": 0,
+    "trials": 0,
+    "llm_calls": 0,
+    "qualification_runs": 0,
+    "source_sync_runs": 0
+  },
+  "owner": {
+    "instance_id": "858aead5-a1e4-4808-a8f7-f431e86c2a83",
+    "pid": 14872,
+    "created": 1794685693.4809096,
+    "config": {
+      "api_port": 8765,
+      "ui_port": 8501
+    }
+  },
+  "numeric_environment_mismatch_in_logs": false
+}

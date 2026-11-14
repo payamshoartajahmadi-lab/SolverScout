@@ -1,0 +1,101 @@
+{
+  "fixture": "tests/fixtures/narrative_v3/U1_windows_unused_optional_fact_ref.json",
+  "fixture_sha256": "3264fbfa2c49c7d7fb1061b549385acece04ac6067ba43ffa6a5957b3867d7b4",
+  "historical_result": "FAIL",
+  "historical_policy": "1.2",
+  "source_artifact": "artifacts/university-delivery/20261114T164636Z-windows-rc2/live/U1/invocations.json",
+  "source_sha256": "2d56cfcdc1b8dfedbfd98636c37c73e5ab7597ece37f35e691f4ae0b0dcb4f64",
+  "attempts": [
+    {
+      "mode": "draft",
+      "source_call_id": "c6fb8a88-202e-40ec-8b53-459bc1860fad",
+      "raw_draft_sha256": "ad5429f3d4cf7b1bb3f51f23518a8bf354abd4ef497bf4e5b29c0da7e479fb29",
+      "section_id": "candidate_rationale",
+      "paragraph_id": "candidate_reasons",
+      "fact_refs": [
+        "method.m1.label",
+        "method.m2.label",
+        "method.m3.label",
+        "problem.expression"
+      ],
+      "token_ids": [
+        "method.m1.label",
+        "method.m2.label",
+        "method.m3.label"
+      ],
+      "unused_refs": [
+        "problem.expression"
+      ],
+      "required_for_section": [
+        "proposal.methods",
+        "proposal.source"
+      ],
+      "problem_expression_optional_here": true,
+      "historical_validation_issues": [
+        {
+          "section_id": "candidate_rationale",
+          "paragraph_id": "candidate_reasons",
+          "code": "INVALID_BINDING",
+          "evidence_refs": [],
+          "message_fa": "اختلاف دقیق اتصال در این پاراگراف: {\"token_ids_not_in_fact_refs\":[],\"fact_refs_not_used_as_tokens\":[\"problem.expression\"],\"duplicate_fact_refs\":[]}",
+          "required_change_fa": "توکن‌های همین پاراگراف و fact_refs را مطابق اختلاف ثبت‌شده اصلاح کنید؛ معیار انتخاب را با توکن مربوط در همان بخش بیان کنید. بخش‌های پذیرفته‌شده را تغییر ندهید؛ سرور هیچ ارجاع یا توکنی را خودکار تغییر نمی‌دهد."
+        },
+        {
+          "section_id": "selection",
+          "paragraph_id": "selection_pilots",
+          "code": "INVALID_BINDING",
+          "evidence_refs": [],
+          "message_fa": "اختلاف دقیق اتصال در این پاراگراف: {\"token_ids_not_in_fact_refs\":[],\"fact_refs_not_used_as_tokens\":[\"method.m3.label\"],\"duplicate_fact_refs\":[]}",
+          "required_change_fa": "توکن‌های همین پاراگراف و fact_refs را مطابق اختلاف ثبت‌شده اصلاح کنید؛ معیار انتخاب را با توکن مربوط در همان بخش بیان کنید. بخش‌های پذیرفته‌شده را تغییر ندهید؛ سرور هیچ ارجاع یا توکنی را خودکار تغییر نمی‌دهد."
+        },
+        {
+          "section_id": "selection",
+          "paragraph_id": null,
+          "code": "MISSING_REQUIRED_FACT",
+          "evidence_refs": [],
+          "message_fa": "داده‌های ضروری بدون توکن در همین بخش: {\"missing_required_fact_tokens\":[\"method.m3.label\"]}",
+          "required_change_fa": "توکن‌های الزامی {{fact:method.m3.label}} را واقعاً در متن همین بخش بیاورید و fact_refs را با توکن‌های متن برابر نگه دارید؛ ذکر مفهوم یا ارجاع به‌تنهایی کافی نیست. بخش‌های پذیرفته‌شده را تغییر ندهید."
+        }
+      ]
+    },
+    {
+      "mode": "repair",
+      "source_call_id": "70f7811d-ebc6-4b78-9260-7afd20a8c173",
+      "raw_draft_sha256": "97dd1889b1c2ea90f1b20180461e7fe168ac2b543a5c6d1266d68d61e2faff98",
+      "section_id": "candidate_rationale",
+      "paragraph_id": "candidate_reasons",
+      "fact_refs": [
+        "method.m1.label",
+        "method.m2.label",
+        "method.m3.label",
+        "problem.expression"
+      ],
+      "token_ids": [
+        "method.m1.label",
+        "method.m2.label",
+        "method.m3.label"
+      ],
+      "unused_refs": [
+        "problem.expression"
+      ],
+      "required_for_section": [
+        "proposal.methods",
+        "proposal.source"
+      ],
+      "problem_expression_optional_here": true,
+      "historical_validation_issues": [
+        {
+          "section_id": "candidate_rationale",
+          "paragraph_id": "candidate_reasons",
+          "code": "INVALID_BINDING",
+          "evidence_refs": [],
+          "message_fa": "اختلاف دقیق اتصال در این پاراگراف: {\"token_ids_not_in_fact_refs\":[],\"fact_refs_not_used_as_tokens\":[\"problem.expression\"],\"duplicate_fact_refs\":[]}",
+          "required_change_fa": "توکن‌های همین پاراگراف و fact_refs را مطابق اختلاف ثبت‌شده اصلاح کنید؛ معیار انتخاب را با توکن مربوط در همان بخش بیان کنید. بخش‌های پذیرفته‌شده را تغییر ندهید؛ سرور هیچ ارجاع یا توکنی را خودکار تغییر نمی‌دهد."
+        }
+      ]
+    }
+  ],
+  "historical_responses_rewritten": false,
+  "model_submissions": 0,
+  "objective_evaluations": 0
+}

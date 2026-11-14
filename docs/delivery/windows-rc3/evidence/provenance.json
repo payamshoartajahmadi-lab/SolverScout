@@ -1,0 +1,516 @@
+{
+  "schema_version": "windows-rc3-public-evidence/1.0",
+  "scope": "Curated copies of historical records; no fresh acceptance, test, model call, or numeric execution.",
+  "package_commit": "32e222e21550f0b881c7e54f180043c7589c13bc",
+  "tested_code_commit": "7ca14742dc34933b1c4868f113412aacc59f1f70",
+  "published_install_guide_commit": "0bc36db6cf04d3976a91bba54b025cf0428c249d",
+  "retained_local_evidence_commits": [
+    "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+    "088ee6cf35597114c30114ba5929b12e5e8520dc"
+  ],
+  "archive_filename": "p_mc_optimizer-2.1.0rc3.zip",
+  "archive_sha256": "94e88d45658676a1f9f9e62474d4db3bbe5c1f998c6085f4f266da6dced9e760",
+  "private_originals_in_public_history": false,
+  "redaction_policy": {
+    "private_windows_home": "<WINDOWS_USER_HOME>",
+    "development_checkout": "<DEVELOPMENT_CHECKOUT>",
+    "meaning": "Only local path prefixes are replaced; original personal values are deliberately not reproduced. All changed files have separate source/public hashes. No source record is changed."
+  },
+  "public_files": [
+    {
+      "public_path": "evidence/report-replay/acceptance_matrix.csv",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/acceptance_matrix.csv",
+      "source_sha256": "9cbd1633d2d8cb62a8c2f5ad6b3c4a5269d0a5a65a66369edf807a997d765f46",
+      "source_git_blob_sha256": "9cbd1633d2d8cb62a8c2f5ad6b3c4a5269d0a5a65a66369edf807a997d765f46",
+      "public_sha256": "9cbd1633d2d8cb62a8c2f5ad6b3c4a5269d0a5a65a66369edf807a997d765f46",
+      "size": 30745,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/acceptance_summary.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/acceptance_summary.json",
+      "source_sha256": "eaaeb04145435a4b6475248b62207ce8f7a4be4cf48095ac6ec992deb08f3879",
+      "source_git_blob_sha256": "eaaeb04145435a4b6475248b62207ce8f7a4be4cf48095ac6ec992deb08f3879",
+      "public_sha256": "383ff1020a96a51770c74de5ed7b136448e7b106538df625cda23ed030f51e75",
+      "size": 13747,
+      "transformation": "path_prefix_redaction_only",
+      "redactions": [
+        {
+          "category": "private_windows_home",
+          "replacement_count": 1
+        }
+      ]
+    },
+    {
+      "public_path": "evidence/report-replay/real-U1-binding-diagnosis.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/real-U1-binding-diagnosis.json",
+      "source_sha256": "90480fd08c3b606d8f76abd78fa58d5e79828bbdee9ff7af256180db9ca987ca",
+      "source_git_blob_sha256": "90480fd08c3b606d8f76abd78fa58d5e79828bbdee9ff7af256180db9ca987ca",
+      "public_sha256": "90480fd08c3b606d8f76abd78fa58d5e79828bbdee9ff7af256180db9ca987ca",
+      "size": 5299,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/offline/summary.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/offline/summary.json",
+      "source_sha256": "2fb7ec0f67fbf4aa060245d7f23196bba54c7a609e53bd50f79601bf884cdc5e",
+      "source_git_blob_sha256": "2fb7ec0f67fbf4aa060245d7f23196bba54c7a609e53bd50f79601bf884cdc5e",
+      "public_sha256": "2fb7ec0f67fbf4aa060245d7f23196bba54c7a609e53bd50f79601bf884cdc5e",
+      "size": 478,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/offline/run-manifest.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/offline/run-manifest.json",
+      "source_sha256": "9115aaae30727a9f5e2bd6bbf40d1555344903eba7fed5ecdc2ae18c6afc4cd0",
+      "source_git_blob_sha256": "9115aaae30727a9f5e2bd6bbf40d1555344903eba7fed5ecdc2ae18c6afc4cd0",
+      "public_sha256": "d365f5484ef18ebebcd8ea189a5c93af331856dfdcacf051ab5854f48fc1905a",
+      "size": 1078,
+      "transformation": "path_prefix_redaction_only",
+      "redactions": [
+        {
+          "category": "development_checkout",
+          "replacement_count": 2
+        }
+      ]
+    },
+    {
+      "public_path": "evidence/report-replay/offline/normalization-targeted-summary.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/offline/normalization-targeted-summary.json",
+      "source_sha256": "b97a359fffeca17d79a0db5c6b1a0a59cf367b9745f98836a7a7a87affcdbc69",
+      "source_git_blob_sha256": "b97a359fffeca17d79a0db5c6b1a0a59cf367b9745f98836a7a7a87affcdbc69",
+      "public_sha256": "b97a359fffeca17d79a0db5c6b1a0a59cf367b9745f98836a7a7a87affcdbc69",
+      "size": 2515,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/offline/report-replay-targeted-summary.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/offline/report-replay-targeted-summary.json",
+      "source_sha256": "c27f2dce8c8571857c9ec17db41cb963d9ea01f419c4a6ced1ad82177092fcfa",
+      "source_git_blob_sha256": "c27f2dce8c8571857c9ec17db41cb963d9ea01f419c4a6ced1ad82177092fcfa",
+      "public_sha256": "f952859b556bed17cb1b6144415b48687f30abc89f134e24914cedde1d734b37",
+      "size": 379,
+      "transformation": "path_prefix_redaction_only",
+      "redactions": [
+        {
+          "category": "development_checkout",
+          "replacement_count": 1
+        }
+      ]
+    },
+    {
+      "public_path": "evidence/report-replay/offline/windows-compatibility-targeted-summary.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/offline/windows-compatibility-targeted-summary.json",
+      "source_sha256": "62d88f6fffae1288d7003b5c6983b20bf8980bd7d89753828e4bac059ec29015",
+      "source_git_blob_sha256": "62d88f6fffae1288d7003b5c6983b20bf8980bd7d89753828e4bac059ec29015",
+      "public_sha256": "62d88f6fffae1288d7003b5c6983b20bf8980bd7d89753828e4bac059ec29015",
+      "size": 853,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/offline/observed-offline-numerical-usage.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/offline/observed-offline-numerical-usage.json",
+      "source_sha256": "b340463c30bb94a3bb78482ce5e4bfed6796b0b13d44657e45a3e8c000175be9",
+      "source_git_blob_sha256": "b340463c30bb94a3bb78482ce5e4bfed6796b0b13d44657e45a3e8c000175be9",
+      "public_sha256": "b340463c30bb94a3bb78482ce5e4bfed6796b0b13d44657e45a3e8c000175be9",
+      "size": 643,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/offline/attempt-01/summary.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/offline/attempt-01/summary.json",
+      "source_sha256": "c96281baa347258f74416c419de91202fef6fb4ee52a9e0d460cf2f86c1cd8d4",
+      "source_git_blob_sha256": "c96281baa347258f74416c419de91202fef6fb4ee52a9e0d460cf2f86c1cd8d4",
+      "public_sha256": "c96281baa347258f74416c419de91202fef6fb4ee52a9e0d460cf2f86c1cd8d4",
+      "size": 478,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/live/U1-report/summary.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/live/U1-report/summary.json",
+      "source_sha256": "1d2145d0eef625c121d212a5399bcacf16ac3ffd6c334e8c7896d10e6b696e37",
+      "source_git_blob_sha256": "1d2145d0eef625c121d212a5399bcacf16ac3ffd6c334e8c7896d10e6b696e37",
+      "public_sha256": "1d2145d0eef625c121d212a5399bcacf16ac3ffd6c334e8c7896d10e6b696e37",
+      "size": 1487,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/live/U1-report/campaign_ledger.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/live/U1-report/campaign_ledger.json",
+      "source_sha256": "91809c1e6fab52d770a6b79ab10582d6a2f426f7d897609be33d2810e06f326c",
+      "source_git_blob_sha256": "91809c1e6fab52d770a6b79ab10582d6a2f426f7d897609be33d2810e06f326c",
+      "public_sha256": "91809c1e6fab52d770a6b79ab10582d6a2f426f7d897609be33d2810e06f326c",
+      "size": 4775,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/live/U1-report/human-quality-audit.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/live/U1-report/human-quality-audit.json",
+      "source_sha256": "5a34da58fed339484a374f60d6425dea0a5f66e0ffb22a874ff4d03a4ea40ab9",
+      "source_git_blob_sha256": "5a34da58fed339484a374f60d6425dea0a5f66e0ffb22a874ff4d03a4ea40ab9",
+      "public_sha256": "5a34da58fed339484a374f60d6425dea0a5f66e0ffb22a874ff4d03a4ea40ab9",
+      "size": 22277,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/live/U1-report/run_manifest.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/live/U1-report/run_manifest.json",
+      "source_sha256": "1f585ec6be10403812c6940c5879090264d970575e9d1f7af25cbc28f87a1c18",
+      "source_git_blob_sha256": "1f585ec6be10403812c6940c5879090264d970575e9d1f7af25cbc28f87a1c18",
+      "public_sha256": "51eebdbb35c91b3c9012655a6a7cefd8e0d2a92e32704cc8aded3bea5cef52fd",
+      "size": 3378,
+      "transformation": "path_prefix_redaction_only",
+      "redactions": [
+        {
+          "category": "private_windows_home",
+          "replacement_count": 1
+        }
+      ]
+    },
+    {
+      "public_path": "evidence/report-replay/live/U1-report/journal.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/live/U1-report/journal.json",
+      "source_sha256": "dacdd97ec589745719a4920e25a0d1fcf9ec4b37265db1eabce3de24048402cb",
+      "source_git_blob_sha256": "dacdd97ec589745719a4920e25a0d1fcf9ec4b37265db1eabce3de24048402cb",
+      "public_sha256": "dacdd97ec589745719a4920e25a0d1fcf9ec4b37265db1eabce3de24048402cb",
+      "size": 632671,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/live/U1-report/report.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/live/U1-report/report.json",
+      "source_sha256": "43d62f6c6cb1690a6745df7a31180fc0f5e555e2ba960faad72a64bdfc1de7a0",
+      "source_git_blob_sha256": "43d62f6c6cb1690a6745df7a31180fc0f5e555e2ba960faad72a64bdfc1de7a0",
+      "public_sha256": "43d62f6c6cb1690a6745df7a31180fc0f5e555e2ba960faad72a64bdfc1de7a0",
+      "size": 586805,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/live/U1-report/report.html",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/live/U1-report/report.html",
+      "source_sha256": "e239c18dd5fb76ac1501e87ba966a59803e45282371e8b65e47f5ff2c4173eba",
+      "source_git_blob_sha256": "e239c18dd5fb76ac1501e87ba966a59803e45282371e8b65e47f5ff2c4173eba",
+      "public_sha256": "e239c18dd5fb76ac1501e87ba966a59803e45282371e8b65e47f5ff2c4173eba",
+      "size": 59754,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/browser-qa/final-summary.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/browser-qa/final-summary.json",
+      "source_sha256": "3cbd0249b73d0e1c3c927502360a24cca58e9aa38f5e9b7f1d1d52713c9e2497",
+      "source_git_blob_sha256": "3cbd0249b73d0e1c3c927502360a24cca58e9aa38f5e9b7f1d1d52713c9e2497",
+      "public_sha256": "8d8854d7883e6caf53f79c5fb4292f6264146e80161478e1deee438678455d7b",
+      "size": 3516,
+      "transformation": "path_prefix_redaction_only",
+      "redactions": [
+        {
+          "category": "development_checkout",
+          "replacement_count": 2
+        }
+      ]
+    },
+    {
+      "public_path": "evidence/report-replay/browser-qa/visual-review.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/browser-qa/visual-review.json",
+      "source_sha256": "2683596326b3d5bf35e61212eccae6af752c6d31f033d4ad38033f57412c3b04",
+      "source_git_blob_sha256": "2683596326b3d5bf35e61212eccae6af752c6d31f033d4ad38033f57412c3b04",
+      "public_sha256": "2683596326b3d5bf35e61212eccae6af752c6d31f033d4ad38033f57412c3b04",
+      "size": 4796,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/browser-qa/read-only-verification.json",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/browser-qa/read-only-verification.json",
+      "source_sha256": "d20f4d5bb6f078e5ef9a81ae26cf653e4b9b9d6391b215f8fae49dd220f2f417",
+      "source_git_blob_sha256": "d20f4d5bb6f078e5ef9a81ae26cf653e4b9b9d6391b215f8fae49dd220f2f417",
+      "public_sha256": "d20f4d5bb6f078e5ef9a81ae26cf653e4b9b9d6391b215f8fae49dd220f2f417",
+      "size": 1065,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/report-replay/browser-qa/ui-1440-full.png",
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/browser-qa/ui-1440-full.png",
+      "source_sha256": "ed34c13cae756b618fb2fe06ae91a81d7598e8a91566e58e33f4315480f6b03e",
+      "source_git_blob_sha256": "ed34c13cae756b618fb2fe06ae91a81d7598e8a91566e58e33f4315480f6b03e",
+      "public_sha256": "ed34c13cae756b618fb2fe06ae91a81d7598e8a91566e58e33f4315480f6b03e",
+      "size": 103817,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/clean-install/summary.json",
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/summary.json",
+      "source_sha256": "f216b3790ba0a8886d2f9d8efff6473fd2f5f2aba8512e6991f203049eb39ed1",
+      "source_git_blob_sha256": "f216b3790ba0a8886d2f9d8efff6473fd2f5f2aba8512e6991f203049eb39ed1",
+      "public_sha256": "f216b3790ba0a8886d2f9d8efff6473fd2f5f2aba8512e6991f203049eb39ed1",
+      "size": 2793,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/clean-install/usage-ledger.json",
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/usage-ledger.json",
+      "source_sha256": "fe09bf9d159b13aca9e57930a9dab93ca482ab2774fc578f7cd15b5b28b9c863",
+      "source_git_blob_sha256": "fe09bf9d159b13aca9e57930a9dab93ca482ab2774fc578f7cd15b5b28b9c863",
+      "public_sha256": "fe09bf9d159b13aca9e57930a9dab93ca482ab2774fc578f7cd15b5b28b9c863",
+      "size": 1364,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/clean-install/setup-result.json",
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/setup-result.json",
+      "source_sha256": "253886adb055bb6fbb921b84fd984c534f11eabeaad8f60e08fcfb5ca8dcfffd",
+      "source_git_blob_sha256": "253886adb055bb6fbb921b84fd984c534f11eabeaad8f60e08fcfb5ca8dcfffd",
+      "public_sha256": "253886adb055bb6fbb921b84fd984c534f11eabeaad8f60e08fcfb5ca8dcfffd",
+      "size": 1200,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/clean-install/installed-environment.json",
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/installed-environment.json",
+      "source_sha256": "29e663f6198c282736becf2908f20c053a32f72c28f50658c3db629a654dc4c2",
+      "source_git_blob_sha256": "29e663f6198c282736becf2908f20c053a32f72c28f50658c3db629a654dc4c2",
+      "public_sha256": "c2ba5b62026b3c55c6badebfc4e9d70f846c4690d232595b60338150414327a6",
+      "size": 12154,
+      "transformation": "path_prefix_redaction_only",
+      "redactions": [
+        {
+          "category": "development_checkout",
+          "replacement_count": 1
+        }
+      ]
+    },
+    {
+      "public_path": "evidence/clean-install/runtime-first.json",
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/runtime-first.json",
+      "source_sha256": "9ed572e6c78d604f7f20a7029ead27a44224db66992551587c9c7036db65e774",
+      "source_git_blob_sha256": "9ed572e6c78d604f7f20a7029ead27a44224db66992551587c9c7036db65e774",
+      "public_sha256": "9ed572e6c78d604f7f20a7029ead27a44224db66992551587c9c7036db65e774",
+      "size": 745,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/clean-install/runtime-stopped.json",
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/runtime-stopped.json",
+      "source_sha256": "c9e96b74b4159c5e527f430557ff86a287667c583b8f245d55cccb4814d30139",
+      "source_git_blob_sha256": "c9e96b74b4159c5e527f430557ff86a287667c583b8f245d55cccb4814d30139",
+      "public_sha256": "c9e96b74b4159c5e527f430557ff86a287667c583b8f245d55cccb4814d30139",
+      "size": 555,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/clean-install/runtime-restarted.json",
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/runtime-restarted.json",
+      "source_sha256": "8dc8f427a3d83aefbd787d22ba2bac341e7c06c843a36dc31df071eaf357537b",
+      "source_git_blob_sha256": "8dc8f427a3d83aefbd787d22ba2bac341e7c06c843a36dc31df071eaf357537b",
+      "public_sha256": "8dc8f427a3d83aefbd787d22ba2bac341e7c06c843a36dc31df071eaf357537b",
+      "size": 772,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/clean-install/historical-preservation.json",
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/historical-preservation.json",
+      "source_sha256": "58e8b54209f48a04908c2d1f3b4dd1799b3ec3679254eec9821d8c91c92d25a2",
+      "source_git_blob_sha256": "58e8b54209f48a04908c2d1f3b4dd1799b3ec3679254eec9821d8c91c92d25a2",
+      "public_sha256": "58e8b54209f48a04908c2d1f3b4dd1799b3ec3679254eec9821d8c91c92d25a2",
+      "size": 62,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/clean-install/ui/programmatic-summary.json",
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/ui/programmatic-summary.json",
+      "source_sha256": "4e6421cdf778311bd5d6e1f4471cb348a5af26069ebace497e194ce15b7c4d19",
+      "source_git_blob_sha256": "4e6421cdf778311bd5d6e1f4471cb348a5af26069ebace497e194ce15b7c4d19",
+      "public_sha256": "4e6421cdf778311bd5d6e1f4471cb348a5af26069ebace497e194ce15b7c4d19",
+      "size": 34083,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/clean-install/ui/visual-review.json",
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/ui/visual-review.json",
+      "source_sha256": "f416d2d93305f52f6dacb46bc61295921cb99df9cc0063527281ca8aca25b2a1",
+      "source_git_blob_sha256": "f416d2d93305f52f6dacb46bc61295921cb99df9cc0063527281ca8aca25b2a1",
+      "public_sha256": "f416d2d93305f52f6dacb46bc61295921cb99df9cc0063527281ca8aca25b2a1",
+      "size": 3210,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/clean-install/ui/settings-1440.png",
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/ui/settings-1440.png",
+      "source_sha256": "7c6d5af61edfc37e40b1e4f85f0ff873b03381ce299a0ba4e91995618a246671",
+      "source_git_blob_sha256": "7c6d5af61edfc37e40b1e4f85f0ff873b03381ce299a0ba4e91995618a246671",
+      "public_sha256": "7c6d5af61edfc37e40b1e4f85f0ff873b03381ce299a0ba4e91995618a246671",
+      "size": 76765,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/clean-install/ui-restart/summary.json",
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/ui-restart/summary.json",
+      "source_sha256": "7adfde82f6916c3ac842c041c5a3ac5a324052806c93512be07653e599ebdc62",
+      "source_git_blob_sha256": "7adfde82f6916c3ac842c041c5a3ac5a324052806c93512be07653e599ebdc62",
+      "public_sha256": "7adfde82f6916c3ac842c041c5a3ac5a324052806c93512be07653e599ebdc62",
+      "size": 1234,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/clean-install/ui-restart/visual-review.json",
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/ui-restart/visual-review.json",
+      "source_sha256": "143d848d46dbbf083c878de8f77c8eab441fde906ffdad6ae5e418a02e5f417b",
+      "source_git_blob_sha256": "143d848d46dbbf083c878de8f77c8eab441fde906ffdad6ae5e418a02e5f417b",
+      "public_sha256": "143d848d46dbbf083c878de8f77c8eab441fde906ffdad6ae5e418a02e5f417b",
+      "size": 675,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/historical-windows-rc2/consumption_summary.json",
+      "source_commit": "32e222e21550f0b881c7e54f180043c7589c13bc",
+      "source_path": "artifacts/university-delivery/20261114T164636Z-windows-rc2/consumption_summary.json",
+      "source_sha256": "9760afc32beb13ef15b116b7e4c16086d57bac2ce0a1373c78f76ab79b09030b",
+      "source_git_blob_sha256": "190b4fcd4366b7c10bb488fdaadb9ba4c2c97d768e387c0b300194d8dbb3fcc0",
+      "public_sha256": "9760afc32beb13ef15b116b7e4c16086d57bac2ce0a1373c78f76ab79b09030b",
+      "size": 2307,
+      "transformation": "byte_identical",
+      "redactions": []
+    },
+    {
+      "public_path": "evidence/clean-install/package-audit-summary.json",
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/package-audit.json",
+      "source_sha256": "fd3008611fec72dd05214db99e356742058f20da43f676f74f1ffa01da760202",
+      "source_git_blob_sha256": "fd3008611fec72dd05214db99e356742058f20da43f676f74f1ffa01da760202",
+      "public_sha256": "b8575c5586b8f54058186fcc69445028c241b52f54ce5d6d8b664c3783ada052",
+      "size": 37296,
+      "transformation": "top_level_projection_omitting_per_member_table",
+      "redactions": []
+    }
+  ],
+  "omitted_originals_digest_only": [
+    {
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/live/U1-report/invocations.json",
+      "source_sha256": "6b35a1b10b3105d08d371187cfbdf45ab2bf1f548ab80e902d35c1089d61ed6a",
+      "publication": "not_copied; original retained locally"
+    },
+    {
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/live/U1-report/source_report.json",
+      "source_sha256": "13b35d1d0b30d275684ed6e2703014c6d9a71dfb4569d7888985c49a629700fb",
+      "publication": "not_copied; original retained locally"
+    },
+    {
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/offline/junit.xml",
+      "source_sha256": "7fba0c4bd4dfc7eca3343b46c6d827dbc420b2b82eb41d0dbde16ad2c169f206",
+      "publication": "not_copied; original retained locally"
+    },
+    {
+      "source_commit": "7ea72c8919fb3230e79f103457ed6dd23d9d8938",
+      "source_path": "artifacts/university-delivery/20261114T173517Z-u1-report-rc3/integrity-final.json",
+      "source_sha256": "8c1ed5f716d685b45094f80596a872390ca6afc914cf67f14a398b56d9b36863",
+      "publication": "not_copied; original retained locally"
+    },
+    {
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/REPORT_FA.md",
+      "source_sha256": "5bed89b6576327551174d6f62a884810db4ea37117d752f813a4389479791026",
+      "publication": "not_copied; original retained locally"
+    },
+    {
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/setup.log",
+      "source_sha256": "635937be094cc5dabe9168b23b159abbae0dc4c7b482bd71401d28dead73075e",
+      "publication": "not_copied; original retained locally"
+    },
+    {
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/doctor.log",
+      "source_sha256": "a2b4c3c9a4a1fa1771eae8fa71f3dc7d6a772e810bfa8bebeaef783582ecd40e",
+      "publication": "not_copied; original retained locally"
+    },
+    {
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/doctor-running.log",
+      "source_sha256": "5540a49f0f789373549b50039b71cb848e4a3f51a383e9e5b73407ba6e841c43",
+      "publication": "not_copied; original retained locally"
+    },
+    {
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/extraction.json",
+      "source_sha256": "b2dd0fdfc4fbe4a64e6437dd06d5d9fadd5665c8e5e1de91f36a58d5b9c0a4bb",
+      "publication": "not_copied; original retained locally"
+    },
+    {
+      "source_commit": "088ee6cf35597114c30114ba5929b12e5e8520dc",
+      "source_path": "artifacts/university-delivery/20261114T193657Z-windows-clean-install-rc3/evidence-sha256.json",
+      "source_sha256": "cb882ecb2146148c5f48a509aaf4aa1edfbb73261fac65bd4db83c414a5a1686",
+      "publication": "not_copied; original retained locally"
+    }
+  ],
+  "new_consumption": {
+    "model_submissions": 0,
+    "connection_tests": 0,
+    "solver_runs": 0,
+    "function_evaluations": 0,
+    "tests": 0
+  }
+}
