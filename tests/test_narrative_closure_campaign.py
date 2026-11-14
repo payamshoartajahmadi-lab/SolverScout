@@ -195,6 +195,14 @@ def test_verify_recomputes_gate_aggregation_instead_of_trusting_success_labels(t
     assert {'CANDIDATE_AGGREGATE_MISMATCH','CLOSURE_AGGREGATE_MISMATCH','READINESS_AGGREGATE_MISMATCH'}<=set(result['errors'])
 
 
+def test_unexecuted_live_scenarios_cannot_be_promoted_by_all_pass_matrix(tmp_path):
+    m=prepared(tmp_path);write_matrix(m,tmp_path)
+    result=m.verify(tmp_path)
+    assert result['status']=='FAIL'
+    assert {f'LIVE_GATE_RESULT_MISMATCH:FC-{i:02d}' for i in range(21,28)}<=set(result['errors'])
+    assert 'MISSING_FROZEN_SOURCE_FOR_ACCEPTANCE' in result['errors']
+
+
 @pytest.mark.parametrize('evidence_path',['/etc/hosts','../outside.json'])
 def test_verify_rejects_absolute_and_parent_traversing_evidence(tmp_path,evidence_path):
     m=prepared(tmp_path);write_matrix(m,tmp_path,evidence_path=evidence_path)
@@ -211,6 +219,15 @@ def test_unknown_case_type_cannot_bypass_pass_artifact_validation(tmp_path):
     m=prepared(tmp_path)
     m.dump(tmp_path/'live/C-L1/summary.json',{'scenario_id':'C-L1','case_type':'unrecognized','status':'PASS'})
     assert 'INVALID_SCENARIO_CASE_TYPE:C-L1' in m.verify(tmp_path)['errors']
+
+
+def test_overall_summary_must_keep_the_defined_scenario_case_types(tmp_path):
+    m=prepared(tmp_path);write_matrix(m,tmp_path)
+    summary=m.read(tmp_path/'summary.json')
+    for row in summary['scenarios']:
+        row['case_type']='report_only' if row['scenario_id'] in m.REPORT_CASES else 'reviewer_adversarial'
+    summary['scenarios'][0]['case_type']='report_only';m.dump(tmp_path/'summary.json',summary)
+    assert 'INVALID_OVERALL_CASE_TYPE:C-A2' in m.verify(tmp_path)['errors']
 
 
 def freeze_fixture(m, root):

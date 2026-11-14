@@ -623,6 +623,8 @@ def verify(root):
             if len(scenarios)!=7 or {s['scenario_id'] for s in scenarios}!=set(ORDER):errors.append('SUMMARY_SCENARIO_SET')
             for s in scenarios:
                 if s.get('status') not in STATUSES or s.get('fresh_live_status','NOT_RUN') not in STATUSES:errors.append('INVALID_OVERALL_SCENARIO_STATUS')
+                if s.get('case_type')!=('report_only' if s['scenario_id'] in REPORT_CASES else 'reviewer_adversarial'):
+                    errors.append('INVALID_OVERALL_CASE_TYPE:'+s['scenario_id'])
                 path=root/'live'/s['scenario_id']/'summary.json'
                 if path.exists() and read(path)['status']!=s.get('status'):errors.append('OVERALL_SCENARIO_STATUS_MISMATCH:'+s['scenario_id'])
                 if not path.exists() and s.get('status')=='PASS':errors.append('MISSING_LIVE_PASS:'+s['scenario_id'])
@@ -639,6 +641,13 @@ def verify(root):
                 if not safe_paths:errors.append('UNSAFE_EVIDENCE_PATH:'+row['requirement_id'])
                 if row['status']=='PASS':
                     if not safe_paths or not paths or not all((root/p).is_file() for p in paths):errors.append('MISSING_PASS_EVIDENCE:'+row['requirement_id'])
+                    live_gates={'FC-21':'C-L1','FC-22':'C-L2','FC-23':'C-L3','FC-24':'C-L4',
+                        'FC-25':'C-A1','FC-26':'C-A2','FC-27':'C-E1-R'}
+                    if row['requirement_id'] in live_gates:
+                        case=live_gates[row['requirement_id']]
+                        if not any(s.get('scenario_id')==case and s.get('status')=='PASS' for s in summaries):
+                            errors.append('LIVE_GATE_RESULT_MISMATCH:'+row['requirement_id'])
+                    if row['requirement_id']=='FC-20' and frozen is None:errors.append('MISSING_FROZEN_SOURCE_FOR_ACCEPTANCE')
             if (root/'summary.json').exists() and len(matrix)==34 and {r['requirement_id'] for r in matrix}=={f'FC-{i:02d}' for i in range(1,35)}:
                 def aggregate(selected):
                     states=[r['status'] for r in selected]
