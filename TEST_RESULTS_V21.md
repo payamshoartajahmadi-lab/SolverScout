@@ -1,5 +1,33 @@
 # SolverScout 2.1 verification
 
+## 2.1.0rc3 Windows report-only correction
+
+Tested code commit: `7ca14742dc34933b1c4868f113412aacc59f1f70`; the exact candidate/package commit is recorded in `MANIFEST.json.commit`. Windows 11 AMD64, CPython 3.12.3, an existing Windows virtual environment upgraded against the lock. This is not a clean-target installation result.
+
+The actual rc2 U1 draft and repair both listed `problem.expression` in `candidate_rationale/candidate_reasons.fact_refs` without its token in that paragraph. The reference is optional for that section. The initial draft also had an independent required selection binding defect; normalization must not conceal it. Historical response objects and unchanged source artifacts remain preserved in the regression fixture and evidence.
+
+Generation policy 1.3 removes only known unused section-optional references at draft and repair reception. Text/evidence references and accepted repair sections remain unchanged. Unknown IDs, missing required tokens, raw numbers and scope defects still fail strict validation; semantic review remains mandatory. Raw/effective responses, metadata deltas and hashes are retained. Evidence/formatter policy 1.1 and historical generation policies 1.0–1.2 remain unchanged.
+
+| New Windows verification | Result / scope |
+| --- | --- |
+| Related regression tests | 93 passed across the related runs (75 + 13 + 5); the final five Windows checks passed in 2.87 seconds |
+| Full final offline gate, once after final production changes | 1023 passed, 1 deselected, 1977.15 seconds |
+| U1 regenerated report over stored computation | PASS; five model sections and semantic acceptance required |
+| Actual UI and HTML | PASS (1440/390 px) |
+| Candidate ZIP content, checksums and private-data scan | Source allowlist/privacy precheck PASS; final ZIP audit is recorded separately in evidence package-audit/verification.json |
+| Fresh macOS installation and complete user path (AC14) | Historical FAIL / not completed in this stage |
+
+The first full offline attempt is preserved under `offline/attempt-01`: **1,018 passed, 5 failed, 1 deselected in 2,009.29 seconds**. The five Windows fixture/CRLF failures were corrected with exact LF attributes for the frozen formulator prompt and both university inputs, canonical schema bytes, and a junction fallback where Windows symlink privilege is absent. The five affected checks then passed in **2.87 seconds**. The final gate in the table is a separate run after those changes; the first failed attempt is not overwritten or reported as successful.
+
+The isolated runner's source is U1 job `cf73fe30-ef5a-4995-8fd7-4aa6256f3085`; immutable numerical-core hashes bind the input and generated report. Formulation, candidates, nine pilots, selected PSO, `[1.4, -2.2]`, objective zero, main-origin evidence, seed and budget remain historical. Fresh consumption: **4 actual model submissions**, **91,380 reported tokens**, **zero connection tests**, **zero new solver calls/evaluations**. Offline-test computations are separate; no new preparation or U2 solve occurred. Money cost is not inferred from tokens.
+
+The actual sequence was draft, semantic review, scoped repair and semantic review. Both writer metadata deltas were empty (`unchanged`, no eligible unused optional references), so no metadata removal is claimed for this live replay. The initial draft still failed on its missing mandatory `problem.sense` token, and the first semantic review rejected adjacent duplicate selected-method naming. Repair changed only problem/selection; candidate rationale, solution and verification/limits retained their accepted hashes. All five final sections (seven paragraphs) passed strict validation and semantic review. The offline real-U1 fixture proves the narrow optional-reference removal separately. Input/output usage was 84,850/6,530 tokens. The final report SHA-256 is `43d62f6c6cb1690a6745df7a31180fc0f5e555e2ba960faad72a64bdfc1de7a0`.
+
+The previous Windows rc2 campaign remains **NOT_READY**, U2=PASS and U1=numerically valid/mixed report/FAIL. Its 17 submissions, 78,000 preparation evaluations, 1,002 setup-smoke evaluations and 40,000 acceptance evaluations remain unchanged. This report-only result is not a fresh complete solve. The 965-pass rc2 offline baseline at `412ab7346f76d93ef3095ef14befa4a754e3f558` is separate; rc2 live acceptance on Mac was NOT_RUN.
+
+Overall candidate delivery status: **NOT_READY; AC14 clean Mac installation remains unpassed**. AC14 is still unpassed. No clean Mac, Linux or macOS Intel installation is claimed. Evidence: `artifacts/university-delivery/20261114T173517Z-u1-report-rc3`. The sections below describe their own historical commits and runs.
+
+
 ## L0 baseline
 
 Baseline commit `fb483cf`. Tests ran in a separate checkout on macOS arm64 with Python 3.12.16. The first run recorded 163 passed, 38 failed and 1 live test deselected. Streamlit's AppTest had replaced the process entry module, which prevented later spawned numeric workers from starting. Restoring that module at test teardown resolved the interference. The isolated rerun recorded **201 passed and 1 deselected in 109.93 seconds**.
