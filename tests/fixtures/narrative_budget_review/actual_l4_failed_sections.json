@@ -1,0 +1,165 @@
+{
+  "fixture_kind": "recorded_raw_sections_from_failed_live_L4; never a new live response",
+  "source_campaign": "20261114T053456Z-700969c",
+  "source_case": "C-L4",
+  "source_status": "FAIL",
+  "source_paths_and_sha256": {
+    "report.json": "3f2b0a3076265fb0994e4a51d86cde2717aa6b2e4cc988b42b2dc78e42f648a7",
+    "journal.json": "07666c9f46d42f381185621868d5f8cc610dead23e30d8a608f3783fd90a5d79",
+    "evidence.json": "e9d8a72552ea288398c0beecf631885ef9ec0a879378215cede164d75a134c08",
+    "rendered_sections.json": "e3394d5edf3484ec2ccfb7b7df1bb156e32b3287b80fdc3189af6116b56312b1",
+    "quality-failure-audit.json": "40f16806b479ad6141304b24c221784d7dc2822e5b928e28d8359eb7a2423fe7"
+  },
+  "raw_sections_sha256": "e4039381e659c23575128eaf0d4a2639705caa087a22c6f5147413cff91c5606",
+  "sections": [
+    {
+      "paragraphs": [
+        {
+          "claim_kind": "recorded",
+          "evidence_refs": [
+            "report:problem"
+          ],
+          "fact_refs": [
+            "problem.expression",
+            "problem.sense",
+            "problem.variable_count",
+            "problem.domain"
+          ],
+          "paragraph_id": "problem_main",
+          "text_fa": "هدف مسئله کمینه‌سازیِ تابع ثبت‌شدهٔ {{fact:problem.expression}} است؛ بنابراین موضوع، یافتن کمترین مقدار این تابع در دامنهٔ مجاز است، نه مقایسهٔ چند هدف. مسئله {{fact:problem.variable_count}} متغیر دارد و دامنهٔ آن برای هر متغیر در {{fact:problem.domain}} مشخص شده است. در نتیجه، صورت مسئله یک مسئلهٔ پیوسته و کراندار است؛ این توصیف صرفاً دامنه و هدف ثبت‌شده را روشن می‌کند."
+        }
+      ],
+      "section_id": "problem"
+    },
+    {
+      "paragraphs": [
+        {
+          "claim_kind": "recorded",
+          "evidence_refs": [
+            "report:proposal",
+            "source:d98cbfe5-8727-4f81-bb93-64cffa836ed3"
+          ],
+          "fact_refs": [
+            "proposal.methods",
+            "proposal.source",
+            "method.m1.label"
+          ],
+          "paragraph_id": "candidate_de",
+          "text_fa": "نامزدها از مسیر {{fact:proposal.source}} مطرح شدند و فهرست ثبت‌شده شامل {{fact:proposal.methods}} است. برای {{fact:method.m1.label}}، دلیل ثبت‌شده تناسب با مسئلهٔ پیوسته و کراندار و واجد شرایط دانستن کارت برای مسئلهٔ تک‌هدفه و قطعی بود؛ سند فنی نیز این پیاده‌سازی را در خانوادهٔ تکامل تفاضلی معرفی می‌کند. این دلیل، توجیه نامزدی است و ادعای برتری عددی یا اثبات نتیجه نیست."
+        },
+        {
+          "claim_kind": "recorded",
+          "evidence_refs": [
+            "report:proposal",
+            "source:4ff1d76f-80ee-4b80-a914-c649f188df65"
+          ],
+          "fact_refs": [
+            "method.m2.label"
+          ],
+          "paragraph_id": "candidate_gwo",
+          "text_fa": "برای {{fact:method.m2.label}}، دلیل ثبت‌شده سازگاری با متغیرهای حقیقی کراندار و واجد شرایط دانستن کارت برای مسئلهٔ تک‌هدفه و قطعی بود. سند فنی، این روش را به‌عنوان بهینه‌ساز گرگ خاکستری معرفی می‌کند؛ این معرفی به‌تنهایی شاهد برتری در اجرا یا تأیید مستقل تنظیمات نیست."
+        },
+        {
+          "claim_kind": "recorded",
+          "evidence_refs": [
+            "report:proposal",
+            "source:af6611ff-431b-4b1e-ba78-e77f4bf69ef0"
+          ],
+          "fact_refs": [
+            "method.m3.label"
+          ],
+          "paragraph_id": "candidate_woa",
+          "text_fa": "برای {{fact:method.m3.label}}، دلیل ثبت‌شده تناسب با بهینه‌سازی تک‌هدفهٔ دارای متغیرهای حقیقی کراندار و واجد شرایط دانستن کارت برای مسئلهٔ قطعی بود. سند فنی آن را به‌عنوان الگوریتم بهینه‌سازی نهنگ معرفی می‌کند؛ این مبنای معرفی نامزد است، نه شاهدی بر عملکرد عددی بهتر."
+        }
+      ],
+      "section_id": "candidate_rationale"
+    },
+    {
+      "paragraphs": [
+        {
+          "claim_kind": "recorded",
+          "evidence_refs": [
+            "report:decision",
+            "report:trials",
+            "derived:pilot.m1.evaluations_per_repeat",
+            "derived:pilot.m2.evaluations_per_repeat"
+          ],
+          "fact_refs": [
+            "selection.method_label",
+            "selection.decisive_criterion",
+            "method.m1.label",
+            "pilot.m1.median_score",
+            "pilot.m1.median_objective_raw",
+            "pilot.m1.valid_repeats",
+            "pilot.m1.evaluations_per_repeat",
+            "method.m2.label",
+            "pilot.m2.median_score",
+            "pilot.m2.median_objective_raw",
+            "pilot.m2.valid_repeats",
+            "pilot.m2.evaluations_per_repeat"
+          ],
+          "paragraph_id": "selection_pilots",
+          "text_fa": "پایلوت‌ها برای {{fact:method.m1.label}} میانهٔ امتیاز {{fact:pilot.m1.median_score}} و میانهٔ مقدار خام هدف {{fact:pilot.m1.median_objective_raw}} را ثبت کردند؛ شمار تکرارهای معتبر {{fact:pilot.m1.valid_repeats}} بود و در هر پایلوت ثبت‌شدهٔ این روش {{fact:pilot.m1.evaluations_per_repeat}} آغاز شد. برای {{fact:method.m2.label}} نیز میانهٔ امتیاز {{fact:pilot.m2.median_score}} و میانهٔ مقدار خام هدف {{fact:pilot.m2.median_objective_raw}} ثبت شد؛ شمار تکرارهای معتبر {{fact:pilot.m2.valid_repeats}} بود و در هر پایلوت ثبت‌شدهٔ آن {{fact:pilot.m2.evaluations_per_repeat}} آغاز شد. با توجه به تساوی امتیاز و پراکندگی گزارش‌شده، معیار رفع تساوی {{fact:selection.decisive_criterion}} بود؛ در نتیجه {{fact:selection.method_label}} انتخاب شد. این انتخاب ادعای برتری عددی نسبت به روش دوم نیست."
+        }
+      ],
+      "section_id": "selection"
+    },
+    {
+      "paragraphs": [
+        {
+          "claim_kind": "recorded",
+          "evidence_refs": [
+            "report:solution",
+            "report:problem"
+          ],
+          "fact_refs": [
+            "solution.x",
+            "solution.objective_raw",
+            "solution.origin_phase",
+            "solution.origin_method_label",
+            "solution.status",
+            "solution.within_bounds"
+          ],
+          "paragraph_id": "solution_point",
+          "text_fa": "بهترین مشاهدهٔ تأییدشده، بردار {{fact:solution.x}} با مقدار خام تابع هدف {{fact:solution.objective_raw}} است. این نقطه در مرحلهٔ {{fact:solution.origin_phase}} ثبت شده و در کران‌های مسئله قرار دارد ({{fact:solution.within_bounds}}). برای آن مرحله الگوریتم تولیدکننده‌ای ثبت نشده است: {{fact:solution.origin_method_label}}؛ بنابراین نباید منشأ نقطه را به روش منتخب پایلوت نسبت داد. وضعیت جواب در گزارش {{fact:solution.status}} است."
+        }
+      ],
+      "section_id": "solution"
+    },
+    {
+      "paragraphs": [
+        {
+          "claim_kind": "recorded",
+          "evidence_refs": [
+            "report:verification",
+            "report:solution"
+          ],
+          "fact_refs": [
+            "verification.status",
+            "verification.repeat_objective_raw",
+            "solution.objective_raw",
+            "solution.optimality_status"
+          ],
+          "paragraph_id": "verification_check",
+          "text_fa": "بازبینی عددی با وضعیت {{fact:verification.status}} ثبت شد؛ مقادیر خام در اجرای بازبینی، {{fact:verification.repeat_objective_raw}}، با مقدار خام نقطهٔ گزارش‌شده، {{fact:solution.objective_raw}}، سازگارند. این بررسی سازگاری عددی در نقطه را پشتیبانی می‌کند، نه گواهی بهینگی سراسری. وضعیت بهینگی ثبت‌شده: {{fact:solution.optimality_status}}."
+        },
+        {
+          "claim_kind": "recorded",
+          "evidence_refs": [
+            "report:budget",
+            "report:trials",
+            "report:solution"
+          ],
+          "fact_refs": [
+            "budget.main_started",
+            "budget.total_started",
+            "execution.termination_reason"
+          ],
+          "paragraph_id": "verification_budget",
+          "text_fa": "مصرف اجرای اصلی، جدا از پایلوت‌ها، {{fact:budget.main_started}} ارزیابی آغازشده بود؛ مصرف کل ثبت‌شده برای اجرای اصلی و پایلوت‌ها {{fact:budget.total_started}} بود. اجرای اصلی به دلیل {{fact:execution.termination_reason}} پایان یافت. این ارقام مصرف را توصیف می‌کنند و، همراه با بازبینی عددی، جایگزین گواهی بهینگی نیستند."
+        }
+      ],
+      "section_id": "verification_and_limits"
+    }
+  ]
+}

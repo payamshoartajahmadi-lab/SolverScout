@@ -1,0 +1,261 @@
+{
+  "provenance": {
+    "evidence_kind": "FRESH_STORED_OFFLINE_SYNTHETIC_TEST",
+    "captured_at_utc": "2026-11-13T12:43:19.309179+00:00",
+    "run_label": "reproduce-03",
+    "test_nodeid": "tests/test_llm_workflow.py::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]",
+    "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+    "source_manifest_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+    "harness_manifest_sha256": "747d2cda2cc68b6f52b81de6da549c8f414f9886768db2e12d033fa4e1547ae3",
+    "source_database_path": "G:\\projects\\solverscout-narrative-contract-repair\\.pytest-tmp\\oa-reproduce-03\\test_explainer_receives_full_t0\\state.sqlite3",
+    "database_access": "SQLite mode=ro and PRAGMA query_only=ON",
+    "database_bytes_exported": false,
+    "selected_tables": {
+      "reports": [
+        "job_id",
+        "payload",
+        "created_at"
+      ],
+      "llm_calls": [
+        "call_id",
+        "job_id",
+        "role",
+        "invocation_id",
+        "request_hash",
+        "attempt_no",
+        "prompt_version",
+        "input",
+        "output",
+        "previous_output",
+        "status",
+        "error",
+        "started_at",
+        "finished_at"
+      ]
+    },
+    "source_report_storage": "reports.payload UTF-8 bytes",
+    "source_report_payload_sha256": "dffbfdbc6fc29bb7ce61ade3f8faa6e78bf0574efab83f42cd29703aa5d5df62",
+    "source_context_hash_definition": "SHA-256 of sorted compact UTF-8 JSON of the context object inside stored llm_calls.input",
+    "context_evidence_limit": "Actual persisted gateway invocation contexts. HTTP body bytes were not independently captured; no reconstructed wire transcript is claimed.",
+    "source_result_path": "offline/reproduce-03-result.json",
+    "source_result_sha256": "738b44c5f3f36774b72de683a2f169fbdd0e8dda293b7f6aefa36058513bd157",
+    "capture_script_sha256": "5f930f11b6e75818f699cd3da845277dff091ce8e9b3f3bd22bb04666ece99c5",
+    "sanitized_copy": false,
+    "redactions": [],
+    "numeric_execution_authorization_policy": "Public contract objects preserved; no blanket authorization-key removal",
+    "new_test_execution": "NOT_RUN_BY_CAPTURE",
+    "new_model_calls": 0,
+    "new_objective_evaluations": 0,
+    "new_solver_calls": 0
+  },
+  "calls": [
+    {
+      "call_id": "ff5fbeba-10e3-4f57-9d44-8a84b24b3952",
+      "job_id": "6d9d3097-b643-452e-aa2b-c9e16e32a975",
+      "role": "explainer",
+      "invocation_id": "b36c5490-9cc8-44b4-8173-392441a1d99d",
+      "request_hash": "210dfe45f599acc87b78fd4be1a9d8c19413c8dc202af33c946d5302ce58dd6f",
+      "attempt_no": 1,
+      "prompt_version": "1.0",
+      "status": "failed",
+      "started_at": "2026-11-13T12:39:32.666024+00:00",
+      "finished_at": "2026-11-13T12:39:32.686915+00:00",
+      "schema_id": "explainer.v1",
+      "context": {
+        "evidence_refs": [
+          "report:solution",
+          "report:verification",
+          "report:budget"
+        ],
+        "report": {
+          "budget": {
+            "allocated": 502,
+            "charged_unknown": 0,
+            "known_started": 454,
+            "max_objective_evaluations": 5502,
+            "reserved_active": 0,
+            "unallocated": 5000,
+            "unused": 48
+          },
+          "decision_summary": null,
+          "objective_raw": 0.0,
+          "optimality_status": "not_certified",
+          "partial_result": true,
+          "selected_algorithm_id": null,
+          "selection_status": "not_reached",
+          "solution_origin": {
+            "algorithm_id": null,
+            "evaluation_id": "8ef6351b-d7f9-44cf-ba43-4801a9e6533d",
+            "execution_id": "15c1933b-ec9e-478e-b16a-841f4f73b5f3",
+            "phase": "preflight",
+            "trial_id": null
+          },
+          "solution_status": "valid_best_found",
+          "verification": {
+            "absolute_differences": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "numeric_atol": 1e-12,
+            "numeric_rtol": 1e-10,
+            "reference_evaluation_id": "8ef6351b-d7f9-44cf-ba43-4801a9e6533d",
+            "reference_objective_raw": 0.0,
+            "repeat_objective_raw": [
+              0.0,
+              0.0
+            ],
+            "validation_status": "passed"
+          }
+        },
+        "selection_made": false
+      },
+      "output": null,
+      "previous_output": {
+        "candidates": [
+          {
+            "algorithm_id": "pso.original",
+            "config_id": "pso.default.v1",
+            "rationale_fa": "این گزینه در سبد سازگار قرار دارد.",
+            "evidence_refs": [
+              "solver:pso.original"
+            ]
+          },
+          {
+            "algorithm_id": "de.original",
+            "config_id": "de.default.v1",
+            "rationale_fa": "این گزینه در سبد سازگار قرار دارد.",
+            "evidence_refs": [
+              "solver:de.original"
+            ]
+          },
+          {
+            "algorithm_id": "abc.original",
+            "config_id": "abc.default.v1",
+            "rationale_fa": "این گزینه در سبد سازگار قرار دارد.",
+            "evidence_refs": [
+              "solver:abc.original"
+            ]
+          }
+        ],
+        "uncertainty_notes": null
+      },
+      "error": {
+        "error_code": "LLM_SCHEMA_INVALID",
+        "field_errors": [
+          "summary_fa: missing",
+          "selection_explanation_fa: missing",
+          "limitations_fa: missing",
+          "evidence_refs: missing",
+          "candidates: extra_forbidden",
+          "uncertainty_notes: extra_forbidden"
+        ],
+        "message_fa": "خروجی مدل با قالب یا قواعد مورد انتظار سازگار نیست.",
+        "provider_http_status": null,
+        "retry_after": null,
+        "retryable": false
+      },
+      "source_input_payload_sha256": "210dfe45f599acc87b78fd4be1a9d8c19413c8dc202af33c946d5302ce58dd6f",
+      "source_context_canonical_sha256": "4a5e4695e3111456976e9fbd0f4065c7a5f30d606ca4bb20f487559d90f46984",
+      "source_previous_output_sha256": "79cfd9c18522c6145b241d4c4df3e743052acd482962c5eedeb3073fde311a1f"
+    },
+    {
+      "call_id": "5a85095d-1a34-407e-bea4-30b49e3e1239",
+      "job_id": "6d9d3097-b643-452e-aa2b-c9e16e32a975",
+      "role": "explainer",
+      "invocation_id": "4b13cb4d-02dc-4d78-9268-de123d92183b",
+      "request_hash": "c4d9ce7c7d5aba84f57bc306eba67e81cf0ae225caf75bd2b9ceb41f96a2cd6b",
+      "attempt_no": 2,
+      "prompt_version": "1.0",
+      "status": "failed",
+      "started_at": "2026-11-13T12:39:32.947017+00:00",
+      "finished_at": "2026-11-13T12:39:32.997141+00:00",
+      "schema_id": "explainer.v1",
+      "context": {
+        "evidence_refs": [
+          "report:solution",
+          "report:verification",
+          "report:budget"
+        ],
+        "repair": {
+          "field_errors": [
+            "summary_fa: missing",
+            "selection_explanation_fa: missing",
+            "limitations_fa: missing",
+            "evidence_refs: missing",
+            "candidates: extra_forbidden",
+            "uncertainty_notes: extra_forbidden"
+          ],
+          "previous_output": "{\"candidates\": [{\"algorithm_id\": \"pso.original\", \"config_id\": \"pso.default.v1\", \"rationale_fa\": \"این گزینه در سبد سازگار قرار دارد.\", \"evidence_refs\": [\"solver:pso.original\"]}, {\"algorithm_id\": \"de.original\", \"config_id\": \"de.default.v1\", \"rationale_fa\": \"این گزینه در سبد سازگار قرار دارد.\", \"evidence_refs\": [\"solver:de.original\"]}, {\"algorithm_id\": \"abc.original\", \"config_id\": \"abc.default.v1\", \"rationale_fa\": \"این گزینه در سبد سازگار قرار دارد.\", \"evidence_refs\": [\"solver:abc.original\"]}], \"uncertainty_notes\": null}"
+        },
+        "report": {
+          "budget": {
+            "allocated": 502,
+            "charged_unknown": 0,
+            "known_started": 454,
+            "max_objective_evaluations": 5502,
+            "reserved_active": 0,
+            "unallocated": 5000,
+            "unused": 48
+          },
+          "decision_summary": null,
+          "objective_raw": 0.0,
+          "optimality_status": "not_certified",
+          "partial_result": true,
+          "selected_algorithm_id": null,
+          "selection_status": "not_reached",
+          "solution_origin": {
+            "algorithm_id": null,
+            "evaluation_id": "8ef6351b-d7f9-44cf-ba43-4801a9e6533d",
+            "execution_id": "15c1933b-ec9e-478e-b16a-841f4f73b5f3",
+            "phase": "preflight",
+            "trial_id": null
+          },
+          "solution_status": "valid_best_found",
+          "verification": {
+            "absolute_differences": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "numeric_atol": 1e-12,
+            "numeric_rtol": 1e-10,
+            "reference_evaluation_id": "8ef6351b-d7f9-44cf-ba43-4801a9e6533d",
+            "reference_objective_raw": 0.0,
+            "repeat_objective_raw": [
+              0.0,
+              0.0
+            ],
+            "validation_status": "passed"
+          }
+        },
+        "selection_made": false
+      },
+      "output": null,
+      "previous_output": {
+        "summary_fa": "این نقطه بهترین مشاهدهٔ معتبر در بودجهٔ اجراست.",
+        "selection_explanation_fa": "شناسهٔ روش تساوی را شکست.",
+        "limitations_fa": [
+          "موفقیت قطعی تضمین نمی‌شود."
+        ],
+        "evidence_refs": [
+          "report:solution",
+          "report:decision"
+        ]
+      },
+      "error": {
+        "error_code": "LLM_SCHEMA_INVALID",
+        "field_errors": [
+          "selection_explanation_fa: no selection was made"
+        ],
+        "message_fa": "خروجی مدل با قالب یا قواعد مورد انتظار سازگار نیست.",
+        "provider_http_status": null,
+        "retry_after": null,
+        "retryable": false
+      },
+      "source_input_payload_sha256": "c4d9ce7c7d5aba84f57bc306eba67e81cf0ae225caf75bd2b9ceb41f96a2cd6b",
+      "source_context_canonical_sha256": "e77d5b32da0a2ae65197c185c0dcdf7e68af44e0cb4bbc9fdc5be63177c9fbc3",
+      "source_previous_output_sha256": "a4f6259c71c7e0c8a784b648f9fe843f4bcd5a88bcd60cfbe16527f5785ab654"
+    }
+  ]
+}

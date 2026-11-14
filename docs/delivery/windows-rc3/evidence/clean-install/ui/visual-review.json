@@ -1,0 +1,86 @@
+{
+  "schema_version": "clean-windows-install-ui-visual-review/1.0",
+  "status": "PASS",
+  "observed_at_utc": "2026-11-14T19:49:14.847891+00:00",
+  "reviewed_screenshots": [
+    {
+      "path": "home-1440.png",
+      "sha256": "2a73440e2f693bc1a4abccf894de9c4e4690bd4b92f9bc8273bb7aca5488b495"
+    },
+    {
+      "path": "home-390.png",
+      "sha256": "a959ef5cde15398207a9f5a4fef080fef5f2ebe213208867c84d6b58bacaebc4"
+    },
+    {
+      "path": "settings-1440.png",
+      "sha256": "7c6d5af61edfc37e40b1e4f85f0ff873b03381ce299a0ba4e91995618a246671"
+    },
+    {
+      "path": "settings-390.png",
+      "sha256": "b721566f01601dbda8e40b2f4d980da3e1de4d8f8b7c80032503bbe188dd65a8"
+    }
+  ],
+  "observations": [
+    "Persian RTL homepage renders legibly at desktop 1440px and mobile390px.",
+    "Navigation and Settings model connection form are visible and usable without overlap or horizontal clipping.",
+    "API key input is empty and uses password type; secure OS store is the visible default option.",
+    "No exception, numeric environment mismatch, or source-drift banner is visible."
+  ],
+  "new_install_data_dir": "G:/SSrc3-01/data",
+  "read_only_database_counts": {
+    "jobs": 0,
+    "reports": 0,
+    "trials": 0,
+    "llm_calls": 0,
+    "qualification_runs": 0,
+    "provider_profiles": 0
+  },
+  "source_runtime_provenance": [
+    {
+      "artifact": "88a6226a-21e6-493e-98bf-18bdf100eef5.json",
+      "role": "supervisor",
+      "pid": 14872,
+      "process_run_id": "88a6226a-21e6-493e-98bf-18bdf100eef5",
+      "project_version": "2.1.0rc3",
+      "git_commit": null,
+      "source_manifest_sha256": "b44ec58d471514684d367dccf3cb37dd34b51ad3d18bc34424c6ad02df18450a",
+      "python_version": "3.12.3"
+    },
+    {
+      "artifact": "9ce7981d-1e3b-4602-932e-4c84b1682915.json",
+      "role": "api",
+      "pid": 21936,
+      "process_run_id": "9ce7981d-1e3b-4602-932e-4c84b1682915",
+      "project_version": "2.1.0rc3",
+      "git_commit": null,
+      "source_manifest_sha256": "b44ec58d471514684d367dccf3cb37dd34b51ad3d18bc34424c6ad02df18450a",
+      "python_version": "3.12.3"
+    },
+    {
+      "artifact": "b921e7df-a197-458a-8769-a38064624a31.json",
+      "role": "ui",
+      "pid": 22788,
+      "process_run_id": "b921e7df-a197-458a-8769-a38064624a31",
+      "project_version": "2.1.0rc3",
+      "git_commit": null,
+      "source_manifest_sha256": "b44ec58d471514684d367dccf3cb37dd34b51ad3d18bc34424c6ad02df18450a",
+      "python_version": "3.12.3"
+    },
+    {
+      "artifact": "e07135fd-7445-4054-abe3-6e47ba5ea6a3.json",
+      "role": "worker",
+      "pid": 24812,
+      "process_run_id": "e07135fd-7445-4054-abe3-6e47ba5ea6a3",
+      "project_version": "2.1.0rc3",
+      "git_commit": null,
+      "source_manifest_sha256": "b44ec58d471514684d367dccf3cb37dd34b51ad3d18bc34424c6ad02df18450a",
+      "python_version": "3.12.3"
+    }
+  ],
+  "fresh_source_expected_manifest_sha256": "b44ec58d471514684d367dccf3cb37dd34b51ad3d18bc34424c6ad02df18450a",
+  "live_model_calls": 0,
+  "connection_tests": 0,
+  "solver_invocations": 0,
+  "function_evaluations": 0,
+  "source_runtime_matches_tested_zip": true
+}

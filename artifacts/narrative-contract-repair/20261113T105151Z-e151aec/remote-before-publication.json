@@ -1,0 +1,23 @@
+{
+  "checked_at_utc": "2026-11-13T12:13:14.191442+00:00",
+  "command": "git ls-remote --heads origin <explicit branch refs>",
+  "exit_code": 0,
+  "destination_verified": "github.com/payamshoartajahmadi-lab/SolverScout",
+  "refs": {
+    "refs/heads/dev": "fbecb6edae4b951aaaa1d364d5428500f4596786",
+    "refs/heads/fix/narrative-v3-closure": "ad449d252f243ff0400e3d42caae5d25defe5b11",
+    "refs/heads/main": "6837ba01451acb1d4c3cab898c8660daf6f063f0"
+  },
+  "repair_branch_exists": false,
+  "earlier_observation": {
+    "checked_at_utc": "2026-11-13T11:08:58.482084+00:00",
+    "command": "git ls-remote --heads origin <explicit branch refs>",
+    "exit_code": 0,
+    "refs": {
+      "refs/heads/dev": "fbecb6edae4b951aaaa1d364d5428500f4596786",
+      "refs/heads/fix/narrative-v3-closure": "ad449d252f243ff0400e3d42caae5d25defe5b11",
+      "refs/heads/main": "6837ba01451acb1d4c3cab898c8660daf6f063f0"
+    },
+    "repair_branch_exists": false
+  }
+}

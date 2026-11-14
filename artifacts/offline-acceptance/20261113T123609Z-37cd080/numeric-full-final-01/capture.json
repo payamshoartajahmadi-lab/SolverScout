@@ -1,0 +1,172 @@
+{
+  "evidence_kind": "FRESH_SAVED_SYNTHETIC_NUMERIC_FIXTURE_TRACES",
+  "captured_at_utc": "2026-11-13T13:25:18.351386+00:00",
+  "run_label": "full-final-01",
+  "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+  "source_manifest_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+  "harness_manifest_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+  "source_changes_at_start": [],
+  "source_bytes_unchanged_during_run": true,
+  "harness_bytes_unchanged_during_run": true,
+  "recorded_basetemp": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01",
+  "source_result": {
+    "path": "offline/full-final-01-result.json",
+    "sha256": "9e685e9d27169e0e789fe67663a123bc97ddc4ebc6d7d8b901984cff14512527"
+  },
+  "source_junit": {
+    "path": "offline/full-final-01.xml",
+    "sha256": "f0bec413c46b302b2d90f14e594ddb5b4e1718d214e37c278fe3cfccf30dea93"
+  },
+  "capture_script_sha256": "44aa45e75a7dacbb696ef25742afb1dfeb800bb96f84cba788917c67fb8c7dff",
+  "mapping_method": "Exact completed JUnit nodeids in fixture-family order matched to pytest sanitized 30-character tmp_path prefix and numeric directory counter; trace modes and actual cancellation events cross-checked.",
+  "copies_are_byte_exact": true,
+  "redactions_performed": false,
+  "trace_count": 4,
+  "traces": [
+    {
+      "test_nodeid": "tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[False]",
+      "test_status": "PASS",
+      "junit_time_seconds": 10.157,
+      "source_path": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_exe_009_010_supervisor_re0\\numeric-lifecycle-trace.json",
+      "source_relative_to_basetemp": "test_exe_009_010_supervisor_re0/numeric-lifecycle-trace.json",
+      "pytest_tmp_directory_counter": 0,
+      "source_size_bytes": 3949,
+      "source_sha256": "3990a22e7370282e352b02c3b9a80803b1380cfb033febf0258ee76726641c6f",
+      "destination_path": "traces/hung-timeout.json",
+      "mode": "entered_hang",
+      "cancellation_requested_after_entry": false,
+      "clock_reset": false,
+      "failure_type": null,
+      "result": {
+        "execution_status": "timed_out",
+        "termination_reason": "time_budget",
+        "started_evaluations": 1,
+        "successful_evaluations": 0,
+        "failed_evaluations": 0,
+        "history_complete": false,
+        "history_sha256": null,
+        "elapsed_compute_seconds": 10.141000000061467,
+        "overshoot_seconds": 0.1410000000614673
+      },
+      "accepted_sequences": [
+        1
+      ],
+      "reaping": {
+        "multiprocessing_alive": false,
+        "exitcode": -15,
+        "pid": 20976,
+        "same_process_running": false,
+        "observation": "not_found"
+      }
+    },
+    {
+      "test_nodeid": "tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[True]",
+      "test_status": "PASS",
+      "junit_time_seconds": 1.932,
+      "source_path": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_exe_009_010_supervisor_re1\\numeric-lifecycle-trace.json",
+      "source_relative_to_basetemp": "test_exe_009_010_supervisor_re1/numeric-lifecycle-trace.json",
+      "pytest_tmp_directory_counter": 1,
+      "source_size_bytes": 3984,
+      "source_sha256": "9b49331ac119550fe15529f19f7751876339ee9be4d3addfef48bcbc64396c4e",
+      "destination_path": "traces/hung-cancel.json",
+      "mode": "entered_hang",
+      "cancellation_requested_after_entry": true,
+      "clock_reset": false,
+      "failure_type": null,
+      "result": {
+        "execution_status": "cancelled",
+        "termination_reason": "cancelled",
+        "started_evaluations": 1,
+        "successful_evaluations": 0,
+        "failed_evaluations": 0,
+        "history_complete": false,
+        "history_sha256": null,
+        "elapsed_compute_seconds": 1.922000000020489,
+        "overshoot_seconds": 0.0
+      },
+      "accepted_sequences": [
+        1
+      ],
+      "reaping": {
+        "multiprocessing_alive": false,
+        "exitcode": -15,
+        "pid": 17720,
+        "same_process_running": false,
+        "observation": "not_found"
+      }
+    },
+    {
+      "test_nodeid": "tests/test_numeric.py::test_exe_009_startup_timeout_keeps_zero_evaluations_and_correct_history[blocked_startup]",
+      "test_status": "PASS",
+      "junit_time_seconds": 5.128,
+      "source_path": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_exe_009_startup_timeout_k0\\numeric-lifecycle-trace.json",
+      "source_relative_to_basetemp": "test_exe_009_startup_timeout_k0/numeric-lifecycle-trace.json",
+      "pytest_tmp_directory_counter": 0,
+      "source_size_bytes": 2416,
+      "source_sha256": "63b6433264fa59fc10d0861789a85e96ad1d9487374ed0689539e8a29fe320ca",
+      "destination_path": "traces/startup-blocked.json",
+      "mode": "blocked_startup",
+      "cancellation_requested_after_entry": false,
+      "clock_reset": false,
+      "failure_type": null,
+      "result": {
+        "execution_status": "timed_out",
+        "termination_reason": "time_budget",
+        "started_evaluations": 0,
+        "successful_evaluations": 0,
+        "failed_evaluations": 0,
+        "history_complete": false,
+        "history_sha256": null,
+        "elapsed_compute_seconds": 5.125,
+        "overshoot_seconds": 0.125
+      },
+      "accepted_sequences": [],
+      "reaping": {
+        "multiprocessing_alive": false,
+        "exitcode": -15,
+        "pid": 4948,
+        "same_process_running": false,
+        "observation": "not_found"
+      }
+    },
+    {
+      "test_nodeid": "tests/test_numeric.py::test_exe_009_startup_timeout_keeps_zero_evaluations_and_correct_history[late_identity_ack]",
+      "test_status": "PASS",
+      "junit_time_seconds": 5.152,
+      "source_path": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_exe_009_startup_timeout_k1\\numeric-lifecycle-trace.json",
+      "source_relative_to_basetemp": "test_exe_009_startup_timeout_k1/numeric-lifecycle-trace.json",
+      "pytest_tmp_directory_counter": 1,
+      "source_size_bytes": 4069,
+      "source_sha256": "83850cd419ad75a7a8ea511856cc8f95fbf8495f348ee94e8c09388c2fd1422b",
+      "destination_path": "traces/startup-late-identity-ack.json",
+      "mode": "late_identity_ack",
+      "cancellation_requested_after_entry": false,
+      "clock_reset": false,
+      "failure_type": null,
+      "result": {
+        "execution_status": "timed_out",
+        "termination_reason": "time_budget",
+        "started_evaluations": 0,
+        "successful_evaluations": 0,
+        "failed_evaluations": 0,
+        "history_complete": true,
+        "history_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "elapsed_compute_seconds": 5.140000000130385,
+        "overshoot_seconds": 0.14000000013038516
+      },
+      "accepted_sequences": [],
+      "reaping": {
+        "multiprocessing_alive": false,
+        "exitcode": -15,
+        "pid": 4740,
+        "same_process_running": false,
+        "observation": "not_found"
+      }
+    }
+  ],
+  "new_test_execution": "NOT_RUN_BY_CAPTURE",
+  "new_model_calls": 0,
+  "new_objective_evaluations": 0,
+  "new_solver_calls": 0,
+  "limits": "Saved synthetic fixture observations, not a live model acceptance result. No database was read or exported."
+}

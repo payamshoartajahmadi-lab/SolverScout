@@ -1,0 +1,23 @@
+{
+  "reason": "Missing declared project dependencies blocked API fixtures in targeted-final-01",
+  "environment": "G:/projects/solverscout/.venv",
+  "command": [
+    "G:/projects/solverscout/.venv/Scripts/python.exe",
+    "-m",
+    "pip",
+    "install",
+    "--disable-pip-version-check",
+    "--no-input",
+    "--no-deps",
+    "protego==0.7.0",
+    "pypdf==7.0.0"
+  ],
+  "exit_code": 0,
+  "installed_versions": {
+    "protego": "0.7.0",
+    "pypdf": "7.0.0"
+  },
+  "existing_packages_upgraded": false,
+  "project_dependency_specification_changed": false,
+  "model_api_called": false
+}

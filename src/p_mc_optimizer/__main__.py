@@ -16,6 +16,7 @@ from filelock import Timeout
 
 from p_mc_optimizer import __version__
 from p_mc_optimizer.config import LocalConfig, data_directory, load_config
+from p_mc_optimizer.persistence.migrations import MigrationError
 from p_mc_optimizer.launcher import LocalRuntimeError, health, instance_lock, owner, start, stop, supervise, watch_supervisor
 
 
@@ -46,11 +47,17 @@ def solve(repo, problem, policy):
 
 def doctor(data_dir, config):
     from p_mc_optimizer.persistence import Repository
+    from p_mc_optimizer.persistence.migrations import fts5_available
 
     repo = Repository(data_dir)
     with repo.connect() as connection:
         schema = connection.execute("PRAGMA user_version").fetchone()[0]
+        index_available = fts5_available(connection) and connection.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name='library_fts'"
+        ).fetchone() is not None
     from keyring import get_keyring
+    import protego
+    import pypdf
     import pyarrow  # Detect the NumPy/Arrow ABI combination during setup.
     try:
         backend = get_keyring()
@@ -61,17 +68,52 @@ def doctor(data_dir, config):
         "core": "PASS", "project_version": __version__, "python": platform.python_version(),
         "os": platform.platform(), "arch": platform.machine(), "sqlite": sqlite3.sqlite_version,
         "database_schema": schema, "data_dir": str(data_dir),
+        "local_index": "PASS" if index_available else "LOCAL_INDEX_UNAVAILABLE",
+        "search": "TAVILY_ADAPTER_AVAILABLE_CONNECTION_NOT_CHECKED",
         "api_url": config.api_url, "ui_url": config.ui_url,
         "api_running": health(config.api_url + "/healthz"),
         "instance_running": owner(data_dir) is not None, "llm": "NOT_CONFIGURED",
         "keyring_backend": keyring_backend, "pyarrow": pyarrow.__version__,
         "versions": {name: version(name) for name in
-                     ["fastapi", "langgraph", "mealpy", "numpy", "pydantic", "streamlit", "keyring"]},
+                     ["fastapi", "langgraph", "mealpy", "numpy", "pydantic", "streamlit", "keyring", "pypdf", "protego"]},
     }
     with repo.connect() as connection:
         if connection.execute("SELECT 1 FROM provider_profiles LIMIT 1").fetchone():
             result["llm"] = "PROFILE_SAVED_CONNECTION_NOT_CHECKED"
+    from p_mc_optimizer.runtime_provenance import inspect_instance
+
+    running = owner(data_dir)
+    result["runtime"] = inspect_instance(data_dir, running["instance_id"] if running else None)
     print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0
+
+
+def rebuild_library_index(repo):
+    from p_mc_optimizer.persistence.migrations import execute_sql, fts5_available
+    from p_mc_optimizer.research.library_schema import LIBRARY_FTS_SCHEMA
+    from p_mc_optimizer.research.library_store import LibraryStore, normalize_index_text
+    from p_mc_optimizer.research.storage import ResearchStore
+
+    library = LibraryStore(ResearchStore(repo.path, repo.data_dir / "artifacts" / "research"))
+    indexed = skipped = 0
+    with repo.transaction() as connection:
+        if not fts5_available(connection):
+            raise MigrationError("LOCAL_INDEX_UNAVAILABLE: SQLite FTS5 is required")
+        connection.execute("DROP TABLE IF EXISTS library_fts")
+        execute_sql(connection, LIBRARY_FTS_SCHEMA)
+        versions = connection.execute("SELECT rowid,version_id,payload FROM library_versions ORDER BY rowid")
+        for row in versions:
+            version = json.loads(row["payload"])
+            text = library.verify_artifacts(version)
+            if text is None:
+                skipped += 1
+                continue
+            connection.execute(
+                "INSERT INTO library_fts(rowid,version_id,title,body) VALUES(?,?,?,?)",
+                (row["rowid"], row["version_id"], normalize_index_text(version["title"]), normalize_index_text(text)),
+            )
+            indexed += 1
+    print(json.dumps({"indexed_versions": indexed, "skipped_invalid_versions": skipped}))
     return 0
 
 
@@ -81,7 +123,7 @@ def parser():
     root.add_argument("--data-dir", type=Path)
     root.add_argument("--config", type=Path)
     sub = root.add_subparsers(dest="command", required=True)
-    for command in ("doctor", "start", "stop", "solve", "benchmark", "package"):
+    for command in ("doctor", "start", "stop", "solve", "benchmark", "package", "migrate", "library-reindex", "prepare-demo"):
         part = sub.add_parser(command)
         part.add_argument("--data-dir", type=Path, default=argparse.SUPPRESS)
         part.add_argument("--config", type=Path, default=argparse.SUPPRESS)
@@ -99,10 +141,18 @@ def parser():
             part.add_argument("--manifest", required=True, type=Path)
         elif command == "package":
             part.add_argument("--output", required=True, type=Path)
+        elif command == "prepare-demo":
+            part.add_argument("--enable-official-source", action="store_true")
+            part.add_argument("--qualification-budget", type=int, default=100_000)
     return root
 
 
 def internal(args):
+    from p_mc_optimizer.runtime_provenance import startup
+
+    role = {"_supervise": "supervisor", "_api": "api", "_worker": "worker", "_ui": "ui"}.get(args[0], "headless")
+    startup(role, instance_id=args[3] if args[0] == "_supervise" else os.environ.get("PMC_INSTANCE_ID"),
+            data_dir=Path(args[1]) if args[0] == "_supervise" else os.environ.get("PMC_DATA_DIR"))
     if args[0] == "_supervise":
         supervise(Path(args[1]), LocalConfig.model_validate_json(args[2]), args[3])
         return
@@ -158,7 +208,20 @@ def main(argv=None):
         from p_mc_optimizer.persistence import Repository
 
         with instance_lock(directory):
-            repo = Repository(directory)
+            repo = Repository(directory, allow_upgrade=args.command == "migrate")
+            if args.command == "migrate":
+                print("SQLite schema is ready.")
+                return 0
+            if args.command == "library-reindex":
+                return rebuild_library_index(repo)
+            if args.command == "prepare-demo":
+                from p_mc_optimizer.application.demo import preparation_service
+                result = preparation_service(repo).prepare(
+                    enable_official_source=args.enable_official_source,
+                    qualification_budget=args.qualification_budget,
+                )
+                print(json.dumps(result, ensure_ascii=False, indent=2))
+                return 0 if result["ready"] and result["status"] == "completed" else 4
             if args.command == "benchmark":
                 from p_mc_optimizer.benchmarks import run_benchmark
                 result = run_benchmark(repo, args.manifest, solve)
@@ -180,7 +243,7 @@ def main(argv=None):
     except Timeout:
         print("INSTANCE_ALREADY_RUNNING: از رابط فعال یا یک --data-dir دیگر استفاده کنید.", file=sys.stderr)
         return 3
-    except (LocalRuntimeError, OSError, ImportError) as exc:
+    except (LocalRuntimeError, MigrationError, OSError, ImportError) as exc:
         print(str(exc), file=sys.stderr)
         return 3
     except ValueError as exc:

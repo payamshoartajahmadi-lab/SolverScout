@@ -1,0 +1,889 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "READ_ONLY_DERIVED_NUMERIC_EVIDENCE_REVIEW",
+  "created_at_utc": "2026-11-13T13:01:09.954802+00:00",
+  "review_scope": "Existing targeted-01 lifecycle traces; existing numeric-probe-01 and reproduce-03 records; static reading of related offline tests. No execution or edits to application/tests by this review.",
+  "new_test_execution": "NOT_RUN",
+  "new_model_calls": 0,
+  "new_objective_evaluations": 0,
+  "new_solver_calls": 0,
+  "run_provenance": {
+    "result": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\targeted-01-result.json",
+      "relative_to_evidence_root": "offline/targeted-01-result.json",
+      "bytes": 2781,
+      "sha256": "2a121a30044d0f9144cc455bc734394e817ca51875b621d949512e2e8e70ab4f"
+    },
+    "run_label": "targeted-01",
+    "started_at_utc": "2026-11-13T12:52:58.156784+00:00",
+    "finished_at_utc": "2026-11-13T12:54:54.953502+00:00",
+    "recorded_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\targeted-01",
+    "head_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+    "source_changes_at_start": [
+      " M tests/test_llm_workflow.py",
+      " M tests/test_numeric.py",
+      "?? tests/numeric_lifecycle_probe.py"
+    ],
+    "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+    "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+    "source_bytes_unchanged_during_run": true,
+    "harness_bytes_unchanged_during_run": true,
+    "source_import_path": "G:\\projects\\solverscout-narrative-contract-repair\\src",
+    "junit_counts": {
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 44
+    },
+    "selected_manifest_files": [
+      {
+        "path": "src/p_mc_optimizer/execution/evaluator.py",
+        "bytes": 5659,
+        "sha256": "475bc478bb576b2b7b6d119f8eb08be937806a95342d4f872d6500c6843b6ad4"
+      },
+      {
+        "path": "src/p_mc_optimizer/execution/supervisor.py",
+        "bytes": 18867,
+        "sha256": "951639593887ba1eb06408dc9776de1dd23069f6cbdd17f73d203b31b3f53fa7"
+      },
+      {
+        "path": "src/p_mc_optimizer/runtime_provenance.py",
+        "bytes": 10784,
+        "sha256": "6346ee01ad9cdc018ca4b72d05821552e7168aac8373c8a2a3a43ce2c8aefb9f"
+      },
+      {
+        "path": "tests/numeric_lifecycle_probe.py",
+        "sha256": "7c8b1360ab0fafeeced4d104a052298a915ba2d26de529cb607d885863d104cf"
+      },
+      {
+        "path": "tests/test_numeric.py",
+        "sha256": "4f8c6c8206f52912664adcf421de1f58deda802883326ace349a7ea527532e2a"
+      }
+    ],
+    "source_manifest": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\targeted-01-source_manifest.json",
+      "relative_to_evidence_root": "offline/targeted-01-source_manifest.json",
+      "bytes": 28607,
+      "sha256": "1999af4a75ce1acba7e7ef02b45e6d29f6babbbdeb5e66af08dc54245311b5a8"
+    },
+    "harness_manifest": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\targeted-01-harness_manifest.json",
+      "relative_to_evidence_root": "offline/targeted-01-harness_manifest.json",
+      "bytes": 10811,
+      "sha256": "a30d34b7a63f17226e077fe304736e52dd3ffe61bcb638d9518305aaeacf55e2"
+    },
+    "junit": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\targeted-01.xml",
+      "relative_to_evidence_root": "offline/targeted-01.xml",
+      "bytes": 7503,
+      "sha256": "6f9b7afcd8e364b54207376a02f110b638be636a0050b4796a948278ba9d9c37"
+    },
+    "interpretation": "Targeted-01 used modified test fixtures on recorded HEAD; the HEAD SHA alone does not identify that tested harness. The recorded harness manifest binds the changed tests and helper; production source hash was unchanged from baseline."
+  },
+  "cases": [
+    {
+      "scenario": "hung_timeout",
+      "test_nodeid": "tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[False]",
+      "recorded_junit_result": {
+        "test_name": "test_exe_009_010_supervisor_reaps_hung_objective[False]",
+        "status": "PASS",
+        "assertion_message": null
+      },
+      "trace": {
+        "absolute_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\targeted-01\\test_exe_009_010_supervisor_re0\\numeric-lifecycle-trace.json",
+        "relative_to_evidence_root": null,
+        "bytes": 3954,
+        "sha256": "d3f255fa242b419c3af6c05b240c511d4a5ffb190ac5dda6dc3a453922d7ce01",
+        "relative_to_recorded_basetemp": "test_exe_009_010_supervisor_re0/numeric-lifecycle-trace.json"
+      },
+      "evidence_kind": "SYNTHETIC_NUMERIC_LIFECYCLE_FIXTURE",
+      "mode": "entered_hang",
+      "deadline_seconds": 10.0,
+      "product_started_at_monotonic": 1103982.468,
+      "deadline_monotonic": 1103992.468,
+      "clock_reset": false,
+      "launched_process": {
+        "pid": 20984,
+        "creation_time": 1794574447.0159934
+      },
+      "identity": {
+        "pid": 20984,
+        "role": "numeric",
+        "process_run_id": "59483f9b-50ef-4b06-802c-8c8f906a2a15"
+      },
+      "identity_creation_time": 1794574447.0159934,
+      "accepted_sequences": [
+        1
+      ],
+      "objective_entry": {
+        "pid": 20984,
+        "monotonic": 1103984.171,
+        "creation_time": 1794574447.0159934
+      },
+      "objective_entry_seconds_after_product_start": 1.703,
+      "startup_gate_entered": false,
+      "startup_gate_monotonic": 0.0,
+      "done": null,
+      "result": {
+        "execution_status": "timed_out",
+        "termination_reason": "time_budget",
+        "started_evaluations": 1,
+        "successful_evaluations": 0,
+        "failed_evaluations": 0,
+        "history_complete": false,
+        "history_sha256": null,
+        "elapsed_compute_seconds": 10.140999999828637,
+        "overshoot_seconds": 0.14099999982863665
+      },
+      "history_files": [
+        {
+          "name": "fba8a00a-91d9-4b8c-bec5-507ecdbeae5f.jsonl.part",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "reaping": {
+        "multiprocessing_alive": false,
+        "exitcode": -15,
+        "pid": 20984,
+        "same_process_running": false,
+        "observation": "not_found"
+      },
+      "failure_type": null,
+      "events": [
+        {
+          "event": "supervisor_call_begin",
+          "monotonic": 1103982.468,
+          "seconds_after_product_start": 0.0
+        },
+        {
+          "event": "process_constructed",
+          "monotonic": 1103982.468,
+          "deadline": 1103992.468,
+          "product_started_at": 1103982.468,
+          "seconds_after_product_start": 0.0
+        },
+        {
+          "event": "launch_begin",
+          "monotonic": 1103982.468,
+          "seconds_after_product_start": 0.0
+        },
+        {
+          "event": "launch_return",
+          "monotonic": 1103982.562,
+          "pid": 20984,
+          "creation_time": 1794574447.0159934,
+          "seconds_after_product_start": 0.094
+        },
+        {
+          "event": "ipc_received",
+          "monotonic": 1103984.171,
+          "kind": "identity",
+          "sequence": null,
+          "done": null,
+          "seconds_after_product_start": 1.703
+        },
+        {
+          "event": "identity_received",
+          "monotonic": 1103984.171,
+          "pid": 20984,
+          "role": "numeric",
+          "process_run_id": "59483f9b-50ef-4b06-802c-8c8f906a2a15",
+          "creation_time": 1794574447.0159934,
+          "seconds_after_product_start": 1.703
+        },
+        {
+          "event": "ack_send_begin",
+          "monotonic": 1103984.171,
+          "kind": "identity",
+          "sequence": null,
+          "reply": "accepted",
+          "seconds_after_product_start": 1.703
+        },
+        {
+          "event": "ack_send_return",
+          "monotonic": 1103984.171,
+          "kind": "identity",
+          "sequence": null,
+          "reply": "accepted",
+          "seconds_after_product_start": 1.703
+        },
+        {
+          "event": "ipc_received",
+          "monotonic": 1103984.171,
+          "kind": "started",
+          "sequence": 1,
+          "done": null,
+          "seconds_after_product_start": 1.703
+        },
+        {
+          "event": "ack_send_begin",
+          "monotonic": 1103984.171,
+          "kind": "started",
+          "sequence": 1,
+          "reply": "accepted",
+          "seconds_after_product_start": 1.703
+        },
+        {
+          "event": "ack_send_return",
+          "monotonic": 1103984.171,
+          "kind": "started",
+          "sequence": 1,
+          "reply": "accepted",
+          "seconds_after_product_start": 1.703
+        },
+        {
+          "event": "objective_entry_confirmed",
+          "monotonic": 1103984.171,
+          "pid": 20984,
+          "entered_at": 1103984.171,
+          "creation_time": 1794574447.0159934,
+          "seconds_after_product_start": 1.703
+        },
+        {
+          "event": "original_deadline_observed_reached",
+          "monotonic": 1103992.468,
+          "deadline": 1103992.468,
+          "seconds_after_product_start": 10.0
+        },
+        {
+          "event": "join_begin",
+          "monotonic": 1103992.593,
+          "pid": 20984,
+          "force": true,
+          "alive": true,
+          "seconds_after_product_start": 10.125
+        },
+        {
+          "event": "join_return",
+          "monotonic": 1103992.609,
+          "multiprocessing_alive": false,
+          "exitcode": -15,
+          "pid": 20984,
+          "same_process_running": false,
+          "observation": "not_found",
+          "seconds_after_product_start": 10.141
+        },
+        {
+          "event": "supervisor_call_return",
+          "monotonic": 1103992.609,
+          "seconds_after_product_start": 10.141
+        }
+      ]
+    },
+    {
+      "scenario": "hung_cancel",
+      "test_nodeid": "tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[True]",
+      "recorded_junit_result": {
+        "test_name": "test_exe_009_010_supervisor_reaps_hung_objective[True]",
+        "status": "PASS",
+        "assertion_message": null
+      },
+      "trace": {
+        "absolute_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\targeted-01\\test_exe_009_010_supervisor_re1\\numeric-lifecycle-trace.json",
+        "relative_to_evidence_root": null,
+        "bytes": 3992,
+        "sha256": "59c1287afe454e818a36d31271291f9b06f2d2ad99451ffbca2a9ba62b8c154d",
+        "relative_to_recorded_basetemp": "test_exe_009_010_supervisor_re1/numeric-lifecycle-trace.json"
+      },
+      "evidence_kind": "SYNTHETIC_NUMERIC_LIFECYCLE_FIXTURE",
+      "mode": "entered_hang",
+      "deadline_seconds": 10.0,
+      "product_started_at_monotonic": 1103992.625,
+      "deadline_monotonic": 1104002.625,
+      "clock_reset": false,
+      "launched_process": {
+        "pid": 16232,
+        "creation_time": 1794574457.1792166
+      },
+      "identity": {
+        "pid": 16232,
+        "role": "numeric",
+        "process_run_id": "cdafbeb6-987c-48f3-b957-3fcaef4a53a5"
+      },
+      "identity_creation_time": 1794574457.1792166,
+      "accepted_sequences": [
+        1
+      ],
+      "objective_entry": {
+        "pid": 16232,
+        "monotonic": 1103994.296,
+        "creation_time": 1794574457.1792166
+      },
+      "objective_entry_seconds_after_product_start": 1.671,
+      "startup_gate_entered": false,
+      "startup_gate_monotonic": 0.0,
+      "done": null,
+      "result": {
+        "execution_status": "cancelled",
+        "termination_reason": "cancelled",
+        "started_evaluations": 1,
+        "successful_evaluations": 0,
+        "failed_evaluations": 0,
+        "history_complete": false,
+        "history_sha256": null,
+        "elapsed_compute_seconds": 1.843000000109896,
+        "overshoot_seconds": 0.0
+      },
+      "history_files": [
+        {
+          "name": "a6c706bc-ea12-4cef-8f28-23593e7296b5.jsonl.part",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "reaping": {
+        "multiprocessing_alive": false,
+        "exitcode": -15,
+        "pid": 16232,
+        "same_process_running": false,
+        "observation": "not_found"
+      },
+      "failure_type": null,
+      "events": [
+        {
+          "event": "supervisor_call_begin",
+          "monotonic": 1103992.625,
+          "seconds_after_product_start": 0.0
+        },
+        {
+          "event": "process_constructed",
+          "monotonic": 1103992.625,
+          "deadline": 1104002.625,
+          "product_started_at": 1103992.625,
+          "seconds_after_product_start": 0.0
+        },
+        {
+          "event": "launch_begin",
+          "monotonic": 1103992.625,
+          "seconds_after_product_start": 0.0
+        },
+        {
+          "event": "launch_return",
+          "monotonic": 1103992.687,
+          "pid": 16232,
+          "creation_time": 1794574457.1792166,
+          "seconds_after_product_start": 0.062
+        },
+        {
+          "event": "ipc_received",
+          "monotonic": 1103994.296,
+          "kind": "identity",
+          "sequence": null,
+          "done": null,
+          "seconds_after_product_start": 1.671
+        },
+        {
+          "event": "identity_received",
+          "monotonic": 1103994.296,
+          "pid": 16232,
+          "role": "numeric",
+          "process_run_id": "cdafbeb6-987c-48f3-b957-3fcaef4a53a5",
+          "creation_time": 1794574457.1792166,
+          "seconds_after_product_start": 1.671
+        },
+        {
+          "event": "ack_send_begin",
+          "monotonic": 1103994.296,
+          "kind": "identity",
+          "sequence": null,
+          "reply": "accepted",
+          "seconds_after_product_start": 1.671
+        },
+        {
+          "event": "ack_send_return",
+          "monotonic": 1103994.296,
+          "kind": "identity",
+          "sequence": null,
+          "reply": "accepted",
+          "seconds_after_product_start": 1.671
+        },
+        {
+          "event": "ipc_received",
+          "monotonic": 1103994.296,
+          "kind": "started",
+          "sequence": 1,
+          "done": null,
+          "seconds_after_product_start": 1.671
+        },
+        {
+          "event": "ack_send_begin",
+          "monotonic": 1103994.296,
+          "kind": "started",
+          "sequence": 1,
+          "reply": "accepted",
+          "seconds_after_product_start": 1.671
+        },
+        {
+          "event": "ack_send_return",
+          "monotonic": 1103994.296,
+          "kind": "started",
+          "sequence": 1,
+          "reply": "accepted",
+          "seconds_after_product_start": 1.671
+        },
+        {
+          "event": "objective_entry_confirmed",
+          "monotonic": 1103994.296,
+          "pid": 16232,
+          "entered_at": 1103994.296,
+          "creation_time": 1794574457.1792166,
+          "seconds_after_product_start": 1.671
+        },
+        {
+          "event": "fixture_requests_cancel_after_entry",
+          "monotonic": 1103994.296,
+          "seconds_after_product_start": 1.671
+        },
+        {
+          "event": "cancellation_observed",
+          "monotonic": 1103994.328,
+          "seconds_after_product_start": 1.703
+        },
+        {
+          "event": "join_begin",
+          "monotonic": 1103994.453,
+          "pid": 16232,
+          "force": true,
+          "alive": true,
+          "seconds_after_product_start": 1.828
+        },
+        {
+          "event": "join_return",
+          "monotonic": 1103994.468,
+          "multiprocessing_alive": false,
+          "exitcode": -15,
+          "pid": 16232,
+          "same_process_running": false,
+          "observation": "not_found",
+          "seconds_after_product_start": 1.843
+        },
+        {
+          "event": "supervisor_call_return",
+          "monotonic": 1103994.468,
+          "seconds_after_product_start": 1.843
+        }
+      ]
+    },
+    {
+      "scenario": "blocked_startup",
+      "test_nodeid": "tests/test_numeric.py::test_exe_009_startup_timeout_keeps_zero_evaluations_and_correct_history[blocked_startup]",
+      "recorded_junit_result": {
+        "test_name": "test_exe_009_startup_timeout_keeps_zero_evaluations_and_correct_history[blocked_startup]",
+        "status": "PASS",
+        "assertion_message": null
+      },
+      "trace": {
+        "absolute_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\targeted-01\\test_exe_009_startup_timeout_k0\\numeric-lifecycle-trace.json",
+        "relative_to_evidence_root": null,
+        "bytes": 2421,
+        "sha256": "1fac8c54566f8b82b977bce900afa30bf88a58836b5febbbdf638c5e59f61ef8",
+        "relative_to_recorded_basetemp": "test_exe_009_startup_timeout_k0/numeric-lifecycle-trace.json"
+      },
+      "evidence_kind": "SYNTHETIC_NUMERIC_LIFECYCLE_FIXTURE",
+      "mode": "blocked_startup",
+      "deadline_seconds": 5.0,
+      "product_started_at_monotonic": 1103994.468,
+      "deadline_monotonic": 1103999.468,
+      "clock_reset": false,
+      "launched_process": {
+        "pid": 19896,
+        "creation_time": 1794574459.022226
+      },
+      "identity": null,
+      "identity_creation_time": null,
+      "accepted_sequences": [],
+      "objective_entry": {
+        "pid": 0,
+        "monotonic": 0.0,
+        "creation_time": 0.0
+      },
+      "objective_entry_seconds_after_product_start": null,
+      "startup_gate_entered": true,
+      "startup_gate_monotonic": 1103994.812,
+      "done": null,
+      "result": {
+        "execution_status": "timed_out",
+        "termination_reason": "time_budget",
+        "started_evaluations": 0,
+        "successful_evaluations": 0,
+        "failed_evaluations": 0,
+        "history_complete": false,
+        "history_sha256": null,
+        "elapsed_compute_seconds": 5.125,
+        "overshoot_seconds": 0.125
+      },
+      "history_files": [
+        {
+          "name": "29f32280-2d67-4779-b85d-cb84f8dae75f.jsonl.part",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "reaping": {
+        "multiprocessing_alive": false,
+        "exitcode": -15,
+        "pid": 19896,
+        "same_process_running": false,
+        "observation": "not_found"
+      },
+      "failure_type": null,
+      "events": [
+        {
+          "event": "supervisor_call_begin",
+          "monotonic": 1103994.468,
+          "seconds_after_product_start": 0.0
+        },
+        {
+          "event": "process_constructed",
+          "monotonic": 1103994.468,
+          "deadline": 1103999.468,
+          "product_started_at": 1103994.468,
+          "seconds_after_product_start": 0.0
+        },
+        {
+          "event": "launch_begin",
+          "monotonic": 1103994.468,
+          "seconds_after_product_start": 0.0
+        },
+        {
+          "event": "launch_return",
+          "monotonic": 1103994.531,
+          "pid": 19896,
+          "creation_time": 1794574459.022226,
+          "seconds_after_product_start": 0.063
+        },
+        {
+          "event": "original_deadline_observed_reached",
+          "monotonic": 1103999.468,
+          "deadline": 1103999.468,
+          "seconds_after_product_start": 5.0
+        },
+        {
+          "event": "join_begin",
+          "monotonic": 1103999.578,
+          "pid": 19896,
+          "force": true,
+          "alive": true,
+          "seconds_after_product_start": 5.11
+        },
+        {
+          "event": "join_return",
+          "monotonic": 1103999.593,
+          "multiprocessing_alive": false,
+          "exitcode": -15,
+          "pid": 19896,
+          "same_process_running": false,
+          "observation": "not_found",
+          "seconds_after_product_start": 5.125
+        },
+        {
+          "event": "supervisor_call_return",
+          "monotonic": 1103999.593,
+          "seconds_after_product_start": 5.125
+        }
+      ]
+    },
+    {
+      "scenario": "late_identity_ack",
+      "test_nodeid": "tests/test_numeric.py::test_exe_009_startup_timeout_keeps_zero_evaluations_and_correct_history[late_identity_ack]",
+      "recorded_junit_result": {
+        "test_name": "test_exe_009_startup_timeout_keeps_zero_evaluations_and_correct_history[late_identity_ack]",
+        "status": "PASS",
+        "assertion_message": null
+      },
+      "trace": {
+        "absolute_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\targeted-01\\test_exe_009_startup_timeout_k1\\numeric-lifecycle-trace.json",
+        "relative_to_evidence_root": null,
+        "bytes": 4072,
+        "sha256": "431a7a8c4f08fa1bb41f811028b034cad0e98df901aa3a997ff27cd73b877e35",
+        "relative_to_recorded_basetemp": "test_exe_009_startup_timeout_k1/numeric-lifecycle-trace.json"
+      },
+      "evidence_kind": "SYNTHETIC_NUMERIC_LIFECYCLE_FIXTURE",
+      "mode": "late_identity_ack",
+      "deadline_seconds": 5.0,
+      "product_started_at_monotonic": 1103999.609,
+      "deadline_monotonic": 1104004.609,
+      "clock_reset": false,
+      "launched_process": {
+        "pid": 22712,
+        "creation_time": 1794574464.153444
+      },
+      "identity": {
+        "pid": 22712,
+        "role": "numeric",
+        "process_run_id": "8f5358f9-7022-4d32-b250-b7ba71f60298"
+      },
+      "identity_creation_time": 1794574464.153444,
+      "accepted_sequences": [],
+      "objective_entry": {
+        "pid": 0,
+        "monotonic": 0.0,
+        "creation_time": 0.0
+      },
+      "objective_entry_seconds_after_product_start": null,
+      "startup_gate_entered": false,
+      "startup_gate_monotonic": 0.0,
+      "done": {
+        "execution_status": "timed_out",
+        "termination_reason": "time_budget",
+        "started_evaluations": 0,
+        "successful_evaluations": 0,
+        "failed_evaluations": 0
+      },
+      "result": {
+        "execution_status": "timed_out",
+        "termination_reason": "time_budget",
+        "started_evaluations": 0,
+        "successful_evaluations": 0,
+        "failed_evaluations": 0,
+        "history_complete": true,
+        "history_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "elapsed_compute_seconds": 5.141000000061467,
+        "overshoot_seconds": 0.1410000000614673
+      },
+      "history_files": [
+        {
+          "name": "6f375e6c-0fc9-4b9f-a04a-4aabca038dae.jsonl",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "reaping": {
+        "multiprocessing_alive": false,
+        "exitcode": -15,
+        "pid": 22712,
+        "same_process_running": false,
+        "observation": "not_found"
+      },
+      "failure_type": null,
+      "events": [
+        {
+          "event": "supervisor_call_begin",
+          "monotonic": 1103999.609,
+          "seconds_after_product_start": 0.0
+        },
+        {
+          "event": "process_constructed",
+          "monotonic": 1103999.609,
+          "deadline": 1104004.609,
+          "product_started_at": 1103999.609,
+          "seconds_after_product_start": 0.0
+        },
+        {
+          "event": "launch_begin",
+          "monotonic": 1103999.609,
+          "seconds_after_product_start": 0.0
+        },
+        {
+          "event": "launch_return",
+          "monotonic": 1103999.656,
+          "pid": 22712,
+          "creation_time": 1794574464.153444,
+          "seconds_after_product_start": 0.047
+        },
+        {
+          "event": "ipc_received",
+          "monotonic": 1104001.281,
+          "kind": "identity",
+          "sequence": null,
+          "done": null,
+          "seconds_after_product_start": 1.672
+        },
+        {
+          "event": "identity_received",
+          "monotonic": 1104001.281,
+          "pid": 22712,
+          "role": "numeric",
+          "process_run_id": "8f5358f9-7022-4d32-b250-b7ba71f60298",
+          "creation_time": 1794574464.153444,
+          "seconds_after_product_start": 1.672
+        },
+        {
+          "event": "identity_ack_held_until_original_deadline",
+          "monotonic": 1104001.281,
+          "seconds_after_product_start": 1.672
+        },
+        {
+          "event": "ack_send_begin",
+          "monotonic": 1104004.625,
+          "kind": "identity",
+          "sequence": null,
+          "reply": "accepted",
+          "seconds_after_product_start": 5.016
+        },
+        {
+          "event": "ack_send_return",
+          "monotonic": 1104004.625,
+          "kind": "identity",
+          "sequence": null,
+          "reply": "accepted",
+          "seconds_after_product_start": 5.016
+        },
+        {
+          "event": "post_deadline_terminal_reply_ready",
+          "monotonic": 1104004.625,
+          "ready": true,
+          "seconds_after_product_start": 5.016
+        },
+        {
+          "event": "original_deadline_observed_reached",
+          "monotonic": 1104004.625,
+          "deadline": 1104004.609,
+          "seconds_after_product_start": 5.016
+        },
+        {
+          "event": "ipc_received",
+          "monotonic": 1104004.625,
+          "kind": "done",
+          "sequence": null,
+          "done": {
+            "execution_status": "timed_out",
+            "termination_reason": "time_budget",
+            "started_evaluations": 0,
+            "successful_evaluations": 0,
+            "failed_evaluations": 0
+          },
+          "seconds_after_product_start": 5.016
+        },
+        {
+          "event": "join_begin",
+          "monotonic": 1104004.625,
+          "pid": 22712,
+          "force": false,
+          "alive": true,
+          "seconds_after_product_start": 5.016
+        },
+        {
+          "event": "join_return",
+          "monotonic": 1104004.75,
+          "multiprocessing_alive": false,
+          "exitcode": -15,
+          "pid": 22712,
+          "same_process_running": false,
+          "observation": "not_found",
+          "seconds_after_product_start": 5.141
+        },
+        {
+          "event": "supervisor_call_return",
+          "monotonic": 1104004.75,
+          "seconds_after_product_start": 5.141
+        }
+      ]
+    }
+  ],
+  "findings": [
+    "All four cases retain the original startup-inclusive supervisor clock. No deadline reset occurs after handshake or objective entry.",
+    "Both entered-hang cases record accepted sequence 1 and objective entry with PID and creation time equal to launch and identity observations; actual child reaping is independently recorded.",
+    "Blocked startup has no identity, accepted start, objective entry or terminal done: zero counters and incomplete empty .part are consistent.",
+    "Late identity ACK has zero accepted starts and no objective entry, but an actual terminal done with zero counters: complete empty history with SHA-256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 is consistent.",
+    "All four actual child identities were no longer running after join: multiprocessing_alive=false, psutil observation not_found, exitcode=-15."
+  ],
+  "limitations": [
+    "These are synthetic synchronized offline fixture traces, not historical live-provider evidence or a new execution by this review.",
+    "Instrumentation, synchronization and observers add timing overhead. Measured values describe this recorded run and are not guarantees for other machines.",
+    "For late_identity_ack, join began with force=false but exitcode was -15. The evidence establishes actual reaping and a received complete zero-evaluation result; it does not establish graceful or natural child exit.",
+    "Original trace files are under the exact recorded basetemp and may be temporary. Their byte sizes and SHA-256 values are recorded here for provenance; preserve copies when packaging evidence."
+  ],
+  "prior_cancel_diagnosis_boundary": {
+    "failed_baseline_run": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\reproduce-03-result.json",
+      "relative_to_evidence_root": "offline/reproduce-03-result.json",
+      "bytes": 2220,
+      "sha256": "738b44c5f3f36774b72de683a2f169fbdd0e8dda293b7f6aefa36058513bd157"
+    },
+    "failed_baseline_junit": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\reproduce-03.xml",
+      "relative_to_evidence_root": "offline/reproduce-03.xml",
+      "bytes": 5957,
+      "sha256": "aa8de7e5f7d55ad56697b221f9056f137064c93eecfb0e5884172a61e974489a"
+    },
+    "failed_baseline_case": {
+      "test_name": "test_exe_009_010_supervisor_reaps_hung_objective[True]",
+      "status": "FAIL",
+      "assertion_message": "AssertionError: assert 'timed_out' == 'cancelled'\n  \n  - cancelled\n  + timed_out"
+    },
+    "failed_baseline_exact_lifecycle_timeline": "NOT_CAPTURED",
+    "separate_instrumented_probe_run": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\numeric-probe-01-result.json",
+      "relative_to_evidence_root": "offline/numeric-probe-01-result.json",
+      "bytes": 2158,
+      "sha256": "594f38a0299578ebf78e16c39c31cb90bb4d7cabeb43c1af19f56ecd407d0d3e"
+    },
+    "separate_instrumented_probe_trace": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\numeric-probe-01-test_exe_009_010_supervisor_reaps_hung_objective-True-trace.json",
+      "relative_to_evidence_root": "offline/numeric-probe-01-test_exe_009_010_supervisor_reaps_hung_objective-True-trace.json",
+      "bytes": 7670,
+      "sha256": "2ca0e433356c7b0b890abf957b9a1a43d0d7c60fc2c8e27291edcb687809965b"
+    },
+    "separate_instrumented_probe_junit": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\numeric-probe-01.xml",
+      "relative_to_evidence_root": "offline/numeric-probe-01.xml",
+      "bytes": 1918,
+      "sha256": "769aa54212e071dbdf682033876536a245aa8cc02a4ae41de90c861832f57088"
+    },
+    "separate_instrumented_probe_case": {
+      "test_name": "test_exe_009_010_supervisor_reaps_hung_objective[True]",
+      "status": "PASS",
+      "assertion_message": null
+    },
+    "probe_deadline_seconds": 1.8,
+    "probe_product_started_at_monotonic": 1103343.781,
+    "probe_deadline_monotonic": 1103345.581,
+    "probe_objective_entry_monotonic": 1103345.546,
+    "probe_objective_entry_seconds_after_product_start": 1.765,
+    "probe_cancellation_observed_monotonic": 1103345.578,
+    "probe_cancellation_seconds_after_product_start": 1.797,
+    "probe_cancellation_margin_before_deadline_seconds": 0.003,
+    "probe_result": {
+      "execution_status": "cancelled",
+      "termination_reason": "cancelled",
+      "started_evaluations": 1,
+      "successful_evaluations": 0,
+      "failed_evaluations": 0,
+      "history_complete": false,
+      "history_sha256": null,
+      "elapsed_compute_seconds": 1.9370000001508743,
+      "overshoot_seconds": 0.1370000001508742,
+      "error_code": null,
+      "runtime_identity_projection": {
+        "pid": 28564,
+        "role": "numeric",
+        "process_run_id": "0f3f2f4c-167b-4047-97b2-b7b6c0b19406"
+      }
+    },
+    "interpretation": "The prior instrumented True case PASSED: objective entered at +1.765s, cancellation was observed at +1.797s, approximately 0.003s before the unchanged 1.8s deadline. The separate uninstrumented reproduce-03 True case FAILED with timed_out instead of cancelled. The fragile startup/cancellation timing precondition is inferred from these distinct records; the exact failed reproduce-03 True timeline was not captured and must not be presented as directly observed. Observer overhead may affect the probe timeline."
+  },
+  "existing_full_suite_coverage_static_review": [
+    {
+      "test_nodeid": "tests/test_persistence_acceptance.py::test_loopback_worker_death_and_active_cancel_stop_numeric_child",
+      "coverage": "Real subprocesses; Windows launcher descendants; kill actual worker owning numeric child; assert child stops; restart and validate API cancellation, budget and terminal report; recursive descendant cleanup."
+    },
+    {
+      "test_nodeid": "tests/test_runtime_numeric_ipc.py::test_real_child_identity_is_saved_before_first_start",
+      "coverage": "Real numeric child identity precedes all eight starts and completed history; not a direct abnormal-reaping assertion."
+    },
+    {
+      "test_nodeid": "tests/test_numeric.py::test_exe_012_hard_crash_keeps_start_accounting",
+      "coverage": "Real child objective exits abruptly; unknown outcome, one accepted start and incomplete history."
+    },
+    {
+      "test_nodeid": "tests/test_numeric.py::test_atomic_cancel_before_objective_start",
+      "coverage": "Rejected start cancels before actual objective; zero counters/objective calls with complete empty history."
+    },
+    {
+      "test_nodeid": "tests/test_runtime_numeric_ipc.py::test_invalid_identity_or_pre_identity_message_has_explicit_zero_fe_error",
+      "coverage": "Scripted IPC protocol coverage; not actual Windows reaping."
+    },
+    {
+      "test_nodeid": "tests/test_runtime_numeric_ipc.py::test_known_fingerprint_mismatch_survives_missing_done_message",
+      "coverage": "Scripted IPC fingerprint mismatch coverage; not actual Windows reaping."
+    },
+    {
+      "test_nodeid": "tests/test_runtime_numeric_ipc.py::test_death_before_identity_keeps_child_identity_unknown",
+      "coverage": "Scripted IPC missing identity/done coverage; not actual Windows reaping."
+    }
+  ],
+  "coverage_selection_note": "These tests have no live_provider or skip marker in inspected source and fall under pyproject testpaths=tests with default not live_provider. This static review does not assert a new full-suite pass."
+}

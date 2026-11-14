@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "scope": "Integrity/privacy of actual evidence archive; does not change NOT_READY acceptance",
+  "package_path": "/Users/payam/projects/uni_projects/machine_turing/artifacts/university-delivery/20261114T120916Z-university/SolverScout_University_Evidence_2.1.0rc2.zip",
+  "package_sha256": "c8076244fbb29afe0dcce5bc4f3e83e402b1879d84ba1b39984a3e5634af397d",
+  "zip_crc": "PASS",
+  "content_sha256": "PASS",
+  "members": 156,
+  "bytes": 4306630,
+  "known_secret_count": 5,
+  "privacy_status": "PASS",
+  "installer_sha256": "661848419b25b52c2ed47ac52460a2fa531929ffd692bfe665be35ca8ed76b61",
+  "code_commit": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+  "acceptance_status": "NOT_READY",
+  "scanned_at_utc": "2026-11-14T14:29:13.102732+00:00"
+}

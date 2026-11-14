@@ -1,0 +1,360 @@
+{
+  "schema_version": "university-delivery-summary/1.1",
+  "status": "NOT_READY",
+  "provisional": false,
+  "run_id": "20261114T173517Z-u1-report-rc3",
+  "generated_at_utc": "2026-11-14T19:25:40.390058+00:00",
+  "scope": "Windows rc3 U1 report-only replay using immutable rc2 calculations; full rc3 solves NOT_RUN",
+  "tested_commit": "7ca14742dc34933b1c4868f113412aacc59f1f70",
+  "source_manifest_sha256": "b44ec58d471514684d367dccf3cb37dd34b51ad3d18bc34424c6ad02df18450a",
+  "prompt_bundle_sha256": "424d80c1edd004f701e34978c9581b7d5957ec01e6734b5e2395057f21b68dbe",
+  "criteria_counts": {
+    "PASS": 14,
+    "FAIL": 1
+  },
+  "criteria": [
+    {
+      "id": "AC01",
+      "status": "PASS",
+      "current_stage_status": "PASS",
+      "scope_fa": "ردگیری rc3 و حفظ شواهد و دیتابیس تاریخی",
+      "evidence_basis": "fresh_rc3_source_binding_and_preserved_history"
+    },
+    {
+      "id": "AC02",
+      "status": "PASS",
+      "current_stage_status": "NOT_RUN",
+      "scope_fa": "بازاستفاده از شواهد واقعی ویندوز rc2؛ اجرای عددی تازه rc3 انجام نشده",
+      "evidence_basis": "historical_windows_qualification_plus_fresh_numeric_identity_match"
+    },
+    {
+      "id": "AC03",
+      "status": "PASS",
+      "current_stage_status": "NOT_RUN",
+      "scope_fa": "بازاستفاده از شواهد واقعی ویندوز rc2؛ اجرای عددی تازه rc3 انجام نشده",
+      "evidence_basis": "historical_windows_rc2_evidence_reused_not_fresh_rc3_solve"
+    },
+    {
+      "id": "AC04",
+      "status": "PASS",
+      "current_stage_status": "NOT_RUN",
+      "scope_fa": "بازاستفاده از شواهد واقعی ویندوز rc2؛ اجرای عددی تازه rc3 انجام نشده",
+      "evidence_basis": "historical_windows_rc2_evidence_reused_not_fresh_rc3_solve"
+    },
+    {
+      "id": "AC05",
+      "status": "PASS",
+      "current_stage_status": "NOT_RUN",
+      "scope_fa": "بازاستفاده از شواهد واقعی ویندوز rc2؛ اجرای عددی تازه rc3 انجام نشده",
+      "evidence_basis": "historical_windows_rc2_evidence_reused_not_fresh_rc3_solve"
+    },
+    {
+      "id": "AC06",
+      "status": "PASS",
+      "current_stage_status": "PASS",
+      "scope_fa": "تشخیص دقیق خطای واقعی و کنترل محدود metadata در سیاست ۱٫۳",
+      "evidence_basis": "historical_defect_and_versioned_targeted_regressions"
+    },
+    {
+      "id": "AC07",
+      "status": "PASS",
+      "current_stage_status": "PASS",
+      "scope_fa": "قرارداد repair، hash مؤثر و سقف نقش‌ها",
+      "evidence_basis": "versioned_offline_controls_plus_actual_reviewer_binding"
+    },
+    {
+      "id": "AC08",
+      "status": "PASS",
+      "current_stage_status": "PASS",
+      "scope_fa": "ممیزی واقعی وفاداری گزارش بازتولیدشدهٔ U1",
+      "evidence_basis": "fresh_u1_report_only_fidelity_with_historical_u2"
+    },
+    {
+      "id": "AC09",
+      "status": "PASS",
+      "current_stage_status": "PASS",
+      "scope_fa": "U1 فقط پذیرش گزارش تازه؛ U2 پذیرش تاریخی ویندوز rc2",
+      "evidence_basis": "u1_fresh_report_only_plus_u2_historical_windows"
+    },
+    {
+      "id": "AC10",
+      "status": "PASS",
+      "current_stage_status": "PASS",
+      "scope_fa": "UI و HTML واقعی گزارش U1 تازه با دامنهٔ report-only",
+      "evidence_basis": "fresh_u1_report_only_ui_html_and_historical_u2"
+    },
+    {
+      "id": "AC11",
+      "status": "PASS",
+      "current_stage_status": "PASS",
+      "scope_fa": "تفکیک مصرف قدیم، گزارش تازه و آزمون آفلاین",
+      "evidence_basis": "separate_historical_report_replay_and_offline_accounting"
+    },
+    {
+      "id": "AC12",
+      "status": "PASS",
+      "current_stage_status": "NOT_RUN",
+      "scope_fa": "بازاستفاده از شواهد واقعی ویندوز rc2؛ اجرای عددی تازه rc3 انجام نشده",
+      "evidence_basis": "historical_windows_rc2_evidence_reused_not_fresh_rc3_solve"
+    },
+    {
+      "id": "AC13",
+      "status": "PASS",
+      "current_stage_status": "PASS",
+      "scope_fa": "مجموعهٔ کامل آفلاین نهایی rc3 و حفظ تلاش ناموفق قبلی",
+      "evidence_basis": "fresh_final_full_offline_gate_with_preserved_failed_attempt"
+    },
+    {
+      "id": "AC14",
+      "status": "FAIL",
+      "current_stage_status": "NOT_RUN",
+      "scope_fa": "الزام صریح نصب تازه مک همچنان اجرا نشده و FAIL تاریخی محفوظ است",
+      "evidence_basis": "literal_mac_failure_preserved_windows_upgrade_scope_only"
+    },
+    {
+      "id": "AC15",
+      "status": "PASS",
+      "current_stage_status": "PASS",
+      "scope_fa": "ممیزی مستقل بستهٔ کاندید rc3؛ وضعیت کلی تحویل جداست",
+      "evidence_basis": "candidate_package_audit_independent_of_overall_readiness"
+    }
+  ],
+  "remaining_criteria": [
+    {
+      "id": "AC14",
+      "status": "FAIL",
+      "scope_fa": "الزام صریح نصب تازه مک همچنان اجرا نشده و FAIL تاریخی محفوظ است"
+    }
+  ],
+  "mandatory_blocker": "AC14 literal fresh-Mac installation and both full scenarios remain unfulfilled",
+  "historical_original_criteria": [
+    {
+      "id": "AC01",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "historical_status": "PASS"
+    },
+    {
+      "id": "AC02",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "historical_status": "PASS"
+    },
+    {
+      "id": "AC03",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "historical_status": "FAIL"
+    },
+    {
+      "id": "AC04",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "historical_status": "PASS"
+    },
+    {
+      "id": "AC05",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "historical_status": "FAIL"
+    },
+    {
+      "id": "AC06",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "historical_status": "PASS"
+    },
+    {
+      "id": "AC07",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "historical_status": "PASS"
+    },
+    {
+      "id": "AC08",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "historical_status": "NOT_RUN"
+    },
+    {
+      "id": "AC09",
+      "status": "FAIL",
+      "windows_status": "FAIL",
+      "historical_status": "FAIL"
+    },
+    {
+      "id": "AC10",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "historical_status": "PASS"
+    },
+    {
+      "id": "AC11",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "historical_status": "PASS"
+    },
+    {
+      "id": "AC12",
+      "status": "PASS",
+      "windows_status": "PASS",
+      "historical_status": "FAIL"
+    },
+    {
+      "id": "AC13",
+      "status": "PASS",
+      "windows_status": "NOT_RUN",
+      "historical_status": "PASS"
+    },
+    {
+      "id": "AC14",
+      "status": "FAIL",
+      "windows_status": "FAIL",
+      "historical_status": "FAIL"
+    },
+    {
+      "id": "AC15",
+      "status": "NOT_RUN",
+      "windows_status": "NOT_RUN",
+      "historical_status": "PASS"
+    }
+  ],
+  "historical_matrix_sha256": "36403b1acfa736ff03111a2c8c6fc638fbf78a230c2c5b51db0e8a0268787b48",
+  "historical_columns_preserved_in": "acceptance_matrix.csv",
+  "historical_windows_rc2": {
+    "status": "NOT_READY",
+    "U2": "PASS",
+    "U1": "FAIL",
+    "unchanged": true,
+    "consumption_source_sha256": "9760afc32beb13ef15b116b7e4c16086d57bac2ce0a1373c78f76ab79b09030b"
+  },
+  "fresh_windows_rc3": {
+    "U1_report_only": "PASS",
+    "U1_full_solve": "NOT_RUN",
+    "U2_full_solve": "NOT_RUN",
+    "fresh_mac_acceptance": "NOT_RUN",
+    "clean_windows_install": "NOT_RUN",
+    "candidate_package_audit": "PASS",
+    "ui_html": "PASS",
+    "data_dir": "<WINDOWS_USER_HOME>\\AppData\\Local\\P_MC_Optimizer_U1_Report_RC3_20261114T173517Z"
+  },
+  "consumption": {
+    "historical_windows_model_submissions": 17,
+    "historical_windows_numeric_evaluations": {
+      "acceptance": 40000,
+      "preparation": 78000,
+      "smoke": 1002
+    },
+    "fresh_report_only": {
+      "actual_model_submissions": 4,
+      "limit": 4,
+      "retries_included": true,
+      "function_evaluations": 0,
+      "solver_calls": 0,
+      "preparation_evaluations": 0,
+      "smoke_evaluations": 0,
+      "connection_tests": 0,
+      "usage": {
+        "prompt_tokens": 84850,
+        "completion_tokens": 6530,
+        "total_tokens": 91380
+      },
+      "cost": null,
+      "cost_status": "not_recorded"
+    },
+    "windows_submissions_across_separately_authorized_stages": 21,
+    "offline_test_observations_separate": {
+      "first_failed_gate": {
+        "scope": "Offline regression only, separate from acceptance/preparation/smoke",
+        "observed": {
+          "supervised_execution_returns": 424,
+          "supervised_known_started": 499041,
+          "supervised_unknown_reserved": 3041,
+          "in_process_known_started": 2,
+          "supervised_raised_without_result": 13
+        },
+        "exit_status": 1,
+        "observed_known_started_lower_bound": 499043,
+        "coverage": "Parent-process evaluator starts and completed real supervisor calls only; direct custom subprocess tests or raised calls may not be measured. This is not claimed as a complete physical FE total.",
+        "budgets_seeds_thresholds_changed": false
+      },
+      "final_gate": {
+        "scope": "Offline regression only, separate from acceptance/preparation/smoke",
+        "observed": {
+          "supervised_execution_returns": 424,
+          "supervised_known_started": 499041,
+          "supervised_unknown_reserved": 3041,
+          "in_process_known_started": 2,
+          "supervised_raised_without_result": 13
+        },
+        "exit_status": 0,
+        "observed_known_started_lower_bound": 499043,
+        "coverage": "Parent-process evaluator starts and completed real supervisor calls only; direct custom subprocess tests or raised calls may not be measured. This is not claimed as a complete physical FE total.",
+        "budgets_seeds_thresholds_changed": false
+      }
+    }
+  },
+  "offline": {
+    "historical_rc2_965": {
+      "status": "PASS",
+      "commit": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+      "inherited_only": true
+    },
+    "first_windows_gate": {
+      "status": "FAIL",
+      "failed": 5,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 1018,
+      "source_commit": "1e69b8fc2c6ef24508dbb5664728408cfac35f71",
+      "source_manifest_sha256": "de6755f7b4a7303dc6453517b736fa2efff0e93e52191144dabe2988a5d5bf1a",
+      "source_unchanged_during_gate": true,
+      "live_provider_excluded": true,
+      "historical_965_result_is_separate": true,
+      "real_provider_submissions": 0,
+      "consumption_scope": "offline tests only, see cost observation"
+    },
+    "final_windows_gate": {
+      "status": "PASS",
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 1023,
+      "source_commit": "7ca14742dc34933b1c4868f113412aacc59f1f70",
+      "source_manifest_sha256": "b44ec58d471514684d367dccf3cb37dd34b51ad3d18bc34424c6ad02df18450a",
+      "source_unchanged_during_gate": true,
+      "live_provider_excluded": true,
+      "historical_965_result_is_separate": true,
+      "real_provider_submissions": 0,
+      "consumption_scope": "offline tests only, see cost observation"
+    },
+    "targeted_reporting": {
+      "status": "PASS",
+      "passed": 75,
+      "failed": 0,
+      "real_model_calls": 0,
+      "function_evaluations": 0
+    }
+  },
+  "input_evidence_sha256": {
+    "live/U1-report/human-quality-audit.json": "5a34da58fed339484a374f60d6425dea0a5f66e0ffb22a874ff4d03a4ea40ab9",
+    "browser-qa/final-summary.json": "3cbd0249b73d0e1c3c927502360a24cca58e9aa38f5e9b7f1d1d52713c9e2497",
+    "browser-qa/visual-review.json": "2683596326b3d5bf35e61212eccae6af752c6d31f033d4ad38033f57412c3b04",
+    "package-audit/verification.json": "a9ca3e613731f76fca58ba5102a944d0126960ed7ec7bf5072867b23ada26ca9",
+    "integrity-after-start.json": "e4828836cf1a21de999534a5ee451b1c86d7e10d783489c354dca22477aacbd0",
+    "offline/summary.json": "2fb7ec0f67fbf4aa060245d7f23196bba54c7a609e53bd50f79601bf884cdc5e",
+    "offline/run-manifest.json": "9115aaae30727a9f5e2bd6bbf40d1555344903eba7fed5ecdc2ae18c6afc4cd0",
+    "offline/junit.xml": "7fba0c4bd4dfc7eca3343b46c6d827dbc420b2b82eb41d0dbde16ad2c169f206",
+    "offline/observed-offline-numerical-usage.json": "b340463c30bb94a3bb78482ce5e4bfed6796b0b13d44657e45a3e8c000175be9",
+    "offline/attempt-01/summary.json": "c96281baa347258f74416c419de91202fef6fb4ee52a9e0d460cf2f86c1cd8d4",
+    "offline/attempt-01/observed-offline-numerical-usage.json": "0c5a4bc738219a340d6dec26bddb543c90381a784930f54394cfff03398aed7f",
+    "offline/normalization-targeted-summary.json": "b97a359fffeca17d79a0db5c6b1a0a59cf367b9745f98836a7a7a87affcdbc69",
+    "numeric-runtime-identity.json": "6dd9343a655b4b5edf2e7e49f6f860c6f0dbce66362f49ac75a500463ca7e12f",
+    "live/U1-report/summary.json": "1d2145d0eef625c121d212a5399bcacf16ac3ffd6c334e8c7896d10e6b696e37",
+    "live/U1-report/report.json": "43d62f6c6cb1690a6745df7a31180fc0f5e555e2ba960faad72a64bdfc1de7a0",
+    "live/U1-report/journal.json": "dacdd97ec589745719a4920e25a0d1fcf9ec4b37265db1eabce3de24048402cb",
+    "live/U1-report/campaign_ledger.json": "91809c1e6fab52d770a6b79ab10582d6a2f426f7d897609be33d2810e06f326c",
+    "live/U1-report/run_manifest.json": "1f585ec6be10403812c6940c5879090264d970575e9d1f7af25cbc28f87a1c18"
+  },
+  "builder_sha256": "521bc7061b625fe677dc49b6a0b8959fd711c7c093560408c330f159e8d01d50"
+}

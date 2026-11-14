@@ -1,0 +1,18 @@
+{
+  "scope": "offline reporting contract and recovered-response replay",
+  "status": "PASS",
+  "targeted_command": ".venv/bin/python -m pytest -q tests/test_university_review_repair.py tests/test_narrative_closure_policy.py tests/test_narrative_budget_review_repair.py tests/test_narrative_budget_review_prompts.py",
+  "targeted_passed": 47,
+  "targeted_failures": 0,
+  "legacy_checks_command": ".venv/bin/python -m pytest -q tests/test_narrative_v3_workflow.py tests/test_narrative_v3_contracts.py tests/test_narrative_closure_workflow.py tests/test_narrative_budget_review_repair.py",
+  "legacy_checks_passed": 86,
+  "additional_gateway_contract_checks_passed": 51,
+  "real_model_calls": 0,
+  "objective_evaluations": 0,
+  "solver_executions": 0,
+  "generation_policy": "1.2",
+  "reviewer_input_contract": "1.1",
+  "reviewer_output_contract": "1.0",
+  "evidence_and_formatter": "1.1",
+  "scope_limitation": "Controlled mock tests prove contract/dispatch/repair only. Live U1/U2 acceptance and semantic quality remain for main campaign."
+}

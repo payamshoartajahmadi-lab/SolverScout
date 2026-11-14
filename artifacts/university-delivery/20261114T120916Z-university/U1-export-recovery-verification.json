@@ -1,0 +1,16 @@
+{
+  "same_saved_report_json": true,
+  "no_new_model_or_numeric_executions": true,
+  "before": {
+    "jobs": 1,
+    "llm_calls": 16,
+    "stage_executions": 3
+  },
+  "after": {
+    "jobs": 1,
+    "llm_calls": 16,
+    "stage_executions": 3
+  },
+  "export_exit_code": 0,
+  "scope": "Export only, existing completed U1 binding; no new numerical or model attempt"
+}

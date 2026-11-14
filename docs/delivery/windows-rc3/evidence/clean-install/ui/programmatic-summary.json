@@ -1,0 +1,1146 @@
+{
+  "schema_version": "clean-windows-install-browser-audit/1.0",
+  "status": "PASS",
+  "observed_at_utc": "2026-11-14T19:48:42.608Z",
+  "ui_url": "http://127.0.0.1:8501",
+  "browser_version": "157.0.4341.57",
+  "scope": "Fresh ZIP installation homepage and normal API-key settings entry only; no form submission, connection test, provider request, qualification, or solve.",
+  "actual_actions": [
+    "Open homepage",
+    "Navigate to Settings",
+    "Observe empty password field and normal save/test controls"
+  ],
+  "live_model_calls": 0,
+  "connection_tests": 0,
+  "solver_invocations": 0,
+  "function_evaluations": 0,
+  "visual_review": "PENDING",
+  "results": [
+    {
+      "width": 1440,
+      "passed": true,
+      "home": {
+        "page": "home",
+        "width": 1440,
+        "title": "SolverScout | بهینه‌ساز محلی",
+        "exception_count": 0,
+        "numeric_environment_mismatch_visible": false,
+        "source_drift_warning_visible": false,
+        "geometry": {
+          "viewport_width": 1440,
+          "document_width": 1440,
+          "main_width": 1152
+        },
+        "no_horizontal_document_overflow": true
+      },
+      "settings": {
+        "page": "settings",
+        "width": 1440,
+        "title": "SolverScout | بهینه‌ساز محلی",
+        "exception_count": 0,
+        "numeric_environment_mismatch_visible": false,
+        "source_drift_warning_visible": false,
+        "geometry": {
+          "viewport_width": 1440,
+          "document_width": 1440,
+          "main_width": 1152
+        },
+        "no_horizontal_document_overflow": true,
+        "api_key_field_visible": true,
+        "api_key_field_empty": true,
+        "api_key_field_type": "password",
+        "save_button_visible": true,
+        "test_button_not_clicked": true,
+        "secure_store_option_visible": true
+      },
+      "requests": [
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/media/SourceSansVF-Upright.ttf.BsWL4Kly.woff2",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/index.DormvYxC.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/rolldown-runtime.BCiCTKAo.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/emotion-is-prop-valid.esm.CkL99N7j.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/emotion-styled.browser.esm.DdOkyKg_.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/loglevel.DMC__dHv.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/react-dom.Dzbslgj4.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/emotion-react.browser.esm.Dz233AqG.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/src.ClCGuae5.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/opacities.Blb4Ho7_.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/types.DosXGzv6.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/protobuf.D55wl0P7.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/isSymbol.CmW3dkoN.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/toString.tRXNBxtF.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/isArrayLike.Crw2F5li.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/_isIterateeCall.BUStsXAd.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/isArrayLikeObject.B3Zf3PTL.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/merge.UVaQM33U.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/_baseFlatten.IOj0lc7G.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/last.DfjdtCRp.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/utils.ob4wbeQt.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/UriUtil.CZTdJmE_.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useCrossOriginAttribute.bh_PwhC9.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useEmotionTheme.CMOlE5Fg.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/styled-components.XLtagUku.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useFloatingOverlay.DbDkOVFr.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Tooltip.BGkP9bdt.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/lib.DTkPmFNq.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/lib.BRCtjBvA.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/lib.BsvoAB7F.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/space-separated-tokens.tMK6mh18.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/ErrorElement.CdpA6bz6.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/preload-helper.CRzLMJPS.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/StreamlitMarkdown.oOG-xoxw.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/_baseIsEqual.sdZCjgvS.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/_baseProperty.BV6HSwpm.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/_baseEach.PLhpSRgM.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/utils.BJVSE7F9.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/FlexContext.BkFprQkj.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Icon.D6z6tTSi.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/DynamicIcon.DBX1tTbE.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useDescription.BB3ShmHg.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Text.RYl_ExSr.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/shim.DT7uHSse.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useCollection.DU7tSg4K.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useLabel.BAkLcsHg.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/LiveAnnouncer.CRX7YBAA.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/NumberFormatter.nhsGk7J2.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/number.CgCAQqZj.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/ProgressBar.BbP4hvQX.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/BaseButton.GsR4p1Eu.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/FormClearHelper.uMwNzhNQ.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useTimeout.odDhD3su.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useResizeObserver.CWV4GVHX.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/index.esm.CnlgfcEa.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Check.esm.SwE3eUIH.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/ContentCopy.esm.C1nEcpQW.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Toolbar.IoDGB_NU.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useCopyToClipboard.Cdni2W2w.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useRequiredContext.fKi1tqMI.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/css/index.C1JORDN2.css",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/media/MaterialSymbols-Rounded.nEdyypZU.woff2",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/_stcore/health",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/_stcore/host-config",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/favicon.png",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Html.CzLZZ4bP.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/purify.es.BXhPiKO5.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/app/static/Vazirmatn.woff2",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Button.CORxUu4r.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Radio.BWQwdNIB.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useFormValidation.D2i_isRP.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useField.CsWac_7E.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useFormReset.Dsqx1XhY.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useSlot.CXZFle1D.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/WidgetLabel.C381QnN0.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/styled-components.kM4tXvFQ.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/WidgetLabelHelpIconInline.COAzYW2l.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useBasicWidgetState.8xeaSejc.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/TextArea.DxPXcY61.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/ErrorOutline.esm.DyT67HL2.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/WidgetLabelHelpIcon.DIAPaBJl.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/InputInstructions.aWDQxtQS.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useTextInputAutoExpand.D3UMxBPo.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/inputUtils.CnlRnOxS.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/requiredField.CNcKXcSP.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useUpdateUiValue.Crj2LZcQ.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Selectbox.7rsxE6LC.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useMenuTrigger.DhEQ922j.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Autocomplete.egUn8L68.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useLoadMoreSentinel.Cy5VvGgG.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useCollator.n4rV5EDq.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Input.gDbGmgmu.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useSyncComboBoxEnterTargetFocus.hm3aTVdR.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/sortBy.BN5z75-Y.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/_baseMap.OhVc4KF-.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useTextField.bKQiMZTR.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useFilter.CUWaaKZn.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Cancel.esm.B65EWHgo.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/TextInput.MPWivlu9.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/TextField.DdIhIiQe.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useDebouncedCallback.By9MfI_m.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/NumberInput.fUK7ifRa.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/sprintfjs.Bn3mg5kT.js",
+          "method": "GET"
+        }
+      ],
+      "blocked_requests": [],
+      "page_errors": [],
+      "console_errors": []
+    },
+    {
+      "width": 390,
+      "passed": true,
+      "home": {
+        "page": "home",
+        "width": 390,
+        "title": "SolverScout | بهینه‌ساز محلی",
+        "exception_count": 0,
+        "numeric_environment_mismatch_visible": false,
+        "source_drift_warning_visible": false,
+        "geometry": {
+          "viewport_width": 390,
+          "document_width": 390,
+          "main_width": 390
+        },
+        "no_horizontal_document_overflow": true
+      },
+      "settings": {
+        "page": "settings",
+        "width": 390,
+        "title": "SolverScout | بهینه‌ساز محلی",
+        "exception_count": 0,
+        "numeric_environment_mismatch_visible": false,
+        "source_drift_warning_visible": false,
+        "geometry": {
+          "viewport_width": 390,
+          "document_width": 390,
+          "main_width": 390
+        },
+        "no_horizontal_document_overflow": true,
+        "api_key_field_visible": true,
+        "api_key_field_empty": true,
+        "api_key_field_type": "password",
+        "save_button_visible": true,
+        "test_button_not_clicked": true,
+        "secure_store_option_visible": true
+      },
+      "requests": [
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/media/SourceSansVF-Upright.ttf.BsWL4Kly.woff2",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/index.DormvYxC.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/rolldown-runtime.BCiCTKAo.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/emotion-is-prop-valid.esm.CkL99N7j.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/emotion-styled.browser.esm.DdOkyKg_.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/loglevel.DMC__dHv.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/react-dom.Dzbslgj4.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/emotion-react.browser.esm.Dz233AqG.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/src.ClCGuae5.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/opacities.Blb4Ho7_.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/types.DosXGzv6.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/protobuf.D55wl0P7.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/isSymbol.CmW3dkoN.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/toString.tRXNBxtF.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/isArrayLike.Crw2F5li.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/_isIterateeCall.BUStsXAd.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/isArrayLikeObject.B3Zf3PTL.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/merge.UVaQM33U.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/_baseFlatten.IOj0lc7G.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/last.DfjdtCRp.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/utils.ob4wbeQt.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/UriUtil.CZTdJmE_.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useCrossOriginAttribute.bh_PwhC9.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useEmotionTheme.CMOlE5Fg.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/styled-components.XLtagUku.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useFloatingOverlay.DbDkOVFr.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Tooltip.BGkP9bdt.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/lib.DTkPmFNq.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/lib.BRCtjBvA.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/lib.BsvoAB7F.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/space-separated-tokens.tMK6mh18.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/ErrorElement.CdpA6bz6.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/preload-helper.CRzLMJPS.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/StreamlitMarkdown.oOG-xoxw.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/_baseIsEqual.sdZCjgvS.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/_baseProperty.BV6HSwpm.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/_baseEach.PLhpSRgM.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/utils.BJVSE7F9.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/FlexContext.BkFprQkj.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Icon.D6z6tTSi.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/DynamicIcon.DBX1tTbE.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useDescription.BB3ShmHg.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Text.RYl_ExSr.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/shim.DT7uHSse.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useCollection.DU7tSg4K.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useLabel.BAkLcsHg.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/LiveAnnouncer.CRX7YBAA.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/NumberFormatter.nhsGk7J2.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/number.CgCAQqZj.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/ProgressBar.BbP4hvQX.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/BaseButton.GsR4p1Eu.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/FormClearHelper.uMwNzhNQ.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useTimeout.odDhD3su.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useResizeObserver.CWV4GVHX.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/index.esm.CnlgfcEa.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Check.esm.SwE3eUIH.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/ContentCopy.esm.C1nEcpQW.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Toolbar.IoDGB_NU.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useCopyToClipboard.Cdni2W2w.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useRequiredContext.fKi1tqMI.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/css/index.C1JORDN2.css",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/media/MaterialSymbols-Rounded.nEdyypZU.woff2",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/_stcore/health",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/_stcore/host-config",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/favicon.png",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Html.CzLZZ4bP.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/purify.es.BXhPiKO5.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Button.CORxUu4r.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Radio.BWQwdNIB.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useFormValidation.D2i_isRP.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useField.CsWac_7E.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useFormReset.Dsqx1XhY.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useSlot.CXZFle1D.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/WidgetLabel.C381QnN0.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/styled-components.kM4tXvFQ.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/WidgetLabelHelpIconInline.COAzYW2l.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useBasicWidgetState.8xeaSejc.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/TextArea.DxPXcY61.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/ErrorOutline.esm.DyT67HL2.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/WidgetLabelHelpIcon.DIAPaBJl.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/InputInstructions.aWDQxtQS.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useTextInputAutoExpand.D3UMxBPo.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/inputUtils.CnlRnOxS.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/requiredField.CNcKXcSP.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useUpdateUiValue.Crj2LZcQ.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/app/static/Vazirmatn.woff2",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Selectbox.7rsxE6LC.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useMenuTrigger.DhEQ922j.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Autocomplete.egUn8L68.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useLoadMoreSentinel.Cy5VvGgG.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useCollator.n4rV5EDq.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Input.gDbGmgmu.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useSyncComboBoxEnterTargetFocus.hm3aTVdR.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/sortBy.BN5z75-Y.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/_baseMap.OhVc4KF-.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useTextField.bKQiMZTR.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useFilter.CUWaaKZn.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/Cancel.esm.B65EWHgo.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/TextInput.MPWivlu9.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/TextField.DdIhIiQe.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/useDebouncedCallback.By9MfI_m.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/NumberInput.fUK7ifRa.js",
+          "method": "GET"
+        },
+        {
+          "origin": "http://127.0.0.1:8501",
+          "path": "/static/js/sprintfjs.Bn3mg5kT.js",
+          "method": "GET"
+        }
+      ],
+      "blocked_requests": [],
+      "page_errors": [],
+      "console_errors": []
+    }
+  ]
+}

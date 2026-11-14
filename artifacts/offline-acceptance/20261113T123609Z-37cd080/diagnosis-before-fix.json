@@ -1,0 +1,125 @@
+{
+  "basis_commit": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+  "fresh_run_evidence": [
+    "offline/reproduce-03-result.json",
+    "offline/reproduce-04-result.json",
+    "tie-reproduce-03/diagnosis.json",
+    "tie-reproduce-04/diagnosis.json",
+    "offline/numeric-probe-01-result.json"
+  ],
+  "identifier_tie": {
+    "confirmed_cause": "Time-bound positive fixture did not reach selection; fixed mock selection claim invalid against actual selection_made=false; validator must remain unchanged",
+    "fresh_c_temp_complete_pilots": 6,
+    "required_pilots": 9,
+    "completed_pilot_durations_seconds": [
+      4.827999999979511,
+      4.483999999938533,
+      4.530999999959022,
+      5.0,
+      4.436999999918044,
+      4.984000000171363
+    ],
+    "last_incomplete_pilot": {
+      "algorithm_id": "pso.original",
+      "deadline_seconds": 0.4080000000540167,
+      "elapsed_compute_seconds": 0.5470000000204891,
+      "started_evaluations": 0,
+      "execution_status": "timed_out"
+    },
+    "recorded_total_compute_seconds": 36.93500000005588,
+    "before_max_compute_seconds": 45,
+    "verification_reserve_seconds": 10,
+    "after_positive_fixture_max_compute_seconds": 300,
+    "analogous_existing_test": "test_default_policy_runs_three_real_candidates_and_selects_empirically",
+    "justification": "Six complete pilots require about28.264s in this fresh run before all nine, startup/profile/main/verification. Same-file positive selection fixture already allows300s for same5502 FE. Only this positive tie fixture gets that allowance; actual successful runtime will be measured."
+  },
+  "numeric": {
+    "confirmed_cause": "1.8s fixture assumes objective has entered while startup/identity can consume its entire deadline; cancellation predicate depends on actual entry and can race the total deadline",
+    "fresh_observations": [
+      {
+        "test_nodeid": "tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[False]",
+        "request_deadline_seconds": 1.8,
+        "identity_received_after_seconds": 1.8120000001508743,
+        "accepted_sequences": [],
+        "objective_entry_after_seconds": null,
+        "cancel_after_seconds": null,
+        "result": {
+          "execution_status": "timed_out",
+          "termination_reason": "time_budget",
+          "started_evaluations": 0,
+          "successful_evaluations": 0,
+          "failed_evaluations": 0,
+          "history_complete": true,
+          "history_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "elapsed_compute_seconds": 1.9370000001508743,
+          "overshoot_seconds": 0.1370000001508742,
+          "error_code": null,
+          "runtime_identity_projection": {
+            "pid": 27580,
+            "role": "numeric",
+            "process_run_id": "c633c79b-2c89-49d5-9d8f-c73b03891308"
+          }
+        },
+        "reaping": {
+          "multiprocessing_alive": false,
+          "exitcode": -15,
+          "pid": 27580,
+          "same_process_running": false,
+          "observation": "not_found"
+        }
+      },
+      {
+        "test_nodeid": "tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[True]",
+        "request_deadline_seconds": 1.8,
+        "identity_received_after_seconds": 1.7650000001303852,
+        "accepted_sequences": [
+          1
+        ],
+        "objective_entry_after_seconds": 1.7650000001303852,
+        "cancel_after_seconds": 1.797000000020489,
+        "result": {
+          "execution_status": "cancelled",
+          "termination_reason": "cancelled",
+          "started_evaluations": 1,
+          "successful_evaluations": 0,
+          "failed_evaluations": 0,
+          "history_complete": false,
+          "history_sha256": null,
+          "elapsed_compute_seconds": 1.9370000001508743,
+          "overshoot_seconds": 0.1370000001508742,
+          "error_code": null,
+          "runtime_identity_projection": {
+            "pid": 28564,
+            "role": "numeric",
+            "process_run_id": "0f3f2f4c-167b-4047-97b2-b7b6c0b19406"
+          }
+        },
+        "reaping": {
+          "multiprocessing_alive": false,
+          "exitcode": -15,
+          "pid": 28564,
+          "same_process_running": false,
+          "observation": "not_found"
+        }
+      }
+    ],
+    "original_separate_uninstrumented_run_status": {
+      "reproduce-03": "both numeric cases FAIL",
+      "reproduce-04": "both numeric cases PASS; not a fix"
+    },
+    "planned_test_only_changes": "Explicit objective-entry handshake and verified child identity; longer10s total fixture deadline for genuinely running objective; separate deterministic startup-timeout controls. Preserve original total clock and overshoot<0.75.",
+    "production_defect_demonstrated": false,
+    "probe_limitation": "Instrumented timings may differ; uninstrumented failures/passes retained; no causal OS/drive latency claim"
+  },
+  "unchanged_constraints": [
+    "FE budget5502",
+    "master_seed1405",
+    "three candidates and three repeats",
+    "tie rule algorithm_id",
+    "default product policy",
+    "supervisor startup-inclusive clock",
+    "overshoot<0.75",
+    "no added mock responses"
+  ],
+  "new_model_calls": 0
+}

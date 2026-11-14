@@ -1,0 +1,24 @@
+{
+  "recorded_at_utc": "2026-11-14T17:20:49.624803+00:00",
+  "counts": {
+    "jobs": 3,
+    "reports": 3,
+    "llm_calls": 17,
+    "trials": 21,
+    "trial_attempts": 21,
+    "stage_executions": 9,
+    "source_sync_runs": 3,
+    "source_sync_invocations": 10,
+    "research_invocations": 0,
+    "qualification_runs": 2
+  },
+  "known_started": {
+    "trial_attempts": 39496,
+    "stage_executions": 1506
+  },
+  "charged_unknown": {
+    "trial_attempts": 0,
+    "stage_executions": 0
+  },
+  "job_numeric_evaluations": 41002
+}

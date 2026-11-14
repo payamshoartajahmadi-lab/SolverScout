@@ -99,6 +99,8 @@ def _worker(
     stop_event,
     deadline: float,
     objective_override: Callable | None,
+    qualification_authority,
+    parent_numeric_fingerprint: str,
 ) -> None:
     Thread(target=_exit_if_parent_dies, name="numeric-parent-watchdog", daemon=True).start()
     evaluator = None
@@ -106,7 +108,17 @@ def _worker(
     error = None
     diagnostic = None
     try:
+        from p_mc_optimizer.catalog.budget_policy import numeric_runtime_fingerprint, numeric_runtime_fingerprint_hash, validate_numeric_request
+        from p_mc_optimizer.runtime_provenance import runtime_payload
+        child_runtime = runtime_payload("numeric")
+        channel.send(("identity", {
+            "runtime": child_runtime, "numeric_runtime_fingerprint": numeric_runtime_fingerprint(),
+            "numeric_runtime_fingerprint_sha256": numeric_runtime_fingerprint_hash(),
+        }))
+        if channel.recv() != "accepted" or numeric_runtime_fingerprint_hash() != parent_numeric_fingerprint:
+            raise DomainError("NUMERIC_POLICY_ENVIRONMENT_MISMATCH", "محیط فرایند عددی با محیط والد متفاوت است.")
         request = ExecutionRequest.model_validate_json(request_json)
+        validate_numeric_request(request, qualification_authority)
         revision = request.revision
         if problem_hashes(revision.spec) != (revision.problem_math_hash, revision.evaluation_contract_hash):
             raise DomainError("EVALUATION_CONTRACT_MISMATCH", "اثر انگشت مدل یا ارزیاب با snapshot مطابقت ندارد.")
@@ -203,7 +215,9 @@ def run_execution(
     history_path: Path,
     cancelled: Callable[[], bool] = lambda: False,
     on_event: Callable[[dict], bool | None] | None = None,
+    on_identity: Callable[[dict], None] | None = None,
     _objective_override: Callable | None = None,
+    _qualification_authority=None,
 ) -> ExecutionResult:
     """Run a single immutable execution; acknowledge durable starts before objective calls.
 
@@ -212,6 +226,11 @@ def run_execution(
     """
     if request.phase in _STAGE_QUOTAS and request.evaluation_quota != _STAGE_QUOTAS[request.phase]:
         raise DomainError("INVALID_EXECUTION_QUOTA", "سهم مرحله با قرارداد نسخهٔ اول مطابقت ندارد.")
+    from p_mc_optimizer.catalog.budget_policy import numeric_runtime_fingerprint_hash, validate_numeric_request
+    from p_mc_optimizer.catalog.configuration import digest as canonical_digest
+    from p_mc_optimizer.runtime_provenance import validate_runtime_payload
+    validate_numeric_request(request, _qualification_authority)
+    parent_numeric_fingerprint = numeric_runtime_fingerprint_hash()
 
     history_path = Path(history_path)
     history_path.parent.mkdir(parents=True, exist_ok=True)
@@ -226,7 +245,8 @@ def run_execution(
     deadline = started_at + request.deadline_seconds
     process = context.Process(
         target=_worker,
-        args=(request.model_dump_json(), child, stop_event, deadline, _objective_override),
+        args=(request.model_dump_json(), child, stop_event, deadline, _objective_override,
+              _qualification_authority, parent_numeric_fingerprint),
         daemon=True,
         name=f"p-mc-numeric-{request.execution_id}",
     )
@@ -240,6 +260,8 @@ def run_execution(
     protocol_error = False
     digest = hashlib.sha256()
     error = None
+    child_runtime = None
+    handshake_error = None
     try:
         with partial_path.open("xb") as history:
             _start_isolated(process)
@@ -265,8 +287,36 @@ def run_execution(
                     event_type, payload = parent.recv()
                 except (EOFError, OSError):
                     break
-                if event_type == "started":
-                    if payload != started + 1 or payload > request.evaluation_quota or succeeded + failed != started:
+                except (TypeError, ValueError):
+                    protocol_error = True
+                    break
+                if event_type == "identity":
+                    if child_runtime is not None or started:
+                        protocol_error = True
+                        break
+                    try:
+                        child_identity = validate_runtime_payload(payload["runtime"])
+                        if type(child_identity["pid"]) is not int or child_identity["pid"] != process.pid or child_identity["role"] != "numeric":
+                            raise ValueError("Identity does not belong to the spawned numeric child")
+                        same_environment = (
+                            canonical_digest(payload["numeric_runtime_fingerprint"]) == parent_numeric_fingerprint
+                            and payload["numeric_runtime_fingerprint_sha256"] == parent_numeric_fingerprint
+                        )
+                    except (KeyError, ValueError, TypeError):
+                        protocol_error = True
+                        break
+                    child_runtime = payload["runtime"]
+                    if on_identity:
+                        on_identity(child_runtime)
+                    if not same_environment:
+                        handshake_error = ExecutionError(
+                            error_code="NUMERIC_POLICY_ENVIRONMENT_MISMATCH",
+                            message_fa="محیط فرایند عددی با محیط والد متفاوت است.",
+                        )
+                        break
+                    parent.send("accepted")
+                elif event_type == "started":
+                    if child_runtime is None or payload != started + 1 or payload > request.evaluation_quota or succeeded + failed != started:
                         protocol_error = True
                         break
                     if stop_status is not None:
@@ -281,6 +331,9 @@ def run_execution(
                     started = payload
                     parent.send("accepted")
                 elif event_type == "result":
+                    if child_runtime is None or started == 0:
+                        protocol_error = True
+                        break
                     record = EvaluationRecord.model_validate(payload)
                     if (
                         record.sequence != started
@@ -309,6 +362,9 @@ def run_execution(
                     if on_event:
                         on_event({"kind": "result", "record": payload})
                 elif event_type == "done":
+                    if child_runtime is None:
+                        protocol_error = True
+                        break
                     done = payload
                     break
                 else:
@@ -324,6 +380,12 @@ def run_execution(
         parent.close()
     elapsed = monotonic() - started_at
 
+    if protocol_error and started == 0:
+        handshake_error = ExecutionError(
+            error_code="NUMERIC_PROTOCOL_ERROR",
+            message_fa="پیام هویت یا ترتیب آغاز فرایند عددی با قرارداد اجرا سازگار نیست.",
+        )
+
     history_complete = (
         done is not None
         and not protocol_error
@@ -332,11 +394,17 @@ def run_execution(
         )
         and started == succeeded + failed
     )
+    if handshake_error is not None:
+        # No objective start was acknowledged. The empty history is authoritative
+        # even when the rejected child exits without a final completion message.
+        history_complete = True
     if history_complete:
         os.replace(partial_path, history_path)
-        if done["diagnostic"]:
+        if done is not None and done["diagnostic"]:
             history_path.with_name(history_path.name + ".traceback.txt").write_text(done["diagnostic"], encoding="utf-8")
-    if stop_status == "cancelled":
+    if handshake_error is not None:
+        status, reason, error = "failed", "execution_error", handshake_error
+    elif stop_status == "cancelled":
         status, reason = "cancelled", "cancelled"
     elif stop_status == "timed_out":
         status, reason = "timed_out", "time_budget"
@@ -373,4 +441,5 @@ def run_execution(
         validation=validation,
         error=error,
         fingerprint=_fingerprint(request),
+        runtime_provenance=child_runtime,
     )

@@ -1,0 +1,21 @@
+{
+  "run_label": "targeted-02",
+  "source_sha": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+  "files": [
+    {
+      "path": "report.json",
+      "size_bytes": 185677,
+      "sha256": "e0b90d0b1ea157ad0a861baa9be0ff8a4eba7bc6acbb4a210c80d2784f7296ae"
+    },
+    {
+      "path": "explainer-invocations.json",
+      "size_bytes": 8382,
+      "sha256": "772498b615bdd70961e4fe2d9e48c91fa6dfbc242a06dda7229cf34b7d5b25bf"
+    },
+    {
+      "path": "diagnosis.json",
+      "size_bytes": 237154,
+      "sha256": "04d810eb923c3f5328e39a72fdd7672fa61c09600969f4f78246e2638ea9ed0f"
+    }
+  ]
+}

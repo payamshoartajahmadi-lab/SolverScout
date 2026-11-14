@@ -1,0 +1,29 @@
+........................................................................ [  8%]
+........................................................................ [ 17%]
+........................................................................ [ 26%]
+........................................................................ [ 35%]
+........................................................................ [ 44%]
+........................................................................ [ 53%]
+........................................................................ [ 62%]
+........................................................................ [ 71%]
+........................................................................ [ 80%]
+........................................................................ [ 89%]
+........................................................................ [ 98%]
+...........                                                              [100%]
+============================ slowest 15 durations =============================
+311.43s call     tests/test_v2_workflow.py::test_v2_web_and_catalog_policies_use_real_pilot_evidence
+223.04s call     tests/test_targeted_formulation_flow.py::test_rejected_historical_quote_exhausts_then_only_explicit_full_model_continues
+213.25s call     tests/test_targeted_formulation_flow.py::test_historical_grouped_answer_completes_same_job_in_two_formulator_calls
+188.85s call     tests/test_library_v21_workflow.py::test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily
+58.92s setup    tests/test_numeric_policy_qualification.py::test_real_numeric_qualification_certificates_and_replay_history
+58.67s setup    tests/test_budget_policy.py::test_real_certificate_partial_and_exact_generation_budget[102]
+54.58s call     tests/test_llm_workflow.py::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]
+52.98s call     tests/test_llm_workflow.py::test_default_policy_runs_three_real_candidates_and_selects_empirically
+42.68s setup    tests/test_numeric_compatibility.py::test_genuine_budget_trial_stop_preserves_durable_known_unknown_unused[timeout]
+26.93s call     tests/test_persistence_acceptance.py::test_loopback_worker_death_and_active_cancel_stop_numeric_child
+22.78s setup    tests/test_catalog_v2.py::test_cat_005_num_001_006_qualification_uses_real_subprocesses
+19.52s call     tests/test_budget_policy.py::test_q07_legacy_and_budget_policy_reference_twice
+16.06s call     tests/test_numeric_passthrough.py::test_real_base_qualified_passthrough_preserves_full_legacy_numeric_trace
+14.16s call     tests/test_llm_workflow.py::test_conflicting_bounds_ask_then_resume_the_same_job[relative-paths]
+14.16s call     tests/test_narrative_v3_gateway.py::test_new_full_workflow_uses_writer_reviewer_without_new_objective_calls
+803 passed, 1 deselected in 1818.62s (0:30:18)

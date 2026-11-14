@@ -1,0 +1,55 @@
+{
+  "$defs": {
+    "FrozenArray_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern____A-Za-z0-9___-__0_63_________MinLen_min_length_1_": {
+      "items": {
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "invocation_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Invocation Id",
+      "type": "string"
+    },
+    "query_id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+      "title": "Query Id",
+      "type": "string"
+    },
+    "text": {
+      "maxLength": 300,
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+    },
+    "source_ids": {
+      "$ref": "#/$defs/FrozenArray_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern____A-Za-z0-9___-__0_63_________MinLen_min_length_1_",
+      "minLength": 1
+    },
+    "snapshot_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Hash",
+      "type": "string"
+    }
+  },
+  "required": [
+    "invocation_id",
+    "query_id",
+    "text",
+    "source_ids",
+    "snapshot_hash"
+  ],
+  "title": "SearchRequest",
+  "type": "object"
+}

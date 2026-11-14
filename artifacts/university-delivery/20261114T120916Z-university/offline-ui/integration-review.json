@@ -1,0 +1,15 @@
+{
+  "scope": "Offline fresh-data API/AppTest preparation integration; not live acceptance",
+  "result": "PASS",
+  "command": ".venv/bin/python -m pytest -q tests/test_demo_preparation.py tests/test_university_presentation.py",
+  "passed": 18,
+  "failed": 0,
+  "fresh_store_regression": {
+    "initial_api_status": "not_started",
+    "initial_qualification_budget": null,
+    "ui_exception_before_fix": "TypeError: unsupported format string passed to NoneType.__format__",
+    "fix": "Unset budget is displayed as هنوز تعیین نشده",
+    "qualification_started": false
+  },
+  "export_title": "Root acceptance exporter will add an explicit saved-report banner; shared report renderer remains unchanged."
+}

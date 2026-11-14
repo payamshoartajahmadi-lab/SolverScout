@@ -1,0 +1,351 @@
+{
+  "schema_version": "university-delivery-summary/1.0",
+  "status": "NOT_READY",
+  "run_id": "20261114T120916Z-university",
+  "generated_at_utc": "2026-11-14T14:20:53.701082+00:00",
+  "criteria_counts": {
+    "PASS": 9,
+    "FAIL": 5,
+    "NOT_RUN": 1
+  },
+  "criteria": [
+    {
+      "id": "AC01",
+      "requirement_fa": "مبنای کد، قراردادها و شواهد تاریخی محفوظ و روشن‌اند",
+      "status": "PASS",
+      "scope_fa": "ثبت مبنا و ردگیری تاریخی",
+      "evidence": [
+        "baseline.json",
+        "historical-review/historical-diagnosis.json",
+        "historical-review/historical-exact-context-replay.json"
+      ],
+      "explanation_fa": "مبنای checkout جدیدتر از سند حفظ شد؛ گزارش دستی با SHA منطبق یافت شد و پاسخ‌های تاریخی دقیقاً بازپخش شدند. نتایج FAIL قدیمی تغییر نکردند."
+    },
+    {
+      "id": "AC02",
+      "requirement_fa": "شش پیاده‌سازی هدف برای محیط و مثال‌های دوبعدی معتبرند",
+      "status": "PASS",
+      "scope_fa": "صلاحیت محیط و سازگاری دوبعدی؛ حل زنده U2 انجام نشد",
+      "evidence": [
+        "preparation/verification.json",
+        "preparation/result.json",
+        "numerical-core-preservation.json"
+      ],
+      "explanation_fa": "شش گواهی پایه و دو گواهی سیاست بودجه در محیط مک مرجع معتبرند و آماده‌سازی تکراری، آزمون یا سند تازه نساخته است. این نتیجه به معنای حل U2 نیست."
+    },
+    {
+      "id": "AC03",
+      "requirement_fa": "مدل در هر دو مثال شش کارت واقعی بگیرد و سه نامزد مجاز بدهد",
+      "status": "FAIL",
+      "scope_fa": "کمپین واقعی rc1؛ اجرای زنده rc2 انجام نشده",
+      "evidence": [
+        "live/U1/invocations.json",
+        "live/U1/summary.json",
+        "live/U2/summary.json"
+      ],
+      "explanation_fa": "U1 واقعاً شش کارت دریافت کرد و DE/CMA-ES/PSO را پیشنهاد داد؛ U2 در صورت‌بندی متوقف شد و هیچ advisor اجرا نشد."
+    },
+    {
+      "id": "AC04",
+      "requirement_fa": "شواهد اختصاصی شش روش درست و قابل ردگیری باشند",
+      "status": "PASS",
+      "scope_fa": "آزمون زیرسامانه و شواهد واقعی U1؛ رفتار پژوهش در rc2 تغییر نکرد",
+      "evidence": [
+        "live/U1/documents.json",
+        "live/U1/summary.json",
+        "public-documents/snapshot_manifest.json",
+        "offline/summary.json"
+      ],
+      "explanation_fa": "کنترل‌های فهرست مطالب، بخش کلاس، چهار روش در یک سند، سقف متن و 304 در رگرسیون وجود دارند؛ U1 پوشش شش هدف و تطابق متن، offset و hash سند را اثبات کرد. U2 به پژوهش نرسید."
+    },
+    {
+      "id": "AC05",
+      "requirement_fa": "انتخاب نهایی با ۹ پایلوت ۵۰۰-FE و معیار موجود منطبق باشد",
+      "status": "FAIL",
+      "scope_fa": "الزام هر دو مثال تکمیل نشده",
+      "evidence": [
+        "live/U1/trials.csv",
+        "live/U1/summary.json",
+        "live/U2/trials.csv"
+      ],
+      "explanation_fa": "بازحساب مستقل میانه‌ها و IQR برای U1 برنده PSO را تأیید کرد؛ U2 پایلوتی ندارد."
+    },
+    {
+      "id": "AC06",
+      "requirement_fa": "محل و نوع خطای بازبین قابل تشخیص باشد",
+      "status": "PASS",
+      "scope_fa": "بازپخش تاریخی و آزمون آفلاین تشخیص",
+      "evidence": [
+        "historical-review/historical-diagnosis.json",
+        "historical-review/historical-exact-context-replay.json",
+        "historical-review/offline-reporting-verification.json"
+      ],
+      "explanation_fa": "دو پاسخ تاریخی request_hash کوتاه ۵۴ و ۴۷ نویسه‌ای داشتند؛ قاعده ۶۴ نویسه است. تشخیص امن parsing/structural/relational آزموده شد و خطاهای واقعی محفوظ‌اند."
+    },
+    {
+      "id": "AC07",
+      "requirement_fa": "repair بازبین feedback واقعی و حفظ سقف و hash داشته باشد",
+      "status": "PASS",
+      "scope_fa": "قرارداد و انتقال خطا؛ کنترل منفی زنده تاریخی تکرار نشده",
+      "evidence": [
+        "historical-review/review-repair-contract-transcripts.json",
+        "historical-review/offline-reporting-verification.json",
+        "live/U1/human-quality-audit.json"
+      ],
+      "explanation_fa": "mock کنترل‌شده تغییر request_hash همراه با ثبات draft/evidence/بخش پذیرفته‌شده، سقف چهار تماس و replay را اثبات می‌کند؛ U1 نیز repair فقط problem و حفظ hash چهار بخش سالم را نشان داد. توان تشخیص معنایی مدل واقعی از mock نتیجه نشده است."
+    },
+    {
+      "id": "AC08",
+      "requirement_fa": "گزارش به داده وفادار و کنترل بودجه، منشأ و قطعیت حفظ باشد",
+      "status": "NOT_RUN",
+      "scope_fa": "پذیرش کامل نسخه نهایی پس از اصلاح صورت‌بند انجام نشده",
+      "evidence": [
+        "live/U1/human-quality-audit.json",
+        "offline/summary.json",
+        "live/U2/report.json"
+      ],
+      "explanation_fa": "رگرسیون‌ها و متن واقعی U1 وفاداری را نشان می‌دهند؛ ارزیابی کامل دو گزارش مدل پس از اصلاح rc2 انجام نشده و U2 متن تحلیلی مدل ندارد."
+    },
+    {
+      "id": "AC09",
+      "requirement_fa": "پنج بخش مدل در هر دو مثال پذیرفته و منتشر شوند",
+      "status": "FAIL",
+      "scope_fa": "موفقیت U1 متعلق به rc1 است؛ rc2 زنده NOT_RUN",
+      "evidence": [
+        "live/U1/report.json",
+        "live/U2/report.json",
+        "offline/formulator-scope-repair/diagnosis-and-scope.json"
+      ],
+      "explanation_fa": "U1 پنج بخش با mode=llm دارد؛ U2 فقط fallback سرور است. پرامپت اصلاح‌شده rc2 شاهد زنده تازه ندارد."
+    },
+    {
+      "id": "AC10",
+      "requirement_fa": "UI و HTML اطلاعات و منشأ متن را خوانا و مشترک نمایش دهند",
+      "status": "PASS",
+      "scope_fa": "بازکردن فقط‌خواندنی گزارش‌های واقعی قدیمی در UI فعلی rc2",
+      "evidence": [
+        "browser-final/browser-qa.json",
+        "browser-final/read-only-count-audit.json",
+        "live/U1/report.html",
+        "live/U2/report.html"
+      ],
+      "explanation_fa": "هشت نمای UI/HTML در عرض ۳۹۰ و ۱۴۴۰ پیکسل با داده ذخیره‌شده بررسی شد؛ جدول و نمودار U1 خوانا و U2 بدون جواب/نمودار ساختگی است. این PASS مربوط به درستی نمایش است، نه موفقیت مدل U2."
+    },
+    {
+      "id": "AC11",
+      "requirement_fa": "مصرف، زمان و هزینه با دامنه روشن گزارش شوند",
+      "status": "PASS",
+      "scope_fa": "ledger واقعی کمپین و مشاهده خروجی‌های آزمون آفلاین",
+      "evidence": [
+        "consumption_summary.json",
+        "call_usage.csv",
+        "acceptance_campaign_ledger.json",
+        "offline/observed-offline-numerical-usage.json"
+      ],
+      "explanation_fa": "۱۰ ارسال واقعی، توکن‌ها، هزینه ثبت‌نشده و FE پذیرش/آماده‌سازی/smoke جدا هستند. شمار آفلاین جمع شروع‌های گزارش‌شده در خروجی supervisor و evaluator است و می‌تواند شامل fixture مصنوعی باشد؛ شمار دقیق فیزیکی آفلاین اندازه‌گیری نشده و برابری جمع زمان‌های هم‌پوشان ادعا نشده است."
+    },
+    {
+      "id": "AC12",
+      "requirement_fa": "هر دو جواب در آستانه ثابت معتبر باشند",
+      "status": "FAIL",
+      "scope_fa": "U1 PASS قدیمی؛ U2 حل نشده، نه شکست صحت حل‌گر",
+      "evidence": [
+        "live/U1/report.json",
+        "live/U1/summary.json",
+        "live/U2/report.json"
+      ],
+      "explanation_fa": "U1 مقدار صفر و نقطه [1.4,-2.2] با بازبینی موفق دارد؛ U2 هر دو بار پیش از اولین ارزیابی متوقف شد و جواب ندارد. بذر، آستانه و بودجه تغییر نکردند."
+    },
+    {
+      "id": "AC13",
+      "requirement_fa": "مجموعه آفلاین نهایی بدون شکست اجرا شود",
+      "status": "PASS",
+      "scope_fa": "رگرسیون آفلاین کد rc2",
+      "evidence": [
+        "offline/summary.json",
+        "offline/run-manifest.json",
+        "offline/pytest.log",
+        "offline/junit.xml"
+      ],
+      "explanation_fa": "نسخه نهایی 412ab7346f76d93ef3095ef14befa4a754e3f558 با 965 passed، 0 failed، 0 errors، 0 skipped و 1 deselected ثبت شد. مورد live_provider طبق تنظیم مخزن حذف شده است."
+    },
+    {
+      "id": "AC14",
+      "requirement_fa": "بسته در venv/data-dir تازه مک نصب، آماده و هر دو مثال کامل شوند",
+      "status": "FAIL",
+      "scope_fa": "زیرگیت نصب و به‌روزرسانی rc2 PASS؛ مسیر کامل کاربر در محیط تازه ناقص",
+      "evidence": [
+        "installation/verification.json",
+        "installation/rc2-update-verification.json",
+        "preparation/verification.json",
+        "live/U1/summary.json",
+        "live/U2/summary.json"
+      ],
+      "explanation_fa": "نصب اولیه rc1 در محیط تازه و مسیر دارای فاصله، pip check، doctor و smoke موفق‌اند؛ شش روش آماده شدند. rc2 از archive کد در همان venv تازه مجدداً نصب و pip check و انطباق هر ۳۴۵ فایل تأیید شد؛ smoke/API تازه اجرا نشد. کل معیار به‌دلیل تکمیل‌نشدن U2 FAIL است."
+    },
+    {
+      "id": "AC15",
+      "requirement_fa": "بسته و راهنما نسخه‌دار، کامل و بدون اطلاعات خصوصی باشند",
+      "status": "PASS",
+      "scope_fa": "کامل بودن بسته کاندید؛ وضعیت کلی محصول همچنان NOT_READY",
+      "evidence": [
+        "package-audit/final-package-verification.json",
+        "public-documents/snapshot_manifest.json"
+      ],
+      "explanation_fa": "PASS فقط پس از وجود ZIP واقعی، انطباق checksum و گزارش موفق پاک‌سازی بسته ثبت می‌شود؛ این وضعیت آمادگی علمی همه معیارها را تضمین نمی‌کند."
+    }
+  ],
+  "branch": "fix/final-university-delivery",
+  "baseline_commit": "c6566034225b6c40e4e6df4a72517d33c8b5f664",
+  "live_tested_source_commit": "5706be1e5c3c28e3069bacb2c37acfdfc8633fc3",
+  "live_tested_source_manifest_sha256": "6ff1028d9f2239b03f75de415b5da077d8fd1fdb5234cd032ca4df48ccd2e285",
+  "current_offline_tested_source_commit": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+  "current_source_manifest_sha256": "b6f9bcf1468276502e32792f1930a566c2a908414687e04e64c9c34e47769bd8",
+  "package_code_commit": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+  "version": "2.1.0rc2",
+  "current_code_live_acceptance": "NOT_RUN; formulation prompt changed after the closed rc1 campaign",
+  "historical_campaign_status": "Unchanged; previous FAIL/BLOCKED/NOT_RUN preserved",
+  "campaign_state": "closed_not_ready",
+  "consumption": {
+    "real_role_sends": 10,
+    "campaign_limit": 20,
+    "full_pipeline_sends": 10,
+    "full_pipeline_limit": 16,
+    "report_only_sends": 0,
+    "report_only_limit": 4,
+    "new_connection_tests": 0,
+    "monetary_cost": null,
+    "cost_status": "not_recorded",
+    "qualification_fe": 78000,
+    "qualification_limit": 100000,
+    "installation_smoke_fe": 1002,
+    "acceptance_fe": 20000,
+    "acceptance_fe_limit": 40000,
+    "U2_math_problem_was_not_evaluated": true,
+    "U2_formulator_sends": 2,
+    "U2_formulator_limit": 2,
+    "status": "NOT_READY",
+    "stop_reason": "U2_FORMULATOR_ROLE_BUDGET_EXHAUSTED_AFTER_REPEATED_WORKFLOW_INTENT_MISCLASSIFICATION",
+    "prompt_tokens": 102910,
+    "prompt_tokens_complete": true,
+    "completion_tokens": 11044,
+    "completion_tokens_complete": true,
+    "total_tokens": 113954,
+    "total_tokens_complete": true
+  },
+  "offline": {
+    "status": "PASS",
+    "version": "2.1.0rc2",
+    "source_sha": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+    "passed": 965,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "deselected": 1,
+    "deselected_reason": "live_provider marker excluded by repository default -m 'not live_provider'",
+    "seconds": 488.79,
+    "previous_attempts": [
+      "attempt-01/summary.json",
+      "attempt-02/summary.json"
+    ],
+    "command": [
+      "/Users/payam/projects/uni_projects/machine_turing/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "-p",
+      "numerical_cost_observer",
+      "--junitxml=artifacts/university-delivery/20261114T120916Z-university/offline/junit.xml"
+    ],
+    "live_acceptance_of_current_rc2": "NOT_RUN; prior campaign closed NOT_READY"
+  },
+  "offline_observation": {
+    "per_full_run": [
+      {
+        "path": "offline/attempt-01/observed-offline-numerical-usage.json",
+        "observed_known_started_lower_bound": 403029,
+        "unknown_reserved": 4573,
+        "coverage": "Parent-process evaluator starts and completed real supervisor calls only; direct custom subprocess tests or raised calls may not be measured. This is not claimed as a complete physical FE total."
+      },
+      {
+        "path": "offline/attempt-02/observed-offline-numerical-usage.json",
+        "observed_known_started_lower_bound": 499043,
+        "unknown_reserved": 3041,
+        "coverage": "Parent-process evaluator starts and completed real supervisor calls only; direct custom subprocess tests or raised calls may not be measured. This is not claimed as a complete physical FE total."
+      },
+      {
+        "path": "offline/observed-offline-numerical-usage.json",
+        "observed_known_started_lower_bound": 499043,
+        "unknown_reserved": 3041,
+        "coverage": "Parent-process evaluator starts and completed real supervisor calls only; direct custom subprocess tests or raised calls may not be measured. This is not claimed as a complete physical FE total."
+      }
+    ],
+    "raw_field_name": "observed_known_started_lower_bound",
+    "reported_started_sum": 1401115,
+    "measurement_semantics": "Sum of reported starts observed in offline supervisor results and in-process evaluator, including synthetic test fixtures. Not a guaranteed physical FE lower bound.",
+    "exact_physical_offline_fe_total": "NOT_MEASURED",
+    "raw_observer_artifacts_unchanged": true,
+    "coverage": "Reported supervisor outcomes may be injected synthetic IPC test fixtures. Targeted tests, custom subprocesses and some raised calls are also outside this observer; no exact physical offline FE count is inferred."
+  },
+  "installation": {
+    "initial_version": "2.1.0rc1",
+    "initial_status": "PASS",
+    "smoke_known_started": 1002,
+    "rc2_update_verification": {
+      "status": "PASS",
+      "scope": "rc2 installation update/import/dependencies/source-integrity only; not successful university end-to-end acceptance",
+      "version": "2.1.0rc2",
+      "code_commit": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+      "source_manifest_sha256": "b6f9bcf1468276502e32792f1930a566c2a908414687e04e64c9c34e47769bd8",
+      "new_isolated_venv_created_during_rc1_install": true,
+      "rc2_source_rebuilt_from_committed_archive": true,
+      "rc2_editable_install_succeeded": true,
+      "pip_check": "No broken requirements found.",
+      "all_345_source_files_verified": true,
+      "new_smoke_or_model_runs_during_update": 0,
+      "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+      "existing_genuine_six_qualifications_reused": true,
+      "fresh_live_rc2": "NOT_RUN",
+      "closed_campaign_sends_still": 10,
+      "runtime_paths_changed_since_live_rc1": [
+        "src/p_mc_optimizer/__init__.py",
+        "src/p_mc_optimizer/llm/prompts/formulator.v1.1.txt",
+        "src/p_mc_optimizer/llm/provider.py"
+      ],
+      "ui_reporting_and_numeric_source_unchanged_since_rc1": true
+    }
+  },
+  "package": {
+    "status": "PASS",
+    "audit_present": true,
+    "path": "/Users/payam/projects/uni_projects/machine_turing/artifacts/university-delivery/20261114T120916Z-university/SolverScout_University_Delivery_2.1.0rc2.zip",
+    "sha256": "661848419b25b52c2ed47ac52460a2fa531929ffd692bfe665be35ca8ed76b61",
+    "checksum_path": "/Users/payam/projects/uni_projects/machine_turing/artifacts/university-delivery/20261114T120916Z-university/SolverScout_University_Delivery_2.1.0rc2.zip.sha256",
+    "checksum_matches": true,
+    "privacy_status": "PASS",
+    "verification": {
+      "status": "PASS",
+      "privacy_status": "PASS",
+      "package_path": "/Users/payam/projects/uni_projects/machine_turing/artifacts/university-delivery/20261114T120916Z-university/SolverScout_University_Delivery_2.1.0rc2.zip",
+      "package_sha256": "661848419b25b52c2ed47ac52460a2fa531929ffd692bfe665be35ca8ed76b61",
+      "checksum_path": "/Users/payam/projects/uni_projects/machine_turing/artifacts/university-delivery/20261114T120916Z-university/SolverScout_University_Delivery_2.1.0rc2.zip.sha256",
+      "code_commit": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+      "version": "2.1.0rc2",
+      "source_manifest_sha256": "b6f9bcf1468276502e32792f1930a566c2a908414687e04e64c9c34e47769bd8",
+      "known_secret_scan": "PASS",
+      "known_secret_count": 4,
+      "archive_members_scanned": 378,
+      "zip_crc": "PASS",
+      "stored_reports_labeled": true,
+      "acceptance_status": "NOT_READY",
+      "model_keys_venv_private_databases_backups": "Excluded",
+      "privacy_scanner_sha256": "169c1c8c869a26b6fa1d085b168bee45bad6edcaad3d15cd98f82f2526a30483"
+    },
+    "source_commit": "412ab7346f76d93ef3095ef14befa4a754e3f558"
+  },
+  "application_url": "http://127.0.0.1:60865/",
+  "merge_status": "Not merged to dev/main; candidate branch only",
+  "dev_commit_unchanged": "700969ca7f1058a621b89dcc0e280ffe180d909a",
+  "main_commit_unchanged": "58e0bc4",
+  "remaining_action_fa": "یک پذیرش تازه و محدود U1/U2 روی کد فعلی، با manifest و ledger تازه و همان بذر، بودجه و آستانه‌ها لازم است. کمپین بسته‌شده از سر گرفته نمی‌شود؛ در این تحویل هیچ تماس زنده بیشتری انجام نشد."
+}

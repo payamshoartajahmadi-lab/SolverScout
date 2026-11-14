@@ -1,0 +1,156 @@
+{
+  "$defs": {
+    "SectionReviewV1": {
+      "additionalProperties": false,
+      "properties": {
+        "section_id": {
+          "enum": [
+            "problem",
+            "candidate_rationale",
+            "selection",
+            "solution",
+            "verification_and_limits",
+            "mathematical_analysis"
+          ],
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "accept",
+            "reject"
+          ],
+          "type": "string"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/ValidationIssueV1"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "section_id",
+        "verdict",
+        "issues"
+      ],
+      "type": "object"
+    },
+    "ValidationIssueV1": {
+      "additionalProperties": false,
+      "properties": {
+        "section_id": {
+          "anyOf": [
+            {
+              "enum": [
+                "problem",
+                "candidate_rationale",
+                "selection",
+                "solution",
+                "verification_and_limits",
+                "mathematical_analysis"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "paragraph_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "code": {
+          "enum": [
+            "SCHEMA_INVALID",
+            "CONTEXT_TOO_LARGE",
+            "CONTEXT_MISMATCH",
+            "REQUEST_MISMATCH",
+            "DRAFT_MISMATCH",
+            "UNKNOWN_FACT",
+            "UNKNOWN_EVIDENCE",
+            "INVALID_BINDING",
+            "UNBOUND_NUMBER",
+            "MISSING_REQUIRED_SECTION",
+            "MISSING_REQUIRED_FACT",
+            "OUT_OF_SCOPE_REPAIR",
+            "UNSUPPORTED_CLAIM",
+            "CONTRADICTS_EVIDENCE",
+            "WRONG_SELECTION_REASON",
+            "WRONG_SOLUTION_ORIGIN",
+            "WRONG_OBJECTIVE_SEMANTICS",
+            "WRONG_BUDGET_SCOPE",
+            "FALSE_VERIFICATION",
+            "FALSE_CERTIFICATION",
+            "UNSUPPORTED_CAUSALITY",
+            "UNSUPPORTED_GENERALIZATION",
+            "SOURCE_NOT_SUPPORTING",
+            "INSUFFICIENT_SPECIFICITY",
+            "REDUNDANT_CONTENT",
+            "UNSAFE_MARKUP"
+          ],
+          "type": "string"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "message_fa": {
+          "type": "string"
+        },
+        "required_change_fa": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "section_id",
+        "paragraph_id",
+        "code",
+        "evidence_refs",
+        "message_fa",
+        "required_change_fa"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": [
+        "1.0"
+      ]
+    },
+    "context_hash": {
+      "type": "string"
+    },
+    "request_hash": {
+      "type": "string"
+    },
+    "draft_hash": {
+      "type": "string"
+    },
+    "section_reviews": {
+      "items": {
+        "$ref": "#/$defs/SectionReviewV1"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "context_hash",
+    "request_hash",
+    "draft_hash",
+    "section_reviews"
+  ],
+  "type": "object"
+}

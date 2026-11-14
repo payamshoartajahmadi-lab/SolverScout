@@ -1,0 +1,92 @@
+{
+  "evidence_kind": "SYNTHETIC_NUMERIC_LIFECYCLE_FIXTURE",
+  "mode": "blocked_startup",
+  "deadline_seconds": 5.0,
+  "product_started_at_monotonic": 1105087.437,
+  "deadline_monotonic": 1105092.437,
+  "clock_reset": false,
+  "events": [
+    {
+      "event": "supervisor_call_begin",
+      "monotonic": 1105087.437
+    },
+    {
+      "event": "process_constructed",
+      "monotonic": 1105087.437,
+      "deadline": 1105092.437,
+      "product_started_at": 1105087.437
+    },
+    {
+      "event": "launch_begin",
+      "monotonic": 1105087.437
+    },
+    {
+      "event": "launch_return",
+      "monotonic": 1105087.5,
+      "pid": 4948,
+      "creation_time": 1794575551.9901252
+    },
+    {
+      "event": "original_deadline_observed_reached",
+      "monotonic": 1105092.437,
+      "deadline": 1105092.437
+    },
+    {
+      "event": "join_begin",
+      "monotonic": 1105092.546,
+      "pid": 4948,
+      "force": true,
+      "alive": true
+    },
+    {
+      "event": "join_return",
+      "monotonic": 1105092.562,
+      "multiprocessing_alive": false,
+      "exitcode": -15,
+      "pid": 4948,
+      "same_process_running": false,
+      "observation": "not_found"
+    },
+    {
+      "event": "supervisor_call_return",
+      "monotonic": 1105092.562
+    }
+  ],
+  "accepted_sequences": [],
+  "identity": null,
+  "objective_entry": {
+    "pid": 0,
+    "monotonic": 0.0,
+    "creation_time": 0.0
+  },
+  "startup_gate_entered": true,
+  "startup_gate_monotonic": 1105087.828,
+  "done": null,
+  "result": {
+    "execution_status": "timed_out",
+    "termination_reason": "time_budget",
+    "started_evaluations": 0,
+    "successful_evaluations": 0,
+    "failed_evaluations": 0,
+    "history_complete": false,
+    "history_sha256": null,
+    "elapsed_compute_seconds": 5.125,
+    "overshoot_seconds": 0.125
+  },
+  "history_files": [
+    {
+      "name": "68d56a4b-c639-4659-8c2a-d7714f3348b9.jsonl.part",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "reaping": {
+    "multiprocessing_alive": false,
+    "exitcode": -15,
+    "pid": 4948,
+    "same_process_running": false,
+    "observation": "not_found"
+  },
+  "failure_type": null,
+  "observation_note": "Fixture synchronization and observer overhead are explicit; product deadline remains startup-inclusive."
+}

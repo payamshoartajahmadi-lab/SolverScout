@@ -1,0 +1,350 @@
+{
+  "$defs": {
+    "FrozenArray_SourceRule_": {
+      "items": {
+        "$ref": "#/$defs/SourceRule"
+      },
+      "type": "array"
+    },
+    "FrozenArray_str__MinLen_min_length_1_": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "ResearchLimits": {
+      "additionalProperties": false,
+      "properties": {
+        "max_search_attempts": {
+          "default": 3,
+          "maximum": 3,
+          "minimum": 1,
+          "title": "Max Search Attempts",
+          "type": "integer"
+        },
+        "max_queries": {
+          "default": 3,
+          "maximum": 3,
+          "minimum": 1,
+          "title": "Max Queries",
+          "type": "integer"
+        },
+        "max_results_per_query": {
+          "default": 5,
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Max Results Per Query",
+          "type": "integer"
+        },
+        "max_documents": {
+          "default": 6,
+          "maximum": 6,
+          "minimum": 1,
+          "title": "Max Documents",
+          "type": "integer"
+        },
+        "max_redirects": {
+          "default": 3,
+          "maximum": 3,
+          "minimum": 0,
+          "title": "Max Redirects",
+          "type": "integer"
+        },
+        "max_http_requests": {
+          "default": 27,
+          "maximum": 27,
+          "minimum": 1,
+          "title": "Max Http Requests",
+          "type": "integer"
+        },
+        "request_timeout_seconds": {
+          "default": 20.0,
+          "gt": 0,
+          "le": 30,
+          "title": "Request Timeout Seconds",
+          "type": "number"
+        },
+        "active_timeout_seconds": {
+          "default": 120.0,
+          "gt": 0,
+          "le": 180,
+          "title": "Active Timeout Seconds",
+          "type": "number"
+        },
+        "max_document_bytes": {
+          "default": 5242880,
+          "maximum": 10485760,
+          "minimum": 1,
+          "title": "Max Document Bytes",
+          "type": "integer"
+        },
+        "max_total_bytes": {
+          "default": 20971520,
+          "maximum": 31457280,
+          "minimum": 1,
+          "title": "Max Total Bytes",
+          "type": "integer"
+        },
+        "max_text_chars": {
+          "default": 60000,
+          "maximum": 100000,
+          "minimum": 1,
+          "title": "Max Text Chars",
+          "type": "integer"
+        },
+        "max_passage_chars": {
+          "default": 18000,
+          "maximum": 24000,
+          "minimum": 1,
+          "title": "Max Passage Chars",
+          "type": "integer"
+        },
+        "max_solver_cards": {
+          "default": 20,
+          "maximum": 20,
+          "minimum": 1,
+          "title": "Max Solver Cards",
+          "type": "integer"
+        }
+      },
+      "title": "ResearchLimits",
+      "type": "object"
+    },
+    "SearchProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "2.0",
+          "default": "2.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "profile_id": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "provider_id": {
+          "const": "tavily",
+          "default": "tavily",
+          "title": "Provider Id",
+          "type": "string"
+        },
+        "endpoint": {
+          "const": "https://api.tavily.com/search",
+          "default": "https://api.tavily.com/search",
+          "title": "Endpoint",
+          "type": "string"
+        },
+        "limits": {
+          "$ref": "#/$defs/ResearchLimits",
+          "default": {
+            "max_search_attempts": 3,
+            "max_queries": 3,
+            "max_results_per_query": 5,
+            "max_documents": 6,
+            "max_redirects": 3,
+            "max_http_requests": 27,
+            "request_timeout_seconds": 20.0,
+            "active_timeout_seconds": 120.0,
+            "max_document_bytes": 5242880,
+            "max_total_bytes": 20971520,
+            "max_text_chars": 60000,
+            "max_passage_chars": 18000,
+            "max_solver_cards": 20
+          }
+        },
+        "credential_ref": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Credential Ref"
+        }
+      },
+      "required": [
+        "profile_id",
+        "revision"
+      ],
+      "title": "SearchProfile",
+      "type": "object"
+    },
+    "SourceRule": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "2.0",
+          "default": "2.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "hostname": {
+          "maxLength": 254,
+          "minLength": 1,
+          "title": "Hostname",
+          "type": "string"
+        },
+        "include_subdomains": {
+          "default": false,
+          "title": "Include Subdomains",
+          "type": "boolean"
+        },
+        "path_prefixes": {
+          "$ref": "#/$defs/FrozenArray_str__MinLen_min_length_1_",
+          "maxLength": 20,
+          "minLength": 1
+        },
+        "source_kind": {
+          "enum": [
+            "official_docs",
+            "paper_repository",
+            "code_repository",
+            "benchmark_report"
+          ],
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "enabled": {
+          "title": "Enabled",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "label",
+        "hostname",
+        "path_prefixes",
+        "source_kind",
+        "enabled"
+      ],
+      "title": "SourceRule",
+      "type": "object"
+    },
+    "SourceSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "2.0",
+          "default": "2.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "sources": {
+          "$ref": "#/$defs/FrozenArray_SourceRule_"
+        }
+      },
+      "required": [
+        "revision",
+        "sources"
+      ],
+      "title": "SourceSnapshot",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "policy_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Policy Version",
+      "type": "string"
+    },
+    "source_snapshot": {
+      "$ref": "#/$defs/SourceSnapshot"
+    },
+    "search_profile": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SearchProfile"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "research_mode": {
+      "enum": [
+        "live",
+        "cache_only"
+      ],
+      "title": "Research Mode",
+      "type": "string"
+    },
+    "catalog_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Catalog Hash",
+      "type": "string"
+    },
+    "max_cache_age_hours": {
+      "default": 24,
+      "maximum": 720,
+      "minimum": 1,
+      "title": "Max Cache Age Hours",
+      "type": "integer"
+    },
+    "on_research_failure": {
+      "default": "stop",
+      "enum": [
+        "stop",
+        "continue_with_catalog"
+      ],
+      "title": "On Research Failure",
+      "type": "string"
+    },
+    "planner_prompt_version": {
+      "const": "research_planner.v2",
+      "default": "research_planner.v2",
+      "title": "Planner Prompt Version",
+      "type": "string"
+    },
+    "advisor_prompt_version": {
+      "const": "advisor.v2",
+      "default": "advisor.v2",
+      "title": "Advisor Prompt Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_snapshot",
+    "search_profile",
+    "research_mode",
+    "catalog_hash"
+  ],
+  "title": "ResearchSnapshot",
+  "type": "object"
+}

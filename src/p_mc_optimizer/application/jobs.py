@@ -11,6 +11,9 @@ from p_mc_optimizer.application.errors import ApiError
 from p_mc_optimizer.domain.models import CreateJob, ExecutionPolicy, ProblemInput
 from p_mc_optimizer.persistence import Repository
 from p_mc_optimizer.persistence.repository import invalid_state, json_text, utc_now, uuid4_text
+from p_mc_optimizer.research.contracts import ExecutionPolicyV2
+from p_mc_optimizer.research.contracts_v21 import ExecutionPolicyV21
+from p_mc_optimizer.llm.narrative_policy import freeze_narrative_policy
 
 Version = Annotated[int, Field(ge=1)]
 ShortId = Annotated[str, StringConstraints(min_length=1, max_length=128)]
@@ -47,7 +50,10 @@ AnswersInput = Annotated[TextualAnswers | StructuredCompletion, Field(discrimina
 
 
 def public_job(job: dict) -> dict:
-    return {key: value for key, value in job.items() if key not in INTERNAL_JOB_FIELDS}
+    public = {key: value for key, value in job.items() if key not in INTERNAL_JOB_FIELDS}
+    if job["policy"]["policy_version"] == "2.1":
+        public["source_sync_run_id"] = job["workflow"].get("source_sync_run_id")
+    return public
 
 
 def not_configured(*_) -> None:
@@ -55,10 +61,11 @@ def not_configured(*_) -> None:
 
 
 class ApplicationService:
-    def __init__(self, repo: Repository, *, profile_snapshot=not_configured, resume_check=not_configured):
+    def __init__(self, repo: Repository, *, profile_snapshot=not_configured, resume_check=not_configured, freeze_v2=None):
         self.repo = repo
         self.profile_snapshot = profile_snapshot
         self.resume_check = resume_check
+        self.freeze_v2 = freeze_v2
 
     def create_job(self, request: CreateJob, idempotency_key: str) -> dict:
         if not idempotency_key or len(idempotency_key) > 200 or not all(
@@ -68,17 +75,28 @@ class ApplicationService:
         idempotency_key = hashlib.sha256(idempotency_key.encode("ascii")).hexdigest()
         payload = request.model_dump(mode="json")
         request_hash = hashlib.sha256(json_text(payload).encode("utf-8")).hexdigest()
-        policy = ExecutionPolicy.from_input(request.policy).model_dump(mode="json")
+        policy_type = {"1.0": ExecutionPolicy, "2.0": ExecutionPolicyV2, "2.1": ExecutionPolicyV21}[
+            request.policy.policy_version
+        ]
+        v2 = policy_type is not ExecutionPolicy
+        policy = policy_type.from_input(request.policy).model_dump(mode="json")
         with self.repo.connect() as connection:
             connection.execute("BEGIN")
             existing = self._idempotent_job(connection, idempotency_key, request_hash)
             if existing is not None:
                 return existing
         profile_ref = payload["llm_profile"]
+        frozen = None
+        if v2:
+            if self.freeze_v2 is None:
+                raise ApiError(422, "CATALOG_QUALIFICATION_REQUIRED", "کاتالوگ این اجرا آماده نیست.")
+            frozen = self.freeze_v2(request)
         snapshot = (
             self.profile_snapshot(profile_ref["profile_id"], profile_ref["revision"])
-            if profile_ref is not None else None
+            if profile_ref is not None and not v2 else None
         )
+        if v2:
+            snapshot = frozen.pop("llm_profile", None)
         request_input = payload["input"]
         revision_id = request_input.get("problem_revision_id")
         job_id = uuid4_text()
@@ -87,20 +105,35 @@ class ApplicationService:
             existing = self._idempotent_job(connection, idempotency_key, request_hash)
             if existing is not None:
                 return existing
+            from p_mc_optimizer.runtime_provenance import get_runtime, save_runtime
+
+            creator = get_runtime()
+            save_runtime(self.repo.data_dir)
+            workflow = {
+                "execution_contracts": {"explanation": "grounded_narrative_v3", "writer_schema": "explainer.v3",
+                                        "reviewer_schema": "narrative_review.v1", "evidence_builder_version": "1.1",
+                                        "renderer_version": "3.0.0", "formatter_version": "1.1",
+                                        "report_generation_policy_version": "1.3",
+                                        "report_generation_policy": freeze_narrative_policy("1.3")},
+                "runtime:creator": creator,
+            }
             if revision_id is not None and connection.execute(
                 "SELECT 1 FROM problem_revisions WHERE problem_revision_id=?", (revision_id,)
             ).fetchone() is None:
                 raise ApiError(404, "PROBLEM_REVISION_NOT_FOUND", "نسخهٔ ثبت‌شدهٔ مسئله پیدا نشد.")
             connection.execute(
                 """INSERT INTO jobs (job_id,input,policy,llm_profile,problem_revision_id,job_status,
-                    phase,created_at,updated_at) VALUES (?,?,?,?,?,'queued','intake',?,?)""",
+                    phase,created_at,updated_at,workflow) VALUES (?,?,?,?,?,'queued','intake',?,?,?)""",
                 (job_id, json_text(request_input), json_text(policy),
-                 json_text(snapshot) if snapshot is not None else None, revision_id, timestamp, timestamp),
+                 json_text(snapshot) if snapshot is not None else None, revision_id, timestamp, timestamp,
+                 json_text(workflow)),
             )
             connection.execute(
                 """INSERT INTO idempotency_records VALUES ('create_job',?,?,?,?)""",
                 (idempotency_key, request_hash, job_id, timestamp),
             )
+            if frozen is not None:
+                connection.execute("INSERT INTO job_v2_snapshots VALUES (?,?)", (job_id, json_text(frozen)))
             self.repo.write_event(connection, job_id, "job_queued")
             return self.repo.job_snapshot(connection, self.repo.job_row(connection, job_id))
 

@@ -1,0 +1,149 @@
+{
+  "schema_version": "university-acceptance-manifest/1.0",
+  "campaign_id": "20261114T164636Z-windows-rc2-dns-fix",
+  "created_at_utc": "2026-11-14T17:02:54.310733+00:00",
+  "tested_source_commit": "d4f38e3bf5ce42544adb493ab257577f3865fb04",
+  "version": "2.1.0rc2",
+  "campaign_scope": "Fresh Windows rc2 acceptance; no fresh macOS acceptance inferred",
+  "source_manifest_sha256": "39147c82e7cb914990596ff12e3d3510db6c5eca8bed1f7ff6fca87c628c7492",
+  "prompt_bundle_sha256": "882e689ac63de30bfa877b0bf276d5faedbf7452d1b449ffddb462c6eeeb7634",
+  "limit_role_calls": 20,
+  "scenario_limits": {
+    "U1": 8,
+    "U2": 8,
+    "U-REPORT": 4
+  },
+  "objective_evaluations_limit": 40000,
+  "qualification_budget_limit": 100000,
+  "settings": {
+    "master_seed": 1405,
+    "max_objective_evaluations": 20000,
+    "max_compute_seconds": 300,
+    "pilot_repeats": 3,
+    "pilot_evaluations": 500,
+    "max_llm_calls": 8,
+    "max_llm_calls_per_role": 2,
+    "use_history": false,
+    "numeric_atol": 1e-12,
+    "numeric_rtol": 1e-10
+  },
+  "scenarios": {
+    "U1": {
+      "threshold": 1e-06,
+      "retrieval_mode": "direct_refresh",
+      "input_sha256": "1467fb5a6591d8c0d732005c5908cdb3aad6f7f1a5d7c94b400c5335bef4d4b5"
+    },
+    "U2": {
+      "threshold": 0.001,
+      "retrieval_mode": "local_only",
+      "input_sha256": "e57822ff41ee8e9845b1a57bb89cf2fb7ae17e77466d9fb0b08227ff1bfb27c0"
+    }
+  },
+  "model": {
+    "model": "gpt-6-luna",
+    "protocol": "chat_completions_v1",
+    "response_mode": "json_schema",
+    "max_output_tokens": 4096,
+    "request_timeout_seconds": 60,
+    "endpoint_sha256": "807aaf9814b3b7fe432f128a9e7aef458a3e4c78cc6e0994f9003a37a6e1b09c"
+  },
+  "model_status": "OBSERVED_WINDOWS_PROFILE_AND_ACCESSIBLE_OS_KEYRING; one normal-UI connection test passed; timeout deviation explicitly user-approved",
+  "expected_connection_test_max_output_tokens": 512,
+  "expected_report_policy": {
+    "version": "1.2",
+    "explainer_max_output_tokens": 8192,
+    "reviewer_max_output_tokens": 4096
+  },
+  "versions": {
+    "mealpy": "3.0.3",
+    "numpy": "1.26.0",
+    "pydantic": "2.14.3",
+    "streamlit": "1.67.0",
+    "httpx": "0.28.1",
+    "langgraph": "1.2.20"
+  },
+  "python": "3.12.3",
+  "platform": "Windows-11-10.0.22631-SP0",
+  "numeric_runtime_fingerprint": {
+    "schema_version": "1.0",
+    "environment_id": "2.0:Windows:AMD64:3.12:numpy1.26.0",
+    "python_major_minor": "3.12",
+    "platform_system": "Windows",
+    "architecture": "AMD64",
+    "numpy_version": "1.26.0",
+    "mealpy_version": "3.0.3",
+    "dtype": "float64",
+    "rng": "PCG64",
+    "mode": "single",
+    "mealpy_source_manifest_sha256": "aaa24917df47dba10db01ec9e2243c68deee87c51901b1d73206a86b96f6c649",
+    "numeric_source_manifest_sha256": "fb670675eadd792820abdce1cbffb22a6bf1e14718759301a004d9fbb80f1c24"
+  },
+  "data_dir": "C:\\Users\\TajAhmadi\\AppData\\Local\\P_MC_Optimizer",
+  "data_store_scope": "Existing migrated Windows default data directory; existing database/history preserved; fresh acceptance ledger only",
+  "historical_manifest": "artifacts/university-delivery/20261114T120916Z-university/acceptance_manifest.json",
+  "historical_manifest_sha256": "e6f22e7594a621ffe1520ca617ae78978135fc7c219b47d3be16fc41a6c90fc4",
+  "historical_status_preserved": {
+    "offline_passed": 965,
+    "offline_tested_commit": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+    "rc2_mac_live_acceptance": "NOT_RUN",
+    "delivery": "NOT_READY"
+  },
+  "stage_limits_file": "stage-limits.json",
+  "tested_source_state": "HEAD plus declared uncommitted Windows DNS environment patch; source manifest is the exact executable source fingerprint",
+  "source_patch": {
+    "path": "windows-dns-fix/source-patch-at-freeze.diff",
+    "sha256": "f3b4a3969429bc8b06c185fe06a44ad8f8dd8dfa21ac4f75acb999e61df28bbe",
+    "files": {
+      "src/p_mc_optimizer/research/transport.py": "f8c4d11561648019fe9537d8d4325db8b95221075ebcc51251a9213f13443b98",
+      "tests/test_v2_research.py": "4a612da78705b3a1c24a5e01cc7091b07ee8e10a28a9557c77a1e9cb5ed2c55d"
+    },
+    "targeted_tests": {
+      "status": "PASS",
+      "passed": 22,
+      "evidence": "windows-dns-fix/targeted-tests.log"
+    },
+    "commit_status": "uncommitted"
+  },
+  "observed_profile": {
+    "profile_id": "e763b97f-c5b0-453e-85bb-2ee63a3bea42",
+    "revision": 1,
+    "test_status": "passed",
+    "tested_at": "2026-11-14T16:53:05.698489+00:00",
+    "storage_mode": "os_keyring",
+    "key_available": true,
+    "token_limit_field": "max_completion_tokens",
+    "connection_test_max_output_tokens": 512,
+    "evidence": "profile-status.json"
+  },
+  "approved_model_deviations": [
+    {
+      "field": "request_timeout_seconds",
+      "historical_contract": 180,
+      "approved_effective_value": 60,
+      "approval": "Explicit user instruction to continue with 60 seconds, relayed by root agent in this session; no profile database mutation performed by campaign initialization",
+      "scope": "Windows U2/U1 acceptance campaign only"
+    }
+  ],
+  "historical_model_contract": {
+    "model": "gpt-6-luna",
+    "protocol": "chat_completions_v1",
+    "response_mode": "json_schema",
+    "max_output_tokens": 4096,
+    "request_timeout_seconds": 180,
+    "endpoint_sha256": "807aaf9814b3b7fe432f128a9e7aef458a3e4c78cc6e0994f9003a37a6e1b09c"
+  },
+  "initialization_archive": {
+    "prior_campaign_id": "20261114T164636Z-windows-rc2",
+    "evidence_directory": "initialization-before-dns-fix",
+    "data_dir_binding_archive": "C:\\Users\\TajAhmadi\\AppData\\Local\\P_MC_Optimizer\\university-acceptance-initial-20261114T164636Z",
+    "prior_role_calls": 0,
+    "prior_acceptance_objective_evaluations": 0,
+    "reason": "Windows DNS source patch changed executable source before any acceptance roles or objective evaluations; original zero-call binding fully preserved"
+  },
+  "connection_test": {
+    "actual_submissions": 1,
+    "remaining_authorized": 0,
+    "evidence": "connection-test.json",
+    "carried_forward_in_stage_total": true
+  }
+}

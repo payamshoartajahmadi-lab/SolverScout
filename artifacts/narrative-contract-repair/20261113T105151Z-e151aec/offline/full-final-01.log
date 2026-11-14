@@ -1,0 +1,370 @@
+.....................................F.................................. [  8%]
+........................................................................ [ 17%]
+........................................................................ [ 26%]
+........................................................................ [ 35%]
+....F................................................................... [ 44%]
+........................................................................ [ 53%]
+........................................................................ [ 62%]
+........................................................................ [ 71%]
+..........................FF............................................ [ 80%]
+........................................................................ [ 89%]
+........................................................................ [ 98%]
+.........                                                                [100%]
+================================== FAILURES ===================================
+______________ test_cat_003_hash_changes_and_v1_schema_unchanged ______________
+
+    def test_cat_003_hash_changes_and_v1_schema_unchanged():
+        original = adapter.resolve_configuration(_GWO)
+        changed = adapter.resolve_configuration(_GWO, {"pop_size": 30})
+        assert original.config_id != changed.config_id
+        for key in ("library_version", "adapter_version", "boundary_repair"):
+            assert original.model_copy(update={key: "changed"}).config_id != original.config_id
+        for contract, filename in [(TrialRequest, "trial_request.v1.json"), (TrialRequestV2, "trial_request.v2.json")]:
+            path = Path(__file__).resolve().parents[1] / "schemas" / filename
+>           assert path.read_bytes() == json_bytes(contract.model_json_schema()) + b"\n"
+E           assert b'{\r\n  "add...ect"\r\n}\r\n' == b'{\n  "addit..."object"\n}\n'
+E             
+E             At index 1 diff: b'\r' != b'\n'
+E             Use -v to get more diff
+
+tests\test_catalog_v2.py:75: AssertionError
+__ test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie] __
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-6/test_explainer_receives_full_t0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000021B7EA440B0>
+case = 'identifier_tie'
+
+    @pytest.mark.parametrize("case", ["identifier_tie", "insufficient_evidence"])
+    def test_explainer_receives_full_tie_or_insufficient_evidence(tmp_path, monkeypatch, case):
+        """FLOW-11/12. Use genuine selector outcomes and the provider transport."""
+        is_tie = case == "identifier_tie"
+        if not is_tie:
+            from test_workflow_exports import _inject_trial_failure
+    
+            _inject_trial_failure(monkeypatch, "pilot")
+        problem_path = Path(__file__).parents[1] / "examples" / "quadratic_2d.json"
+        problem = json.loads(problem_path.read_text(encoding="utf-8"))
+        if is_tie:
+            # Every feasible point has the same objective, regardless of pilot or seed.
+            problem["objective"]["source"]["expression"] = "x1-x1+x2-x2"
+        explanation = (
+            {**_GOOD_EXPLANATION, "selection_explanation_fa": "شناسهٔ روش تساوی را شکست."}
+            if is_tie else
+            {**_GOOD_EXPLANATION, "summary_fa": "شواهد پایلوت برای انتخاب روش کافی نبود.",
+             "selection_explanation_fa": None}
+        )
+        called, explainer_requests = [], []
+        responses = [{"ok": True}, _pilot_plan(), explanation]
+        with local_api(tmp_path, fixture_transport(responses, called, explainer_requests=explainer_requests)) as (
+            repo, client, address, token
+        ):
+            profile, _ = configure(client, _PROFILE_SETTINGS, _TEST_KEY)
+            payload = {
+                "input": {"kind": "structured_problem", "problem": problem},
+                "policy": {**_POLICY, "explain_via_llm": True, "selection_policy": "llm_shortlist_then_pilot",
+                           "max_objective_evaluations": 5502},
+                "llm_profile": {"profile_id": profile["profile_id"], "revision": profile["revision"]},
+            }
+            job_id = checked(client.post("/jobs", json=payload, headers={"Idempotency-Key": str(uuid4())}), 202)["job_id"]
+            work(repo, address, token, job_id)
+            report = checked(client.get(f"/jobs/{job_id}/report"))["report"]
+            assert report["job_status"] == "completed"
+            assert report["solution_status"] == "valid_best_found"
+>           assert report["explanation_status"] == "generated"
+E           AssertionError: assert 'provider_error' == 'generated'
+E             
+E             - generated
+E             + provider_error
+
+tests\test_llm_workflow.py:720: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2026-11-13 14:45:55.526 Started server process [25508]
+2026-11-13 14:46:34.161 Exception in ASGI application
+Traceback (most recent call last):
+  File "G:\projects\solverscout-narrative-contract-repair\tests\test_llm_workflow.py", line 138, in post
+    value = responses.pop(0)
+            ^^^^^^^^^^^^^^^^
+IndexError: pop from empty list
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "G:\projects\solverscout\.venv\Lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 411, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\applications.py", line 1194, in __call__
+    await super().__call__(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\telemetry\_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\middleware\base.py", line 202, in __call__
+    async with create_collapsing_task_group() as task_group:
+  File "C:\Program Files\Python312\Lib\contextlib.py", line 217, in __aexit__
+    await anext(self.gen)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\_utils.py", line 112, in create_collapsing_task_group
+    raise exc from exc.__cause__ or context
+  File "G:\projects\solverscout\.venv\Lib\site-packages\anyio\_core\_tasks.py", line 327, in _run_coro
+    retval = await self._coro
+             ^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\middleware\base.py", line 149, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\routing.py", line 683, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 2811, in app
+    await route.handle(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 1839, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 2894, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 1865, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 1328, in handle
+    await effective_context.app(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 166, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 152, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 745, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 374, in run_endpoint_function
+    return await run_in_threadpool(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2779, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1124, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\telemetry\_api.py", line 244, in _run_sync_endpoint
+    return function(**arguments)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\llm\routes.py", line 50, in invoke
+    return gateway.invoke(invocation)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\llm\gateway.py", line 614, in invoke
+    return self._call(call_id, snapshot, key, invocation.schema_id, context, prepared)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\llm\gateway.py", line 422, in _call
+    outcome = call_provider(
+              ^^^^^^^^^^^^^^
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\llm\provider.py", line 291, in call_provider
+    with httpx.Client(
+  File "C:\Program Files\Python312\Lib\contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\httpx\_client.py", line 868, in stream
+    response = self.send(
+               ^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\httpx\_transports\mock.py", line 24, in handle_request
+    response = self.handler(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout-narrative-contract-repair\tests\test_llm_workflow.py", line 140, in post
+    pytest.fail(f"Unexpected provider invocation: {schema_name}")
+  File "G:\projects\solverscout\.venv\Lib\site-packages\_pytest\outcomes.py", line 162, in __call__
+    raise Failed(msg=reason, pytrace=pytrace)
+Failed: Unexpected provider invocation: explainer_v1
+2026-11-13 14:46:34.415 Shutting down
+2026-11-13 14:46:34.524 Finished server process [25508]
+------------------------------ Captured log call ------------------------------
+INFO     uvicorn.error:server.py:103 Started server process [25508]
+ERROR    p_mc_optimizer.api.app:app.py:280 Local API failure request_id=f02738af-74c3-4b8a-b210-86271b811f08 type=RuntimeError
+ERROR    uvicorn.error:h11_impl.py:416 Exception in ASGI application
+Traceback (most recent call last):
+  File "G:\projects\solverscout-narrative-contract-repair\tests\test_llm_workflow.py", line 138, in post
+    value = responses.pop(0)
+            ^^^^^^^^^^^^^^^^
+IndexError: pop from empty list
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "G:\projects\solverscout\.venv\Lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 411, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\applications.py", line 1194, in __call__
+    await super().__call__(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\telemetry\_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\middleware\base.py", line 202, in __call__
+    async with create_collapsing_task_group() as task_group:
+  File "C:\Program Files\Python312\Lib\contextlib.py", line 217, in __aexit__
+    await anext(self.gen)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\_utils.py", line 112, in create_collapsing_task_group
+    raise exc from exc.__cause__ or context
+  File "G:\projects\solverscout\.venv\Lib\site-packages\anyio\_core\_tasks.py", line 327, in _run_coro
+    retval = await self._coro
+             ^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\middleware\base.py", line 149, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\routing.py", line 683, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 2811, in app
+    await route.handle(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 1839, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 2894, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 1865, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 1328, in handle
+    await effective_context.app(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 166, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 152, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 745, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\routing.py", line 374, in run_endpoint_function
+    return await run_in_threadpool(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2779, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1124, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\fastapi\telemetry\_api.py", line 244, in _run_sync_endpoint
+    return function(**arguments)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\llm\routes.py", line 50, in invoke
+    return gateway.invoke(invocation)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\llm\gateway.py", line 614, in invoke
+    return self._call(call_id, snapshot, key, invocation.schema_id, context, prepared)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\llm\gateway.py", line 422, in _call
+    outcome = call_provider(
+              ^^^^^^^^^^^^^^
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\llm\provider.py", line 291, in call_provider
+    with httpx.Client(
+  File "C:\Program Files\Python312\Lib\contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\httpx\_client.py", line 868, in stream
+    response = self.send(
+               ^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout\.venv\Lib\site-packages\httpx\_transports\mock.py", line 24, in handle_request
+    response = self.handler(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout-narrative-contract-repair\tests\test_llm_workflow.py", line 140, in post
+    pytest.fail(f"Unexpected provider invocation: {schema_name}")
+  File "G:\projects\solverscout\.venv\Lib\site-packages\_pytest\outcomes.py", line 162, in __call__
+    raise Failed(msg=reason, pytrace=pytrace)
+Failed: Unexpected provider invocation: explainer_v1
+INFO     uvicorn.error:server.py:282 Shutting down
+INFO     uvicorn.error:server.py:113 Finished server process [25508]
+___________ test_exe_009_010_supervisor_reaps_hung_objective[False] ___________
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-6/test_exe_009_010_supervisor_re0')
+cancel = False
+
+    @pytest.mark.parametrize("cancel", [False, True])
+    def test_exe_009_010_supervisor_reaps_hung_objective(tmp_path, cancel):
+        process_id = mp.get_context("spawn").Value("i", 0)
+        item = request("preflight", seconds=1.8)
+        result, _ = run(
+            item, tmp_path, _objective_override=partial(hang, process_id=process_id),
+            cancelled=lambda: cancel and process_id.value != 0,
+        )
+        assert result.execution_status == ("cancelled" if cancel else "timed_out")
+        assert not result.history_complete
+>       assert result.started_evaluations == 1
+E       AssertionError: assert 0 == 1
+E        +  where 0 = ExecutionResult(job_id='445c22d0-3f76-4c6d-9348-7832db3353f7', execution_id='ce7bf7f5-a7e0-4fba-86ce-bc3ab739a69a', ph...m': 'Windows-11-10.0.22631-SP0', 'architecture': 'AMD64', 'dtype': 'float64', 'rng': 'PCG64'}, runtime_provenance=None).started_evaluations
+
+tests\test_numeric.py:318: AssertionError
+___________ test_exe_009_010_supervisor_reaps_hung_objective[True] ____________
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/pytest-of-TajAhmadi/pytest-6/test_exe_009_010_supervisor_re1')
+cancel = True
+
+    @pytest.mark.parametrize("cancel", [False, True])
+    def test_exe_009_010_supervisor_reaps_hung_objective(tmp_path, cancel):
+        process_id = mp.get_context("spawn").Value("i", 0)
+        item = request("preflight", seconds=1.8)
+        result, _ = run(
+            item, tmp_path, _objective_override=partial(hang, process_id=process_id),
+            cancelled=lambda: cancel and process_id.value != 0,
+        )
+>       assert result.execution_status == ("cancelled" if cancel else "timed_out")
+E       AssertionError: assert 'timed_out' == 'cancelled'
+E         
+E         - cancelled
+E         + timed_out
+
+tests\test_numeric.py:316: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_catalog_v2.py::test_cat_003_hash_changes_and_v1_schema_unchanged
+FAILED tests/test_llm_workflow.py::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]
+FAILED tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[False]
+FAILED tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[True]
+4 failed, 797 passed, 1 deselected in 1909.27s (0:31:49)

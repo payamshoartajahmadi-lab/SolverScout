@@ -1,0 +1,33 @@
+{
+  "recorded_at_utc": "2026-11-13T20:20:20.407342+00:00",
+  "branch": "fix/narrative-contract-repair",
+  "tested_commit": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+  "upstream": "origin/fix/narrative-contract-repair",
+  "fixture_commits": [
+    "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae test(execution): distinguish startup timeout from entered hung objectives",
+    "e221b3ed4eb1cb2804164f33b2621ca2a5b7efb3 test(workflow): require complete pilots before identifier tie explanation"
+  ],
+  "source_paths_changed_since_baseline": [
+    "tests/numeric_lifecycle_probe.py",
+    "tests/test_llm_workflow.py",
+    "tests/test_numeric.py"
+  ],
+  "source_tree_unchanged_since_baseline": true,
+  "schemas_tree_unchanged_since_baseline": true,
+  "tested_source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+  "tested_harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+  "tracked_source_changes_after_tests": [],
+  "required_commits_are_ancestors": {
+    "37cd0803b1244320d1ab4866dd303fd7ba2a6780": true,
+    "d32691dfbb7e5f9faeafe5dcb119d65e97d46de3": true,
+    "5ddee26ed86cefe9585e3f89fe02fc7a9f4f7816": true,
+    "13184acb677a2dbe96524380057251027e73db41": true,
+    "b4723bf56d4ea76a0aec16f994ae87fa0e4b2713": true,
+    "ad449d252f243ff0400e3d42caae5d25defe5b11": true,
+    "0a9908ea9f23081f6be559596765aa16911b8580": true
+  },
+  "local_dev": "e151aecc0a79a7e6b421b07934df6977bc9068c7",
+  "local_main": "6837ba01451acb1d4c3cab898c8660daf6f063f0",
+  "reports_commit_is_separate_from_tested_source": true,
+  "no_merge_to_dev_main": true
+}

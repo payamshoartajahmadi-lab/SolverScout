@@ -1,0 +1,6 @@
+{
+  "observer_sha256": "97e6425c750b5c1787d4a267fc8f657775d36b29201fb013e07f66b3b8dd9dc3",
+  "observer_copy": "numerical_cost_observer.py",
+  "usage": "Add this directory to PYTHONPATH and set SOLVERSCOUT_TEST_USAGE_PATH to a private output path; run the exact recorded pytest command.",
+  "measurement_semantics": "Read-only observation of reported starts, including synthetic fixture results. Exact physical offline FE total is NOT_MEASURED."
+}

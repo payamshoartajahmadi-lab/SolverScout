@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "scope": "Same runtime source after final offline tests; only documents/evidence added",
+  "tested_code_commit": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+  "packaged_code_commit": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+  "current_source_manifest_sha256": "b6f9bcf1468276502e32792f1930a566c2a908414687e04e64c9c34e47769bd8",
+  "installed_runtime_verification": "installation/final-runtime-verification.json",
+  "product_or_test_edits_after_final_regression": false,
+  "candidate_branch": "fix/final-university-delivery",
+  "dev_unchanged": "700969ca7f1058a621b89dcc0e280ffe180d909a",
+  "main_unchanged": "58e0bc416db74a1aaa9783da442d8fceca775dab",
+  "merged_into_dev_or_main": false,
+  "fresh_live_rc2": "NOT_RUN",
+  "acceptance_status": "NOT_READY",
+  "observed_at_utc": "2026-11-14T14:29:12.610502+00:00"
+}

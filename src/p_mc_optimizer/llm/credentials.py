@@ -39,20 +39,24 @@ def _keyring_error() -> ApiError:
 class CredentialBroker:
     """Memory keys belong to this API process and are bound to an exact origin."""
 
-    def __init__(self, *, internal_token: str | None = None):
+    def __init__(self, *, internal_token: str | None = None, namespace: str | None = None):
         self._session: dict[tuple[str, str], str] = {}
         self._known_keys: dict[tuple[str, str], str] = {}
         self._keyring = _keyring_backend()
         self._token = internal_token
+        self._namespace = namespace
         self._lock = RLock()
 
     @property
     def os_keyring_available(self) -> bool:
         return self._keyring is not None
 
-    @staticmethod
-    def _service(origin: str) -> str:
-        return f"{_SERVICE_PREFIX}:{origin}"
+    def for_service(self, namespace: str) -> CredentialBroker:
+        return CredentialBroker(internal_token=self._token, namespace=namespace)
+
+    def _service(self, origin: str) -> str:
+        prefix = _SERVICE_PREFIX if self._namespace is None else f"{_SERVICE_PREFIX}:{self._namespace}"
+        return f"{prefix}:{origin}"
 
     def get(self, ref: str, origin: str, mode: str | None) -> str | None:
         with self._lock:

@@ -1,0 +1,88 @@
+{
+  "schema_version": "u1-report-replay/1.0",
+  "scope": "report_only",
+  "mode": "live",
+  "created_at": "2026-11-14T19:03:00.803278+00:00",
+  "source_job_id": "cf73fe30-ef5a-4995-8fd7-4aa6256f3085",
+  "source_report_sha256": "13b35d1d0b30d275684ed6e2703014c6d9a71dfb4569d7888985c49a629700fb",
+  "source_core_sha256": "54d18a696c7522c362ca563340115353312c4ea113115156e195d6d8cd2b467a",
+  "max_actual_model_submissions": 4,
+  "fresh_objective_evaluations_limit": 0,
+  "connection_tests_limit": 0,
+  "freeze": {
+    "commit": "7ca14742dc34933b1c4868f113412aacc59f1f70",
+    "source_changes": [],
+    "source_manifest_sha256": "b44ec58d471514684d367dccf3cb37dd34b51ad3d18bc34424c6ad02df18450a",
+    "prompt_bundle_sha256": "424d80c1edd004f701e34978c9581b7d5957ec01e6734b5e2395057f21b68dbe",
+    "harness_files": [
+      {
+        "path": "scripts/qa_u1_report_replay.py",
+        "sha256": "3303bdecbb5e166b95431eca83941610026facad90e11765b1f762a3cde2bff0"
+      },
+      {
+        "path": "scripts/qa_narrative_v3.py",
+        "sha256": "8a3a490ea55172f93580454a5aa6f625b0804b10a53bf3a922c319df4d764050"
+      },
+      {
+        "path": "scripts/qa_narrative_v3_closure.py",
+        "sha256": "40e681d67a50679975861c6286826e63f15aa4258cf471f7d77e00f54e122a1b"
+      },
+      {
+        "path": "pyproject.toml",
+        "sha256": "8ec737b6a965c1a311e8427537cba6a8acc59f960fc6ac2dc1f48c4e00d23394"
+      },
+      {
+        "path": "requirements.lock",
+        "sha256": "d6d71b2a42f8ca46e8666a170131cfeca8481992aa446c86a3d29735a70495e2"
+      },
+      {
+        "path": "requirements-test.lock",
+        "sha256": "7b852f2af277d3469f75ed5f647ca830cdae6dfb9656d16898005acd880c1266"
+      }
+    ],
+    "generation_policy": {
+      "report_generation_policy_version": "1.3",
+      "evidence_policy_version": "1.1",
+      "evidence_builder_version": "1.1",
+      "formatter_version": "1.1",
+      "renderer_version": "3.0.0",
+      "roles": {
+        "explainer.v3": {
+          "prompt_name": "explainer.v3.2",
+          "max_output_tokens": 8192
+        },
+        "narrative_review.v1": {
+          "prompt_name": "narrative_review.v1.2",
+          "max_output_tokens": 4096
+        }
+      },
+      "explicit_max_output_tokens_override": null,
+      "reviewer_context_version": "1.1",
+      "writer_metadata_policy": {
+        "version": "1.0",
+        "operation": "remove_unused_known_optional_fact_refs",
+        "requiredness_scope": "section",
+        "boundaries": [
+          "draft",
+          "repair"
+        ],
+        "preserve_raw_response": true,
+        "reviewer_binding": "effective_draft_hash"
+      },
+      "report_generation_policy_hash": "7cf2f44623fc5e5f7bf03a7cfae187d794293a912a16447aa1541df8bbeaa78a"
+    }
+  },
+  "private_data_dir": "<WINDOWS_USER_HOME>\\AppData\\Local\\P_MC_Optimizer_U1_Report_RC3_20261114T173517Z",
+  "historical_campaign_untouched": true,
+  "profile": {
+    "profile_id": "e763b97f-c5b0-453e-85bb-2ee63a3bea42",
+    "revision": 1,
+    "model": "gpt-6-luna",
+    "protocol": "chat_completions_v1",
+    "response_mode": "json_schema",
+    "token_limit_field": "max_completion_tokens",
+    "max_output_tokens": 4096,
+    "request_timeout_seconds": 60,
+    "endpoint_sha256": "807aaf9814b3b7fe432f128a9e7aef458a3e4c78cc6e0994f9003a37a6e1b09c"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "scope": "Offline regression only, separate from acceptance/preparation/smoke",
+  "observed": {
+    "supervised_execution_returns": 424,
+    "supervised_known_started": 499041,
+    "supervised_unknown_reserved": 3041,
+    "in_process_known_started": 2,
+    "supervised_raised_without_result": 13
+  },
+  "exit_status": 0,
+  "observed_known_started_lower_bound": 499043,
+  "coverage": "Parent-process evaluator starts and completed real supervisor calls only; direct custom subprocess tests or raised calls may not be measured. This is not claimed as a complete physical FE total.",
+  "budgets_seeds_thresholds_changed": false
+}

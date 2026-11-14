@@ -1,0 +1,98 @@
+{
+  "$defs": {
+    "NarrativeParagraphV3": {
+      "additionalProperties": false,
+      "properties": {
+        "paragraph_id": {
+          "type": "string"
+        },
+        "claim_kind": {
+          "enum": [
+            "recorded",
+            "derived",
+            "interpretation"
+          ],
+          "type": "string"
+        },
+        "text_fa": {
+          "type": "string"
+        },
+        "fact_refs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "paragraph_id",
+        "claim_kind",
+        "text_fa",
+        "fact_refs",
+        "evidence_refs"
+      ],
+      "type": "object"
+    },
+    "NarrativeSectionV3": {
+      "additionalProperties": false,
+      "properties": {
+        "section_id": {
+          "enum": [
+            "problem",
+            "candidate_rationale",
+            "selection",
+            "solution",
+            "verification_and_limits",
+            "mathematical_analysis"
+          ],
+          "type": "string"
+        },
+        "paragraphs": {
+          "items": {
+            "$ref": "#/$defs/NarrativeParagraphV3"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "section_id",
+        "paragraphs"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": [
+        "3.0"
+      ]
+    },
+    "context_hash": {
+      "type": "string"
+    },
+    "request_hash": {
+      "type": "string"
+    },
+    "sections": {
+      "items": {
+        "$ref": "#/$defs/NarrativeSectionV3"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "context_hash",
+    "request_hash",
+    "sections"
+  ],
+  "type": "object"
+}

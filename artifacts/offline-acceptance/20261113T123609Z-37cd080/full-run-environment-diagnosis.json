@@ -1,0 +1,861 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "READ_ONLY_FINAL_DIAGNOSIS_OF_PRESERVED_FULL_FINAL_01_FAILURE",
+  "created_at_utc": "2026-11-13T13:27:02.854086+00:00",
+  "review_new_test_execution": "NOT_RUN",
+  "review_new_model_calls": 0,
+  "review_new_objective_evaluations": 0,
+  "review_new_solver_calls": 0,
+  "source_run": {
+    "label": "full-final-01",
+    "exit_code": 1,
+    "status": "FAIL",
+    "started_at_utc": "2026-11-13T13:02:07.899791+00:00",
+    "finished_at_utc": "2026-11-13T13:24:20.965697+00:00",
+    "elapsed_seconds": 1332.968,
+    "junit_counts": {
+      "tests": 803,
+      "failures": 3,
+      "errors": 7,
+      "skipped": 0,
+      "passed": 793
+    },
+    "deselected": 1,
+    "head_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+    "source_changes_at_start": [],
+    "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+    "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+    "source_bytes_unchanged_during_run": true,
+    "harness_bytes_unchanged_during_run": true,
+    "source_import_path": "G:\\projects\\solverscout-narrative-contract-repair\\src",
+    "original_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01",
+    "original_basetemp_character_count": 78,
+    "original_resolved_basetemp": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01",
+    "original_resolved_basetemp_character_count": 79,
+    "result": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\full-final-01-result.json",
+      "relative_to_evidence_root": "offline/full-final-01-result.json",
+      "bytes": 2029,
+      "sha256": "9e685e9d27169e0e789fe67663a123bc97ddc4ebc6d7d8b901984cff14512527"
+    },
+    "junit": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\full-final-01.xml",
+      "relative_to_evidence_root": "offline/full-final-01.xml",
+      "bytes": 153756,
+      "sha256": "f0bec413c46b302b2d90f14e594ddb5b4e1718d214e37c278fe3cfccf30dea93"
+    },
+    "log": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\full-final-01.log",
+      "relative_to_evidence_root": "offline/full-final-01.log",
+      "bytes": 38891,
+      "sha256": "34f73719602c4e52773d36d3ccd7c4868b0ee586585bb854228226e6030aa6d9"
+    },
+    "source_manifest": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\full-final-01-source_manifest.json",
+      "relative_to_evidence_root": "offline/full-final-01-source_manifest.json",
+      "bytes": 28607,
+      "sha256": "d685f0295cb13b4d2db400dd339163b07c276b19401cafd3491065b7ee260c30"
+    },
+    "harness_manifest": {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\offline\\full-final-01-harness_manifest.json",
+      "relative_to_evidence_root": "offline/full-final-01-harness_manifest.json",
+      "bytes": 10811,
+      "sha256": "6174759ce976cfdfbdccc7a11bbb89aaf177c9ce79dd40518e2ed2a569d4ea6f"
+    },
+    "selected_source_bindings": [
+      {
+        "path": "src/p_mc_optimizer/catalog/qualification.py",
+        "bytes": 14393,
+        "sha256": "98917f9d8f007a88a4280fa8637a7b9de6691d9b8a70be8da949a6369c2b9057"
+      },
+      {
+        "path": "src/p_mc_optimizer/catalog/routes.py",
+        "bytes": 3337,
+        "sha256": "515878ae5fbb867f89b2fbc32ee5c1522a9beddf2a407aca8436192e9ffaaff4"
+      },
+      {
+        "path": "src/p_mc_optimizer/catalog/store.py",
+        "bytes": 35087,
+        "sha256": "04d09b8d42e5a0531a5bc1e14e1f8f505ce7f8e016a02684df9db0107f036a99"
+      },
+      {
+        "path": "src/p_mc_optimizer/execution/supervisor.py",
+        "bytes": 18867,
+        "sha256": "951639593887ba1eb06408dc9776de1dd23069f6cbdd17f73d203b31b3f53fa7"
+      }
+    ],
+    "selected_test_bindings": [
+      {
+        "path": "tests/test_catalog_v2.py",
+        "sha256": "b1811a470f95fc279e057212760cc0e4be113d4b84206197013a888197553fd1"
+      },
+      {
+        "path": "tests/test_library_v21_workflow.py",
+        "sha256": "f255d3946388b14c1bbcb5ee8b29b0c020b1302cecf10b050fd5ebde11eecd36"
+      },
+      {
+        "path": "tests/test_numeric_compatibility.py",
+        "sha256": "1a550b7e22416a13b2221740c4291ce738f588ed246ee96428a4e2416fbd6cb1"
+      },
+      {
+        "path": "tests/test_numeric_passthrough.py",
+        "sha256": "e3b05c3295f2010449e340d821cd3a010475a7d7d3b4b0841fdc7cbf1455be5e"
+      },
+      {
+        "path": "tests/test_v2_workflow.py",
+        "sha256": "76c7861146a683c6ce92d760293f99496aaa67203726ecac8470c2523545a806"
+      }
+    ]
+  },
+  "classification_counts": {
+    "direct_junit_filesystem_exceptions": 8,
+    "direct_setup_errors": 7,
+    "direct_call_failures": 1,
+    "dependent_qualification_assertion_failures": 2,
+    "dependent_cases_with_original_background_exception_in_log": 2,
+    "distinct_observed_failing_paths": 5
+  },
+  "all_ten_recorded_nonpassing_tests": [
+    {
+      "test_nodeid": "tests/test_catalog_v2.py::test_cat_005_num_001_006_qualification_uses_real_subprocesses",
+      "junit_outcome": "ERROR",
+      "testcase_seconds": 11.325,
+      "original_junit_message": "failed on setup with \"FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\TajAhmadi\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\catalog-qualification0\\\\catalog-artifacts\\\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\\\controlled_failure.jsonl.traceback.txt'\"",
+      "original_junit_frame_lines": [
+        "tests\\test_catalog_v2.py:90:",
+        "src\\p_mc_optimizer\\catalog\\store.py:516: in run_batch",
+        "src\\p_mc_optimizer\\catalog\\qualification.py:245: in qualify_configuration",
+        "src\\p_mc_optimizer\\execution\\supervisor.py:404: in run_execution",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1047: in write_text",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1013: FileNotFoundError"
+      ],
+      "classification": "DIRECT_FILESYSTEM_EXCEPTION_IN_JUNIT",
+      "original_exception_type": "FileNotFoundError",
+      "original_exception_errno": 2,
+      "path": {
+        "absolute_path_from_original_error": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.traceback.txt",
+        "character_count": 261,
+        "relative_to_resolved_original_basetemp": "catalog-qualification0/catalog-artifacts/170489c4-5f15-4ffe-ae57-0700ddaafbfb/66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c/controlled_failure.jsonl.traceback.txt",
+        "parent_exists_at_review": true,
+        "exists_at_review": false,
+        "projected_same_relative_path_under_proposed_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-f2-4c0c\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.traceback.txt",
+        "projected_character_count": 229,
+        "projected_resolved_character_count": 230,
+        "separate_read_only_stat_error": {
+          "type": "FileNotFoundError",
+          "errno": 2,
+          "winerror": 3
+        }
+      },
+      "observed_product_frame": "src/p_mc_optimizer/execution/supervisor.py:404",
+      "observed_operation": "write_text diagnostic after completed history rename",
+      "causal_note": "Original pytest exception and source frame are directly recorded. Attribution to path-length environment is an evidence-based diagnosis; shorter-basetemp verification remains pending."
+    },
+    {
+      "test_nodeid": "tests/test_catalog_v2.py::test_cat_003_004_version_and_qualification_gate",
+      "junit_outcome": "ERROR",
+      "testcase_seconds": 0.001,
+      "original_junit_message": "failed on setup with \"FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\TajAhmadi\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\catalog-qualification0\\\\catalog-artifacts\\\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\\\controlled_failure.jsonl.traceback.txt'\"",
+      "original_junit_frame_lines": [
+        "tests\\test_catalog_v2.py:90:",
+        "src\\p_mc_optimizer\\catalog\\store.py:516: in run_batch",
+        "src\\p_mc_optimizer\\catalog\\qualification.py:245: in qualify_configuration",
+        "src\\p_mc_optimizer\\execution\\supervisor.py:404: in run_execution",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1047: in write_text",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1013: FileNotFoundError"
+      ],
+      "classification": "DIRECT_FILESYSTEM_EXCEPTION_IN_JUNIT",
+      "original_exception_type": "FileNotFoundError",
+      "original_exception_errno": 2,
+      "path": {
+        "absolute_path_from_original_error": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.traceback.txt",
+        "character_count": 261,
+        "relative_to_resolved_original_basetemp": "catalog-qualification0/catalog-artifacts/170489c4-5f15-4ffe-ae57-0700ddaafbfb/66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c/controlled_failure.jsonl.traceback.txt",
+        "parent_exists_at_review": true,
+        "exists_at_review": false,
+        "projected_same_relative_path_under_proposed_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-f2-4c0c\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.traceback.txt",
+        "projected_character_count": 229,
+        "projected_resolved_character_count": 230,
+        "separate_read_only_stat_error": {
+          "type": "FileNotFoundError",
+          "errno": 2,
+          "winerror": 3
+        }
+      },
+      "observed_product_frame": "src/p_mc_optimizer/execution/supervisor.py:404",
+      "observed_operation": "write_text diagnostic after completed history rename",
+      "causal_note": "Original pytest exception and source frame are directly recorded. Attribution to path-length environment is an evidence-based diagnosis; shorter-basetemp verification remains pending."
+    },
+    {
+      "test_nodeid": "tests/test_catalog_v2.py::test_disabling_blocks_new_jobs_without_rewriting_saved_snapshot",
+      "junit_outcome": "ERROR",
+      "testcase_seconds": 0.001,
+      "original_junit_message": "failed on setup with \"FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\TajAhmadi\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\catalog-qualification0\\\\catalog-artifacts\\\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\\\controlled_failure.jsonl.traceback.txt'\"",
+      "original_junit_frame_lines": [
+        "tests\\test_catalog_v2.py:90:",
+        "src\\p_mc_optimizer\\catalog\\store.py:516: in run_batch",
+        "src\\p_mc_optimizer\\catalog\\qualification.py:245: in qualify_configuration",
+        "src\\p_mc_optimizer\\execution\\supervisor.py:404: in run_execution",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1047: in write_text",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1013: FileNotFoundError"
+      ],
+      "classification": "DIRECT_FILESYSTEM_EXCEPTION_IN_JUNIT",
+      "original_exception_type": "FileNotFoundError",
+      "original_exception_errno": 2,
+      "path": {
+        "absolute_path_from_original_error": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.traceback.txt",
+        "character_count": 261,
+        "relative_to_resolved_original_basetemp": "catalog-qualification0/catalog-artifacts/170489c4-5f15-4ffe-ae57-0700ddaafbfb/66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c/controlled_failure.jsonl.traceback.txt",
+        "parent_exists_at_review": true,
+        "exists_at_review": false,
+        "projected_same_relative_path_under_proposed_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-f2-4c0c\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.traceback.txt",
+        "projected_character_count": 229,
+        "projected_resolved_character_count": 230,
+        "separate_read_only_stat_error": {
+          "type": "FileNotFoundError",
+          "errno": 2,
+          "winerror": 3
+        }
+      },
+      "observed_product_frame": "src/p_mc_optimizer/execution/supervisor.py:404",
+      "observed_operation": "write_text diagnostic after completed history rename",
+      "causal_note": "Original pytest exception and source frame are directly recorded. Attribution to path-length environment is an evidence-based diagnosis; shorter-basetemp verification remains pending."
+    },
+    {
+      "test_nodeid": "tests/test_catalog_v2.py::test_num_007_maximize_cancel_timeout_and_guard_import",
+      "junit_outcome": "ERROR",
+      "testcase_seconds": 0.001,
+      "original_junit_message": "failed on setup with \"FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\TajAhmadi\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\catalog-qualification0\\\\catalog-artifacts\\\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\\\controlled_failure.jsonl.traceback.txt'\"",
+      "original_junit_frame_lines": [
+        "tests\\test_catalog_v2.py:90:",
+        "src\\p_mc_optimizer\\catalog\\store.py:516: in run_batch",
+        "src\\p_mc_optimizer\\catalog\\qualification.py:245: in qualify_configuration",
+        "src\\p_mc_optimizer\\execution\\supervisor.py:404: in run_execution",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1047: in write_text",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1013: FileNotFoundError"
+      ],
+      "classification": "DIRECT_FILESYSTEM_EXCEPTION_IN_JUNIT",
+      "original_exception_type": "FileNotFoundError",
+      "original_exception_errno": 2,
+      "path": {
+        "absolute_path_from_original_error": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.traceback.txt",
+        "character_count": 261,
+        "relative_to_resolved_original_basetemp": "catalog-qualification0/catalog-artifacts/170489c4-5f15-4ffe-ae57-0700ddaafbfb/66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c/controlled_failure.jsonl.traceback.txt",
+        "parent_exists_at_review": true,
+        "exists_at_review": false,
+        "projected_same_relative_path_under_proposed_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-f2-4c0c\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.traceback.txt",
+        "projected_character_count": 229,
+        "projected_resolved_character_count": 230,
+        "separate_read_only_stat_error": {
+          "type": "FileNotFoundError",
+          "errno": 2,
+          "winerror": 3
+        }
+      },
+      "observed_product_frame": "src/p_mc_optimizer/execution/supervisor.py:404",
+      "observed_operation": "write_text diagnostic after completed history rename",
+      "causal_note": "Original pytest exception and source frame are directly recorded. Attribution to path-length environment is an evidence-based diagnosis; shorter-basetemp verification remains pending."
+    },
+    {
+      "test_nodeid": "tests/test_library_v21_workflow.py::test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily",
+      "junit_outcome": "FAIL",
+      "testcase_seconds": 10.388,
+      "original_junit_message": "AssertionError: {'schema_version': '2.0', 'scope': 'base', 'qualification_id': '45e6c456-01ee-44ad-9cce-ec838028a583', 'status': 'failed', ...}\nassert 0 == 3",
+      "original_junit_frame_lines": [
+        "tests\\test_library_v21_workflow.py:152:",
+        "tests\\test_v2_workflow.py:114: AssertionError"
+      ],
+      "classification": "DEPENDENT_QUALIFICATION_ASSERTION",
+      "observed_assertion": "qualified_count was 0; expected 3",
+      "observed_assertion_frame": "tests/test_v2_workflow.py:114",
+      "recorded_background_exception": {
+        "type": "FileNotFoundError",
+        "errno": 2,
+        "log_line": 414,
+        "source_frame": "src/p_mc_optimizer/execution/supervisor.py:266",
+        "path": {
+          "absolute_path_from_original_error": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_library_jobs_preserve_exa0\\catalog-artifacts\\45e6c456-01ee-44ad-9cce-ec838028a583\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.part",
+          "character_count": 261,
+          "relative_to_resolved_original_basetemp": "test_library_jobs_preserve_exa0/catalog-artifacts/45e6c456-01ee-44ad-9cce-ec838028a583/66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c/controlled_failure.jsonl.part",
+          "parent_exists_at_review": true,
+          "exists_at_review": false,
+          "projected_same_relative_path_under_proposed_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-f2-4c0c\\test_library_jobs_preserve_exa0\\catalog-artifacts\\45e6c456-01ee-44ad-9cce-ec838028a583\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.part",
+          "projected_character_count": 229,
+          "projected_resolved_character_count": 230,
+          "separate_read_only_stat_error": {
+            "type": "FileNotFoundError",
+            "errno": 2,
+            "winerror": 3
+          }
+        },
+        "original_safe_traceback_lines": [
+          {
+            "line": 399,
+            "text": "Traceback (most recent call last):"
+          },
+          {
+            "line": 400,
+            "text": "  File \"G:\\projects\\solverscout-narrative-contract-repair\\src\\p_mc_optimizer\\catalog\\routes.py\", line 63, in qualify"
+          },
+          {
+            "line": 401,
+            "text": "    store.run_batch(qualification_id)"
+          },
+          {
+            "line": 402,
+            "text": "  File \"G:\\projects\\solverscout-narrative-contract-repair\\src\\p_mc_optimizer\\catalog\\store.py\", line 516, in run_batch"
+          },
+          {
+            "line": 403,
+            "text": "    report = qualify_configuration("
+          },
+          {
+            "line": 404,
+            "text": "             ^^^^^^^^^^^^^^^^^^^^^^"
+          },
+          {
+            "line": 405,
+            "text": "  File \"G:\\projects\\solverscout-narrative-contract-repair\\src\\p_mc_optimizer\\catalog\\qualification.py\", line 245, in qualify_configuration"
+          },
+          {
+            "line": 406,
+            "text": "    result = run_execution(request, history_path=path, cancelled=cancelled)"
+          },
+          {
+            "line": 407,
+            "text": "             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+          },
+          {
+            "line": 408,
+            "text": "  File \"G:\\projects\\solverscout-narrative-contract-repair\\src\\p_mc_optimizer\\execution\\supervisor.py\", line 266, in run_execution"
+          },
+          {
+            "line": 409,
+            "text": "    with partial_path.open(\"xb\") as history:"
+          },
+          {
+            "line": 410,
+            "text": "         ^^^^^^^^^^^^^^^^^^^^^^^"
+          },
+          {
+            "line": 411,
+            "text": "  File \"C:\\Program Files\\Python312\\Lib\\pathlib.py\", line 1013, in open"
+          },
+          {
+            "line": 412,
+            "text": "    return io.open(self, mode, buffering, encoding, errors, newline)"
+          },
+          {
+            "line": 413,
+            "text": "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+          },
+          {
+            "line": 414,
+            "text": "FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\TajAhmadi\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\test_library_jobs_preserve_exa0\\\\catalog-artifacts\\\\45e6c456-01ee-44ad-9cce-ec838028a583\\\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\\\controlled_failure.jsonl.part'"
+          }
+        ]
+      },
+      "public_state_key": "test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily",
+      "causal_link_assessment": "STRONGLY_SUPPORTED_INFERENCE_FROM_MATCHING_BATCH_AND_PATH",
+      "causal_note": "The test directly failed a qualified-count assertion. Its captured background log directly records the matching qualification batch failing to open controlled_failure.jsonl.part; the same synthetic DB records failed qualification, no report and zero jobs. The linkage from the recorded background exception to the count assertion is explicitly derived, not a different exception asserted by the testcase."
+    },
+    {
+      "test_nodeid": "tests/test_numeric_compatibility.py::test_genuine_budget_trial_stop_preserves_durable_known_unknown_unused[timeout]",
+      "junit_outcome": "ERROR",
+      "testcase_seconds": 12.284,
+      "original_junit_message": "failed on setup with \"FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\TajAhmadi\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\numeric-compatibility0\\\\catalog-artifacts\\\\b3cc615c-110a-4a66-9745-016f0c96dada\\\\a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173\\\\controlled_failure.jsonl.traceback.txt'\"",
+      "original_junit_frame_lines": [
+        "tests\\test_numeric_compatibility.py:56:",
+        "src\\p_mc_optimizer\\catalog\\store.py:516: in run_batch",
+        "src\\p_mc_optimizer\\catalog\\qualification.py:245: in qualify_configuration",
+        "src\\p_mc_optimizer\\execution\\supervisor.py:404: in run_execution",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1047: in write_text",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1013: FileNotFoundError"
+      ],
+      "classification": "DIRECT_FILESYSTEM_EXCEPTION_IN_JUNIT",
+      "original_exception_type": "FileNotFoundError",
+      "original_exception_errno": 2,
+      "path": {
+        "absolute_path_from_original_error": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\numeric-compatibility0\\catalog-artifacts\\b3cc615c-110a-4a66-9745-016f0c96dada\\a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173\\controlled_failure.jsonl.traceback.txt",
+        "character_count": 261,
+        "relative_to_resolved_original_basetemp": "numeric-compatibility0/catalog-artifacts/b3cc615c-110a-4a66-9745-016f0c96dada/a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173/controlled_failure.jsonl.traceback.txt",
+        "parent_exists_at_review": true,
+        "exists_at_review": false,
+        "projected_same_relative_path_under_proposed_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-f2-4c0c\\numeric-compatibility0\\catalog-artifacts\\b3cc615c-110a-4a66-9745-016f0c96dada\\a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173\\controlled_failure.jsonl.traceback.txt",
+        "projected_character_count": 229,
+        "projected_resolved_character_count": 230,
+        "separate_read_only_stat_error": {
+          "type": "FileNotFoundError",
+          "errno": 2,
+          "winerror": 3
+        }
+      },
+      "observed_product_frame": "src/p_mc_optimizer/execution/supervisor.py:404",
+      "observed_operation": "write_text diagnostic after completed history rename",
+      "causal_note": "Original pytest exception and source frame are directly recorded. Attribution to path-length environment is an evidence-based diagnosis; shorter-basetemp verification remains pending."
+    },
+    {
+      "test_nodeid": "tests/test_numeric_compatibility.py::test_genuine_budget_trial_stop_preserves_durable_known_unknown_unused[cancel]",
+      "junit_outcome": "ERROR",
+      "testcase_seconds": 0.001,
+      "original_junit_message": "failed on setup with \"FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\TajAhmadi\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\numeric-compatibility0\\\\catalog-artifacts\\\\b3cc615c-110a-4a66-9745-016f0c96dada\\\\a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173\\\\controlled_failure.jsonl.traceback.txt'\"",
+      "original_junit_frame_lines": [
+        "tests\\test_numeric_compatibility.py:56:",
+        "src\\p_mc_optimizer\\catalog\\store.py:516: in run_batch",
+        "src\\p_mc_optimizer\\catalog\\qualification.py:245: in qualify_configuration",
+        "src\\p_mc_optimizer\\execution\\supervisor.py:404: in run_execution",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1047: in write_text",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1013: FileNotFoundError"
+      ],
+      "classification": "DIRECT_FILESYSTEM_EXCEPTION_IN_JUNIT",
+      "original_exception_type": "FileNotFoundError",
+      "original_exception_errno": 2,
+      "path": {
+        "absolute_path_from_original_error": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\numeric-compatibility0\\catalog-artifacts\\b3cc615c-110a-4a66-9745-016f0c96dada\\a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173\\controlled_failure.jsonl.traceback.txt",
+        "character_count": 261,
+        "relative_to_resolved_original_basetemp": "numeric-compatibility0/catalog-artifacts/b3cc615c-110a-4a66-9745-016f0c96dada/a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173/controlled_failure.jsonl.traceback.txt",
+        "parent_exists_at_review": true,
+        "exists_at_review": false,
+        "projected_same_relative_path_under_proposed_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-f2-4c0c\\numeric-compatibility0\\catalog-artifacts\\b3cc615c-110a-4a66-9745-016f0c96dada\\a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173\\controlled_failure.jsonl.traceback.txt",
+        "projected_character_count": 229,
+        "projected_resolved_character_count": 230,
+        "separate_read_only_stat_error": {
+          "type": "FileNotFoundError",
+          "errno": 2,
+          "winerror": 3
+        }
+      },
+      "observed_product_frame": "src/p_mc_optimizer/execution/supervisor.py:404",
+      "observed_operation": "write_text diagnostic after completed history rename",
+      "causal_note": "Original pytest exception and source frame are directly recorded. Attribution to path-length environment is an evidence-based diagnosis; shorter-basetemp verification remains pending."
+    },
+    {
+      "test_nodeid": "tests/test_numeric_compatibility.py::test_old_catalog_job_without_markers_remains_legacy_before_first_trial",
+      "junit_outcome": "ERROR",
+      "testcase_seconds": 0.001,
+      "original_junit_message": "failed on setup with \"FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\TajAhmadi\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\numeric-compatibility0\\\\catalog-artifacts\\\\b3cc615c-110a-4a66-9745-016f0c96dada\\\\a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173\\\\controlled_failure.jsonl.traceback.txt'\"",
+      "original_junit_frame_lines": [
+        "tests\\test_numeric_compatibility.py:56:",
+        "src\\p_mc_optimizer\\catalog\\store.py:516: in run_batch",
+        "src\\p_mc_optimizer\\catalog\\qualification.py:245: in qualify_configuration",
+        "src\\p_mc_optimizer\\execution\\supervisor.py:404: in run_execution",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1047: in write_text",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1013: FileNotFoundError"
+      ],
+      "classification": "DIRECT_FILESYSTEM_EXCEPTION_IN_JUNIT",
+      "original_exception_type": "FileNotFoundError",
+      "original_exception_errno": 2,
+      "path": {
+        "absolute_path_from_original_error": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\numeric-compatibility0\\catalog-artifacts\\b3cc615c-110a-4a66-9745-016f0c96dada\\a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173\\controlled_failure.jsonl.traceback.txt",
+        "character_count": 261,
+        "relative_to_resolved_original_basetemp": "numeric-compatibility0/catalog-artifacts/b3cc615c-110a-4a66-9745-016f0c96dada/a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173/controlled_failure.jsonl.traceback.txt",
+        "parent_exists_at_review": true,
+        "exists_at_review": false,
+        "projected_same_relative_path_under_proposed_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-f2-4c0c\\numeric-compatibility0\\catalog-artifacts\\b3cc615c-110a-4a66-9745-016f0c96dada\\a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173\\controlled_failure.jsonl.traceback.txt",
+        "projected_character_count": 229,
+        "projected_resolved_character_count": 230,
+        "separate_read_only_stat_error": {
+          "type": "FileNotFoundError",
+          "errno": 2,
+          "winerror": 3
+        }
+      },
+      "observed_product_frame": "src/p_mc_optimizer/execution/supervisor.py:404",
+      "observed_operation": "write_text diagnostic after completed history rename",
+      "causal_note": "Original pytest exception and source frame are directly recorded. Attribution to path-length environment is an evidence-based diagnosis; shorter-basetemp verification remains pending."
+    },
+    {
+      "test_nodeid": "tests/test_numeric_passthrough.py::test_real_base_qualified_passthrough_preserves_full_legacy_numeric_trace",
+      "junit_outcome": "FAIL",
+      "testcase_seconds": 10.012,
+      "original_junit_message": "FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\TajAhmadi\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\test_real_base_qualified_passt0\\\\catalog-artifacts\\\\7ef814b5-9922-4bb7-913d-fe99392f98ed\\\\e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771\\\\controlled_failure.jsonl.part'",
+      "original_junit_frame_lines": [
+        "tests\\test_numeric_passthrough.py:43:",
+        "src\\p_mc_optimizer\\catalog\\store.py:516: in run_batch",
+        "src\\p_mc_optimizer\\catalog\\qualification.py:245: in qualify_configuration",
+        "src\\p_mc_optimizer\\execution\\supervisor.py:266: in run_execution",
+        "C:\\Program Files\\Python312\\Lib\\pathlib.py:1013: FileNotFoundError"
+      ],
+      "classification": "DIRECT_FILESYSTEM_EXCEPTION_IN_JUNIT",
+      "original_exception_type": "FileNotFoundError",
+      "original_exception_errno": 2,
+      "path": {
+        "absolute_path_from_original_error": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_real_base_qualified_passt0\\catalog-artifacts\\7ef814b5-9922-4bb7-913d-fe99392f98ed\\e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771\\controlled_failure.jsonl.part",
+        "character_count": 261,
+        "relative_to_resolved_original_basetemp": "test_real_base_qualified_passt0/catalog-artifacts/7ef814b5-9922-4bb7-913d-fe99392f98ed/e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771/controlled_failure.jsonl.part",
+        "parent_exists_at_review": true,
+        "exists_at_review": false,
+        "projected_same_relative_path_under_proposed_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-f2-4c0c\\test_real_base_qualified_passt0\\catalog-artifacts\\7ef814b5-9922-4bb7-913d-fe99392f98ed\\e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771\\controlled_failure.jsonl.part",
+        "projected_character_count": 229,
+        "projected_resolved_character_count": 230,
+        "separate_read_only_stat_error": {
+          "type": "FileNotFoundError",
+          "errno": 2,
+          "winerror": 3
+        }
+      },
+      "observed_product_frame": "src/p_mc_optimizer/execution/supervisor.py:266",
+      "observed_operation": "exclusive .part history open before child launch",
+      "causal_note": "Original pytest exception and source frame are directly recorded. Attribution to path-length environment is an evidence-based diagnosis; shorter-basetemp verification remains pending."
+    },
+    {
+      "test_nodeid": "tests/test_v2_workflow.py::test_v2_web_and_catalog_policies_use_real_pilot_evidence",
+      "junit_outcome": "FAIL",
+      "testcase_seconds": 10.625,
+      "original_junit_message": "AssertionError: {'schema_version': '2.0', 'scope': 'base', 'qualification_id': 'dfc6ed4f-41ba-47a9-b560-915c3399e2c0', 'status': 'failed', ...}\nassert 0 == 3",
+      "original_junit_frame_lines": [
+        "tests\\test_v2_workflow.py:152:",
+        "tests\\test_v2_workflow.py:114: AssertionError"
+      ],
+      "classification": "DEPENDENT_QUALIFICATION_ASSERTION",
+      "observed_assertion": "qualified_count was 0; expected 3",
+      "observed_assertion_frame": "tests/test_v2_workflow.py:114",
+      "recorded_background_exception": {
+        "type": "FileNotFoundError",
+        "errno": 2,
+        "log_line": 535,
+        "source_frame": "src/p_mc_optimizer/execution/supervisor.py:266",
+        "path": {
+          "absolute_path_from_original_error": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_v2_web_and_catalog_polici0\\catalog-artifacts\\dfc6ed4f-41ba-47a9-b560-915c3399e2c0\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.part",
+          "character_count": 261,
+          "relative_to_resolved_original_basetemp": "test_v2_web_and_catalog_polici0/catalog-artifacts/dfc6ed4f-41ba-47a9-b560-915c3399e2c0/66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c/controlled_failure.jsonl.part",
+          "parent_exists_at_review": true,
+          "exists_at_review": false,
+          "projected_same_relative_path_under_proposed_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-f2-4c0c\\test_v2_web_and_catalog_polici0\\catalog-artifacts\\dfc6ed4f-41ba-47a9-b560-915c3399e2c0\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.part",
+          "projected_character_count": 229,
+          "projected_resolved_character_count": 230,
+          "separate_read_only_stat_error": {
+            "type": "FileNotFoundError",
+            "errno": 2,
+            "winerror": 3
+          }
+        },
+        "original_safe_traceback_lines": [
+          {
+            "line": 520,
+            "text": "Traceback (most recent call last):"
+          },
+          {
+            "line": 521,
+            "text": "  File \"G:\\projects\\solverscout-narrative-contract-repair\\src\\p_mc_optimizer\\catalog\\routes.py\", line 63, in qualify"
+          },
+          {
+            "line": 522,
+            "text": "    store.run_batch(qualification_id)"
+          },
+          {
+            "line": 523,
+            "text": "  File \"G:\\projects\\solverscout-narrative-contract-repair\\src\\p_mc_optimizer\\catalog\\store.py\", line 516, in run_batch"
+          },
+          {
+            "line": 524,
+            "text": "    report = qualify_configuration("
+          },
+          {
+            "line": 525,
+            "text": "             ^^^^^^^^^^^^^^^^^^^^^^"
+          },
+          {
+            "line": 526,
+            "text": "  File \"G:\\projects\\solverscout-narrative-contract-repair\\src\\p_mc_optimizer\\catalog\\qualification.py\", line 245, in qualify_configuration"
+          },
+          {
+            "line": 527,
+            "text": "    result = run_execution(request, history_path=path, cancelled=cancelled)"
+          },
+          {
+            "line": 528,
+            "text": "             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+          },
+          {
+            "line": 529,
+            "text": "  File \"G:\\projects\\solverscout-narrative-contract-repair\\src\\p_mc_optimizer\\execution\\supervisor.py\", line 266, in run_execution"
+          },
+          {
+            "line": 530,
+            "text": "    with partial_path.open(\"xb\") as history:"
+          },
+          {
+            "line": 531,
+            "text": "         ^^^^^^^^^^^^^^^^^^^^^^^"
+          },
+          {
+            "line": 532,
+            "text": "  File \"C:\\Program Files\\Python312\\Lib\\pathlib.py\", line 1013, in open"
+          },
+          {
+            "line": 533,
+            "text": "    return io.open(self, mode, buffering, encoding, errors, newline)"
+          },
+          {
+            "line": 534,
+            "text": "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+          },
+          {
+            "line": 535,
+            "text": "FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\TajAhmadi\\\\AppData\\\\Local\\\\Temp\\\\ss-offline-20261113T123609Z\\\\full-final-01\\\\test_v2_web_and_catalog_polici0\\\\catalog-artifacts\\\\dfc6ed4f-41ba-47a9-b560-915c3399e2c0\\\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\\\controlled_failure.jsonl.part'"
+          }
+        ]
+      },
+      "public_state_key": "test_v2_web_and_catalog_policies_use_real_pilot_evidence",
+      "causal_link_assessment": "STRONGLY_SUPPORTED_INFERENCE_FROM_MATCHING_BATCH_AND_PATH",
+      "causal_note": "The test directly failed a qualified-count assertion. Its captured background log directly records the matching qualification batch failing to open controlled_failure.jsonl.part; the same synthetic DB records failed qualification, no report and zero jobs. The linkage from the recorded background exception to the count assertion is explicitly derived, not a different exception asserted by the testcase."
+    }
+  ],
+  "dependent_case_public_state": {
+    "test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily": {
+      "synthetic_database_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_library_jobs_preserve_exa0\\state.sqlite3",
+      "access": "SQLite URI mode=ro; public qualification fields and jobs count only",
+      "jobs_count": 0,
+      "qualification_report_count": 0,
+      "qualification_runs": [
+        {
+          "qualification_id": "45e6c456-01ee-44ad-9cce-ec838028a583",
+          "status": "failed",
+          "max_seconds": 120,
+          "max_evaluations": 9000,
+          "created_at": "2026-11-13T13:04:00.759050+00:00",
+          "finished_at": "2026-11-13T13:04:10.463285+00:00",
+          "scope": "base"
+        }
+      ],
+      "qualification_checks": [
+        {
+          "qualification_id": "45e6c456-01ee-44ad-9cce-ec838028a583",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "sphere_2d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "sphere_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "410e9e75f4f1f046ae4a344c85ebd0da4ec77b4e70fc951b86f206bae3803e44",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.8910000000614673
+          }
+        },
+        {
+          "qualification_id": "45e6c456-01ee-44ad-9cce-ec838028a583",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "sphere_2d_replay",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "sphere_2d_replay",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "f394256c26b436995c65fbfa58a1b77797484c3ad7fa838e27353b7087f5b992",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.8900000001303852
+          }
+        },
+        {
+          "qualification_id": "45e6c456-01ee-44ad-9cce-ec838028a583",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "rosenbrock_2d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "rosenbrock_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "91fcf7476938f1b2d45ad3454c061b6709cd2c48624874d7fa89d8fab28f9310",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.8910000000614673
+          }
+        },
+        {
+          "qualification_id": "45e6c456-01ee-44ad-9cce-ec838028a583",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "shifted_10d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "shifted_10d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "2b4c2d2b78884eaea0812d3fb80382ae395eb33ee7db8290fdd835a6c5fd0de3",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.9059999999590218
+          }
+        },
+        {
+          "qualification_id": "45e6c456-01ee-44ad-9cce-ec838028a583",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "shifted_30d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "shifted_30d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "5b7c9c0489be9785adbc9dc3f76c3cea1b95bf3d5c2077c9b8680a6ebeb34c58",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.9379999998491257
+          }
+        },
+        {
+          "qualification_id": "45e6c456-01ee-44ad-9cce-ec838028a583",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "controlled_failure",
+          "reserved_evaluations": 500,
+          "result": null
+        }
+      ]
+    },
+    "test_v2_web_and_catalog_policies_use_real_pilot_evidence": {
+      "synthetic_database_path": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_v2_web_and_catalog_polici0\\state.sqlite3",
+      "access": "SQLite URI mode=ro; public qualification fields and jobs count only",
+      "jobs_count": 0,
+      "qualification_report_count": 0,
+      "qualification_runs": [
+        {
+          "qualification_id": "dfc6ed4f-41ba-47a9-b560-915c3399e2c0",
+          "status": "failed",
+          "max_seconds": 120,
+          "max_evaluations": 9000,
+          "created_at": "2026-11-13T13:23:35.408082+00:00",
+          "finished_at": "2026-11-13T13:23:45.379393+00:00",
+          "scope": "base"
+        }
+      ],
+      "qualification_checks": [
+        {
+          "qualification_id": "dfc6ed4f-41ba-47a9-b560-915c3399e2c0",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "sphere_2d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "sphere_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "027fc9ede888604ad2061123629593ac5d84fb31befb35a2672c41a0c4149673",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.922000000020489
+          }
+        },
+        {
+          "qualification_id": "dfc6ed4f-41ba-47a9-b560-915c3399e2c0",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "sphere_2d_replay",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "sphere_2d_replay",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "907817b47bdd1aa93d4262eeeaec9b412e284189f28f0cb08148b239dbff74e1",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.9849999998696148
+          }
+        },
+        {
+          "qualification_id": "dfc6ed4f-41ba-47a9-b560-915c3399e2c0",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "rosenbrock_2d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "rosenbrock_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "e8983b2e99b91102e307cfa1957c139441c59258625c7cc7fa4a67bb5916797e",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.922000000020489
+          }
+        },
+        {
+          "qualification_id": "dfc6ed4f-41ba-47a9-b560-915c3399e2c0",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "shifted_10d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "shifted_10d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "37935e3661c1c703c2175db17031a9f6d23693ffc3cf7af529c18e011ab03785",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.9690000000409782
+          }
+        },
+        {
+          "qualification_id": "dfc6ed4f-41ba-47a9-b560-915c3399e2c0",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "shifted_30d",
+          "reserved_evaluations": 500,
+          "result": {
+            "check": "shifted_30d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "6d354553ed1ade5d04ae67a48c4f0ab78d6840d27d503515cebc2e7f4443324b",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 1.952999999979511
+          }
+        },
+        {
+          "qualification_id": "dfc6ed4f-41ba-47a9-b560-915c3399e2c0",
+          "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+          "check_id": "controlled_failure",
+          "reserved_evaluations": 500,
+          "result": null
+        }
+      ]
+    }
+  },
+  "diagnosis": {
+    "directly_observed": "Seven setup errors and one call failure contain FileNotFoundError errno2 in original JUnit at diagnostic write or initial history-part open. Two additional call failures are qualified-count assertions with matching FileNotFoundError background tracebacks in the original log. All failing paths have 261 characters after pytest resolves the short username; their parents exist.",
+    "environment_cause_assessment": "The nested full-suite basetemp causes qualification history/diagnostic paths to reach the Windows path-length boundary. This interpretation is supported by exact original exception paths, source frames, existing parents and shorter neighboring history files. A second unchanged-source full run with only a shorter basetemp is the planned verification, not a result claimed here.",
+    "dependent_link_assessment": "Both dependent cases failed qualification before any job was created. The same batch IDs appear in original log paths, assertion messages and public qualification state. The exception-to-assertion linkage is derived from these matching records.",
+    "not_supported_by_evidence": [
+      "A new numeric deadline bug",
+      "A completed library/v2 job failing its pilot-budget or evidence assertions",
+      "A narrative model/provider regression as the source of these ten outcomes"
+    ],
+    "preservation": "Keep full-final-01 as a recorded failed run; neither replace its log/JUnit nor recategorize its FAIL/ERROR outcomes as PASS."
+  },
+  "proposed_environment_remedy": {
+    "only_change": "Use a shorter fresh pytest --basetemp on the same drive and unchanged tested source/harness.",
+    "proposed_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-f2-4c0c",
+    "proposed_basetemp_character_count": 47,
+    "proposed_resolved_basetemp": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-f2-4c0c",
+    "proposed_resolved_basetemp_character_count": 48,
+    "argument": "--basetemp=C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-f2-4c0c",
+    "projected_existing_relative_failure_path_lengths": [
+      [
+        229,
+        230
+      ]
+    ],
+    "source_changes": 0,
+    "numeric_budget_changes": 0,
+    "seed_changes": 0,
+    "test_selection_changes": 0,
+    "verification_status": "PENDING_SEPARATE_FULL_RUN",
+    "verification_owner": "Parent agent; no tests executed by this review",
+    "note": "Length values above are computed from actual path strings, including the one-character expansion when TAJAHM~1 resolves to TajAhmadi."
+  },
+  "earlier_preliminary_evidence_preserved": [
+    {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\full-run-environment-evidence\\preliminary.json",
+      "relative_to_evidence_root": "full-run-environment-evidence/preliminary.json",
+      "bytes": 28299,
+      "sha256": "9a33302bf2414573dc59709b13c9ed0fc527c6d5ac8a70601587d050d0f66b24"
+    },
+    {
+      "absolute_path": "G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\full-run-environment-evidence\\catalog-controlled_failure.jsonl",
+      "relative_to_evidence_root": "full-run-environment-evidence/catalog-controlled_failure.jsonl",
+      "bytes": 645,
+      "sha256": "eca195f81812ed0761397e96968b00ac0c6d4cb42d40f01ad3000a589ad2254f"
+    }
+  ],
+  "privacy_and_scope": "No private database or database bytes, credential/profile payloads, environment dump, cookie or connection headers exported. Only the two exact synthetic test databases were queried read-only for allowlisted public qualification state and jobs counts. No app import, new test, objective evaluation or solver/model call.",
+  "limitations": [
+    "The shorter-basetemp follow-up has not been assessed by this document.",
+    "Original exceptions are FileNotFoundError errno2. The diagnosis does not claim the OS exception explicitly reported MAX_PATH or that registry/host policy was inspected.",
+    "Repeated shared-fixture setup errors are separate affected testcase outcomes but can share one originating exception/path; five distinct failing paths are identified."
+  ]
+}

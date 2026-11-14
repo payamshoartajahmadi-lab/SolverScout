@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="5.616" timestamp="2026-11-13T16:13:24.647241+03:30" hostname="DESKTOP-RUAEVM4"><testcase classname="tests.test_numeric" name="test_exe_009_010_supervisor_reaps_hung_objective[False]" time="3.367"><failure message="AssertionError: assert not True&#10; +  where True = ExecutionResult(job_id='0cdd37ce-e2ca-4bcc-9462-2501bb7ad079', execution_id='ace4de0b-3837-4f84-bb3f-ef4887190df7', ph...82a7'}, {'path': 'workflow/worker.py', 'sha256': '2582fdfe142c3a0e8e460918469c6d3ecbf2d041fde58331858da8300106043e'}]}).history_complete">tmp_path = WindowsPath('G:/projects/solverscout-narrative-contract-repair/.pytest-tmp/oa-probe-01/test_exe_009_010_supervisor_re0')
+cancel = False
+
+    @pytest.mark.parametrize("cancel", [False, True])
+    def test_exe_009_010_supervisor_reaps_hung_objective(tmp_path, cancel):
+        process_id = mp.get_context("spawn").Value("i", 0)
+        item = request("preflight", seconds=1.8)
+        result, _ = run(
+            item, tmp_path, _objective_override=partial(hang, process_id=process_id),
+            cancelled=lambda: cancel and process_id.value != 0,
+        )
+        assert result.execution_status == ("cancelled" if cancel else "timed_out")
+&gt;       assert not result.history_complete
+E       AssertionError: assert not True
+E        +  where True = ExecutionResult(job_id='0cdd37ce-e2ca-4bcc-9462-2501bb7ad079', execution_id='ace4de0b-3837-4f84-bb3f-ef4887190df7', ph...82a7'}, {'path': 'workflow/worker.py', 'sha256': '2582fdfe142c3a0e8e460918469c6d3ecbf2d041fde58331858da8300106043e'}]}).history_complete
+
+tests\test_numeric.py:317: AssertionError</failure></testcase><testcase classname="tests.test_numeric" name="test_exe_009_010_supervisor_reaps_hung_objective[True]" time="1.943" /></testsuite></testsuites>

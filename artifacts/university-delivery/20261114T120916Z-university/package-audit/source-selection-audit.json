@@ -1,0 +1,69 @@
+{
+  "source_sha": "5706be1e5c3c28e3069bacb2c37acfdfc8633fc3",
+  "selected_file_count": 342,
+  "all_selected_files_exist": true,
+  "missing_mandatory": [],
+  "selected_untracked": [],
+  "selected_changed_from_frozen_commit": [],
+  "selected_symlinks": [
+    "prompts/advisor.v1.txt",
+    "prompts/connection_test.v1.txt",
+    "prompts/explainer.v1.txt",
+    "prompts/formulator.v1.txt",
+    "prompts/repair.v1.txt"
+  ],
+  "private_or_environment_members": [],
+  "public_delivery_artifacts_automatically_included": false,
+  "mandatory_files": {
+    "DELIVERY_GUIDE_FA.md": true,
+    "pyproject.toml": true,
+    "requirements.lock": true,
+    "requirements-test.lock": true,
+    "run_server.py": true,
+    "scripts/setup.sh": true,
+    "scripts/setup.bat": true,
+    "scripts/start.sh": true,
+    "scripts/start.bat": true,
+    "src/p_mc_optimizer/__main__.py": true,
+    "src/p_mc_optimizer/application/demo.py": true,
+    "src/p_mc_optimizer/api/demo.py": true,
+    "src/p_mc_optimizer/ui/preparation.py": true,
+    "src/p_mc_optimizer/llm/prompts/research_planner.v2.1.txt": true,
+    "src/p_mc_optimizer/llm/prompts/advisor.v2.1.txt": true,
+    "src/p_mc_optimizer/llm/prompts/narrative_review.v1.2.txt": true,
+    "schemas/narrative_review_context.v1.1.json": true,
+    "tests/fixtures/university_delivery/recovered_review_hashes.json": true,
+    "examples/university_u1_fa.txt": true,
+    "examples/university_u2_fa.txt": true,
+    "src/p_mc_optimizer/ui/static/Vazirmatn.woff2": true,
+    "src/p_mc_optimizer/ui/static/Vazirmatn-OFL.txt": true
+  },
+  "internal_legacy_prompt_aliases": [
+    {
+      "path": "prompts/advisor.v1.txt",
+      "target": "src/p_mc_optimizer/llm/prompts/advisor.v1.txt",
+      "frozen_link_and_target_bytes_match": true
+    },
+    {
+      "path": "prompts/connection_test.v1.txt",
+      "target": "src/p_mc_optimizer/llm/prompts/connection_test.v1.txt",
+      "frozen_link_and_target_bytes_match": true
+    },
+    {
+      "path": "prompts/explainer.v1.txt",
+      "target": "src/p_mc_optimizer/llm/prompts/explainer.v1.txt",
+      "frozen_link_and_target_bytes_match": true
+    },
+    {
+      "path": "prompts/formulator.v1.txt",
+      "target": "src/p_mc_optimizer/llm/prompts/formulator.v1.txt",
+      "frozen_link_and_target_bytes_match": true
+    },
+    {
+      "path": "prompts/repair.v1.txt",
+      "target": "src/p_mc_optimizer/llm/prompts/repair.v1.txt",
+      "frozen_link_and_target_bytes_match": true
+    }
+  ],
+  "frozen_source_selection_pass": true
+}

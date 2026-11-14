@@ -1,0 +1,7 @@
+{
+  "guard": "pytest process and its threads: only loopback sockets allowed",
+  "blocked_non_loopback_connection_attempts": 0,
+  "pytest_exitstatus": 0,
+  "live_provider_test_selected": false,
+  "real_model_calls_authorized": 0
+}

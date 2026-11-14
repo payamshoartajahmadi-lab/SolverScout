@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+from math import isfinite
 import platform
 import tempfile
 from datetime import datetime, timezone
@@ -55,6 +56,25 @@ def _seconds_since(timestamp):
     if not timestamp:
         return None
     return max(0, (datetime.now(timezone.utc) - datetime.fromisoformat(timestamp)).total_seconds())
+
+
+def _inverted_bounds_message(extracted):
+    """Inspect converter-validated values, independently of model error labels."""
+    from pydantic import TypeAdapter, ValidationError
+    from p_mc_optimizer.domain.models import Name
+
+    for variable in (extracted or {}).get("variables") or []:
+        lower, upper = variable.get("lower"), variable.get("upper")
+        if (type(lower) not in (int, float) or type(upper) not in (int, float)
+                or not isfinite(lower) or not isfinite(upper) or lower <= upper):
+            continue
+        try:
+            name = TypeAdapter(Name).validate_python(variable.get("name"))
+        except ValidationError:
+            name = None
+        label = name if name is not None else "یکی از متغیرها"
+        return f"کران پایین {label} از کران بالای آن بزرگ‌تر است. کران‌های مسئله را اصلاح کنید."
+    return None
 
 
 class Workflow:
@@ -127,7 +147,7 @@ class Workflow:
     def intake(self):
         self.phase("intake")
 
-    def _invoke(self, role, context, *, validate=lambda output: output):
+    def _invoke(self, role, context, *, validate=lambda output: output, schema_id=None):
         if self.api_url is None:
             return None, _error("PROVIDER_CONFIGURATION_REQUIRED", "تنظیمات مدل در این اجرا در دسترس نیست.")
         digest = hashlib.sha256(json_bytes(context, pretty=False)).hexdigest()
@@ -141,10 +161,21 @@ class Workflow:
                 invocation_id = str(uuid4())
                 journal[str(index)] = invocation_id
                 self.keep(journal_key, journal)
+                from p_mc_optimizer.runtime_provenance import get_runtime
+
+                producers = dict(self.workflow.get("runtime:invocation_producers", {}))
+                identity = get_runtime()
+                producers[invocation_id] = {
+                    "process_run_id": identity["process_run_id"], "role": identity["role"], "llm_role": role,
+                    "schema_id": schema_id or {"formulator": "formulator.v1", "advisor": "advisor.v1",
+                                                "explainer": "explainer.v1"}[role],
+                }
+                self.keep("runtime:invocation_producers", producers)
             timeout = (self.job["llm_profile"] or {}).get("request_timeout_seconds", 60)
             result = invoke_role(
                 self.api_url, self.token, self.job_id, role, context,
                 invocation_id=invocation_id, request_timeout_seconds=timeout,
+                **({"schema_id": schema_id} if schema_id else {}),
             )
             if result["call_id"] is None:
                 return None, result["error"]
@@ -213,6 +244,9 @@ class Workflow:
                                      "source_map", "normalizations", "unsupported_features") if k in parsed},
         }
         self.repo.put_draft(self.job_id, persisted, worker_id=self.worker_id)
+        bounds_message = _inverted_bounds_message(parsed.get("extracted_fields"))
+        if bounds_message is not None:
+            return self.stop("UNSUPPORTED_PROBLEM", bounds_message, reason="validation_error")
         if parsed.get("unsupported_features"):
             return self.stop("UNSUPPORTED_PROBLEM", "مسئله خارج از دامنهٔ نسخهٔ اول است.",
                              reason="validation_error")
@@ -258,6 +292,12 @@ class Workflow:
             return min(policy.verification_time_reserve_seconds, policy.max_compute_seconds - elapsed)
         return policy.max_compute_seconds - policy.verification_time_reserve_seconds - elapsed
 
+    def seed_identity(self, algorithm_id):
+        return algorithm_id or "none"
+
+    def build_trial(self, revision, **fields):
+        return trial_request(revision, **fields)
+
     def _execute(self, phase, quota, *, algorithm_id=None, replicate_index=0, reference=None):
         from p_mc_optimizer.domain.models import ExecutionRequest, ExecutionResult
 
@@ -274,11 +314,11 @@ class Workflow:
         if deadline <= 0 or self.cancelled(immediate=True) or self.shutdown():
             return None
         seed = derive_seed(self.policy.master_seed, revision.problem_math_hash,
-                           phase, algorithm_id or "none", replicate_index)
+                           phase, self.seed_identity(algorithm_id), replicate_index)
         trial = None
         execution_id = str(uuid4())
         if algorithm_id is not None:
-            trial = trial_request(
+            trial = self.build_trial(
                 revision, job_id=self.job_id, trial_id=str(uuid4()), attempt_id=execution_id,
                 idempotency_key=str(uuid4()), algorithm_id=algorithm_id, seed=seed, phase=phase,
                 replicate_index=replicate_index, evaluation_quota=quota, deadline_seconds=deadline,
@@ -293,13 +333,22 @@ class Workflow:
             verification_reference=reference,
         )
 
+        def identity(payload):
+            from p_mc_optimizer.runtime_provenance import save_runtime
+
+            save_runtime(self.repo.data_dir, payload)
+            processes = dict(self.workflow.get("runtime:numeric", {}))
+            processes[payload["identity"]["process_run_id"]] = payload["identity"]
+            self.keep("runtime:numeric", processes)
+            return True
+
         def event(value):
             if value["kind"] == "started":
                 return self.repo.record_started(execution_id, sequence=value["sequence"], worker_id=self.worker_id)
 
         with tempfile.TemporaryDirectory(prefix=".execution-", dir=self.repo.data_dir / "artifacts") as work:
             history = Path(work) / "evaluations.jsonl"
-            result = run_execution(request, history_path=history, on_event=event,
+            result = run_execution(request, history_path=history, on_event=event, on_identity=identity,
                                    cancelled=lambda: self.cancelled() or self.shutdown())
             values = _model(result)
             history_file = history if history.exists() else history.with_suffix(history.suffix + ".part")
@@ -440,13 +489,16 @@ class Workflow:
                         if row["phase"] != "verification" and (row.get("outcome") or {}).get("best")]
         return min(observations, key=lambda pair: pair[0]["score_for_minimization"], default=(None, None))
 
+    def can_verify(self, stop):
+        return stop.get("status") not in {"failed", "cancelled"}
+
     def verify_solution(self):
         from p_mc_optimizer.domain.models import EvaluationRecord
 
         self.phase("verifying")
         best, _ = self._best()
         stop = self.workflow.get("stop") or {}
-        if not best or stop.get("status") in {"failed", "cancelled"}:
+        if not best or not self.can_verify(stop):
             self.event("stage_skipped", stage="verification", reason="no_verifiable_candidate")
             return
         result = self._execute("verification", self.policy.verification_evaluations,
@@ -515,7 +567,15 @@ class Workflow:
         for row in rows:
             outcome = row.get("outcome") or {}
             if row["trial_id"] is not None:
+                numeric = (row["request"] or {}).get("numeric_execution")
+                effective = dict((parameter["name"], parameter["value"]) for parameter in
+                                 numeric["effective_configuration"]["parameters"]) if numeric else {}
                 trials.append({**row["request"], **outcome,
+                               **({"policy_id": numeric["policy_id"],
+                                   "effective_config_hash": numeric["effective_config_hash"],
+                                   "effective_epoch": effective.get("epoch"),
+                                   "effective_pop_size": effective.get("pop_size"),
+                                   "derivation_reason": numeric["reason"]} if numeric else {}),
                                "best_evaluation_id": (outcome.get("best") or {}).get("evaluation_id"),
                                "best_x": (outcome.get("best") or {}).get("x"),
                                "objective_raw": (outcome.get("best") or {}).get("objective_raw"),
@@ -565,6 +625,8 @@ class Workflow:
                             "numpy": version("numpy"), "mealpy": version("mealpy"), "rng": "PCG64",
                             "registry_version": "1.0", "prompt_version": "1.0",
                             "master_seed": self.policy.master_seed},
+            "execution_contracts": wf.get("execution_contracts", {}),
+            "report_generation_policy_version": (wf.get("execution_contracts") or {}).get("report_generation_policy_version", "1.0"),
         }
 
     def explain_result(self):
@@ -572,22 +634,41 @@ class Workflow:
         if self.cancelled(immediate=True) and report["job_status"] != "cancelled":
             self.build_report_data()
             report = self.report
+        if self.workflow.get("execution_contracts", {}).get("explanation") == "grounded_narrative_v3":
+            self.explain_grounded_narrative(report)
+            report = self.report
+            report["llm_calls"] = job_call_metadata(self.repo, self.job_id)
+            report["timing"]["elapsed_wall_seconds"] = _seconds_since(self.job.get("created_at"))
+            report["timing"]["elapsed_llm_seconds"] = sum(call.get("elapsed_seconds", 0) or 0 for call in report["llm_calls"])
+            return
+        if self.workflow.get("execution_contracts", {}).get("explanation") == "evidence_bound_v2":
+            self.explain_evidence_bound(report)
+            report = self.report
+            report["llm_calls"] = job_call_metadata(self.repo, self.job_id)
+            report["timing"]["elapsed_wall_seconds"] = _seconds_since(self.job.get("created_at"))
+            report["timing"]["elapsed_llm_seconds"] = sum(call.get("elapsed_seconds", 0) or 0 for call in report["llm_calls"])
+            return
+        decision_context_valid = True
         if report["explanation_status"] == "pending" and not self.shutdown():
+            from p_mc_optimizer.llm.explanation_context import build_explainer_context
+            from p_mc_optimizer.llm.formulation import RoleOutputError
             from p_mc_optimizer.llm.models import ExplainerResponse
+            from p_mc_optimizer.llm.provider import error_detail
 
-            evidence = ["report:solution", "report:verification", "report:budget"]
-            if report["selected_algorithm_id"] is not None:
-                evidence.append("report:decision")
-            summary = {k: report[k] for k in ("selected_algorithm_id", "selection_status", "solution_status",
-                                               "solution_origin", "verification", "partial_result", "budget",
-                                               "optimality_status", "objective_raw")}
-            context = {"report": summary, "evidence_refs": evidence,
-                       "selection_made": report["selected_algorithm_id"] is not None}
-            explanation, error = self._invoke("explainer", context,
-                                              validate=ExplainerResponse.model_validate)
+            try:
+                context = build_explainer_context(report)
+            except RoleOutputError as exc:
+                decision_context_valid = False
+                explanation = None
+                error = error_detail("LLM_SCHEMA_INVALID", field_errors=exc.field_errors)
+                error["message_fa"] = "زمینهٔ توضیح با داده‌های ثبت‌شدهٔ این اجرا سازگار نیست."
+            else:
+                self.keep("role_context:explainer", context)
+                explanation, error = self._invoke("explainer", context, validate=ExplainerResponse.model_validate)
             if self.cancelled(immediate=True):
                 self.build_report_data()
                 report = self.report
+                decision_context_valid = True
             elif explanation:
                 report["explanation_status"] = "generated"
                 report["explanation"] = _model(explanation)
@@ -597,11 +678,115 @@ class Workflow:
         else:
             self.event("llm_skipped", role="explainer", reason=report["job_status"])
         if not report.get("explanation"):
-            report["explanation"] = template_explanation(report)
+            report["explanation"] = template_explanation(report, decision_context_valid=decision_context_valid)
         report["llm_calls"] = job_call_metadata(self.repo, self.job_id)
         report["timing"]["elapsed_wall_seconds"] = _seconds_since(self.job.get("created_at"))
         report["timing"]["elapsed_llm_seconds"] = sum(
             call.get("elapsed_seconds", 0) or 0 for call in report["llm_calls"])
+
+    def explain_grounded_narrative(self, report):
+        from p_mc_optimizer.workflow.narrative_v3 import NarrativeOrchestrator
+        from p_mc_optimizer.reporting.narrative_v3 import apply_narrative_v3
+        from p_mc_optimizer.llm.provider import prompt_bundle_manifest
+        from p_mc_optimizer.runtime_provenance import get_runtime, canonical_bytes
+
+        def budget():
+            with self.repo.connect() as connection:
+                rows = connection.execute("SELECT role FROM llm_calls WHERE job_id=?", (self.job_id,)).fetchall()
+            counts = {}
+            for row in rows:
+                counts[row["role"]] = counts.get(row["role"], 0) + 1
+            policy = report["policy"]
+            return {"total_used": len(rows), "by_role": counts,
+                    "max_total": min(8 if policy["policy_version"] in {"2.0", "2.1"} else 6, policy["max_llm_calls"]),
+                    "max_per_role": min(2, policy["max_llm_calls_per_role"])}
+
+        def invoke(role, schema_id, context, invocation_id):
+            producers = dict(self.workflow.get("runtime:invocation_producers", {}))
+            identity = get_runtime()
+            producers[invocation_id] = {"process_run_id": identity["process_run_id"], "role": identity["role"],
+                                        "llm_role": role, "schema_id": schema_id}
+            self.keep("runtime:invocation_producers", producers)
+            return invoke_role(self.api_url, self.token, self.job_id, role, context, invocation_id=invocation_id,
+                               request_timeout_seconds=(self.job.get("llm_profile") or {}).get("request_timeout_seconds", 60),
+                               schema_id=schema_id)
+
+        def current_report():
+            # Refresh persisted decisions, trials and numeric ledger, not the cached draft.
+            # This is read-only report assembly and never invokes the objective or solver.
+            self.build_report_data()
+            return self.report
+
+        engine = NarrativeOrchestrator(
+            report, invoke=invoke, persist=lambda value: self.keep("narrative_v3_journal", value),
+            journal=self.workflow.get("narrative_v3_journal"), budget=budget, current_report=current_report,
+            cancelled=lambda: self.cancelled(immediate=True), shutdown=self.shutdown,
+            prompt_bundle_sha256=hashlib.sha256(canonical_bytes(prompt_bundle_manifest())).hexdigest(),
+            report_generation_policy_version=(self.workflow.get("execution_contracts") or {}).get("report_generation_policy_version", "1.0"),
+        )
+        result = engine.run()
+        self.report = apply_narrative_v3(self.report, result)
+
+    def explain_evidence_bound(self, report):
+        from p_mc_optimizer.llm.explanation_v2 import (
+            ExplainerContextV2, ExplainerPlanV2, build_explainer_context_v2, validate_explainer_plan_v2,
+        )
+        from p_mc_optimizer.llm.formulation import RoleOutputError
+        from p_mc_optimizer.llm.provider import error_detail
+        from p_mc_optimizer.reporting.explanation_v2 import (
+            apply_explanation_v2, apply_invalid_context_explanation_v2,
+        )
+
+        invocation_schema = None
+        try:
+            context = build_explainer_context_v2(report)
+        except RoleOutputError as exc:
+            report["explanation_status"] = "schema_fallback"
+            report["explanation_error"] = error_detail("LLM_SCHEMA_INVALID", field_errors=exc.field_errors)
+            apply_invalid_context_explanation_v2(report)
+            return
+        plan, error = None, None
+        if report["explanation_status"] == "pending" and not self.shutdown():
+            self.keep("role_context:explainer", context)
+            invocation_schema = "explainer.v2"
+
+            def validate(value):
+                result = ExplainerPlanV2.model_validate(value)
+                validate_explainer_plan_v2(result, ExplainerContextV2.model_validate(context))
+                return result
+
+            plan, error = self._invoke("explainer", context, validate=validate, schema_id=invocation_schema)
+        else:
+            self.event("llm_skipped", role="explainer", reason=report["job_status"])
+            prior_calls = [call for call in job_call_metadata(self.repo, self.job_id) if call["role"] == "explainer"]
+            if prior_calls:
+                invocation_schema = "explainer.v2"
+                context = self.workflow.get("role_context:explainer") or context
+        if self.cancelled(immediate=True) and self.report["job_status"] != "cancelled":
+            self.build_report_data()
+        report = self.report
+        try:
+            current = build_explainer_context_v2(report)
+        except RoleOutputError as exc:
+            report["explanation_status"] = "schema_fallback"
+            report["explanation_error"] = error_detail("LLM_SCHEMA_INVALID", field_errors=exc.field_errors)
+            apply_invalid_context_explanation_v2(report, llm_schema_id=invocation_schema)
+            return
+        changed = invocation_schema is not None and (
+            current["facts"] != context["facts"] or current["facts_hash"] != context["facts_hash"]
+        )
+        if changed:
+            plan = None
+            report["explanation_status"] = "schema_fallback"
+            report["explanation_error"] = error_detail("LLM_SCHEMA_INVALID",
+                field_errors=["plan.facts: report changed after invocation"])
+            report["diagnostics"] = {**(report.get("diagnostics") or {}), "explanation_plan_discard_reason": "report_changed"}
+        elif plan is not None:
+            report["explanation_status"] = "generated"
+        elif invocation_schema is not None:
+            report["explanation_status"] = "schema_fallback" if _code(error) in REPAIRABLE_ERROR_CODES else "provider_error"
+            report["explanation_error"] = error
+        apply_explanation_v2(report, current, plan, llm_schema_id=invocation_schema)
 
     def finalize_job(self):
         if self.shutdown() and not self.cancelled(immediate=True):
@@ -610,23 +795,32 @@ class Workflow:
             self.build_report_data()
             self.explain_result()
         report = self.report
+        from p_mc_optimizer.runtime_provenance import report_runtime_provenance
+
+        report["runtime_provenance"] = report_runtime_provenance(self.repo, self.job_id)
         artifacts = [
             self.repo.save_artifact(self.job_id, "report_json", json_bytes(report), suffix=".json", worker_id=self.worker_id),
             self.repo.save_artifact(self.job_id, "report_html", html_bytes(report), suffix=".html", worker_id=self.worker_id),
             self.repo.save_artifact(self.job_id, "trials_csv", csv_bytes(report["trials"], TRIAL_COLUMNS),
                                     suffix=".csv", worker_id=self.worker_id),
         ]
+        artifacts.extend(self.additional_artifacts(report))
         fields = {k: report[k] for k in ("job_status", "solution_status", "optimality_status", "selection_status",
                                          "explanation_status", "termination_reason", "partial_result", "error")}
         self.repo.publish_report(self.job_id, report, [x["artifact_id"] for x in artifacts],
                                  worker_id=self.worker_id, **fields)
 
-    def run(self):
-        pipeline = [
+    def additional_artifacts(self, report):
+        return []
+
+    def pipeline(self):
+        return [
             "intake", "formulate_problem", "validate_problem", "freeze_problem", "preflight", "profile_problem",
             "filter_solvers", "propose_candidates", "validate_plan", "run_pilots", "select_solver",
             "run_main_trial", "verify_solution", "build_report_data", "explain_result", "finalize_job",
         ]
+    def run(self):
+        pipeline = self.pipeline()
         early_search = {"preflight", "profile_problem", "run_pilots", "run_main_trial"}
 
         def node(name):

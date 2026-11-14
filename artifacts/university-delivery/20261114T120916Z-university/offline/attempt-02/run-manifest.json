@@ -1,0 +1,24 @@
+{
+  "attempt": 2,
+  "source_sha": "5706be1e5c3c28e3069bacb2c37acfdfc8633fc3",
+  "source_manifest_sha256": "6ff1028d9f2239b03f75de415b5da077d8fd1fdb5234cd032ca4df48ccd2e285",
+  "prompt_bundle_sha256": "54d724feff1d98bfef42fbc669a52fa7f08697cc38813a19857dcd25e2e58096",
+  "started_at_utc": "2026-11-14T12:54:46.772982+00:00",
+  "argv": [
+    "/Users/payam/projects/uni_projects/machine_turing/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "numerical_cost_observer",
+    "--junitxml=artifacts/university-delivery/20261114T120916Z-university/offline/junit.xml"
+  ],
+  "cwd": ".",
+  "pytest_addopts": "-m 'not live_provider'",
+  "observer_scope": "Read-only parent cost observation; numerical results, budgets, seeds unchanged",
+  "observer_sha256": "97e6425c750b5c1787d4a267fc8f657775d36b29201fb013e07f66b3b8dd9dc3",
+  "previous_attempt": "attempt-01/summary.json",
+  "reason_for_repeat": "Verified AppTest __main__ isolation repair; same-order targeted regression passed",
+  "exit_code": 0,
+  "finished_at_utc": "2026-11-14T13:02:53.207517+00:00"
+}

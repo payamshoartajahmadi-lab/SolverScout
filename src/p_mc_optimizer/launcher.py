@@ -20,6 +20,7 @@ import psutil
 from filelock import FileLock, Timeout
 
 from p_mc_optimizer.config import LocalConfig, config_json
+from p_mc_optimizer.ui.theme import STREAMLIT_THEME_ARGS
 
 
 class LocalRuntimeError(RuntimeError):
@@ -77,6 +78,11 @@ def _wait_ready(data_dir, config, proc, *, open_browser):
         info = owner(data_dir)
         if (info and health(config.api_url + "/healthz", instance_id=info["instance_id"]) and
                 health(config.ui_url + "/_stcore/health")):
+            from p_mc_optimizer.runtime_provenance import inspect_instance
+
+            observed = inspect_instance(data_dir, info["instance_id"])
+            if observed["drift"] == "changed":
+                print("RUNTIME_RESTART_REQUIRED: فایل‌های برنامه پس از آغاز این نمونه تغییر کرده‌اند.")
             if open_browser:
                 webbrowser.open(config.ui_url)
             print(config.ui_url)
@@ -95,6 +101,9 @@ def start(data_dir, config, *, open_browser=True):
         else:
             try:
                 with instance_lock(data_dir):
+                    from p_mc_optimizer.persistence import Repository
+
+                    Repository(data_dir)
                     ensure_port(config.api_port)
                     ensure_port(config.ui_port)
             except Timeout:
@@ -211,8 +220,8 @@ def supervise(data_dir, config, instance_id):
             "ui": [python, "-m", "p_mc_optimizer", "_ui", "run", str(Path(__file__).parent / "ui" / "app.py"),
                    "--server.address=127.0.0.1", f"--server.port={config.ui_port}",
                    "--server.headless=true", "--server.enableXsrfProtection=true",
-                   "--server.maxUploadSize=1", "--server.fileWatcherType=none",
-                   "--browser.gatherUsageStats=false"],
+                   "--server.maxUploadSize=1", "--server.fileWatcherType=none", "--server.enableStaticServing=true",
+                   "--browser.gatherUsageStats=false", *STREAMLIT_THEME_ARGS],
         }
         try:
             for role, command in commands.items():

@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "version": "2.1.0rc2",
+  "source_sha": "412ab7346f76d93ef3095ef14befa4a754e3f558",
+  "passed": 965,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "deselected": 1,
+  "deselected_reason": "live_provider marker excluded by repository default -m 'not live_provider'",
+  "seconds": 488.79,
+  "previous_attempts": [
+    "attempt-01/summary.json",
+    "attempt-02/summary.json"
+  ],
+  "command": [
+    "/Users/payam/projects/uni_projects/machine_turing/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "numerical_cost_observer",
+    "--junitxml=artifacts/university-delivery/20261114T120916Z-university/offline/junit.xml"
+  ],
+  "live_acceptance_of_current_rc2": "NOT_RUN; prior campaign closed NOT_READY"
+}

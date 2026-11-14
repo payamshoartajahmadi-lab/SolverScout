@@ -1,0 +1,203 @@
+[
+  {
+    "call_id": "a5708421-e33f-4734-88b9-83c15e3c083d",
+    "invocation_id": "4fa3353d-f8e9-4e30-af6c-cb8bf675f584",
+    "role": "formulator",
+    "status": "succeeded",
+    "input": {
+      "context": {
+        "sources": [
+          {
+            "source_ref": "input:text",
+            "text": "تابع زیر را کمینه کن:\n\n(1-x1)**2 + 100*(x2-x1**2)**2\n\nمتغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.\nکران پایین x1 برابر -2 و کران بالای آن برابر 2 است.\nکران پایین x2 برابر -1 و کران بالای آن برابر 3 است.\nتابع قطعی است.\nهیچ پارامتر جداگانه‌ای وجود ندارد؛ تمام عددهای داخل فرمول ثابت و معلوم هستند.\nهیچ قید عمومی دیگری وجود ندارد.\n\nبا استفاده از منابع آماده‌شده، سه روش مناسب را از میان روش‌های قابل اجرا پیشنهاد بده.\nبرنامه آن‌ها را با پایلوت مقایسه کند، روش منتخب را برای حل به کار ببرد\nو دلیل پیشنهاد، دلیل انتخاب نهایی و نتیجهٔ حل را توضیح بده.\n"
+          }
+        ]
+      },
+      "invocation_id": "4fa3353d-f8e9-4e30-af6c-cb8bf675f584",
+      "job_id": "d6ebc690-3609-412d-99d4-c21e2b7cfdc0",
+      "role": "formulator",
+      "schema_id": "formulator.v1"
+    },
+    "output": {
+      "clarification_questions": [],
+      "extracted_fields": {
+        "constraints": [],
+        "deterministic": true,
+        "objective": {
+          "expression": "(1-x1)**2 + 100*(x2-x1**2)**2",
+          "function_id": null,
+          "function_version": null,
+          "sense": "minimize",
+          "source_kind": "expression",
+          "unit": null
+        },
+        "parameters": [],
+        "variables": [
+          {
+            "label_fa": null,
+            "lower": -2.0,
+            "name": "x1",
+            "type": "real",
+            "unit": null,
+            "upper": 2.0
+          },
+          {
+            "label_fa": null,
+            "lower": -1.0,
+            "name": "x2",
+            "type": "real",
+            "unit": null,
+            "upper": 3.0
+          }
+        ]
+      },
+      "normalizations": [],
+      "source_map": [
+        {
+          "field_path": "/objective/expression",
+          "quote": "(1-x1)**2 + 100*(x2-x1**2)**2",
+          "source_ref": "input:text"
+        },
+        {
+          "field_path": "/objective/sense",
+          "quote": "تابع زیر را کمینه کن:",
+          "source_ref": "input:text"
+        },
+        {
+          "field_path": "/variables/0/name",
+          "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+          "source_ref": "input:text"
+        },
+        {
+          "field_path": "/variables/0/type",
+          "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+          "source_ref": "input:text"
+        },
+        {
+          "field_path": "/variables/0/lower",
+          "quote": "کران پایین x1 برابر -2 و کران بالای آن برابر 2 است.",
+          "source_ref": "input:text"
+        },
+        {
+          "field_path": "/variables/0/upper",
+          "quote": "کران پایین x1 برابر -2 و کران بالای آن برابر 2 است.",
+          "source_ref": "input:text"
+        },
+        {
+          "field_path": "/variables/1/name",
+          "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+          "source_ref": "input:text"
+        },
+        {
+          "field_path": "/variables/1/type",
+          "quote": "متغیرهای تصمیم فقط x1 و x2 هستند و هر دو حقیقی‌اند.",
+          "source_ref": "input:text"
+        },
+        {
+          "field_path": "/variables/1/lower",
+          "quote": "کران پایین x2 برابر -1 و کران بالای آن برابر 3 است.",
+          "source_ref": "input:text"
+        },
+        {
+          "field_path": "/variables/1/upper",
+          "quote": "کران پایین x2 برابر -1 و کران بالای آن برابر 3 است.",
+          "source_ref": "input:text"
+        },
+        {
+          "field_path": "/deterministic",
+          "quote": "تابع قطعی است.",
+          "source_ref": "input:text"
+        },
+        {
+          "field_path": "/parameters",
+          "quote": "هیچ پارامتر جداگانه‌ای وجود ندارد؛ تمام عددهای داخل فرمول ثابت و معلوم هستند.",
+          "source_ref": "input:text"
+        },
+        {
+          "field_path": "/constraints",
+          "quote": "هیچ قید عمومی دیگری وجود ندارد.",
+          "source_ref": "input:text"
+        }
+      ],
+      "unsupported_features": [
+        {
+          "description_fa": "درخواست پیشنهاد و مقایسهٔ روش‌های حل با پایلوت، انتخاب روش و اجرای آن برای ارائهٔ نتیجهٔ حل، خارج از استخراج مشخصات مدل است؛ منابعی برای روش‌های آماده‌شده یا پایلوت ارائه نشده‌اند.",
+          "evidence_refs": [
+            "input:text"
+          ],
+          "kind": "solver_selection_and_execution"
+        }
+      ]
+    },
+    "previous_output": null,
+    "error": null,
+    "metadata": {
+      "cost": null,
+      "effective_max_output_tokens": 4096,
+      "elapsed_seconds": 18.358491750012035,
+      "finish_reason": "stop",
+      "model_requested": "gpt-6-luna",
+      "model_returned": "gpt-6-luna",
+      "profile_id": "576add47-75a5-43d3-9e97-449c56088675",
+      "profile_revision": 3,
+      "prompt_name": "formulator.v1",
+      "prompt_version": "1.0",
+      "provenance": {
+        "effective_max_output_tokens": 4096,
+        "gateway": {
+          "dependency_versions": {
+            "fastapi": "0.162.2",
+            "httpx": "0.28.1",
+            "langgraph": "1.2.20",
+            "mealpy": "3.0.3",
+            "numpy": "1.26.0",
+            "pydantic": "2.14.3",
+            "streamlit": "1.67.0"
+          },
+          "git_commit_observed_at_startup": null,
+          "git_dirty_observed_at_startup": null,
+          "instance_id": null,
+          "pid": 49662,
+          "process_run_id": "d45016cc-3d9a-44e3-a290-1be0ede36800",
+          "project_version": "2.1.0rc1",
+          "python_version": "3.12.16",
+          "role": "api",
+          "schema_version": "runtime-provenance/1.0",
+          "source_manifest_sha256": "6ff1028d9f2239b03f75de415b5da077d8fd1fdb5234cd032ca4df48ccd2e285",
+          "source_manifest_status": "complete",
+          "source_observation": "startup_manifest",
+          "started_at_utc": "2026-11-14T13:19:13.532195+00:00"
+        },
+        "process_run_id": "d45016cc-3d9a-44e3-a290-1be0ede36800",
+        "producer": {
+          "llm_role": "formulator",
+          "process_run_id": "d45016cc-3d9a-44e3-a290-1be0ede36800",
+          "role": "api",
+          "schema_id": "formulator.v1"
+        },
+        "profile_id": "576add47-75a5-43d3-9e97-449c56088675",
+        "profile_revision": 3,
+        "prompt_bundle_sha256": "54d724feff1d98bfef42fbc669a52fa7f08697cc38813a19857dcd25e2e58096",
+        "prompt_name": "formulator.v1",
+        "prompt_version": "1.0",
+        "report_generation_policy_hash": "fe9888a9d308fb03d1d1e393e122ab52f432bae2edb3ab5ded659b758ce5000d",
+        "report_generation_policy_version": "1.0",
+        "request_body_bytes": 7958,
+        "request_body_sha256": "9d5930c0cb7f2125e995ced3ea2acd9bada2807ff8922cdfb9c6b03bf656627a",
+        "request_prepared_at_utc": "2026-11-14T13:19:14.275444+00:00",
+        "response_schema_sha256": "2963c329f94cb19cf328c754827be37846d4618bc1e64cca611008b2b245e887",
+        "schema_id": "formulator.v1",
+        "system_message_sha256": "de3321eca7dc7f0bbd601671df0e8bf9f12d18a2be55aac7420a842e64d93faa"
+      },
+      "report_generation_policy_hash": "fe9888a9d308fb03d1d1e393e122ab52f432bae2edb3ab5ded659b758ce5000d",
+      "report_generation_policy_version": "1.0",
+      "request_id": "202611141319152881061318268d9d6nWqnQr1s, 7a47af7dfe4e1209522a9eac9a634553",
+      "usage": {
+        "completion_tokens": 1351,
+        "prompt_tokens": 1530,
+        "total_tokens": 2881
+      },
+      "usage_status": "reported"
+    }
+  }
+]

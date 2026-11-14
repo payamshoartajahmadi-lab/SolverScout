@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "exact_secret_scan": "PASS",
+  "known_secret_count": 2,
+  "members_scanned": 343,
+  "expanded_bytes_scanned": 3603289,
+  "archive_sha256": "fc18bb88143b6a0c05d287cc48de8be0d5e896ad4d7dcbda1157d0cf796fceb0",
+  "findings": [],
+  "heuristic_review": []
+}

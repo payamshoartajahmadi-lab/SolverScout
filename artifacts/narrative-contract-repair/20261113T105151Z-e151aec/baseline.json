@@ -1,0 +1,41 @@
+{
+  "report_type": "new_contract_repair_mission_baseline",
+  "recorded_date_utc": "2026-11-13",
+  "worktree": "G:\\projects\\solverscout-narrative-contract-repair",
+  "branch": "fix/narrative-contract-repair",
+  "original_worktree": "G:\\projects\\solverscout",
+  "original_branch": "dev",
+  "original_head": "e151aecc0a79a7e6b421b07934df6977bc9068c7",
+  "local_dev": "e151aecc0a79a7e6b421b07934df6977bc9068c7",
+  "local_main": "6837ba01451acb1d4c3cab898c8660daf6f063f0",
+  "fetch": {
+    "command": "git fetch --no-recurse-submodules origin",
+    "exit_code": 0,
+    "remote_dev": "fbecb6edae4b951aaaa1d364d5428500f4596786",
+    "remote_closure": "ad449d252f243ff0400e3d42caae5d25defe5b11",
+    "local_dev_ahead": 3,
+    "local_dev_behind": 0
+  },
+  "initial_uncommitted_changes": [],
+  "new_branch_existed_before": false,
+  "new_worktree_path_existed_before": false,
+  "integration_commit": "7ee1a98a2ca1159d7b75adf001215f644cea472a",
+  "integration_parents": [
+    "e151aecc0a79a7e6b421b07934df6977bc9068c7",
+    "ad449d252f243ff0400e3d42caae5d25defe5b11"
+  ],
+  "integration_conflicts": false,
+  "origin_dev_had_new_commits": false,
+  "windows_commits": [
+    "5ddee26ed86cefe9585e3f89fe02fc7a9f4f7816",
+    "13184acb677a2dbe96524380057251027e73db41"
+  ],
+  "closure_commits": [
+    "b4723bf56d4ea76a0aec16f994ae87fa0e4b2713",
+    "ad449d252f243ff0400e3d42caae5d25defe5b11"
+  ],
+  "live_model_call_budget": 0,
+  "live_acceptance": "NOT_RUN",
+  "previous_recovery_and_7_backup_files": "outside scope; preserved",
+  "evidence_attribution": "New synthetic regression fixtures must not be represented as recovered historical C-L1 raw responses"
+}

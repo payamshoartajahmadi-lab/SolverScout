@@ -1,0 +1,35 @@
+{
+  "command": "scripts/setup.bat",
+  "exit_code": 0,
+  "scope": "setup temporary separate data-dir; cleaned by official setup script",
+  "actual_objective_evaluations": 1002,
+  "maximum_objective_evaluations": 1002,
+  "model_calls": 0,
+  "result": {
+    "job_id": "3c1d9c15-253d-4f07-aee6-13ec2a2cd07e",
+    "job_status": "completed",
+    "solution_status": "valid_best_found",
+    "optimality_status": "not_certified",
+    "best_x": [
+      1.9780779899881948,
+      -0.9880071434972374
+    ],
+    "objective_raw": 0.000624403130053541,
+    "selected_algorithm_id": "de.original",
+    "budget": {
+      "allocated": 1002,
+      "charged_unknown": 0,
+      "known_started": 1002,
+      "max_objective_evaluations": 1002,
+      "reserved_active": 0,
+      "unallocated": 0,
+      "unused": 0
+    },
+    "error": null,
+    "artifacts": [
+      "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\pmc-smoke-30455-8643\\artifacts\\3c1d9c15-253d-4f07-aee6-13ec2a2cd07e\\02bebc78-e32d-4f71-b7dc-e4aff3394b8d.json",
+      "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\pmc-smoke-30455-8643\\artifacts\\3c1d9c15-253d-4f07-aee6-13ec2a2cd07e\\07652ecd-91f2-4583-a50d-94d2e3a14790.html",
+      "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\pmc-smoke-30455-8643\\artifacts\\3c1d9c15-253d-4f07-aee6-13ec2a2cd07e\\4c8bd79a-bf68-4d57-b822-9b1071444248.csv"
+    ]
+  }
+}

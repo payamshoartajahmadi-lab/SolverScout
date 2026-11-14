@@ -1,0 +1,142 @@
+{
+  "schema_version": "windows-source-diagnosis/1.0",
+  "recorded_at_utc": "2026-11-14T16:53:14.762713+00:00",
+  "data_dir": "C:\\Users\\TajAhmadi\\AppData\\Local\\P_MC_Optimizer",
+  "preparation_status": "blocked",
+  "preparation_error_codes": [
+    "DEMO_SOURCES_NOT_READY"
+  ],
+  "charged_evaluations": 78000,
+  "reserved_evaluations": 0,
+  "methods_ready": true,
+  "official_source": {
+    "enabled": true,
+    "usable_documents": 0,
+    "required_documents_ready": false,
+    "covered_implementation_ids": [],
+    "parser_version": "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-class-sections-v2.1.2;max_text_chars=100000"
+  },
+  "source_sync_runs": [
+    {
+      "run_id": "1263f701-7d19-4c56-85c8-1b23acd2bf62",
+      "status": "failed",
+      "created_at": "2026-11-14T16:51:10.067764+00:00",
+      "started_at": "2026-11-14T16:51:10.076997+00:00",
+      "finished_at": "2026-11-14T16:51:10.272387+00:00",
+      "active_seconds": 0.2029999999795109,
+      "summary": {
+        "reason_codes": [
+          "SOURCE_POLICY_UNAVAILABLE"
+        ],
+        "sources": {
+          "mealpy_docs": {
+            "budget_limited": false,
+            "changed": 0,
+            "discovered_urls": 4,
+            "documents_checked": 4,
+            "failed": 4,
+            "new": 0,
+            "reason_codes": [
+              "SOURCE_POLICY_UNAVAILABLE",
+              "SOURCE_POLICY_UNAVAILABLE",
+              "SOURCE_POLICY_UNAVAILABLE",
+              "SOURCE_POLICY_UNAVAILABLE"
+            ],
+            "skipped_urls": 0,
+            "unchanged": 0
+          }
+        }
+      },
+      "invocations": [
+        {
+          "source_id": "mealpy_docs",
+          "url": "https://mealpy.readthedocs.io/robots.txt",
+          "kind": "robots",
+          "state": "failed",
+          "started_at": "2026-11-14T16:51:10.093622+00:00",
+          "reserved_bytes": 524288,
+          "reserved_seconds": 20.0,
+          "expanded_bytes": 0,
+          "unknown_bytes": 524288,
+          "seconds": 0.09300000010989606,
+          "http_status": null,
+          "reason_code": "SOURCE_UNREACHABLE"
+        }
+      ],
+      "observation_count": 4
+    }
+  ],
+  "dns_diagnostic": {
+    "hostname": "mealpy.readthedocs.io",
+    "command_shape": [
+      "G:\\projects\\solverscout\\.venv\\Scripts\\python.exe",
+      "-I",
+      "-c",
+      "isolated socket.getaddrinfo(hostname,443,type=SOCK_STREAM)",
+      "mealpy.readthedocs.io"
+    ],
+    "results": [
+      {
+        "case": "empty_environment",
+        "environment_variable_names": [],
+        "returncode": 1,
+        "elapsed_seconds": 0.0470000000204891,
+        "resolved_addresses": [],
+        "exception_type": "socket.gaierror",
+        "errno": 11003,
+        "error_message": "getaddrinfo failed"
+      },
+      {
+        "case": "windows_SystemRoot_only",
+        "environment_variable_names": [
+          "SystemRoot"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 0.21800000010989606,
+        "resolved_addresses": [
+          "104.16.253.120",
+          "104.16.254.120"
+        ]
+      },
+      {
+        "case": "inherited_environment_control",
+        "environment_variable_names": "not captured (values not exported)",
+        "returncode": 0,
+        "elapsed_seconds": 0.0470000000204891,
+        "resolved_addresses": [
+          "104.16.253.120",
+          "104.16.254.120"
+        ]
+      }
+    ],
+    "environment_values_recorded": false,
+    "additional_http_document_or_robots_requests": 0
+  },
+  "finding": {
+    "code": "WINDOWS_ISOLATED_DNS_MISSING_SYSTEMROOT",
+    "source_file": "src/p_mc_optimizer/research/transport.py",
+    "function": "_resolve",
+    "line": 44,
+    "mechanism": "subprocess.run(..., env={}) removes SystemRoot required by Windows socket.getaddrinfo in this environment. DNS fails with Winsock errno 11003 before any HTTP response. The same isolated interpreter command retaining only SystemRoot succeeds.",
+    "downstream_errors": [
+      "SOURCE_UNREACHABLE",
+      "SOURCE_POLICY_UNAVAILABLE",
+      "DEMO_SOURCES_NOT_READY"
+    ],
+    "remedy": "Preserve SystemRoot only for the isolated Windows DNS subprocess, retain empty environment on other platforms, add a focused subprocess-environment regression test, restart app, then use normal prepare-demo/UI to perform genuine source synchronization with existing certificates and cumulative accounting.",
+    "unsupported_workarounds_not_used": [
+      "No robots bypass",
+      "No changed freshness policy",
+      "No imported or fabricated document snapshots",
+      "No manifest budget reset",
+      "No retries triggered"
+    ]
+  },
+  "consumption": {
+    "function_evaluations": 0,
+    "model_calls": 0,
+    "preparation_retries": 0,
+    "dns_lookup_diagnostics": 3,
+    "additional_http_requests": 0
+  }
+}

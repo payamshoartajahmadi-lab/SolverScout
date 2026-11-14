@@ -1,0 +1,564 @@
+{
+  "python": "3.12.3 (tags/v3.12.3:f6650f9, Apr  9 2024, 14:05:25) [MSC v.1938 64 bit (AMD64)]",
+  "executable": "G:\\SSrc3-01\\app\\.venv\\Scripts\\python.exe",
+  "prefix": "G:\\SSrc3-01\\app\\.venv",
+  "base_prefix": "C:\\Program Files\\Python312",
+  "os": "Windows-11-10.0.22631-SP0",
+  "machine": "AMD64",
+  "version": "2.1.0rc3",
+  "module": "G:\\SSrc3-01\\app\\src\\p_mc_optimizer\\__init__.py",
+  "direct_url": {
+    "dir_info": {
+      "editable": true
+    },
+    "url": "file:///G:/SSrc3-01/app"
+  },
+  "sys_path": [
+    "<DEVELOPMENT_CHECKOUT>\\artifacts\\university-delivery\\20261114T193657Z-windows-clean-install-rc3",
+    "C:\\Program Files\\Python312\\python312.zip",
+    "C:\\Program Files\\Python312\\DLLs",
+    "C:\\Program Files\\Python312\\Lib",
+    "C:\\Program Files\\Python312",
+    "G:\\SSrc3-01\\app\\.venv",
+    "G:\\SSrc3-01\\app\\.venv\\Lib\\site-packages",
+    "G:\\SSrc3-01\\app\\src"
+  ],
+  "locked_packages": [
+    {
+      "name": "aiosqlite",
+      "required": "==0.22.1",
+      "installed": "0.22.1",
+      "match": true
+    },
+    {
+      "name": "altair",
+      "required": "==6.3.0",
+      "installed": "6.3.0",
+      "match": true
+    },
+    {
+      "name": "annotated-doc",
+      "required": "==0.0.5",
+      "installed": "0.0.5",
+      "match": true
+    },
+    {
+      "name": "annotated-types",
+      "required": "==0.8.0",
+      "installed": "0.8.0",
+      "match": true
+    },
+    {
+      "name": "anyio",
+      "required": "==4.16.0",
+      "installed": "4.16.0",
+      "match": true
+    },
+    {
+      "name": "attrs",
+      "required": "==26.1.0",
+      "installed": "26.1.0",
+      "match": true
+    },
+    {
+      "name": "certifi",
+      "required": "==2026.10.23",
+      "installed": "2026.10.23",
+      "match": true
+    },
+    {
+      "name": "charset-normalizer",
+      "required": "==3.5.2",
+      "installed": "3.5.2",
+      "match": true
+    },
+    {
+      "name": "click",
+      "required": "==8.5.1",
+      "installed": "8.5.1",
+      "match": true
+    },
+    {
+      "name": "contourpy",
+      "required": "==1.3.3",
+      "installed": "1.3.3",
+      "match": true
+    },
+    {
+      "name": "cycler",
+      "required": "==0.12.1",
+      "installed": "0.12.1",
+      "match": true
+    },
+    {
+      "name": "distro",
+      "required": "==1.9.0",
+      "installed": "1.9.0",
+      "match": true
+    },
+    {
+      "name": "fastapi",
+      "required": "==0.162.2",
+      "installed": "0.162.2",
+      "match": true
+    },
+    {
+      "name": "filelock",
+      "required": "==4.2.9",
+      "installed": "4.2.9",
+      "match": true
+    },
+    {
+      "name": "fonttools",
+      "required": "==4.68.0",
+      "installed": "4.68.0",
+      "match": true
+    },
+    {
+      "name": "h11",
+      "required": "==0.16.0",
+      "installed": "0.16.0",
+      "match": true
+    },
+    {
+      "name": "httpcore",
+      "required": "==1.0.9",
+      "installed": "1.0.9",
+      "match": true
+    },
+    {
+      "name": "httpcore2",
+      "required": "==2.16.0",
+      "installed": "2.16.0",
+      "match": true
+    },
+    {
+      "name": "httpx",
+      "required": "==0.28.1",
+      "installed": "0.28.1",
+      "match": true
+    },
+    {
+      "name": "httpx2",
+      "required": "==2.16.0",
+      "installed": "2.16.0",
+      "match": true
+    },
+    {
+      "name": "idna",
+      "required": "==3.20",
+      "installed": "3.20",
+      "match": true
+    },
+    {
+      "name": "itsdangerous",
+      "required": "==2.2.0",
+      "installed": "2.2.0",
+      "match": true
+    },
+    {
+      "name": "jaraco-classes",
+      "required": "==3.4.0",
+      "installed": "3.4.0",
+      "match": true
+    },
+    {
+      "name": "jaraco-context",
+      "required": "==6.1.2",
+      "installed": "6.1.2",
+      "match": true
+    },
+    {
+      "name": "jaraco-functools",
+      "required": "==4.6.0",
+      "installed": "4.6.0",
+      "match": true
+    },
+    {
+      "name": "jinja2",
+      "required": "==3.1.6",
+      "installed": "3.1.6",
+      "match": true
+    },
+    {
+      "name": "jsonpatch",
+      "required": "==1.44",
+      "installed": "1.44",
+      "match": true
+    },
+    {
+      "name": "jsonpointer",
+      "required": "==3.10",
+      "installed": "3.10",
+      "match": true
+    },
+    {
+      "name": "jsonschema",
+      "required": "==4.26.0",
+      "installed": "4.26.0",
+      "match": true
+    },
+    {
+      "name": "jsonschema-specifications",
+      "required": "==2025.9.1",
+      "installed": "2025.9.1",
+      "match": true
+    },
+    {
+      "name": "keyring",
+      "required": "==25.7.0",
+      "installed": "25.7.0",
+      "match": true
+    },
+    {
+      "name": "kiwisolver",
+      "required": "==1.5.1",
+      "installed": "1.5.1",
+      "match": true
+    },
+    {
+      "name": "langchain-core",
+      "required": "==1.7.6",
+      "installed": "1.7.6",
+      "match": true
+    },
+    {
+      "name": "langchain-protocol",
+      "required": "==0.0.21",
+      "installed": "0.0.21",
+      "match": true
+    },
+    {
+      "name": "langgraph",
+      "required": "==1.2.20",
+      "installed": "1.2.20",
+      "match": true
+    },
+    {
+      "name": "langgraph-checkpoint",
+      "required": "==4.3.1",
+      "installed": "4.3.1",
+      "match": true
+    },
+    {
+      "name": "langgraph-checkpoint-sqlite",
+      "required": "==3.1.3",
+      "installed": "3.1.3",
+      "match": true
+    },
+    {
+      "name": "langgraph-prebuilt",
+      "required": "==1.1.1",
+      "installed": "1.1.1",
+      "match": true
+    },
+    {
+      "name": "langgraph-sdk",
+      "required": "==0.4.14",
+      "installed": "0.4.14",
+      "match": true
+    },
+    {
+      "name": "langsmith",
+      "required": "==0.14.17",
+      "installed": "0.14.17",
+      "match": true
+    },
+    {
+      "name": "markupsafe",
+      "required": "==3.0.4",
+      "installed": "3.0.4",
+      "match": true
+    },
+    {
+      "name": "matplotlib",
+      "required": "==3.11.2",
+      "installed": "3.11.2",
+      "match": true
+    },
+    {
+      "name": "mealpy",
+      "required": "==3.0.3",
+      "installed": "3.0.3",
+      "match": true
+    },
+    {
+      "name": "more-itertools",
+      "required": "==11.2.1",
+      "installed": "11.2.1",
+      "match": true
+    },
+    {
+      "name": "narwhals",
+      "required": "==2.28.0",
+      "installed": "2.28.0",
+      "match": true
+    },
+    {
+      "name": "numpy",
+      "required": "==1.26.0",
+      "installed": "1.26.0",
+      "match": true
+    },
+    {
+      "name": "opentelemetry-api",
+      "required": "==1.45.2",
+      "installed": "1.45.2",
+      "match": true
+    },
+    {
+      "name": "opfunu",
+      "required": "==1.0.1",
+      "installed": "1.0.1",
+      "match": true
+    },
+    {
+      "name": "orjson",
+      "required": "==3.13.0",
+      "installed": "3.13.0",
+      "match": true
+    },
+    {
+      "name": "ormsgpack",
+      "required": "==1.13.1",
+      "installed": "1.13.1",
+      "match": true
+    },
+    {
+      "name": "packaging",
+      "required": "==26.3",
+      "installed": "26.3",
+      "match": true
+    },
+    {
+      "name": "pandas",
+      "required": "==2.3.3",
+      "installed": "2.3.3",
+      "match": true
+    },
+    {
+      "name": "pillow",
+      "required": "==13.0.0",
+      "installed": "13.0.0",
+      "match": true
+    },
+    {
+      "name": "platformdirs",
+      "required": "==4.14.5",
+      "installed": "4.14.5",
+      "match": true
+    },
+    {
+      "name": "protobuf",
+      "required": "==7.36.2",
+      "installed": "7.36.2",
+      "match": true
+    },
+    {
+      "name": "protego",
+      "required": "==0.7.0",
+      "installed": "0.7.0",
+      "match": true
+    },
+    {
+      "name": "psutil",
+      "required": "==7.2.2",
+      "installed": "7.2.2",
+      "match": true
+    },
+    {
+      "name": "pyarrow",
+      "required": "==23.0.1",
+      "installed": "23.0.1",
+      "match": true
+    },
+    {
+      "name": "pydantic",
+      "required": "==2.14.3",
+      "installed": "2.14.3",
+      "match": true
+    },
+    {
+      "name": "pydantic-core",
+      "required": "==2.50.4",
+      "installed": "2.50.4",
+      "match": true
+    },
+    {
+      "name": "pydeck",
+      "required": "==0.9.3",
+      "installed": "0.9.3",
+      "match": true
+    },
+    {
+      "name": "pyparsing",
+      "required": "==3.3.3",
+      "installed": "3.3.3",
+      "match": true
+    },
+    {
+      "name": "pypdf",
+      "required": "==7.0.0",
+      "installed": "7.0.0",
+      "match": true
+    },
+    {
+      "name": "python-dateutil",
+      "required": "==4.0.0",
+      "installed": "4.0.0",
+      "match": true
+    },
+    {
+      "name": "python-multipart",
+      "required": "==0.0.33",
+      "installed": "0.0.33",
+      "match": true
+    },
+    {
+      "name": "pytz",
+      "required": "==2026.6",
+      "installed": "2026.6",
+      "match": true
+    },
+    {
+      "name": "pywin32-ctypes",
+      "required": "==0.2.3",
+      "installed": "0.2.3",
+      "match": true
+    },
+    {
+      "name": "pyyaml",
+      "required": "==6.0.3",
+      "installed": "6.0.3",
+      "match": true
+    },
+    {
+      "name": "referencing",
+      "required": "==0.37.0",
+      "installed": "0.37.0",
+      "match": true
+    },
+    {
+      "name": "requests",
+      "required": "==2.34.2",
+      "installed": "2.34.2",
+      "match": true
+    },
+    {
+      "name": "requests-toolbelt",
+      "required": "==1.0.0",
+      "installed": "1.0.0",
+      "match": true
+    },
+    {
+      "name": "rpds-py",
+      "required": "==2026.9.1",
+      "installed": "2026.9.1",
+      "match": true
+    },
+    {
+      "name": "scipy",
+      "required": "==1.16.3",
+      "installed": "1.16.3",
+      "match": true
+    },
+    {
+      "name": "sniffio",
+      "required": "==1.3.1",
+      "installed": "1.3.1",
+      "match": true
+    },
+    {
+      "name": "sqlite-vec",
+      "required": "==0.1.9",
+      "installed": "0.1.9",
+      "match": true
+    },
+    {
+      "name": "starlette",
+      "required": "==1.10.0",
+      "installed": "1.10.0",
+      "match": true
+    },
+    {
+      "name": "streamlit",
+      "required": "==1.67.0",
+      "installed": "1.67.0",
+      "match": true
+    },
+    {
+      "name": "tenacity",
+      "required": "==9.2.1",
+      "installed": "9.2.1",
+      "match": true
+    },
+    {
+      "name": "truststore",
+      "required": "==0.10.5",
+      "installed": "0.10.5",
+      "match": true
+    },
+    {
+      "name": "typing-extensions",
+      "required": "==4.16.0",
+      "installed": "4.16.0",
+      "match": true
+    },
+    {
+      "name": "typing-inspection",
+      "required": "==0.4.5",
+      "installed": "0.4.5",
+      "match": true
+    },
+    {
+      "name": "tzdata",
+      "required": "==2026.6",
+      "installed": "2026.6",
+      "match": true
+    },
+    {
+      "name": "urllib3",
+      "required": "==2.8.0",
+      "installed": "2.8.0",
+      "match": true
+    },
+    {
+      "name": "uuid-utils",
+      "required": "==0.19.0",
+      "installed": "0.19.0",
+      "match": true
+    },
+    {
+      "name": "uvicorn",
+      "required": "==0.54.0",
+      "installed": "0.54.0",
+      "match": true
+    },
+    {
+      "name": "watchdog",
+      "required": "==7.1.0",
+      "installed": "7.1.0",
+      "match": true
+    },
+    {
+      "name": "websockets",
+      "required": "==17.4",
+      "installed": "17.4",
+      "match": true
+    },
+    {
+      "name": "xxhash",
+      "required": "==4.0.2",
+      "installed": "4.0.2",
+      "match": true
+    },
+    {
+      "name": "zstandard",
+      "required": "==0.25.0",
+      "installed": "0.25.0",
+      "match": true
+    }
+  ],
+  "all_locks_match": true,
+  "archive_files_changed": []
+}

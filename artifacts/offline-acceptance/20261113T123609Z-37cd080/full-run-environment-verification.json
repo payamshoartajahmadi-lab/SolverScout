@@ -1,0 +1,120 @@
+{
+  "recorded_at_utc": "2026-11-13T20:20:49.159680+00:00",
+  "status": "VERIFIED_BY_COMPLETE_OFFLINE_RERUN",
+  "tested_commit": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+  "first_run_counts": {
+    "tests": 803,
+    "failures": 3,
+    "errors": 7,
+    "skipped": 0,
+    "passed": 793
+  },
+  "final_run_counts": {
+    "tests": 803,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 803
+  },
+  "all_ten_previously_affected_tests": [
+    {
+      "classname": "tests.test_catalog_v2",
+      "name": "test_cat_005_num_001_006_qualification_uses_real_subprocesses",
+      "first_run_outcome": "ERROR",
+      "second_run_outcome": "PASS"
+    },
+    {
+      "classname": "tests.test_catalog_v2",
+      "name": "test_cat_003_004_version_and_qualification_gate",
+      "first_run_outcome": "ERROR",
+      "second_run_outcome": "PASS"
+    },
+    {
+      "classname": "tests.test_catalog_v2",
+      "name": "test_disabling_blocks_new_jobs_without_rewriting_saved_snapshot",
+      "first_run_outcome": "ERROR",
+      "second_run_outcome": "PASS"
+    },
+    {
+      "classname": "tests.test_catalog_v2",
+      "name": "test_num_007_maximize_cancel_timeout_and_guard_import",
+      "first_run_outcome": "ERROR",
+      "second_run_outcome": "PASS"
+    },
+    {
+      "classname": "tests.test_library_v21_workflow",
+      "name": "test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily",
+      "first_run_outcome": "FAIL",
+      "second_run_outcome": "PASS"
+    },
+    {
+      "classname": "tests.test_numeric_compatibility",
+      "name": "test_genuine_budget_trial_stop_preserves_durable_known_unknown_unused[timeout]",
+      "first_run_outcome": "ERROR",
+      "second_run_outcome": "PASS"
+    },
+    {
+      "classname": "tests.test_numeric_compatibility",
+      "name": "test_genuine_budget_trial_stop_preserves_durable_known_unknown_unused[cancel]",
+      "first_run_outcome": "ERROR",
+      "second_run_outcome": "PASS"
+    },
+    {
+      "classname": "tests.test_numeric_compatibility",
+      "name": "test_old_catalog_job_without_markers_remains_legacy_before_first_trial",
+      "first_run_outcome": "ERROR",
+      "second_run_outcome": "PASS"
+    },
+    {
+      "classname": "tests.test_numeric_passthrough",
+      "name": "test_real_base_qualified_passthrough_preserves_full_legacy_numeric_trace",
+      "first_run_outcome": "FAIL",
+      "second_run_outcome": "PASS"
+    },
+    {
+      "classname": "tests.test_v2_workflow",
+      "name": "test_v2_web_and_catalog_policies_use_real_pilot_evidence",
+      "first_run_outcome": "FAIL",
+      "second_run_outcome": "PASS"
+    }
+  ],
+  "source_and_harness_identical": true,
+  "source_sha256": "bf35bb3e06f96032c9d062b6a88f808d42405c7af939b1d9ed9a70d3b553d85c",
+  "harness_sha256": "b3e3454467190e601f3d03e0b460c8a97b8464a2563b634906d4f65809c8db85",
+  "before_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01",
+  "after_basetemp": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\ss-f2-4c0c",
+  "product_code_changed_for_path_remedy": false,
+  "original_failure_preserved": true,
+  "conclusion": "All10 affected qualification outcomes pass and all803 offline cases pass after changing only temporary-root length on identical committed source/harness. This supports the recorded path-length environment diagnosis; it does not add general long-path support to the product.",
+  "new_test_execution_by_this_verification": "NOT_RUN",
+  "new_model_calls": 0,
+  "new_objective_evaluations": 0,
+  "new_solver_calls": 0,
+  "evidence": [
+    {
+      "path": "offline/full-final-01-result.json",
+      "bytes": 2029,
+      "sha256": "9e685e9d27169e0e789fe67663a123bc97ddc4ebc6d7d8b901984cff14512527"
+    },
+    {
+      "path": "offline/full-final-01.xml",
+      "bytes": 153756,
+      "sha256": "f0bec413c46b302b2d90f14e594ddb5b4e1718d214e37c278fe3cfccf30dea93"
+    },
+    {
+      "path": "offline/full-final-02-result.json",
+      "bytes": 1996,
+      "sha256": "8f3996ddf72dcdaa8eaef2c5e7be6c9e9054dace8281c1aeb6c5e63565c99055"
+    },
+    {
+      "path": "offline/full-final-02.xml",
+      "bytes": 120713,
+      "sha256": "c68b140849b0a41e5a65e3c13c96622512e0a123f1c2f11b6377ed4bce3c5e08"
+    },
+    {
+      "path": "full-run-environment-diagnosis.json",
+      "bytes": 51770,
+      "sha256": "10c92de737fbfe98db45e8246c34de675f0b6f279b4a581ae7ede9e94b304f3e"
+    }
+  ]
+}

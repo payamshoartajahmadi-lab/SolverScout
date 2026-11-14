@@ -1,0 +1,92 @@
+{
+  "schema_version": "demo-preparation/1.0",
+  "preparation_id": "8a43d17e-6393-4790-a67c-76ac21a05ef0",
+  "created_at": "2026-11-14T16:49:08.816775+00:00",
+  "status": "running",
+  "qualification_budget": 100000,
+  "attempts": [],
+  "requests": {
+    "windows-rc2-20261114T164636Z-preparation": {
+      "enable_official_source": true,
+      "qualification_budget": 100000
+    }
+  },
+  "errors": [],
+  "source_sync_runs": [],
+  "owner_pid": 20676,
+  "owner_started": 1794674907.4131668,
+  "enable_official_source": true,
+  "environment_id": "2.0:Windows:AMD64:3.12:numpy1.26.0",
+  "numeric_runtime_fingerprint": {
+    "schema_version": "1.0",
+    "environment_id": "2.0:Windows:AMD64:3.12:numpy1.26.0",
+    "python_major_minor": "3.12",
+    "platform_system": "Windows",
+    "architecture": "AMD64",
+    "numpy_version": "1.26.0",
+    "mealpy_version": "3.0.3",
+    "dtype": "float64",
+    "rng": "PCG64",
+    "mode": "single",
+    "mealpy_source_manifest_sha256": "aaa24917df47dba10db01ec9e2243c68deee87c51901b1d73206a86b96f6c649",
+    "numeric_source_manifest_sha256": "fb670675eadd792820abdce1cbffb22a6bf1e14718759301a004d9fbb80f1c24"
+  },
+  "numeric_runtime_fingerprint_sha256": "ef30f5536fe7cfb296b83878d087e46b08605d3581800dc6d6a123e461d0f027",
+  "updated_at": "2026-11-14T16:49:08.816775+00:00",
+  "methods": [
+    {
+      "name": "ABC",
+      "implementation_id": "mealpy:swarm_based.ABC:OriginalABC",
+      "status": "missing",
+      "pilot_500_compatible": false,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "PSO",
+      "implementation_id": "mealpy:swarm_based.PSO:OriginalPSO",
+      "status": "missing",
+      "pilot_500_compatible": false,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "CMA-ES",
+      "implementation_id": "mealpy:evolutionary_based.ES:CMA_ES",
+      "status": "missing",
+      "pilot_500_compatible": false,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "DE",
+      "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "status": "missing",
+      "pilot_500_compatible": false,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "GWO",
+      "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+      "status": "missing",
+      "pilot_500_compatible": false,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "WOA",
+      "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+      "status": "missing",
+      "pilot_500_compatible": false,
+      "budget_policy_status": "not_applicable"
+    }
+  ],
+  "target_count": 6,
+  "prepared_count": 0,
+  "charged_evaluations": 0,
+  "reserved_evaluations": 0,
+  "official_source": {
+    "enabled": false,
+    "usable_documents": 0,
+    "required_documents_ready": false,
+    "covered_implementation_ids": [],
+    "parser_version": "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-class-sections-v2.1.2;max_text_chars=100000"
+  },
+  "ready": false
+}

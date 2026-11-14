@@ -15,7 +15,7 @@ from uuid import UUID, uuid4
 
 from p_mc_optimizer.application.errors import ApiError
 
-from .schema import BASE_SCHEMA, SCHEMA_VERSION
+from .migrations import migrate
 
 TERMINAL_JOB = frozenset({"completed", "failed", "cancelled"})
 TERMINAL_EXECUTION = frozenset({"completed", "failed", "timed_out", "cancelled", "unknown_outcome"})
@@ -66,12 +66,12 @@ def invalid_state() -> ApiError:
 
 
 class Repository:
-    def __init__(self, data_dir: str | Path):
+    def __init__(self, data_dir: str | Path, *, allow_upgrade=False):
         self.data_dir = Path(data_dir).expanduser().resolve()
         self.data_dir.mkdir(parents=True, exist_ok=True)
         (self.data_dir / "artifacts").mkdir(exist_ok=True)
         self.path = self.data_dir / "state.sqlite3"
-        self._migrate()
+        migrate(self.path, self.connect, allow_upgrade=allow_upgrade)
 
     @contextmanager
     def connect(self) -> Iterator[sqlite3.Connection]:
@@ -94,36 +94,6 @@ class Repository:
             except BaseException:
                 connection.rollback()
                 raise
-
-    def _migrate(self) -> None:
-        with self.connect() as connection:
-            connection.execute("PRAGMA journal_mode=WAL")
-        with self.transaction() as connection:
-            version = connection.execute("PRAGMA user_version").fetchone()[0]
-            if version == SCHEMA_VERSION:
-                return
-            if version != 0:
-                raise RuntimeError(f"Unsupported state.sqlite3 schema version {version}")
-            existing = connection.execute(
-                "SELECT 1 FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
-            ).fetchone()
-            if existing:
-                backup_dir = self.data_dir / "backups"
-                backup_dir.mkdir(exist_ok=True)
-                backup_path = backup_dir / f"state-v{version}-{uuid4()}.sqlite3"
-                with self.connect() as source, sqlite3.connect(backup_path) as backup:
-                    source.backup(backup)
-            from p_mc_optimizer.llm.storage import LLM_SCHEMA
-
-            statement = ""
-            for line in (BASE_SCHEMA + "\n" + LLM_SCHEMA).splitlines(keepends=True):
-                statement += line
-                if sqlite3.complete_statement(statement):
-                    connection.execute(statement)
-                    statement = ""
-            if statement.strip():
-                raise RuntimeError("Incomplete SQL migration")
-            connection.execute(f"PRAGMA user_version={SCHEMA_VERSION}")
 
     @staticmethod
     def job_row(connection, job_id) -> sqlite3.Row:
@@ -175,6 +145,37 @@ class Repository:
         with self.connect() as connection:
             connection.execute("BEGIN")
             return self.job_snapshot(connection, self.job_row(connection, job_id))
+
+    def record_research_findings(self, job_id, findings, *, worker_id):
+        if not findings:
+            return
+        with self.transaction() as connection:
+            job = self.job_row(connection, job_id)
+            self.check_worker(job, worker_id)
+            version = json.loads(job["policy"])["policy_version"]
+            for finding in findings:
+                identity = [finding.name.strip().casefold(), (finding.variant or "").strip().casefold()]
+                method_id = hashlib.sha256(json_text(identity).encode("utf-8")).hexdigest()
+                record = as_json(finding)
+                record["method_id"] = method_id
+                record["status"] = "mapped" if finding.implementation_match else (
+                    "research_only" if version == "2.1" else "known_only"
+                )
+                serialized = json_text(record)
+                record_hash = hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+                connection.execute(
+                    "INSERT OR IGNORE INTO method_records VALUES (?, ?, ?, ?, ?)",
+                    (method_id, str(job_id), record_hash, serialized, utc_now()),
+                )
+
+    def get_v2_snapshot(self, job_id) -> dict:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT payload FROM job_v2_snapshots WHERE job_id=?", (str(job_id),)
+            ).fetchone()
+            if row is None:
+                raise missing_job()
+            return json.loads(row["payload"])
 
     def list_jobs(self, *, limit=100, offset=0) -> list[dict]:
         with self.connect() as connection:
@@ -278,9 +279,17 @@ class Repository:
             if row is None:
                 return None
             job_id = row["job_id"]
+            from p_mc_optimizer.runtime_provenance import get_runtime, save_runtime
+
+            identity = get_runtime("worker")
+            save_runtime(self.data_dir)
+            workflow = json.loads(self.job_row(connection, job_id)["workflow"])
+            workers = workflow.setdefault("runtime:workers", {})
+            workers[identity["process_run_id"]] = {"identity": identity, "worker_id": str(worker_id)}
             self.write_job(connection, job_id, {
                 "job_status": "running", "owner_id": str(worker_id),
                 "lease_expires_at": (datetime.now(UTC) + timedelta(seconds=lease_seconds)).isoformat(),
+                "workflow": workflow,
             })
             self.write_event(connection, job_id, "job_claimed")
             return self.job_snapshot(connection, self.job_row(connection, job_id))
@@ -534,6 +543,14 @@ class Repository:
                         raise ApiError(409, "IDEMPOTENCY_CONFLICT", "مشخصات اجرای قبلی با درخواست یکسان نیست.")
             if prior is not None:
                 return {**prior, "created": False}
+            if request is not None and request.get("schema_version") in {"2.0", "2.1"}:
+                from p_mc_optimizer.catalog.budget_policy import validate_job_numeric_trial
+
+                frozen = connection.execute(
+                    "SELECT payload FROM job_v2_snapshots WHERE job_id=?", (job_id,),
+                ).fetchone()
+                payload = json.loads(frozen["payload"]) if frozen is not None else {}
+                validate_job_numeric_trial(request, payload.get("numeric_execution"), payload.get("catalog", {}))
             if any(item["execution_status"] == "running" for item in executions):
                 raise ApiError(409, "EXECUTION_ALREADY_RUNNING", "یک فرایند عددی از قبل در حال اجرا است.")
             if phase == "pilot":
@@ -859,10 +876,28 @@ class Repository:
             },
             "explanation": {"source": "template", "summary_fa": summary, "limitations_fa": [CLAIM_FA]},
         }
+        research_exports = []
+        if job["policy"]["policy_version"] in {"2.0", "2.1"}:
+            policy = job["policy"]["selection_policy"]
+            workflow = job["workflow"]
+            research = workflow.get("research_outcome") or {
+                "status": "cancelled" if job["job_status"] == "cancelled" and policy == "web_research_then_pilot"
+                else "not_requested"
+            }
+            report.update({
+                "schema_version": job["policy"]["policy_version"], "research": research,
+                "research_error": workflow.get("research_error"),
+                "advisor_plan_v2": workflow.get("advisor_plan_v2"), "requested_selection_policy": policy,
+                "effective_selection_policy": workflow.get("effective_selection_policy", policy),
+            })
+            research_exports = [("research_json", json_bytes(research), ".json"),
+                                ("sources_csv", csv_bytes(research.get("documents", []),
+                                  ("source_id", "requested_url", "final_url", "fetch_status")), ".csv")]
         exports = [
             ("report_json", json_bytes(report), ".json"),
             ("report_html", html_bytes(report), ".html"),
             ("trials_csv", csv_bytes(trials, TRIAL_COLUMNS), ".csv"),
+            *research_exports,
         ]
         artifacts = []
         try:

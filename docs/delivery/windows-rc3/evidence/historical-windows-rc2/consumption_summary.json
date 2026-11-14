@@ -1,0 +1,80 @@
+{
+  "schema_version": "windows-stage-consumption/1.0",
+  "recorded_at_utc": "2026-11-14T17:17:34.403745+00:00",
+  "smoke": {
+    "evaluations": 1002,
+    "limit": 1002,
+    "evidence": "smoke-summary.json"
+  },
+  "preparation": {
+    "evaluations": 78000,
+    "base_evaluations": 15006,
+    "budget_policy_evaluations": 62994,
+    "after_dns_fix_evaluations": 0,
+    "limit": 100000,
+    "charged_unknown": 0,
+    "reserved_active": 0
+  },
+  "acceptance": {
+    "evaluations": 40000,
+    "limit": 40000,
+    "charged_unknown": 0,
+    "reserved_active": 0,
+    "scenarios": {
+      "U2": {
+        "status": "PASS",
+        "job_id": "83182fba-8962-43d6-84aa-ac8b6086433d",
+        "objective_evaluations": 20000,
+        "real_role_calls": 8,
+        "charged_role_attempts": 8,
+        "objective_raw": 1.7111162045690602e-06,
+        "best_x": [
+          0.9991700272776016,
+          0.9982396364623556
+        ],
+        "selected_algorithm_id": "mealpy:swarm_based.ABC:OriginalABC",
+        "narrative_mode": "llm",
+        "cost_status": "not_recorded"
+      },
+      "U1": {
+        "status": "FAIL",
+        "job_id": "cf73fe30-ef5a-4995-8fd7-4aa6256f3085",
+        "objective_evaluations": 20000,
+        "real_role_calls": 8,
+        "charged_role_attempts": 8,
+        "objective_raw": 0.0,
+        "best_x": [
+          1.4,
+          -2.2
+        ],
+        "selected_algorithm_id": "mealpy:swarm_based.PSO:OriginalPSO",
+        "narrative_mode": "mixed",
+        "cost_status": "not_recorded"
+      }
+    }
+  },
+  "model": {
+    "role_submissions": 16,
+    "connection_test_submissions": 1,
+    "total_real_submissions": 17,
+    "total_limit": 17,
+    "remaining": 0,
+    "database_call_rows": 17,
+    "unknown_or_reserved_calls": 0,
+    "retries_included": true,
+    "U_REPORT_submissions": 0,
+    "prompt_tokens": 196058,
+    "completion_tokens": 17742,
+    "total_tokens": 213800,
+    "cost": null,
+    "cost_status": "not_recorded",
+    "user_approved_timeout_seconds": 60
+  },
+  "targeted_offline_tests": {
+    "passed": 22,
+    "new_model_submissions": 0,
+    "function_evaluations": 0,
+    "full_965_suite_rerun": false
+  },
+  "history": "Historical Mac consumption and results not included or modified."
+}

@@ -1,0 +1,52 @@
+{
+  "scenario": "U2",
+  "status": "FAIL",
+  "job_id": "d6ebc690-3609-412d-99d4-c21e2b7cfdc0",
+  "checks": {
+    "six_target_cards_really_sent": false,
+    "three_distinct_eligible_nominees": false,
+    "six_targets_in_research_plan": false,
+    "six_specific_evidence_passages": false,
+    "nine_equal_budget_pilots": false,
+    "independent_pilot_metrics_match": false,
+    "winner_matches_empirical_order": false,
+    "finite_point_within_bounds": false,
+    "objective_within_fixed_threshold": false,
+    "independent_function_verification_passed": false,
+    "objective_budget_respected": true,
+    "five_required_llm_sections": false,
+    "job_completed": false,
+    "evidence_offsets_and_document_hashes_match": false
+  },
+  "advisor_sent_count": 0,
+  "advisor_sent_implementation_ids": [],
+  "candidate_implementation_ids": [],
+  "independent_pilot_metrics": {},
+  "independent_winner": null,
+  "specific_evidence_coverage": [],
+  "best_x": null,
+  "objective_raw": null,
+  "selected_algorithm_id": null,
+  "solution_origin": null,
+  "objective_evaluations": 0,
+  "narrative_mode": "deterministic",
+  "source_core_sha256": "8e9be3e436a7c8552baac252bc4c29bd735a5372c792f2043363284c2f103442",
+  "real_role_calls": 1,
+  "charged_role_attempts": 1,
+  "campaign_role_calls": 9,
+  "cost_status": "not_recorded",
+  "role_usage": [
+    {
+      "role": "formulator",
+      "call_id": "a5708421-e33f-4734-88b9-83c15e3c083d",
+      "status": "succeeded",
+      "usage": {
+        "completion_tokens": 1351,
+        "prompt_tokens": 1530,
+        "total_tokens": 2881
+      },
+      "cost": null,
+      "elapsed_seconds": 18.358491750012035
+    }
+  ]
+}

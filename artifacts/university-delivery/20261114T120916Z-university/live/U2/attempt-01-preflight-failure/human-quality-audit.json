@@ -1,0 +1,51 @@
+{
+  "schema_version": "university-human-quality-audit/1.0",
+  "scenario": "U2",
+  "job_id": "d6ebc690-3609-412d-99d4-c21e2b7cfdc0",
+  "status": "NOT_RUN",
+  "audit_scope": "Read-only audit of actual failure; analytical model-report quality cannot be evaluated because formulation stopped before research or reporting.",
+  "reviewed_at_utc": "2026-11-14T13:24:01.513175+00:00",
+  "report_file_sha256": "ff5819e2284faab4a96b4ba296074f712c6db665fb744654ceb933bdf2123432",
+  "scenario_status": "FAIL",
+  "actual_failure_stage": "formulation",
+  "actual_error": {
+    "error_code": "UNSUPPORTED_PROBLEM",
+    "message_fa": "مسئله خارج از دامنهٔ نسخهٔ اول است."
+  },
+  "actual_formulator_call_id": "a5708421-e33f-4734-88b9-83c15e3c083d",
+  "actual_formulator_status": "succeeded",
+  "actual_unsupported_features": [
+    {
+      "description_fa": "درخواست پیشنهاد و مقایسهٔ روش‌های حل با پایلوت، انتخاب روش و اجرای آن برای ارائهٔ نتیجهٔ حل، خارج از استخراج مشخصات مدل است؛ منابعی برای روش‌های آماده‌شده یا پایلوت ارائه نشده‌اند.",
+      "evidence_refs": [
+        "input:text"
+      ],
+      "kind": "solver_selection_and_execution"
+    }
+  ],
+  "diagnosis_fa": "مدل مشخصات تابع Rosenbrock و متغیرهای حقیقی، کران‌ها، قطعی‌بودن و نبود پارامتر/قید را درست استخراج کرده، اما درخواست انتهایی کاربر برای پیشنهاد روش و مقایسه پایلوت را به‌اشتباه قابلیت خارج از دامنه معرفی کرده است. این موضوع مانع پیش از حل است و شاهد شکست عددی حل‌گر یا تولید گزارش تحلیلی نیست.",
+  "objective_evaluations": 0,
+  "narrative_mode": "deterministic",
+  "rendered_text_origin": "server fallback; no analytical model text was accepted or produced",
+  "quality_findings": [
+    {
+      "topic": "five_model_sections",
+      "status": "NOT_RUN",
+      "reason_fa": "هیچ نقش نویسنده یا بازبین فراخوانی نشده است؛ fallback سرور جای متن موفق مدل را نمی‌گیرد."
+    },
+    {
+      "topic": "numerical_solution_and_pilot",
+      "status": "NOT_RUN",
+      "reason_fa": "هیچ ارزیابی تابع یا پایلوتی اجرا نشده است."
+    },
+    {
+      "topic": "fallback_honesty",
+      "status": "PASS",
+      "reason_fa": "متن سرور به نبود داده و جواب معتبر اشاره می‌کند و به‌عنوان متن مدل معرفی نشده است."
+    }
+  ],
+  "historical_adversarial_campaign": "UNCHANGED; no Q5/Q6 adversarial gate was executed by this audit",
+  "new_model_calls": 0,
+  "new_solver_executions": 0,
+  "new_objective_evaluations": 0
+}

@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "candidate_commit": "5706be1e5c3c28e3069bacb2c37acfdfc8633fc3",
+  "candidate_archive_sha256": "fc18bb88143b6a0c05d287cc48de8be0d5e896ad4d7dcbda1157d0cf796fceb0",
+  "extraction": "New path containing spaces, outside user datastore",
+  "source_file_hashes_verified": 342,
+  "source_manifest_sha256": "6ff1028d9f2239b03f75de415b5da077d8fd1fdb5234cd032ca4df48ccd2e285",
+  "runtime_code_matches_tested_checkout": true,
+  "fresh_install": "NOT_RUN"
+}

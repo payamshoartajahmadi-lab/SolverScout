@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "p-mc-optimizer"
-version = "1.0.0"
+version = "2.1.0rc3"
 description = "Local, budgeted optimization experiments with optional language-model assistance"
 requires-python = ">=3.12,<3.13"
 readme = "README_FA.md"
@@ -21,8 +21,10 @@ dependencies = [
     "platformdirs>=4",
     "pyarrow==23.0.1",
     "psutil>=7",
+    "protego==0.7.0",
+    "pypdf==7.0.0",
     "pydantic>=2.11,<3",
-    "streamlit>=1.48,<2",
+    "streamlit>=1.67,<2",
     "uvicorn>=0.34",
 ]
 
@@ -33,7 +35,7 @@ test = ["pytest>=8,<10"]
 where = ["src"]
 
 [tool.setuptools.package-data]
-"p_mc_optimizer" = ["llm/prompts/*.txt", "llm/prompts/*.md", "llm/prompts/*.json"]
+"p_mc_optimizer" = ["llm/prompts/*.txt", "llm/prompts/*.md", "llm/prompts/*.json", "ui/static/*.woff2", "ui/static/*.txt"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

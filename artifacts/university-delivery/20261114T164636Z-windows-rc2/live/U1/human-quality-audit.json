@@ -1,0 +1,384 @@
+{
+  "schema_version": "university-human-quality-audit/1.0",
+  "scenario": "U1",
+  "job_id": "cf73fe30-ef5a-4995-8fd7-4aa6256f3085",
+  "status": "FAIL",
+  "numerical_and_research_status": "PASS",
+  "published_content_fidelity_status": "PASS",
+  "required_five_model_sections_status": "FAIL",
+  "audit_scope": "Manual semantic inspection of actual completed Windows U1 output and read-only data checks; no provider, solver, objective evaluation or simulated replacement.",
+  "reviewed_at_utc": "2026-11-14T17:18:01.083013+00:00",
+  "evidence_file_sha256": {
+    "summary.json": "b6642ff0763c7a4cfb22819caec77398cf4cf2c947cc8251aef5604b29517482",
+    "report.json": "13b35d1d0b30d275684ed6e2703014c6d9a71dfb4569d7888985c49a629700fb",
+    "job.json": "d1ef64125956a1a1f3f9719dd144c8d791a930f3348c490525c7929525768dde",
+    "workflow.json": "3078eab3dbd44e17476ad8f085dc18e461d069f460d2a793bc5b4ec4d6d7ab8f",
+    "invocations.json": "2d56cfcdc1b8dfedbfd98636c37c73e5ab7597ece37f35e691f4ae0b0dcb4f64",
+    "report.html": "529f78a60da66df401688bf81575fe29b35ddb19cd5a33107e01bba2175c8c41",
+    "documents.json": "752f0ed00593e60afd44d5058090646e3d8abeadc4a1f76597bf08a5422733ad",
+    "trials.csv": "e078ef62a71cd60f4eaeb3721858ff52188d21885b6214a2dc9a0bd77f1ac328"
+  },
+  "record_checks": {
+    "original_full_input_sent_unchanged": true,
+    "correct_expression_ast": true,
+    "correct_sense_bounds_types": true,
+    "deterministic_no_parameters_no_constraints": true,
+    "workflow_intent_supported": true,
+    "source_map_quotes_offsets_match": true,
+    "fixed_policy_profile": true,
+    "six_real_windows_qualified_cards": true,
+    "candidate_ids_and_configs_match_cards": true,
+    "source_offsets_hashes_match": true,
+    "pilot_medians_select_pso": true,
+    "origin_and_recorded_value_match_actual_trial": true,
+    "recorded_verification_passed": true,
+    "recorded_counts_and_threshold": true,
+    "four_llm_one_server_labelled_mixed": true,
+    "exact_binding_failure_repeated_after_real_feedback": true,
+    "unaccepted_candidate_section_never_semantically_approved": true,
+    "selection_binding_repair_succeeded": true,
+    "three_accepted_sections_preserved": true,
+    "html_contains_all_final_rendered_paragraphs": true,
+    "roles_including_repairs_within_fixed_caps": true
+  },
+  "runner_checks_rechecked": {
+    "checks": {
+      "six_target_cards_really_sent": true,
+      "three_distinct_eligible_nominees": true,
+      "six_targets_in_research_plan": true,
+      "six_specific_evidence_passages": true,
+      "nine_equal_budget_pilots": true,
+      "independent_pilot_metrics_match": true,
+      "winner_matches_empirical_order": true,
+      "finite_point_within_bounds": true,
+      "objective_within_fixed_threshold": true,
+      "independent_function_verification_passed": true,
+      "objective_budget_respected": true,
+      "five_required_llm_sections": false,
+      "job_completed": true
+    },
+    "advisor_sent_count": 6,
+    "advisor_sent_implementation_ids": [
+      "mealpy:evolutionary_based.DE:OriginalDE",
+      "mealpy:evolutionary_based.ES:CMA_ES",
+      "mealpy:swarm_based.ABC:OriginalABC",
+      "mealpy:swarm_based.GWO:OriginalGWO",
+      "mealpy:swarm_based.PSO:OriginalPSO",
+      "mealpy:swarm_based.WOA:OriginalWOA"
+    ],
+    "candidate_implementation_ids": [
+      "mealpy:evolutionary_based.DE:OriginalDE",
+      "mealpy:evolutionary_based.ES:CMA_ES",
+      "mealpy:swarm_based.PSO:OriginalPSO"
+    ],
+    "independent_pilot_metrics": {
+      "mealpy:evolutionary_based.DE:OriginalDE": {
+        "median_score": 0.00016715369554070285,
+        "normalized_iqr": 5.374687987214092e-05
+      },
+      "mealpy:evolutionary_based.ES:CMA_ES": {
+        "median_score": 0.018437940990615142,
+        "normalized_iqr": 0.014996213048082782
+      },
+      "mealpy:swarm_based.PSO:OriginalPSO": {
+        "median_score": 1.1796532249553844e-06,
+        "normalized_iqr": 2.136283581942276e-05
+      }
+    },
+    "independent_winner": "mealpy:swarm_based.PSO:OriginalPSO",
+    "specific_evidence_coverage": [
+      "mealpy:swarm_based.ABC:OriginalABC",
+      "mealpy:swarm_based.PSO:OriginalPSO",
+      "mealpy:evolutionary_based.ES:CMA_ES",
+      "mealpy:evolutionary_based.DE:OriginalDE",
+      "mealpy:swarm_based.GWO:OriginalGWO",
+      "mealpy:swarm_based.WOA:OriginalWOA"
+    ]
+  },
+  "failure_stage": "reporting -> explainer section validation -> repair exhausted",
+  "failure_code": "INVALID_BINDING",
+  "failed_section": "candidate_rationale",
+  "failed_paragraph": "candidate_reasons",
+  "failure_explanation_fa": "نویسنده در هر دو پاسخ اولیه و repair، problem.expression را در fact_refs آورد ولی توکن {{fact:problem.expression}} را در متن همان پاراگراف نیاورد. feedback واقعی این اختلاف را مشخص کرده بود، اما repair آن را تکرار کرد. این بخش به بازبین معنایی ارسال نشد و با متن سرور جایگزین شد؛ فقط چهار بخش مدل پذیرفته شدند.",
+  "blocking_findings": [
+    {
+      "code": "REPEATED_INVALID_BINDING_AFTER_EXPLICIT_FEEDBACK",
+      "section": "candidate_rationale",
+      "missing_text_token": "{{fact:problem.expression}}",
+      "consequence": "server fallback; mode=mixed; five required LLM sections criterion failed"
+    }
+  ],
+  "diagnostics_from_actual_output": [
+    {
+      "code": "INVALID_BINDING",
+      "evidence_refs": [],
+      "message_fa": "اختلاف دقیق اتصال در این پاراگراف: {\"token_ids_not_in_fact_refs\":[],\"fact_refs_not_used_as_tokens\":[\"problem.expression\"],\"duplicate_fact_refs\":[]}",
+      "paragraph_id": "candidate_reasons",
+      "required_change_fa": "توکن‌های همین پاراگراف و fact_refs را مطابق اختلاف ثبت‌شده اصلاح کنید؛ معیار انتخاب را با توکن مربوط در همان بخش بیان کنید. بخش‌های پذیرفته‌شده را تغییر ندهید؛ سرور هیچ ارجاع یا توکنی را خودکار تغییر نمی‌دهد.",
+      "section_id": "candidate_rationale"
+    },
+    {
+      "code": "INVALID_BINDING",
+      "evidence_refs": [],
+      "message_fa": "اختلاف دقیق اتصال در این پاراگراف: {\"token_ids_not_in_fact_refs\":[],\"fact_refs_not_used_as_tokens\":[\"method.m3.label\"],\"duplicate_fact_refs\":[]}",
+      "paragraph_id": "selection_pilots",
+      "required_change_fa": "توکن‌های همین پاراگراف و fact_refs را مطابق اختلاف ثبت‌شده اصلاح کنید؛ معیار انتخاب را با توکن مربوط در همان بخش بیان کنید. بخش‌های پذیرفته‌شده را تغییر ندهید؛ سرور هیچ ارجاع یا توکنی را خودکار تغییر نمی‌دهد.",
+      "section_id": "selection"
+    },
+    {
+      "code": "MISSING_REQUIRED_FACT",
+      "evidence_refs": [],
+      "message_fa": "داده‌های ضروری بدون توکن در همین بخش: {\"missing_required_fact_tokens\":[\"method.m3.label\"]}",
+      "paragraph_id": null,
+      "required_change_fa": "توکن‌های الزامی {{fact:method.m3.label}} را واقعاً در متن همین بخش بیاورید و fact_refs را با توکن‌های متن برابر نگه دارید؛ ذکر مفهوم یا ارجاع به‌تنهایی کافی نیست. بخش‌های پذیرفته‌شده را تغییر ندهید.",
+      "section_id": "selection"
+    }
+  ],
+  "binding_failure_by_attempt": [
+    {
+      "attempt": 1,
+      "call_id": "c6fb8a88-202e-40ec-8b53-459bc1860fad",
+      "section_id": "candidate_rationale",
+      "paragraph_id": "candidate_reasons",
+      "tokens": [
+        "method.m1.label",
+        "method.m2.label",
+        "method.m3.label"
+      ],
+      "fact_refs": [
+        "method.m1.label",
+        "method.m2.label",
+        "method.m3.label",
+        "problem.expression"
+      ],
+      "fact_refs_not_used_as_tokens": [
+        "problem.expression"
+      ],
+      "unmodified_actual_text_fa": "برای {{fact:method.m1.label}}، تناسب ثبت‌شده با فضای پیوسته و کراندار و امکان آزمودن رفتار یک روش جمعیتی روی تابع حاضر، دلیل مطرح‌شدن بود؛ سند بیرونی این روش را برای بهینه‌سازی سراسری در فضاهای پیوسته معرفی می‌کند. دربارهٔ {{fact:method.m2.label}}، دلیل ثبت‌شده امکان بررسی اثر ضرایب متفاوت تابع بر مقیاس یا انحنای راستاها با روش سازگاری ماتریس کوواریانس بود. برای {{fact:method.m3.label}} نیز بررسی رفتار جست‌وجوی محلی و سراسری در برابر تابع حاضر مطرح شد؛ سند بیرونی ضرایب این روش را محلی و سراسری توصیف می‌کند. توجیه‌های مسئله‌محور، استدلال برای آزمودن نامزدها هستند، نه نتیجهٔ اندازه‌گیری یا ادعای برتری؛ انتخاب به شواهد پایلوت واگذار شد."
+    },
+    {
+      "attempt": 2,
+      "call_id": "70f7811d-ebc6-4b78-9260-7afd20a8c173",
+      "section_id": "candidate_rationale",
+      "paragraph_id": "candidate_reasons",
+      "tokens": [
+        "method.m1.label",
+        "method.m2.label",
+        "method.m3.label"
+      ],
+      "fact_refs": [
+        "method.m1.label",
+        "method.m2.label",
+        "method.m3.label",
+        "problem.expression"
+      ],
+      "fact_refs_not_used_as_tokens": [
+        "problem.expression"
+      ],
+      "unmodified_actual_text_fa": "برای {{fact:method.m1.label}}، دلیل ثبت‌شده تناسب آن با فضای پیوسته و کراندار و معقول‌بودن آزمودن یک روش جمعیتی روی تابع حاضر بود؛ سند نیز این روش را ابتکاری برای بهینه‌سازی سراسری در فضاهای پیوسته معرفی می‌کند. در مورد {{fact:method.m2.label}}، انگیزه بررسی این بود که ضرایب متفاوت تابع ممکن است مقیاس یا انحنای راستاها را متفاوت کند. برای {{fact:method.m3.label}}، دلیل آزمون بررسی رفتار جست‌وجوی محلی و سراسری در برابر همین تابع بود؛ سند بیرونی ضرایب آن را محلی و سراسری توصیف می‌کند. این توجیه‌های مسئله‌محور انگیزهٔ آزمون‌اند، نه شاهد برتری یا تأیید پیکربندی؛ انتخاب به نتایج پایلوت واگذار شد."
+    }
+  ],
+  "repair_feedback": [
+    {
+      "code": "INVALID_BINDING",
+      "evidence_refs": [],
+      "message_fa": "اختلاف دقیق اتصال در این پاراگراف: {\"token_ids_not_in_fact_refs\":[],\"fact_refs_not_used_as_tokens\":[\"problem.expression\"],\"duplicate_fact_refs\":[]}",
+      "paragraph_id": "candidate_reasons",
+      "required_change_fa": "توکن‌های همین پاراگراف و fact_refs را مطابق اختلاف ثبت‌شده اصلاح کنید؛ معیار انتخاب را با توکن مربوط در همان بخش بیان کنید. بخش‌های پذیرفته‌شده را تغییر ندهید؛ سرور هیچ ارجاع یا توکنی را خودکار تغییر نمی‌دهد.",
+      "section_id": "candidate_rationale"
+    },
+    {
+      "code": "INVALID_BINDING",
+      "evidence_refs": [],
+      "message_fa": "اختلاف دقیق اتصال در این پاراگراف: {\"token_ids_not_in_fact_refs\":[],\"fact_refs_not_used_as_tokens\":[\"method.m3.label\"],\"duplicate_fact_refs\":[]}",
+      "paragraph_id": "selection_pilots",
+      "required_change_fa": "توکن‌های همین پاراگراف و fact_refs را مطابق اختلاف ثبت‌شده اصلاح کنید؛ معیار انتخاب را با توکن مربوط در همان بخش بیان کنید. بخش‌های پذیرفته‌شده را تغییر ندهید؛ سرور هیچ ارجاع یا توکنی را خودکار تغییر نمی‌دهد.",
+      "section_id": "selection"
+    },
+    {
+      "code": "MISSING_REQUIRED_FACT",
+      "evidence_refs": [],
+      "message_fa": "داده‌های ضروری بدون توکن در همین بخش: {\"missing_required_fact_tokens\":[\"method.m3.label\"]}",
+      "paragraph_id": null,
+      "required_change_fa": "توکن‌های الزامی {{fact:method.m3.label}} را واقعاً در متن همین بخش بیاورید و fact_refs را با توکن‌های متن برابر نگه دارید؛ ذکر مفهوم یا ارجاع به‌تنهایی کافی نیست. بخش‌های پذیرفته‌شده را تغییر ندهید.",
+      "section_id": "selection"
+    }
+  ],
+  "repair_scope": [
+    "candidate_rationale",
+    "selection"
+  ],
+  "accepted_section_hash_preservation": [
+    {
+      "section_id": "problem",
+      "before_sha256": "165928379015d9bcabadae08d316424587775de9a3caf36ad14e9800c1e70048",
+      "after_sha256": "165928379015d9bcabadae08d316424587775de9a3caf36ad14e9800c1e70048",
+      "unchanged": true
+    },
+    {
+      "section_id": "solution",
+      "before_sha256": "73368ffd0ca3a0f7d10d896415741601f3fb4ebe51e6f6cade46df209b330d30",
+      "after_sha256": "73368ffd0ca3a0f7d10d896415741601f3fb4ebe51e6f6cade46df209b330d30",
+      "unchanged": true
+    },
+    {
+      "section_id": "verification_and_limits",
+      "before_sha256": "4ef8b9bde4f2de6fe9d1d1d81debff7c9317ae734754f89bdd84f8f694e0fd61",
+      "after_sha256": "4ef8b9bde4f2de6fe9d1d1d81debff7c9317ae734754f89bdd84f8f694e0fd61",
+      "unchanged": true
+    }
+  ],
+  "reviewer_scopes": [
+    [
+      "problem",
+      "solution",
+      "verification_and_limits"
+    ],
+    [
+      "selection"
+    ]
+  ],
+  "reviewer_responses_structurally_invalid": false,
+  "narrative_mode": "mixed",
+  "five_required_origins": {
+    "problem": "llm",
+    "candidate_rationale": "server",
+    "selection": "llm",
+    "solution": "llm",
+    "verification_and_limits": "llm"
+  },
+  "reporting_calls": 4,
+  "real_role_calls": 8,
+  "additional_retry_allowed_within_stage": false,
+  "reason_no_retry": "U1 has exhausted its 8-role limit; both stages plus the one connection test exhaust the effective 17-submission cap.",
+  "actual_sent_card_ids": [
+    "mealpy:evolutionary_based.DE:OriginalDE",
+    "mealpy:evolutionary_based.ES:CMA_ES",
+    "mealpy:swarm_based.ABC:OriginalABC",
+    "mealpy:swarm_based.GWO:OriginalGWO",
+    "mealpy:swarm_based.PSO:OriginalPSO",
+    "mealpy:swarm_based.WOA:OriginalWOA"
+  ],
+  "candidate_ids": [
+    "mealpy:evolutionary_based.DE:OriginalDE",
+    "mealpy:evolutionary_based.ES:CMA_ES",
+    "mealpy:swarm_based.PSO:OriginalPSO"
+  ],
+  "candidate_rationales": [
+    {
+      "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "rationale_fa": "این مسئله دو متغیر حقیقیِ پیوسته با کران‌های محدود و تابع هدف قطعی دارد؛ کارت OriginalDE برای بهینه‌سازی پیوسته تک‌هدفه واجد شرایط است و سازگاری ابعادی و اجرای پایلوت ۵۰۰ ارزیابی را گزارش می‌کند. مستندات، DE را ابتکاری برای بهینه‌سازی سراسری در فضاهای پیوسته معرفی می‌کنند و راهبرد ۰ را DE/rand/1/bin مشخص می‌کنند [8262178d94f755f509be988dc922114f]. آزمودن این راهبرد برای تابع درجه‌دو با کمینه داخلی، راهی معقول برای بررسی رفتار یک روش جمعیتی در فضای پیوسته و کراندار است؛ این تناسب، استنباط برای مسئله حاضر است، نه ادعای مستندات درباره برتری عددی یا تأیید همین پیکربندی. انتخاب نهایی باید با مقایسه پایلوت انجام شود.",
+      "evidence_refs": [
+        "8262178d94f755f509be988dc922114f"
+      ]
+    },
+    {
+      "implementation_id": "mealpy:evolutionary_based.ES:CMA_ES",
+      "rationale_fa": "مسئله حاضر پیوسته، دوبعدی و کراندار است؛ کارت CMA_ES یک پیاده‌سازی واجد شرایط برای هدف پیوسته تک‌هدفه با حداقل بُعد ۲ و سازگار با پایلوت ۵۰۰ ارزیابی است. مستندات این روش را Covariance Matrix Adaptation Evolution Strategy معرفی می‌کنند و نمونه‌ای با متغیرهای حقیقی FloatVar و کران‌ها نشان می‌دهند [3d93e58c94e5d6e14d190e688a6b0d27]. آزمودن سازگاری ماتریس کوواریانس برای تابع درجه‌دوی حاضر معقول است، چون ضرایب متفاوت دو جمله ممکن است تفاوت مقیاس یا انحنا در راستاهای مختصاتی ایجاد کنند؛ این دلیل، استنباطی درباره مناسب‌بودن برای آزمون است، نه ادعای منبع درباره برتری یا تأیید پیکربندی کارت. انتخاب نهایی با مقایسه پایلوت است.",
+      "evidence_refs": [
+        "3d93e58c94e5d6e14d190e688a6b0d27"
+      ]
+    },
+    {
+      "implementation_id": "mealpy:swarm_based.PSO:OriginalPSO",
+      "rationale_fa": "کارت OriginalPSO برای بهینه‌سازی پیوسته تک‌هدفه واجد شرایط است؛ حداقل بُعد آن ۲ است و کارت سازگاری با پایلوت ۵۰۰ ارزیابی را گزارش می‌کند، بنابراین با این مسئله حقیقیِ دوبعدی و کراندار قابل آزمون است. مستندات برای این گونه، ضرایب c1 و c2 را به‌ترتیب ضریب محلی و ضریب سراسری معرفی می‌کنند [0442535c88613e1e9128d6d24ac7a617]. آزمودن روشی با این دو ضریب در تابع حاضر معقول است تا در مقایسه پایلوت، رفتار جست‌وجوی محلی و سراسری در برابر کمینه داخلی و ناهمسانی ضرایب تابع بررسی شود؛ این توجیه، استنباط درباره مسئله است و مستندات برتری عددی یا درستی پیکربندی کارت را ثابت نمی‌کنند.",
+      "evidence_refs": [
+        "0442535c88613e1e9128d6d24ac7a617"
+      ]
+    }
+  ],
+  "pilot_medians": {
+    "mealpy:evolutionary_based.DE:OriginalDE": 0.00016715369554070285,
+    "mealpy:evolutionary_based.ES:CMA_ES": 0.018437940990615142,
+    "mealpy:swarm_based.PSO:OriginalPSO": 1.1796532249553844e-06
+  },
+  "best_x": [
+    1.4,
+    -2.2
+  ],
+  "objective_raw": 0.0,
+  "threshold": 1e-06,
+  "solution_origin": {
+    "algorithm_id": "mealpy:swarm_based.PSO:OriginalPSO",
+    "evaluation_id": "76267b7d-8a41-4732-9f09-faa2cee36f19",
+    "execution_id": "204151aa-1871-4a03-8b2a-e0e1744d2681",
+    "phase": "main",
+    "trial_id": "48d8f56a-d981-4c65-9f86-6b4fe7093b7d"
+  },
+  "recorded_verification": {
+    "absolute_differences": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "numeric_atol": 1e-12,
+    "numeric_rtol": 1e-10,
+    "reference_evaluation_id": "76267b7d-8a41-4732-9f09-faa2cee36f19",
+    "reference_objective_raw": 0.0,
+    "repeat_objective_raw": [
+      0.0,
+      0.0
+    ],
+    "validation_status": "passed"
+  },
+  "findings": [
+    {
+      "topic": "formulation_and_workflow",
+      "status": "PASS",
+      "finding_fa": "صورت‌بندی دقیق تابع درجه‌دو، دو متغیر حقیقی با کران [-5,5]، قطعیت و نبود پارامتر/قید حفظ شده و درخواست اجرای مراحل بدون unsupported_features تا پایان ادامه یافته است."
+    },
+    {
+      "topic": "cards_sources_and_nominations",
+      "status": "PASS",
+      "finding_fa": "شش کارت معتبر محیط ویندوز ارسال شده و DE/CMA-ES/PSO با شواهد اختصاصی و پیکربندی همان کارت‌ها پیشنهاد شده‌اند. دلایل واقعی advisor متناسب با تابع‌اند و ادعای تضمین برتری ندارند؛ متن fallback به همین دلایل ذخیره‌شده ارجاع می‌دهد."
+    },
+    {
+      "topic": "empirical_selection",
+      "status": "PASS",
+      "finding_fa": "PSO کمترین میانه پایلوت را دارد؛ سه تکرار ۵۰۰ ارزیابی برای هر نامزد و ترتیب انتخاب مستقل تأیید شد. متن نهایی انتخاب، میانگین یا برتری همه تکرارها را به جای میانه ادعا نمی‌کند."
+    },
+    {
+      "topic": "solution_and_verification",
+      "status": "PASS",
+      "finding_fa": "نقطه [1.4,-2.2] و مقدار صفر متعلق به ارزیابی اصلی PSO است؛ trial، execution و evaluation شناسه‌های منطبق دارند و دو بازبینی ثبت‌شده صفرند. منشأ متن درست و تضمین بهینگی سراسری ادعا نشده است."
+    },
+    {
+      "topic": "budget_scope",
+      "status": "PASS",
+      "finding_fa": "متن main=14998 را از total=20000 و other=502 جدا کرده و 502 را بدون شاهد به یک فاز خاص نسبت نمی‌دهد."
+    },
+    {
+      "topic": "candidate_rationale_acceptance",
+      "status": "FAIL",
+      "finding_fa": "رشته توضیح نامزدها بعد از یک repair هنوز اتصال توکن problem.expression را رعایت نمی‌کند؛ خروجی مدل برای این بخش معتبر پذیرفته نشده و نمی‌توان آن را موفقیت پنج بخش گزارش کرد."
+    },
+    {
+      "topic": "safe_fallback_and_fidelity",
+      "status": "PASS",
+      "finding_fa": "چهار بخش پذیرفته‌شده مدل و متن خودکار محدود نامزدها با mode=mixed و origin=server صادقانه ثبت شده‌اند. fallback نتیجه عددی یا دلیل ساخته‌شده وارد نمی‌کند؛ متن ردشده با موفقیت تاریخی جایگزین نشده است."
+    },
+    {
+      "topic": "readability",
+      "status": "PASS",
+      "finding_fa": "نام PSO در جمله انتخاب دوبار تکرار شده که ایراد سبکی جزئی است، نه خطای عددی. تمام پاراگراف‌های منتشرشده با داده‌ها وفادارند و در HTML عیناً وجود دارند. بررسی بصری UI جداست."
+    }
+  ],
+  "html_text_consistency": "PASS",
+  "ui_visual_inspection": "PASS_SEPARATE_BROWSER_AUDIT",
+  "samples": {
+    "problem_main": "مسئله، کمینه‌سازی تابع (x1-1.4)**2 + 3*(x2+2.2)**2 است؛ هدف ثبت‌شده کمینه‌سازی است. دامنه شامل 2 متغیر حقیقی با کران‌های x1 در بازهٔ [-5, 5]؛ x2 در بازهٔ [-5, 5] می‌شود.",
+    "server_candidate_rationale": "نامزدهای ثبت‌شده تکامل تفاضلی (DE)، سازگاری ماتریس کوواریانس (CMA-ES)، ازدحام ذرات (PSO) هستند. منشأ پیشنهاد ثبت‌شده: پیشنهاد مدل با استفاده از شواهد کتابخانهٔ محلی. دلایل اصلی هر نامزد، یا نبود دلیل برای آن، در بخش «دلایل ثبت‌شده پیشنهاد» قابل مشاهده است. پیشنهاد نامزدها از معیار انتخاب نهایی در مقایسهٔ عددی جداست.",
+    "selection_pilots": "معیار ثبت‌شده، میانهٔ امتیاز پایلوت بود و روش منتخب ازدحام ذرات (PSO)، یعنی ازدحام ذرات (PSO)، شد. این روش در 3 تکرار معتبر میانهٔ امتیاز 1.1796532e-06 و میانهٔ تابع هدف خام 1.1796532e-06 را داشت؛ در هر پایلوت ثبت‌شدهٔ آن 500 ارزیابی آغاز شد. مقایسهٔ نزدیک با تکامل تفاضلی (DE) نشان می‌دهد میانهٔ امتیاز آن 0.0001671537 و میانهٔ تابع هدف خام آن 0.0001671537 بود، بر پایهٔ 3 تکرار معتبر و با 500 ارزیابی آغازشده در هر پایلوت ثبت‌شده. بنابراین مقایسهٔ میانه‌ها، نه پراکندگی به‌عنوان معیار حل تساوی، پشتیبانی عددی از انتخاب PSO می‌کند؛ این تفاوت به‌تنهایی نه برتری در هر تکرار را ثابت می‌کند و نه آزمون آماری است.",
+    "solution_origin": "نقطهٔ ثبت‌شده [1.4, -2.2] با مقدار تابع هدف خام 0 گزارش شد. منشأ آن اجرای اصلی است و روش تولیدکنندهٔ ثبت‌شده ازدحام ذرات (PSO) بود.",
+    "verification_scope": "بازبینی عددی با وضعیت موفق ثبت شد؛ مقادیر تابع هدف در تکرارهای بازبینی [0, 0] با مقدار نقطهٔ گزارش‌شده 0 سازگار بود. مصرف اجرای اصلی، یعنی ارزیابی‌های آغازشده در آن فاز، 14998 بود؛ کل ارزیابی‌های آغازشدهٔ ثبت‌شده برای کل کار 20000 بود و به اجرای اصلی و پایلوت‌ها محدود نیست. شمار خارج از اجرای اصلی و پایلوت‌ها 502 است، اما به فاز مشخصی نسبت داده نشده است. وضعیت بهینگی ثبت‌شده: گواهی‌نشده؛ بازبینی عددی نقطه، گواهی بهینگی سراسری به شمار نمی‌آید."
+  },
+  "new_model_calls": 0,
+  "new_solver_executions": 0,
+  "new_objective_evaluations": 0,
+  "historical_mac_acceptance": "UNCHANGED",
+  "ui_visual_evidence": [
+    "../../browser-qa/final-summary.json",
+    "../../browser-qa/final-visual-review.json"
+  ],
+  "ui_visual_scope": "Delegated browser inspection of actual UI and saved HTML at1440/390; honest model/server origins; no fresh calls or numerical work."
+}

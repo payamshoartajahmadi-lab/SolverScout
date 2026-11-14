@@ -1,0 +1,18 @@
+{
+  "status": "FAIL",
+  "source_commit": "a13db656bf56f3fea80051c88198afe9c25352d0",
+  "passed": 936,
+  "failed": 5,
+  "deselected": 1,
+  "duration_seconds": 385.46,
+  "failed_cases": [
+    "tests.test_v2_workflow::test_v2_web_and_catalog_policies_use_real_pilot_evidence",
+    "tests.test_workflow_exports::test_maximize_job_verifies_and_exports_from_same_engine",
+    "tests.test_workflow_exports::test_exe_018_dat_013_main_failure_preserves_and_verifies_profile_origin",
+    "tests.test_workflow_exports::test_sel_005_007_failed_pilots_are_not_retried_or_reallocated",
+    "tests.test_workflow_exports::test_objective_failure_publishes_diagnostic_and_charges_failed_call"
+  ],
+  "observed_error": "Multiprocessing re-executed temporary AppTest __main__ containing _actual_preparation_page(*__args, **__kwargs); NameError __args. Investigating test isolation.",
+  "thresholds_seeds_budgets_changed": false,
+  "evidence_preserved": true
+}

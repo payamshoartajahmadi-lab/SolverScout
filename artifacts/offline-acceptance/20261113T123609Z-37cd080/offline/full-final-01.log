@@ -1,0 +1,565 @@
+......................................EEEE.............................. [  8%]
+........................................................................ [ 17%]
+....................F................................................... [ 26%]
+........................................................................ [ 35%]
+........................................................................ [ 44%]
+........................................................................ [ 53%]
+........................................................................ [ 62%]
+........................................................................ [ 71%]
+.............................................EEEF....................... [ 80%]
+........................................................................ [ 89%]
+........................................................................ [ 98%]
+...F.......                                                              [100%]
+=================================== ERRORS ====================================
+_ ERROR at setup of test_cat_005_num_001_006_qualification_uses_real_subprocesses _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=WindowsPath('C:/Users/TAJAHM~1/AppData/Local/Temp/ss-offline-20261113T123609Z/full-fin.../TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def qualified(tmp_path_factory):
+        store = _store(tmp_path_factory.mktemp("catalog-qualification"))
+        discovery = store.discover()
+        candidates = [row for row in discovery["suggested_configurations"] if row["implementation_id"] in {_GWO, _WOA}]
+        ids = [candidate["config_id"] for candidate in candidates]
+        qualification_id, created = store.reserve_batch(ids, max_seconds=80, idempotency_key="test-qualification")
+        assert created
+        assert store.reserve_batch(ids[::-1], max_seconds=80, idempotency_key="test-qualification") == (qualification_id, False)
+        with pytest.raises(ApiError) as conflict:
+            store.reserve_batch(ids, max_seconds=81, idempotency_key="test-qualification")
+        assert conflict.value.error_code == "IDEMPOTENCY_CONFLICT"
+>       store.run_batch(qualification_id)
+
+tests\test_catalog_v2.py:90: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\p_mc_optimizer\catalog\store.py:516: in run_batch
+    report = qualify_configuration(
+src\p_mc_optimizer\catalog\qualification.py:245: in qualify_configuration
+    result = run_execution(request, history_path=path, cancelled=cancelled)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\execution\supervisor.py:404: in run_execution
+    history_path.with_name(history_path.name + ".traceback.txt").write_text(done["diagnostic"], encoding="utf-8")
+C:\Program Files\Python312\Lib\pathlib.py:1047: in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01/catalog-qualification0/ca...-0700ddaafbfb/66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c/controlled_failure.jsonl.traceback.txt')
+mode = 'w', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.traceback.txt'
+
+C:\Program Files\Python312\Lib\pathlib.py:1013: FileNotFoundError
+______ ERROR at setup of test_cat_003_004_version_and_qualification_gate ______
+
+tmp_path_factory = TempPathFactory(_given_basetemp=WindowsPath('C:/Users/TAJAHM~1/AppData/Local/Temp/ss-offline-20261113T123609Z/full-fin.../TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def qualified(tmp_path_factory):
+        store = _store(tmp_path_factory.mktemp("catalog-qualification"))
+        discovery = store.discover()
+        candidates = [row for row in discovery["suggested_configurations"] if row["implementation_id"] in {_GWO, _WOA}]
+        ids = [candidate["config_id"] for candidate in candidates]
+        qualification_id, created = store.reserve_batch(ids, max_seconds=80, idempotency_key="test-qualification")
+        assert created
+        assert store.reserve_batch(ids[::-1], max_seconds=80, idempotency_key="test-qualification") == (qualification_id, False)
+        with pytest.raises(ApiError) as conflict:
+            store.reserve_batch(ids, max_seconds=81, idempotency_key="test-qualification")
+        assert conflict.value.error_code == "IDEMPOTENCY_CONFLICT"
+>       store.run_batch(qualification_id)
+
+tests\test_catalog_v2.py:90: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\p_mc_optimizer\catalog\store.py:516: in run_batch
+    report = qualify_configuration(
+src\p_mc_optimizer\catalog\qualification.py:245: in qualify_configuration
+    result = run_execution(request, history_path=path, cancelled=cancelled)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\execution\supervisor.py:404: in run_execution
+    history_path.with_name(history_path.name + ".traceback.txt").write_text(done["diagnostic"], encoding="utf-8")
+C:\Program Files\Python312\Lib\pathlib.py:1047: in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01/catalog-qualification0/ca...-0700ddaafbfb/66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c/controlled_failure.jsonl.traceback.txt')
+mode = 'w', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.traceback.txt'
+
+C:\Program Files\Python312\Lib\pathlib.py:1013: FileNotFoundError
+_ ERROR at setup of test_disabling_blocks_new_jobs_without_rewriting_saved_snapshot _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=WindowsPath('C:/Users/TAJAHM~1/AppData/Local/Temp/ss-offline-20261113T123609Z/full-fin.../TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def qualified(tmp_path_factory):
+        store = _store(tmp_path_factory.mktemp("catalog-qualification"))
+        discovery = store.discover()
+        candidates = [row for row in discovery["suggested_configurations"] if row["implementation_id"] in {_GWO, _WOA}]
+        ids = [candidate["config_id"] for candidate in candidates]
+        qualification_id, created = store.reserve_batch(ids, max_seconds=80, idempotency_key="test-qualification")
+        assert created
+        assert store.reserve_batch(ids[::-1], max_seconds=80, idempotency_key="test-qualification") == (qualification_id, False)
+        with pytest.raises(ApiError) as conflict:
+            store.reserve_batch(ids, max_seconds=81, idempotency_key="test-qualification")
+        assert conflict.value.error_code == "IDEMPOTENCY_CONFLICT"
+>       store.run_batch(qualification_id)
+
+tests\test_catalog_v2.py:90: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\p_mc_optimizer\catalog\store.py:516: in run_batch
+    report = qualify_configuration(
+src\p_mc_optimizer\catalog\qualification.py:245: in qualify_configuration
+    result = run_execution(request, history_path=path, cancelled=cancelled)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\execution\supervisor.py:404: in run_execution
+    history_path.with_name(history_path.name + ".traceback.txt").write_text(done["diagnostic"], encoding="utf-8")
+C:\Program Files\Python312\Lib\pathlib.py:1047: in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01/catalog-qualification0/ca...-0700ddaafbfb/66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c/controlled_failure.jsonl.traceback.txt')
+mode = 'w', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.traceback.txt'
+
+C:\Program Files\Python312\Lib\pathlib.py:1013: FileNotFoundError
+___ ERROR at setup of test_num_007_maximize_cancel_timeout_and_guard_import ___
+
+tmp_path_factory = TempPathFactory(_given_basetemp=WindowsPath('C:/Users/TAJAHM~1/AppData/Local/Temp/ss-offline-20261113T123609Z/full-fin.../TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def qualified(tmp_path_factory):
+        store = _store(tmp_path_factory.mktemp("catalog-qualification"))
+        discovery = store.discover()
+        candidates = [row for row in discovery["suggested_configurations"] if row["implementation_id"] in {_GWO, _WOA}]
+        ids = [candidate["config_id"] for candidate in candidates]
+        qualification_id, created = store.reserve_batch(ids, max_seconds=80, idempotency_key="test-qualification")
+        assert created
+        assert store.reserve_batch(ids[::-1], max_seconds=80, idempotency_key="test-qualification") == (qualification_id, False)
+        with pytest.raises(ApiError) as conflict:
+            store.reserve_batch(ids, max_seconds=81, idempotency_key="test-qualification")
+        assert conflict.value.error_code == "IDEMPOTENCY_CONFLICT"
+>       store.run_batch(qualification_id)
+
+tests\test_catalog_v2.py:90: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\p_mc_optimizer\catalog\store.py:516: in run_batch
+    report = qualify_configuration(
+src\p_mc_optimizer\catalog\qualification.py:245: in qualify_configuration
+    result = run_execution(request, history_path=path, cancelled=cancelled)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\execution\supervisor.py:404: in run_execution
+    history_path.with_name(history_path.name + ".traceback.txt").write_text(done["diagnostic"], encoding="utf-8")
+C:\Program Files\Python312\Lib\pathlib.py:1047: in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01/catalog-qualification0/ca...-0700ddaafbfb/66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c/controlled_failure.jsonl.traceback.txt')
+mode = 'w', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\catalog-qualification0\\catalog-artifacts\\170489c4-5f15-4ffe-ae57-0700ddaafbfb\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.traceback.txt'
+
+C:\Program Files\Python312\Lib\pathlib.py:1013: FileNotFoundError
+_ ERROR at setup of test_genuine_budget_trial_stop_preserves_durable_known_unknown_unused[timeout] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=WindowsPath('C:/Users/TAJAHM~1/AppData/Local/Temp/ss-offline-20261113T123609Z/full-fin.../TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def genuine_catalog(tmp_path_factory):
+        data = tmp_path_factory.mktemp("numeric-compatibility")
+        with local_api(data, None) as (repo, client, address, token):
+            store = CatalogStore(repo.path)
+            store.discover()
+            ids = [resolve_configuration(name).config_id for name in (GWO, DE)]
+            base_id, _ = store.reserve_batch(ids, max_seconds=120, idempotency_key="compatibility-base")
+>           store.run_batch(base_id)
+
+tests\test_numeric_compatibility.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\p_mc_optimizer\catalog\store.py:516: in run_batch
+    report = qualify_configuration(
+src\p_mc_optimizer\catalog\qualification.py:245: in qualify_configuration
+    result = run_execution(request, history_path=path, cancelled=cancelled)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\execution\supervisor.py:404: in run_execution
+    history_path.with_name(history_path.name + ".traceback.txt").write_text(done["diagnostic"], encoding="utf-8")
+C:\Program Files\Python312\Lib\pathlib.py:1047: in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01/numeric-compatibility0/ca...-016f0c96dada/a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173/controlled_failure.jsonl.traceback.txt')
+mode = 'w', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\numeric-compatibility0\\catalog-artifacts\\b3cc615c-110a-4a66-9745-016f0c96dada\\a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173\\controlled_failure.jsonl.traceback.txt'
+
+C:\Program Files\Python312\Lib\pathlib.py:1013: FileNotFoundError
+---------------------------- Captured stderr setup ----------------------------
+2026-11-13 16:43:02.047 Started server process [28448]
+2026-11-13 16:43:14.175 Shutting down
+2026-11-13 16:43:14.284 Finished server process [28448]
+----------------------------- Captured log setup ------------------------------
+INFO     uvicorn.error:server.py:103 Started server process [28448]
+INFO     uvicorn.error:server.py:282 Shutting down
+INFO     uvicorn.error:server.py:113 Finished server process [28448]
+_ ERROR at setup of test_genuine_budget_trial_stop_preserves_durable_known_unknown_unused[cancel] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=WindowsPath('C:/Users/TAJAHM~1/AppData/Local/Temp/ss-offline-20261113T123609Z/full-fin.../TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def genuine_catalog(tmp_path_factory):
+        data = tmp_path_factory.mktemp("numeric-compatibility")
+        with local_api(data, None) as (repo, client, address, token):
+            store = CatalogStore(repo.path)
+            store.discover()
+            ids = [resolve_configuration(name).config_id for name in (GWO, DE)]
+            base_id, _ = store.reserve_batch(ids, max_seconds=120, idempotency_key="compatibility-base")
+>           store.run_batch(base_id)
+
+tests\test_numeric_compatibility.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\p_mc_optimizer\catalog\store.py:516: in run_batch
+    report = qualify_configuration(
+src\p_mc_optimizer\catalog\qualification.py:245: in qualify_configuration
+    result = run_execution(request, history_path=path, cancelled=cancelled)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\execution\supervisor.py:404: in run_execution
+    history_path.with_name(history_path.name + ".traceback.txt").write_text(done["diagnostic"], encoding="utf-8")
+C:\Program Files\Python312\Lib\pathlib.py:1047: in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01/numeric-compatibility0/ca...-016f0c96dada/a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173/controlled_failure.jsonl.traceback.txt')
+mode = 'w', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\numeric-compatibility0\\catalog-artifacts\\b3cc615c-110a-4a66-9745-016f0c96dada\\a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173\\controlled_failure.jsonl.traceback.txt'
+
+C:\Program Files\Python312\Lib\pathlib.py:1013: FileNotFoundError
+_ ERROR at setup of test_old_catalog_job_without_markers_remains_legacy_before_first_trial _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=WindowsPath('C:/Users/TAJAHM~1/AppData/Local/Temp/ss-offline-20261113T123609Z/full-fin.../TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def genuine_catalog(tmp_path_factory):
+        data = tmp_path_factory.mktemp("numeric-compatibility")
+        with local_api(data, None) as (repo, client, address, token):
+            store = CatalogStore(repo.path)
+            store.discover()
+            ids = [resolve_configuration(name).config_id for name in (GWO, DE)]
+            base_id, _ = store.reserve_batch(ids, max_seconds=120, idempotency_key="compatibility-base")
+>           store.run_batch(base_id)
+
+tests\test_numeric_compatibility.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\p_mc_optimizer\catalog\store.py:516: in run_batch
+    report = qualify_configuration(
+src\p_mc_optimizer\catalog\qualification.py:245: in qualify_configuration
+    result = run_execution(request, history_path=path, cancelled=cancelled)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\execution\supervisor.py:404: in run_execution
+    history_path.with_name(history_path.name + ".traceback.txt").write_text(done["diagnostic"], encoding="utf-8")
+C:\Program Files\Python312\Lib\pathlib.py:1047: in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01/numeric-compatibility0/ca...-016f0c96dada/a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173/controlled_failure.jsonl.traceback.txt')
+mode = 'w', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\numeric-compatibility0\\catalog-artifacts\\b3cc615c-110a-4a66-9745-016f0c96dada\\a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173\\controlled_failure.jsonl.traceback.txt'
+
+C:\Program Files\Python312\Lib\pathlib.py:1013: FileNotFoundError
+================================== FAILURES ===================================
+__ test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily __
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01/test_library_jobs_preserve_exa0')
+
+    def test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily(tmp_path):
+        """FLOW-08. Run the v2.1 Explainer with local-only research and real pilots."""
+        corpus = json.loads(CORPUS_PATH.read_text(encoding="utf-8"))
+        calls = []
+        network = NoResearchNetwork()
+        direct = DirectSourceFixture(corpus)
+        with local_api(tmp_path, model_fixture(calls), enable_lifespan=True,
+                       library_transport=direct, research_search=network,
+                       research_fetch=DocumentFetcher(network)) as (repo, client, address, token):
+>           catalog = qualify_three(client)
+                      ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_library_v21_workflow.py:152: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+client = <httpx.Client object at 0x00000158745437A0>
+
+    def qualify_three(client):
+        catalog = checked(client.post("/catalog/discover"))
+        assert catalog["discovered_count"] >= 6 and catalog["qualified_count"] == 0
+        algorithms = {"OriginalGWO", "OriginalWOA", "OriginalDE"}
+        configs = [row["config_id"] for row in catalog["suggested_configurations"] if row["class_name"] in algorithms]
+        assert len(configs) == 3
+        batch = checked(keyed_post(client, "/catalog/qualifications", {"config_ids": configs, "max_seconds": 120}), 202)
+        batch_id = batch["qualification_id"]
+        deadline = monotonic() + 120
+        while batch["status"] == "running" and monotonic() < deadline:
+            sleep(0.2)
+            batch = checked(client.get(f"/catalog/qualifications/{batch_id}"))
+        catalog = checked(client.get("/catalog/implementations?status=qualified"))
+>       assert catalog["qualified_count"] == 3, batch
+E       AssertionError: {'schema_version': '2.0', 'scope': 'base', 'qualification_id': '45e6c456-01ee-44ad-9cce-ec838028a583', 'status': 'failed', ...}
+E       assert 0 == 3
+
+tests\test_v2_workflow.py:114: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2026-11-13 16:34:00.513 Started server process [28448]
+2026-11-13 16:34:00.513 Waiting for application startup.
+2026-11-13 16:34:00.514 Application startup complete.
+2026-11-13 16:34:10.747 Shutting down
+2026-11-13 16:34:10.855 Waiting for application shutdown.
+2026-11-13 16:34:10.855 Application shutdown complete.
+2026-11-13 16:34:10.855 Finished server process [28448]
+------------------------------ Captured log call ------------------------------
+INFO     uvicorn.error:server.py:103 Started server process [28448]
+INFO     uvicorn.error:on.py:48 Waiting for application startup.
+INFO     uvicorn.error:on.py:62 Application startup complete.
+ERROR    p_mc_optimizer.catalog.routes:routes.py:65 Catalog qualification failed
+Traceback (most recent call last):
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\catalog\routes.py", line 63, in qualify
+    store.run_batch(qualification_id)
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\catalog\store.py", line 516, in run_batch
+    report = qualify_configuration(
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\catalog\qualification.py", line 245, in qualify_configuration
+    result = run_execution(request, history_path=path, cancelled=cancelled)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\execution\supervisor.py", line 266, in run_execution
+    with partial_path.open("xb") as history:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_library_jobs_preserve_exa0\\catalog-artifacts\\45e6c456-01ee-44ad-9cce-ec838028a583\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.part'
+INFO     uvicorn.error:server.py:282 Shutting down
+INFO     uvicorn.error:on.py:67 Waiting for application shutdown.
+INFO     uvicorn.error:on.py:76 Application shutdown complete.
+INFO     uvicorn.error:server.py:113 Finished server process [28448]
+__ test_real_base_qualified_passthrough_preserves_full_legacy_numeric_trace ___
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01/test_real_base_qualified_passt0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000158763D6540>
+
+    def test_real_base_qualified_passthrough_preserves_full_legacy_numeric_trace(tmp_path, monkeypatch):
+        from p_mc_optimizer.llm import provider
+    
+        calls = []
+    
+        def forbid_provider(*args, **kwargs):
+            calls.append(True)
+            raise AssertionError("Numeric compatibility does not require a language-model call")
+    
+        monkeypatch.setattr(provider, "call_provider", forbid_provider)
+        database = tmp_path/"catalog.sqlite3"
+        with sqlite3.connect(database) as connection:
+            connection.executescript(CATALOG_SCHEMA)
+        store = CatalogStore(database)
+        store.discover()
+        implementation = "mealpy:evolutionary_based.DE:OriginalDE"
+        configuration = resolve_configuration(implementation)
+        qualification_id, _ = store.reserve_batch(
+            [configuration.config_id], max_seconds=120,
+            idempotency_key="passthrough-real-base-qualification",
+        )
+>       store.run_batch(qualification_id)
+
+tests\test_numeric_passthrough.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\p_mc_optimizer\catalog\store.py:516: in run_batch
+    report = qualify_configuration(
+src\p_mc_optimizer\catalog\qualification.py:245: in qualify_configuration
+    result = run_execution(request, history_path=path, cancelled=cancelled)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\execution\supervisor.py:266: in run_execution
+    with partial_path.open("xb") as history:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01/test_real_base_qualified_...4bb7-913d-fe99392f98ed/e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771/controlled_failure.jsonl.part')
+mode = 'xb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_real_base_qualified_passt0\\catalog-artifacts\\7ef814b5-9922-4bb7-913d-fe99392f98ed\\e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771\\controlled_failure.jsonl.part'
+
+C:\Program Files\Python312\Lib\pathlib.py:1013: FileNotFoundError
+__________ test_v2_web_and_catalog_policies_use_real_pilot_evidence ___________
+
+tmp_path = WindowsPath('C:/Users/TajAhmadi/AppData/Local/Temp/ss-offline-20261113T123609Z/full-final-01/test_v2_web_and_catalog_polici0')
+
+    def test_v2_web_and_catalog_policies_use_real_pilot_evidence(tmp_path):
+        """FLOW-07. The v2 Explainer passes the existing schema over the real adapter."""
+        search = SearchFixture()
+        document = DocumentFixture()
+        explainer_contexts = []
+        transport = httpx.MockTransport(lambda request: model_fixture(request, explainer_contexts))
+        with local_api(tmp_path, transport, research_search=search,
+                       research_fetch=DocumentFetcher(document)) as (repo, client, address, token):
+>           catalog = qualify_three(client)
+                      ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_v2_workflow.py:152: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+client = <httpx.Client object at 0x0000015873F6CCB0>
+
+    def qualify_three(client):
+        catalog = checked(client.post("/catalog/discover"))
+        assert catalog["discovered_count"] >= 6 and catalog["qualified_count"] == 0
+        algorithms = {"OriginalGWO", "OriginalWOA", "OriginalDE"}
+        configs = [row["config_id"] for row in catalog["suggested_configurations"] if row["class_name"] in algorithms]
+        assert len(configs) == 3
+        batch = checked(keyed_post(client, "/catalog/qualifications", {"config_ids": configs, "max_seconds": 120}), 202)
+        batch_id = batch["qualification_id"]
+        deadline = monotonic() + 120
+        while batch["status"] == "running" and monotonic() < deadline:
+            sleep(0.2)
+            batch = checked(client.get(f"/catalog/qualifications/{batch_id}"))
+        catalog = checked(client.get("/catalog/implementations?status=qualified"))
+>       assert catalog["qualified_count"] == 3, batch
+E       AssertionError: {'schema_version': '2.0', 'scope': 'base', 'qualification_id': 'dfc6ed4f-41ba-47a9-b560-915c3399e2c0', 'status': 'failed', ...}
+E       assert 0 == 3
+
+tests\test_v2_workflow.py:114: AssertionError
+---------------------------- Captured stderr call -----------------------------
+2026-11-13 16:53:35.136 Started server process [28448]
+2026-11-13 16:53:45.587 Shutting down
+2026-11-13 16:53:45.698 Finished server process [28448]
+------------------------------ Captured log call ------------------------------
+INFO     uvicorn.error:server.py:103 Started server process [28448]
+ERROR    p_mc_optimizer.catalog.routes:routes.py:65 Catalog qualification failed
+Traceback (most recent call last):
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\catalog\routes.py", line 63, in qualify
+    store.run_batch(qualification_id)
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\catalog\store.py", line 516, in run_batch
+    report = qualify_configuration(
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\catalog\qualification.py", line 245, in qualify_configuration
+    result = run_execution(request, history_path=path, cancelled=cancelled)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\projects\solverscout-narrative-contract-repair\src\p_mc_optimizer\execution\supervisor.py", line 266, in run_execution
+    with partial_path.open("xb") as history:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\ss-offline-20261113T123609Z\\full-final-01\\test_v2_web_and_catalog_polici0\\catalog-artifacts\\dfc6ed4f-41ba-47a9-b560-915c3399e2c0\\66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c\\controlled_failure.jsonl.part'
+INFO     uvicorn.error:server.py:282 Shutting down
+INFO     uvicorn.error:server.py:113 Finished server process [28448]
+============================ slowest 15 durations =============================
+249.62s call     tests/test_targeted_formulation_flow.py::test_rejected_historical_quote_exhausts_then_only_explicit_full_model_continues
+232.23s call     tests/test_targeted_formulation_flow.py::test_historical_grouped_answer_completes_same_job_in_two_formulator_calls
+59.91s setup    tests/test_numeric_policy_qualification.py::test_real_numeric_qualification_certificates_and_replay_history
+58.39s setup    tests/test_budget_policy.py::test_real_certificate_partial_and_exact_generation_budget[102]
+54.06s call     tests/test_llm_workflow.py::test_default_policy_runs_three_real_candidates_and_selects_empirically
+53.37s call     tests/test_llm_workflow.py::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]
+26.87s call     tests/test_persistence_acceptance.py::test_loopback_worker_death_and_active_cancel_stop_numeric_child
+19.48s call     tests/test_budget_policy.py::test_q07_legacy_and_budget_policy_reference_twice
+15.39s call     tests/test_llm_workflow.py::test_advisor_auth_blocks_and_resumes_same_job
+14.70s call     tests/test_workflow_exports.py::test_maximize_job_verifies_and_exports_from_same_engine
+14.53s call     tests/test_narrative_v3_gateway.py::test_new_full_workflow_uses_writer_reviewer_without_new_objective_calls
+14.22s call     tests/test_llm_workflow.py::test_end_to_end_language_workflow
+14.14s call     tests/test_narrative_v3_gateway.py::test_full_workflow_discards_draft_after_persisted_core_changes
+14.07s call     tests/test_llm_workflow.py::test_conflicting_bounds_ask_then_resume_the_same_job[wrapped-paths]
+14.03s call     tests/test_llm_workflow.py::test_conflicting_bounds_ask_then_resume_the_same_job[relative-paths]
+=========================== short test summary info ===========================
+FAILED tests/test_library_v21_workflow.py::test_library_jobs_preserve_exact_evidence_and_pilot_budget_without_tavily
+FAILED tests/test_numeric_passthrough.py::test_real_base_qualified_passthrough_preserves_full_legacy_numeric_trace
+FAILED tests/test_v2_workflow.py::test_v2_web_and_catalog_policies_use_real_pilot_evidence
+ERROR tests/test_catalog_v2.py::test_cat_005_num_001_006_qualification_uses_real_subprocesses
+ERROR tests/test_catalog_v2.py::test_cat_003_004_version_and_qualification_gate
+ERROR tests/test_catalog_v2.py::test_disabling_blocks_new_jobs_without_rewriting_saved_snapshot
+ERROR tests/test_catalog_v2.py::test_num_007_maximize_cancel_timeout_and_guard_import
+ERROR tests/test_numeric_compatibility.py::test_genuine_budget_trial_stop_preserves_durable_known_unknown_unused[timeout]
+ERROR tests/test_numeric_compatibility.py::test_genuine_budget_trial_stop_preserves_durable_known_unknown_unused[cancel]
+ERROR tests/test_numeric_compatibility.py::test_old_catalog_job_without_markers_remains_legacy_before_first_trial
+3 failed, 793 passed, 1 deselected, 7 errors in 1331.34s (0:22:11)

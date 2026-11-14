@@ -1,0 +1,16 @@
+{
+  "scope": "Acceptance runner only; no application, prompt, seed, threshold, budget or input change",
+  "old_runner_sha256": "0e6de4bd57ab9348e26a5675700ef09195ae76e9209c5587ace15a53ccb66baf",
+  "new_runner_sha256": "ea786fc4548f6941b82113c4e02d3241c931f5eb2ce9ecca70eaa0f292c56799",
+  "application_source_manifest_sha256": "6ff1028d9f2239b03f75de415b5da077d8fd1fdb5234cd032ca4df48ccd2e285",
+  "application_source_unchanged": true,
+  "offline_guard_tests_passed": 23,
+  "retry_limit": 1,
+  "case_U2_calls_used_before_retry": 1,
+  "case_U2_calls_remaining": 7,
+  "campaign_calls_used_before_retry": 9,
+  "campaign_limit": 20,
+  "full_run_dispatch_limit": 16,
+  "retained_original_failure_job": "d6ebc690-3609-412d-99d4-c21e2b7cfdc0",
+  "retained_original_failure_FE": 0
+}

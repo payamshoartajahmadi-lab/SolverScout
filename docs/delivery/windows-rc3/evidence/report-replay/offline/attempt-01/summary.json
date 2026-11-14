@@ -1,0 +1,14 @@
+{
+  "status": "FAIL",
+  "failed": 5,
+  "errors": 0,
+  "skipped": 0,
+  "passed": 1018,
+  "source_commit": "1e69b8fc2c6ef24508dbb5664728408cfac35f71",
+  "source_manifest_sha256": "de6755f7b4a7303dc6453517b736fa2efff0e93e52191144dabe2988a5d5bf1a",
+  "source_unchanged_during_gate": true,
+  "live_provider_excluded": true,
+  "historical_965_result_is_separate": true,
+  "real_provider_submissions": 0,
+  "consumption_scope": "offline tests only, see cost observation"
+}

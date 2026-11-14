@@ -2,6 +2,10 @@
 from __future__ import annotations
 
 import json
+from dataclasses import dataclass, replace
+from hashlib import sha256
+from threading import RLock
+from types import MappingProxyType
 import time
 from datetime import UTC, datetime, timedelta
 from email.utils import parsedate_to_datetime
@@ -28,6 +32,21 @@ _SCHEMA_MODELS = {
     **{SCHEMA_IDS[role]: model for role, model in ROLE_MODELS.items()},
     "connection_test.v1": ConnectionTestResponse,
 }
+def _schema_model(schema_id):
+    if schema_id in {"explainer.v3", "narrative_review.v1"}:
+        from p_mc_optimizer.llm.narrative_models import NarrativeDraftV3, NarrativeReviewV1
+        return NarrativeDraftV3 if schema_id == "explainer.v3" else NarrativeReviewV1
+    if schema_id == "explainer.v2":
+        from p_mc_optimizer.llm.explanation_v2 import ExplainerPlanV2
+
+        return ExplainerPlanV2
+    if schema_id in _SCHEMA_MODELS:
+        return _SCHEMA_MODELS[schema_id]
+    from p_mc_optimizer.llm.research_v2 import SCHEMAS
+
+    return SCHEMAS[schema_id][2]
+
+
 _MAX_HTTP_BODY = 2 * 1024 * 1024
 _MAX_REPAIR_OUTPUT = 12000
 
@@ -63,13 +82,90 @@ def error_detail(
     }
 
 
+_PROMPTS = None
+_PROMPT_LOCK = RLock()
+
+
+def freeze_prompt_bundle():
+    global _PROMPTS
+    with _PROMPT_LOCK:
+        if _PROMPTS is None:
+            _PROMPTS = MappingProxyType({path.name[:-4]: path.read_text(encoding="utf-8").strip()
+                                        for path in sorted(PROMPT_DIR.iterdir(), key=lambda item: item.name)
+                                        if path.name.endswith(".txt")})
+        return _PROMPTS
+
+
 def _prompt(name: str) -> str:
-    return PROMPT_DIR.joinpath(f"{name}.txt").read_text(encoding="utf-8").strip()
+    return freeze_prompt_bundle()[name]
 
 
-def build_request(snapshot: ProviderSnapshot, schema_id: str, context: dict) -> dict:
-    schema = provider_schema(_SCHEMA_MODELS[schema_id])
-    system = _prompt(schema_id)
+def prompt_bundle_manifest() -> list[dict]:
+    return [{"path": name + ".txt", "sha256": sha256(text.encode("utf-8")).hexdigest()}
+            for name, text in sorted(freeze_prompt_bundle().items())]
+
+
+@dataclass(frozen=True)
+class PreparedProviderRequest:
+    request: dict
+    response_schema: dict
+    system_message: str
+    body_bytes: bytes
+    provenance: dict
+
+
+def _effective_provider_policy(schema_id, snapshot, *, policy_version="1.0", max_output_tokens_override=None):
+    """Resolve the actual prompt revision independently of the output protocol."""
+    from p_mc_optimizer.llm.narrative_policy import resolve_narrative_policy
+    effective = resolve_narrative_policy(schema_id, snapshot, policy_version=policy_version,
+                                         max_output_tokens_override=max_output_tokens_override)
+    if schema_id == "formulator.v1":
+        return replace(effective, prompt_name="formulator.v1.1", prompt_version="1.1")
+    return effective
+
+
+def prepare_provider_request(snapshot, schema_id, context, *, producer=None,
+                             report_generation_policy_version="1.0",
+                             max_output_tokens_override=None) -> PreparedProviderRequest:
+    from p_mc_optimizer.runtime_provenance import canonical_bytes, get_runtime
+    effective = _effective_provider_policy(schema_id, snapshot, policy_version=report_generation_policy_version,
+                                         max_output_tokens_override=max_output_tokens_override)
+
+    if context is None:
+        data = {}
+    elif schema_id in {"explainer.v2", "explainer.v3", "narrative_review.v1"}:
+        data = context.model_dump(mode="json", exclude_none=False)
+        if data.get("repair") is None:
+            data.pop("repair", None)
+    else:
+        data = context.model_dump(mode="json", exclude_none=True)
+    request = build_request(snapshot, schema_id, data, report_generation_policy_version=report_generation_policy_version,
+                            max_output_tokens_override=max_output_tokens_override)
+    response_schema = provider_schema(_schema_model(schema_id))
+    body = canonical_bytes(request)
+    identity = get_runtime("api")
+    provenance = {
+        "schema_id": schema_id, "system_message_sha256": sha256(request["messages"][0]["content"].encode("utf-8")).hexdigest(),
+        "response_schema_sha256": sha256(canonical_bytes(response_schema)).hexdigest(),
+        "request_body_sha256": sha256(body).hexdigest(), "request_body_bytes": len(body),
+        "prompt_bundle_sha256": sha256(canonical_bytes(prompt_bundle_manifest())).hexdigest(),
+        "request_prepared_at_utc": datetime.now(UTC).isoformat(),
+        "process_run_id": identity["process_run_id"], "gateway": identity, "producer": producer,
+        "report_generation_policy_version": effective.version,
+        "report_generation_policy_hash": effective.policy_hash,
+        "effective_max_output_tokens": effective.effective_max_output_tokens,
+        "prompt_name": effective.prompt_name, "prompt_version": effective.prompt_version,
+        "profile_id": snapshot.profile_id, "profile_revision": snapshot.revision,
+    }
+    return PreparedProviderRequest(request, response_schema, request["messages"][0]["content"], body, provenance)
+
+
+def build_request(snapshot: ProviderSnapshot, schema_id: str, context: dict, *,
+                  report_generation_policy_version="1.0", max_output_tokens_override=None) -> dict:
+    effective = _effective_provider_policy(schema_id, snapshot, policy_version=report_generation_policy_version,
+                                         max_output_tokens_override=max_output_tokens_override)
+    schema = provider_schema(_schema_model(schema_id))
+    system = _prompt(effective.prompt_name)
     repair = context.get("repair")
     if repair is not None:
         system += "\n\n" + _prompt("repair.v1")
@@ -90,9 +186,7 @@ def build_request(snapshot: ProviderSnapshot, schema_id: str, context: dict) -> 
         ],
         "stream": False,
         "n": 1,
-        snapshot.token_limit_field: (
-            snapshot.connection_test_max_output_tokens if is_test else snapshot.max_output_tokens
-        ),
+        snapshot.token_limit_field: effective.effective_max_output_tokens,
     }
     if snapshot.response_mode == "json_schema":
         request["response_format"] = {
@@ -180,6 +274,7 @@ def call_provider(
     *,
     transport: httpx.BaseTransport | None,
     sanitize: Callable[[Any], Any],
+    prepared: PreparedProviderRequest | None = None,
 ) -> dict:
     """Call the configured destination once and return sanitized, replayable data."""
     start = time.monotonic()
@@ -194,8 +289,10 @@ def call_provider(
         "cost": None,
         "elapsed_seconds": None,
     }
-    request_context = context.model_dump(mode="json", exclude_none=True) if context else {}
-    request = build_request(snapshot, schema_id, request_context)
+    prepared = prepared or prepare_provider_request(snapshot, schema_id, context)
+    metadata.update({name: prepared.provenance[name] for name in (
+        "report_generation_policy_version", "report_generation_policy_hash", "effective_max_output_tokens",
+        "prompt_name", "prompt_version", "profile_id", "profile_revision") if name in prepared.provenance})
     raw_response = bytearray()
     try:
         with httpx.Client(
@@ -206,8 +303,8 @@ def call_provider(
         ) as client, client.stream(
             "POST",
             snapshot.base_url + "/chat/completions",
-            headers={"Authorization": f"Bearer {key}", "Accept": "application/json"},
-            json=request,
+            headers={"Authorization": f"Bearer {key}", "Accept": "application/json", "Content-Type": "application/json"},
+            content=prepared.body_bytes,
         ) as response:
             metadata["request_id"] = sanitize(_string(response.headers.get("x-request-id")))
             for chunk in response.iter_bytes():
@@ -269,7 +366,7 @@ def _parse_response(
     finish = choice.get("finish_reason")
     metadata["finish_reason"] = sanitize(_string(finish))
     content = message.get("content")
-    prior = sanitize(_string(content, _MAX_REPAIR_OUTPUT))
+    prior = sanitize(_string(content, 196608 if schema_id in {"explainer.v3", "narrative_review.v1"} else _MAX_REPAIR_OUTPUT))
     if finish == "length":
         return _outcome("failed", metadata, error=error_detail("LLM_OUTPUT_TRUNCATED"), prior=prior)
     if message.get("refusal"):
@@ -282,8 +379,32 @@ def _parse_response(
         output = strict_json_loads(content)
         if sanitize(output) != output:
             raise RoleOutputError("response: secret content is prohibited")
-        model = _SCHEMA_MODELS[schema_id].model_validate(output)
-        if schema_id != "connection_test.v1":
+        if schema_id in {"explainer.v3", "narrative_review.v1"}:
+            # The orchestrator localizes section errors before semantic review.
+            # Keep the full sanitized response; a local defect must not erase healthy sections.
+            metadata["narrative_validation"] = "orchestrator"
+            if schema_id == "explainer.v3" and metadata.get("report_generation_policy_version") == "1.3":
+                # Preserve received JSON text, including whitespace and escapes,
+                # separately from its parsed form. This follows the secret check
+                # above and the existing sanitizer; never retain credentials.
+                received_text = sanitize(content)
+                metadata.update(
+                    raw_response_text=received_text,
+                    raw_response_text_sha256=sha256(received_text.encode("utf-8")).hexdigest(),
+                    raw_response_text_representation="sanitized_provider_message_content_utf8",
+                    raw_response_text_redacted=received_text != content,
+                )
+            return _outcome("succeeded", metadata, output=output)
+        model = _schema_model(schema_id).model_validate(output)
+        if schema_id == "explainer.v2":
+            from p_mc_optimizer.llm.explanation_v2 import validate_explainer_plan_v2
+
+            validate_explainer_plan_v2(model, context)
+        elif schema_id.endswith((".v2", ".v2.1")):
+            from p_mc_optimizer.llm.research_v2 import validate_output
+
+            validate_output(schema_id, model, context)
+        elif schema_id != "connection_test.v1":
             validate_role_output(schema_id.split(".")[0], model, context)
     except ValidationError as exc:
         errors = [

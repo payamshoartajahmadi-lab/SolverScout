@@ -1,0 +1,211 @@
+{
+  "evidence_kind": "ACTUAL_STORED_OFFLINE_TEST_DIAGNOSTIC",
+  "test_nodeid": "tests/test_llm_workflow.py::test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]",
+  "observed_status": "FAIL",
+  "test_provider": "Synthetic MockTransport, not a real model",
+  "sources": {
+    "sqlite_read_only": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\pytest-of-TajAhmadi\\pytest-6\\test_explainer_receives_full_t0\\state.sqlite3",
+    "sqlite_scope": "Only explainer call identity, error, selected context and previous selection-explanation fields; no profile, credentials, headers or database export.",
+    "stored_report": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\pytest-of-TajAhmadi\\pytest-6\\test_explainer_receives_full_t0\\artifacts\\9b9b920d-a570-4e61-b38d-967c3e315789\\f1492408-1f02-4cf4-9f3c-dc2749fcc87d.json",
+    "stored_report_sha256": "ad0e541c5b78c82ef7050fb678404dcfb417d9374cef4528826259f2c2ef2998",
+    "junit_path": "offline/full-final-01.xml",
+    "junit_sha256": "3669158e1adbeabf51b232ed17ae44f28082af9ca385d49504aa8800767d3163",
+    "log_path": "offline/full-final-01.log",
+    "log_sha256": "1b7ba9100c5d53f87a6543ec56bcd9fd65d2be875549301828dcd64e36f4384d"
+  },
+  "explainer_calls": [
+    {
+      "call_id": "eba99cb7-f5a3-40d5-85c3-e9a5b1817c10",
+      "role": "explainer",
+      "attempt_no": 1,
+      "status": "failed",
+      "schema_id": "explainer.v1",
+      "error_code": "LLM_SCHEMA_INVALID",
+      "field_errors": [
+        "selection_explanation_fa: no selection was made"
+      ],
+      "selection_made": false,
+      "decision_summary": null,
+      "selection_status": "not_reached",
+      "selected_algorithm_id": null,
+      "repair_field_errors": null,
+      "previous_selection_explanation_fa": "شناسهٔ روش تساوی را شکست."
+    },
+    {
+      "call_id": "65277aaa-f532-48ec-a608-023f2a2a10e1",
+      "role": "explainer",
+      "attempt_no": 2,
+      "status": "reserved",
+      "schema_id": "explainer.v1",
+      "error_code": null,
+      "field_errors": null,
+      "selection_made": false,
+      "decision_summary": null,
+      "selection_status": "not_reached",
+      "selected_algorithm_id": null,
+      "repair_field_errors": [
+        "selection_explanation_fa: no selection was made"
+      ],
+      "previous_selection_explanation_fa": null
+    }
+  ],
+  "report_projection": {
+    "job_status": "completed",
+    "solution_status": "valid_best_found",
+    "explanation_status": "provider_error",
+    "selection_status": "not_reached",
+    "termination_reason": "time_budget",
+    "selected_algorithm_id": null,
+    "decision": null,
+    "budget": {
+      "max_objective_evaluations": 5502,
+      "known_started": 3502,
+      "reserved_active": 0,
+      "charged_unknown": 0,
+      "unused": 500,
+      "allocated": 4002,
+      "unallocated": 1500
+    }
+  },
+  "policy_projection": {
+    "max_compute_seconds": 45,
+    "verification_time_reserve_seconds": 10,
+    "max_objective_evaluations": 5502,
+    "selection_policy": "llm_shortlist_then_pilot",
+    "pilot_repeats": 3,
+    "pilot_evaluations": 500
+  },
+  "timing_projection": {
+    "elapsed_compute_seconds": 36.967000000411645,
+    "elapsed_wall_seconds": 38.29582,
+    "elapsed_user_wait_seconds": 0.0,
+    "elapsed_llm_seconds": 0
+  },
+  "trial_projection": [
+    {
+      "phase": "pilot",
+      "algorithm_id": "abc.original",
+      "replicate_index": 0,
+      "execution_status": "completed",
+      "termination_reason": "evaluation_budget",
+      "started_evaluations": 500,
+      "elapsed_compute_seconds": 4.375,
+      "deadline_seconds": 28.75,
+      "overshoot_seconds": 0.0,
+      "error_code": null
+    },
+    {
+      "phase": "pilot",
+      "algorithm_id": "abc.original",
+      "replicate_index": 1,
+      "execution_status": "completed",
+      "termination_reason": "evaluation_budget",
+      "started_evaluations": 500,
+      "elapsed_compute_seconds": 4.390000000130385,
+      "deadline_seconds": 24.375,
+      "overshoot_seconds": 0.0,
+      "error_code": null
+    },
+    {
+      "phase": "pilot",
+      "algorithm_id": "abc.original",
+      "replicate_index": 2,
+      "execution_status": "completed",
+      "termination_reason": "evaluation_budget",
+      "started_evaluations": 500,
+      "elapsed_compute_seconds": 4.4060000001918525,
+      "deadline_seconds": 19.984999999869615,
+      "overshoot_seconds": 0.0,
+      "error_code": null
+    },
+    {
+      "phase": "pilot",
+      "algorithm_id": "de.original",
+      "replicate_index": 0,
+      "execution_status": "completed",
+      "termination_reason": "evaluation_budget",
+      "started_evaluations": 500,
+      "elapsed_compute_seconds": 4.75,
+      "deadline_seconds": 15.578999999677762,
+      "overshoot_seconds": 0.0,
+      "error_code": null
+    },
+    {
+      "phase": "pilot",
+      "algorithm_id": "de.original",
+      "replicate_index": 1,
+      "execution_status": "completed",
+      "termination_reason": "evaluation_budget",
+      "started_evaluations": 500,
+      "elapsed_compute_seconds": 5.358999999938533,
+      "deadline_seconds": 10.828999999677762,
+      "overshoot_seconds": 0.0,
+      "error_code": null
+    },
+    {
+      "phase": "pilot",
+      "algorithm_id": "de.original",
+      "replicate_index": 2,
+      "execution_status": "completed",
+      "termination_reason": "evaluation_budget",
+      "started_evaluations": 500,
+      "elapsed_compute_seconds": 4.952999999979511,
+      "deadline_seconds": 5.46999999973923,
+      "overshoot_seconds": 0.0,
+      "error_code": null
+    },
+    {
+      "phase": "pilot",
+      "algorithm_id": "pso.original",
+      "replicate_index": 0,
+      "execution_status": "timed_out",
+      "termination_reason": "time_budget",
+      "started_evaluations": 0,
+      "elapsed_compute_seconds": 0.6400000001303852,
+      "deadline_seconds": 0.5169999997597188,
+      "overshoot_seconds": 0.12300000037066638,
+      "error_code": null
+    }
+  ],
+  "final_explanation_error_projection": {
+    "error_code": "INTERNAL_ERROR",
+    "message_fa": "خطای داخلی رخ داده است.",
+    "field_errors": []
+  },
+  "recorded_causal_chain": [
+    "Six 500-evaluation pilots completed; first pso.original pilot timed out before any evaluation, with deadline_seconds=0.5169999997597188.",
+    "Workflow reported termination_reason=time_budget and selection_status=not_reached; no decision or selected algorithm exists.",
+    "First legacy explainer.v1 mock supplied a non-null selection explanation although its request selection_made=false.",
+    "Legacy validation correctly rejected it with selection_explanation_fa: no selection was made.",
+    "Repair request carried the same field error; the fixed mock response queue had no second explainer response.",
+    "The log records Unexpected provider invocation: explainer_v1 and the report ends with provider_error / INTERNAL_ERROR."
+  ],
+  "code_references": [
+    {
+      "path": "tests/test_llm_gateway.py",
+      "line": 48,
+      "relevance": "Shared fixture sets max_compute_seconds=45."
+    },
+    {
+      "path": "tests/test_llm_workflow.py",
+      "line": 685,
+      "relevance": "identifier_tie expects genuine selector result and supplies a single tie explanation."
+    },
+    {
+      "path": "src/p_mc_optimizer/workflow/graph.py",
+      "line": 369,
+      "relevance": "time_budget routes to reporting before selection."
+    },
+    {
+      "path": "src/p_mc_optimizer/llm/validation.py",
+      "line": 83,
+      "relevance": "Non-null selection explanation is invalid if selection_made is false."
+    }
+  ],
+  "diagnostic_conclusion": "No reporting-contract compatibility fix is warranted by this failure. The recorded timeout prevented the intended identifier tie; relaxing the validator would permit a false selection claim. Retain this full-suite FAIL under the current no-budget/no-selection-change scope.",
+  "limits": "Per-pilot timing and timeout are recorded. A specific operating-system startup cause was not isolated by this read-only diagnosis.",
+  "new_test_execution": "NOT_RUN",
+  "new_model_calls": 0,
+  "new_objective_evaluations": 0,
+  "new_solver_calls": 0
+}

@@ -1,0 +1,17 @@
+============
+Introduction
+============
+
+.. toctree::
+   :maxdepth: 3
+
+
+**MEALPY** (MEta-heuristic ALgorithms in PYthon) is the most comprehensive Python library for cutting-edge, nature-inspired meta-heuristic algorithms. It is officially released under the **MIT** license.
+
+.. note::
+    **Current Project Status**
+
+    * **Current version:** ``3.0.3``
+    * **Total algorithms:** 233
+        * 206 official implementations (originals, hybrids, and variants)
+        * 27 custom-developed algorithms by our core development team

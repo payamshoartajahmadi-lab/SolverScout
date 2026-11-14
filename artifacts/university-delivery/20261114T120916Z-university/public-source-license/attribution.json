@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "checked_at_utc": "2026-11-14T12:33:46.084938+00:00",
+  "license_identifier": "MIT",
+  "copyright_notice": "Copyright (c) 2025 Nguyen Van Thieu",
+  "installed_distribution_version": "3.0.3",
+  "observed_documentation_title_version": "3.1.0",
+  "upstream_reference_observed": "46b9850bdd6949a992372d03ed280b6302807d8d",
+  "upstream_reference_is_readthedocs_build_proof": false,
+  "upstream_license_url": "https://github.com/thieu1995/mealpy/blob/46b9850bdd6949a992372d03ed280b6302807d8d/LICENSE",
+  "upstream_license_git_blob_sha": "b06ed50317bb069e3706e6c720392e2c0b61255c",
+  "documentation_configuration_url": "https://github.com/thieu1995/mealpy/blob/46b9850bdd6949a992372d03ed280b6302807d8d/docs/source/conf.py",
+  "documentation_configuration_git_blob_sha": "dff489eecebc893b58351f6d59e5157af3405be5",
+  "documentation_introduction_url": "https://github.com/thieu1995/mealpy/blob/46b9850bdd6949a992372d03ed280b6302807d8d/docs/source/pages/general/introduction.rst",
+  "documentation_introduction_git_blob_sha": "56a6773c47aca874f0c9824a9d900f30f8fcec02",
+  "documentation_urls": [
+    "https://mealpy.readthedocs.io/en/latest/pages/general/introduction.html",
+    "https://mealpy.readthedocs.io/en/latest/pages/models/mealpy.bio_based.html",
+    "https://mealpy.readthedocs.io/en/latest/pages/models/mealpy.evolutionary_based.html",
+    "https://mealpy.readthedocs.io/en/latest/pages/models/mealpy.swarm_based.html"
+  ],
+  "license_scope_evidence": "The official MIT notice expressly includes associated documentation files; upstream documentation introduction also identifies MIT licensing.",
+  "redistribution_form": "MEALPY canonical documentation text and provenance metadata with the copyright and full MIT license. Linked papers and third-party theme assets are outside this recorded permission check.",
+  "requirements": [
+    "Include the full copyright and permission notices with redistributed copies or substantial portions.",
+    "Keep source URLs, fetch timestamps, parser versions, document/text hashes and observed source versions; do not relabel latest documentation as the installed release."
+  ],
+  "files": {
+    "MEALPY_3.0.3_DISTRIBUTION_LICENSE.txt": "6493b387d3dc8ba5d5202857eb169956ad9a296016727b26c592eabc69efb1e9",
+    "MEALPY_UPSTREAM_LICENSE.txt": "6493b387d3dc8ba5d5202857eb169956ad9a296016727b26c592eabc69efb1e9",
+    "SOURCE_ATTRIBUTION_FA.txt": "0a0ca16f7e758aad35bd5a5e3a3370a905a4f8500c5e2aaa11bede34588f7bcc",
+    "upstream-doc-conf-excerpt.txt": "93b023c213aef31a2d2e3597c16ef41b4fe1f9d5c23dfd150f66278644bc8663",
+    "upstream-introduction-license-excerpt.txt": "f80eebb87e99ea2f92bc7e778d01ca3e0e5e55da98fd06f42285cccb3f88ccd2"
+  },
+  "installed_and_official_license_bytes_equal": true,
+  "documentation_copyright_notice_observed": "2021, Thieu"
+}

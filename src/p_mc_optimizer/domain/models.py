@@ -108,8 +108,7 @@ ExplanationStatus = Literal["pending", "generated", "schema_fallback", "provider
 SelectionStatus = Literal["pending", "selected", "fixed_by_policy", "insufficient_evidence", "not_reached"]
 
 
-class ContractModel(BaseModel):
-    model_config = ConfigDict(extra="forbid", strict=True, frozen=True, allow_inf_nan=False)
+from p_mc_optimizer.domain.base import ContractModel
 
 
 class Variable(ContractModel):
@@ -332,7 +331,14 @@ class CandidatePlan(ContractModel):
 AdvisorResponse = CandidatePlan
 
 
-class TrialRequest(ContractModel):
+ImplementationId = Annotated[str, Field(
+    max_length=240, pattern=r"^[a-z][a-z0-9_-]*:[A-Za-z_][A-Za-z0-9_.]*:[A-Za-z_][A-Za-z0-9_]*$",
+)]
+Sha256Hex = Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
+ConstructorValue = int | float | bool | str | None
+
+
+class _TrialFields(ContractModel):
     job_id: Uuid4String
     trial_id: Uuid4String
     attempt_id: Uuid4String
@@ -341,7 +347,7 @@ class TrialRequest(ContractModel):
     problem_math_hash: str
     evaluation_contract_hash: str
     evaluator_version: Literal["1.0"]
-    algorithm_id: SolverId
+    algorithm_id: str
     config_id: str
     adapter_version: str
     library_version: str
@@ -354,12 +360,62 @@ class TrialRequest(ContractModel):
     start_mode: Literal["fresh"] = "fresh"
 
     @model_validator(mode="after")
-    def check_config(self):
-        if self.config_id != SOLVER_CONFIG_IDS[self.algorithm_id]:
-            raise ValueError("شناسهٔ پیکربندی با روش سازگار نیست.")
+    def check_replicate(self):
         if self.phase == "main" and self.replicate_index != 0:
             raise ValueError("اجرای اصلی فقط یک تکرار دارد.")
         return self
+
+
+class TrialRequest(_TrialFields):
+    algorithm_id: SolverId
+
+    @model_validator(mode="after")
+    def check_config(self):
+        if self.config_id != SOLVER_CONFIG_IDS[self.algorithm_id]:
+            raise ValueError("شناسهٔ پیکربندی با روش سازگار نیست.")
+        return self
+
+
+class TrialRequestV2(_TrialFields):
+    schema_version: Literal["2.0"]
+    algorithm_id: ImplementationId
+    implementation_id: ImplementationId
+    config_id: Sha256Hex
+    config_hash: Sha256Hex
+    catalog_hash: Sha256Hex
+    configuration_snapshot: dict[str, ConstructorValue]
+    seed_identity: str
+    boundary_repair: str
+    mode: Literal["single"]
+
+    @model_validator(mode="after")
+    def check_snapshot(self):
+        if self.algorithm_id != self.implementation_id or self.config_id != self.config_hash:
+            raise ValueError("شناسهٔ روش یا پیکربندی با snapshot یکسان نیست.")
+        if self.phase == "pilot" and self.evaluation_quota != PILOT_EVALUATIONS:
+            raise ValueError("سهم هر پایلوت نسخهٔ دوم دقیقاً ۵۰۰ ارزیابی است.")
+        return self
+
+
+from p_mc_optimizer.catalog.budget_models import NumericExecutionV1
+
+
+class TrialRequestBudgetV1(TrialRequestV2):
+    schema_version: Literal["2.1"]
+    numeric_execution: NumericExecutionV1
+
+    @model_validator(mode="after")
+    def matching_numeric_execution(self):
+        if self.numeric_execution.base_config_id != self.config_id or self.numeric_execution.evaluation_quota != self.evaluation_quota:
+            raise ValueError("Numeric policy base configuration and quota must match the Trial")
+        return self
+
+
+def parse_catalog_trial(value):
+    if isinstance(value, TrialRequestV2):
+        return value
+    cls = TrialRequestBudgetV1 if value.get("schema_version") == "2.1" else TrialRequestV2
+    return cls.model_validate_json(json.dumps(value,ensure_ascii=False,allow_nan=False))
 
 
 class EvaluationRecord(ContractModel):
@@ -404,7 +460,7 @@ class ExecutionRequest(ContractModel):
     seed: Annotated[int, Field(ge=0, lt=2**32)]
     evaluation_quota: Annotated[int, Field(gt=0)]
     deadline_seconds: Annotated[FiniteReal, Field(gt=0)]
-    trial: TrialRequest | None = None
+    trial: TrialRequestBudgetV1 | TrialRequest | TrialRequestV2 | None = None
     verification_reference: EvaluationRecord | None = None
 
     @model_validator(mode="after")
@@ -484,6 +540,7 @@ class ExecutionResult(ContractModel):
     validation: ValidationResult | None
     error: ExecutionError | None
     fingerprint: dict[str, str]
+    runtime_provenance: dict | None = None
 
 
 class PilotMetric(ContractModel):
@@ -506,3 +563,13 @@ class SelectionDecision(ContractModel):
     scale: FiniteReal | None
     tie_break_order: list[str]
     uncertainty_notes: str | None
+
+
+class PilotMetricV2(PilotMetric):
+    algorithm_id: ImplementationId
+
+
+class SelectionDecisionV2(SelectionDecision):
+    policy_version: Literal["2.0"] = "2.0"
+    selected_algorithm_id: ImplementationId | None
+    metrics: list[PilotMetricV2]

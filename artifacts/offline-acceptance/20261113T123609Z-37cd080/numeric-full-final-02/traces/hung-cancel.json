@@ -1,0 +1,158 @@
+{
+  "evidence_kind": "SYNTHETIC_NUMERIC_LIFECYCLE_FIXTURE",
+  "mode": "entered_hang",
+  "deadline_seconds": 10.0,
+  "product_started_at_monotonic": 1106656.234,
+  "deadline_monotonic": 1106666.234,
+  "clock_reset": false,
+  "events": [
+    {
+      "event": "supervisor_call_begin",
+      "monotonic": 1106656.234
+    },
+    {
+      "event": "process_constructed",
+      "monotonic": 1106656.234,
+      "deadline": 1106666.234,
+      "product_started_at": 1106656.234
+    },
+    {
+      "event": "launch_begin",
+      "monotonic": 1106656.234
+    },
+    {
+      "event": "launch_return",
+      "monotonic": 1106656.281,
+      "pid": 14540,
+      "creation_time": 1794577120.7749493
+    },
+    {
+      "event": "ipc_received",
+      "monotonic": 1106657.937,
+      "kind": "identity",
+      "sequence": null,
+      "done": null
+    },
+    {
+      "event": "identity_received",
+      "monotonic": 1106657.937,
+      "pid": 14540,
+      "role": "numeric",
+      "process_run_id": "893ff2a9-01c8-453b-804b-704863f3b5ad",
+      "creation_time": 1794577120.7749493
+    },
+    {
+      "event": "ack_send_begin",
+      "monotonic": 1106657.937,
+      "kind": "identity",
+      "sequence": null,
+      "reply": "accepted"
+    },
+    {
+      "event": "ack_send_return",
+      "monotonic": 1106657.937,
+      "kind": "identity",
+      "sequence": null,
+      "reply": "accepted"
+    },
+    {
+      "event": "ipc_received",
+      "monotonic": 1106657.937,
+      "kind": "started",
+      "sequence": 1,
+      "done": null
+    },
+    {
+      "event": "ack_send_begin",
+      "monotonic": 1106657.937,
+      "kind": "started",
+      "sequence": 1,
+      "reply": "accepted"
+    },
+    {
+      "event": "ack_send_return",
+      "monotonic": 1106657.937,
+      "kind": "started",
+      "sequence": 1,
+      "reply": "accepted"
+    },
+    {
+      "event": "objective_entry_confirmed",
+      "monotonic": 1106657.937,
+      "pid": 14540,
+      "entered_at": 1106657.937,
+      "creation_time": 1794577120.7749493
+    },
+    {
+      "event": "fixture_requests_cancel_after_entry",
+      "monotonic": 1106657.937
+    },
+    {
+      "event": "cancellation_observed",
+      "monotonic": 1106657.984
+    },
+    {
+      "event": "join_begin",
+      "monotonic": 1106658.109,
+      "pid": 14540,
+      "force": true,
+      "alive": true
+    },
+    {
+      "event": "join_return",
+      "monotonic": 1106658.125,
+      "multiprocessing_alive": false,
+      "exitcode": -15,
+      "pid": 14540,
+      "same_process_running": false,
+      "observation": "not_found"
+    },
+    {
+      "event": "supervisor_call_return",
+      "monotonic": 1106658.125
+    }
+  ],
+  "accepted_sequences": [
+    1
+  ],
+  "identity": {
+    "pid": 14540,
+    "role": "numeric",
+    "process_run_id": "893ff2a9-01c8-453b-804b-704863f3b5ad"
+  },
+  "objective_entry": {
+    "pid": 14540,
+    "monotonic": 1106657.937,
+    "creation_time": 1794577120.7749493
+  },
+  "startup_gate_entered": false,
+  "startup_gate_monotonic": 0.0,
+  "done": null,
+  "result": {
+    "execution_status": "cancelled",
+    "termination_reason": "cancelled",
+    "started_evaluations": 1,
+    "successful_evaluations": 0,
+    "failed_evaluations": 0,
+    "history_complete": false,
+    "history_sha256": null,
+    "elapsed_compute_seconds": 1.8910000000614673,
+    "overshoot_seconds": 0.0
+  },
+  "history_files": [
+    {
+      "name": "189787b6-894c-490a-8596-aa279d1da19a.jsonl.part",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "reaping": {
+    "multiprocessing_alive": false,
+    "exitcode": -15,
+    "pid": 14540,
+    "same_process_running": false,
+    "observation": "not_found"
+  },
+  "failure_type": null,
+  "observation_note": "Fixture synchronization and observer overhead are explicit; product deadline remains startup-inclusive."
+}

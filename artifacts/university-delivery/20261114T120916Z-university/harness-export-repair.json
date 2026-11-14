@@ -1,0 +1,17 @@
+{
+  "scope": "thin runner HTML export only; no product/runtime source changes",
+  "reason": "shared HTML can use an implicit body or a body with attributes; literal <body> replacement was invalid",
+  "installed_runner_before_sha256": "542f70c02eaa77876d339299723751b15731638c592ba3aef4224a90d772ddc8",
+  "installed_runner_after_sha256": "0e6de4bd57ab9348e26a5675700ef09195ae76e9209c5587ace15a53ccb66baf",
+  "checkout_runner_sha256": "0e6de4bd57ab9348e26a5675700ef09195ae76e9209c5587ace15a53ccb66baf",
+  "installed_runtime_source_files_unchanged": true,
+  "runtime_source_file_count": 121,
+  "targeted_command": ".venv/bin/python -m pytest -q tests/test_university_acceptance_runner.py",
+  "targeted_passed": 11,
+  "actual_u1_html_render_probe": "PASS; existing completed report only; original JSON unchanged",
+  "new_model_calls": 0,
+  "new_solver_executions": 0,
+  "new_objective_evaluations": 0,
+  "preserved_original_export_result": "live/U1/blocked.json remains unchanged; prior runner copy retained privately",
+  "post_note": "Original blocked export was subsequently preserved as live/U1/export-attempt-01-blocked.json; original status and failure evidence remain unchanged."
+}

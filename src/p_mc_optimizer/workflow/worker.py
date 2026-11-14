@@ -11,6 +11,9 @@ from p_mc_optimizer.workflow.graph import Workflow
 
 
 def run_claimed(repo, job, worker_id, *, api_url=None, token=None, stopped=lambda: False):
+    from p_mc_optimizer.runtime_provenance import startup
+
+    startup("worker", data_dir=repo.data_dir)
     done = Event()
     lost = Event()
     job_id = job["job_id"]
@@ -23,8 +26,18 @@ def run_claimed(repo, job, worker_id, *, api_url=None, token=None, stopped=lambd
 
     pulse = Thread(target=heartbeat, daemon=True)
     pulse.start()
-    workflow = Workflow(repo, job_id, worker_id, api_url=api_url, token=token,
-                        shutdown=lambda: stopped() or lost.is_set())
+    workflow_type = Workflow
+    version = job["policy"]["policy_version"]
+    if version == "2.1":
+        from p_mc_optimizer.workflow.library_v21 import LibraryWorkflow
+
+        workflow_type = LibraryWorkflow
+    elif version == "2.0":
+        from p_mc_optimizer.workflow.catalog_v2 import CatalogWorkflow
+
+        workflow_type = CatalogWorkflow
+    workflow = workflow_type(repo, job_id, worker_id, api_url=api_url, token=token,
+                             shutdown=lambda: stopped() or lost.is_set())
     try:
         workflow.run()
     except Exception as exc:

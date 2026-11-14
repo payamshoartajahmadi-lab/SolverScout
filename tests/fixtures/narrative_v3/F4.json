@@ -1,0 +1,2892 @@
+{
+  "schema_version": "2.1",
+  "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+  "job_status": "completed",
+  "phase": "reporting",
+  "input": {
+    "kind": "structured_problem",
+    "problem": {
+      "schema_version": "1.0",
+      "variables": [
+        {
+          "name": "x1",
+          "label_fa": null,
+          "type": "real",
+          "lower": -5.0,
+          "upper": 5.0,
+          "unit": null
+        },
+        {
+          "name": "x2",
+          "label_fa": null,
+          "type": "real",
+          "lower": -5.0,
+          "upper": 5.0,
+          "unit": null
+        }
+      ],
+      "objective": {
+        "sense": "minimize",
+        "unit": null,
+        "source": {
+          "kind": "expression",
+          "expression": "0*x1 + 0*x2"
+        }
+      },
+      "parameters": {},
+      "constraints": [],
+      "deterministic": true
+    }
+  },
+  "problem_revision": {
+    "problem_revision_id": "df00c269-c1ab-4016-8355-6f8ee1db3bc4",
+    "problem_id": "21de2505-a3f8-4e5b-b788-585dc0ae42ac",
+    "revision_no": 1,
+    "spec": {
+      "schema_version": "1.0",
+      "variables": [
+        {
+          "name": "x1",
+          "label_fa": null,
+          "type": "real",
+          "lower": -5.0,
+          "upper": 5.0,
+          "unit": null
+        },
+        {
+          "name": "x2",
+          "label_fa": null,
+          "type": "real",
+          "lower": -5.0,
+          "upper": 5.0,
+          "unit": null
+        }
+      ],
+      "objective": {
+        "sense": "minimize",
+        "unit": null,
+        "source": {
+          "kind": "expression",
+          "expression": "0*x1 + 0*x2"
+        }
+      },
+      "parameters": {},
+      "constraints": [],
+      "deterministic": true,
+      "source_map": [
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/schema_version",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/variables/0/name",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/variables/0/label_fa",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/variables/0/type",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/variables/0/lower",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/variables/0/upper",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/variables/0/unit",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/variables/1/name",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/variables/1/label_fa",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/variables/1/type",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/variables/1/lower",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/variables/1/upper",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/variables/1/unit",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/objective/sense",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/objective/unit",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/objective/source/kind",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/objective/source/expression",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/parameters",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/constraints",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        },
+        {
+          "draft_field_path": null,
+          "problem_field_path": "/deterministic",
+          "source_ref": "input:structured_problem",
+          "quote": null,
+          "matches": [],
+          "match_count": 0,
+          "source_sha256": "2d180b18a090b345a2dbdd76abd1d3b4cb563961c99fbec92d1b7604ba42ebd3"
+        }
+      ]
+    },
+    "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+    "evaluation_contract_hash": "39b3b9d8db39cdd7a7d3c04a5a1fee9139745f4447fefadd3bfd4969f7d40e88",
+    "created_at": "2026-11-12T00:00:00Z"
+  },
+  "policy": {
+    "explain_via_llm": true,
+    "master_seed": 1405,
+    "max_compute_seconds": 300,
+    "max_evidence_age_hours": 168,
+    "max_llm_calls": 8,
+    "max_llm_calls_per_role": 2,
+    "max_objective_evaluations": 20000,
+    "max_trial_attempts": 1,
+    "numeric_atol": 1e-12,
+    "numeric_rtol": 1e-10,
+    "on_research_failure": "stop",
+    "pilot_candidate_count": 3,
+    "pilot_evaluations": 500,
+    "pilot_repeats": 3,
+    "policy_version": "2.1",
+    "portfolio_id": "continuous_catalog_v2",
+    "preflight_evaluations": 8,
+    "profile_evaluations": 492,
+    "retrieval_mode": "direct_refresh",
+    "selection_policy": "evidence_research_then_pilot",
+    "stale_evidence_policy": "reject",
+    "sync_limits": {
+      "max_active_seconds": 300.0,
+      "max_document_bytes": 5242880,
+      "max_documents_per_source": 30,
+      "max_http_requests_per_source": 120,
+      "max_redirects": 3,
+      "max_sitemap_bytes": 2097152,
+      "max_source_seconds": 120.0,
+      "max_sources": 5,
+      "max_text_chars": 100000,
+      "max_total_bytes": 52428800,
+      "max_urls_per_source": 200,
+      "request_timeout_seconds": 20.0
+    },
+    "use_history": false,
+    "verification_evaluations": 2,
+    "verification_time_reserve_seconds": 10
+  },
+  "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+  "evaluation_contract_hash": "39b3b9d8db39cdd7a7d3c04a5a1fee9139745f4447fefadd3bfd4969f7d40e88",
+  "profile": {
+    "lower": [
+      -5.0,
+      -5.0
+    ],
+    "mean_evaluation_seconds": 8.698599541697527e-06,
+    "n_variables": 2,
+    "normalized_iqr": 0.0,
+    "normalized_std": 0.0,
+    "objective_scale": 1.0,
+    "objective_sense": "minimize",
+    "sample_artifact_id": null,
+    "sample_count": 492,
+    "score_max": 0.0,
+    "score_median": 0.0,
+    "score_min": 0.0,
+    "upper": [
+      5.0,
+      5.0
+    ],
+    "widths": [
+      10.0,
+      10.0
+    ]
+  },
+  "solver_cards": [
+    {
+      "adapter_version": "2.0",
+      "config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+      "configuration": {
+        "adapter_version": "2.0",
+        "boundary_repair": "MEALPY FloatVar clipping",
+        "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+        "library_version": "3.0.3",
+        "mode": "single",
+        "parameters": [
+          {
+            "name": "cr",
+            "value": 0.9
+          },
+          {
+            "name": "epoch",
+            "value": 100000
+          },
+          {
+            "name": "pop_size",
+            "value": 30
+          },
+          {
+            "name": "strategy",
+            "value": 0
+          },
+          {
+            "name": "wf",
+            "value": 0.7
+          }
+        ],
+        "schema_version": "2.0"
+      },
+      "deterministic_continuous_single_objective": true,
+      "family_id": "de",
+      "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "library_version": "3.0.3",
+      "max_dimension": 30,
+      "min_dimension": 2,
+      "pilot_500_compatible": true,
+      "qualified_report": {
+        "checks": [
+          {
+            "charged_unknown": 0,
+            "check": "sphere_2d",
+            "elapsed_seconds": 0.7067106670001522,
+            "history_sha256": "8a327b65152c84d5947308dcca2fdd8a60f740b1fb68fd4ed43df2a2e3bf6565",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "sphere_2d_replay",
+            "elapsed_seconds": 0.7109392919996935,
+            "history_sha256": "d48f0a40c0cca9167bf5302347f37a81afc7f394976f7fffeb012ae84ae31db2",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "rosenbrock_2d",
+            "elapsed_seconds": 0.70553050000035,
+            "history_sha256": "78d4610bbd1668afe7ec3c8d72cb891d217604205a949af95077be0685378cdd",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "shifted_10d",
+            "elapsed_seconds": 0.7083070419998876,
+            "history_sha256": "5c7bb45e1b7a5485e1b51f9d6884ac2db27c3ec82063f81de2e77445ac94c9b0",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "shifted_30d",
+            "elapsed_seconds": 0.7164783749999515,
+            "history_sha256": "a20ebeeb624de0a8c2edccecc50bf9270b44fe6fc270726941b6b9dfbabc03c9",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "controlled_failure",
+            "elapsed_seconds": 0.6720026250000046,
+            "history_sha256": "9fba8f1a8bb6a9c330c828413d767c1185be04688a998ce6532a1190de8f8299",
+            "outcome": "OBJECTIVE_EVALUATION_FAILED",
+            "started_evaluations": 1,
+            "status": "passed"
+          }
+        ],
+        "config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+        "environment": "2.0:Darwin:arm64:3.12:numpy1.26.0",
+        "pilot_500_compatible": true,
+        "schema_version": "2.0",
+        "status": "qualified"
+      },
+      "schema_version": "2.0",
+      "seed_identity": "de.original"
+    },
+    {
+      "adapter_version": "2.0",
+      "config_id": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+      "configuration": {
+        "adapter_version": "2.0",
+        "boundary_repair": "mealpy.optimizer.Optimizer.amend_solution then MEALPY FloatVar clipping",
+        "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+        "library_version": "3.0.3",
+        "mode": "single",
+        "parameters": [
+          {
+            "name": "epoch",
+            "value": 10000
+          },
+          {
+            "name": "pop_size",
+            "value": 100
+          }
+        ],
+        "schema_version": "2.0"
+      },
+      "deterministic_continuous_single_objective": true,
+      "family_id": "gwo",
+      "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+      "library_version": "3.0.3",
+      "max_dimension": 30,
+      "min_dimension": 2,
+      "pilot_500_compatible": true,
+      "qualified_report": {
+        "checks": [
+          {
+            "charged_unknown": 0,
+            "check": "sphere_2d",
+            "elapsed_seconds": 0.7020107919997827,
+            "history_sha256": "7d685d8a3d12b87d611d630ee136cbd088ab06f31695654807bcb4eb2efd811f",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "sphere_2d_replay",
+            "elapsed_seconds": 0.7071385419999388,
+            "history_sha256": "37e4220427dc50dde5347b2ecab569745f3a21436265f7094dbf96b7254cab45",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "rosenbrock_2d",
+            "elapsed_seconds": 0.700412832999973,
+            "history_sha256": "4fdc7fa5f8ac0729a806c6e960e9e8431a2f753e698437b53914c08a61334b45",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "shifted_10d",
+            "elapsed_seconds": 0.7048792919999869,
+            "history_sha256": "f3e57b1d433fb05d2c6b3d1eb1306f2ed72f15273e81fe075037a6cbd04600d2",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "shifted_30d",
+            "elapsed_seconds": 0.7100272500001665,
+            "history_sha256": "12304f7e857471282ac0e09d07519dbfdcba852cda97e028b5482fd561604add",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "controlled_failure",
+            "elapsed_seconds": 0.6699016249999659,
+            "history_sha256": "175b1168d08af5798e3a1f63ee7e92e94299a3a4175c8a57a6e2e42ee8470b29",
+            "outcome": "OBJECTIVE_EVALUATION_FAILED",
+            "started_evaluations": 1,
+            "status": "passed"
+          }
+        ],
+        "config_id": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+        "environment": "2.0:Darwin:arm64:3.12:numpy1.26.0",
+        "pilot_500_compatible": true,
+        "schema_version": "2.0",
+        "status": "qualified"
+      },
+      "schema_version": "2.0",
+      "seed_identity": "mealpy:swarm_based.GWO:OriginalGWO"
+    },
+    {
+      "adapter_version": "2.0",
+      "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+      "configuration": {
+        "adapter_version": "2.0",
+        "boundary_repair": "mealpy.optimizer.Optimizer.amend_solution then MEALPY FloatVar clipping",
+        "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+        "library_version": "3.0.3",
+        "mode": "single",
+        "parameters": [
+          {
+            "name": "epoch",
+            "value": 10000
+          },
+          {
+            "name": "pop_size",
+            "value": 100
+          }
+        ],
+        "schema_version": "2.0"
+      },
+      "deterministic_continuous_single_objective": true,
+      "family_id": "woa",
+      "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+      "library_version": "3.0.3",
+      "max_dimension": 30,
+      "min_dimension": 2,
+      "pilot_500_compatible": true,
+      "qualified_report": {
+        "checks": [
+          {
+            "charged_unknown": 0,
+            "check": "sphere_2d",
+            "elapsed_seconds": 0.694611082999927,
+            "history_sha256": "7dc140a49db099bfe65c3faebd2ed6065097836eb2ddb0e37cb29e9c518b1e1a",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "sphere_2d_replay",
+            "elapsed_seconds": 0.702684749999662,
+            "history_sha256": "190c0599ec391fb8888225fe3ea3b129a0c835a3832f825190625d36d2265ae1",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "rosenbrock_2d",
+            "elapsed_seconds": 0.7035243330001322,
+            "history_sha256": "0e60e5a7e586fdf23e5a6cf89a4540e0ed5f083b039f185acd5b9a5bac01ad80",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "shifted_10d",
+            "elapsed_seconds": 0.7037292919999345,
+            "history_sha256": "0187a873304f121e4c379276308a4064dc04f1479edebe0f59df9f83ad5f9fb5",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "shifted_30d",
+            "elapsed_seconds": 0.7185531250001986,
+            "history_sha256": "6fc18ab36018ed2b8e28ce4ae2f39580197506180d433c720047697e99c743e9",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "controlled_failure",
+            "elapsed_seconds": 0.6962002499999471,
+            "history_sha256": "6f93fec23e8aa55eecb659886a7c7cc90ab00348606bd50bfdba5c717489f464",
+            "outcome": "OBJECTIVE_EVALUATION_FAILED",
+            "started_evaluations": 1,
+            "status": "passed"
+          }
+        ],
+        "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+        "environment": "2.0:Darwin:arm64:3.12:numpy1.26.0",
+        "pilot_500_compatible": true,
+        "schema_version": "2.0",
+        "status": "qualified"
+      },
+      "schema_version": "2.0",
+      "seed_identity": "mealpy:swarm_based.WOA:OriginalWOA"
+    }
+  ],
+  "candidate_plan": {
+    "candidates": [
+      {
+        "algorithm_id": "mealpy:evolutionary_based.DE:OriginalDE",
+        "config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+        "evidence_refs": [
+          "d98cbfe5-8727-4f81-bb93-64cffa836ed3"
+        ],
+        "rationale_fa": "برای مسئلهٔ پیوستهٔ کراندار با دو متغیر، این پیاده‌سازی از خانوادهٔ Differential Evolution است و پیکربندی کارت، راهبرد ۰ (DE/rand/1/bin) را مشخص می‌کند. کارت آن را برای مسئلهٔ تک‌هدفهٔ قطعی و این بُعد واجد شرایط گزارش می‌کند؛ این شواهد برتری عددی آن را اثبات نمی‌کنند."
+      },
+      {
+        "algorithm_id": "mealpy:swarm_based.GWO:OriginalGWO",
+        "config_id": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+        "evidence_refs": [
+          "4ff1d76f-80ee-4b80-a914-c649f188df65"
+        ],
+        "rationale_fa": "این گزینه از خانوادهٔ Grey Wolf Optimizer است و با متغیرهای حقیقی کراندار این مسئله تناسب دارد. کارت آن را برای مسئلهٔ تک‌هدفهٔ قطعی و بُعد ۲ واجد شرایط گزارش می‌کند؛ این انتخاب به معنی ادعای برتری عددی یا تأیید مستقل پیکربندی نیست."
+      },
+      {
+        "algorithm_id": "mealpy:swarm_based.WOA:OriginalWOA",
+        "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+        "evidence_refs": [
+          "af6611ff-431b-4b1e-ba78-e77f4bf69ef0"
+        ],
+        "rationale_fa": "این گزینه از خانوادهٔ Whale Optimization Algorithm است و برای بهینه‌سازی تک‌هدفه با متغیرهای حقیقی کراندار مناسب است. کارت آن را برای بُعد ۲ و مسئلهٔ قطعی واجد شرایط گزارش می‌کند؛ شواهد موجود عملکرد عددی برتر یا صحت مستقل تنظیمات را ثابت نمی‌کنند."
+      }
+    ],
+    "uncertainty_notes": null
+  },
+  "decision": {
+    "decision_id": "a3f97036-5526-431d-bd70-f8e5f253e53a",
+    "policy_version": "2.0",
+    "selection_status": "selected",
+    "decision_source": "empirical_pilot_selection",
+    "selected_algorithm_id": "mealpy:evolutionary_based.DE:OriginalDE",
+    "selected_config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+    "metrics": [
+      {
+        "algorithm_id": "mealpy:evolutionary_based.DE:OriginalDE",
+        "eligible": true,
+        "trial_ids": [
+          "648ce8fd-9608-4aaf-a4f1-8b7af4f905b6",
+          "0fb77b6a-e2c5-4d82-a3aa-ac11dd03e920",
+          "58e7e227-f627-4272-ba0b-dd4f9c0d9aa7"
+        ],
+        "median_score": 0.0,
+        "normalized_iqr": 0.0,
+        "reason": null
+      },
+      {
+        "algorithm_id": "mealpy:swarm_based.GWO:OriginalGWO",
+        "eligible": true,
+        "trial_ids": [
+          "2bae0e60-c1a7-4f21-813b-38e41c0663e6",
+          "6a7bb8d7-3921-4ed7-8c44-e7d8c7663f87",
+          "ed98ba54-6dea-4a71-932a-772973c6b621"
+        ],
+        "median_score": 0.0,
+        "normalized_iqr": 0.0,
+        "reason": null
+      },
+      {
+        "algorithm_id": "mealpy:swarm_based.WOA:OriginalWOA",
+        "eligible": true,
+        "trial_ids": [
+          "d0ccccd0-d3f2-461a-8cbc-afafb1b9f610",
+          "dd0d647f-23cd-4343-b8e3-175d576d1732",
+          "9d3141d2-091b-4084-ab19-ff624d0dc038"
+        ],
+        "median_score": 0.0,
+        "normalized_iqr": 0.0,
+        "reason": null
+      }
+    ],
+    "scale": 1.0,
+    "tie_break_order": [
+      "median_score",
+      "normalized_iqr",
+      "algorithm_id"
+    ],
+    "uncertainty_notes": "رتبه‌بندی توصیفی بر پایهٔ سه تکرار است و معناداری آماری را اثبات نمی‌کند."
+  },
+  "proposal_source": "library_research",
+  "proposal_error": null,
+  "selection_status": "selected",
+  "selected_algorithm_id": "mealpy:evolutionary_based.DE:OriginalDE",
+  "selected_config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+  "solution_origin": {
+    "evaluation_id": "eedb5c48-be01-48bc-ac4a-d9becba4247b",
+    "execution_id": "f8005ed6-4966-4c4a-b73b-2598e49170ce",
+    "trial_id": null,
+    "phase": "preflight",
+    "algorithm_id": null
+  },
+  "best_evaluation_id": "eedb5c48-be01-48bc-ac4a-d9becba4247b",
+  "best_x": [
+    0.0,
+    0.0
+  ],
+  "objective_raw": 0.0,
+  "score_for_minimization": 0.0,
+  "verification": {
+    "absolute_differences": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "numeric_atol": 1e-12,
+    "numeric_rtol": 1e-10,
+    "reference_evaluation_id": "eedb5c48-be01-48bc-ac4a-d9becba4247b",
+    "reference_objective_raw": 0.0,
+    "repeat_objective_raw": [
+      0.0,
+      0.0
+    ],
+    "validation_status": "passed"
+  },
+  "verification_error": null,
+  "solution_status": "valid_best_found",
+  "optimality_status": "not_certified",
+  "termination_reason": "evaluation_budget",
+  "main_success": true,
+  "partial_result": false,
+  "trials": [
+    {
+      "adapter_version": "2.0",
+      "algorithm_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "attempt_id": "15101d4f-1161-4e88-a973-ab5a75d9a319",
+      "boundary_repair": "MEALPY FloatVar clipping",
+      "catalog_hash": "92e60d4e1c1954e90508b2100d302d35c430c304ad5134bd4910b4506ce8a14f",
+      "config_hash": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+      "config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+      "configuration_snapshot": {
+        "cr": 0.9,
+        "epoch": 100000,
+        "pop_size": 30,
+        "strategy": 0,
+        "wf": 0.7
+      },
+      "deadline_seconds": 288.1108013330013,
+      "evaluation_contract_hash": "39b3b9d8db39cdd7a7d3c04a5a1fee9139745f4447fefadd3bfd4969f7d40e88",
+      "evaluation_quota": 500,
+      "evaluator_version": "1.0",
+      "idempotency_key": "05d05731-b380-4e5f-b779-f769342a455f",
+      "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+      "library_version": "3.0.3",
+      "mode": "single",
+      "numeric_execution": {
+        "application": "passthrough",
+        "base_config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+        "derivation": null,
+        "effective_config_hash": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+        "effective_configuration": {
+          "adapter_version": "2.0",
+          "boundary_repair": "MEALPY FloatVar clipping",
+          "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+          "library_version": "3.0.3",
+          "mode": "single",
+          "parameters": [
+            {
+              "name": "cr",
+              "value": 0.9
+            },
+            {
+              "name": "epoch",
+              "value": 100000
+            },
+            {
+              "name": "pop_size",
+              "value": 30
+            },
+            {
+              "name": "strategy",
+              "value": 0
+            },
+            {
+              "name": "wf",
+              "value": 0.7
+            }
+          ],
+          "schema_version": "2.0"
+        },
+        "evaluation_quota": 500,
+        "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+        "policy_hash": "2ec05450dbf5f35867bae2c7ad24b3bb2746489151c29283f4a8d4d3ef0a7b63",
+        "policy_id": "budget_horizon.v1",
+        "reason": "not_allowlisted",
+        "schema_version": "1.0"
+      },
+      "phase": "pilot",
+      "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+      "problem_revision_id": "df00c269-c1ab-4016-8355-6f8ee1db3bc4",
+      "replicate_index": 0,
+      "schema_version": "2.1",
+      "seed": 53379310,
+      "seed_identity": "de.original",
+      "start_mode": "fresh",
+      "trial_id": "648ce8fd-9608-4aaf-a4f1-8b7af4f905b6",
+      "best": {
+        "evaluation_id": "cc574938-d9ea-4381-8e69-648da6753ed7",
+        "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+        "execution_id": "15101d4f-1161-4e88-a973-ab5a75d9a319",
+        "stage_execution_id": null,
+        "trial_id": "648ce8fd-9608-4aaf-a4f1-8b7af4f905b6",
+        "attempt_id": "15101d4f-1161-4e88-a973-ab5a75d9a319",
+        "phase": "pilot",
+        "sequence": 1,
+        "x": [
+          1.407832763554974,
+          -2.2059386168600827
+        ],
+        "objective_raw": 0.0,
+        "score_for_minimization": 0.0,
+        "status": "successful",
+        "error_code": null,
+        "evaluation_kind": "objective",
+        "evaluation_seconds": 0.0,
+        "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+        "evaluator_version": "1.0"
+      },
+      "elapsed_compute_seconds": 1.0881171250002808,
+      "error": null,
+      "execution_id": "15101d4f-1161-4e88-a973-ab5a75d9a319",
+      "execution_status": "completed",
+      "failed_evaluations": 0,
+      "fingerprint": {
+        "adapter": "2.0",
+        "architecture": "arm64",
+        "dtype": "float64",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "python": "3.12.16",
+        "rng": "PCG64"
+      },
+      "history_complete": true,
+      "overshoot_seconds": 0.0,
+      "profile_features": null,
+      "rejected_proposals": 0,
+      "started_evaluations": 500,
+      "successful_evaluations": 500,
+      "termination_reason": "evaluation_budget",
+      "validation": null,
+      "policy_id": "budget_horizon.v1",
+      "effective_config_hash": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+      "effective_epoch": 100000,
+      "effective_pop_size": 30,
+      "derivation_reason": "not_allowlisted",
+      "best_evaluation_id": "178cef7b-e27b-458b-bc53-1cff5745d210",
+      "best_x": [
+        1.407832763554974,
+        -2.2059386168600827
+      ],
+      "objective_raw": 0.00016715369554070285,
+      "score_for_minimization": 0.00016715369554070285,
+      "error_code": null,
+      "history_artifact_id": "7acb5dae-1afd-4a6a-82b2-fe73daa8e2c6",
+      "history_sha256": "35b4a81033daa4f920c8ae1ffb69a47bc3dc4c06aeb4623374094c7087320f46"
+    },
+    {
+      "adapter_version": "2.0",
+      "algorithm_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "attempt_id": "d12310fa-bca0-4b38-b037-ed535ff8b2cc",
+      "boundary_repair": "MEALPY FloatVar clipping",
+      "catalog_hash": "92e60d4e1c1954e90508b2100d302d35c430c304ad5134bd4910b4506ce8a14f",
+      "config_hash": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+      "config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+      "configuration_snapshot": {
+        "cr": 0.9,
+        "epoch": 100000,
+        "pop_size": 30,
+        "strategy": 0,
+        "wf": 0.7
+      },
+      "deadline_seconds": 287.022684208001,
+      "evaluation_contract_hash": "39b3b9d8db39cdd7a7d3c04a5a1fee9139745f4447fefadd3bfd4969f7d40e88",
+      "evaluation_quota": 500,
+      "evaluator_version": "1.0",
+      "idempotency_key": "d2b376bb-f2ef-4db4-bce7-050e0cb8b1cb",
+      "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+      "library_version": "3.0.3",
+      "mode": "single",
+      "numeric_execution": {
+        "application": "passthrough",
+        "base_config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+        "derivation": null,
+        "effective_config_hash": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+        "effective_configuration": {
+          "adapter_version": "2.0",
+          "boundary_repair": "MEALPY FloatVar clipping",
+          "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+          "library_version": "3.0.3",
+          "mode": "single",
+          "parameters": [
+            {
+              "name": "cr",
+              "value": 0.9
+            },
+            {
+              "name": "epoch",
+              "value": 100000
+            },
+            {
+              "name": "pop_size",
+              "value": 30
+            },
+            {
+              "name": "strategy",
+              "value": 0
+            },
+            {
+              "name": "wf",
+              "value": 0.7
+            }
+          ],
+          "schema_version": "2.0"
+        },
+        "evaluation_quota": 500,
+        "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+        "policy_hash": "2ec05450dbf5f35867bae2c7ad24b3bb2746489151c29283f4a8d4d3ef0a7b63",
+        "policy_id": "budget_horizon.v1",
+        "reason": "not_allowlisted",
+        "schema_version": "1.0"
+      },
+      "phase": "pilot",
+      "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+      "problem_revision_id": "df00c269-c1ab-4016-8355-6f8ee1db3bc4",
+      "replicate_index": 1,
+      "schema_version": "2.1",
+      "seed": 2105818785,
+      "seed_identity": "de.original",
+      "start_mode": "fresh",
+      "trial_id": "0fb77b6a-e2c5-4d82-a3aa-ac11dd03e920",
+      "best": {
+        "evaluation_id": "64446b1c-f292-4b86-9173-d493c8650acb",
+        "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+        "execution_id": "d12310fa-bca0-4b38-b037-ed535ff8b2cc",
+        "stage_execution_id": null,
+        "trial_id": "0fb77b6a-e2c5-4d82-a3aa-ac11dd03e920",
+        "attempt_id": "d12310fa-bca0-4b38-b037-ed535ff8b2cc",
+        "phase": "pilot",
+        "sequence": 1,
+        "x": [
+          1.4044400882551937,
+          -2.2040035338047805
+        ],
+        "objective_raw": 0.0,
+        "score_for_minimization": 0.0,
+        "status": "successful",
+        "error_code": null,
+        "evaluation_kind": "objective",
+        "evaluation_seconds": 0.0,
+        "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+        "evaluator_version": "1.0"
+      },
+      "elapsed_compute_seconds": 1.0679336249995686,
+      "error": null,
+      "execution_id": "d12310fa-bca0-4b38-b037-ed535ff8b2cc",
+      "execution_status": "completed",
+      "failed_evaluations": 0,
+      "fingerprint": {
+        "adapter": "2.0",
+        "architecture": "arm64",
+        "dtype": "float64",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "python": "3.12.16",
+        "rng": "PCG64"
+      },
+      "history_complete": true,
+      "overshoot_seconds": 0.0,
+      "profile_features": null,
+      "rejected_proposals": 0,
+      "started_evaluations": 500,
+      "successful_evaluations": 500,
+      "termination_reason": "evaluation_budget",
+      "validation": null,
+      "policy_id": "budget_horizon.v1",
+      "effective_config_hash": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+      "effective_epoch": 100000,
+      "effective_pop_size": 30,
+      "derivation_reason": "not_allowlisted",
+      "best_evaluation_id": "cb1fee08-7919-4da5-a286-c42310b9b145",
+      "best_x": [
+        1.4044400882551937,
+        -2.2040035338047805
+      ],
+      "objective_raw": 6.779923249196733e-05,
+      "score_for_minimization": 6.779923249196733e-05,
+      "error_code": null,
+      "history_artifact_id": "b651284f-421d-4b2c-b9d2-589581b195d7",
+      "history_sha256": "49a94cb49649ddec9b9ae5795b7f27ad10efc02b8a402114278dcd65e5f8432c"
+    },
+    {
+      "adapter_version": "2.0",
+      "algorithm_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "attempt_id": "9db51091-596a-4038-beaf-a5de12bf03b9",
+      "boundary_repair": "MEALPY FloatVar clipping",
+      "catalog_hash": "92e60d4e1c1954e90508b2100d302d35c430c304ad5134bd4910b4506ce8a14f",
+      "config_hash": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+      "config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+      "configuration_snapshot": {
+        "cr": 0.9,
+        "epoch": 100000,
+        "pop_size": 30,
+        "strategy": 0,
+        "wf": 0.7
+      },
+      "deadline_seconds": 285.95475058300144,
+      "evaluation_contract_hash": "39b3b9d8db39cdd7a7d3c04a5a1fee9139745f4447fefadd3bfd4969f7d40e88",
+      "evaluation_quota": 500,
+      "evaluator_version": "1.0",
+      "idempotency_key": "8b6c9297-30d2-4651-bdbd-ed3eb1b587b1",
+      "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+      "library_version": "3.0.3",
+      "mode": "single",
+      "numeric_execution": {
+        "application": "passthrough",
+        "base_config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+        "derivation": null,
+        "effective_config_hash": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+        "effective_configuration": {
+          "adapter_version": "2.0",
+          "boundary_repair": "MEALPY FloatVar clipping",
+          "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+          "library_version": "3.0.3",
+          "mode": "single",
+          "parameters": [
+            {
+              "name": "cr",
+              "value": 0.9
+            },
+            {
+              "name": "epoch",
+              "value": 100000
+            },
+            {
+              "name": "pop_size",
+              "value": 30
+            },
+            {
+              "name": "strategy",
+              "value": 0
+            },
+            {
+              "name": "wf",
+              "value": 0.7
+            }
+          ],
+          "schema_version": "2.0"
+        },
+        "evaluation_quota": 500,
+        "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+        "policy_hash": "2ec05450dbf5f35867bae2c7ad24b3bb2746489151c29283f4a8d4d3ef0a7b63",
+        "policy_id": "budget_horizon.v1",
+        "reason": "not_allowlisted",
+        "schema_version": "1.0"
+      },
+      "phase": "pilot",
+      "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+      "problem_revision_id": "df00c269-c1ab-4016-8355-6f8ee1db3bc4",
+      "replicate_index": 2,
+      "schema_version": "2.1",
+      "seed": 837945227,
+      "seed_identity": "de.original",
+      "start_mode": "fresh",
+      "trial_id": "58e7e227-f627-4272-ba0b-dd4f9c0d9aa7",
+      "best": {
+        "evaluation_id": "36063b9f-5da6-43ca-b5b0-2681b8c30daa",
+        "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+        "execution_id": "9db51091-596a-4038-beaf-a5de12bf03b9",
+        "stage_execution_id": null,
+        "trial_id": "58e7e227-f627-4272-ba0b-dd4f9c0d9aa7",
+        "attempt_id": "9db51091-596a-4038-beaf-a5de12bf03b9",
+        "phase": "pilot",
+        "sequence": 1,
+        "x": [
+          1.4130182710491455,
+          -2.201392552946597
+        ],
+        "objective_raw": 0.0,
+        "score_for_minimization": 0.0,
+        "status": "successful",
+        "error_code": null,
+        "evaluation_kind": "objective",
+        "evaluation_seconds": 0.0,
+        "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+        "evaluator_version": "1.0"
+      },
+      "elapsed_compute_seconds": 1.0708932499983348,
+      "error": null,
+      "execution_id": "9db51091-596a-4038-beaf-a5de12bf03b9",
+      "execution_status": "completed",
+      "failed_evaluations": 0,
+      "fingerprint": {
+        "adapter": "2.0",
+        "architecture": "arm64",
+        "dtype": "float64",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "python": "3.12.16",
+        "rng": "PCG64"
+      },
+      "history_complete": true,
+      "overshoot_seconds": 0.0,
+      "profile_features": null,
+      "rejected_proposals": 0,
+      "started_evaluations": 500,
+      "successful_evaluations": 500,
+      "termination_reason": "evaluation_budget",
+      "validation": null,
+      "policy_id": "budget_horizon.v1",
+      "effective_config_hash": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+      "effective_epoch": 100000,
+      "effective_pop_size": 30,
+      "derivation_reason": "not_allowlisted",
+      "best_evaluation_id": "7e099b2a-9c43-4cd6-a528-625d11273520",
+      "best_x": [
+        1.4130182710491455,
+        -2.201392552946597
+      ],
+      "objective_raw": 0.00017529299223624918,
+      "score_for_minimization": 0.00017529299223624918,
+      "error_code": null,
+      "history_artifact_id": "b0eea041-d251-4efc-bb0c-042984c18e32",
+      "history_sha256": "7d02fcaf8a3d6613eb2f6593cdf114ffda83aebbb15054b935fadd105967b90e"
+    },
+    {
+      "adapter_version": "2.0",
+      "algorithm_id": "mealpy:swarm_based.GWO:OriginalGWO",
+      "attempt_id": "48fb9d69-2a3e-4db6-a37f-7684a8e7a6c6",
+      "boundary_repair": "mealpy.optimizer.Optimizer.amend_solution then MEALPY FloatVar clipping",
+      "catalog_hash": "92e60d4e1c1954e90508b2100d302d35c430c304ad5134bd4910b4506ce8a14f",
+      "config_hash": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+      "config_id": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+      "configuration_snapshot": {
+        "epoch": 10000,
+        "pop_size": 100
+      },
+      "deadline_seconds": 284.8838573330031,
+      "evaluation_contract_hash": "39b3b9d8db39cdd7a7d3c04a5a1fee9139745f4447fefadd3bfd4969f7d40e88",
+      "evaluation_quota": 500,
+      "evaluator_version": "1.0",
+      "idempotency_key": "26849bae-31ae-460b-a8f7-0fa45c62eabb",
+      "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+      "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+      "library_version": "3.0.3",
+      "mode": "single",
+      "numeric_execution": {
+        "application": "adapted",
+        "base_config_id": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+        "derivation": {
+          "base_epoch": 10000,
+          "budget_epoch": 4,
+          "effective_epoch": 4,
+          "evaluations_per_generation": 100,
+          "expected_started_without_error": 500,
+          "expected_unused_without_error": 0,
+          "initialization_evaluations": 100,
+          "natural_evaluations": 501,
+          "population_size": 100,
+          "setup_evaluations": 1
+        },
+        "effective_config_hash": "38854b4cda90f4d03a5aeabe1d64095d508ccaad94ea3ffee6c838b7525e7b70",
+        "effective_configuration": {
+          "adapter_version": "2.0",
+          "boundary_repair": "mealpy.optimizer.Optimizer.amend_solution then MEALPY FloatVar clipping",
+          "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+          "library_version": "3.0.3",
+          "mode": "single",
+          "parameters": [
+            {
+              "name": "epoch",
+              "value": 4
+            },
+            {
+              "name": "pop_size",
+              "value": 100
+            }
+          ],
+          "schema_version": "2.0"
+        },
+        "evaluation_quota": 500,
+        "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+        "policy_hash": "2ec05450dbf5f35867bae2c7ad24b3bb2746489151c29283f4a8d4d3ef0a7b63",
+        "policy_id": "budget_horizon.v1",
+        "reason": "budget_epoch",
+        "schema_version": "1.0"
+      },
+      "phase": "pilot",
+      "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+      "problem_revision_id": "df00c269-c1ab-4016-8355-6f8ee1db3bc4",
+      "replicate_index": 0,
+      "schema_version": "2.1",
+      "seed": 412255666,
+      "seed_identity": "mealpy:swarm_based.GWO:OriginalGWO",
+      "start_mode": "fresh",
+      "trial_id": "2bae0e60-c1a7-4f21-813b-38e41c0663e6",
+      "best": {
+        "evaluation_id": "d3ab7e06-c4e3-4159-8472-f3e80c1c5098",
+        "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+        "execution_id": "48fb9d69-2a3e-4db6-a37f-7684a8e7a6c6",
+        "stage_execution_id": null,
+        "trial_id": "2bae0e60-c1a7-4f21-813b-38e41c0663e6",
+        "attempt_id": "48fb9d69-2a3e-4db6-a37f-7684a8e7a6c6",
+        "phase": "pilot",
+        "sequence": 1,
+        "x": [
+          1.4123184944526601,
+          -2.2142172695798537
+        ],
+        "objective_raw": 0.0,
+        "score_for_minimization": 0.0,
+        "status": "successful",
+        "error_code": null,
+        "evaluation_kind": "objective",
+        "evaluation_seconds": 0.0,
+        "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+        "evaluator_version": "1.0"
+      },
+      "elapsed_compute_seconds": 1.0805108330023359,
+      "error": null,
+      "execution_id": "48fb9d69-2a3e-4db6-a37f-7684a8e7a6c6",
+      "execution_status": "completed",
+      "failed_evaluations": 0,
+      "fingerprint": {
+        "adapter": "2.0",
+        "architecture": "arm64",
+        "dtype": "float64",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "python": "3.12.16",
+        "rng": "PCG64"
+      },
+      "history_complete": true,
+      "overshoot_seconds": 0.0,
+      "profile_features": null,
+      "rejected_proposals": 0,
+      "started_evaluations": 500,
+      "successful_evaluations": 500,
+      "termination_reason": "evaluation_budget",
+      "validation": null,
+      "policy_id": "budget_horizon.v1",
+      "effective_config_hash": "38854b4cda90f4d03a5aeabe1d64095d508ccaad94ea3ffee6c838b7525e7b70",
+      "effective_epoch": 4,
+      "effective_pop_size": 100,
+      "derivation_reason": "budget_epoch",
+      "best_evaluation_id": "720419c3-10c0-42b4-82ca-c8243729daf5",
+      "best_x": [
+        1.4123184944526601,
+        -2.2142172695798537
+      ],
+      "objective_raw": 0.0007581375684989011,
+      "score_for_minimization": 0.0007581375684989011,
+      "error_code": null,
+      "history_artifact_id": "5cff0121-7ad4-4c2b-b3b3-d1ef7b25f49b",
+      "history_sha256": "3215d6b03c788ede634d257cd7421d22b33b23749e9c0cb25b6bfdb7427f4a81"
+    },
+    {
+      "adapter_version": "2.0",
+      "algorithm_id": "mealpy:swarm_based.GWO:OriginalGWO",
+      "attempt_id": "3ce7abd7-9da7-4ca4-993c-98a7d8f1faa9",
+      "boundary_repair": "mealpy.optimizer.Optimizer.amend_solution then MEALPY FloatVar clipping",
+      "catalog_hash": "92e60d4e1c1954e90508b2100d302d35c430c304ad5134bd4910b4506ce8a14f",
+      "config_hash": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+      "config_id": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+      "configuration_snapshot": {
+        "epoch": 10000,
+        "pop_size": 100
+      },
+      "deadline_seconds": 283.80334650000077,
+      "evaluation_contract_hash": "39b3b9d8db39cdd7a7d3c04a5a1fee9139745f4447fefadd3bfd4969f7d40e88",
+      "evaluation_quota": 500,
+      "evaluator_version": "1.0",
+      "idempotency_key": "9b09570f-fa62-425b-9742-79870ec9429b",
+      "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+      "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+      "library_version": "3.0.3",
+      "mode": "single",
+      "numeric_execution": {
+        "application": "adapted",
+        "base_config_id": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+        "derivation": {
+          "base_epoch": 10000,
+          "budget_epoch": 4,
+          "effective_epoch": 4,
+          "evaluations_per_generation": 100,
+          "expected_started_without_error": 500,
+          "expected_unused_without_error": 0,
+          "initialization_evaluations": 100,
+          "natural_evaluations": 501,
+          "population_size": 100,
+          "setup_evaluations": 1
+        },
+        "effective_config_hash": "38854b4cda90f4d03a5aeabe1d64095d508ccaad94ea3ffee6c838b7525e7b70",
+        "effective_configuration": {
+          "adapter_version": "2.0",
+          "boundary_repair": "mealpy.optimizer.Optimizer.amend_solution then MEALPY FloatVar clipping",
+          "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+          "library_version": "3.0.3",
+          "mode": "single",
+          "parameters": [
+            {
+              "name": "epoch",
+              "value": 4
+            },
+            {
+              "name": "pop_size",
+              "value": 100
+            }
+          ],
+          "schema_version": "2.0"
+        },
+        "evaluation_quota": 500,
+        "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+        "policy_hash": "2ec05450dbf5f35867bae2c7ad24b3bb2746489151c29283f4a8d4d3ef0a7b63",
+        "policy_id": "budget_horizon.v1",
+        "reason": "budget_epoch",
+        "schema_version": "1.0"
+      },
+      "phase": "pilot",
+      "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+      "problem_revision_id": "df00c269-c1ab-4016-8355-6f8ee1db3bc4",
+      "replicate_index": 1,
+      "schema_version": "2.1",
+      "seed": 3873929466,
+      "seed_identity": "mealpy:swarm_based.GWO:OriginalGWO",
+      "start_mode": "fresh",
+      "trial_id": "6a7bb8d7-3921-4ed7-8c44-e7d8c7663f87",
+      "best": {
+        "evaluation_id": "dbe9a4de-04fc-4d8e-809d-c5466ebb9a27",
+        "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+        "execution_id": "3ce7abd7-9da7-4ca4-993c-98a7d8f1faa9",
+        "stage_execution_id": null,
+        "trial_id": "6a7bb8d7-3921-4ed7-8c44-e7d8c7663f87",
+        "attempt_id": "3ce7abd7-9da7-4ca4-993c-98a7d8f1faa9",
+        "phase": "pilot",
+        "sequence": 1,
+        "x": [
+          1.4267591203341847,
+          -2.192736216431159
+        ],
+        "objective_raw": 0.0,
+        "score_for_minimization": 0.0,
+        "status": "successful",
+        "error_code": null,
+        "evaluation_kind": "objective",
+        "evaluation_seconds": 0.0,
+        "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+        "evaluator_version": "1.0"
+      },
+      "elapsed_compute_seconds": 1.074127709001914,
+      "error": null,
+      "execution_id": "3ce7abd7-9da7-4ca4-993c-98a7d8f1faa9",
+      "execution_status": "completed",
+      "failed_evaluations": 0,
+      "fingerprint": {
+        "adapter": "2.0",
+        "architecture": "arm64",
+        "dtype": "float64",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "python": "3.12.16",
+        "rng": "PCG64"
+      },
+      "history_complete": true,
+      "overshoot_seconds": 0.0,
+      "profile_features": null,
+      "rejected_proposals": 0,
+      "started_evaluations": 500,
+      "successful_evaluations": 500,
+      "termination_reason": "evaluation_budget",
+      "validation": null,
+      "policy_id": "budget_horizon.v1",
+      "effective_config_hash": "38854b4cda90f4d03a5aeabe1d64095d508ccaad94ea3ffee6c838b7525e7b70",
+      "effective_epoch": 4,
+      "effective_pop_size": 100,
+      "derivation_reason": "budget_epoch",
+      "best_evaluation_id": "77f2a224-def0-43f9-8ed7-216af1a03892",
+      "best_x": [
+        1.4267591203341847,
+        -2.192736216431159
+      ],
+      "objective_raw": 0.0008743381762642936,
+      "score_for_minimization": 0.0008743381762642936,
+      "error_code": null,
+      "history_artifact_id": "042475e7-2c79-4b27-9a14-ae2de3380565",
+      "history_sha256": "cd10e7cf376c7fba7a0708963cada65df910617d7870be718ba2c632910b6d64"
+    },
+    {
+      "adapter_version": "2.0",
+      "algorithm_id": "mealpy:swarm_based.GWO:OriginalGWO",
+      "attempt_id": "edeed7eb-248f-45ba-aa9a-615ba5aad45a",
+      "boundary_repair": "mealpy.optimizer.Optimizer.amend_solution then MEALPY FloatVar clipping",
+      "catalog_hash": "92e60d4e1c1954e90508b2100d302d35c430c304ad5134bd4910b4506ce8a14f",
+      "config_hash": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+      "config_id": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+      "configuration_snapshot": {
+        "epoch": 10000,
+        "pop_size": 100
+      },
+      "deadline_seconds": 282.72921879099886,
+      "evaluation_contract_hash": "39b3b9d8db39cdd7a7d3c04a5a1fee9139745f4447fefadd3bfd4969f7d40e88",
+      "evaluation_quota": 500,
+      "evaluator_version": "1.0",
+      "idempotency_key": "236ae49b-caa3-4329-aa74-a7d61603407c",
+      "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+      "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+      "library_version": "3.0.3",
+      "mode": "single",
+      "numeric_execution": {
+        "application": "adapted",
+        "base_config_id": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+        "derivation": {
+          "base_epoch": 10000,
+          "budget_epoch": 4,
+          "effective_epoch": 4,
+          "evaluations_per_generation": 100,
+          "expected_started_without_error": 500,
+          "expected_unused_without_error": 0,
+          "initialization_evaluations": 100,
+          "natural_evaluations": 501,
+          "population_size": 100,
+          "setup_evaluations": 1
+        },
+        "effective_config_hash": "38854b4cda90f4d03a5aeabe1d64095d508ccaad94ea3ffee6c838b7525e7b70",
+        "effective_configuration": {
+          "adapter_version": "2.0",
+          "boundary_repair": "mealpy.optimizer.Optimizer.amend_solution then MEALPY FloatVar clipping",
+          "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+          "library_version": "3.0.3",
+          "mode": "single",
+          "parameters": [
+            {
+              "name": "epoch",
+              "value": 4
+            },
+            {
+              "name": "pop_size",
+              "value": 100
+            }
+          ],
+          "schema_version": "2.0"
+        },
+        "evaluation_quota": 500,
+        "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+        "policy_hash": "2ec05450dbf5f35867bae2c7ad24b3bb2746489151c29283f4a8d4d3ef0a7b63",
+        "policy_id": "budget_horizon.v1",
+        "reason": "budget_epoch",
+        "schema_version": "1.0"
+      },
+      "phase": "pilot",
+      "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+      "problem_revision_id": "df00c269-c1ab-4016-8355-6f8ee1db3bc4",
+      "replicate_index": 2,
+      "schema_version": "2.1",
+      "seed": 2247139930,
+      "seed_identity": "mealpy:swarm_based.GWO:OriginalGWO",
+      "start_mode": "fresh",
+      "trial_id": "ed98ba54-6dea-4a71-932a-772973c6b621",
+      "best": {
+        "evaluation_id": "8d37e3e6-af58-41e3-a3fb-0b53d25def34",
+        "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+        "execution_id": "edeed7eb-248f-45ba-aa9a-615ba5aad45a",
+        "stage_execution_id": null,
+        "trial_id": "ed98ba54-6dea-4a71-932a-772973c6b621",
+        "attempt_id": "edeed7eb-248f-45ba-aa9a-615ba5aad45a",
+        "phase": "pilot",
+        "sequence": 1,
+        "x": [
+          1.4066641437551468,
+          -2.212845186715034
+        ],
+        "objective_raw": 0.0,
+        "score_for_minimization": 0.0,
+        "status": "successful",
+        "error_code": null,
+        "evaluation_kind": "objective",
+        "evaluation_seconds": 0.0,
+        "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+        "evaluator_version": "1.0"
+      },
+      "elapsed_compute_seconds": 1.080131541002629,
+      "error": null,
+      "execution_id": "edeed7eb-248f-45ba-aa9a-615ba5aad45a",
+      "execution_status": "completed",
+      "failed_evaluations": 0,
+      "fingerprint": {
+        "adapter": "2.0",
+        "architecture": "arm64",
+        "dtype": "float64",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "python": "3.12.16",
+        "rng": "PCG64"
+      },
+      "history_complete": true,
+      "overshoot_seconds": 0.0,
+      "profile_features": null,
+      "rejected_proposals": 0,
+      "started_evaluations": 500,
+      "successful_evaluations": 500,
+      "termination_reason": "evaluation_budget",
+      "validation": null,
+      "policy_id": "budget_horizon.v1",
+      "effective_config_hash": "38854b4cda90f4d03a5aeabe1d64095d508ccaad94ea3ffee6c838b7525e7b70",
+      "effective_epoch": 4,
+      "effective_pop_size": 100,
+      "derivation_reason": "budget_epoch",
+      "best_evaluation_id": "4ed0740d-bd0d-4502-93c9-976ee9235dde",
+      "best_x": [
+        1.4066641437551468,
+        -2.212845186715034
+      ],
+      "objective_raw": 0.0005394072772214945,
+      "score_for_minimization": 0.0005394072772214945,
+      "error_code": null,
+      "history_artifact_id": "29bb5261-a6ba-4245-a60f-97bdbec12b77",
+      "history_sha256": "55c4b4bf0f09767341407e85c486a6e02f68995f9a4704b55a76a080856b893c"
+    },
+    {
+      "adapter_version": "2.0",
+      "algorithm_id": "mealpy:swarm_based.WOA:OriginalWOA",
+      "attempt_id": "44d8dafd-3a7e-4464-bb71-6c953054533d",
+      "boundary_repair": "mealpy.optimizer.Optimizer.amend_solution then MEALPY FloatVar clipping",
+      "catalog_hash": "92e60d4e1c1954e90508b2100d302d35c430c304ad5134bd4910b4506ce8a14f",
+      "config_hash": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+      "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+      "configuration_snapshot": {
+        "epoch": 10000,
+        "pop_size": 100
+      },
+      "deadline_seconds": 281.6490872499962,
+      "evaluation_contract_hash": "39b3b9d8db39cdd7a7d3c04a5a1fee9139745f4447fefadd3bfd4969f7d40e88",
+      "evaluation_quota": 500,
+      "evaluator_version": "1.0",
+      "idempotency_key": "b0221baf-701e-4506-bc51-35bafe4c2490",
+      "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+      "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+      "library_version": "3.0.3",
+      "mode": "single",
+      "numeric_execution": {
+        "application": "adapted",
+        "base_config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+        "derivation": {
+          "base_epoch": 10000,
+          "budget_epoch": 4,
+          "effective_epoch": 4,
+          "evaluations_per_generation": 100,
+          "expected_started_without_error": 500,
+          "expected_unused_without_error": 0,
+          "initialization_evaluations": 100,
+          "natural_evaluations": 501,
+          "population_size": 100,
+          "setup_evaluations": 1
+        },
+        "effective_config_hash": "2f1ba59b27dbc5eb54786f29e809eae692c6d69772272c459d356aca20c3a442",
+        "effective_configuration": {
+          "adapter_version": "2.0",
+          "boundary_repair": "mealpy.optimizer.Optimizer.amend_solution then MEALPY FloatVar clipping",
+          "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+          "library_version": "3.0.3",
+          "mode": "single",
+          "parameters": [
+            {
+              "name": "epoch",
+              "value": 4
+            },
+            {
+              "name": "pop_size",
+              "value": 100
+            }
+          ],
+          "schema_version": "2.0"
+        },
+        "evaluation_quota": 500,
+        "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+        "policy_hash": "2ec05450dbf5f35867bae2c7ad24b3bb2746489151c29283f4a8d4d3ef0a7b63",
+        "policy_id": "budget_horizon.v1",
+        "reason": "budget_epoch",
+        "schema_version": "1.0"
+      },
+      "phase": "pilot",
+      "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+      "problem_revision_id": "df00c269-c1ab-4016-8355-6f8ee1db3bc4",
+      "replicate_index": 0,
+      "schema_version": "2.1",
+      "seed": 1171001654,
+      "seed_identity": "mealpy:swarm_based.WOA:OriginalWOA",
+      "start_mode": "fresh",
+      "trial_id": "d0ccccd0-d3f2-461a-8cbc-afafb1b9f610",
+      "best": {
+        "evaluation_id": "a855c3ba-6833-41e3-98d1-6c3aac692571",
+        "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+        "execution_id": "44d8dafd-3a7e-4464-bb71-6c953054533d",
+        "stage_execution_id": null,
+        "trial_id": "d0ccccd0-d3f2-461a-8cbc-afafb1b9f610",
+        "attempt_id": "44d8dafd-3a7e-4464-bb71-6c953054533d",
+        "phase": "pilot",
+        "sequence": 1,
+        "x": [
+          1.4118246218984327,
+          -2.204599983985031
+        ],
+        "objective_raw": 0.0,
+        "score_for_minimization": 0.0,
+        "status": "successful",
+        "error_code": null,
+        "evaluation_kind": "objective",
+        "evaluation_seconds": 0.0,
+        "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+        "evaluator_version": "1.0"
+      },
+      "elapsed_compute_seconds": 1.06094716699954,
+      "error": null,
+      "execution_id": "44d8dafd-3a7e-4464-bb71-6c953054533d",
+      "execution_status": "completed",
+      "failed_evaluations": 0,
+      "fingerprint": {
+        "adapter": "2.0",
+        "architecture": "arm64",
+        "dtype": "float64",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "python": "3.12.16",
+        "rng": "PCG64"
+      },
+      "history_complete": true,
+      "overshoot_seconds": 0.0,
+      "profile_features": null,
+      "rejected_proposals": 0,
+      "started_evaluations": 500,
+      "successful_evaluations": 500,
+      "termination_reason": "evaluation_budget",
+      "validation": null,
+      "policy_id": "budget_horizon.v1",
+      "effective_config_hash": "2f1ba59b27dbc5eb54786f29e809eae692c6d69772272c459d356aca20c3a442",
+      "effective_epoch": 4,
+      "effective_pop_size": 100,
+      "derivation_reason": "budget_epoch",
+      "best_evaluation_id": "67a525f8-c169-4ddf-9377-b9a7dfa0b47b",
+      "best_x": [
+        1.4118246218984327,
+        -2.204599983985031
+      ],
+      "objective_raw": 0.00020330124102852258,
+      "score_for_minimization": 0.00020330124102852258,
+      "error_code": null,
+      "history_artifact_id": "828566d8-77f5-46e8-99ee-f39d72e036dc",
+      "history_sha256": "be7bec4fe5318466395f5c43865816c2c71714155a4d4df2942ba29ba0472f33"
+    },
+    {
+      "adapter_version": "2.0",
+      "algorithm_id": "mealpy:swarm_based.WOA:OriginalWOA",
+      "attempt_id": "5b78fd60-f4e3-41c2-a100-64d23c74b398",
+      "boundary_repair": "mealpy.optimizer.Optimizer.amend_solution then MEALPY FloatVar clipping",
+      "catalog_hash": "92e60d4e1c1954e90508b2100d302d35c430c304ad5134bd4910b4506ce8a14f",
+      "config_hash": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+      "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+      "configuration_snapshot": {
+        "epoch": 10000,
+        "pop_size": 100
+      },
+      "deadline_seconds": 280.5881400829967,
+      "evaluation_contract_hash": "39b3b9d8db39cdd7a7d3c04a5a1fee9139745f4447fefadd3bfd4969f7d40e88",
+      "evaluation_quota": 500,
+      "evaluator_version": "1.0",
+      "idempotency_key": "e2719b22-121e-40b3-ad97-fa12c8d87cd3",
+      "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+      "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+      "library_version": "3.0.3",
+      "mode": "single",
+      "numeric_execution": {
+        "application": "adapted",
+        "base_config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+        "derivation": {
+          "base_epoch": 10000,
+          "budget_epoch": 4,
+          "effective_epoch": 4,
+          "evaluations_per_generation": 100,
+          "expected_started_without_error": 500,
+          "expected_unused_without_error": 0,
+          "initialization_evaluations": 100,
+          "natural_evaluations": 501,
+          "population_size": 100,
+          "setup_evaluations": 1
+        },
+        "effective_config_hash": "2f1ba59b27dbc5eb54786f29e809eae692c6d69772272c459d356aca20c3a442",
+        "effective_configuration": {
+          "adapter_version": "2.0",
+          "boundary_repair": "mealpy.optimizer.Optimizer.amend_solution then MEALPY FloatVar clipping",
+          "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+          "library_version": "3.0.3",
+          "mode": "single",
+          "parameters": [
+            {
+              "name": "epoch",
+              "value": 4
+            },
+            {
+              "name": "pop_size",
+              "value": 100
+            }
+          ],
+          "schema_version": "2.0"
+        },
+        "evaluation_quota": 500,
+        "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+        "policy_hash": "2ec05450dbf5f35867bae2c7ad24b3bb2746489151c29283f4a8d4d3ef0a7b63",
+        "policy_id": "budget_horizon.v1",
+        "reason": "budget_epoch",
+        "schema_version": "1.0"
+      },
+      "phase": "pilot",
+      "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+      "problem_revision_id": "df00c269-c1ab-4016-8355-6f8ee1db3bc4",
+      "replicate_index": 1,
+      "schema_version": "2.1",
+      "seed": 415430690,
+      "seed_identity": "mealpy:swarm_based.WOA:OriginalWOA",
+      "start_mode": "fresh",
+      "trial_id": "dd0d647f-23cd-4343-b8e3-175d576d1732",
+      "best": {
+        "evaluation_id": "3aae8024-5d6e-4d99-aeff-d4d9e271eede",
+        "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+        "execution_id": "5b78fd60-f4e3-41c2-a100-64d23c74b398",
+        "stage_execution_id": null,
+        "trial_id": "dd0d647f-23cd-4343-b8e3-175d576d1732",
+        "attempt_id": "5b78fd60-f4e3-41c2-a100-64d23c74b398",
+        "phase": "pilot",
+        "sequence": 1,
+        "x": [
+          1.359504503501503,
+          -2.1836171327587737
+        ],
+        "objective_raw": 0.0,
+        "score_for_minimization": 0.0,
+        "status": "successful",
+        "error_code": null,
+        "evaluation_kind": "objective",
+        "evaluation_seconds": 0.0,
+        "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+        "evaluator_version": "1.0"
+      },
+      "elapsed_compute_seconds": 1.0541156660001434,
+      "error": null,
+      "execution_id": "5b78fd60-f4e3-41c2-a100-64d23c74b398",
+      "execution_status": "completed",
+      "failed_evaluations": 0,
+      "fingerprint": {
+        "adapter": "2.0",
+        "architecture": "arm64",
+        "dtype": "float64",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "python": "3.12.16",
+        "rng": "PCG64"
+      },
+      "history_complete": true,
+      "overshoot_seconds": 0.0,
+      "profile_features": null,
+      "rejected_proposals": 0,
+      "started_evaluations": 500,
+      "successful_evaluations": 500,
+      "termination_reason": "evaluation_budget",
+      "validation": null,
+      "policy_id": "budget_horizon.v1",
+      "effective_config_hash": "2f1ba59b27dbc5eb54786f29e809eae692c6d69772272c459d356aca20c3a442",
+      "effective_epoch": 4,
+      "effective_pop_size": 100,
+      "derivation_reason": "budget_epoch",
+      "best_evaluation_id": "2df189f2-677c-4d52-993f-7dd0cccc1c68",
+      "best_x": [
+        1.359504503501503,
+        -2.1836171327587737
+      ],
+      "objective_raw": 0.002445080253790735,
+      "score_for_minimization": 0.002445080253790735,
+      "error_code": null,
+      "history_artifact_id": "2385140f-9e80-40e6-9fba-204be46ae08b",
+      "history_sha256": "2c9cd1dc626e8a436c3fca98d25e2dd6dfbfe4aea4c55f6953da8350571026bc"
+    },
+    {
+      "adapter_version": "2.0",
+      "algorithm_id": "mealpy:swarm_based.WOA:OriginalWOA",
+      "attempt_id": "6b6c82c3-2455-426f-bb63-d9877e73c0f8",
+      "boundary_repair": "mealpy.optimizer.Optimizer.amend_solution then MEALPY FloatVar clipping",
+      "catalog_hash": "92e60d4e1c1954e90508b2100d302d35c430c304ad5134bd4910b4506ce8a14f",
+      "config_hash": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+      "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+      "configuration_snapshot": {
+        "epoch": 10000,
+        "pop_size": 100
+      },
+      "deadline_seconds": 279.53402441699654,
+      "evaluation_contract_hash": "39b3b9d8db39cdd7a7d3c04a5a1fee9139745f4447fefadd3bfd4969f7d40e88",
+      "evaluation_quota": 500,
+      "evaluator_version": "1.0",
+      "idempotency_key": "900f08d3-5264-41db-b2f0-348b7315455c",
+      "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+      "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+      "library_version": "3.0.3",
+      "mode": "single",
+      "numeric_execution": {
+        "application": "adapted",
+        "base_config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+        "derivation": {
+          "base_epoch": 10000,
+          "budget_epoch": 4,
+          "effective_epoch": 4,
+          "evaluations_per_generation": 100,
+          "expected_started_without_error": 500,
+          "expected_unused_without_error": 0,
+          "initialization_evaluations": 100,
+          "natural_evaluations": 501,
+          "population_size": 100,
+          "setup_evaluations": 1
+        },
+        "effective_config_hash": "2f1ba59b27dbc5eb54786f29e809eae692c6d69772272c459d356aca20c3a442",
+        "effective_configuration": {
+          "adapter_version": "2.0",
+          "boundary_repair": "mealpy.optimizer.Optimizer.amend_solution then MEALPY FloatVar clipping",
+          "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+          "library_version": "3.0.3",
+          "mode": "single",
+          "parameters": [
+            {
+              "name": "epoch",
+              "value": 4
+            },
+            {
+              "name": "pop_size",
+              "value": 100
+            }
+          ],
+          "schema_version": "2.0"
+        },
+        "evaluation_quota": 500,
+        "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+        "policy_hash": "2ec05450dbf5f35867bae2c7ad24b3bb2746489151c29283f4a8d4d3ef0a7b63",
+        "policy_id": "budget_horizon.v1",
+        "reason": "budget_epoch",
+        "schema_version": "1.0"
+      },
+      "phase": "pilot",
+      "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+      "problem_revision_id": "df00c269-c1ab-4016-8355-6f8ee1db3bc4",
+      "replicate_index": 2,
+      "schema_version": "2.1",
+      "seed": 1748344824,
+      "seed_identity": "mealpy:swarm_based.WOA:OriginalWOA",
+      "start_mode": "fresh",
+      "trial_id": "9d3141d2-091b-4084-ab19-ff624d0dc038",
+      "best": {
+        "evaluation_id": "e757e884-271d-4ed7-9987-65a96e0d2895",
+        "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+        "execution_id": "6b6c82c3-2455-426f-bb63-d9877e73c0f8",
+        "stage_execution_id": null,
+        "trial_id": "9d3141d2-091b-4084-ab19-ff624d0dc038",
+        "attempt_id": "6b6c82c3-2455-426f-bb63-d9877e73c0f8",
+        "phase": "pilot",
+        "sequence": 1,
+        "x": [
+          1.399612970662052,
+          -2.2060243061124
+        ],
+        "objective_raw": 0.0,
+        "score_for_minimization": 0.0,
+        "status": "successful",
+        "error_code": null,
+        "evaluation_kind": "objective",
+        "evaluation_seconds": 0.0,
+        "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+        "evaluator_version": "1.0"
+      },
+      "elapsed_compute_seconds": 1.0624915000007604,
+      "error": null,
+      "execution_id": "6b6c82c3-2455-426f-bb63-d9877e73c0f8",
+      "execution_status": "completed",
+      "failed_evaluations": 0,
+      "fingerprint": {
+        "adapter": "2.0",
+        "architecture": "arm64",
+        "dtype": "float64",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "python": "3.12.16",
+        "rng": "PCG64"
+      },
+      "history_complete": true,
+      "overshoot_seconds": 0.0,
+      "profile_features": null,
+      "rejected_proposals": 0,
+      "started_evaluations": 500,
+      "successful_evaluations": 500,
+      "termination_reason": "evaluation_budget",
+      "validation": null,
+      "policy_id": "budget_horizon.v1",
+      "effective_config_hash": "2f1ba59b27dbc5eb54786f29e809eae692c6d69772272c459d356aca20c3a442",
+      "effective_epoch": 4,
+      "effective_pop_size": 100,
+      "derivation_reason": "budget_epoch",
+      "best_evaluation_id": "5103b668-7b97-456a-bcc5-360eaca6e475",
+      "best_x": [
+        1.399612970662052,
+        -2.2060243061124
+      ],
+      "objective_raw": 0.00010902658411612892,
+      "score_for_minimization": 0.00010902658411612892,
+      "error_code": null,
+      "history_artifact_id": "e6341db3-16ff-4b3d-8ac0-6bb7f81ddb43",
+      "history_sha256": "ab25c32c0e1c125dae64b405696436611f6d188e2aa22409f89402a56945f3c3"
+    },
+    {
+      "adapter_version": "2.0",
+      "algorithm_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "attempt_id": "deec63ab-3a93-4c74-b151-5233f5814349",
+      "boundary_repair": "MEALPY FloatVar clipping",
+      "catalog_hash": "92e60d4e1c1954e90508b2100d302d35c430c304ad5134bd4910b4506ce8a14f",
+      "config_hash": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+      "config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+      "configuration_snapshot": {
+        "cr": 0.9,
+        "epoch": 100000,
+        "pop_size": 30,
+        "strategy": 0,
+        "wf": 0.7
+      },
+      "deadline_seconds": 278.4715329169958,
+      "evaluation_contract_hash": "39b3b9d8db39cdd7a7d3c04a5a1fee9139745f4447fefadd3bfd4969f7d40e88",
+      "evaluation_quota": 14998,
+      "evaluator_version": "1.0",
+      "idempotency_key": "c55d5f25-bed0-4f25-a6b7-93d02e9b1c83",
+      "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+      "library_version": "3.0.3",
+      "mode": "single",
+      "numeric_execution": {
+        "application": "passthrough",
+        "base_config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+        "derivation": null,
+        "effective_config_hash": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+        "effective_configuration": {
+          "adapter_version": "2.0",
+          "boundary_repair": "MEALPY FloatVar clipping",
+          "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+          "library_version": "3.0.3",
+          "mode": "single",
+          "parameters": [
+            {
+              "name": "cr",
+              "value": 0.9
+            },
+            {
+              "name": "epoch",
+              "value": 100000
+            },
+            {
+              "name": "pop_size",
+              "value": 30
+            },
+            {
+              "name": "strategy",
+              "value": 0
+            },
+            {
+              "name": "wf",
+              "value": 0.7
+            }
+          ],
+          "schema_version": "2.0"
+        },
+        "evaluation_quota": 14998,
+        "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+        "policy_hash": "2ec05450dbf5f35867bae2c7ad24b3bb2746489151c29283f4a8d4d3ef0a7b63",
+        "policy_id": "budget_horizon.v1",
+        "reason": "not_allowlisted",
+        "schema_version": "1.0"
+      },
+      "phase": "main",
+      "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+      "problem_revision_id": "df00c269-c1ab-4016-8355-6f8ee1db3bc4",
+      "replicate_index": 0,
+      "schema_version": "2.1",
+      "seed": 4267489708,
+      "seed_identity": "de.original",
+      "start_mode": "fresh",
+      "trial_id": "d4438c89-e839-424f-8bee-7d308be16a79",
+      "best": {
+        "evaluation_id": "f20fdc0b-eacf-4d7a-8f5b-65017405c666",
+        "job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+        "execution_id": "deec63ab-3a93-4c74-b151-5233f5814349",
+        "stage_execution_id": null,
+        "trial_id": "d4438c89-e839-424f-8bee-7d308be16a79",
+        "attempt_id": "deec63ab-3a93-4c74-b151-5233f5814349",
+        "phase": "main",
+        "sequence": 1,
+        "x": [
+          1.4,
+          -2.2
+        ],
+        "objective_raw": 0.0,
+        "score_for_minimization": 0.0,
+        "status": "successful",
+        "error_code": null,
+        "evaluation_kind": "objective",
+        "evaluation_seconds": 0.0,
+        "problem_math_hash": "31dd0908cad07dc2a580058b5ae843167a7da69030732bde76563850b6e3ab84",
+        "evaluator_version": "1.0"
+      },
+      "elapsed_compute_seconds": 10.736067249999905,
+      "error": null,
+      "execution_id": "deec63ab-3a93-4c74-b151-5233f5814349",
+      "execution_status": "completed",
+      "failed_evaluations": 0,
+      "fingerprint": {
+        "adapter": "2.0",
+        "architecture": "arm64",
+        "dtype": "float64",
+        "mealpy": "3.0.3",
+        "numpy": "1.26.0",
+        "platform": "macOS-27.0.1-arm64-arm-64bit",
+        "python": "3.12.16",
+        "rng": "PCG64"
+      },
+      "history_complete": true,
+      "overshoot_seconds": 0.0,
+      "profile_features": null,
+      "rejected_proposals": 0,
+      "started_evaluations": 14998,
+      "successful_evaluations": 14998,
+      "termination_reason": "evaluation_budget",
+      "validation": null,
+      "policy_id": "budget_horizon.v1",
+      "effective_config_hash": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+      "effective_epoch": 100000,
+      "effective_pop_size": 30,
+      "derivation_reason": "not_allowlisted",
+      "best_evaluation_id": "db7733d0-c0fb-4d89-8f9e-3f54f01c08b4",
+      "best_x": [
+        1.4,
+        -2.2
+      ],
+      "objective_raw": 0.0,
+      "score_for_minimization": 0.0,
+      "error_code": null,
+      "history_artifact_id": "09f38e68-40c4-4026-b2c2-78dbccbba003",
+      "history_sha256": "cb6526356092103f369197e49d645245defb4675bf51a09228f88a2078744191"
+    }
+  ],
+  "progress": [
+    {
+      "started_evaluations": 1,
+      "score_for_minimization": 0.0,
+      "evaluation_id": "eedb5c48-be01-48bc-ac4a-d9becba4247b"
+    }
+  ],
+  "execution_history_artifacts": [
+    "7acb5dae-1afd-4a6a-82b2-fe73daa8e2c6",
+    "b651284f-421d-4b2c-b9d2-589581b195d7",
+    "b0eea041-d251-4efc-bb0c-042984c18e32",
+    "5cff0121-7ad4-4c2b-b3b3-d1ef7b25f49b",
+    "042475e7-2c79-4b27-9a14-ae2de3380565",
+    "29bb5261-a6ba-4245-a60f-97bdbec12b77",
+    "828566d8-77f5-46e8-99ee-f39d72e036dc",
+    "2385140f-9e80-40e6-9fba-204be46ae08b",
+    "e6341db3-16ff-4b3d-8ac0-6bb7f81ddb43",
+    "09f38e68-40c4-4026-b2c2-78dbccbba003"
+  ],
+  "diagnostics": null,
+  "budget": {
+    "max_objective_evaluations": 20000,
+    "known_started": 20000,
+    "reserved_active": 0,
+    "charged_unknown": 0,
+    "unused": 0,
+    "allocated": 20000,
+    "unallocated": 0
+  },
+  "error": null,
+  "explanation_status": "not_requested",
+  "cost_estimate": null,
+  "timing": {
+    "elapsed_compute_seconds": 23.00668891600435,
+    "elapsed_wall_seconds": 75.827015,
+    "elapsed_user_wait_seconds": 0.0,
+    "elapsed_llm_seconds": 0.0,
+    "elapsed_research_seconds": null
+  },
+  "environment": {
+    "python": "3.12.16",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "numpy": "1.26.0",
+    "mealpy": "3.0.3",
+    "rng": "PCG64",
+    "registry_version": "1.0",
+    "prompt_version": "1.0",
+    "master_seed": 1405,
+    "catalog_hash": "92e60d4e1c1954e90508b2100d302d35c430c304ad5134bd4910b4506ce8a14f"
+  },
+  "research_snapshot": {
+    "schema_version": "2.1",
+    "policy_version": "2.1",
+    "retrieval_mode": "direct_refresh",
+    "source_snapshot": {
+      "schema_version": "2.0",
+      "revision": 2,
+      "sources": [
+        {
+          "schema_version": "2.0",
+          "source_id": "mealpy_docs",
+          "label": "مستندات MEALPY",
+          "hostname": "mealpy.readthedocs.io",
+          "include_subdomains": false,
+          "path_prefixes": [
+            "/en/latest"
+          ],
+          "source_kind": "official_docs",
+          "enabled": true
+        }
+      ]
+    },
+    "search_profile": null,
+    "source_configs": [
+      {
+        "seed_urls": [
+          "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/evolutionary_based/DE.html",
+          "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/swarm_based/GWO.html",
+          "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/swarm_based/WOA.html",
+          "https://mealpy.readthedocs.io/en/latest/pages/general/introduction.html",
+          "https://mealpy.readthedocs.io/en/latest/pages/models/mealpy.evolutionary_based.html",
+          "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/swarm_based/NGO.html"
+        ],
+        "sitemap_urls": [],
+        "follow_links": false,
+        "crawl_depth": 0,
+        "limits": null,
+        "schema_version": "2.1",
+        "source_id": "mealpy_docs",
+        "revision": 1,
+        "source_revision": 2
+      }
+    ],
+    "catalog_hash": "92e60d4e1c1954e90508b2100d302d35c430c304ad5134bd4910b4506ce8a14f",
+    "max_evidence_age_hours": 168,
+    "stale_evidence_policy": "reject",
+    "on_research_failure": "stop",
+    "sync_limits": {
+      "max_sources": 5,
+      "max_urls_per_source": 200,
+      "max_documents_per_source": 30,
+      "max_http_requests_per_source": 120,
+      "max_source_seconds": 120.0,
+      "max_active_seconds": 300.0,
+      "request_timeout_seconds": 20.0,
+      "max_document_bytes": 5242880,
+      "max_sitemap_bytes": 2097152,
+      "max_total_bytes": 52428800,
+      "max_text_chars": 100000,
+      "max_redirects": 3
+    },
+    "planner_prompt_version": "research_planner.v2.1",
+    "advisor_prompt_version": "advisor.v2.1",
+    "source_policy_hash": "3eb1ef3893c9e56d0b63a81063a5ef9662372cf1fe64d43f8aa263fca72805b1"
+  },
+  "research": {
+    "cost": null,
+    "current_source_revision": 2,
+    "current_source_snapshot": {
+      "revision": 2,
+      "schema_version": "2.0",
+      "sources": [
+        {
+          "enabled": true,
+          "hostname": "mealpy.readthedocs.io",
+          "include_subdomains": false,
+          "label": "مستندات MEALPY",
+          "path_prefixes": [
+            "/en/latest"
+          ],
+          "schema_version": "2.0",
+          "source_id": "mealpy_docs",
+          "source_kind": "official_docs"
+        },
+        {
+          "enabled": false,
+          "hostname": "github.com",
+          "include_subdomains": false,
+          "label": "مخزن MEALPY",
+          "path_prefixes": [
+            "/thieu1995/mealpy"
+          ],
+          "schema_version": "2.0",
+          "source_id": "mealpy_repository",
+          "source_kind": "code_repository"
+        },
+        {
+          "enabled": false,
+          "hostname": "arxiv.org",
+          "include_subdomains": false,
+          "label": "چکیده‌های arXiv",
+          "path_prefixes": [
+            "/abs"
+          ],
+          "schema_version": "2.0",
+          "source_id": "arxiv_abstracts",
+          "source_kind": "paper_repository"
+        }
+      ]
+    },
+    "documents": [
+      {
+        "bytes_sha256": "ad107b139e29804a424718be2c86d959c1874ac4374fb5745282ef96a029131e",
+        "cache_age_hours": 0.0037993330555555556,
+        "canonical_url": "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/evolutionary_based/DE.html",
+        "content_level": "documentation",
+        "content_type": "text/html; charset=utf-8",
+        "discovery": {
+          "kind": "direct_seed",
+          "parent_url": null
+        },
+        "document_id": "f24c34e9f76b80a7b8e70cd37520cc9dc88a8b63a98e9bb65a2d234bcd3dda31",
+        "fetch_status": "cached",
+        "fetched_at": "2026-11-11T07:10:58.484017Z",
+        "final_url": "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/evolutionary_based/DE.html",
+        "language": "en",
+        "last_attempt_at": "2026-11-11T12:38:55.664346+00:00",
+        "last_successful_validation_at": "2026-11-11T12:38:55.663220+00:00",
+        "observation_id": "912878ea2c8c9d5d57e850af988b93e5e848207e68f43db37c97b39b630ab925",
+        "observed_at": "2026-11-11T12:38:55.664346+00:00",
+        "parser_version": "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-v2.0.1",
+        "published_at": null,
+        "redirect_chain": [],
+        "remote_unavailable": false,
+        "requested_url": "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/evolutionary_based/DE.html",
+        "source_id": "mealpy_docs",
+        "source_revision": 2,
+        "stale": false,
+        "text_sha256": "7d220d72018e16ec47f492fab1debdef777935430efa2ecd996957856032f4e4",
+        "title": "mealpy.evolutionary_based.DE — MEALPY 3.1.0 documentation",
+        "truncated": false,
+        "updated_at": null,
+        "validated_at": "2026-11-11T12:38:55.663220+00:00",
+        "version_id": "b16dfae0d380aeb6fe971c2b491e0c1e58ce6ad7eb7961856e6097ca47d13fb9"
+      },
+      {
+        "bytes_sha256": "1f2ce3470f075bd765cd3464bcc515aa5429bfb95b83160512578c04e4cc6105",
+        "cache_age_hours": 0.0036431255555555556,
+        "canonical_url": "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/swarm_based/GWO.html",
+        "content_level": "documentation",
+        "content_type": "text/html; charset=utf-8",
+        "discovery": {
+          "kind": "direct_seed",
+          "parent_url": null
+        },
+        "document_id": "e00dd35761cd38582f0de28058b8454d6201704d23c85255cf0a47eb792c87cc",
+        "fetch_status": "cached",
+        "fetched_at": "2026-11-11T07:10:58.990987Z",
+        "final_url": "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/swarm_based/GWO.html",
+        "language": "en",
+        "last_attempt_at": "2026-11-11T12:38:56.228258+00:00",
+        "last_successful_validation_at": "2026-11-11T12:38:56.225567+00:00",
+        "observation_id": "e18bf7929ebc4cfafe789d14511fbe5b2981b5599cfd857fe8d340598eb6b36b",
+        "observed_at": "2026-11-11T12:38:56.228258+00:00",
+        "parser_version": "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-v2.0.1",
+        "published_at": null,
+        "redirect_chain": [],
+        "remote_unavailable": false,
+        "requested_url": "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/swarm_based/GWO.html",
+        "source_id": "mealpy_docs",
+        "source_revision": 2,
+        "stale": false,
+        "text_sha256": "e13aad33e074ee62de3cf611a0434fd5dac9a58b5836d952e1c3f54e03ecf507",
+        "title": "mealpy.swarm_based.GWO — MEALPY 3.1.0 documentation",
+        "truncated": false,
+        "updated_at": null,
+        "validated_at": "2026-11-11T12:38:56.225567+00:00",
+        "version_id": "990ccd703fee84608db4ad7d1938bf79317c8c0e9ed7c25c89ae22f95640ee37"
+      },
+      {
+        "bytes_sha256": "233b0d5a4cbd46674bc2e2ed308367b1a7593226de1ab20504d35eba51dd4dc4",
+        "cache_age_hours": 0.003455091111111111,
+        "canonical_url": "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/swarm_based/WOA.html",
+        "content_level": "documentation",
+        "content_type": "text/html; charset=utf-8",
+        "discovery": {
+          "kind": "direct_seed",
+          "parent_url": null
+        },
+        "document_id": "7ce55c8a8ad1a62bfd7e080489fe344d0f2bdb7f38e50b2b6c153b9ed3afa7f9",
+        "fetch_status": "cached",
+        "fetched_at": "2026-11-11T07:10:59.402326Z",
+        "final_url": "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/swarm_based/WOA.html",
+        "language": "en",
+        "last_attempt_at": "2026-11-11T12:38:56.903666+00:00",
+        "last_successful_validation_at": "2026-11-11T12:38:56.902491+00:00",
+        "observation_id": "46840d44c80637f22b26372550c5bfc7e3b08140399666fd5f4368e433eebb8f",
+        "observed_at": "2026-11-11T12:38:56.903666+00:00",
+        "parser_version": "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-v2.0.1",
+        "published_at": null,
+        "redirect_chain": [],
+        "remote_unavailable": false,
+        "requested_url": "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/swarm_based/WOA.html",
+        "source_id": "mealpy_docs",
+        "source_revision": 2,
+        "stale": false,
+        "text_sha256": "786497c2d66ecfb50e99594825ba7956a35814ff94beac31ad187da738359f40",
+        "title": "mealpy.swarm_based.WOA — MEALPY 3.1.0 documentation",
+        "truncated": false,
+        "updated_at": null,
+        "validated_at": "2026-11-11T12:38:56.902491+00:00",
+        "version_id": "7e6bba0a2c21eddae7e3357dd501d58f8328073980420a149344c5e644ff9380"
+      },
+      {
+        "bytes_sha256": "0cfc44a5dc4784afd7ae14282b3cb7807eff82cd92ce821db98663c5c89300bb",
+        "cache_age_hours": 0.0033169230555555556,
+        "canonical_url": "https://mealpy.readthedocs.io/en/latest/pages/general/introduction.html",
+        "content_level": "documentation",
+        "content_type": "text/html; charset=utf-8",
+        "discovery": {
+          "kind": "direct_seed",
+          "parent_url": null
+        },
+        "document_id": "1a4572b6c62c8392b939c81f1d6203b1d6c35cf734f5ad91640021cbd8494b94",
+        "fetch_status": "cached",
+        "fetched_at": "2026-11-11T07:10:59.883236Z",
+        "final_url": "https://mealpy.readthedocs.io/en/latest/pages/general/introduction.html",
+        "language": null,
+        "last_attempt_at": "2026-11-11T12:38:57.402111+00:00",
+        "last_successful_validation_at": "2026-11-11T12:38:57.399896+00:00",
+        "observation_id": "051b89b35268d7460eb9850d014cd8b45b5ee2d6f5486dfdf459a3fb67e5c5d4",
+        "observed_at": "2026-11-11T12:38:57.402111+00:00",
+        "parser_version": "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-v2.0.1",
+        "published_at": null,
+        "redirect_chain": [],
+        "remote_unavailable": false,
+        "requested_url": "https://mealpy.readthedocs.io/en/latest/pages/general/introduction.html",
+        "source_id": "mealpy_docs",
+        "source_revision": 2,
+        "stale": false,
+        "text_sha256": "d3207ecaed0657ecd4c22549a8117a417dea8755fe220fb6c2d34d1deedd27fd",
+        "title": "",
+        "truncated": false,
+        "updated_at": null,
+        "validated_at": "2026-11-11T12:38:57.399896+00:00",
+        "version_id": "f4fe85e77593cd0088e31d1fb99d54e5998bf2ec6d842a1ebd18da54f0cd8b07"
+      },
+      {
+        "bytes_sha256": "f618622d409bd794c7d656b9c6e83010aad05c45662a28ee88813a1b32831691",
+        "cache_age_hours": 0.003162451111111111,
+        "canonical_url": "https://mealpy.readthedocs.io/en/latest/pages/models/mealpy.evolutionary_based.html",
+        "content_level": "documentation",
+        "content_type": "text/html; charset=utf-8",
+        "discovery": {
+          "kind": "direct_seed",
+          "parent_url": null
+        },
+        "document_id": "24939a65376cd6dbebcfcc8369f57fdc767d7bd725bf27be13014d3303bfea75",
+        "fetch_status": "cached",
+        "fetched_at": "2026-11-11T07:11:00.374174Z",
+        "final_url": "https://mealpy.readthedocs.io/en/latest/pages/models/mealpy.evolutionary_based.html",
+        "language": "en",
+        "last_attempt_at": "2026-11-11T12:38:57.957577+00:00",
+        "last_successful_validation_at": "2026-11-11T12:38:57.955995+00:00",
+        "observation_id": "f5e7273def1048f33a4094f5f8e4b92cc959fa0e643a2b460e099df763b92f79",
+        "observed_at": "2026-11-11T12:38:57.957577+00:00",
+        "parser_version": "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-v2.0.1",
+        "published_at": null,
+        "redirect_chain": [],
+        "remote_unavailable": false,
+        "requested_url": "https://mealpy.readthedocs.io/en/latest/pages/models/mealpy.evolutionary_based.html",
+        "source_id": "mealpy_docs",
+        "source_revision": 2,
+        "stale": false,
+        "text_sha256": "21956411660a0d37288f3f978b530a561072c510f1748d1490adb92d2c83760d",
+        "title": "mealpy.evolutionary_based package — MEALPY 3.1.0 documentation",
+        "truncated": false,
+        "updated_at": null,
+        "validated_at": "2026-11-11T12:38:57.955995+00:00",
+        "version_id": "1278ce8e7d89027f0da635e28730b03364688cc2d9458d9684f2155f384ef058"
+      },
+      {
+        "bytes_sha256": "249fd579bb59d0740e553a71d925725f937036dd7807efb8419af3060e7c6012",
+        "cache_age_hours": 30.754763086388888,
+        "canonical_url": "https://mealpy.readthedocs.io/en/latest/pages/models/mealpy.bio_based.html",
+        "content_level": "documentation",
+        "content_type": "text/html; charset=utf-8",
+        "discovery": {
+          "kind": "legacy_import"
+        },
+        "document_id": "b47584a18d37511d0ea4acd686fb83fc8fb66173591b942250ba0f33fa0d20d6",
+        "fetch_status": "cached",
+        "fetched_at": "2026-11-10T05:53:52.193708Z",
+        "final_url": "https://mealpy.readthedocs.io/en/latest/pages/models/mealpy.bio_based.html",
+        "language": null,
+        "last_attempt_at": "2026-11-10T05:53:52.193708+00:00",
+        "last_successful_validation_at": "2026-11-10T05:53:52.193708+00:00",
+        "observation_id": "4bec161db8f2813edc34f868950bcf06c9b17f78e995909544bdf5cee7f76db2",
+        "observed_at": "2026-11-10T05:53:52.193708+00:00",
+        "parser_version": "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-v2.0.1",
+        "published_at": null,
+        "redirect_chain": [],
+        "remote_unavailable": false,
+        "requested_url": "https://mealpy.readthedocs.io/en/latest/pages/models/mealpy.bio_based.html",
+        "source_id": "mealpy_docs",
+        "source_revision": 2,
+        "stale": false,
+        "text_sha256": "2942f1e5192e3f9baedf6f5cbe8242a0b9b576b0eb1a6cec0d3b8030ef1ad3e1",
+        "title": "",
+        "truncated": false,
+        "updated_at": null,
+        "validated_at": "2026-11-10T05:53:52.193708+00:00",
+        "version_id": "e8c28b7bf0e22f4a9c06aad79d01e9791c26736446ea355a579d5e499fc87d1d"
+      }
+    ],
+    "evidence": [
+      {
+        "document_id": "f24c34e9f76b80a7b8e70cd37520cc9dc88a8b63a98e9bb65a2d234bcd3dda31",
+        "end": 1806,
+        "evidence_id": "d98cbfe5-8727-4f81-bb93-64cffa836ed3",
+        "keyword_matches": 1,
+        "observation_id": "912878ea2c8c9d5d57e850af988b93e5e848207e68f43db37c97b39b630ab925",
+        "page": null,
+        "schema_version": "2.1",
+        "section": null,
+        "selection_method": "implementation_evidence",
+        "source_id": "mealpy_docs",
+        "stale": false,
+        "start": 806,
+        "text": "[docs]class OriginalDE(Optimizer):\n\n\"\"\"\n\nThe original version of: Differential Evolution (DE)\n\nParameters\n\n----------\n\nepoch : int\n\nMaximum number of iterations, in range [1, 100000]. Default is 10000.\n\npop_size : int\n\nNumber of population size, in range [5, 10000]. Default is 100.\n\nwf : float\n\nWeighting factor, in range (-3.0, 3.0). Default is 0.1.\n\ncr : float\n\nCrossover rate, in range [0.5, 0.95]. Default is 0.9.\n\nstrategy : int\n\nThere are lots of variant version of DE algorithm, in range [0, 5].\n\n- 0: DE/rand/1/bin\n\n- 1: DE/best/1/bin\n\n- 2: DE/best/2/bin\n\n- 3: DE/rand/2/bin\n\n- 4: DE/current-to-best/1/bin\n\n- 5: DE/current-to-rand/1/bin\n\nReferences\n\n~~~~~~~~~~\n\n1. Storn, R., & Price, K. (1997). Differential evolution–a simple and efficient heuristic for global\n\noptimization over continuous spaces. Journal of global optimization, 11(4), 341-359.\n\nhttps://doi.org/10.1023/A:1008202821328\n\nExamples\n\n~~~~~~~~\n\n>>> import numpy as np\n\n>>> from mealpy import FloatVar, DE\n\n>>>\n\n>>> def object",
+        "url": "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/evolutionary_based/DE.html",
+        "version_id": "b16dfae0d380aeb6fe971c2b491e0c1e58ce6ad7eb7961856e6097ca47d13fb9"
+      },
+      {
+        "document_id": "e00dd35761cd38582f0de28058b8454d6201704d23c85255cf0a47eb792c87cc",
+        "end": 1801,
+        "evidence_id": "4ff1d76f-80ee-4b80-a914-c649f188df65",
+        "keyword_matches": 1,
+        "observation_id": "e18bf7929ebc4cfafe789d14511fbe5b2981b5599cfd857fe8d340598eb6b36b",
+        "page": null,
+        "schema_version": "2.1",
+        "section": null,
+        "selection_method": "implementation_evidence",
+        "source_id": "mealpy_docs",
+        "stale": false,
+        "start": 801,
+        "text": "[docs]class OriginalGWO(Optimizer):\n\n\"\"\"\n\nThe original version of: Grey Wolf Optimizer (GWO)\n\nParameters\n\n----------\n\nepoch : int\n\nMaximum number of iterations, default = 10000.\n\npop_size : int\n\nNumber of population size, default = 100.\n\nLinks\n\n-----\n\n1. https://doi.org/10.1016/j.advengsoft.2013.12.007\n\n2. https://www.mathworks.com/matlabcentral/fileexchange/44974-grey-wolf-optimizer-gwo?s_tid=FX_rc3_behav\n\nReferences\n\n~~~~~~~~~~\n\n1. Mirjalili, S., Mirjalili, S.M. and Lewis, A., 2014. Grey wolf optimizer. Advances in engineering software, 69, pp.46-61.\n\nExamples\n\n~~~~~~~~\n\n>>> import numpy as np\n\n>>> from mealpy import FloatVar, GWO\n\n>>>\n\n>>> def objective_function(solution):\n\n>>> return np.sum(solution**2)\n\n>>>\n\n>>> problem_dict = {\n\n>>> \"bounds\": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name=\"delta\"),\n\n>>> \"minmax\": \"min\",\n\n>>> \"obj_func\": objective_function\n\n>>> }\n\n>>>\n\n>>> model = GWO.OriginalGWO(epoch=1000, pop_size=50)\n\n>>> g_best = model.solve(problem_dict)\n\n>>> print(f\"Solutio",
+        "url": "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/swarm_based/GWO.html",
+        "version_id": "990ccd703fee84608db4ad7d1938bf79317c8c0e9ed7c25c89ae22f95640ee37"
+      },
+      {
+        "document_id": "7ce55c8a8ad1a62bfd7e080489fe344d0f2bdb7f38e50b2b6c153b9ed3afa7f9",
+        "end": 1700,
+        "evidence_id": "af6611ff-431b-4b1e-ba78-e77f4bf69ef0",
+        "keyword_matches": 1,
+        "observation_id": "46840d44c80637f22b26372550c5bfc7e3b08140399666fd5f4368e433eebb8f",
+        "page": null,
+        "schema_version": "2.1",
+        "section": null,
+        "selection_method": "implementation_evidence",
+        "source_id": "mealpy_docs",
+        "stale": false,
+        "start": 700,
+        "text": "[docs]class OriginalWOA(Optimizer):\n\n\"\"\"\n\nThe original version of: Whale Optimization Algorithm (WOA)\n\nParameters\n\n----------\n\nepoch : int\n\nMaximum number of iterations, default = 10000.\n\npop_size : int\n\nNumber of population size, default = 100.\n\nLinks\n\n-----\n\n1. https://doi.org/10.1016/j.advengsoft.2016.01.008\n\n2. https://mathworks.com/matlabcentral/fileexchange/55667-the-whale-optimization-algorithm\n\nReferences\n\n~~~~~~~~~~\n\n1. Mirjalili, S. and Lewis, A., 2016. The whale optimization algorithm. Advances in engineering software, 95, pp.51-67.\n\nExamples\n\n~~~~~~~~\n\n>>> import numpy as np\n\n>>> from mealpy import FloatVar, WOA\n\n>>>\n\n>>> def objective_function(solution):\n\n>>> return np.sum(solution**2)\n\n>>>\n\n>>> problem_dict = {\n\n>>> \"bounds\": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name=\"delta\"),\n\n>>> \"minmax\": \"min\",\n\n>>> \"obj_func\": objective_function\n\n>>> }\n\n>>>\n\n>>> model = WOA.OriginalWOA(epoch=1000, pop_size=50)\n\n>>> g_best = model.solve(problem_dict)\n\n>>> print(f\"Solution: {g_bes",
+        "url": "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/swarm_based/WOA.html",
+        "version_id": "7e6bba0a2c21eddae7e3357dd501d58f8328073980420a149344c5e644ff9380"
+      },
+      {
+        "document_id": "1a4572b6c62c8392b939c81f1d6203b1d6c35cf734f5ad91640021cbd8494b94",
+        "end": 3015,
+        "evidence_id": "805e1089-2053-40ca-a880-f145b9c23978",
+        "keyword_matches": 4,
+        "observation_id": "051b89b35268d7460eb9850d014cd8b45b5ee2d6f5486dfdf459a3fb67e5c5d4",
+        "page": null,
+        "schema_version": "2.1",
+        "section": null,
+        "selection_method": "method_discovery",
+        "source_id": "mealpy_docs",
+        "stale": false,
+        "start": 2730,
+        "text": "Optimization is the mathematical process of finding the absolute best solution from a set of feasible solutions. In real-world applications, objective functions are often nonlinear, noisy, non-differentiable, or highly constrained—making traditional gradient-based methods ineffective.",
+        "url": "https://mealpy.readthedocs.io/en/latest/pages/general/introduction.html",
+        "version_id": "f4fe85e77593cd0088e31d1fb99d54e5998bf2ec6d842a1ebd18da54f0cd8b07"
+      },
+      {
+        "document_id": "24939a65376cd6dbebcfcc8369f57fdc767d7bd725bf27be13014d3303bfea75",
+        "end": 31150,
+        "evidence_id": "eb2f99d1-8a2f-44da-9f90-d96939673f51",
+        "keyword_matches": 3,
+        "observation_id": "f5e7273def1048f33a4094f5f8e4b92cc959fa0e643a2b460e099df763b92f79",
+        "page": null,
+        "schema_version": "2.1",
+        "section": null,
+        "selection_method": "method_discovery",
+        "source_id": "mealpy_docs",
+        "stale": false,
+        "start": 30987,
+        "text": "mutation (str, optional) – Mutation method, can be [“flip”, “swap”] for multipoints and [“flip”, “swap”, “scramble”, “inversion”] for one-point. Default is “flip”.",
+        "url": "https://mealpy.readthedocs.io/en/latest/pages/models/mealpy.evolutionary_based.html",
+        "version_id": "1278ce8e7d89027f0da635e28730b03364688cc2d9458d9684f2155f384ef058"
+      },
+      {
+        "document_id": "b47584a18d37511d0ea4acd686fb83fc8fb66173591b942250ba0f33fa0d20d6",
+        "end": 9250,
+        "evidence_id": "3d94ecc8-f163-406b-85d0-0ff6593910f4",
+        "keyword_matches": 3,
+        "observation_id": "4bec161db8f2813edc34f868950bcf06c9b17f78e995909544bdf5cee7f76db2",
+        "page": null,
+        "schema_version": "2.1",
+        "section": null,
+        "selection_method": "method_discovery",
+        "source_id": "mealpy_docs",
+        "stale": false,
+        "start": 9170,
+        "text": "A Novel Brown-bear Optimization Algorithm for Solving Economic Dispatch Problem.",
+        "url": "https://mealpy.readthedocs.io/en/latest/pages/models/mealpy.bio_based.html",
+        "version_id": "e8c28b7bf0e22f4a9c06aad79d01e9791c26736446ea355a579d5e499fc87d1d"
+      },
+      {
+        "document_id": "f24c34e9f76b80a7b8e70cd37520cc9dc88a8b63a98e9bb65a2d234bcd3dda31",
+        "end": 3032,
+        "evidence_id": "1ffbb9c4-a985-4fb7-9580-bc964d3d6b39",
+        "keyword_matches": 2,
+        "observation_id": "912878ea2c8c9d5d57e850af988b93e5e848207e68f43db37c97b39b630ab925",
+        "page": null,
+        "schema_version": "2.1",
+        "section": null,
+        "selection_method": "implementation_evidence",
+        "source_id": "mealpy_docs",
+        "stale": false,
+        "start": 2032,
+        "text": ">>> model = DE.OriginalDE(epoch=1000, pop_size=50, wf = 0.7, cr = 0.9, strategy = 0)\n\n>>> g_best = model.solve(problem_dict)\n\n>>> print(f\"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}\")\n\n>>> print(f\"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}\")\n\n\"\"\"\n\nOPT_INFO = OptInfo(name=\"Differential Evolution\", year=1995, difficulty=\"easy\", kind=\"original\")\n\ndef __init__(self, epoch: int = 10000, pop_size: int = 100, wf: float = 0.1, cr: float = 0.9, strategy: int = 0, **kwargs: object) -> None:\n\n\"\"\"\n\nArgs:\n\nepoch (int): maximum number of iterations, default = 10000\n\npop_size (int): number of population size, default = 100\n\nwf (float): weighting factor, default = 0.1\n\ncr (float): crossover rate, default = 0.9\n\nstrategy (int): Different variants of DE, default = 0\n\n\"\"\"\n\nsuper().__init__(**kwargs)\n\nself.epoch = self.validator.check_int(\"epoch\", epoch, [1, 100000])\n\nself.pop_size = self.validator.check_int(\"pop_size\", pop_size, [5, 10000])\n\nself.wf = self",
+        "url": "https://mealpy.readthedocs.io/en/latest/_modules/mealpy/evolutionary_based/DE.html",
+        "version_id": "b16dfae0d380aeb6fe971c2b491e0c1e58ce6ad7eb7961856e6097ca47d13fb9"
+      },
+      {
+        "document_id": "1a4572b6c62c8392b939c81f1d6203b1d6c35cf734f5ad91640021cbd8494b94",
+        "end": 1141,
+        "evidence_id": "0d5865e2-a04e-473a-8582-4901e7f69baf",
+        "keyword_matches": 3,
+        "observation_id": "051b89b35268d7460eb9850d014cd8b45b5ee2d6f5486dfdf459a3fb67e5c5d4",
+        "page": null,
+        "schema_version": "2.1",
+        "section": null,
+        "selection_method": "method_discovery",
+        "source_id": "mealpy_docs",
+        "stale": false,
+        "start": 941,
+        "text": "Different versions of MEALPY introduce significant architectural changes regarding how hyperparameters are defined and passed. Please verify your installed version and adhere to its specific paradigm:",
+        "url": "https://mealpy.readthedocs.io/en/latest/pages/general/introduction.html",
+        "version_id": "f4fe85e77593cd0088e31d1fb99d54e5998bf2ec6d842a1ebd18da54f0cd8b07"
+      },
+      {
+        "document_id": "24939a65376cd6dbebcfcc8369f57fdc767d7bd725bf27be13014d3303bfea75",
+        "end": 46313,
+        "evidence_id": "3df71f47-5108-45fd-ba1c-798e87c7db23",
+        "keyword_matches": 3,
+        "observation_id": "f5e7273def1048f33a4094f5f8e4b92cc959fa0e643a2b460e099df763b92f79",
+        "page": null,
+        "schema_version": "2.1",
+        "section": null,
+        "selection_method": "method_discovery",
+        "source_id": "mealpy_docs",
+        "stale": false,
+        "start": 46179,
+        "text": "mutation (str) – Mutation method, can be [“flip”, “swap”] for multipoints and [“flip”, “swap”, “scramble”, “inversion”] for one-point.",
+        "url": "https://mealpy.readthedocs.io/en/latest/pages/models/mealpy.evolutionary_based.html",
+        "version_id": "1278ce8e7d89027f0da635e28730b03364688cc2d9458d9684f2155f384ef058"
+      },
+      {
+        "document_id": "b47584a18d37511d0ea4acd686fb83fc8fb66173591b942250ba0f33fa0d20d6",
+        "end": 9372,
+        "evidence_id": "f732bdeb-0776-40e7-bacd-c675b86b246e",
+        "keyword_matches": 3,
+        "observation_id": "4bec161db8f2813edc34f868950bcf06c9b17f78e995909544bdf5cee7f76db2",
+        "page": null,
+        "schema_version": "2.1",
+        "section": null,
+        "selection_method": "method_discovery",
+        "source_id": "mealpy_docs",
+        "stale": false,
+        "start": 9252,
+        "text": "In Advanced Control & Optimization Paradigms for Energy System Operation and Management (pp. 137-164). River Publishers.",
+        "url": "https://mealpy.readthedocs.io/en/latest/pages/models/mealpy.bio_based.html",
+        "version_id": "e8c28b7bf0e22f4a9c06aad79d01e9791c26736446ea355a579d5e499fc87d1d"
+      }
+    ],
+    "generation": 10,
+    "http_requests": 0,
+    "max_evidence_age_hours": 168,
+    "passage_version": "passage_selection_v2.1.1",
+    "query_plan": {
+      "queries": [
+        {
+          "implementation_ids": [],
+          "purpose": "method_discovery",
+          "query_id": "discover_methods",
+          "source_ids": [
+            "mealpy_docs"
+          ],
+          "text": "Identify other MEALPY optimization methods suitable for deterministic, bounded, derivative-free optimization of a two-variable real-valued problem. Summarize relevant method families and documented constraints."
+        },
+        {
+          "implementation_ids": [
+            "mealpy:evolutionary_based.DE:OriginalDE",
+            "mealpy:swarm_based.GWO:OriginalGWO",
+            "mealpy:swarm_based.WOA:OriginalWOA"
+          ],
+          "purpose": "implementation_evidence",
+          "query_id": "inspect_listed_methods",
+          "source_ids": [
+            "mealpy_docs"
+          ],
+          "text": "Find official MEALPY documentation for DE and OriginalDE, GWO and OriginalGWO, and WOA and OriginalWOA. Retrieve implementation details, parameters, bounds handling, and usage guidance for OriginalDE, OriginalGWO, and OriginalWOA."
+        }
+      ],
+      "schema_version": "2.1"
+    },
+    "reason_codes": [],
+    "retrieval_mode": "direct_refresh",
+    "retrieval_version": "library_fts5_unicode61_target_coverage_v2.1.1",
+    "retrieved_at": "2026-11-11T12:39:09.395102+00:00",
+    "schema_version": "2.1",
+    "search_attempts": 0,
+    "snapshot_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+    "source_revision": 2,
+    "source_snapshot": {
+      "revision": 2,
+      "schema_version": "2.0",
+      "sources": [
+        {
+          "enabled": true,
+          "hostname": "mealpy.readthedocs.io",
+          "include_subdomains": false,
+          "label": "مستندات MEALPY",
+          "path_prefixes": [
+            "/en/latest"
+          ],
+          "schema_version": "2.0",
+          "source_id": "mealpy_docs",
+          "source_kind": "official_docs"
+        }
+      ]
+    },
+    "stale_evidence_policy": "reject",
+    "status": "completed",
+    "sync_run": {
+      "cancel_requested": false,
+      "created_at": "2026-11-11T12:38:54.819804+00:00",
+      "finished_at": "2026-11-11T12:38:58.559173+00:00",
+      "generation": 10,
+      "limits": {
+        "max_active_seconds": 300.0,
+        "max_document_bytes": 5242880,
+        "max_documents_per_source": 30,
+        "max_http_requests_per_source": 120,
+        "max_redirects": 3,
+        "max_sitemap_bytes": 2097152,
+        "max_source_seconds": 120.0,
+        "max_sources": 5,
+        "max_text_chars": 100000,
+        "max_total_bytes": 52428800,
+        "max_urls_per_source": 200,
+        "request_timeout_seconds": 20.0
+      },
+      "owner_job_id": "9557c69f-4239-42f4-8b10-96bddc864848",
+      "reason_codes": [],
+      "run_id": "f71770ef-c385-45a0-b129-8e21bed339f5",
+      "source_ids": [
+        "mealpy_docs"
+      ],
+      "sources": [
+        {
+          "budget_limited": false,
+          "changed": 0,
+          "discovered_urls": 6,
+          "documents_checked": 6,
+          "failed": 0,
+          "new": 0,
+          "reason_codes": [],
+          "skipped_urls": 0,
+          "source_id": "mealpy_docs",
+          "unchanged": 6,
+          "usage": {
+            "expanded_bytes": 0,
+            "http_requests": 6,
+            "network_seconds": 3.4729541659980896,
+            "reserved_bytes": 0,
+            "unknown_bytes": 0
+          }
+        }
+      ],
+      "started_at": "2026-11-11T12:38:54.991200+00:00",
+      "status": "completed",
+      "usage": {
+        "active_seconds": 3.5668130830017617,
+        "expanded_bytes": 0,
+        "http_requests": 6,
+        "network_seconds": 3.4729541659980896,
+        "reserved_bytes": 0,
+        "unknown_bytes": 0
+      },
+      "version": 3
+    },
+    "sync_run_id": "f71770ef-c385-45a0-b129-8e21bed339f5"
+  },
+  "research_error": null,
+  "query_plan": {
+    "queries": [
+      {
+        "implementation_ids": [],
+        "purpose": "method_discovery",
+        "query_id": "discover_methods",
+        "source_ids": [
+          "mealpy_docs"
+        ],
+        "text": "Identify other MEALPY optimization methods suitable for deterministic, bounded, derivative-free optimization of a two-variable real-valued problem. Summarize relevant method families and documented constraints."
+      },
+      {
+        "implementation_ids": [
+          "mealpy:evolutionary_based.DE:OriginalDE",
+          "mealpy:swarm_based.GWO:OriginalGWO",
+          "mealpy:swarm_based.WOA:OriginalWOA"
+        ],
+        "purpose": "implementation_evidence",
+        "query_id": "inspect_listed_methods",
+        "source_ids": [
+          "mealpy_docs"
+        ],
+        "text": "Find official MEALPY documentation for DE and OriginalDE, GWO and OriginalGWO, and WOA and OriginalWOA. Retrieve implementation details, parameters, bounds handling, and usage guidance for OriginalDE, OriginalGWO, and OriginalWOA."
+      }
+    ],
+    "schema_version": "2.1"
+  },
+  "advisor_plan_v2": {
+    "candidates": [
+      {
+        "card_ref": "mealpy:evolutionary_based.DE:OriginalDE",
+        "config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+        "evidence_refs": [
+          "d98cbfe5-8727-4f81-bb93-64cffa836ed3"
+        ],
+        "evidence_scope": "family_level",
+        "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+        "rationale_fa": "برای مسئلهٔ پیوستهٔ کراندار با دو متغیر، این پیاده‌سازی از خانوادهٔ Differential Evolution است و پیکربندی کارت، راهبرد ۰ (DE/rand/1/bin) را مشخص می‌کند. کارت آن را برای مسئلهٔ تک‌هدفهٔ قطعی و این بُعد واجد شرایط گزارش می‌کند؛ این شواهد برتری عددی آن را اثبات نمی‌کنند."
+      },
+      {
+        "card_ref": "mealpy:swarm_based.GWO:OriginalGWO",
+        "config_id": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+        "evidence_refs": [
+          "4ff1d76f-80ee-4b80-a914-c649f188df65"
+        ],
+        "evidence_scope": "family_level",
+        "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+        "rationale_fa": "این گزینه از خانوادهٔ Grey Wolf Optimizer است و با متغیرهای حقیقی کراندار این مسئله تناسب دارد. کارت آن را برای مسئلهٔ تک‌هدفهٔ قطعی و بُعد ۲ واجد شرایط گزارش می‌کند؛ این انتخاب به معنی ادعای برتری عددی یا تأیید مستقل پیکربندی نیست."
+      },
+      {
+        "card_ref": "mealpy:swarm_based.WOA:OriginalWOA",
+        "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+        "evidence_refs": [
+          "af6611ff-431b-4b1e-ba78-e77f4bf69ef0"
+        ],
+        "evidence_scope": "family_level",
+        "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+        "rationale_fa": "این گزینه از خانوادهٔ Whale Optimization Algorithm است و برای بهینه‌سازی تک‌هدفه با متغیرهای حقیقی کراندار مناسب است. کارت آن را برای بُعد ۲ و مسئلهٔ قطعی واجد شرایط گزارش می‌کند؛ شواهد موجود عملکرد عددی برتر یا صحت مستقل تنظیمات را ثابت نمی‌کنند."
+      }
+    ],
+    "reason_codes": [
+      "qualified_cards",
+      "continuous_bounded_problem"
+    ],
+    "research_findings": [
+      {
+        "claims": [
+          {
+            "evidence_refs": [
+              "3d94ecc8-f163-406b-85d0-0ff6593910f4"
+            ],
+            "status": "supported",
+            "text": "یکی از passages عنوان «A Novel Brown-bear Optimization Algorithm» را ذکر می‌کند."
+          }
+        ],
+        "implementation_match": null,
+        "mapping_reason": "در solver_cards پیاده‌سازی یا پیکربندی متناظری برای این روش دیده نمی‌شود؛ بنابراین نگاشت امنی در دسترس نیست.",
+        "name": "Brown-bear Optimization Algorithm",
+        "uncertainty": null,
+        "variant": null
+      }
+    ],
+    "schema_version": "2.1",
+    "status": "ready",
+    "uncertainty_notes": "سه گزینه از کارت‌های واجد شرایط انتخاب شده‌اند؛ داده‌های موجود مبنایی برای رتبه‌بندی یا ادعای برتری عددی میان آن‌ها فراهم نمی‌کنند."
+  },
+  "catalog_exclusions": [],
+  "requested_selection_policy": "evidence_research_then_pilot",
+  "effective_selection_policy": "evidence_research_then_pilot",
+  "explanation_contract_version": null,
+  "fixture_provenance": {
+    "kind": "synthetic",
+    "derived_from": "F1",
+    "definition": "F4",
+    "history_manifest": [
+      {
+        "artifact_id": "7acb5dae-1afd-4a6a-82b2-fe73daa8e2c6",
+        "path": "offline/fixture_histories/F4/7acb5dae-1afd-4a6a-82b2-fe73daa8e2c6.jsonl",
+        "sha256": "35b4a81033daa4f920c8ae1ffb69a47bc3dc4c06aeb4623374094c7087320f46"
+      },
+      {
+        "artifact_id": "b651284f-421d-4b2c-b9d2-589581b195d7",
+        "path": "offline/fixture_histories/F4/b651284f-421d-4b2c-b9d2-589581b195d7.jsonl",
+        "sha256": "49a94cb49649ddec9b9ae5795b7f27ad10efc02b8a402114278dcd65e5f8432c"
+      },
+      {
+        "artifact_id": "b0eea041-d251-4efc-bb0c-042984c18e32",
+        "path": "offline/fixture_histories/F4/b0eea041-d251-4efc-bb0c-042984c18e32.jsonl",
+        "sha256": "7d02fcaf8a3d6613eb2f6593cdf114ffda83aebbb15054b935fadd105967b90e"
+      },
+      {
+        "artifact_id": "5cff0121-7ad4-4c2b-b3b3-d1ef7b25f49b",
+        "path": "offline/fixture_histories/F4/5cff0121-7ad4-4c2b-b3b3-d1ef7b25f49b.jsonl",
+        "sha256": "3215d6b03c788ede634d257cd7421d22b33b23749e9c0cb25b6bfdb7427f4a81"
+      },
+      {
+        "artifact_id": "042475e7-2c79-4b27-9a14-ae2de3380565",
+        "path": "offline/fixture_histories/F4/042475e7-2c79-4b27-9a14-ae2de3380565.jsonl",
+        "sha256": "cd10e7cf376c7fba7a0708963cada65df910617d7870be718ba2c632910b6d64"
+      },
+      {
+        "artifact_id": "29bb5261-a6ba-4245-a60f-97bdbec12b77",
+        "path": "offline/fixture_histories/F4/29bb5261-a6ba-4245-a60f-97bdbec12b77.jsonl",
+        "sha256": "55c4b4bf0f09767341407e85c486a6e02f68995f9a4704b55a76a080856b893c"
+      },
+      {
+        "artifact_id": "828566d8-77f5-46e8-99ee-f39d72e036dc",
+        "path": "offline/fixture_histories/F4/828566d8-77f5-46e8-99ee-f39d72e036dc.jsonl",
+        "sha256": "be7bec4fe5318466395f5c43865816c2c71714155a4d4df2942ba29ba0472f33"
+      },
+      {
+        "artifact_id": "2385140f-9e80-40e6-9fba-204be46ae08b",
+        "path": "offline/fixture_histories/F4/2385140f-9e80-40e6-9fba-204be46ae08b.jsonl",
+        "sha256": "2c9cd1dc626e8a436c3fca98d25e2dd6dfbfe4aea4c55f6953da8350571026bc"
+      },
+      {
+        "artifact_id": "e6341db3-16ff-4b3d-8ac0-6bb7f81ddb43",
+        "path": "offline/fixture_histories/F4/e6341db3-16ff-4b3d-8ac0-6bb7f81ddb43.jsonl",
+        "sha256": "ab25c32c0e1c125dae64b405696436611f6d188e2aa22409f89402a56945f3c3"
+      },
+      {
+        "artifact_id": "09f38e68-40c4-4026-b2c2-78dbccbba003",
+        "path": "offline/fixture_histories/F4/09f38e68-40c4-4026-b2c2-78dbccbba003.jsonl",
+        "sha256": "cb6526356092103f369197e49d645245defb4675bf51a09228f88a2078744191"
+      }
+    ],
+    "note": "Fixed synthetic records; generated before report-only counters. No solver executed. Original runtime/certificates do not attest this fixture."
+  }
+}

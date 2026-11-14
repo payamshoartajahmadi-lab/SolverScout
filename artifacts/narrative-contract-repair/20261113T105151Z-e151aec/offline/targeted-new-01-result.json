@@ -1,0 +1,45 @@
+{
+  "run_label": "targeted-new-01",
+  "started_at_utc": "2026-11-13T10:55:21.361351+00:00",
+  "finished_at_utc": "2026-11-13T10:55:40.417152+00:00",
+  "elapsed_seconds": 19.063,
+  "cwd": "G:\\projects\\solverscout-narrative-contract-repair",
+  "command_argv": [
+    "G:\\projects\\solverscout\\.venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-m",
+    "not live_provider",
+    "-p",
+    "offline_network_guard",
+    "--junitxml=G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\narrative-contract-repair\\20261113T105151Z-e151aec\\offline\\targeted-new-01.xml",
+    "tests/test_narrative_contract_repair.py"
+  ],
+  "exit_code": 1,
+  "source_import_path": "G:\\projects\\solverscout-narrative-contract-repair\\src",
+  "python": "3.12.3 (tags/v3.12.3:f6650f9, Apr  9 2024, 14:05:25) [MSC v.1938 64 bit (AMD64)]",
+  "package_versions": {
+    "pytest": "9.2.0",
+    "pydantic": "2.14.3",
+    "httpx": "0.28.1",
+    "fastapi": "0.162.2",
+    "psutil": "7.2.2",
+    "numpy": "1.26.0",
+    "mealpy": "3.0.3",
+    "streamlit": "1.67.0"
+  },
+  "junit_counts": {
+    "tests": 26,
+    "failures": 2,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 24
+  },
+  "log": "offline\\targeted-new-01.log",
+  "junit": "offline\\targeted-new-01.xml",
+  "guard_report": "offline\\targeted-new-01-network-guard.json",
+  "live_provider_selected": false,
+  "real_model_call_budget": 0,
+  "numeric_execution_scope": "Only selected offline tests; no separate solve or campaign"
+}

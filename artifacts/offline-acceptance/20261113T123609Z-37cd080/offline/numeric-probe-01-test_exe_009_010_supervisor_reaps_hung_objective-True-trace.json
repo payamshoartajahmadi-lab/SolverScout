@@ -1,0 +1,230 @@
+{
+  "evidence_kind": "INSTRUMENTED_EXISTING_OFFLINE_TEST_TRACE",
+  "test_nodeid": "tests/test_numeric.py::test_exe_009_010_supervisor_reaps_hung_objective[True]",
+  "probe_sha256": "d80efea6579ea849ac04a51499c5bc110378b0a6dd17ebddd1b8ad377d646503",
+  "source_files": [
+    {
+      "path": "tests/test_numeric.py",
+      "sha256": "753fc6a1a3270b323997c113b27d90994114fa41b4c0536581280a38435aee8e"
+    },
+    {
+      "path": "src/p_mc_optimizer/execution/supervisor.py",
+      "sha256": "951639593887ba1eb06408dc9776de1dd23069f6cbdd17f73d203b31b3f53fa7"
+    },
+    {
+      "path": "src/p_mc_optimizer/execution/evaluator.py",
+      "sha256": "475bc478bb576b2b7b6d119f8eb08be937806a95342d4f872d6500c6843b6ad4"
+    },
+    {
+      "path": "src/p_mc_optimizer/runtime_provenance.py",
+      "sha256": "6346ee01ad9cdc018ca4b72d05821552e7168aac8373c8a2a3a43ce2c8aefb9f"
+    }
+  ],
+  "request_unchanged": {
+    "job_id": "32e6b9a5-27e1-426a-abd6-a0779b12a10f",
+    "execution_id": "da08e646-a7d3-4211-b1e3-66be3ad92f81",
+    "phase": "preflight",
+    "deadline_seconds": 1.8,
+    "evaluation_quota": 8
+  },
+  "clock_origin": "Original supervisor clock, started before child launch; deadline observed from unchanged Process args",
+  "product_started_at_monotonic": 1103343.781,
+  "deadline_monotonic": 1103345.581,
+  "events": [
+    {
+      "event": "run_execution_entered",
+      "observed_at_monotonic": 1103343.781,
+      "job_id": "32e6b9a5-27e1-426a-abd6-a0779b12a10f",
+      "execution_id": "da08e646-a7d3-4211-b1e3-66be3ad92f81",
+      "phase": "preflight",
+      "deadline_seconds": 1.8,
+      "evaluation_quota": 8
+    },
+    {
+      "event": "child_process_constructed",
+      "observed_at_monotonic": 1103343.781,
+      "deadline_monotonic": 1103345.581,
+      "product_started_at_monotonic": 1103343.781
+    },
+    {
+      "event": "child_launch_begin",
+      "observed_at_monotonic": 1103343.781
+    },
+    {
+      "event": "child_launch_return",
+      "observed_at_monotonic": 1103343.828,
+      "pid": 28564,
+      "creation_time": 1794573808.3234642,
+      "same_process": true,
+      "same_process_running": true,
+      "status": "running"
+    },
+    {
+      "event": "parent_received_ipc",
+      "observed_at_monotonic": 1103345.546,
+      "kind": "identity",
+      "pid": 28564,
+      "role": "numeric",
+      "process_run_id": "0f3f2f4c-167b-4047-97b2-b7b6c0b19406",
+      "source_manifest_sha256": "753d105e2425c37ba08687cb478bf2a6084cf2baca65798eeb96d5b4901944d8"
+    },
+    {
+      "event": "on_identity_callback",
+      "observed_at_monotonic": 1103345.546,
+      "pid": 28564,
+      "role": "numeric",
+      "process_run_id": "0f3f2f4c-167b-4047-97b2-b7b6c0b19406"
+    },
+    {
+      "event": "parent_ack_send_begin",
+      "observed_at_monotonic": 1103345.546,
+      "reply": "accepted",
+      "for_kind": "identity",
+      "sequence": null
+    },
+    {
+      "event": "parent_ack_send_return",
+      "observed_at_monotonic": 1103345.546,
+      "reply": "accepted",
+      "for_kind": "identity",
+      "sequence": null
+    },
+    {
+      "event": "parent_received_ipc",
+      "observed_at_monotonic": 1103345.546,
+      "kind": "started",
+      "sequence": 1
+    },
+    {
+      "event": "on_event_callback",
+      "observed_at_monotonic": 1103345.546,
+      "kind": "started",
+      "sequence": 1,
+      "semantics": "A started callback precedes, and alone does not prove, the acceptance ACK"
+    },
+    {
+      "event": "parent_ack_send_begin",
+      "observed_at_monotonic": 1103345.546,
+      "reply": "accepted",
+      "for_kind": "started",
+      "sequence": 1
+    },
+    {
+      "event": "parent_ack_send_return",
+      "observed_at_monotonic": 1103345.546,
+      "reply": "accepted",
+      "for_kind": "started",
+      "sequence": 1
+    },
+    {
+      "event": "objective_wrapper_entry_observed",
+      "observed_at_monotonic": 1103345.578,
+      "pid": 28564,
+      "entered_at_monotonic": 1103345.546,
+      "semantics": "Wrapper entered immediately before forwarding to unchanged original objective"
+    },
+    {
+      "event": "original_hang_pid_observed",
+      "observed_at_monotonic": 1103345.578,
+      "pid": 28564,
+      "semantics": "Original hang wrote this PID itself; observation time is an upper bound on that write"
+    },
+    {
+      "event": "original_cancellation_predicate_true",
+      "observed_at_monotonic": 1103345.578
+    },
+    {
+      "event": "deadline_observed_reached",
+      "observed_at_monotonic": 1103345.609,
+      "deadline_monotonic": 1103345.581,
+      "observer": "parent_poll_return",
+      "semantics": "Observer saw the unchanged product deadline expire; not an injected timeout"
+    },
+    {
+      "event": "child_join_begin",
+      "observed_at_monotonic": 1103345.703,
+      "pid": 28564,
+      "force": true,
+      "alive": true,
+      "exitcode": null
+    },
+    {
+      "event": "child_join_return",
+      "observed_at_monotonic": 1103345.718,
+      "multiprocessing_alive": false,
+      "exitcode": -15,
+      "pid": 28564,
+      "same_process_running": false,
+      "observation": "not_found"
+    },
+    {
+      "event": "run_execution_returned",
+      "observed_at_monotonic": 1103345.718,
+      "execution_status": "cancelled",
+      "termination_reason": "cancelled",
+      "started_evaluations": 1,
+      "successful_evaluations": 0,
+      "failed_evaluations": 0,
+      "history_complete": false,
+      "history_sha256": null,
+      "elapsed_compute_seconds": 1.9370000001508743,
+      "overshoot_seconds": 0.1370000001508742,
+      "error_code": null,
+      "runtime_identity_projection": {
+        "pid": 28564,
+        "role": "numeric",
+        "process_run_id": "0f3f2f4c-167b-4047-97b2-b7b6c0b19406"
+      }
+    }
+  ],
+  "accepted_evaluation_sequences": [
+    1
+  ],
+  "objective_wrapper_entry": {
+    "pid": 28564,
+    "monotonic": 1103345.546
+  },
+  "original_hang_pid": 28564,
+  "cancellation_predicate_poll_count": 57,
+  "cancellation_predicate_returned_true": true,
+  "done_projection": null,
+  "result_projection": {
+    "execution_status": "cancelled",
+    "termination_reason": "cancelled",
+    "started_evaluations": 1,
+    "successful_evaluations": 0,
+    "failed_evaluations": 0,
+    "history_complete": false,
+    "history_sha256": null,
+    "elapsed_compute_seconds": 1.9370000001508743,
+    "overshoot_seconds": 0.1370000001508742,
+    "error_code": null,
+    "runtime_identity_projection": {
+      "pid": 28564,
+      "role": "numeric",
+      "process_run_id": "0f3f2f4c-167b-4047-97b2-b7b6c0b19406"
+    }
+  },
+  "history_files": [
+    {
+      "name": "da08e646-a7d3-4211-b1e3-66be3ad92f81.jsonl.part",
+      "bytes": 0,
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "reaping": {
+    "multiprocessing_alive": false,
+    "exitcode": -15,
+    "pid": 28564,
+    "same_process_running": false,
+    "observation": "not_found"
+  },
+  "exception_type": null,
+  "limitations": [
+    "Instrumented diagnostic, separate from unchanged baseline; observer imports and shared-memory/IPC logging may alter timing.",
+    "Objective wrapper timestamp precedes forwarding to original hang; original hang PID is independently observed from its existing shared value.",
+    "Deadline observation is observer timing, not a modified product clock or a synthetic deadline event.",
+    "No credential, environment dump, connection header, objective vector or provider payload is exported."
+  ]
+}

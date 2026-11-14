@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="11.224" timestamp="2026-11-13T16:07:09.445943+03:30" hostname="DESKTOP-RUAEVM4"><testcase classname="tests.test_llm_workflow" name="test_explainer_receives_full_tie_or_insufficient_evidence[identifier_tie]" time="5.794"><failure message="FileNotFoundError: [Errno 2] No such file or directory: 'G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\_private_test_state\\reproduce-02\\test_explainer_receives_full_t0\\artifacts\\bce835ba-8f4b-4332-b1c6-89f45528716e\\cc75e814-6347-4108-b930-0a02bc9ecd6d.jsonl.part'&#10;During task with name 'preflight' and id '82677190-a6e3-815f-07a0-4d300bef688c'">tmp_path = WindowsPath('G:/projects/solverscout-narrative-contract-repair/artifacts/offline-acceptance/20261113T123609Z-37cd080/_private_test_state/reproduce-02/test_explainer_receives_full_t0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000002818CBD9370&gt;
+case = 'identifier_tie'
+
+    @pytest.mark.parametrize("case", ["identifier_tie", "insufficient_evidence"])
+    def test_explainer_receives_full_tie_or_insufficient_evidence(tmp_path, monkeypatch, case):
+        """FLOW-11/12. Use genuine selector outcomes and the provider transport."""
+        is_tie = case == "identifier_tie"
+        if not is_tie:
+            from test_workflow_exports import _inject_trial_failure
+    
+            _inject_trial_failure(monkeypatch, "pilot")
+        problem_path = Path(__file__).parents[1] / "examples" / "quadratic_2d.json"
+        problem = json.loads(problem_path.read_text(encoding="utf-8"))
+        if is_tie:
+            # Every feasible point has the same objective, regardless of pilot or seed.
+            problem["objective"]["source"]["expression"] = "x1-x1+x2-x2"
+        explanation = (
+            {**_GOOD_EXPLANATION, "selection_explanation_fa": "شناسهٔ روش تساوی را شکست."}
+            if is_tie else
+            {**_GOOD_EXPLANATION, "summary_fa": "شواهد پایلوت برای انتخاب روش کافی نبود.",
+             "selection_explanation_fa": None}
+        )
+        called, explainer_requests = [], []
+        responses = [{"ok": True}, _pilot_plan(), explanation]
+        with local_api(tmp_path, fixture_transport(responses, called, explainer_requests=explainer_requests)) as (
+            repo, client, address, token
+        ):
+            profile, _ = configure(client, _PROFILE_SETTINGS, _TEST_KEY)
+            payload = {
+                "input": {"kind": "structured_problem", "problem": problem},
+                "policy": {**_POLICY, "explain_via_llm": True, "selection_policy": "llm_shortlist_then_pilot",
+                           "max_objective_evaluations": 5502},
+                "llm_profile": {"profile_id": profile["profile_id"], "revision": profile["revision"]},
+            }
+            job_id = checked(client.post("/jobs", json=payload, headers={"Idempotency-Key": str(uuid4())}), 202)["job_id"]
+&gt;           work(repo, address, token, job_id)
+
+tests\test_llm_workflow.py:716: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_llm_workflow.py:124: in work
+    Workflow(repo, job_id, owner, api_url=address, token=token).run()
+src\p_mc_optimizer\workflow\graph.py:861: in run
+    compiled.invoke({"job_id": self.job_id, "route": "next"},
+..\solverscout\.venv\Lib\site-packages\langgraph\pregel\main.py:4000: in invoke
+    for chunk in self.stream(
+..\solverscout\.venv\Lib\site-packages\langgraph\pregel\main.py:3060: in stream
+    for _ in runner.tick(
+..\solverscout\.venv\Lib\site-packages\langgraph\pregel\_runner.py:204: in tick
+    run_with_retry(
+..\solverscout\.venv\Lib\site-packages\langgraph\pregel\_retry.py:637: in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\solverscout\.venv\Lib\site-packages\langgraph\_internal\_runnable.py:794: in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\solverscout\.venv\Lib\site-packages\langgraph\_internal\_runnable.py:479: in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\workflow\graph.py:833: in invoke
+    update = getattr(self, name)()
+             ^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\workflow\graph.py:380: in preflight
+    result = self._execute("preflight", self.policy.preflight_evaluations)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\workflow\graph.py:356: in _execute
+    artifact = self.repo.save_artifact(self.job_id, "evaluation_history", history_file,
+src\p_mc_optimizer\persistence\repository.py:738: in save_artifact
+    artifact = self._write_artifact(job_id, kind, data, suffix)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\persistence\repository.py:706: in _write_artifact
+    with pending.open("xb") as target:
+         ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('G:/projects/solverscout-narrative-contract-repair/artifacts/offline-acceptance/20261113T123609Z-37cd080/_...ainer_receives_full_t0/artifacts/bce835ba-8f4b-4332-b1c6-89f45528716e/cc75e814-6347-4108-b930-0a02bc9ecd6d.jsonl.part')
+mode = 'xb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+&gt;       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'G:\\projects\\solverscout-narrative-contract-repair\\artifacts\\offline-acceptance\\20261113T123609Z-37cd080\\_private_test_state\\reproduce-02\\test_explainer_receives_full_t0\\artifacts\\bce835ba-8f4b-4332-b1c6-89f45528716e\\cc75e814-6347-4108-b930-0a02bc9ecd6d.jsonl.part'
+E       During task with name 'preflight' and id '82677190-a6e3-815f-07a0-4d300bef688c'
+
+C:\Program Files\Python312\Lib\pathlib.py:1013: FileNotFoundError</failure></testcase><testcase classname="tests.test_numeric" name="test_exe_009_010_supervisor_reaps_hung_objective[False]" time="1.952"><failure message="AssertionError: assert not True&#10; +  where True = ExecutionResult(job_id='d6071ee1-f8dd-44e2-bb4d-467a247edb8a', execution_id='4eaca7dd-46f9-4f59-bd5a-114b4af8a103', ph...82a7'}, {'path': 'workflow/worker.py', 'sha256': '2582fdfe142c3a0e8e460918469c6d3ecbf2d041fde58331858da8300106043e'}]}).history_complete">tmp_path = WindowsPath('G:/projects/solverscout-narrative-contract-repair/artifacts/offline-acceptance/20261113T123609Z-37cd080/_private_test_state/reproduce-02/test_exe_009_010_supervisor_re0')
+cancel = False
+
+    @pytest.mark.parametrize("cancel", [False, True])
+    def test_exe_009_010_supervisor_reaps_hung_objective(tmp_path, cancel):
+        process_id = mp.get_context("spawn").Value("i", 0)
+        item = request("preflight", seconds=1.8)
+        result, _ = run(
+            item, tmp_path, _objective_override=partial(hang, process_id=process_id),
+            cancelled=lambda: cancel and process_id.value != 0,
+        )
+        assert result.execution_status == ("cancelled" if cancel else "timed_out")
+&gt;       assert not result.history_complete
+E       AssertionError: assert not True
+E        +  where True = ExecutionResult(job_id='d6071ee1-f8dd-44e2-bb4d-467a247edb8a', execution_id='4eaca7dd-46f9-4f59-bd5a-114b4af8a103', ph...82a7'}, {'path': 'workflow/worker.py', 'sha256': '2582fdfe142c3a0e8e460918469c6d3ecbf2d041fde58331858da8300106043e'}]}).history_complete
+
+tests\test_numeric.py:317: AssertionError</failure></testcase><testcase classname="tests.test_numeric" name="test_exe_009_010_supervisor_reaps_hung_objective[True]" time="1.965"><failure message="AssertionError: assert 'timed_out' == 'cancelled'&#10;  &#10;  - cancelled&#10;  + timed_out">tmp_path = WindowsPath('G:/projects/solverscout-narrative-contract-repair/artifacts/offline-acceptance/20261113T123609Z-37cd080/_private_test_state/reproduce-02/test_exe_009_010_supervisor_re1')
+cancel = True
+
+    @pytest.mark.parametrize("cancel", [False, True])
+    def test_exe_009_010_supervisor_reaps_hung_objective(tmp_path, cancel):
+        process_id = mp.get_context("spawn").Value("i", 0)
+        item = request("preflight", seconds=1.8)
+        result, _ = run(
+            item, tmp_path, _objective_override=partial(hang, process_id=process_id),
+            cancelled=lambda: cancel and process_id.value != 0,
+        )
+&gt;       assert result.execution_status == ("cancelled" if cancel else "timed_out")
+E       AssertionError: assert 'timed_out' == 'cancelled'
+E         
+E         - cancelled
+E         + timed_out
+
+tests\test_numeric.py:316: AssertionError</failure></testcase></testsuite></testsuites>

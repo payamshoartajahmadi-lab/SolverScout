@@ -10,6 +10,7 @@ from p_mc_optimizer.domain.models import (
     DomainError,
     ProblemRevision,
     TrialRequest,
+    TrialRequestV2,
 )
 from p_mc_optimizer.execution.evaluator import BudgetedEvaluator
 
@@ -88,6 +89,11 @@ def trial_request(
 
 def run_solver(evaluator: BudgetedEvaluator) -> None:
     trial = evaluator.request.trial
+    if isinstance(trial, TrialRequestV2):
+        from p_mc_optimizer.catalog.adapter import run_catalog_solver
+
+        run_catalog_solver(evaluator, trial)
+        return
     if (
         version("mealpy") != MEALPY_VERSION
         or trial.library_version != MEALPY_VERSION
@@ -96,7 +102,6 @@ def run_solver(evaluator: BudgetedEvaluator) -> None:
     ):
         raise DomainError("SOLVER_CONFIGURATION_MISMATCH", "نسخه یا پیکربندی Solver با Registry تثبیت‌شده تطابق ندارد.")
 
-    from mealpy import FloatVar, Problem
     from mealpy.evolutionary_based import DE, ES
     from mealpy.swarm_based import ABC, PSO
 
@@ -106,7 +111,14 @@ def run_solver(evaluator: BudgetedEvaluator) -> None:
         "de.original": DE.OriginalDE,
         "pso.original": PSO.OriginalPSO,
     }
-    model = classes[trial.algorithm_id](**trial.configuration_snapshot)
+    run_mealpy(evaluator, classes[trial.algorithm_id], trial.configuration_snapshot, seed=trial.seed)
+
+
+def run_mealpy(evaluator: BudgetedEvaluator, solver_class, parameters: dict, *, seed: int) -> None:
+    """Execute an approved installed class through the shared objective boundary."""
+    from mealpy import FloatVar, Problem
+
+    model = solver_class(**parameters)
     problem = Problem(
         bounds=FloatVar(lb=tuple(evaluator.lower), ub=tuple(evaluator.upper), name="x"),
         minmax="min",
@@ -116,7 +128,7 @@ def run_solver(evaluator: BudgetedEvaluator) -> None:
     )
     # MEALPY's lazy objective-cardinality check invokes obj_func. Probe it with
     # the trial's seed and account for the call using the same evaluator.
-    problem.set_seed(trial.seed)
+    problem.set_seed(seed)
     evaluator.evaluation_kind = "library_setup"
     try:
         if problem.n_objs != 1:
@@ -124,4 +136,4 @@ def run_solver(evaluator: BudgetedEvaluator) -> None:
     finally:
         evaluator.evaluation_kind = "objective"
 
-    model.solve(problem=problem, mode="single", seed=trial.seed)
+    model.solve(problem=problem, mode="single", seed=seed)

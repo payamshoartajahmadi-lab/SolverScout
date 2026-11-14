@@ -1,0 +1,21 @@
+{
+  "run_label": "full-final-01",
+  "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+  "files": [
+    {
+      "path": "report.json",
+      "size_bytes": 185608,
+      "sha256": "e80624867fda3cd200c555a0c03cb7fb0dc4c4dc0563511ada53b99fe4a132e0"
+    },
+    {
+      "path": "explainer-invocations.json",
+      "size_bytes": 8271,
+      "sha256": "3a14696f2a36249624af984541bf0fe37d4ddc0dd4ac0f1bca85118e58f456b5"
+    },
+    {
+      "path": "diagnosis.json",
+      "size_bytes": 236978,
+      "sha256": "e9086844ecbaa2c4f6d2a3ed768fc720b4cfe7e6d1b2f18a6a143d951417e5e3"
+    }
+  ]
+}

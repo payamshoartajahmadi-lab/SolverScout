@@ -1,0 +1,273 @@
+{
+  "$defs": {
+    "AdvisorCandidateV2": {
+      "additionalProperties": false,
+      "properties": {
+        "implementation_id": {
+          "maxLength": 256,
+          "pattern": "^[a-z][a-z0-9_]*:[A-Za-z0-9_.]+:[A-Za-z_][A-Za-z0-9_]*$",
+          "title": "Implementation Id",
+          "type": "string"
+        },
+        "config_id": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Config Id",
+          "type": "string"
+        },
+        "rationale_fa": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Rationale Fa",
+          "type": "string"
+        },
+        "card_ref": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Card Ref",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/FrozenArray_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata__MinLen_min_length_1___MaxLen_max_length_256_____"
+        },
+        "evidence_scope": {
+          "anyOf": [
+            {
+              "enum": [
+                "method_level",
+                "family_level"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Evidence Scope"
+        }
+      },
+      "required": [
+        "implementation_id",
+        "config_id",
+        "rationale_fa",
+        "card_ref",
+        "evidence_refs",
+        "evidence_scope"
+      ],
+      "title": "AdvisorCandidateV2",
+      "type": "object"
+    },
+    "EvidenceClaim": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "supported",
+            "uncertain",
+            "conflicting"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/FrozenArray_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata__MinLen_min_length_1___MaxLen_max_length_256______MinLen_min_length_1_",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "text",
+        "status",
+        "evidence_refs"
+      ],
+      "title": "EvidenceClaim",
+      "type": "object"
+    },
+    "FrozenArray_AdvisorCandidateV2__MaxLen_max_length_3_": {
+      "items": {
+        "$ref": "#/$defs/AdvisorCandidateV2"
+      },
+      "type": "array"
+    },
+    "FrozenArray_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata__MinLen_min_length_1___MaxLen_max_length_256_____": {
+      "items": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "FrozenArray_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata__MinLen_min_length_1___MaxLen_max_length_256______MinLen_min_length_1_": {
+      "items": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "FrozenArray_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern____A-Za-z0-9___-__0_63________": {
+      "items": {
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "FrozenArray_EvidenceClaim_": {
+      "items": {
+        "$ref": "#/$defs/EvidenceClaim"
+      },
+      "type": "array"
+    },
+    "FrozenArray_ResearchMethodCandidate__MaxLen_max_length_10_": {
+      "items": {
+        "$ref": "#/$defs/ResearchMethodCandidate"
+      },
+      "type": "array"
+    },
+    "ImplementationMatch": {
+      "additionalProperties": false,
+      "properties": {
+        "implementation_id": {
+          "maxLength": 256,
+          "pattern": "^[a-z][a-z0-9_]*:[A-Za-z0-9_.]+:[A-Za-z_][A-Za-z0-9_]*$",
+          "title": "Implementation Id",
+          "type": "string"
+        },
+        "config_id": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Config Id",
+          "type": "string"
+        },
+        "card_ref": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Card Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "implementation_id",
+        "config_id",
+        "card_ref"
+      ],
+      "title": "ImplementationMatch",
+      "type": "object"
+    },
+    "ResearchMethodCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "variant": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Variant"
+        },
+        "claims": {
+          "$ref": "#/$defs/FrozenArray_EvidenceClaim_"
+        },
+        "uncertainty": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Uncertainty"
+        },
+        "implementation_match": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ImplementationMatch"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mapping_reason": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Mapping Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "variant",
+        "claims",
+        "uncertainty",
+        "implementation_match",
+        "mapping_reason"
+      ],
+      "title": "ResearchMethodCandidate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "ready",
+        "insufficient_evidence"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "candidates": {
+      "$ref": "#/$defs/FrozenArray_AdvisorCandidateV2__MaxLen_max_length_3_",
+      "maxLength": 3
+    },
+    "research_findings": {
+      "$ref": "#/$defs/FrozenArray_ResearchMethodCandidate__MaxLen_max_length_10_",
+      "maxLength": 10
+    },
+    "reason_codes": {
+      "$ref": "#/$defs/FrozenArray_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern____A-Za-z0-9___-__0_63________"
+    },
+    "uncertainty_notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Uncertainty Notes"
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "candidates",
+    "research_findings",
+    "reason_codes",
+    "uncertainty_notes"
+  ],
+  "title": "AdvisorPlanV2",
+  "type": "object"
+}

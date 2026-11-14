@@ -1,0 +1,223 @@
+[
+  {
+    "scope": "U2",
+    "role": "formulator",
+    "call_id": "7bd333cf-ea0e-48f3-b29e-a58da7c2c610",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 1002,
+      "prompt_tokens": 1888,
+      "total_tokens": 2890
+    },
+    "cost": null,
+    "elapsed_seconds": 9.375
+  },
+  {
+    "scope": "U2",
+    "role": "research_planner",
+    "call_id": "88ed88c7-3496-4785-832a-f502cc44e39d",
+    "status": "failed",
+    "usage": {
+      "completion_tokens": 515,
+      "prompt_tokens": 1032,
+      "total_tokens": 1547
+    },
+    "cost": null,
+    "elapsed_seconds": 5.297000000020489
+  },
+  {
+    "scope": "U2",
+    "role": "research_planner",
+    "call_id": "7c6cb17a-5d75-48aa-a86c-5b801bfefa0b",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 354,
+      "prompt_tokens": 1450,
+      "total_tokens": 1804
+    },
+    "cost": null,
+    "elapsed_seconds": 4.516000000061467
+  },
+  {
+    "scope": "U2",
+    "role": "advisor",
+    "call_id": "841a3a8e-a164-4599-a3d4-c483ed5c44d8",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 1347,
+      "prompt_tokens": 11486,
+      "total_tokens": 12833
+    },
+    "cost": null,
+    "elapsed_seconds": 15.234000000171363
+  },
+  {
+    "scope": "U2",
+    "role": "explainer",
+    "call_id": "c01f89eb-2525-4b6f-afd4-ecb62c52d9fb",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 2614,
+      "prompt_tokens": 19121,
+      "total_tokens": 21735
+    },
+    "cost": null,
+    "elapsed_seconds": 27.062999999849126
+  },
+  {
+    "scope": "U2",
+    "role": "report_reviewer",
+    "call_id": "8e9c2c2c-cb34-4043-8e76-50843c74d905",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 288,
+      "prompt_tokens": 20414,
+      "total_tokens": 20702
+    },
+    "cost": null,
+    "elapsed_seconds": 10.062000000150874
+  },
+  {
+    "scope": "U2",
+    "role": "explainer",
+    "call_id": "197a68f7-faf9-4d19-8324-8403fb3ad7ce",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 1898,
+      "prompt_tokens": 21153,
+      "total_tokens": 23051
+    },
+    "cost": null,
+    "elapsed_seconds": 24.734000000171363
+  },
+  {
+    "scope": "U2",
+    "role": "report_reviewer",
+    "call_id": "79d5c1e7-5abb-459f-aaa2-3ce27b5f3fdd",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 522,
+      "prompt_tokens": 21813,
+      "total_tokens": 22335
+    },
+    "cost": null,
+    "elapsed_seconds": 7.952999999979511
+  },
+  {
+    "scope": "U1",
+    "role": "formulator",
+    "call_id": "12028d10-e8f8-49e4-8907-58beecdd171a",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 1072,
+      "prompt_tokens": 1875,
+      "total_tokens": 2947
+    },
+    "cost": null,
+    "elapsed_seconds": 8.437999999849126
+  },
+  {
+    "scope": "U1",
+    "role": "research_planner",
+    "call_id": "058cda5e-03d4-4dcd-b81d-ebc8924ce686",
+    "status": "failed",
+    "usage": {
+      "completion_tokens": 468,
+      "prompt_tokens": 1032,
+      "total_tokens": 1500
+    },
+    "cost": null,
+    "elapsed_seconds": 4.8439999998081475
+  },
+  {
+    "scope": "U1",
+    "role": "research_planner",
+    "call_id": "7db1370b-e4b0-460f-8667-bdd6a9410965",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 422,
+      "prompt_tokens": 1397,
+      "total_tokens": 1819
+    },
+    "cost": null,
+    "elapsed_seconds": 4.0
+  },
+  {
+    "scope": "U1",
+    "role": "advisor",
+    "call_id": "9a114cce-acc7-41b5-b739-37f1915581e0",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 1556,
+      "prompt_tokens": 11467,
+      "total_tokens": 13023
+    },
+    "cost": null,
+    "elapsed_seconds": 11.047000000020489
+  },
+  {
+    "scope": "U1",
+    "role": "explainer",
+    "call_id": "c6fb8a88-202e-40ec-8b53-459bc1860fad",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 3172,
+      "prompt_tokens": 19401,
+      "total_tokens": 22573
+    },
+    "cost": null,
+    "elapsed_seconds": 38.89099999982864
+  },
+  {
+    "scope": "U1",
+    "role": "report_reviewer",
+    "call_id": "2a0c651b-b221-447b-b1be-714426fa3e52",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 259,
+      "prompt_tokens": 20176,
+      "total_tokens": 20435
+    },
+    "cost": null,
+    "elapsed_seconds": 5.921000000089407
+  },
+  {
+    "scope": "U1",
+    "role": "explainer",
+    "call_id": "70f7811d-ebc6-4b78-9260-7afd20a8c173",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 1975,
+      "prompt_tokens": 21247,
+      "total_tokens": 23222
+    },
+    "cost": null,
+    "elapsed_seconds": 13.922000000020489
+  },
+  {
+    "scope": "U1",
+    "role": "report_reviewer",
+    "call_id": "de7117df-a599-45bc-bffb-2ccb89ed8a00",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 264,
+      "prompt_tokens": 21047,
+      "total_tokens": 21311
+    },
+    "cost": null,
+    "elapsed_seconds": 4.062999999849126
+  },
+  {
+    "scope": "connection_test",
+    "role": null,
+    "call_id": "6e841aee-ee77-4b68-98d2-cd29b49f5aa1",
+    "status": "succeeded",
+    "usage": {
+      "completion_tokens": 14,
+      "prompt_tokens": 59,
+      "total_tokens": 73
+    },
+    "cost": null,
+    "elapsed_seconds": 2.0
+  }
+]

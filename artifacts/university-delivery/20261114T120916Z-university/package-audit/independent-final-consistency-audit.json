@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "scope": "Independent read-only review of truthfulness and evidence consistency; not university acceptance success",
+  "reviewer": "independent university_research subagent",
+  "criteria_count": 15,
+  "criteria_counts": {
+    "PASS": 9,
+    "FAIL": 5,
+    "NOT_RUN": 1
+  },
+  "criteria_evidence_paths_all_exist": true,
+  "json_csv_consistent": true,
+  "rc1_live_vs_rc2_offline_provenance_distinguished": true,
+  "live_rc2": "NOT_RUN",
+  "actual_calls": 10,
+  "input_tokens": 102910,
+  "output_tokens": 11044,
+  "total_tokens": 113954,
+  "U1_FE": 20000,
+  "U2_both_attempts_FE": 0,
+  "quoted_samples_match_actual_U1": true,
+  "offline_observer_not_physical_FE": true,
+  "installer_crc_and_sha256": "PASS",
+  "remaining_note": "Installer and separate evidence archive must both be delivered; installer alone is not the whole evidence bundle.",
+  "new_model_calls_solver_runs_or_product_edits": 0
+}

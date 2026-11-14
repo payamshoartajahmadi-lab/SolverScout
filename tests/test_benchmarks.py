@@ -3,6 +3,8 @@
 from pathlib import Path
 from uuid import uuid4
 
+import sys
+
 import pytest
 from streamlit.testing.v1 import AppTest
 
@@ -38,7 +40,9 @@ def test_research_manifest_snapshots_model_only_for_llm_jobs(tmp_path):
         run_benchmark(None, path, lambda *_: pytest.fail("offline CLI submitted a model job"))
 
 
-def test_ui_requires_explicit_click_and_reuses_comparison(tmp_path):
+def test_ui_requires_explicit_click_and_reuses_comparison(tmp_path, monkeypatch):
+    # Streamlit replaces __main__ while executing the test script.
+    monkeypatch.setitem(sys.modules, "__main__", sys.modules["__main__"])
     app = AppTest.from_string('''
 from uuid import uuid4
 import streamlit as st

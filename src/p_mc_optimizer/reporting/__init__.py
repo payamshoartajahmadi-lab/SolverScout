@@ -21,6 +21,7 @@ TRIAL_COLUMNS = (
     "evaluation_quota", "execution_status", "termination_reason", "started_evaluations",
     "successful_evaluations", "failed_evaluations", "objective_raw", "score_for_minimization",
     "elapsed_compute_seconds", "error_code",
+    "policy_id", "effective_config_hash", "effective_epoch", "effective_pop_size", "derivation_reason",
 )
 
 
@@ -76,12 +77,27 @@ def add_progress(history: Iterable[tuple[Iterable[dict], int, str]]) -> list[dic
     return points
 
 
-def progress_figure(points: list[dict]) -> str:
+def progress_figure(points: list[dict], *, number_formatter=None, axis_scale="linear") -> str:
+    """Plot the recorded points; an optional signed log axis keeps true zero."""
+    if axis_scale not in {"linear", "symlog"}:
+        raise ValueError("Unsupported progress axis")
     if not points:
         return "<p>تاریخچهٔ کافی برای نمودار در دسترس نیست.</p>"
     scores = [p["score_for_minimization"] for p in points]
-    scale = max(1, max(map(abs, scores)))
-    hi, lo = max(scores) / scale, min(scores) / scale
+    threshold = min([1.0, *(abs(score) for score in scores if score != 0)])
+
+    def transform(score):
+        if axis_scale == "linear" or score == 0:
+            return score
+        exponent = math.log(abs(score)) - math.log(threshold)
+        # Stable log(1 + |score| / threshold), including very large ratios.
+        magnitude = (exponent + math.log1p(math.exp(-exponent)) if exponent > 0
+                     else math.log1p(math.exp(exponent)))
+        return math.copysign(magnitude, score)
+
+    transformed = [transform(score) for score in scores]
+    scale = max(1, max(map(abs, transformed)))
+    hi, lo = max(transformed) / scale, min(transformed) / scale
     extent = hi - lo or 1
     end = points[-1]["started_evaluations"] or 1
     stride = max(1, len(points) // 1000)
@@ -89,14 +105,20 @@ def progress_figure(points: list[dict]) -> str:
     previous_y = None
     for point in [*points[::stride], points[-1]]:
         x = 106 + point["started_evaluations"] / end * 600
-        y = 20 + (hi - point["score_for_minimization"] / scale) / extent * 175
+        y = 20 + (hi - transform(point["score_for_minimization"]) / scale) / extent * 175
         if previous_y is not None:
             vertices.append(f"{x:.2f},{previous_y:.2f}")
         vertices.append(f"{x:.2f},{y:.2f}")
         previous_y = y
-    top_label, bottom_label = format(max(scores), ".5g"), format(min(scores), ".5g")
-    return f"""<figure style="margin:0">
+    end_label = str(end) if number_formatter is None else number_formatter(end)
+    number_formatter = number_formatter or (lambda value: format(value, ".5g"))
+    top_label, bottom_label = number_formatter(max(scores)), number_formatter(min(scores))
+    axis_note = ("<p>محور عمودی لگاریتمی متقارن است: sign(y) × log(1 + |y| / t)، "
+                 f"با t = {html.escape(number_formatter(threshold))}. صفر و علامت مقدار واقعی حفظ می‌شوند؛ "
+                 "برچسب‌ها امتیاز اصلی‌اند.</p>" if axis_scale == "symlog" else "")
+    return f"""<figure style="margin:0" data-axis-scale="{axis_scale}">
 <figcaption>بهترین امتیاز کمینه‌سازی بر حسب تعداد فراخوانی آغازشدهٔ هدف (FE)</figcaption>
+{axis_note}
 <svg viewBox="0 0 735 235" style="width:100%;max-height:320px;direction:ltr"
  role="img" aria-label="نمودار بهترین امتیاز بر حسب FE" font-size="13">
 <path d="M106 20 V198 H706" fill="none" stroke="#94a3b8"/>
@@ -104,11 +126,23 @@ def progress_figure(points: list[dict]) -> str:
 <text x="98" y="24" text-anchor="end" fill="#64748b">{top_label}</text>
 <text x="98" y="198" text-anchor="end" fill="#64748b">{bottom_label}</text>
 <text x="106" y="221" text-anchor="middle" fill="#64748b">0</text>
-<text x="706" y="221" text-anchor="middle" fill="#64748b">{end}</text>
+<text x="706" y="221" text-anchor="middle" fill="#64748b">{end_label}</text>
 </svg></figure>"""
 
 
 def html_bytes(report: dict) -> bytes:
+    if report.get("explanation_contract_version") == "3.0" and report.get("narrative_v3"):
+        from p_mc_optimizer.reporting.presentation import build_report_view_model, render_view_model_html
+        view = build_report_view_model(report)
+        body = render_view_model_html(view)
+        return ('<!doctype html><html lang="fa" dir="rtl"><meta charset="utf-8">'
+                '<meta name="viewport" content="width=device-width, initial-scale=1">'
+                '<title>گزارش تحلیلی SolverScout</title>'
+                '<style>body{font:16px/1.8 system-ui,sans-serif;margin:0;padding:20px;background:#181A2F;color:#F7F5FC}'
+                'main{max-width:1040px;margin:auto;min-width:0}a{color:#FDA481}'
+                'section,details{background:#242E49}bdi{unicode-bidi:isolate}'
+                '@media(max-width:480px){body{padding:12px}}</style><main>'
+                + '<h1>نتیجهٔ اجرای SolverScout</h1>' + body + '</main></html>').encode('utf-8')
     def escaped(value: Any) -> str:
         return html.escape("—" if value is None else str(value), quote=True)
 
@@ -119,11 +153,32 @@ def html_bytes(report: dict) -> bytes:
         "profile": "نمونه‌برداری مسئله", "verification": "اعتبارسنجی مجدد",
         "diagnostics": "اطلاعات عیب‌یابی", "budget": "حساب بودجه", "timing": "زمان‌ها",
         "environment": "محیط و نسخه‌ها", "llm_calls": "فراخوانی‌های مدل و مصرف", "error": "خطای اجرا",
+        "explanation_evidence": "قرارداد توضیح و سازگاری شواهد",
+        "explanation_contract_version": "نسخهٔ قرارداد توضیح",
     }
+    if report.get("schema_version") in {"2.0", "2.1"}:
+        labels.update({
+            "research_snapshot": "منابع و تنظیمات ثابت پژوهش",
+            "query_plan": "پرس‌وجوها",
+            "research": "اسناد، شواهد و حساب پژوهش",
+            "research_error": "محدودیت پژوهش",
+            "advisor_plan_v2": "پیشنهادهای مستند و امکان اجرا",
+            "catalog_exclusions": "فیلتر کاتالوگ",
+            "effective_selection_policy": "سیاست مؤثر",
+        })
     for key, label in labels.items():
         if report.get(key) is not None:
             data = escaped(json_bytes(report[key]).decode())
             details.append(f'<details open><summary>{label}</summary><pre dir="ltr">{data}</pre></details>')
+    numeric_trials = [
+        {"algorithm_id": trial.get("algorithm_id"), "base_configuration": trial.get("configuration_snapshot"),
+         "numeric_execution": trial["numeric_execution"]}
+        for trial in report.get("trials", []) if trial.get("numeric_execution")
+    ]
+    if numeric_trials:
+        data = escaped(json_bytes(numeric_trials).decode())
+        details.append('<details><summary>پیکربندی پایه و تنظیم اجراشده</summary>'
+                       f'<pre dir="ltr">{data}</pre></details>')
     trial_rows = []
     display_columns = ("algorithm_id", "phase", "seed", "started_evaluations", "objective_raw",
                        "score_for_minimization", "execution_status")
@@ -133,6 +188,17 @@ def html_bytes(report: dict) -> bytes:
     headings = ("روش", "مرحله", "بذر", "FE", "هدف اصلی", "امتیاز کمینه‌سازی", "وضعیت")
     explain = report.get("explanation") or {}
     limits = "".join(f"<li>{escaped(line)}</li>" for line in explain.get("limitations_fa", []))
+    evidence_bound = report.get("explanation_contract_version") == "2.0"
+    explanation_title = "توضیح مبتنی بر شواهد" if evidence_bound else (
+        "توضیح مدل" if report.get("explanation_status") == "generated" else "توضیح قالبی برنامه"
+    )
+    notes = report.get("explanation_notes") or []
+    note_source = (report.get("explanation_evidence") or {}).get("note_selection_source")
+    notes_title = "نکات تکمیلی انتخاب‌شده با مدل زبانی" if note_source == "llm" else "نکات تکمیلی خودکار"
+    notes_section = (f"<h3>{notes_title}</h3><ul>" + "".join(
+        f"<li>{escaped(note['text_fa'])}</li>" for note in notes
+    ) + "</ul>") if notes else ""
+    explanation_consistency = (report.get("explanation_evidence") or {}).get("status", "legacy_unchecked")
     return f"""<!doctype html>
 <html lang="fa" dir="rtl"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>گزارش بهینه‌سازی P_MC</title>
@@ -141,6 +207,7 @@ body {{font:16px/1.8 system-ui,sans-serif;color:#18322d;background:#f4f8f6;margi
 main {{max-width:1040px;margin:auto}} section,details,figure {{background:white;border:1px solid #ccdcd5;
 border-radius:12px;padding:16px;margin:12px 0}} pre {{overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}}
 td,th {{padding:8px;text-align:start;border-bottom:1px solid #ccdcd5}} td,code {{direction:ltr;unicode-bidi:isolate}}
+code {{overflow-wrap:anywhere}}
 svg {{width:100%;max-height:320px;direction:ltr}} .table {{overflow:auto}} summary {{font-weight:600;cursor:pointer}}
 </style><main><h1>گزارش بهینه‌سازی P_MC</h1><p>{CLAIM_FA}</p>
 <section>
@@ -155,15 +222,16 @@ svg {{width:100%;max-height:320px;direction:ltr}} .table {{overflow:auto}} summa
 <section class="table"><h2>اجرای الگوریتم‌ها</h2><table><thead><tr>
 {"".join(f"<th>{heading}</th>" for heading in headings)}</tr></thead>
 <tbody>{"".join(trial_rows)}</tbody></table></section>
-<section><h2>{'توضیح مدل' if report.get('explanation_status') == 'generated' else 'توضیح قالبی برنامه'}</h2>
+<section><h2>{explanation_title}</h2>
 <p>{escaped(explain.get("summary_fa"))}</p>
 <p>{escaped(explain.get("selection_explanation_fa"))}</p>
-<ul>{limits}</ul><p><code>{escaped(report.get("explanation_status"))}</code></p></section>
+<ul>{limits}</ul>{notes_section}<p>وضعیت تماس مدل <code>{escaped(report.get("explanation_status"))}</code></p>
+<p>سازگاری شواهد <code>{escaped(explanation_consistency)}</code></p></section>
 {"".join(details)}
 </main></html>""".encode()
 
 
-def template_explanation(report):
+def template_explanation(report, *, decision_context_valid=True):
     """Explain the recorded outcome when no model explanation is available."""
     solution = report["solution_status"]
     summary = {
@@ -173,8 +241,10 @@ def template_explanation(report):
         "validation_incomplete": "بررسی مجدد کامل نشد. نقطهٔ مشاهده‌شده در بخش عیب‌یابی قرار دارد.",
     }[solution]
     selected = report["selected_algorithm_id"]
-    decision = report["decision"] or {}
-    if decision.get("selection_status") == "insufficient_evidence":
+    decision = report.get("decision") or {}
+    if not decision_context_valid:
+        selection = "جزئیات معتبرِ علت انتخاب برای تولید توضیح در دسترس نیست."
+    elif decision.get("selection_status") == "insufficient_evidence":
         selection = "کمتر از دو روش، هر سه اجرای پایلوت معتبر را داشتند. اجرای اصلی آغاز نشد."
     elif selected and decision.get("decision_source") == "empirical_pilot_selection":
         selection = (f"روش {selected} با ترتیب میانهٔ امتیاز، IQR نرمال‌شده و شناسهٔ روش "
@@ -183,7 +253,7 @@ def template_explanation(report):
         selection = f"روش {selected} بر اساس سیاست ثبت‌شده برای اجرای اصلی تعیین شد."
     else:
         selection = None
-    limitations = ["بهینگی سراسری در نسخهٔ اول اثبات نمی‌شود."]
+    limitations = ["بهینگی سراسری در این اجرا اثبات نشده است."]
     if report["proposal_source"] == "deterministic_fallback":
         limitations.append("پس از پاسخ ساختاری نامعتبر مشاور، برنامهٔ ثابت جایگزین به کار رفت.")
     if report["partial_result"]:

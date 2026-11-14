@@ -1,0 +1,79 @@
+{
+  "status": "PASS",
+  "first_ready": true,
+  "second_ready": true,
+  "six_methods": [
+    {
+      "name": "ABC",
+      "implementation_id": "mealpy:swarm_based.ABC:OriginalABC",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "PSO",
+      "implementation_id": "mealpy:swarm_based.PSO:OriginalPSO",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "CMA-ES",
+      "implementation_id": "mealpy:evolutionary_based.ES:CMA_ES",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "DE",
+      "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "GWO",
+      "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "qualified"
+    },
+    {
+      "name": "WOA",
+      "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "qualified"
+    }
+  ],
+  "charged_evaluations": 78000,
+  "reserved_evaluations": 0,
+  "budget_limit": 100000,
+  "idempotent_counts_before": {
+    "qualification_runs": 2,
+    "qualification_reports": 6,
+    "numeric_policy_qualification_reports": 2,
+    "qualification_checks": 48,
+    "library_documents": 4,
+    "library_versions": 4,
+    "library_observations": 4,
+    "research_source_revisions": 2,
+    "library_source_configs": 1
+  },
+  "idempotent_counts_after": {
+    "qualification_runs": 2,
+    "qualification_reports": 6,
+    "numeric_policy_qualification_reports": 2,
+    "qualification_checks": 48,
+    "library_documents": 4,
+    "library_versions": 4,
+    "library_observations": 4,
+    "research_source_revisions": 2,
+    "library_source_configs": 1
+  },
+  "no_repeated_qualifications_or_source_records": true,
+  "preparation_manifest_id": "6352a682-8468-4445-9909-948aa09f24ad",
+  "environment_id": "2.0:Darwin:arm64:3.12:numpy1.26.0",
+  "numeric_runtime_fingerprint_sha256": "051e92f070c2c1ca4783405938ff46b17d0b973a3f59343a680da628751f12dd",
+  "fresh_llm_sends": 0
+}

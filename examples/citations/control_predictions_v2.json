@@ -1,0 +1,290 @@
+[
+  {
+    "case_id": "citation-01",
+    "verdict": "supported",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-01",
+        "source_url": "https://sources.example.invalid/solverscout/compass"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-02",
+    "verdict": "contradictory",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-01",
+        "source_url": "https://sources.example.invalid/solverscout/compass"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-03",
+    "verdict": "irrelevant",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-01",
+        "source_url": "https://sources.example.invalid/solverscout/compass"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-04",
+    "verdict": "supported",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-02",
+        "source_url": "https://sources.example.invalid/solverscout/compass-adaptive"
+      }
+    ],
+    "implementation_id": "fixture:compass:AdaptiveV2",
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-05",
+    "verdict": "contradictory",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-02",
+        "source_url": "https://sources.example.invalid/solverscout/compass-adaptive"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-06",
+    "verdict": "irrelevant",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-02",
+        "source_url": "https://sources.example.invalid/solverscout/compass-adaptive"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-07",
+    "verdict": "supported",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-03",
+        "source_url": "https://sources.example.invalid/solverscout/grid"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-08",
+    "verdict": "contradictory",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-03",
+        "source_url": "https://sources.example.invalid/solverscout/grid"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-09",
+    "verdict": "irrelevant",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-03",
+        "source_url": "https://sources.example.invalid/solverscout/grid"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-10",
+    "verdict": "supported",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-04",
+        "source_url": "https://sources.example.invalid/solverscout/grid-scaled"
+      }
+    ],
+    "implementation_id": "fixture:grid:ScaledV11",
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-11",
+    "verdict": "contradictory",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-04",
+        "source_url": "https://sources.example.invalid/solverscout/grid-scaled"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-12",
+    "verdict": "irrelevant",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-04",
+        "source_url": "https://sources.example.invalid/solverscout/grid-scaled"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-13",
+    "verdict": "supported",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-05",
+        "source_url": "https://sources.example.invalid/solverscout/beacon"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-14",
+    "verdict": "contradictory",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-05",
+        "source_url": "https://sources.example.invalid/solverscout/beacon"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-15",
+    "verdict": "irrelevant",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-05",
+        "source_url": "https://sources.example.invalid/solverscout/beacon"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-16",
+    "verdict": "supported",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-06",
+        "source_url": "https://sources.example.invalid/solverscout/beacon-ablation"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-17",
+    "verdict": "contradictory",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-06",
+        "source_url": "https://sources.example.invalid/solverscout/beacon-ablation"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-18",
+    "verdict": "irrelevant",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-06",
+        "source_url": "https://sources.example.invalid/solverscout/beacon-ablation"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-19",
+    "verdict": "supported",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-07",
+        "source_url": "https://sources.example.invalid/solverscout/optics"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-20",
+    "verdict": "contradictory",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-07",
+        "source_url": "https://sources.example.invalid/solverscout/optics"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-21",
+    "verdict": "irrelevant",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-07",
+        "source_url": "https://sources.example.invalid/solverscout/optics"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-22",
+    "verdict": "supported",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-08",
+        "source_url": "https://sources.example.invalid/solverscout/run-receipt"
+      }
+    ],
+    "implementation_id": "fixture:beacon:AdaptiveV2",
+    "trial_id": "trial-beacon-1"
+  },
+  {
+    "case_id": "citation-23",
+    "verdict": "contradictory",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-08",
+        "source_url": "https://sources.example.invalid/solverscout/run-receipt"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  },
+  {
+    "case_id": "citation-24",
+    "verdict": "irrelevant",
+    "citations": [
+      {
+        "evidence_id": "fixture-evidence-08",
+        "source_url": "https://sources.example.invalid/solverscout/run-receipt"
+      }
+    ],
+    "implementation_id": null,
+    "trial_id": null
+  }
+]

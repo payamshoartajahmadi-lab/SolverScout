@@ -1,0 +1,111 @@
+{
+  "clarification_questions": [],
+  "extracted_fields": {
+    "constraints": [],
+    "deterministic": true,
+    "objective": {
+      "expression": "x1**2 + x2**2",
+      "function_id": null,
+      "function_version": null,
+      "sense": "minimize",
+      "source_kind": "expression",
+      "unit": null
+    },
+    "parameters": [],
+    "variables": [
+      {
+        "label_fa": null,
+        "lower": 5.0,
+        "name": "x1",
+        "type": "real",
+        "unit": null,
+        "upper": -5.0
+      },
+      {
+        "label_fa": null,
+        "lower": -3.0,
+        "name": "x2",
+        "type": "real",
+        "unit": null,
+        "upper": 3.0
+      }
+    ]
+  },
+  "normalizations": [],
+  "source_map": [
+    {
+      "field_path": "/objective/expression",
+      "quote": "x1**2 + x2**2",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/objective/sense",
+      "quote": "کمینه کن",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/0/name",
+      "quote": "x1",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/0/type",
+      "quote": "هر دو حقیقی‌اند",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/0/lower",
+      "quote": "برای x1 کران پایین برابر 5",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/0/upper",
+      "quote": "برای x1 کران پایین برابر 5 و کران بالا برابر -5",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/1/name",
+      "quote": "x2",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/1/type",
+      "quote": "هر دو حقیقی‌اند",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/1/lower",
+      "quote": "برای x2 کران پایین برابر -3",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/variables/1/upper",
+      "quote": "برای x2 کران پایین برابر -3 و کران بالا برابر 3",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/deterministic",
+      "quote": "تابع قطعی است.",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/parameters",
+      "quote": "پارامتر جداگانه‌ای وجود ندارد.",
+      "source_ref": "input:text"
+    },
+    {
+      "field_path": "/constraints",
+      "quote": "هیچ قید عمومی دیگری وجود ندارد.",
+      "source_ref": "input:text"
+    }
+  ],
+  "unsupported_features": [
+    {
+      "description_fa": "کران پایین x1 برابر 5 و کران بالای آن برابر -5 است؛ این بازه هیچ مقدار مجازی برای x1 ندارد.",
+      "evidence_refs": [
+        "input:text"
+      ],
+      "kind": "inconsistent_variable_bounds"
+    }
+  ]
+}

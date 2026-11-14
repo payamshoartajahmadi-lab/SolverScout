@@ -1,0 +1,75 @@
+{
+  "$defs": {
+    "FrozenArray_Literal__sample_variation_low____sample_variation_high___": {
+      "items": {
+        "enum": [
+          "sample_variation_low",
+          "sample_variation_high"
+        ],
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Lossy description. There is no field for expressions, names or samples.",
+  "properties": {
+    "schema_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "n_variables": {
+      "maximum": 30,
+      "minimum": 2,
+      "title": "N Variables",
+      "type": "integer"
+    },
+    "variable_type": {
+      "const": "real",
+      "default": "real",
+      "title": "Variable Type",
+      "type": "string"
+    },
+    "objective_sense": {
+      "enum": [
+        "minimize",
+        "maximize"
+      ],
+      "title": "Objective Sense",
+      "type": "string"
+    },
+    "bounded": {
+      "const": true,
+      "default": true,
+      "title": "Bounded",
+      "type": "boolean"
+    },
+    "derivative_requirement": {
+      "default": "not_required",
+      "enum": [
+        "not_required",
+        "unknown"
+      ],
+      "title": "Derivative Requirement",
+      "type": "string"
+    },
+    "deterministic": {
+      "const": true,
+      "default": true,
+      "title": "Deterministic",
+      "type": "boolean"
+    },
+    "tags": {
+      "$ref": "#/$defs/FrozenArray_Literal__sample_variation_low____sample_variation_high___",
+      "default": []
+    }
+  },
+  "required": [
+    "n_variables",
+    "objective_sense"
+  ],
+  "title": "SearchProblemProfile",
+  "type": "object"
+}

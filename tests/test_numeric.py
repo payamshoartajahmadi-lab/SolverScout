@@ -306,21 +306,50 @@ def test_exe_005_objective_fault_preserves_observation(tmp_path):
 
 
 @pytest.mark.parametrize("cancel", [False, True])
-def test_exe_009_010_supervisor_reaps_hung_objective(tmp_path, cancel):
-    process_id = mp.get_context("spawn").Value("i", 0)
-    item = request("preflight", seconds=1.8)
-    result, _ = run(
-        item, tmp_path, _objective_override=partial(hang, process_id=process_id),
-        cancelled=lambda: cancel and process_id.value != 0,
-    )
-    assert result.execution_status == ("cancelled" if cancel else "timed_out")
-    assert not result.history_complete
-    assert result.started_evaluations == 1
-    assert result.overshoot_seconds < 0.75
-    assert process_id.value != 0
-    if os.name != "nt":
-        with pytest.raises(ProcessLookupError):
-            os.kill(process_id.value, 0)
+def test_exe_009_010_supervisor_reaps_hung_objective(tmp_path, monkeypatch, cancel):
+    from numeric_lifecycle_probe import NumericLifecycleProbe
+
+    # Fresh Windows traces reached identity/objective at 1.765--1.812 seconds;
+    # 1.8 seconds did not establish this test's running-objective precondition.
+    # Ten total seconds include startup and leave an explicit readiness margin.
+    item = request("preflight", seconds=10.0)
+    with NumericLifecycleProbe(monkeypatch, tmp_path, item) as probe:
+        result, rows = probe.execute(lambda **kwargs: run(item, tmp_path, **kwargs), cancel=cancel)
+        assert result.execution_status == ("cancelled" if cancel else "timed_out")
+        assert not result.history_complete and result.history_sha256 is None
+        assert result.started_evaluations == 1
+        assert result.successful_evaluations == result.failed_evaluations == 0
+        assert not rows and probe.done is None
+        assert result.overshoot_seconds < 0.75
+        assert result.runtime_provenance["identity"]["pid"] == probe.pid.value
+        assert probe.accepted_sequences == [1] and probe.entered.is_set()
+        probe.assert_reaped()
+
+
+@pytest.mark.parametrize("mode", ["blocked_startup", "late_identity_ack"])
+def test_exe_009_startup_timeout_keeps_zero_evaluations_and_correct_history(tmp_path, monkeypatch, mode):
+    from numeric_lifecycle_probe import NumericLifecycleProbe
+
+    # Both gates consume the unchanged total clock, never a post-handshake clock.
+    item = request("preflight", seconds=5.0)
+    with NumericLifecycleProbe(monkeypatch, tmp_path, item, mode=mode) as probe:
+        result, rows = probe.execute(lambda **kwargs: run(item, tmp_path, **kwargs), require_entry=False)
+        assert result.execution_status == "timed_out" and result.termination_reason == "time_budget"
+        assert result.started_evaluations == result.successful_evaluations == result.failed_evaluations == 0
+        assert probe.accepted_sequences == [] and not probe.entered.is_set() and probe.pid.value == 0
+        assert not rows and result.overshoot_seconds < 0.75
+        assert result.elapsed_compute_seconds >= item.deadline_seconds
+        if mode == "blocked_startup":
+            assert probe.startup_entered.is_set() and probe.startup_at.value < probe.deadline
+            assert probe.identity is None and probe.done is None
+            assert result.runtime_provenance is None and not result.history_complete
+            assert result.history_sha256 is None
+        else:
+            assert probe.identity is not None and probe.done is not None
+            assert probe.done["started_evaluations"] == probe.done["successful_evaluations"] == probe.done["failed_evaluations"] == 0
+            assert result.history_complete and result.history_sha256 == hashlib.sha256(b"").hexdigest()
+            assert result.runtime_provenance["identity"]["pid"] == probe.launched_pid
+        probe.assert_reaped()
 
 
 def test_exe_012_hard_crash_keeps_start_accounting(tmp_path):

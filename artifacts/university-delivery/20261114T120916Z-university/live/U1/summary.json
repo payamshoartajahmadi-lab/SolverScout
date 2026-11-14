@@ -1,0 +1,176 @@
+{
+  "scenario": "U1",
+  "status": "PASS",
+  "job_id": "207d1434-67ec-4f46-b761-01b7d6b2fb3a",
+  "checks": {
+    "six_target_cards_really_sent": true,
+    "three_distinct_eligible_nominees": true,
+    "six_targets_in_research_plan": true,
+    "six_specific_evidence_passages": true,
+    "nine_equal_budget_pilots": true,
+    "independent_pilot_metrics_match": true,
+    "winner_matches_empirical_order": true,
+    "finite_point_within_bounds": true,
+    "objective_within_fixed_threshold": true,
+    "independent_function_verification_passed": true,
+    "objective_budget_respected": true,
+    "five_required_llm_sections": true,
+    "job_completed": true,
+    "evidence_offsets_and_document_hashes_match": true
+  },
+  "advisor_sent_count": 6,
+  "advisor_sent_implementation_ids": [
+    "mealpy:evolutionary_based.DE:OriginalDE",
+    "mealpy:evolutionary_based.ES:CMA_ES",
+    "mealpy:swarm_based.ABC:OriginalABC",
+    "mealpy:swarm_based.GWO:OriginalGWO",
+    "mealpy:swarm_based.PSO:OriginalPSO",
+    "mealpy:swarm_based.WOA:OriginalWOA"
+  ],
+  "candidate_implementation_ids": [
+    "mealpy:evolutionary_based.DE:OriginalDE",
+    "mealpy:evolutionary_based.ES:CMA_ES",
+    "mealpy:swarm_based.PSO:OriginalPSO"
+  ],
+  "independent_pilot_metrics": {
+    "mealpy:evolutionary_based.DE:OriginalDE": {
+      "median_score": 0.00016715369554070285,
+      "normalized_iqr": 5.374687987214092e-05
+    },
+    "mealpy:evolutionary_based.ES:CMA_ES": {
+      "median_score": 0.01843794099061511,
+      "normalized_iqr": 0.014996213048083063
+    },
+    "mealpy:swarm_based.PSO:OriginalPSO": {
+      "median_score": 1.1796532249553844e-06,
+      "normalized_iqr": 2.136283581942276e-05
+    }
+  },
+  "independent_winner": "mealpy:swarm_based.PSO:OriginalPSO",
+  "specific_evidence_coverage": [
+    "mealpy:swarm_based.ABC:OriginalABC",
+    "mealpy:swarm_based.PSO:OriginalPSO",
+    "mealpy:evolutionary_based.ES:CMA_ES",
+    "mealpy:evolutionary_based.DE:OriginalDE",
+    "mealpy:swarm_based.GWO:OriginalGWO",
+    "mealpy:swarm_based.WOA:OriginalWOA"
+  ],
+  "best_x": [
+    1.4,
+    -2.2
+  ],
+  "objective_raw": 0.0,
+  "selected_algorithm_id": "mealpy:swarm_based.PSO:OriginalPSO",
+  "solution_origin": {
+    "algorithm_id": "mealpy:swarm_based.PSO:OriginalPSO",
+    "evaluation_id": "7b428177-79f1-41c9-bbf3-5a6a5ef711fa",
+    "execution_id": "1a8e7767-60a9-4fc7-8b14-c101f13e8a0b",
+    "phase": "main",
+    "trial_id": "d28fa245-795c-4baf-af3c-b48cdbdb69ee"
+  },
+  "objective_evaluations": 20000,
+  "narrative_mode": "llm",
+  "source_core_sha256": "9d4462480694c1d2c57a85e85f03a43b563527a8fb93dac59c0d5ce46b396d62",
+  "real_role_calls": 8,
+  "charged_role_attempts": 8,
+  "campaign_role_calls": 8,
+  "cost_status": "not_recorded",
+  "role_usage": [
+    {
+      "role": "formulator",
+      "call_id": "feb50295-e2e1-49ab-ac4e-4d6ac9df562d",
+      "status": "succeeded",
+      "usage": {
+        "completion_tokens": 1168,
+        "prompt_tokens": 1517,
+        "total_tokens": 2685
+      },
+      "cost": null,
+      "elapsed_seconds": 10.551316625002073
+    },
+    {
+      "role": "research_planner",
+      "call_id": "7136bcbf-eef6-4103-a1c7-5116dda121b7",
+      "status": "failed",
+      "usage": {
+        "completion_tokens": 569,
+        "prompt_tokens": 1032,
+        "total_tokens": 1601
+      },
+      "cost": null,
+      "elapsed_seconds": 6.568546249996871
+    },
+    {
+      "role": "research_planner",
+      "call_id": "4406feec-20bb-4916-98fb-7d85082f6356",
+      "status": "succeeded",
+      "usage": {
+        "completion_tokens": 383,
+        "prompt_tokens": 1521,
+        "total_tokens": 1904
+      },
+      "cost": null,
+      "elapsed_seconds": 4.04791679099435
+    },
+    {
+      "role": "advisor",
+      "call_id": "117a0a30-8a68-4c7d-8880-c201fb2ac65a",
+      "status": "succeeded",
+      "usage": {
+        "completion_tokens": 1497,
+        "prompt_tokens": 11483,
+        "total_tokens": 12980
+      },
+      "cost": null,
+      "elapsed_seconds": 11.761522959001013
+    },
+    {
+      "role": "explainer",
+      "call_id": "4b0ae34f-2c66-432f-af87-1d86f587698c",
+      "status": "succeeded",
+      "usage": {
+        "completion_tokens": 3073,
+        "prompt_tokens": 19393,
+        "total_tokens": 22466
+      },
+      "cost": null,
+      "elapsed_seconds": 19.712960792006925
+    },
+    {
+      "role": "report_reviewer",
+      "call_id": "94497fda-9510-4c5f-bbd8-e5d266cc4ac5",
+      "status": "succeeded",
+      "usage": {
+        "completion_tokens": 431,
+        "prompt_tokens": 21613,
+        "total_tokens": 22044
+      },
+      "cost": null,
+      "elapsed_seconds": 7.495525709004141
+    },
+    {
+      "role": "explainer",
+      "call_id": "c3629944-047e-409d-a769-f426076d94d2",
+      "status": "succeeded",
+      "usage": {
+        "completion_tokens": 648,
+        "prompt_tokens": 21208,
+        "total_tokens": 21856
+      },
+      "cost": null,
+      "elapsed_seconds": 6.783473582996521
+    },
+    {
+      "role": "report_reviewer",
+      "call_id": "5ab79389-59d4-4d72-a9c9-251f5f36bc8b",
+      "status": "succeeded",
+      "usage": {
+        "completion_tokens": 307,
+        "prompt_tokens": 22083,
+        "total_tokens": 22390
+      },
+      "cost": null,
+      "elapsed_seconds": 9.639249166997615
+    }
+  ]
+}

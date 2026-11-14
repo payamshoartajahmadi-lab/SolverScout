@@ -1,0 +1,130 @@
+{
+  "type": "Offline fixture presentation only, not live acceptance",
+  "browser_fallback_reason": "Browser plugin not available",
+  "checks": [
+    {
+      "surface": "ui",
+      "width": 1440,
+      "url": "http://127.0.0.1:56673/",
+      "title": "SolverScout · آزمون نمایش",
+      "checks": {
+        "identity": true,
+        "not_blank": true,
+        "no_overlay": true,
+        "console_healthy": true,
+        "scale_interaction": true,
+        "no_document_horizontal_overflow": true,
+        "one_primary_heading": true
+      },
+      "metrics": {
+        "width": 1440,
+        "documentWidth": 1440,
+        "tables": [
+          {
+            "client": 1017,
+            "scroll": 1017
+          },
+          {
+            "client": 993,
+            "scroll": 993
+          }
+        ],
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "surface": "html",
+      "width": 1440,
+      "url": "file:///private/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/solverscout-university-ui-8n803t5f/report.html",
+      "title": "گزارش تحلیلی SolverScout",
+      "checks": {
+        "identity": true,
+        "not_blank": true,
+        "no_overlay": true,
+        "console_healthy": true,
+        "scale_interaction": true,
+        "no_document_horizontal_overflow": true,
+        "one_primary_heading": true
+      },
+      "metrics": {
+        "width": 1440,
+        "documentWidth": 1440,
+        "tables": [
+          {
+            "client": 1006,
+            "scroll": 1006
+          },
+          {
+            "client": 982,
+            "scroll": 982
+          }
+        ],
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "surface": "ui",
+      "width": 390,
+      "url": "http://127.0.0.1:56673/",
+      "title": "SolverScout · آزمون نمایش",
+      "checks": {
+        "identity": true,
+        "not_blank": true,
+        "no_overlay": true,
+        "console_healthy": true,
+        "scale_interaction": true,
+        "no_document_horizontal_overflow": true,
+        "one_primary_heading": true
+      },
+      "metrics": {
+        "width": 390,
+        "documentWidth": 390,
+        "tables": [
+          {
+            "client": 324,
+            "scroll": 680
+          },
+          {
+            "client": 300,
+            "scroll": 680
+          }
+        ],
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "surface": "html",
+      "width": 390,
+      "url": "file:///private/var/folders/jk/16clbx4937d2m7sz26hjft280000gn/T/solverscout-university-ui-8n803t5f/report.html",
+      "title": "گزارش تحلیلی SolverScout",
+      "checks": {
+        "identity": true,
+        "not_blank": true,
+        "no_overlay": true,
+        "console_healthy": true,
+        "scale_interaction": true,
+        "no_document_horizontal_overflow": true,
+        "one_primary_heading": true
+      },
+      "metrics": {
+        "width": 390,
+        "documentWidth": 390,
+        "tables": [
+          {
+            "client": 332,
+            "scroll": 680
+          },
+          {
+            "client": 308,
+            "scroll": 680
+          }
+        ],
+        "h1Count": 1
+      },
+      "errors": []
+    }
+  ]
+}

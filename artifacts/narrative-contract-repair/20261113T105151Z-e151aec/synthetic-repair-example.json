@@ -1,0 +1,269 @@
+{
+  "evidence_kind": "SYNTHETIC_NOT_HISTORICAL",
+  "scope": "Pure offline contract illustration; no historical C-L1 raw response or live model acceptance claim.",
+  "fixture": {
+    "path": "tests/fixtures/narrative_v3/F1.json",
+    "sha256": "2ec2563a6179b34c58b076870b89d1deb51ce4e218265011f831d7742e8c50f2"
+  },
+  "source_files": [
+    {
+      "path": "src/p_mc_optimizer/llm/narrative_models.py",
+      "sha256": "fd8f3630c8161085a1e0737054a05cebf1ac3c1612c838673054cfa9f82184d3"
+    },
+    {
+      "path": "src/p_mc_optimizer/llm/prompts/explainer.v3.1.txt",
+      "sha256": "faa11cf2a27f5acad8aff08a2b19d2331f565aad92913c7f6e3c32fa87476f77"
+    },
+    {
+      "path": "src/p_mc_optimizer/reporting/narrative_validation.py",
+      "sha256": "4da20128e4786221d3effd39774de6fa95d02055887bc9b5e78ad8f05bdf9d23"
+    },
+    {
+      "path": "src/p_mc_optimizer/workflow/narrative_v3.py",
+      "sha256": "c69e8b0ae18ee7b27b41b5cc7f84776d32fd782c69dbf370688c43b36fda82a7"
+    }
+  ],
+  "synthetic_prompt_bundle_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "generation_policy_version": "1.1",
+  "invalid_problem_section": {
+    "section_id": "problem",
+    "paragraphs": [
+      {
+        "paragraph_id": "problem-main",
+        "claim_kind": "recorded",
+        "text_fa": "شرح مصنوعی برای بررسی قرارداد، بر پایهٔ شواهد fixture: {{fact:problem.expression}}؛ {{fact:problem.sense}}؛ {{fact:problem.variable_count}}؛ {{fact:problem.domain}}",
+        "fact_refs": [
+          "problem.expression",
+          "problem.sense",
+          "problem.variable_count",
+          "problem.domain"
+        ],
+        "evidence_refs": [
+          "report:problem",
+          "report:proposal",
+          "report:decision",
+          "report:trials",
+          "derived:pilot.m1.evaluations_per_repeat",
+          "derived:pilot.m2.evaluations_per_repeat",
+          "derived:pilot.m3.evaluations_per_repeat",
+          "derived:median_relative_decrease",
+          "report:solution",
+          "report:verification",
+          "report:budget",
+          "report:profile",
+          "source:f091dcc241d718e20478fa1c9d163cb6",
+          "source:fde014534170ce015c33d40069120858",
+          "source:04147a1131eecdd25ac79ffd3626c0cb"
+        ]
+      }
+    ]
+  },
+  "initial_validation": {
+    "global_error": false,
+    "valid_section_ids": [
+      "candidate_rationale",
+      "selection",
+      "solution",
+      "verification_and_limits"
+    ],
+    "issues": [
+      {
+        "section_id": "problem",
+        "paragraph_id": null,
+        "code": "SCHEMA_INVALID",
+        "evidence_refs": [],
+        "message_fa": "خطای ساختاری بخش؛ جزئیات امن برای اصلاح: {\"section_id\":\"problem\",\"field_errors\":[{\"field_path\":\"sections[0].paragraphs[0].paragraph_id\",\"error_type\":\"string_pattern_mismatch\",\"expected_rule\":\"^[a-z][a-z0-9_]{0,47}$; unique across all new and accepted paragraphs\",\"repair_instruction_fa\":\"paragraph_id را خودتان با الگوی ^[a-z][a-z0-9_]{0,47}$ بسازید: ابتدا حرف کوچک لاتین، سپس فقط حروف کوچک، رقم یا زیرخط؛ خط تیره مجاز نیست. نمونهٔ معتبر problem_main است. شناسه در کل پاراگراف‌های جدید و پذیرفته‌شده یکتا بماند؛ سرور شناسه را خودکار تغییر نمی‌دهد.\"}],\"additional_errors_in_snapshot\":0}",
+        "required_change_fa": "paragraph_id را خودتان با الگوی ^[a-z][a-z0-9_]{0,47}$ بسازید: ابتدا حرف کوچک لاتین، سپس فقط حروف کوچک، رقم یا زیرخط؛ خط تیره مجاز نیست. نمونهٔ معتبر problem_main است. شناسه در کل پاراگراف‌های جدید و پذیرفته‌شده یکتا بماند؛ سرور شناسه را خودکار تغییر نمی‌دهد."
+      }
+    ]
+  },
+  "repair": {
+    "mode": "repair",
+    "section_scope": [
+      "problem"
+    ],
+    "context_hash": "012a54acde5f4cba37356e4c179f2d0665f152174e984dc0db43596766774a7a",
+    "request_hash": "5bf0a279623264b63fdd9ab30f2cb13dcee30da6e4fa50ec6b906f47c54fb21d",
+    "request_hash_matches_context": true,
+    "failed_sections": [
+      {
+        "payload_kind": "invalid_section",
+        "section_id": "problem",
+        "paragraphs": [
+          {
+            "paragraph_index": 0,
+            "paragraph_id": "problem-main",
+            "claim_kind": "recorded",
+            "text_fa": "شرح مصنوعی برای بررسی قرارداد، بر پایهٔ شواهد fixture: {{fact:problem.expression}}؛ {{fact:problem.sense}}؛ {{fact:problem.variable_count}}؛ {{fact:problem.domain}}",
+            "fact_refs": [
+              "problem.expression",
+              "problem.sense",
+              "problem.variable_count",
+              "problem.domain"
+            ],
+            "evidence_refs": [
+              "report:problem",
+              "report:proposal",
+              "report:decision",
+              "report:trials",
+              "derived:pilot.m1.evaluations_per_repeat",
+              "derived:pilot.m2.evaluations_per_repeat",
+              "derived:pilot.m3.evaluations_per_repeat",
+              "derived:median_relative_decrease",
+              "report:solution",
+              "report:verification",
+              "report:budget",
+              "report:profile",
+              "source:f091dcc241d718e20478fa1c9d163cb6",
+              "source:fde014534170ce015c33d40069120858",
+              "source:04147a1131eecdd25ac79ffd3626c0cb"
+            ],
+            "truncated": false
+          }
+        ],
+        "structural_errors": [
+          {
+            "field_path": "sections[0].paragraphs[0].paragraph_id",
+            "error_type": "string_pattern_mismatch",
+            "expected_rule": "^[a-z][a-z0-9_]{0,47}$; unique across all new and accepted paragraphs",
+            "repair_instruction_fa": "paragraph_id را خودتان با الگوی ^[a-z][a-z0-9_]{0,47}$ بسازید: ابتدا حرف کوچک لاتین، سپس فقط حروف کوچک، رقم یا زیرخط؛ خط تیره مجاز نیست. نمونهٔ معتبر problem_main است. شناسه در کل پاراگراف‌های جدید و پذیرفته‌شده یکتا بماند؛ سرور شناسه را خودکار تغییر نمی‌دهد."
+          }
+        ],
+        "truncated": false
+      }
+    ],
+    "repair_issues": [
+      {
+        "section_id": "problem",
+        "paragraph_id": null,
+        "code": "SCHEMA_INVALID",
+        "evidence_refs": [],
+        "message_fa": "خطای ساختاری بخش؛ جزئیات امن برای اصلاح: {\"section_id\":\"problem\",\"field_errors\":[{\"field_path\":\"sections[0].paragraphs[0].paragraph_id\",\"error_type\":\"string_pattern_mismatch\",\"expected_rule\":\"^[a-z][a-z0-9_]{0,47}$; unique across all new and accepted paragraphs\",\"repair_instruction_fa\":\"paragraph_id را خودتان با الگوی ^[a-z][a-z0-9_]{0,47}$ بسازید: ابتدا حرف کوچک لاتین، سپس فقط حروف کوچک، رقم یا زیرخط؛ خط تیره مجاز نیست. نمونهٔ معتبر problem_main است. شناسه در کل پاراگراف‌های جدید و پذیرفته‌شده یکتا بماند؛ سرور شناسه را خودکار تغییر نمی‌دهد.\"}],\"additional_errors_in_snapshot\":0}",
+        "required_change_fa": "paragraph_id را خودتان با الگوی ^[a-z][a-z0-9_]{0,47}$ بسازید: ابتدا حرف کوچک لاتین، سپس فقط حروف کوچک، رقم یا زیرخط؛ خط تیره مجاز نیست. نمونهٔ معتبر problem_main است. شناسه در کل پاراگراف‌های جدید و پذیرفته‌شده یکتا بماند؛ سرور شناسه را خودکار تغییر نمی‌دهد."
+      }
+    ],
+    "accepted_section_hashes": [
+      {
+        "section_id": "candidate_rationale",
+        "sha256": "ec604df5ff6bf3375e34d533a43110224d2f31c886dbb3bd67209b8a8e5ffce4"
+      },
+      {
+        "section_id": "selection",
+        "sha256": "0031655de2abe3c069583ac150700fca2b6381e891551f19120456a3e1695a12"
+      },
+      {
+        "section_id": "solution",
+        "sha256": "e758dbf7f2513c2567f6173bc997f446c4e8017e2efdfb4128c543684c656957"
+      },
+      {
+        "section_id": "verification_and_limits",
+        "sha256": "cbaa1e58e9c2409716f633ebbd982cb787533bd3e38ed1321f2aa8c9e527a226"
+      }
+    ],
+    "accepted_sections_semantically_reviewed_in_this_generator": false
+  },
+  "corrected_problem_section": {
+    "section_id": "problem",
+    "paragraphs": [
+      {
+        "paragraph_id": "problem_main",
+        "claim_kind": "recorded",
+        "text_fa": "شرح مصنوعی برای بررسی قرارداد، بر پایهٔ شواهد fixture: {{fact:problem.expression}}؛ {{fact:problem.sense}}؛ {{fact:problem.variable_count}}؛ {{fact:problem.domain}}",
+        "fact_refs": [
+          "problem.expression",
+          "problem.sense",
+          "problem.variable_count",
+          "problem.domain"
+        ],
+        "evidence_refs": [
+          "report:problem",
+          "report:proposal",
+          "report:decision",
+          "report:trials",
+          "derived:pilot.m1.evaluations_per_repeat",
+          "derived:pilot.m2.evaluations_per_repeat",
+          "derived:pilot.m3.evaluations_per_repeat",
+          "derived:median_relative_decrease",
+          "report:solution",
+          "report:verification",
+          "report:budget",
+          "report:profile",
+          "source:f091dcc241d718e20478fa1c9d163cb6",
+          "source:fde014534170ce015c33d40069120858",
+          "source:04147a1131eecdd25ac79ffd3626c0cb"
+        ]
+      }
+    ]
+  },
+  "corrected_validation": {
+    "status": "PASS",
+    "global_error": false,
+    "valid_section_ids": [
+      "problem"
+    ],
+    "issues": []
+  },
+  "valid_id_missing_sense_control": {
+    "expected_rejection_observed": true,
+    "input_problem_section": {
+      "section_id": "problem",
+      "paragraphs": [
+        {
+          "paragraph_id": "problem_main",
+          "claim_kind": "recorded",
+          "text_fa": "شرح مصنوعی برای بررسی قرارداد، بر پایهٔ شواهد fixture: {{fact:problem.expression}}؛ کمینه‌سازی؛ {{fact:problem.variable_count}}؛ {{fact:problem.domain}}",
+          "fact_refs": [
+            "problem.expression",
+            "problem.sense",
+            "problem.variable_count",
+            "problem.domain"
+          ],
+          "evidence_refs": [
+            "report:problem",
+            "report:proposal",
+            "report:decision",
+            "report:trials",
+            "derived:pilot.m1.evaluations_per_repeat",
+            "derived:pilot.m2.evaluations_per_repeat",
+            "derived:pilot.m3.evaluations_per_repeat",
+            "derived:median_relative_decrease",
+            "report:solution",
+            "report:verification",
+            "report:budget",
+            "report:profile",
+            "source:f091dcc241d718e20478fa1c9d163cb6",
+            "source:fde014534170ce015c33d40069120858",
+            "source:04147a1131eecdd25ac79ffd3626c0cb"
+          ]
+        }
+      ]
+    },
+    "global_error": false,
+    "valid_section_ids": [],
+    "issues": [
+      {
+        "section_id": "problem",
+        "paragraph_id": "problem_main",
+        "code": "INVALID_BINDING",
+        "evidence_refs": [],
+        "message_fa": "اختلاف دقیق اتصال در این پاراگراف: {\"token_ids_not_in_fact_refs\":[],\"fact_refs_not_used_as_tokens\":[\"problem.sense\"],\"duplicate_fact_refs\":[]}",
+        "required_change_fa": "توکن‌های همین پاراگراف و fact_refs را مطابق اختلاف ثبت‌شده اصلاح کنید؛ معیار انتخاب را با توکن مربوط در همان بخش بیان کنید. بخش‌های پذیرفته‌شده را تغییر ندهید؛ سرور هیچ ارجاع یا توکنی را خودکار تغییر نمی‌دهد."
+      },
+      {
+        "section_id": "problem",
+        "paragraph_id": null,
+        "code": "MISSING_REQUIRED_FACT",
+        "evidence_refs": [],
+        "message_fa": "داده‌های ضروری بدون توکن در همین بخش: {\"missing_required_fact_tokens\":[\"problem.sense\"]}",
+        "required_change_fa": "توکن‌های الزامی {{fact:problem.sense}} را واقعاً در متن همین بخش بیاورید و fact_refs را با توکن‌های متن برابر نگه دارید؛ ذکر مفهوم یا ارجاع به‌تنهایی کافی نیست. بخش‌های پذیرفته‌شده را تغییر ندهید."
+      }
+    ]
+  },
+  "raw_input_unchanged": true,
+  "accepted_section_hashes_unchanged": true,
+  "new_model_calls": 0,
+  "new_objective_evaluations": 0,
+  "new_solver_calls": 0,
+  "pytest_execution": "NOT_RUN_BY_THIS_GENERATOR",
+  "live_acceptance": "NOT_RUN"
+}

@@ -1,0 +1,101 @@
+{
+  "$defs": {
+    "FrozenArray_SourceRule_": {
+      "items": {
+        "$ref": "#/$defs/SourceRule"
+      },
+      "type": "array"
+    },
+    "FrozenArray_str__MinLen_min_length_1_": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "SourceRule": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "2.0",
+          "default": "2.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "hostname": {
+          "maxLength": 254,
+          "minLength": 1,
+          "title": "Hostname",
+          "type": "string"
+        },
+        "include_subdomains": {
+          "default": false,
+          "title": "Include Subdomains",
+          "type": "boolean"
+        },
+        "path_prefixes": {
+          "$ref": "#/$defs/FrozenArray_str__MinLen_min_length_1_",
+          "maxLength": 20,
+          "minLength": 1
+        },
+        "source_kind": {
+          "enum": [
+            "official_docs",
+            "paper_repository",
+            "code_repository",
+            "benchmark_report"
+          ],
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "enabled": {
+          "title": "Enabled",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "label",
+        "hostname",
+        "path_prefixes",
+        "source_kind",
+        "enabled"
+      ],
+      "title": "SourceRule",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "revision": {
+      "minimum": 1,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "sources": {
+      "$ref": "#/$defs/FrozenArray_SourceRule_"
+    }
+  },
+  "required": [
+    "revision",
+    "sources"
+  ],
+  "title": "SourceSnapshot",
+  "type": "object"
+}

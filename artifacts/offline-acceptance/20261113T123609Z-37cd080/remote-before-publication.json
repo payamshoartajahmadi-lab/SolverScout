@@ -1,0 +1,15 @@
+{
+  "observed_at_utc": "2026-11-13T20:20:20.407342+00:00",
+  "method": "git ls-remote --heads origin",
+  "refs": {
+    "refs/heads/dev": "e151aecc0a79a7e6b421b07934df6977bc9068c7",
+    "refs/heads/fix/narrative-contract-repair": "37cd0803b1244320d1ab4866dd303fd7ba2a6780",
+    "refs/heads/fix/narrative-v3-closure": "ad449d252f243ff0400e3d42caae5d25defe5b11",
+    "refs/heads/main": "6837ba01451acb1d4c3cab898c8660daf6f063f0"
+  },
+  "no_remote_url_emitted": true,
+  "dev_main_same_as_mission_baseline": {
+    "dev": true,
+    "main": true
+  }
+}

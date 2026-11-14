@@ -11,6 +11,7 @@ EXAMPLES = Path(__file__).resolve().parents[1] / "examples"
 
 
 def test_maximize_job_verifies_and_exports_from_same_engine(tmp_path):
+    """FLOW-09. A fixed-solver job produces no model calls or Explainer snapshot."""
     repo = Repository(tmp_path / "داده آزمون")
     model = json.loads((EXAMPLES / "quadratic_2d_max.json").read_text())
     policy = {
@@ -29,6 +30,7 @@ def test_maximize_job_verifies_and_exports_from_same_engine(tmp_path):
     assert report["budget"]["known_started"] == report["progress"][-1]["started_evaluations"] == 1002
     assert [row["known_started"] for row in repo.list_executions(report["job_id"])] == [8, 492, 500, 2]
     assert report["llm_calls"] == [] and report["explanation_status"] == "not_requested"
+    assert "role_context:explainer" not in repo.get_job(report["job_id"])["workflow"]
     files = {artifact["kind"]: repo.artifact_path(artifact["artifact_id"]) for artifact in output["artifacts"]}
     assert json.loads(files["report_json"].read_bytes()) == report
     html = files["report_html"].read_text()
@@ -123,6 +125,7 @@ def test_sel_005_007_failed_pilots_are_not_retried_or_reallocated(tmp_path, monk
     assert len(report["trials"]) == 12
     assert all(row["phase"] == "pilot" and row["evaluation_quota"] == 500 for row in report["trials"])
     assert all(not row["eligible"] for row in report["decision"]["metrics"])
+    assert report["llm_calls"] == [] and report["explanation_status"] == "not_requested"
 
 
 def test_objective_failure_publishes_diagnostic_and_charges_failed_call(tmp_path):

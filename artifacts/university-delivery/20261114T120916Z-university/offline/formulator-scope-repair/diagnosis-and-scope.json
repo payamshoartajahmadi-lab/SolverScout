@@ -1,0 +1,193 @@
+{
+  "schema_version": "formulator-workflow-intent-repair/1.0",
+  "scope": "Narrow offline prompt clarity/provenance fix; closed campaign is not resumed",
+  "cause_fa": "در هر دو تلاش واقعی U2، صورت‌بند مشخصات ریاضی مجاز Rosenbrock را درست استخراج کرده ولی درخواست پژوهش، پیشنهاد روش، مقایسه پایلوت و اجرای حل را به‌اشتباه ویژگی ریاضی خارج از دامنه اعلام کرده است. تولید unsupported_features باعث توقف درست سرور طبق قرارداد موجود شده؛ نقص در طبقه‌بندی خروجی مدل است، نه در حل‌گر یا اعتبارسنجی عددی.",
+  "change_fa": "پرامپت جدید formulator.v1.1 میان محدودیت ریاضی و خواسته گردش‌کار تمایز صریح می‌گذارد. provider نام و نسخه پرامپت واقعی 1.1 را هم در wire و هم provenance ثبت می‌کند. فایل پرامپت قدیمی، schema/protocol formulator.v1، سخت‌گیری ورودی و سقف‌ها حفظ شده‌اند. هیچ حذف خودکار unsupported_features در کد واقعی انجام نشده است.",
+  "targeted_command": ".venv/bin/python -m pytest -q tests/test_university_formulator_scope.py tests/test_prepared_provider.py tests/test_targeted_bounds.py",
+  "targeted_results": {
+    "passed": 35,
+    "failed": 0
+  },
+  "legacy_prompt_file_sha256": "aebd5418e96757b9e618f75e780b3c420a87b65a68687c6dcd923bbcca20a830",
+  "legacy_prompt_preserved": true,
+  "new_prompt_file_sha256": "53c61200a476d73d27105c18d8b1daba2e21671e111982543e7fff2352d42903",
+  "records": [
+    {
+      "attempt": "attempt01",
+      "job_id": "d6ebc690-3609-412d-99d4-c21e2b7cfdc0",
+      "call_id": "a5708421-e33f-4734-88b9-83c15e3c083d",
+      "original_response_canonical_sha256": "d197b64e128e1bfc5b65ff35872c8444e6c50eb5e48fd133160b5ccf3705dba0",
+      "original_mathematical_fields": {
+        "constraints": [],
+        "deterministic": true,
+        "objective": {
+          "expression": "(1-x1)**2 + 100*(x2-x1**2)**2",
+          "function_id": null,
+          "function_version": null,
+          "sense": "minimize",
+          "source_kind": "expression",
+          "unit": null
+        },
+        "parameters": [],
+        "variables": [
+          {
+            "label_fa": null,
+            "lower": -2.0,
+            "name": "x1",
+            "type": "real",
+            "unit": null,
+            "upper": 2.0
+          },
+          {
+            "label_fa": null,
+            "lower": -1.0,
+            "name": "x2",
+            "type": "real",
+            "unit": null,
+            "upper": 3.0
+          }
+        ]
+      },
+      "original_false_unsupported_feature": [
+        {
+          "description_fa": "درخواست پیشنهاد و مقایسهٔ روش‌های حل با پایلوت، انتخاب روش و اجرای آن برای ارائهٔ نتیجهٔ حل، خارج از استخراج مشخصات مدل است؛ منابعی برای روش‌های آماده‌شده یا پایلوت ارائه نشده‌اند.",
+          "evidence_refs": [
+            "input:text"
+          ],
+          "kind": "solver_selection_and_execution"
+        }
+      ],
+      "original_converter_problem": null,
+      "original_result": "FAIL preserved",
+      "actual_prompt_name": "formulator.v1",
+      "actual_prompt_version": "1.0",
+      "offline_corrected_copy_kind": "hypothetical copied response with only unsupported_features emptied; not model output",
+      "offline_corrected_copy_domain_validation": "PASS",
+      "offline_corrected_copy_problem": {
+        "schema_version": "1.0",
+        "variables": [
+          {
+            "name": "x1",
+            "label_fa": null,
+            "type": "real",
+            "lower": -2.0,
+            "upper": 2.0,
+            "unit": null
+          },
+          {
+            "name": "x2",
+            "label_fa": null,
+            "type": "real",
+            "lower": -1.0,
+            "upper": 3.0,
+            "unit": null
+          }
+        ],
+        "objective": {
+          "sense": "minimize",
+          "unit": null,
+          "source": {
+            "kind": "expression",
+            "expression": "(1-x1)**2 + 100*(x2-x1**2)**2"
+          }
+        },
+        "parameters": {},
+        "constraints": [],
+        "deterministic": true
+      },
+      "historical_original_unchanged": true
+    },
+    {
+      "attempt": "attempt02",
+      "job_id": "d3b44e5e-1418-4b88-93f5-3779b2091d72",
+      "call_id": "21bd75d4-b83b-4a28-8cfc-ca955fcc81c6",
+      "original_response_canonical_sha256": "a88c678d26e1b4e8fcf3307897098f80452db01b2d7fd544d69ec7590d312702",
+      "original_mathematical_fields": {
+        "constraints": [],
+        "deterministic": true,
+        "objective": {
+          "expression": "(1-x1)**2 + 100*(x2-x1**2)**2",
+          "function_id": null,
+          "function_version": null,
+          "sense": "minimize",
+          "source_kind": "expression",
+          "unit": null
+        },
+        "parameters": [],
+        "variables": [
+          {
+            "label_fa": null,
+            "lower": -2.0,
+            "name": "x1",
+            "type": "real",
+            "unit": null,
+            "upper": 2.0
+          },
+          {
+            "label_fa": null,
+            "lower": -1.0,
+            "name": "x2",
+            "type": "real",
+            "unit": null,
+            "upper": 3.0
+          }
+        ]
+      },
+      "original_false_unsupported_feature": [
+        {
+          "description_fa": "پیشنهاد و مقایسهٔ سه روش با پایلوت، انتخاب و اجرای روش، و گزارش دلیل انتخاب و نتیجهٔ حل، قابلیت‌های فراتر از استخراج مشخصات مسئله در این نسخه هستند.",
+          "evidence_refs": [
+            "input:text"
+          ],
+          "kind": "روش‌شناسی و اجرای حل"
+        }
+      ],
+      "original_converter_problem": null,
+      "original_result": "FAIL preserved",
+      "actual_prompt_name": "formulator.v1",
+      "actual_prompt_version": "1.0",
+      "offline_corrected_copy_kind": "hypothetical copied response with only unsupported_features emptied; not model output",
+      "offline_corrected_copy_domain_validation": "PASS",
+      "offline_corrected_copy_problem": {
+        "schema_version": "1.0",
+        "variables": [
+          {
+            "name": "x1",
+            "label_fa": null,
+            "type": "real",
+            "lower": -2.0,
+            "upper": 2.0,
+            "unit": null
+          },
+          {
+            "name": "x2",
+            "label_fa": null,
+            "type": "real",
+            "lower": -1.0,
+            "upper": 3.0,
+            "unit": null
+          }
+        ],
+        "objective": {
+          "sense": "minimize",
+          "unit": null,
+          "source": {
+            "kind": "expression",
+            "expression": "(1-x1)**2 + 100*(x2-x1**2)**2"
+          }
+        },
+        "parameters": {},
+        "constraints": [],
+        "deterministic": true
+      },
+      "historical_original_unchanged": true
+    }
+  ],
+  "live_campaign_state": "CLOSED_NOT_READY;10actualproviderdispatches;U2formulator2of2 exhausted",
+  "current_modified_code_live_acceptance": "NOT_RUN",
+  "historical_u1_pass_scope": "Only the previously tested source/version; not proof of this changed formulation prompt",
+  "new_real_model_calls": 0,
+  "new_solver_executions": 0,
+  "new_objective_evaluations": 0,
+  "limitation_fa": "آزمون ثابت پرامپت و تبدیل کپی اصلاح‌شده، موفقیت رفتار مدل واقعی را ثابت نمی‌کنند. پذیرش تازه محدود با U1 و U2 روی نسخه فعلی لازم است؛ کمپین بسته‌شده، بذرها، آستانه‌ها و سقف‌های آن تغییر نکرده‌اند."
+}

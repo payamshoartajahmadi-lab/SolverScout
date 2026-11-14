@@ -1,0 +1,85 @@
+{
+  "scope": "Windows stage; user initiated from normal application UI",
+  "actual_connection_test_calls": 1,
+  "limit": 1,
+  "remaining_connection_test_calls": 0,
+  "calls": [
+    {
+      "call_id": "6e841aee-ee77-4b68-98d2-cd29b49f5aa1",
+      "purpose": "connection_test",
+      "status": "succeeded",
+      "output": {
+        "ok": true
+      },
+      "error": null,
+      "metadata": {
+        "cost": null,
+        "effective_max_output_tokens": 512,
+        "elapsed_seconds": 2.0,
+        "finish_reason": "stop",
+        "model_requested": "gpt-6-luna",
+        "model_returned": "gpt-6-luna",
+        "profile_id": "e763b97f-c5b0-453e-85bb-2ee63a3bea42",
+        "profile_revision": 1,
+        "prompt_name": "connection_test.v1",
+        "prompt_version": "1.0",
+        "provenance": {
+          "effective_max_output_tokens": 512,
+          "gateway": {
+            "dependency_versions": {
+              "fastapi": "0.162.2",
+              "httpx": "0.28.1",
+              "langgraph": "1.2.20",
+              "mealpy": "3.0.3",
+              "numpy": "1.26.0",
+              "pydantic": "2.14.3",
+              "streamlit": "1.67.0"
+            },
+            "git_commit_observed_at_startup": "d4f38e3bf5ce42544adb493ab257577f3865fb04",
+            "git_dirty_observed_at_startup": true,
+            "instance_id": "39ee9a0f-5e15-472b-b722-63bda965cf3b",
+            "pid": 20676,
+            "process_run_id": "455551f2-9cfc-4c40-9d0c-72e93bc513bc",
+            "project_version": "2.1.0rc2",
+            "python_version": "3.12.3",
+            "role": "api",
+            "schema_version": "runtime-provenance/1.0",
+            "source_manifest_sha256": "119b94b50d4aefbc5e59d575144d23734afa6e6971dbf7b747677defff97da7f",
+            "source_manifest_status": "complete",
+            "source_observation": "startup_manifest",
+            "started_at_utc": "2026-11-14T16:48:27.807841+00:00"
+          },
+          "process_run_id": "455551f2-9cfc-4c40-9d0c-72e93bc513bc",
+          "producer": null,
+          "profile_id": "e763b97f-c5b0-453e-85bb-2ee63a3bea42",
+          "profile_revision": 1,
+          "prompt_bundle_sha256": "882e689ac63de30bfa877b0bf276d5faedbf7452d1b449ffddb462c6eeeb7634",
+          "prompt_name": "connection_test.v1",
+          "prompt_version": "1.0",
+          "report_generation_policy_hash": "fe9888a9d308fb03d1d1e393e122ab52f432bae2edb3ab5ded659b758ce5000d",
+          "report_generation_policy_version": "1.0",
+          "request_body_bytes": 468,
+          "request_body_sha256": "c2fe956c5f029b8b5395ba1d7e0356fef053fcf7f5a21a55af1c03de5af0bbfc",
+          "request_prepared_at_utc": "2026-11-14T16:53:03.681188+00:00",
+          "response_schema_sha256": "4528a3c79c4aaee242a31e586366657f8e9a3f11cc8d2cb040d9bf61ab1bbb63",
+          "schema_id": "connection_test.v1",
+          "system_message_sha256": "1d39f6f0e94649b4c8b3f4bad6b3bea4d2c45e87b8a7dc3b72fdf594de561cb0"
+        },
+        "report_generation_policy_hash": "fe9888a9d308fb03d1d1e393e122ab52f432bae2edb3ab5ded659b758ce5000d",
+        "report_generation_policy_version": "1.0",
+        "request_id": "202611141653042510025548268d9d6zx3h1SVV, 3fd91c957b1e3c773a36df1224cd0c0f",
+        "usage": {
+          "completion_tokens": 14,
+          "prompt_tokens": 59,
+          "total_tokens": 73
+        },
+        "usage_status": "reported"
+      },
+      "started_at": "2026-11-14T16:53:03.681188+00:00",
+      "finished_at": "2026-11-14T16:53:05.698489+00:00",
+      "profile_id": "e763b97f-c5b0-453e-85bb-2ee63a3bea42",
+      "profile_revision": 1,
+      "credential_generation": 1
+    }
+  ]
+}

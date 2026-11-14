@@ -1,0 +1,54 @@
+{
+  "schema_version": "final-browser-qa/1.0",
+  "completed_at_utc": "2026-11-14T17:21:14.446697+00:00",
+  "url": "http://127.0.0.1:8501",
+  "browser": "Microsoft Edge157.0.4341.57 headless",
+  "presentation_acceptance": "PASS",
+  "visual_review_passed": true,
+  "actual_ui_dom_passed": true,
+  "saved_html_dom_passed": true,
+  "read_only_verification": {
+    "before": "ui-before-counts.json",
+    "after": "ui-after-counts.json",
+    "unchanged": true,
+    "new_jobs": 0,
+    "new_llm_calls": 0,
+    "new_job_evaluations": 0,
+    "new_source_sync_runs": 0,
+    "new_qualification_runs": 0,
+    "scope_note": "DB total41002 includes1002 evaluations from the preserved historical job; current Windows acceptance contributes40000. Setup smoke is separate and is not present in this data directory."
+  },
+  "scenarios": {
+    "U2": {
+      "live_acceptance": "PASS",
+      "narrative_mode": "llm",
+      "sections": 5,
+      "paragraphs": 8,
+      "exact_ui_html_report_parity": true
+    },
+    "U1": {
+      "live_acceptance": "FAIL",
+      "narrative_mode": "mixed",
+      "sections": 5,
+      "paragraphs": 5,
+      "llm_sections": 4,
+      "server_sections": [
+        "candidate_rationale"
+      ],
+      "exact_ui_html_report_parity": true,
+      "fallback_origin_honestly_displayed": true
+    }
+  },
+  "evidence": [
+    "ui-summary.json",
+    "U2-html-summary.json",
+    "U2-html-visual-review.json",
+    "U1-html-summary.json",
+    "final-visual-review.json",
+    "ui-before-counts.json",
+    "ui-after-counts.json",
+    "read-only-count-verification.json"
+  ],
+  "harness_note": "An initial selector read ran before history buttons had rendered. ui-audit-error.json preserves that tooling failure; waiting for the first history button resolved it. No application error or fresh work was produced.",
+  "scope_limit": "PASS applies to correct display, paragraph parity and readability. It does not change U1 narrative acceptance failure."
+}

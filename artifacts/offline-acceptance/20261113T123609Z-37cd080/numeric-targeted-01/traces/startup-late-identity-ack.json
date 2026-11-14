@@ -1,0 +1,153 @@
+{
+  "evidence_kind": "SYNTHETIC_NUMERIC_LIFECYCLE_FIXTURE",
+  "mode": "late_identity_ack",
+  "deadline_seconds": 5.0,
+  "product_started_at_monotonic": 1103999.609,
+  "deadline_monotonic": 1104004.609,
+  "clock_reset": false,
+  "events": [
+    {
+      "event": "supervisor_call_begin",
+      "monotonic": 1103999.609
+    },
+    {
+      "event": "process_constructed",
+      "monotonic": 1103999.609,
+      "deadline": 1104004.609,
+      "product_started_at": 1103999.609
+    },
+    {
+      "event": "launch_begin",
+      "monotonic": 1103999.609
+    },
+    {
+      "event": "launch_return",
+      "monotonic": 1103999.656,
+      "pid": 22712,
+      "creation_time": 1794574464.153444
+    },
+    {
+      "event": "ipc_received",
+      "monotonic": 1104001.281,
+      "kind": "identity",
+      "sequence": null,
+      "done": null
+    },
+    {
+      "event": "identity_received",
+      "monotonic": 1104001.281,
+      "pid": 22712,
+      "role": "numeric",
+      "process_run_id": "8f5358f9-7022-4d32-b250-b7ba71f60298",
+      "creation_time": 1794574464.153444
+    },
+    {
+      "event": "identity_ack_held_until_original_deadline",
+      "monotonic": 1104001.281
+    },
+    {
+      "event": "ack_send_begin",
+      "monotonic": 1104004.625,
+      "kind": "identity",
+      "sequence": null,
+      "reply": "accepted"
+    },
+    {
+      "event": "ack_send_return",
+      "monotonic": 1104004.625,
+      "kind": "identity",
+      "sequence": null,
+      "reply": "accepted"
+    },
+    {
+      "event": "post_deadline_terminal_reply_ready",
+      "monotonic": 1104004.625,
+      "ready": true
+    },
+    {
+      "event": "original_deadline_observed_reached",
+      "monotonic": 1104004.625,
+      "deadline": 1104004.609
+    },
+    {
+      "event": "ipc_received",
+      "monotonic": 1104004.625,
+      "kind": "done",
+      "sequence": null,
+      "done": {
+        "execution_status": "timed_out",
+        "termination_reason": "time_budget",
+        "started_evaluations": 0,
+        "successful_evaluations": 0,
+        "failed_evaluations": 0
+      }
+    },
+    {
+      "event": "join_begin",
+      "monotonic": 1104004.625,
+      "pid": 22712,
+      "force": false,
+      "alive": true
+    },
+    {
+      "event": "join_return",
+      "monotonic": 1104004.75,
+      "multiprocessing_alive": false,
+      "exitcode": -15,
+      "pid": 22712,
+      "same_process_running": false,
+      "observation": "not_found"
+    },
+    {
+      "event": "supervisor_call_return",
+      "monotonic": 1104004.75
+    }
+  ],
+  "accepted_sequences": [],
+  "identity": {
+    "pid": 22712,
+    "role": "numeric",
+    "process_run_id": "8f5358f9-7022-4d32-b250-b7ba71f60298"
+  },
+  "objective_entry": {
+    "pid": 0,
+    "monotonic": 0.0,
+    "creation_time": 0.0
+  },
+  "startup_gate_entered": false,
+  "startup_gate_monotonic": 0.0,
+  "done": {
+    "execution_status": "timed_out",
+    "termination_reason": "time_budget",
+    "started_evaluations": 0,
+    "successful_evaluations": 0,
+    "failed_evaluations": 0
+  },
+  "result": {
+    "execution_status": "timed_out",
+    "termination_reason": "time_budget",
+    "started_evaluations": 0,
+    "successful_evaluations": 0,
+    "failed_evaluations": 0,
+    "history_complete": true,
+    "history_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "elapsed_compute_seconds": 5.141000000061467,
+    "overshoot_seconds": 0.1410000000614673
+  },
+  "history_files": [
+    {
+      "name": "6f375e6c-0fc9-4b9f-a04a-4aabca038dae.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "reaping": {
+    "multiprocessing_alive": false,
+    "exitcode": -15,
+    "pid": 22712,
+    "same_process_running": false,
+    "observation": "not_found"
+  },
+  "failure_type": null,
+  "observation_note": "Fixture synchronization and observer overhead are explicit; product deadline remains startup-inclusive."
+}

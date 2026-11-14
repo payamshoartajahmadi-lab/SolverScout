@@ -1,0 +1,48 @@
+{
+  "at_utc": "2026-11-14T17:25:56.399590+00:00",
+  "head": "d4f38e3bf5ce42544adb493ab257577f3865fb04",
+  "branch": "dev",
+  "upstream": "origin/dev",
+  "git_status_short": [
+    " M src/p_mc_optimizer/research/transport.py",
+    " M tests/test_v2_research.py",
+    "?? artifacts/university-delivery/20261114T164636Z-windows-rc2/"
+  ],
+  "git_diff_check_passed": true,
+  "source_manifest_matches_acceptance": true,
+  "prompt_bundle_matches_acceptance": true,
+  "declared_evidence_hash_mismatches": [],
+  "ledger_snapshot_matches_current": true,
+  "role_attempts": {
+    "U2": 8,
+    "U1": 8
+  },
+  "actual_dispatches_in_ledger": 16,
+  "database_calls": 17,
+  "database_call_purposes": {
+    "connection_test": 1,
+    "job_role": 16
+  },
+  "database_quick_check": "ok",
+  "ui_health_passed": true,
+  "application_url": "http://127.0.0.1:8501",
+  "data_dir": "C:\\Users\\TajAhmadi\\AppData\\Local\\P_MC_Optimizer",
+  "profile_key_available": true,
+  "preparation_ready": true,
+  "privacy_scan": {
+    "scope": "All new Windows evidence files and both modified source/test files, exact current provider key and runtime internal token; UTF-8 and UTF-16 variants",
+    "scanned_file_count": 152,
+    "provider_key_available_for_scan": true,
+    "matched_files": [],
+    "passed": true,
+    "secret_values_or_digests_recorded": false
+  },
+  "criteria_counts": {
+    "PASS": 12,
+    "FAIL": 2,
+    "NOT_RUN": 1
+  },
+  "delivery_status": "NOT_READY",
+  "additional_provider_submissions": 0,
+  "additional_objective_evaluations": 0
+}

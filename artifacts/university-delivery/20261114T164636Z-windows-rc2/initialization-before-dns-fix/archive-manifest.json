@@ -1,0 +1,26 @@
+{
+  "created_at_utc": "2026-11-14T17:02:54.345994+00:00",
+  "prior_campaign_id": "20261114T164636Z-windows-rc2",
+  "original_evidence_file_sha256": {
+    "acceptance_manifest.json": "6dbad2b0973695b194c25d60f875868174a994de66e0f357f1de17d0dec5662f",
+    "acceptance_campaign_ledger.json": "ec8e1e113a1460779046d02039ee3437b55031d98d22e55670fea9b67b310a0a",
+    "source_manifest.json": "5146c60db1be06b315a0df260ec1bd7a2c8e9170135c592069ca13473c74fdd9",
+    "prompt_bundle_manifest.json": "2d6a3ee5405496520e56185312fccb0a8e76ee1ea6578b05c414f9b06c046c42",
+    "scenario-input-integrity.json": "c060e3b3eec7b0d6c0df6ada57067d5b5032967882d4126167182c79d1aa6be3",
+    "stage-limits.json": "e7ebdd980aca36775929dd4ea2a050443ed47ca59052435b0dfaaa534cb3cceb",
+    "acceptance_summary.json": "6bb0332bfc789eddaa1800ff9e0152ef7fc30288e57de5a21b9215c2ef7c83bc",
+    "acceptance_matrix.csv": "63f64451ec708fecc56592cb45716fad3e6a0e604aa6c8560b68f95d45572b47"
+  },
+  "original_ledger": {
+    "schema_version": "university-acceptance/1.0",
+    "campaign_id": "20261114T164636Z-windows-rc2",
+    "manifest_sha256": "35786a0789f09f29038044b45f5fbb5304ab3eef589f7d8b1147192d11b7fa27",
+    "limit_role_calls": 20,
+    "attempts": [],
+    "role_calls": 0,
+    "stop_reason": null,
+    "created_at_utc": "2026-11-14T16:50:35.661886+00:00"
+  },
+  "binding_archive": "C:\\Users\\TajAhmadi\\AppData\\Local\\P_MC_Optimizer\\university-acceptance-initial-20261114T164636Z",
+  "reason": "Freeze the reviewed Windows DNS patch before the first acceptance role call"
+}

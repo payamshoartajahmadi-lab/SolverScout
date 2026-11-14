@@ -1,0 +1,31 @@
+{
+  "run_label": "full-final-02",
+  "source_sha": "4c0cf3447c421294a0d2b1d5f435fe66a969b9ae",
+  "files": [
+    {
+      "path": "capture.json",
+      "size_bytes": 7278,
+      "sha256": "c34ed15c5a952f01d95fbb3a59a5b424f60fadc7630607229595a9915f325c1b"
+    },
+    {
+      "path": "traces/hung-cancel.json",
+      "size_bytes": 3993,
+      "sha256": "87618afb5979d9ce6f4e1b60df4dbc343f89b053aa31bbcf5a664c4c72c3ed20"
+    },
+    {
+      "path": "traces/hung-timeout.json",
+      "size_bytes": 3954,
+      "sha256": "746d9fbf6fb14d1315f6b781d48942f0f30fc6a7c0076dfc921ea088170636b4"
+    },
+    {
+      "path": "traces/startup-blocked.json",
+      "size_bytes": 2418,
+      "sha256": "82ef166c32bc61df80e0798bd3fbb4ae0d7048f969c172271ad484d58b8f1bf4"
+    },
+    {
+      "path": "traces/startup-late-identity-ack.json",
+      "size_bytes": 4070,
+      "sha256": "2e9d5fcd0635f6fa6a3c28f28e0d1e340fa211d341c19bf8bbddd950a5499c41"
+    }
+  ]
+}

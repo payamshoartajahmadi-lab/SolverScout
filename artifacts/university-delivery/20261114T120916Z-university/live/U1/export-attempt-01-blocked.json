@@ -1,0 +1,6 @@
+{
+  "scenario": "U1",
+  "status": "BLOCKED",
+  "reason": "SAVED_REPORT_BANNER_MISSING",
+  "exception_type": "RuntimeError"
+}

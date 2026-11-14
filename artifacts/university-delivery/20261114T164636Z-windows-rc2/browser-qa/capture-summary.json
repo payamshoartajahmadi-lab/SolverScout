@@ -1,0 +1,35 @@
+{
+  "captured_at_utc": "2026-11-14T17:17:07.445Z",
+  "results": [
+    {
+      "width": 1440,
+      "page_errors": [],
+      "homeGeometry": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "bodyWidth": 1440
+      },
+      "catalogGeometry": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "bodyWidth": 1440
+      }
+    },
+    {
+      "width": 390,
+      "page_errors": [],
+      "homeGeometry": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "bodyWidth": 390
+      },
+      "catalogGeometry": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "bodyWidth": 390
+      }
+    }
+  ],
+  "model_calls": 0,
+  "function_evaluations": 0
+}

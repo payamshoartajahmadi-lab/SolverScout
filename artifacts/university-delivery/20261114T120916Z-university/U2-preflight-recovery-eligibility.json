@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "scope": "Read-only eligibility check, no live retry yet",
+  "old_job_id": "d6ebc690-3609-412d-99d4-c21e2b7cfdc0",
+  "old_status": "failed",
+  "old_objective_evaluations": 0,
+  "old_formulator_calls": 1,
+  "case_role_calls_remaining": 7,
+  "unchanged_input_and_request_hash": true,
+  "no_new_job_or_call_created": true,
+  "retry_guard_sha256": "ea786fc4548f6941b82113c4e02d3241c931f5eb2ce9ecca70eaa0f292c56799",
+  "application_source_manifest_unchanged": true
+}
