@@ -1,0 +1,122 @@
+{
+  "width": 1440,
+  "paragraph_checks": [
+    {
+      "section_id": "problem",
+      "paragraph_id": "problem_main",
+      "element_count": 1,
+      "exact_match": true,
+      "visible": true,
+      "unresolved_fact_token": false
+    },
+    {
+      "section_id": "candidate_rationale",
+      "paragraph_id": "server_candidate_rationale",
+      "element_count": 1,
+      "exact_match": true,
+      "visible": true,
+      "unresolved_fact_token": false
+    },
+    {
+      "section_id": "selection",
+      "paragraph_id": "selection_pilots",
+      "element_count": 1,
+      "exact_match": true,
+      "visible": true,
+      "unresolved_fact_token": false
+    },
+    {
+      "section_id": "solution",
+      "paragraph_id": "solution_origin",
+      "element_count": 1,
+      "exact_match": true,
+      "visible": true,
+      "unresolved_fact_token": false
+    },
+    {
+      "section_id": "verification_and_limits",
+      "paragraph_id": "verification_scope",
+      "element_count": 1,
+      "exact_match": true,
+      "visible": true,
+      "unresolved_fact_token": false
+    }
+  ],
+  "geometry": {
+    "viewport_width": 1440,
+    "document_width": 1440,
+    "body_width": 1440,
+    "narrative_font_size": "16px",
+    "narrative_line_height": "28.8px",
+    "document_direction": "rtl",
+    "narrative_direction": "rtl",
+    "section_count": 5,
+    "scroll_containers": [
+      {
+        "client_width": 1016,
+        "scroll_width": 1016,
+        "overflow_x": "auto"
+      },
+      {
+        "client_width": 1016,
+        "scroll_width": 1016,
+        "overflow_x": "auto"
+      },
+      {
+        "client_width": 1016,
+        "scroll_width": 1016,
+        "overflow_x": "auto"
+      },
+      {
+        "client_width": 1006,
+        "scroll_width": 1006,
+        "overflow_x": "auto"
+      },
+      {
+        "client_width": 982,
+        "scroll_width": 982,
+        "overflow_x": "auto"
+      },
+      {
+        "client_width": 1006,
+        "scroll_width": 1006,
+        "overflow_x": "auto"
+      },
+      {
+        "client_width": 982,
+        "scroll_width": 982,
+        "overflow_x": "auto"
+      }
+    ]
+  },
+  "page_errors": [],
+  "requests": [
+    {
+      "url": "file:///G:/projects/solverscout/artifacts/university-delivery/20261114T164636Z-windows-rc2/live/U1/report.html",
+      "method": "GET"
+    }
+  ],
+  "blocked_requests": [],
+  "numerical_evidence": {
+    "objective_raw": 0,
+    "best_x": [
+      1.4,
+      -2.2
+    ],
+    "solution_origin": {
+      "algorithm_id": "mealpy:swarm_based.PSO:OriginalPSO",
+      "evaluation_id": "76267b7d-8a41-4732-9f09-faa2cee36f19",
+      "execution_id": "204151aa-1871-4a03-8b2a-e0e1744d2681",
+      "phase": "main",
+      "trial_id": "48d8f56a-d981-4c65-9f86-6b4fe7093b7d"
+    },
+    "selected_algorithm_id": "mealpy:swarm_based.PSO:OriginalPSO",
+    "solution_paragraph_exact_match": true,
+    "verification_paragraphs_exact_match": true
+  },
+  "model_label_present": true,
+  "origin_label_present": true,
+  "body_text_sha256": "91f90f3ccc60323cd1585b13abaa7b62bcbd399abb7cb2393df3d7a55508fa26",
+  "unresolved_tokens_in_narrative": false,
+  "passed": true
+}

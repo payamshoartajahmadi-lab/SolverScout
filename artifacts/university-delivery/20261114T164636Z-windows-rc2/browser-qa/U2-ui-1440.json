@@ -1,0 +1,477 @@
+{
+  "scenario": "U2",
+  "job_id": "83182fba-8962-43d6-84aa-ac8b6086433d",
+  "width": 1440,
+  "narrative_mode": "llm",
+  "narrative_review_status": "passed",
+  "paragraph_checks": [
+    {
+      "section_id": "problem",
+      "paragraph_id": "problem_main",
+      "element_count": 1,
+      "exact_match": true,
+      "visible": true,
+      "unresolved_fact_token": false
+    },
+    {
+      "section_id": "candidate_rationale",
+      "paragraph_id": "candidate_de",
+      "element_count": 1,
+      "exact_match": true,
+      "visible": true,
+      "unresolved_fact_token": false
+    },
+    {
+      "section_id": "candidate_rationale",
+      "paragraph_id": "candidate_cma",
+      "element_count": 1,
+      "exact_match": true,
+      "visible": true,
+      "unresolved_fact_token": false
+    },
+    {
+      "section_id": "candidate_rationale",
+      "paragraph_id": "candidate_abc",
+      "element_count": 1,
+      "exact_match": true,
+      "visible": true,
+      "unresolved_fact_token": false
+    },
+    {
+      "section_id": "selection",
+      "paragraph_id": "selection_pilots",
+      "element_count": 1,
+      "exact_match": true,
+      "visible": true,
+      "unresolved_fact_token": false
+    },
+    {
+      "section_id": "solution",
+      "paragraph_id": "solution_point",
+      "element_count": 1,
+      "exact_match": true,
+      "visible": true,
+      "unresolved_fact_token": false
+    },
+    {
+      "section_id": "verification_and_limits",
+      "paragraph_id": "verification_check",
+      "element_count": 1,
+      "exact_match": true,
+      "visible": true,
+      "unresolved_fact_token": false
+    },
+    {
+      "section_id": "verification_and_limits",
+      "paragraph_id": "verification_budget",
+      "element_count": 1,
+      "exact_match": true,
+      "visible": true,
+      "unresolved_fact_token": false
+    }
+  ],
+  "section_labels": [
+    {
+      "section_id": "problem",
+      "displayed_label": "بازبینی خودکار متن انجام شد."
+    },
+    {
+      "section_id": "candidate_rationale",
+      "displayed_label": "بازبینی خودکار متن انجام شد."
+    },
+    {
+      "section_id": "selection",
+      "displayed_label": "بازبینی خودکار متن انجام شد."
+    },
+    {
+      "section_id": "solution",
+      "displayed_label": "بازبینی خودکار متن انجام شد."
+    },
+    {
+      "section_id": "verification_and_limits",
+      "displayed_label": "بازبینی خودکار متن انجام شد."
+    }
+  ],
+  "origin_labels_correct": true,
+  "geometry": {
+    "viewport_width": 1440,
+    "document_width": 1440,
+    "narrative_width": 1051.21875,
+    "narrative_font_size": "16px",
+    "narrative_line_height": "28.8px",
+    "direction": "rtl"
+  },
+  "requests": [
+    {
+      "url": "http://127.0.0.1:8501/",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/media/SourceSansVF-Upright.ttf.BsWL4Kly.woff2",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/index.DormvYxC.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/rolldown-runtime.BCiCTKAo.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/emotion-is-prop-valid.esm.CkL99N7j.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/emotion-styled.browser.esm.DdOkyKg_.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/loglevel.DMC__dHv.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/react-dom.Dzbslgj4.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/emotion-react.browser.esm.Dz233AqG.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/src.ClCGuae5.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/opacities.Blb4Ho7_.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/types.DosXGzv6.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/protobuf.D55wl0P7.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/isSymbol.CmW3dkoN.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/toString.tRXNBxtF.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/isArrayLike.Crw2F5li.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/_isIterateeCall.BUStsXAd.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/isArrayLikeObject.B3Zf3PTL.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/merge.UVaQM33U.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/_baseFlatten.IOj0lc7G.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/last.DfjdtCRp.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/utils.ob4wbeQt.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/UriUtil.CZTdJmE_.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useCrossOriginAttribute.bh_PwhC9.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useEmotionTheme.CMOlE5Fg.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/styled-components.XLtagUku.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useFloatingOverlay.DbDkOVFr.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/Tooltip.BGkP9bdt.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/lib.DTkPmFNq.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/lib.BRCtjBvA.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/lib.BsvoAB7F.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/space-separated-tokens.tMK6mh18.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/ErrorElement.CdpA6bz6.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/preload-helper.CRzLMJPS.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/StreamlitMarkdown.oOG-xoxw.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/_baseIsEqual.sdZCjgvS.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/_baseProperty.BV6HSwpm.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/_baseEach.PLhpSRgM.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/utils.BJVSE7F9.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/FlexContext.BkFprQkj.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/Icon.D6z6tTSi.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/DynamicIcon.DBX1tTbE.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useDescription.BB3ShmHg.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/Text.RYl_ExSr.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/shim.DT7uHSse.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useCollection.DU7tSg4K.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useLabel.BAkLcsHg.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/LiveAnnouncer.CRX7YBAA.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/NumberFormatter.nhsGk7J2.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/number.CgCAQqZj.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/ProgressBar.BbP4hvQX.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/BaseButton.GsR4p1Eu.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/FormClearHelper.uMwNzhNQ.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useTimeout.odDhD3su.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useResizeObserver.CWV4GVHX.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/index.esm.CnlgfcEa.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/Check.esm.SwE3eUIH.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/ContentCopy.esm.C1nEcpQW.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/Toolbar.IoDGB_NU.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useCopyToClipboard.Cdni2W2w.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useRequiredContext.fKi1tqMI.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/css/index.C1JORDN2.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/media/MaterialSymbols-Rounded.nEdyypZU.woff2",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/_stcore/health",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/_stcore/host-config",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/favicon.png",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/Html.CzLZZ4bP.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/purify.es.BXhPiKO5.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/Button.CORxUu4r.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/Radio.BWQwdNIB.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useFormValidation.D2i_isRP.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useField.CsWac_7E.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useFormReset.Dsqx1XhY.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useSlot.CXZFle1D.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/WidgetLabel.C381QnN0.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/styled-components.kM4tXvFQ.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/WidgetLabelHelpIconInline.COAzYW2l.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useBasicWidgetState.8xeaSejc.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/TextArea.DxPXcY61.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/ErrorOutline.esm.DyT67HL2.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/WidgetLabelHelpIcon.DIAPaBJl.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/InputInstructions.aWDQxtQS.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useTextInputAutoExpand.D3UMxBPo.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/inputUtils.CnlRnOxS.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/requiredField.CNcKXcSP.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/useUpdateUiValue.Crj2LZcQ.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/app/static/Vazirmatn.woff2",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/rehype-raw.DgJ5HSkU.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/hastscript.BRLGlqm4.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/web-namespaces.BxZ_GhEx.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/DownloadButton.DdynO2sY.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:8501/static/js/createDownloadLinkElement.CbtBGf4k.js",
+      "method": "GET"
+    }
+  ],
+  "blocked_requests": [],
+  "page_errors": [],
+  "passed": true
+}

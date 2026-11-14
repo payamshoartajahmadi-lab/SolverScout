@@ -1,0 +1,26 @@
+{
+  "schema_version": "windows-browser-qa/1.0",
+  "captured_at_utc": "2026-11-14T17:17:03.920Z",
+  "browser_executable": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+  "browser_version": "157.0.4341.57",
+  "playwright_core_version": "1.65.1",
+  "node_version": "v24.11.1",
+  "node_executable": "C:\\Program Files\\nodejs\\node.exe",
+  "tooling_directory": "C:\\Users\\TAJAHM~1\\AppData\\Local\\Temp\\solverscout-windows-rc2-browser-20261114T164636Z",
+  "tooling_package_lock_sha256": "d5785f6820bf95842932f6d65f6a89ab98c0a262dd1055873e96ebcf440648e3",
+  "headless": true,
+  "fresh_browser_context": true,
+  "project_dependencies_changed": false,
+  "allowed_views": [
+    "home",
+    "catalog"
+  ],
+  "prohibited_actions": [
+    "settings navigation/screenshots",
+    "execution submission",
+    "qualification",
+    "source sync",
+    "connection tests"
+  ],
+  "invocation_example": "node browser-qa.cjs --mode=capture --url=http://127.0.0.1:8501 --out=<evidence directory>"
+}

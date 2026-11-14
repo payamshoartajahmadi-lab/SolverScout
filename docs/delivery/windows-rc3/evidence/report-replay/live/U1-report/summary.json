@@ -1,0 +1,47 @@
+{
+  "schema_version": "u1-report-replay-result/1.0",
+  "status": "PASS",
+  "scope": "report_only",
+  "mode": "live",
+  "human_quality_and_ui_review": "PENDING",
+  "source_job_id": "cf73fe30-ef5a-4995-8fd7-4aa6256f3085",
+  "source_report_sha256": "13b35d1d0b30d275684ed6e2703014c6d9a71dfb4569d7888985c49a629700fb",
+  "source_core_before": "54d18a696c7522c362ca563340115353312c4ea113115156e195d6d8cd2b467a",
+  "source_core_after": "54d18a696c7522c362ca563340115353312c4ea113115156e195d6d8cd2b467a",
+  "explanation_mode": "llm",
+  "review_status": "passed",
+  "accepted_model_sections": [
+    "candidate_rationale",
+    "problem",
+    "selection",
+    "solution",
+    "verification_and_limits"
+  ],
+  "report_sha256": "43d62f6c6cb1690a6745df7a31180fc0f5e555e2ba960faad72a64bdfc1de7a0",
+  "role_attempts": 4,
+  "actual_model_submissions": 4,
+  "model_submissions_by_role": {
+    "explainer": 2,
+    "report_reviewer": 2
+  },
+  "connection_tests": 0,
+  "copied_historical_connection_proofs": 1,
+  "offline_mock_connection_tests": 0,
+  "fresh_objective_evaluations": 0,
+  "solver_calls": 0,
+  "guards": {
+    "objective_calls": 0,
+    "solver_calls": 0
+  },
+  "fresh_numerical_rows": {
+    "trials": 0,
+    "stage_executions": 0
+  },
+  "usage": {
+    "prompt_tokens": 84850,
+    "completion_tokens": 6530,
+    "total_tokens": 91380
+  },
+  "tested_commit": "7ca14742dc34933b1c4868f113412aacc59f1f70",
+  "report_generation_policy_version": "1.3"
+}

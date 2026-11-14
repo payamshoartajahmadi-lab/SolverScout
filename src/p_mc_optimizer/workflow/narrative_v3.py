@@ -6,6 +6,7 @@ This module cannot run an evaluator, solver, research transport, or model code.
 from __future__ import annotations
 
 from copy import deepcopy
+from hashlib import sha256
 from time import monotonic
 from uuid import uuid4
 
@@ -22,6 +23,9 @@ from p_mc_optimizer.reporting.narrative_validation import (
     reviewer_repair_snapshot,
 )
 from p_mc_optimizer.llm.narrative_policy import freeze_narrative_policy
+from p_mc_optimizer.reporting.narrative_metadata import (
+    contextual_binding_feedback, normalize_optional_fact_refs,
+)
 
 
 JOURNAL_KEY = "narrative_v3_journal"
@@ -251,6 +255,36 @@ class NarrativeOrchestrator:
             repair_issues=repair_issues or [],
         )
 
+    def _receive_writer(self, key, context, result):
+        """Persist raw/effective provenance before validation or reviewer dispatch."""
+        raw = result.get("output")
+        if self.report_generation_policy_version != "1.3":
+            return raw
+        effective, audit = normalize_optional_fact_refs(
+            context, raw, policy_version=self.report_generation_policy_version,
+        )
+        metadata = result.get("metadata") or {}
+        received_text = metadata.get("raw_response_text")
+        if isinstance(received_text, str):
+            audit.update(
+                raw_response_text_sha256=sha256(received_text.encode("utf-8")).hexdigest(),
+                raw_response_text_representation=metadata.get("raw_response_text_representation"),
+                raw_response_text_redacted=metadata.get("raw_response_text_redacted"),
+            )
+        call = self.journal["calls"][key]
+        # _call already persisted result verbatim. Never replace its output with
+        # the effective metadata: exports and restart audits need both versions.
+        call["effective_output"] = deepcopy(effective)
+        call["metadata_normalization"] = deepcopy(audit)
+        self._save()
+        return effective
+
+    def _validate_writer(self, context, raw):
+        checked = validate_draft(context, raw)
+        if self.report_generation_policy_version == "1.3":
+            checked.issues = contextual_binding_feedback(context, raw, checked.issues)
+        return checked
+
     def _review(self, sections, scope, key):
         if not scope:
             return [], []
@@ -408,12 +442,12 @@ class NarrativeOrchestrator:
         result = self._call("draft", "explainer", "explainer.v3", "draft", _json(context))
         if result is None:
             return self._finish()
-        raw = result.get("output")
         error_code = (result.get("error") or {}).get("error_code")
         if result.get("status") != "succeeded" and error_code not in {"LLM_SCHEMA_INVALID", "LLM_OUTPUT_TRUNCATED"}:
             self.provider_failure = error_code in _PROVIDER_ERRORS or result.get("status") in {"unknown", "outcome_unknown"}
             return self._finish()
-        checked = validate_draft(context, raw)
+        raw = self._receive_writer("draft", context, result)
+        checked = self._validate_writer(context, raw)
         self._add_issues(checked.issues)
         self._mark_invalid("draft", checked.issues)
         self.omitted.update(checked.omitted_sections)
@@ -459,7 +493,8 @@ class NarrativeOrchestrator:
         if repaired.get("status") != "succeeded" and error_code not in {"LLM_SCHEMA_INVALID", "LLM_OUTPUT_TRUNCATED"}:
             self.provider_failure = error_code in _PROVIDER_ERRORS
             return self._finish()
-        fixed = validate_draft(repair_context, repaired.get("output"))
+        effective_repair = self._receive_writer("repair", repair_context, repaired)
+        fixed = self._validate_writer(repair_context, effective_repair)
         self._add_issues(fixed.issues)
         self._mark_invalid("repair", fixed.issues)
         self.omitted.update(fixed.omitted_sections)

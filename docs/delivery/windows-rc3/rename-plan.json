@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "operation": "GitHub branch rename",
+  "preserve_commit_sha": true,
+  "force_push": false,
+  "branch_deletion_fallback": false,
+  "status": "planned_names_checked_no_collisions",
+  "branches": [
+    {
+      "old": "codex/ux6-browser-validation",
+      "new": "test/guided-workspace-browser-validation",
+      "sha": "72ecda700c0a1a8fe30e20a46bf3257442ace97e",
+      "collision": false
+    },
+    {
+      "old": "codex/v2-baseline",
+      "new": "docs/v2-development-baseline",
+      "sha": "c53af1da703653621565b4f841db0f3f39deddd6",
+      "collision": false
+    },
+    {
+      "old": "codex/v2-catalog",
+      "new": "feat/v2-qualified-solver-catalog",
+      "sha": "b8eec13384c8e89ebdefc86d3fb082bb90601116",
+      "collision": false
+    },
+    {
+      "old": "codex/v2-citation-evaluation",
+      "new": "test/v2-citation-attribution",
+      "sha": "a88a2dec953d3341d25f3dc930e7ba93c8241077",
+      "collision": false
+    },
+    {
+      "old": "codex/v2-contracts",
+      "new": "feat/v2-research-contracts",
+      "sha": "4a9c831ae15ac5686158baac930569faf439b90a",
+      "collision": false
+    },
+    {
+      "old": "codex/v2-delivery-evidence",
+      "new": "docs/v2-acceptance-evidence",
+      "sha": "f9728356c4d555e250b7e2aa588c067d666c11c8",
+      "collision": false
+    },
+    {
+      "old": "codex/v2-integration-fixes",
+      "new": "fix/v2-role-contract-validation",
+      "sha": "7b49ed173fd2b323a9943ce4988053b4562b09ba",
+      "collision": false
+    },
+    {
+      "old": "codex/v2-migration",
+      "new": "feat/v2-database-migration",
+      "sha": "e67a6104542a68519cd3c4a4845d3b469981b385",
+      "collision": false
+    },
+    {
+      "old": "codex/v2-preview-package",
+      "new": "release/v2-development-preview",
+      "sha": "13d809f91d018f959f90e018f5f926b3a9569705",
+      "collision": false
+    },
+    {
+      "old": "codex/v2-research",
+      "new": "feat/v2-bounded-web-research",
+      "sha": "3b84c889fe4b4824056debe5558107c5012048e0",
+      "collision": false
+    },
+    {
+      "old": "codex/v2-research-provenance",
+      "new": "fix/v2-research-provenance",
+      "sha": "d583266ebbe9d0a58915106a3119f6461671effb",
+      "collision": false
+    },
+    {
+      "old": "codex/v2-selection-evidence",
+      "new": "feat/v2-selection-evidence",
+      "sha": "2a356efbe5272df221dc2655e9b82808c39c396b",
+      "collision": false
+    },
+    {
+      "old": "codex/v2-ui",
+      "new": "feat/v2-research-catalog-ui",
+      "sha": "6bb5b78ff5ad491305d1336b5789cb8d104511de",
+      "collision": false
+    },
+    {
+      "old": "codex/v2-verification",
+      "new": "test/v2-research-catalog-policies",
+      "sha": "7fec4d7b81da526a884fefb5c71759a6af385214",
+      "collision": false
+    },
+    {
+      "old": "codex/v2-workflow",
+      "new": "feat/v2-research-workflow",
+      "sha": "768560040d55cb2e197d74e6477f6954ebcfd486",
+      "collision": false
+    }
+  ]
+}

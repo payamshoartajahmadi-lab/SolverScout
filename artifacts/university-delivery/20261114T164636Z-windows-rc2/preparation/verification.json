@@ -1,0 +1,88 @@
+{
+  "status": "PASS",
+  "ready": true,
+  "six_methods": [
+    {
+      "name": "ABC",
+      "implementation_id": "mealpy:swarm_based.ABC:OriginalABC",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "PSO",
+      "implementation_id": "mealpy:swarm_based.PSO:OriginalPSO",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "CMA-ES",
+      "implementation_id": "mealpy:evolutionary_based.ES:CMA_ES",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "DE",
+      "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "GWO",
+      "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "qualified"
+    },
+    {
+      "name": "WOA",
+      "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "qualified"
+    }
+  ],
+  "official_source": {
+    "enabled": true,
+    "usable_documents": 4,
+    "required_documents_ready": true,
+    "covered_implementation_ids": [
+      "mealpy:swarm_based.ABC:OriginalABC",
+      "mealpy:swarm_based.PSO:OriginalPSO",
+      "mealpy:evolutionary_based.ES:CMA_ES",
+      "mealpy:evolutionary_based.DE:OriginalDE",
+      "mealpy:swarm_based.GWO:OriginalGWO",
+      "mealpy:swarm_based.WOA:OriginalWOA"
+    ],
+    "parser_version": "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-class-sections-v2.1.2;max_text_chars=100000"
+  },
+  "charged_evaluations": 78000,
+  "reserved_evaluations": 0,
+  "budget_limit": 100000,
+  "evaluations_after_dns_fix": 0,
+  "qualification_attempts_before": 2,
+  "qualification_attempts_after": 2,
+  "source_sync_runs_preserved": [
+    "1263f701-7d19-4c56-85c8-1b23acd2bf62",
+    "32cac79e-2ea9-4284-8a78-7e38f797fdff"
+  ],
+  "environment_id": "2.0:Windows:AMD64:3.12:numpy1.26.0",
+  "numeric_runtime_fingerprint": {
+    "schema_version": "1.0",
+    "environment_id": "2.0:Windows:AMD64:3.12:numpy1.26.0",
+    "python_major_minor": "3.12",
+    "platform_system": "Windows",
+    "architecture": "AMD64",
+    "numpy_version": "1.26.0",
+    "mealpy_version": "3.0.3",
+    "dtype": "float64",
+    "rng": "PCG64",
+    "mode": "single",
+    "mealpy_source_manifest_sha256": "aaa24917df47dba10db01ec9e2243c68deee87c51901b1d73206a86b96f6c649",
+    "numeric_source_manifest_sha256": "fb670675eadd792820abdce1cbffb22a6bf1e14718759301a004d9fbb80f1c24"
+  },
+  "preparation_path": "normal authenticated /demo/preparation service while app owns data-dir; no concurrent CLI"
+}

@@ -1,0 +1,71 @@
+{
+  "schema_version": "university-windows-reinitialization/1.0",
+  "created_at_utc": "2026-11-14T17:02:54.345994+00:00",
+  "status": "PASS",
+  "prior_campaign_id": "20261114T164636Z-windows-rc2",
+  "campaign_id": "20261114T164636Z-windows-rc2-dns-fix",
+  "reason": "Freeze the reviewed Windows DNS patch before the first acceptance role call",
+  "source_sha_before": "119b94b50d4aefbc5e59d575144d23734afa6e6971dbf7b747677defff97da7f",
+  "source_sha_after": "39147c82e7cb914990596ff12e3d3510db6c5eca8bed1f7ff6fca87c628c7492",
+  "prompt_bundle_sha256": "882e689ac63de30bfa877b0bf276d5faedbf7452d1b449ffddb462c6eeeb7634",
+  "prompts_unchanged": true,
+  "archive_evidence_directory": "initialization-before-dns-fix",
+  "archive_data_dir_binding": "C:\\Users\\TajAhmadi\\AppData\\Local\\P_MC_Optimizer\\university-acceptance-initial-20261114T164636Z",
+  "canonical_data_dir_binding": "C:\\Users\\TajAhmadi\\AppData\\Local\\P_MC_Optimizer\\university-acceptance",
+  "verified_move_safety": {
+    "resolved_parent": "C:\\Users\\TajAhmadi\\AppData\\Local\\P_MC_Optimizer",
+    "source_and_destination_are_direct_children": true,
+    "method": "pathlib.Path.rename",
+    "recursive_delete_performed": false
+  },
+  "archived_evidence_file_sha256": {
+    "acceptance_manifest.json": "6dbad2b0973695b194c25d60f875868174a994de66e0f357f1de17d0dec5662f",
+    "acceptance_campaign_ledger.json": "ec8e1e113a1460779046d02039ee3437b55031d98d22e55670fea9b67b310a0a",
+    "source_manifest.json": "5146c60db1be06b315a0df260ec1bd7a2c8e9170135c592069ca13473c74fdd9",
+    "prompt_bundle_manifest.json": "2d6a3ee5405496520e56185312fccb0a8e76ee1ea6578b05c414f9b06c046c42",
+    "scenario-input-integrity.json": "c060e3b3eec7b0d6c0df6ada57067d5b5032967882d4126167182c79d1aa6be3",
+    "stage-limits.json": "e7ebdd980aca36775929dd4ea2a050443ed47ca59052435b0dfaaa534cb3cceb",
+    "acceptance_summary.json": "6bb0332bfc789eddaa1800ff9e0152ef7fc30288e57de5a21b9215c2ef7c83bc",
+    "acceptance_matrix.csv": "63f64451ec708fecc56592cb45716fad3e6a0e604aa6c8560b68f95d45572b47"
+  },
+  "archived_binding_files": {
+    "campaign_ledger.json": "ec8e1e113a1460779046d02039ee3437b55031d98d22e55670fea9b67b310a0a"
+  },
+  "old_ledger_role_calls": 0,
+  "new_ledger_role_calls": 0,
+  "source_patch": {
+    "path": "windows-dns-fix/source-patch-at-freeze.diff",
+    "sha256": "f3b4a3969429bc8b06c185fe06a44ad8f8dd8dfa21ac4f75acb999e61df28bbe",
+    "files": {
+      "src/p_mc_optimizer/research/transport.py": "f8c4d11561648019fe9537d8d4325db8b95221075ebcc51251a9213f13443b98",
+      "tests/test_v2_research.py": "4a612da78705b3a1c24a5e01cc7091b07ee8e10a28a9557c77a1e9cb5ed2c55d"
+    },
+    "targeted_tests": {
+      "status": "PASS",
+      "passed": 22,
+      "evidence": "windows-dns-fix/targeted-tests.log"
+    },
+    "commit_status": "uncommitted"
+  },
+  "approved_model_deviations": [
+    {
+      "field": "request_timeout_seconds",
+      "historical_contract": 180,
+      "approved_effective_value": 60,
+      "approval": "Explicit user instruction to continue with 60 seconds, relayed by root agent in this session; no profile database mutation performed by campaign initialization",
+      "scope": "Windows U2/U1 acceptance campaign only"
+    }
+  ],
+  "connection_test_budget": {
+    "consumed": 1,
+    "remaining": 0,
+    "total_tokens": 73,
+    "included_in_same_stage_17_submission_limit": true
+  },
+  "initialization_actions_consumption": {
+    "provider_submissions": 0,
+    "objective_evaluations": 0
+  },
+  "historical_mac_campaign_preserved": true,
+  "normalized_scenario_texts_unchanged": true
+}

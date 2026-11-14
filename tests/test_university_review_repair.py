@@ -191,7 +191,8 @@ def test_versioned_context_preserves_legacy_closed_input_and_legacy_policy():
     assert schema == provider_schema(ReviewerContextV1_1)
 
 
-def test_real_gateway_wire_uses_versioned_feedback_and_replays_without_resend(tmp_path):
+@pytest.mark.parametrize('generation_policy', ['1.2', '1.3'])
+def test_real_gateway_wire_uses_versioned_feedback_and_replays_without_resend(tmp_path, generation_policy):
     """Real loopback API + MockTransport; no real provider/model request."""
     from hashlib import sha256
     from uuid import uuid4
@@ -222,7 +223,13 @@ def test_real_gateway_wire_uses_versioned_feedback_and_replays_without_resend(tm
         job_id = submit(client, profile, golden()['original_text'])
         worker = str(uuid4()); repo.claim_job(worker); repo.update_job(job_id, phase='reporting', worker_id=worker)
         contracts = repo.get_job(job_id)['workflow']['execution_contracts']
-        assert contracts['report_generation_policy_version'] == '1.2'
+        assert contracts['report_generation_policy_version'] == '1.3'
+        if generation_policy == '1.2':
+            # Recreate an explicitly frozen historical contract. New jobs use
+            # the current policy, while old jobs retain the reviewer protocol.
+            contracts = {**contracts, 'report_generation_policy_version': '1.2',
+                         'report_generation_policy': freeze_narrative_policy('1.2')}
+            repo.put_workflow(job_id, 'execution_contracts', contracts, worker_id=worker)
         report = json.loads(json.dumps(fixture()).replace(fixture()['job_id'], job_id))
         initial = core_hash(report)
         def invoke(role, schema, ctx, invocation):
@@ -231,7 +238,7 @@ def test_real_gateway_wire_uses_versioned_feedback_and_replays_without_resend(tm
         result = NarrativeOrchestrator(report, invoke=invoke,
             persist=lambda value: repo.put_workflow(job_id, 'narrative_v3_journal', value, worker_id=worker),
             prompt_bundle_sha256=sha256(canonical_bytes(prompt_bundle_manifest())).hexdigest(),
-            report_generation_policy_version='1.2').run()
+            report_generation_policy_version=generation_policy).run()
         assert result['mode'] == 'llm' and len(sent) == 3
         assert sent[1]['request_hash'] != sent[2]['request_hash']
         assert sent[1]['draft_hash'] == sent[2]['draft_hash'] and sent[1]['evidence'] == sent[2]['evidence']

@@ -1,0 +1,181 @@
+Installing locked packages. Internet access may be required.
+Ignoring cffi: markers 'platform_python_implementation != "PyPy" and sys_platform == "linux"' don't match your environment
+Ignoring cryptography: markers 'sys_platform == "linux"' don't match your environment
+Ignoring httpx2-jsfetch: markers 'sys_platform == "emscripten"' don't match your environment
+Ignoring jeepney: markers 'sys_platform == "linux"' don't match your environment
+Ignoring pycparser: markers 'implementation_name != "PyPy" and platform_python_implementation != "PyPy" and sys_platform == "linux"' don't match your environment
+Ignoring secretstorage: markers 'sys_platform == "linux"' don't match your environment
+Requirement already satisfied: aiosqlite==0.22.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 3)) (0.22.1)
+Requirement already satisfied: altair==6.3.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 5)) (6.3.0)
+Requirement already satisfied: annotated-doc==0.0.5 in .\.venv\Lib\site-packages (from -r requirements.lock (line 7)) (0.0.5)
+Requirement already satisfied: annotated-types==0.8.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 9)) (0.8.0)
+Requirement already satisfied: anyio==4.16.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 11)) (4.16.0)
+Requirement already satisfied: attrs==26.1.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 18)) (26.1.0)
+Requirement already satisfied: certifi==2026.10.23 in .\.venv\Lib\site-packages (from -r requirements.lock (line 22)) (2026.10.23)
+Requirement already satisfied: charset-normalizer==3.5.2 in .\.venv\Lib\site-packages (from -r requirements.lock (line 30)) (3.5.2)
+Requirement already satisfied: click==8.5.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 32)) (8.5.1)
+Requirement already satisfied: contourpy==1.3.3 in .\.venv\Lib\site-packages (from -r requirements.lock (line 36)) (1.3.3)
+Requirement already satisfied: cycler==0.12.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 40)) (0.12.1)
+Requirement already satisfied: distro==1.9.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 42)) (1.9.0)
+Requirement already satisfied: fastapi==0.162.2 in .\.venv\Lib\site-packages (from -r requirements.lock (line 44)) (0.162.2)
+Requirement already satisfied: filelock==4.2.9 in .\.venv\Lib\site-packages (from -r requirements.lock (line 46)) (4.2.9)
+Requirement already satisfied: fonttools==4.68.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 48)) (4.68.0)
+Requirement already satisfied: h11==0.16.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 50)) (0.16.0)
+Requirement already satisfied: httpcore==1.0.9 in .\.venv\Lib\site-packages (from -r requirements.lock (line 55)) (1.0.9)
+Requirement already satisfied: httpcore2==2.16.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 57)) (2.16.0)
+Requirement already satisfied: httpx==0.28.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 59)) (0.28.1)
+Requirement already satisfied: httpx2==2.16.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 64)) (2.16.0)
+Requirement already satisfied: idna==3.20 in .\.venv\Lib\site-packages (from -r requirements.lock (line 68)) (3.20)
+Requirement already satisfied: itsdangerous==2.2.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 74)) (2.2.0)
+Requirement already satisfied: jaraco-classes==3.4.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 76)) (3.4.0)
+Requirement already satisfied: jaraco-context==6.1.2 in .\.venv\Lib\site-packages (from -r requirements.lock (line 78)) (6.1.2)
+Requirement already satisfied: jaraco-functools==4.6.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 80)) (4.6.0)
+Requirement already satisfied: jinja2==3.1.6 in .\.venv\Lib\site-packages (from -r requirements.lock (line 86)) (3.1.6)
+Requirement already satisfied: jsonpatch==1.44 in .\.venv\Lib\site-packages (from -r requirements.lock (line 90)) (1.44)
+Requirement already satisfied: jsonpointer==3.10 in .\.venv\Lib\site-packages (from -r requirements.lock (line 92)) (3.10)
+Requirement already satisfied: jsonschema==4.26.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 94)) (4.26.0)
+Requirement already satisfied: jsonschema-specifications==2025.9.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 96)) (2025.9.1)
+Requirement already satisfied: keyring==25.7.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 98)) (25.7.0)
+Requirement already satisfied: kiwisolver==1.5.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 100)) (1.5.1)
+Requirement already satisfied: langchain-core==1.7.6 in .\.venv\Lib\site-packages (from -r requirements.lock (line 102)) (1.7.6)
+Requirement already satisfied: langchain-protocol==0.0.21 in .\.venv\Lib\site-packages (from -r requirements.lock (line 108)) (0.0.21)
+Requirement already satisfied: langgraph==1.2.20 in .\.venv\Lib\site-packages (from -r requirements.lock (line 112)) (1.2.20)
+Requirement already satisfied: langgraph-checkpoint==4.3.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 114)) (4.3.1)
+Requirement already satisfied: langgraph-checkpoint-sqlite==3.1.3 in .\.venv\Lib\site-packages (from -r requirements.lock (line 119)) (3.1.3)
+Requirement already satisfied: langgraph-prebuilt==1.1.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 121)) (1.1.1)
+Requirement already satisfied: langgraph-sdk==0.4.14 in .\.venv\Lib\site-packages (from -r requirements.lock (line 123)) (0.4.14)
+Requirement already satisfied: langsmith==0.14.17 in .\.venv\Lib\site-packages (from -r requirements.lock (line 125)) (0.14.17)
+Requirement already satisfied: markupsafe==3.0.4 in .\.venv\Lib\site-packages (from -r requirements.lock (line 127)) (3.0.4)
+Requirement already satisfied: matplotlib==3.11.2 in .\.venv\Lib\site-packages (from -r requirements.lock (line 129)) (3.11.2)
+Requirement already satisfied: mealpy==3.0.3 in .\.venv\Lib\site-packages (from -r requirements.lock (line 133)) (3.0.3)
+Requirement already satisfied: more-itertools==11.2.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 135)) (11.2.1)
+Requirement already satisfied: narwhals==2.28.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 139)) (2.28.0)
+Requirement already satisfied: numpy==1.26.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 141)) (1.26.0)
+Requirement already satisfied: opentelemetry-api==1.45.2 in .\.venv\Lib\site-packages (from -r requirements.lock (line 152)) (1.45.2)
+Requirement already satisfied: opfunu==1.0.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 154)) (1.0.1)
+Requirement already satisfied: orjson==3.13.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 158)) (3.13.0)
+Requirement already satisfied: ormsgpack==1.13.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 162)) (1.13.1)
+Requirement already satisfied: packaging==26.3 in .\.venv\Lib\site-packages (from -r requirements.lock (line 164)) (26.3)
+Requirement already satisfied: pandas==2.3.3 in .\.venv\Lib\site-packages (from -r requirements.lock (line 171)) (2.3.3)
+Requirement already satisfied: pillow==13.0.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 175)) (13.0.0)
+Requirement already satisfied: platformdirs==4.14.5 in .\.venv\Lib\site-packages (from -r requirements.lock (line 180)) (4.14.5)
+Requirement already satisfied: protobuf==7.36.2 in .\.venv\Lib\site-packages (from -r requirements.lock (line 182)) (7.36.2)
+Requirement already satisfied: protego==0.7.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 184)) (0.7.0)
+Requirement already satisfied: psutil==7.2.2 in .\.venv\Lib\site-packages (from -r requirements.lock (line 186)) (7.2.2)
+Requirement already satisfied: pyarrow==23.0.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 188)) (23.0.1)
+Requirement already satisfied: pydantic==2.14.3 in .\.venv\Lib\site-packages (from -r requirements.lock (line 194)) (2.14.3)
+Requirement already satisfied: pydantic-core==2.50.4 in .\.venv\Lib\site-packages (from -r requirements.lock (line 201)) (2.50.4)
+Requirement already satisfied: pydeck==0.9.3 in .\.venv\Lib\site-packages (from -r requirements.lock (line 203)) (0.9.3)
+Requirement already satisfied: pyparsing==3.3.3 in .\.venv\Lib\site-packages (from -r requirements.lock (line 205)) (3.3.3)
+Requirement already satisfied: pypdf==7.0.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 207)) (7.0.0)
+Requirement already satisfied: python-dateutil==4.0.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 209)) (4.0.0)
+Requirement already satisfied: python-multipart==0.0.33 in .\.venv\Lib\site-packages (from -r requirements.lock (line 213)) (0.0.33)
+Requirement already satisfied: pytz==2026.6 in .\.venv\Lib\site-packages (from -r requirements.lock (line 215)) (2026.6)
+Requirement already satisfied: pywin32-ctypes==0.2.3 in .\.venv\Lib\site-packages (from -r requirements.lock (line 217)) (0.2.3)
+Requirement already satisfied: pyyaml==6.0.3 in .\.venv\Lib\site-packages (from -r requirements.lock (line 219)) (6.0.3)
+Requirement already satisfied: referencing==0.37.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 221)) (0.37.0)
+Requirement already satisfied: requests==2.34.2 in .\.venv\Lib\site-packages (from -r requirements.lock (line 225)) (2.34.2)
+Requirement already satisfied: requests-toolbelt==1.0.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 231)) (1.0.0)
+Requirement already satisfied: rpds-py==2026.9.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 233)) (2026.9.1)
+Requirement already satisfied: scipy==1.16.3 in .\.venv\Lib\site-packages (from -r requirements.lock (line 237)) (1.16.3)
+Requirement already satisfied: sniffio==1.3.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 241)) (1.3.1)
+Requirement already satisfied: sqlite-vec==0.1.9 in .\.venv\Lib\site-packages (from -r requirements.lock (line 243)) (0.1.9)
+Requirement already satisfied: starlette==1.10.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 245)) (1.10.0)
+Requirement already satisfied: streamlit==1.67.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 249)) (1.67.0)
+Requirement already satisfied: tenacity==9.2.1 in .\.venv\Lib\site-packages (from -r requirements.lock (line 251)) (9.2.1)
+Requirement already satisfied: truststore==0.10.5 in .\.venv\Lib\site-packages (from -r requirements.lock (line 253)) (0.10.5)
+Requirement already satisfied: typing-extensions==4.16.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 257)) (4.16.0)
+Requirement already satisfied: typing-inspection==0.4.5 in .\.venv\Lib\site-packages (from -r requirements.lock (line 273)) (0.4.5)
+Requirement already satisfied: tzdata==2026.6 in .\.venv\Lib\site-packages (from -r requirements.lock (line 277)) (2026.6)
+Requirement already satisfied: urllib3==2.8.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 281)) (2.8.0)
+Requirement already satisfied: uuid-utils==0.19.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 283)) (0.19.0)
+Requirement already satisfied: uvicorn==0.54.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 287)) (0.54.0)
+Requirement already satisfied: watchdog==7.1.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 291)) (7.1.0)
+Requirement already satisfied: websockets==17.4 in .\.venv\Lib\site-packages (from -r requirements.lock (line 293)) (17.4)
+Requirement already satisfied: xxhash==4.0.2 in .\.venv\Lib\site-packages (from -r requirements.lock (line 298)) (4.0.2)
+Requirement already satisfied: zstandard==0.25.0 in .\.venv\Lib\site-packages (from -r requirements.lock (line 302)) (0.25.0)
+Obtaining file:///G:/projects/solverscout
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: p-mc-optimizer
+  Building editable for p-mc-optimizer (pyproject.toml): started
+  Building editable for p-mc-optimizer (pyproject.toml): finished with status 'done'
+  Created wheel for p-mc-optimizer: filename=p_mc_optimizer-2.1.0rc2-0.editable-py3-none-any.whl size=4935 sha256=d96cceec58a32210111f47e70e51ebcd7027d6cecee406320d696277621c134b
+  Stored in directory: C:\Users\TajAhmadi\AppData\Local\Temp\pip-ephem-wheel-cache-nqio1hf3\wheels\97\23\35\698f5067f58f627b0336af9b8bfd60d88ab3285dc8fb9e85ac
+Successfully built p-mc-optimizer
+Installing collected packages: p-mc-optimizer
+  Attempting uninstall: p-mc-optimizer
+    Found existing installation: p-mc-optimizer 1.0.0
+    Uninstalling p-mc-optimizer-1.0.0:
+      Successfully uninstalled p-mc-optimizer-1.0.0
+Successfully installed p-mc-optimizer-2.1.0rc2
+No broken requirements found.
+{
+  "core": "PASS",
+  "project_version": "2.1.0rc2",
+  "python": "3.12.3",
+  "os": "Windows-11-10.0.22631-SP0",
+  "arch": "AMD64",
+  "sqlite": "3.45.1",
+  "database_schema": 4,
+  "data_dir": "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\pmc-smoke-30455-8643",
+  "local_index": "PASS",
+  "search": "TAVILY_ADAPTER_AVAILABLE_CONNECTION_NOT_CHECKED",
+  "api_url": "http://127.0.0.1:8765",
+  "ui_url": "http://127.0.0.1:8501",
+  "api_running": false,
+  "instance_running": false,
+  "llm": "NOT_CONFIGURED",
+  "keyring_backend": "keyring.backends.Windows.WinVaultKeyring",
+  "pyarrow": "23.0.1",
+  "versions": {
+    "fastapi": "0.162.2",
+    "langgraph": "1.2.20",
+    "mealpy": "3.0.3",
+    "numpy": "1.26.0",
+    "pydantic": "2.14.3",
+    "streamlit": "1.67.0",
+    "keyring": "25.7.0",
+    "pypdf": "7.0.0",
+    "protego": "0.7.0"
+  },
+  "runtime": {
+    "identity": null,
+    "processes": [],
+    "drift": "unknown",
+    "message_code": null
+  }
+}
+{
+  "job_id": "3c1d9c15-253d-4f07-aee6-13ec2a2cd07e",
+  "job_status": "completed",
+  "solution_status": "valid_best_found",
+  "optimality_status": "not_certified",
+  "best_x": [
+    1.9780779899881948,
+    -0.9880071434972374
+  ],
+  "objective_raw": 0.000624403130053541,
+  "selected_algorithm_id": "de.original",
+  "budget": {
+    "allocated": 1002,
+    "charged_unknown": 0,
+    "known_started": 1002,
+    "max_objective_evaluations": 1002,
+    "reserved_active": 0,
+    "unallocated": 0,
+    "unused": 0
+  },
+  "error": null,
+  "artifacts": [
+    "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\pmc-smoke-30455-8643\\artifacts\\3c1d9c15-253d-4f07-aee6-13ec2a2cd07e\\02bebc78-e32d-4f71-b7dc-e4aff3394b8d.json",
+    "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\pmc-smoke-30455-8643\\artifacts\\3c1d9c15-253d-4f07-aee6-13ec2a2cd07e\\07652ecd-91f2-4583-a50d-94d2e3a14790.html",
+    "C:\\Users\\TajAhmadi\\AppData\\Local\\Temp\\pmc-smoke-30455-8643\\artifacts\\3c1d9c15-253d-4f07-aee6-13ec2a2cd07e\\4c8bd79a-bf68-4d57-b822-9b1071444248.csv"
+  ]
+}

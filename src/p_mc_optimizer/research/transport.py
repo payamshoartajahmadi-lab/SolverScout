@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import subprocess
 import sys
 import zlib
@@ -40,8 +41,12 @@ def _resolve(hostname: str, timeout: float) -> list[str]:
         "socket.getaddrinfo(sys.argv[1],443,type=socket.SOCK_STREAM)})))",
         hostname,
     ]
+    # Windows name resolution requires SystemRoot even in an isolated Python
+    # process. Keep credentials, proxy settings and Python overrides excluded.
+    environment = ({key: value for key, value in os.environ.items() if key.upper() == "SYSTEMROOT"}
+                   if sys.platform == "win32" else {})
     try:
-        result = subprocess.run(command, timeout=timeout, capture_output=True, check=True, env={})
+        result = subprocess.run(command, timeout=timeout, capture_output=True, check=True, env=environment)
     except subprocess.TimeoutExpired:
         raise ResearchError("SOURCE_UNREACHABLE") from None
     except (OSError, subprocess.CalledProcessError):

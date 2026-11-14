@@ -383,6 +383,17 @@ def _parse_response(
             # The orchestrator localizes section errors before semantic review.
             # Keep the full sanitized response; a local defect must not erase healthy sections.
             metadata["narrative_validation"] = "orchestrator"
+            if schema_id == "explainer.v3" and metadata.get("report_generation_policy_version") == "1.3":
+                # Preserve received JSON text, including whitespace and escapes,
+                # separately from its parsed form. This follows the secret check
+                # above and the existing sanitizer; never retain credentials.
+                received_text = sanitize(content)
+                metadata.update(
+                    raw_response_text=received_text,
+                    raw_response_text_sha256=sha256(received_text.encode("utf-8")).hexdigest(),
+                    raw_response_text_representation="sanitized_provider_message_content_utf8",
+                    raw_response_text_redacted=received_text != content,
+                )
             return _outcome("succeeded", metadata, output=output)
         model = _schema_model(schema_id).model_validate(output)
         if schema_id == "explainer.v2":

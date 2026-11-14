@@ -1,0 +1,39 @@
+{
+  "smoke_invocations": 1,
+  "smoke_reserved_fe": 1002,
+  "smoke_actual_fe": 1002,
+  "live_model_submissions": 0,
+  "connection_tests": 0,
+  "preparation_fe": 0,
+  "acceptance_fe": 0,
+  "u1_u2_runs": 0,
+  "status": "completed_clean_windows_install_pass",
+  "smoke_report": {
+    "job_id": "ab041a05-c11f-463c-bf65-6ef7a7fa3ef1",
+    "job_status": "completed",
+    "solution_status": "valid_best_found",
+    "optimality_status": "not_certified",
+    "best_x": [
+      1.9780779899881948,
+      -0.9880071434972374
+    ],
+    "objective_raw": 0.000624403130053541,
+    "selected_algorithm_id": "de.original",
+    "budget": {
+      "allocated": 1002,
+      "charged_unknown": 0,
+      "known_started": 1002,
+      "max_objective_evaluations": 1002,
+      "reserved_active": 0,
+      "unallocated": 0,
+      "unused": 0
+    },
+    "error": null,
+    "artifacts": [
+      "G:\\SSrc3-01\\tmp\\pmc-smoke-31897-18101\\artifacts\\ab041a05-c11f-463c-bf65-6ef7a7fa3ef1\\f2c500c0-302e-496e-adcd-0f3bd166baae.json",
+      "G:\\SSrc3-01\\tmp\\pmc-smoke-31897-18101\\artifacts\\ab041a05-c11f-463c-bf65-6ef7a7fa3ef1\\14085169-7f4d-4af4-b074-2c5c2d537155.html",
+      "G:\\SSrc3-01\\tmp\\pmc-smoke-31897-18101\\artifacts\\ab041a05-c11f-463c-bf65-6ef7a7fa3ef1\\bd4b4389-7934-4cb4-a1db-421288e5735f.csv"
+    ]
+  },
+  "smoke_completed": true
+}

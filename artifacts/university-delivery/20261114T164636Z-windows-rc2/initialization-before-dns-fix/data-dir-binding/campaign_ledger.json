@@ -1,0 +1,10 @@
+{
+  "schema_version": "university-acceptance/1.0",
+  "campaign_id": "20261114T164636Z-windows-rc2",
+  "manifest_sha256": "35786a0789f09f29038044b45f5fbb5304ab3eef589f7d8b1147192d11b7fa27",
+  "limit_role_calls": 20,
+  "attempts": [],
+  "role_calls": 0,
+  "stop_reason": null,
+  "created_at_utc": "2026-11-14T16:50:35.661886+00:00"
+}

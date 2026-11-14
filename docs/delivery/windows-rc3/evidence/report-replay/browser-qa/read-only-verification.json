@@ -1,0 +1,36 @@
+{
+  "schema_version": "browser-read-only-verification/1.0",
+  "status": "PASS",
+  "report_sha256": "43d62f6c6cb1690a6745df7a31180fc0f5e555e2ba960faad72a64bdfc1de7a0",
+  "compared_fields": [
+    "counts",
+    "numerical_work",
+    "llm_call_statuses",
+    "job_statuses",
+    "job_numeric_evaluations"
+  ],
+  "before": "before-counts.json",
+  "after": "after-counts.json",
+  "counts_unchanged": true,
+  "numerical_work_unchanged": true,
+  "new_model_calls": 0,
+  "new_function_evaluations": 0,
+  "new_jobs": 0,
+  "new_reports": 0,
+  "new_trials": 0,
+  "new_source_sync_runs": 0,
+  "new_qualification_runs": 0,
+  "counts": {
+    "jobs": 1,
+    "reports": 1,
+    "llm_calls": 5,
+    "trials": 0,
+    "trial_attempts": 0,
+    "stage_executions": 0,
+    "source_sync_runs": 0,
+    "source_sync_invocations": 0,
+    "research_invocations": 0,
+    "qualification_runs": 0
+  },
+  "note": "Five stored LLM rows include one copied historical connection proof plus four completed report-replay calls; browser inspection dispatched none."
+}

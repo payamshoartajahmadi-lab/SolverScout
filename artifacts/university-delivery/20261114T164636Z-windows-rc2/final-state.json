@@ -1,0 +1,30 @@
+{
+  "at_utc": "2026-11-14T17:18:44.303409+00:00",
+  "head": "d4f38e3bf5ce42544adb493ab257577f3865fb04",
+  "branch": "dev",
+  "upstream": "origin/dev",
+  "source_patch_files": [
+    "src/p_mc_optimizer/research/transport.py",
+    "tests/test_v2_research.py"
+  ],
+  "database_counts": {
+    "jobs": 3,
+    "reports": 3,
+    "trials": 21,
+    "llm_calls": 17,
+    "qualification_runs": 2,
+    "qualification_reports": 6,
+    "numeric_policy_qualification_reports": 2
+  },
+  "job_status_counts": [
+    [
+      "completed",
+      3
+    ]
+  ],
+  "database_integrity_check": "ok",
+  "application_url": "http://127.0.0.1:8501",
+  "data_dir": "C:\\Users\\TajAhmadi\\AppData\\Local\\P_MC_Optimizer",
+  "full_suite_rerun": false,
+  "source_patch_committed": false
+}

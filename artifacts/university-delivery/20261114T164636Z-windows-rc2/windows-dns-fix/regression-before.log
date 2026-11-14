@@ -1,0 +1,32 @@
+FF..F                                                                    [100%]
+================================== FAILURES ===================================
+_ test_dns_resolver_preserves_only_windows_systemroot[win32-SystemRoot-expected0] _
+tests\test_v2_research.py:219: in test_dns_resolver_preserves_only_windows_systemroot
+    assert options == {"timeout": 2.5, "capture_output": True, "check": True, "env": expected}
+E   AssertionError: assert {'timeout': 2...ue, 'env': {}} == {'timeout': 2...C:\\Windows'}}
+E     
+E     Omitting 3 identical items, use -vv to show
+E     Differing items:
+E     {'env': {}} != {'env': {'SystemRoot': 'C:\\Windows'}}
+E     Use -v to get more diff
+_ test_dns_resolver_preserves_only_windows_systemroot[win32-SYSTEMROOT-expected1] _
+tests\test_v2_research.py:219: in test_dns_resolver_preserves_only_windows_systemroot
+    assert options == {"timeout": 2.5, "capture_output": True, "check": True, "env": expected}
+E   AssertionError: assert {'timeout': 2...ue, 'env': {}} == {'timeout': 2...C:\\Windows'}}
+E     
+E     Omitting 3 identical items, use -vv to show
+E     Differing items:
+E     {'env': {}} != {'env': {'SYSTEMROOT': 'C:\\Windows'}}
+E     Use -v to get more diff
+____ test_windows_isolated_dns_resolves_localhost_without_external_network ____
+tests\test_v2_research.py:226: in test_windows_isolated_dns_resolves_localhost_without_external_network
+    assert set(_resolve("localhost", 5.0)) & {"127.0.0.1", "::1"}
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\p_mc_optimizer\research\transport.py:48: in _resolve
+    raise ResearchError("SOURCE_UNREACHABLE") from None
+E   p_mc_optimizer.research.transport.ResearchError: SOURCE_UNREACHABLE
+=========================== short test summary info ===========================
+FAILED tests/test_v2_research.py::test_dns_resolver_preserves_only_windows_systemroot[win32-SystemRoot-expected0]
+FAILED tests/test_v2_research.py::test_dns_resolver_preserves_only_windows_systemroot[win32-SYSTEMROOT-expected1]
+FAILED tests/test_v2_research.py::test_windows_isolated_dns_resolves_localhost_without_external_network
+3 failed, 2 passed, 17 deselected in 0.47s

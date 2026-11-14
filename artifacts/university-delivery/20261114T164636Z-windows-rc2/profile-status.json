@@ -1,0 +1,27 @@
+{
+  "observed_at_utc": "2026-11-14T17:17:32.610613+00:00",
+  "profile_present": true,
+  "profile": {
+    "preset": "custom_openai_compatible",
+    "model": "gpt-6-luna",
+    "protocol": "chat_completions_v1",
+    "response_mode": "json_schema",
+    "token_limit_field": "max_completion_tokens",
+    "max_output_tokens": 4096,
+    "connection_test_max_output_tokens": 512,
+    "request_timeout_seconds": 60,
+    "profile_id": "e763b97f-c5b0-453e-85bb-2ee63a3bea42",
+    "revision": 1,
+    "test_status": "passed",
+    "tested_at": "2026-11-14T16:53:05.698489+00:00",
+    "endpoint_sha256": "807aaf9814b3b7fe432f128a9e7aef458a3e4c78cc6e0994f9003a37a6e1b09c"
+  },
+  "credential_status": {
+    "credential_generation": 1,
+    "available": true,
+    "storage_mode": "os_keyring"
+  },
+  "os_keyring_available": true,
+  "contract_matches": true,
+  "contract_differences": {}
+}

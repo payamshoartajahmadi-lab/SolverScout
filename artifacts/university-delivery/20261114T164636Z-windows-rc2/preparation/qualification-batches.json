@@ -1,0 +1,607 @@
+[
+  {
+    "schema_version": "2.0",
+    "scope": "base",
+    "qualification_id": "fbe59246-e215-414d-88cf-b1dee457e280",
+    "status": "completed",
+    "max_evaluations": 18000,
+    "max_seconds": 120,
+    "created_at": "2026-11-14T16:49:08.919216+00:00",
+    "finished_at": "2026-11-14T16:50:26.880263+00:00",
+    "config_ids": [
+      "2c4cf36fd0e40c2ef065e4ce80b34ce5a8084e271132bd30f852a03d1160c0c6",
+      "3bc694544b4307603a59b10a57cb655547ea942ac4b50a0bf76288fd372e437b",
+      "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+      "8cf58e47d5016f4e10d9a16b3694a97aa6f7f7362f327af238c9d003c73626d8",
+      "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+      "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771"
+    ],
+    "cancel_requested": false,
+    "checks_completed": 36,
+    "started_evaluations": 15006,
+    "charged_unknown": 0,
+    "reports": [
+      {
+        "schema_version": "2.0",
+        "config_id": "2c4cf36fd0e40c2ef065e4ce80b34ce5a8084e271132bd30f852a03d1160c0c6",
+        "status": "qualified",
+        "pilot_500_compatible": true,
+        "checks": [
+          {
+            "check": "sphere_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "e5ecb12bbaabe923819a0c0d755233f1b7232896c71d151ad038e641acae6be7",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.1880000000819564
+          },
+          {
+            "check": "sphere_2d_replay",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "d3a7b64fb28bf088090e20b41768647d02cc6692e4c75b8dcadf3ef928b85bdf",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.0939999998081475
+          },
+          {
+            "check": "rosenbrock_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "be29efbc89eedc12c5691e3f425736e1288fb6b788d3d060bec8d9452989a7ca",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.0939999998081475
+          },
+          {
+            "check": "shifted_10d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "600d705f8d5fd675e20b3d867de287f6896e09db8fc2d2ee0fad7e1f1a5d5a38",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.047000000020489
+          },
+          {
+            "check": "shifted_30d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "73822149281927bd965a8c87ecf7e0ba92573c48a6f64a10bcc28633383b07e9",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.1089999999385327
+          },
+          {
+            "check": "controlled_failure",
+            "status": "passed",
+            "started_evaluations": 1,
+            "charged_unknown": 0,
+            "history_sha256": "1329402ee22d3bcf1c89907d26f23f3805ace9abfdf153dafd09a6c8516d252d",
+            "outcome": "OBJECTIVE_EVALUATION_FAILED",
+            "elapsed_seconds": 1.952999999979511
+          }
+        ],
+        "environment": "2.0:Windows:AMD64:3.12:numpy1.26.0"
+      },
+      {
+        "schema_version": "2.0",
+        "config_id": "3bc694544b4307603a59b10a57cb655547ea942ac4b50a0bf76288fd372e437b",
+        "status": "qualified",
+        "pilot_500_compatible": true,
+        "checks": [
+          {
+            "check": "sphere_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "db0319d63ccaef1eab4c06c76b6d64de0163997713bc21ad223cdd83f334eab3",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.0630000000819564
+          },
+          {
+            "check": "sphere_2d_replay",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "82ea00bd8247bc744bd6a7f33301820f27b744d49763ffe1db0fdc08272e3b46",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.0469999997876585
+          },
+          {
+            "check": "rosenbrock_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "abd485856796c700b52c09acbfc787592617aec2a36021c376c5cd4363492348",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.1089999999385327
+          },
+          {
+            "check": "shifted_10d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "532d53825827b44fb1b81a09d7c3564097d389d4e5b4127d802a7fc88bec247f",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.172000000020489
+          },
+          {
+            "check": "shifted_30d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "3b563fd7e2af3c5abd5d0c22941c29bed9e97e2a5d431145bab2def33306946a",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.047000000020489
+          },
+          {
+            "check": "controlled_failure",
+            "status": "passed",
+            "started_evaluations": 1,
+            "charged_unknown": 0,
+            "history_sha256": "90c02fc51bde315e736d93a7739facc5489eb2389b54b684ca7cae1bb256b75d",
+            "outcome": "OBJECTIVE_EVALUATION_FAILED",
+            "elapsed_seconds": 2.0149999998975545
+          }
+        ],
+        "environment": "2.0:Windows:AMD64:3.12:numpy1.26.0"
+      },
+      {
+        "schema_version": "2.0",
+        "config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+        "status": "qualified",
+        "pilot_500_compatible": true,
+        "checks": [
+          {
+            "check": "sphere_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "f1ca6f9cae3574b59a6a0d48db2032972551a79b0180288799e03487076d805e",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.0620000001508743
+          },
+          {
+            "check": "sphere_2d_replay",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "a84ae863ffd30d3e7349af65a42b3f9b2bfa263e97e79f12fa947b1fcb41808a",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.047000000020489
+          },
+          {
+            "check": "rosenbrock_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "5a655f99bd0b8742254e7df71de9a16e709ee258757cf5f7186ad16d6e87404d",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.0629999998491257
+          },
+          {
+            "check": "shifted_10d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "f8f0442376af18f8b39ab6f7995a1c47fa927429f7ec01c412c63688d0582368",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.297000000020489
+          },
+          {
+            "check": "shifted_30d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "9c5769e1454d2a287e4a46d50db6ee72d51c6143bbb0e4e19c1e8ec7bd660a7a",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.0939999998081475
+          },
+          {
+            "check": "controlled_failure",
+            "status": "passed",
+            "started_evaluations": 1,
+            "charged_unknown": 0,
+            "history_sha256": "ed3fa12091951eaaefd6ad11b1665a9ffe468f2cd2d9f0c9e5c55d2e530ed859",
+            "outcome": "OBJECTIVE_EVALUATION_FAILED",
+            "elapsed_seconds": 1.9219999997876585
+          }
+        ],
+        "environment": "2.0:Windows:AMD64:3.12:numpy1.26.0"
+      },
+      {
+        "schema_version": "2.0",
+        "config_id": "8cf58e47d5016f4e10d9a16b3694a97aa6f7f7362f327af238c9d003c73626d8",
+        "status": "qualified",
+        "pilot_500_compatible": true,
+        "checks": [
+          {
+            "check": "sphere_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "1adf7c7ce53e10e1d556525edaddd634331482bf4ac2b773283570421a22139b",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.452999999979511
+          },
+          {
+            "check": "sphere_2d_replay",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "b9e3522f1f09e75508fec071569ffed5f268f478f7a12f6797cd22164bff39b9",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.1089999999385327
+          },
+          {
+            "check": "rosenbrock_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "3a3d8b9424c62bc0c8f87fb08a8910cd92de4a5fa5f5b8177a295d6e9db1f08c",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.047000000020489
+          },
+          {
+            "check": "shifted_10d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "9eba47b4dd52ddfae28e16395ef44998cb594629923247a31190e0ace89ba418",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.0619999999180436
+          },
+          {
+            "check": "shifted_30d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "d14dbbb435384af49a37888f3996b31e775934b7b13468530365b89121e28a99",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.156999999890104
+          },
+          {
+            "check": "controlled_failure",
+            "status": "passed",
+            "started_evaluations": 1,
+            "charged_unknown": 0,
+            "history_sha256": "b139fc1d21961e74b0115ab769264020dfd10a51e2ac5cd11eb336583e9dc75e",
+            "outcome": "OBJECTIVE_EVALUATION_FAILED",
+            "elapsed_seconds": 1.921000000089407
+          }
+        ],
+        "environment": "2.0:Windows:AMD64:3.12:numpy1.26.0"
+      },
+      {
+        "schema_version": "2.0",
+        "config_id": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+        "status": "qualified",
+        "pilot_500_compatible": true,
+        "checks": [
+          {
+            "check": "sphere_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "546446433851108679a5953b09a4768e5e059f7ab4fdb8a0c5958ae1fb21f516",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.0
+          },
+          {
+            "check": "sphere_2d_replay",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "d629fad5bcb32bdcba18d14c95f84f654abb985e942264f3003381a36b916bef",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.125
+          },
+          {
+            "check": "rosenbrock_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "d9dd7a0540d18db57962ddea655d81b229949a66c5f37571b7897730c4ff710b",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.3910000000614673
+          },
+          {
+            "check": "shifted_10d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "a108441cf022861d977ccce84c157c6483cde327cce7504f5bf72274eaa9af96",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.047000000020489
+          },
+          {
+            "check": "shifted_30d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "414dd58676b2af5e0a64ebe65635893afccc8e5fd932f80e40ba25529a6fcbac",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.3899999998975545
+          },
+          {
+            "check": "controlled_failure",
+            "status": "passed",
+            "started_evaluations": 1,
+            "charged_unknown": 0,
+            "history_sha256": "e3a7034e708dc66442ad007afa3133172936ab237a78b9e9d0e788ad10ea80b2",
+            "outcome": "OBJECTIVE_EVALUATION_FAILED",
+            "elapsed_seconds": 2.093000000109896
+          }
+        ],
+        "environment": "2.0:Windows:AMD64:3.12:numpy1.26.0"
+      },
+      {
+        "schema_version": "2.0",
+        "config_id": "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771",
+        "status": "qualified",
+        "pilot_500_compatible": true,
+        "checks": [
+          {
+            "check": "sphere_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "b3baff7273818af7147cc8f9240408c8dc148458ac47ced94df06a92ee56c222",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.25
+          },
+          {
+            "check": "sphere_2d_replay",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "6803a2d93c2a86dc5346c31b1e9536dc928fc364c7cd1151bf6807eac0d8ca2d",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.172000000020489
+          },
+          {
+            "check": "rosenbrock_2d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "c2287412fa108164fc3742f222489a003a09e7f357e52f66c45e8287aa8d6fbf",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.202999999979511
+          },
+          {
+            "check": "shifted_10d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "fef0d2ad503bf7f943f2374d8b48983b253f4cb0bfcc1ad378209a9ec42b8ba8",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.172000000020489
+          },
+          {
+            "check": "shifted_30d",
+            "status": "passed",
+            "started_evaluations": 500,
+            "charged_unknown": 0,
+            "history_sha256": "e9456fa3d5f0af0130136f315730390fc0d88e12b928e2bbc8133ccdf2f2c7c6",
+            "outcome": "evaluation_budget",
+            "elapsed_seconds": 2.671000000089407
+          },
+          {
+            "check": "controlled_failure",
+            "status": "passed",
+            "started_evaluations": 1,
+            "charged_unknown": 0,
+            "history_sha256": "ca35e9ddad238e233e8d4ca54c77a0b6f2c70d4e7e2d7bbe8e419867b26ebac8",
+            "outcome": "OBJECTIVE_EVALUATION_FAILED",
+            "elapsed_seconds": 2.015000000130385
+          }
+        ],
+        "environment": "2.0:Windows:AMD64:3.12:numpy1.26.0"
+      }
+    ],
+    "report_hashes": {},
+    "reserved_evaluations": 18000,
+    "reserved_active": 0,
+    "unused": 2994
+  },
+  {
+    "schema_version": "2.0",
+    "scope": "budget_horizon.v1",
+    "qualification_id": "bb6710bf-5fe1-49c8-99ef-2d80dd214a90",
+    "status": "completed",
+    "max_evaluations": 63992,
+    "max_seconds": 300,
+    "created_at": "2026-11-14T16:50:26.926444+00:00",
+    "finished_at": "2026-11-14T16:51:10.040797+00:00",
+    "config_ids": [
+      "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+      "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173"
+    ],
+    "cancel_requested": false,
+    "checks_completed": 12,
+    "started_evaluations": 62994,
+    "charged_unknown": 0,
+    "reports": [
+      {
+        "base_config_id": "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+        "checks": [
+          {
+            "charged_unknown": 0,
+            "check": "sphere_2d",
+            "elapsed_seconds": 2.25,
+            "history_sha256": "ab95a9b577afe08f6aa71288d890f22f5bc5945822ddf7338a26c8154a97c4e7",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "sphere_2d_replay",
+            "elapsed_seconds": 2.4850000001024455,
+            "history_sha256": "dc15db4322185fd687ebe047b2a3a191905a32c77f6c646f4516cbfdc6cfc6ac",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "shifted_5d",
+            "elapsed_seconds": 6.156999999890104,
+            "history_sha256": "9f4d0469870f28399657ddbcd63efc589a2ec6649f7ae72362406308c52bbfdc",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 14998,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "shifted_5d_replay",
+            "elapsed_seconds": 5.609000000171363,
+            "history_sha256": "0a0ab36591f57b8ea0a4e257661375ec2c563dbccf66b1bb6042ac7d2b31c973",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 14998,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "shifted_30d",
+            "elapsed_seconds": 2.1879999998491257,
+            "history_sha256": "27341c1066c51cda656a04123564e45be5547ea5bdc89c9e69f8730b28385aba",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "controlled_failure",
+            "elapsed_seconds": 2.3129999998491257,
+            "history_sha256": "0dd086790bd47320ef2d42cae4419da5cbf3d09f15c099645264f813e696d2c2",
+            "outcome": "OBJECTIVE_EVALUATION_FAILED",
+            "started_evaluations": 1,
+            "status": "passed"
+          }
+        ],
+        "created_at_utc": "2026-11-14T16:50:48.810165+00:00",
+        "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+        "numeric_runtime_fingerprint": {
+          "architecture": "AMD64",
+          "dtype": "float64",
+          "environment_id": "2.0:Windows:AMD64:3.12:numpy1.26.0",
+          "mealpy_source_manifest_sha256": "aaa24917df47dba10db01ec9e2243c68deee87c51901b1d73206a86b96f6c649",
+          "mealpy_version": "3.0.3",
+          "mode": "single",
+          "numeric_source_manifest_sha256": "fb670675eadd792820abdce1cbffb22a6bf1e14718759301a004d9fbb80f1c24",
+          "numpy_version": "1.26.0",
+          "platform_system": "Windows",
+          "python_major_minor": "3.12",
+          "rng": "PCG64",
+          "schema_version": "1.0"
+        },
+        "numeric_runtime_fingerprint_sha256": "ef30f5536fe7cfb296b83878d087e46b08605d3581800dc6d6a123e461d0f027",
+        "pilot_500_compatible": true,
+        "policy_hash": "2ec05450dbf5f35867bae2c7ad24b3bb2746489151c29283f4a8d4d3ef0a7b63",
+        "policy_id": "budget_horizon.v1",
+        "qualification_id": "bb6710bf-5fe1-49c8-99ef-2d80dd214a90",
+        "quota_domain": {
+          "exclusive_minimum": 101,
+          "rule": "Q>1+P"
+        },
+        "schema_version": "1.0",
+        "status": "qualified"
+      },
+      {
+        "base_config_id": "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+        "checks": [
+          {
+            "charged_unknown": 0,
+            "check": "sphere_2d",
+            "elapsed_seconds": 2.1869999999180436,
+            "history_sha256": "755de85fc565f8f1dbaba5967ae8ce159c4c63c7e0ad88bb03a1e55f8199c2a4",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "sphere_2d_replay",
+            "elapsed_seconds": 2.625,
+            "history_sha256": "c01162ebcc4eb27cc96967a601be50541a43393a7fbb771b6c57a8f4b72c2f63",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "shifted_5d",
+            "elapsed_seconds": 5.702999999979511,
+            "history_sha256": "c7ac1b4b8eb606f992e5fe42c8e4c7bea245dc7abd78993593fd28f48c327dc8",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 14998,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "shifted_5d_replay",
+            "elapsed_seconds": 5.703999999910593,
+            "history_sha256": "c8274d091f77fd1a454d86a411fff0fe500b177830d9bfb85388b4196335553a",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 14998,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "shifted_30d",
+            "elapsed_seconds": 2.1560000001918525,
+            "history_sha256": "f094ccc645565d3ebf3e4fea6de2923530909da857b27c4f9bb81b599acc8151",
+            "outcome": "evaluation_budget",
+            "started_evaluations": 500,
+            "status": "passed"
+          },
+          {
+            "charged_unknown": 0,
+            "check": "controlled_failure",
+            "elapsed_seconds": 1.9850000001024455,
+            "history_sha256": "b62b121ac2abbbea2f70e730583abb7a352fe551f9f13c4d349a35596f19e37a",
+            "outcome": "OBJECTIVE_EVALUATION_FAILED",
+            "started_evaluations": 1,
+            "status": "passed"
+          }
+        ],
+        "created_at_utc": "2026-11-14T16:51:10.033484+00:00",
+        "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+        "numeric_runtime_fingerprint": {
+          "architecture": "AMD64",
+          "dtype": "float64",
+          "environment_id": "2.0:Windows:AMD64:3.12:numpy1.26.0",
+          "mealpy_source_manifest_sha256": "aaa24917df47dba10db01ec9e2243c68deee87c51901b1d73206a86b96f6c649",
+          "mealpy_version": "3.0.3",
+          "mode": "single",
+          "numeric_source_manifest_sha256": "fb670675eadd792820abdce1cbffb22a6bf1e14718759301a004d9fbb80f1c24",
+          "numpy_version": "1.26.0",
+          "platform_system": "Windows",
+          "python_major_minor": "3.12",
+          "rng": "PCG64",
+          "schema_version": "1.0"
+        },
+        "numeric_runtime_fingerprint_sha256": "ef30f5536fe7cfb296b83878d087e46b08605d3581800dc6d6a123e461d0f027",
+        "pilot_500_compatible": true,
+        "policy_hash": "2ec05450dbf5f35867bae2c7ad24b3bb2746489151c29283f4a8d4d3ef0a7b63",
+        "policy_id": "budget_horizon.v1",
+        "qualification_id": "bb6710bf-5fe1-49c8-99ef-2d80dd214a90",
+        "quota_domain": {
+          "exclusive_minimum": 101,
+          "rule": "Q>1+P"
+        },
+        "schema_version": "1.0",
+        "status": "qualified"
+      }
+    ],
+    "report_hashes": {
+      "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c": "d36a6dac6511a150a61903abe4c89e985989da52ae63e4aaf07c713569c83d86",
+      "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173": "ea54f578e6fc97a16dfd984f827ad2c193d2cb9edbd7fd18a9f8961c3795c49f"
+    },
+    "reserved_evaluations": 63992,
+    "reserved_active": 0,
+    "unused": 998
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "health": {
+    "api": {
+      "url": "http://127.0.0.1:8765/healthz",
+      "error": "Remote end closed connection without response"
+    },
+    "ui": {
+      "url": "http://127.0.0.1:8501/_stcore/health",
+      "error": "Remote end closed connection without response"
+    }
+  },
+  "database_counts": {
+    "jobs": 0,
+    "reports": 0,
+    "trials": 0,
+    "llm_calls": 0,
+    "provider_profiles": 0,
+    "qualification_runs": 0,
+    "source_sync_runs": 0
+  },
+  "owner": null,
+  "numeric_environment_mismatch_in_logs": false
+}

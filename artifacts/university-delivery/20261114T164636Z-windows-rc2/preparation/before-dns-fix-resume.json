@@ -1,0 +1,128 @@
+{
+  "schema_version": "demo-preparation/1.0",
+  "preparation_id": "8a43d17e-6393-4790-a67c-76ac21a05ef0",
+  "created_at": "2026-11-14T16:49:08.816775+00:00",
+  "status": "blocked",
+  "qualification_budget": 100000,
+  "attempts": [
+    {
+      "idempotency_key": "demo:8a43d17e-6393-4790-a67c-76ac21a05ef0:0",
+      "scope": "base",
+      "config_ids": [
+        "2c4cf36fd0e40c2ef065e4ce80b34ce5a8084e271132bd30f852a03d1160c0c6",
+        "3bc694544b4307603a59b10a57cb655547ea942ac4b50a0bf76288fd372e437b",
+        "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+        "8cf58e47d5016f4e10d9a16b3694a97aa6f7f7362f327af238c9d003c73626d8",
+        "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173",
+        "e1984096244b837198b08c35cb70a33622d4220e39f7b207a042e04dd65a8771"
+      ],
+      "quota": 18000,
+      "environment_id": "2.0:Windows:AMD64:3.12:numpy1.26.0",
+      "numeric_runtime_fingerprint_sha256": "ef30f5536fe7cfb296b83878d087e46b08605d3581800dc6d6a123e461d0f027",
+      "qualification_id": "fbe59246-e215-414d-88cf-b1dee457e280"
+    },
+    {
+      "idempotency_key": "demo:8a43d17e-6393-4790-a67c-76ac21a05ef0:1",
+      "scope": "budget_horizon.v1",
+      "config_ids": [
+        "66cbf213298c4f65fb5f0cf90794397499f4b75a4ebd397bf23015fe601e6e3c",
+        "a7d8466271683ebcc8ada66e14fc7e85ee0dfef1fe8712294ebe697baee4b173"
+      ],
+      "quota": 63992,
+      "environment_id": "2.0:Windows:AMD64:3.12:numpy1.26.0",
+      "numeric_runtime_fingerprint_sha256": "ef30f5536fe7cfb296b83878d087e46b08605d3581800dc6d6a123e461d0f027",
+      "qualification_id": "bb6710bf-5fe1-49c8-99ef-2d80dd214a90"
+    }
+  ],
+  "requests": {
+    "windows-rc2-20261114T164636Z-preparation": {
+      "enable_official_source": true,
+      "qualification_budget": 100000
+    }
+  },
+  "errors": [
+    {
+      "code": "DEMO_SOURCES_NOT_READY",
+      "message_fa": "منبع رسمی یا اسناد تازهٔ لازم آماده نیست؛ فعال‌سازی و دریافت را بررسی کنید."
+    }
+  ],
+  "source_sync_runs": [
+    "1263f701-7d19-4c56-85c8-1b23acd2bf62"
+  ],
+  "owner_pid": 20676,
+  "owner_started": 1794674907.4131668,
+  "enable_official_source": true,
+  "environment_id": "2.0:Windows:AMD64:3.12:numpy1.26.0",
+  "numeric_runtime_fingerprint": {
+    "schema_version": "1.0",
+    "environment_id": "2.0:Windows:AMD64:3.12:numpy1.26.0",
+    "python_major_minor": "3.12",
+    "platform_system": "Windows",
+    "architecture": "AMD64",
+    "numpy_version": "1.26.0",
+    "mealpy_version": "3.0.3",
+    "dtype": "float64",
+    "rng": "PCG64",
+    "mode": "single",
+    "mealpy_source_manifest_sha256": "aaa24917df47dba10db01ec9e2243c68deee87c51901b1d73206a86b96f6c649",
+    "numeric_source_manifest_sha256": "fb670675eadd792820abdce1cbffb22a6bf1e14718759301a004d9fbb80f1c24"
+  },
+  "numeric_runtime_fingerprint_sha256": "ef30f5536fe7cfb296b83878d087e46b08605d3581800dc6d6a123e461d0f027",
+  "updated_at": "2026-11-14T16:51:10.324843+00:00",
+  "methods": [
+    {
+      "name": "ABC",
+      "implementation_id": "mealpy:swarm_based.ABC:OriginalABC",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "PSO",
+      "implementation_id": "mealpy:swarm_based.PSO:OriginalPSO",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "CMA-ES",
+      "implementation_id": "mealpy:evolutionary_based.ES:CMA_ES",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "DE",
+      "implementation_id": "mealpy:evolutionary_based.DE:OriginalDE",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "not_applicable"
+    },
+    {
+      "name": "GWO",
+      "implementation_id": "mealpy:swarm_based.GWO:OriginalGWO",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "qualified"
+    },
+    {
+      "name": "WOA",
+      "implementation_id": "mealpy:swarm_based.WOA:OriginalWOA",
+      "status": "qualified",
+      "pilot_500_compatible": true,
+      "budget_policy_status": "qualified"
+    }
+  ],
+  "target_count": 6,
+  "prepared_count": 6,
+  "charged_evaluations": 78000,
+  "reserved_evaluations": 0,
+  "official_source": {
+    "enabled": true,
+    "usable_documents": 0,
+    "required_documents_ready": false,
+    "covered_implementation_ids": [],
+    "parser_version": "htmlparser-python3.12+pypdf7.0.0+protego0.7.0-class-sections-v2.1.2;max_text_chars=100000"
+  },
+  "ready": false
+}

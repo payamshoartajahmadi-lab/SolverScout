@@ -4,13 +4,15 @@ Local, budgeted experiments for choosing and running numerical optimization algo
 
 **راهنمای فارسی:** [نصب، تنظیم API و اجرای برنامه](README_FA.md)
 
-## University delivery candidate
+## First university Windows delivery
 
-Version 2.1.0rc2 prepares six installed MEALPY implementations — ABC, PSO, CMA-ES, DE, GWO and WOA — for bounded, deterministic, single-objective continuous problems. Environment-specific qualification precedes use. The API model proposes three candidates from the qualified catalog; measured pilot runs determine the winner. Reports preserve numerical verification, evidence, evaluation budgets, seeds, implementation versions and the origin of analytical text.
+**SolverScout — First University Windows Delivery** is a pre-release tagged `v2.1.0-rc.3`; the application version remains `2.1.0rc3`. Clean Windows installation, service health, UI, stop and restart passed with a separate environment and data directory. Run **only one instance at a time**, including when ports or data directories differ. Clean Mac installation and its complete acceptance path (AC14) remain unaccepted; the overall acceptance matrix remains `NOT_READY`.
 
-The university acceptance campaign on rc1 closed `NOT_READY`: U1 passed, while U2's mathematical problem was incorrectly rejected by the formulator. The rc2 prompt correction is an offline repair; its fresh live acceptance remains untested. See the delivery report rather than treating installation success as completed university acceptance.
+Version 2.1.0rc3 prepares six installed MEALPY implementations — ABC, PSO, CMA-ES, DE, GWO and WOA — for bounded, deterministic, single-objective continuous problems with 2–30 real variables and no general constraints. Environment-specific qualification precedes use. The API model proposes three candidates from the qualified catalog; measured pilot runs determine the winner. Reports preserve numerical verification, evidence, evaluation budgets, seeds, implementation versions and the origin of analytical text.
 
-Follow the [university installation and demo guide](DELIVERY_GUIDE_FA.md). The delivery acceptance report records whether this candidate passed all 15 university criteria; older campaign failures remain historical facts.
+Use the [Windows installation guide](docs/WINDOWS_RC3_INSTALL_FA.md), [university preparation guide](DELIVERY_GUIDE_FA.md) and [release notes](docs/delivery/windows-rc3/RELEASE_BODY_FA.md). The release retains the tested ZIP with manifest commit `32e222e21550f0b881c7e54f180043c7589c13bc`; its tag also includes delivery records and merge history with the same executable code.
+
+Recorded rc3 verification is 1,023 offline tests passed and one deselected. U1 report regeneration passed using stored computations; it is not a new complete solve. Historical Windows rc2 results remain U2 passed, U1 numerically valid with a mixed report, and `NOT_READY` after 17 model submissions. The separate 965-pass offline rc2 baseline and unrun live rc2 Mac acceptance remain unchanged; see [verification results](TEST_RESULTS_V21.md).
 
 The interface and numerical engine run locally. Language-model requests use the provider and API key configured in the application. The internal Python package retains its original `p_mc_optimizer` name.
 

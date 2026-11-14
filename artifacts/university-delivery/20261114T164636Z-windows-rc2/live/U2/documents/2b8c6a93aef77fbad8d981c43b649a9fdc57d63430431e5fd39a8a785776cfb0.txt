@@ -1,0 +1,1587 @@
+## mealpy.bio_based.AAA.OriginalAAA
+
+Bases: Optimizer
+
+The original version of: Artificial Algae Algorithm (AAA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 50.
+
+s_force (float) – Shear force parameter (delta, in the paper), in range (-1000.0, 1000.0). Default is 2.0.
+
+e_loss (float) – Energy loss parameter, in range (0.0, 1.0). Default is 0.3.
+
+ap (float) – Adaptation parameter (Ap in the paper), in range (0.0, 1.0). Default is 0.5.
+
+References
+
+Uymaz, S. A., Tezel, G., and Yel, E. (2015).
+
+Artificial algae algorithm (AAA) for nonlinear global optimization.
+
+Applied Soft Computing, 31, 153-171. https://doi.org/10.1016/j.asoc.2015.03.003
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, AAA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = AAA.OriginalAAA(epoch=1000, pop_size=50, s_force=2.0, e_loss=0.3, ap=0.5)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.APO.OriginalAPO
+
+Bases: Optimizer
+
+The original version of: Artificial Protozoa Optimizer (APO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations. Default is 10000.
+
+pop_size (int) – Population size. Default is 100.
+
+pf_max (float) – Proportion fraction maximum, in range (0.0, 1.0), better [0.1, 0.3].
+
+n_pairs (int) – Number of neighbor pairs, in range [1, floor(pop_size/2)], better [2, 5].
+
+Links
+
+https://doi.org/10.1016/j.knosys.2024.111737
+
+https://www.mathworks.com/matlabcentral/fileexchange/162656-artificial-protozoa-optimizer
+
+References
+
+Wang, X., Snášel, V., Mirjalili, S., Pan, J. S., Kong, L., & Shehadeh, H. A. (2024).
+
+Artificial Protozoa Optimizer (APO): A novel bio-inspired metaheuristic algorithm
+
+for engineering optimization. Knowledge-based systems, 295, 111737.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, APO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = APO.OriginalAPO(epoch=1000, pop_size=50, pf_max=0.1, n_pairs=2)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.BBO.DevBBO
+
+Bases: OriginalBBO
+
+Our developed version: Biogeography-Based Optimization (BBO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations. Default is 10000.
+
+pop_size (int) – Population size. Default is 100.
+
+p_m (float) – Mutation probability, in range (0.0, 1.0), better [0.01, 0.2].
+
+n_elites (int) – Number of elites will be keep for next generation, in range (2, pop_size/2), better [2, 5].
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, BBO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = BBO.DevBBO(epoch=1000, pop_size=50, p_m=0.01, n_elites=2)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.BBO.OriginalBBO
+
+Bases: Optimizer
+
+The original version of: Biogeography-Based Optimization (BBO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations. Default is 10000.
+
+pop_size (int) – Population size. Default is 100.
+
+p_m (float) – Mutation probability, in range (0.0, 1.0), better [0.01, 0.2].
+
+n_elites (int) – Number of elites will be keep for next generation, in range (2, pop_size/2), better [2, 5].
+
+References
+
+Simon, D., 2008. Biogeography-based optimization.
+
+IEEE transactions on evolutionary computation, 12(6), pp.702-713. https://doi.org/10.1109/TEVC.2008.919004
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, BBO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = BBO.OriginalBBO(epoch=1000, pop_size=50, p_m=0.01, n_elites=2)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.BBOA.OriginalBBOA
+
+Bases: Optimizer
+
+The original version of: Brown-Bear Optimization Algorithm (BBOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations. Default is 10000.
+
+pop_size (int) – Population size. Default is 100.
+
+Links
+
+https://www.mathworks.com/matlabcentral/fileexchange/125490-brown-bear-optimization-algorithm
+
+References
+
+Prakash, T., Singh, P. P., Singh, V. P., & Singh, S. N. (2023).
+
+A Novel Brown-bear Optimization Algorithm for Solving Economic Dispatch Problem.
+
+In Advanced Control & Optimization Paradigms for Energy System Operation and Management (pp. 137-164). River Publishers.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, BBOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = BBOA.OriginalBBOA(epoch=1000, pop_size=50)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.BCO.OriginalBCO
+
+Bases: Optimizer
+
+The original version of: Bacterial Colony Optimization (BCO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+c_min (float) – Minimum chemotaxis step size, in range (0.0, 1.0). Default is 0.01.
+
+c_max (float) – Maximum chemotaxis step size, in range (c_min, 10.0). Default is 0.2.
+
+n_chemotaxis (int) – Nonlinear parameter for chemotaxis step, in range (1, 5). Default is 1.
+
+max_swim_steps (int) – Maximum swimming steps, in range (2, 10). Default is 4.
+
+migration_prob (float) – Migration probability, in range (0.0, 1.0). Default is 0.1.
+
+Caution
+
+On average, this algorithm calls the fitness function max_swim_steps*2*pop_size times per epoch, making it extremely slow for large-scale problems.
+
+It has several drawbacks, particularly hardcoded epoch thresholds for reproduction, elimination, and migration operations.
+
+References
+
+Niu, B., & Wang, H. (2012). Bacterial colony optimization.
+
+Discrete dynamics in nature and society, 2012(1), 698057. https://doi.org/10.1155/2012/698057
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, BCO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = BCO.OriginalBCO(epoch=1000, pop_size=50, c_min=0.01, c_max=0.2, n_chemotaxis=2, max_swim_steps=4, migration_prob=0.2)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.BMO.OriginalBMO
+
+Bases: Optimizer
+
+The original version: Barnacles Mating Optimizer (BMO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+pl (int) – Barnacle’s threshold, in range [1, pop_size - 1]. Default is 5.
+
+References
+
+Sulaiman, M. H., Mustaffa, Z., Saari, M. M., & Daniyal, H. (2020). Barnacles mating optimizer: a new
+
+bio-inspired algorithm for solving engineering optimization problems.
+
+Engineering Applications of Artificial Intelligence, 87, 103330.
+
+https://doi.org/10.1016/j.engappai.2019.103330
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, BMO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = BMO.OriginalBMO(epoch=1000, pop_size=50, pl = 4)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.EAO.OriginalEAO
+
+Bases: Optimizer
+
+The original version of: Enzyme Action Optimizer (EAO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+ec (float) – Enzyme Concentration, in range [0.0, 100.0]. Default is 0.1.
+
+Note
+
+This algorithm used 3 fitness calculations for each update enzyme.
+
+Therefor, it is slower 3 times than other algorithms.
+
+Links
+
+https://doi.org/10.1007/s11227-025-07052-w
+
+https://mathworks.com/matlabcentral/fileexchange/170296-enzyme-action-optimizer-a-novel-bio-inspired-optimization
+
+References
+
+Rodan, A., Al-Tamimi, A. K., Al-Alnemer, L., Mirjalili, S., & Tiňo, P. (2025).
+
+Enzyme action optimizer: a novel bio-inspired optimization algorithm.
+
+The Journal of Supercomputing, 81(5), 686.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, EAO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = EAO.OriginalEAO(epoch=1000, pop_size=50, p_m=0.01, n_elites=2)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.EOA.OriginalEOA
+
+Bases: Optimizer
+
+The original version of: Earthworm Optimisation Algorithm (EOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+p_c (float) – Crossover probability, in range (0.0, 1.0). Default is 0.9.
+
+p_m (float) – Initial mutation probability, in range (0.0, 1.0). Default is 0.01.
+
+n_best (int) – How many of the best earthworm to keep from one generation to the next, in range [2, int(pop_size / 2)]. Default is 2.
+
+alpha (float) – Similarity factor, in range (0.0, 1.0). Default is 0.98.
+
+beta (float) – The initial proportional factor, in range (0.0, 1.0). Default is 0.9.
+
+gama (float) – A constant that is similar to cooling factor of a cooling schedule in the simulated annealing, in range (0.0, 1.0). Default is 0.9.
+
+Attention
+
+The author’s MATLAB source code differs from the equations and parameters presented in the paper.
+
+This algorithm updates the population twice per epoch, resulting in double the number of function
+
+evaluations (NFEs) per epoch compared to standard algorithms.
+
+Users should be cautious when using algorithms published in low-quality journals like this.
+
+Links
+
+https://doi.org/10.1504/IJBIC.2018.093328
+
+https://www.mathworks.com/matlabcentral/fileexchange/53479-earthworm-optimization-algorithm-ewa
+
+References
+
+Wang, G.G., Deb, S. and Coelho, L.D.S., 2018.
+
+Earthworm optimisation algorithm: a bio-inspired metaheuristic algorithm for global optimisation problems.
+
+International journal of bio-inspired computation, 12(1), pp.1-22.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, EOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = EOA.OriginalEOA(epoch=1000, pop_size=50, p_c = 0.9, p_m = 0.01, n_best = 2, alpha = 0.98, beta = 0.9, gama = 0.9)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.IWO.OriginalIWO
+
+Bases: Optimizer
+
+The original version of: Invasive Weed Optimization (IWO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+seed_min (int) – Number of Seeds (min), in range [1, 3]. Default is 2.
+
+seed_max (int) – Number of seeds (max), in range [4, int(pop_size/2)]. Default is 10.
+
+exponent (int) – Variance Reduction Exponent, in range [2, 4]. Default is 2.
+
+sigma_start (float) – The initial value of standard deviation, in range [0.5, 5.0]. Default is 1.0.
+
+sigma_end (float) – The final value of standard deviation, in range (0.0, 0.5). Default is 0.01.
+
+Note
+
+Better to use normal distribution instead of uniform distribution, updating population by sorting
+
+both parent population and child population
+
+References
+
+Mehrabian, A.R. and Lucas, C., 2006.
+
+A novel numerical optimization algorithm inspired from weed colonization.
+
+Ecological informatics, 1(4), pp.355-366. https://doi.org/10.1016/j.ecoinf.2006.07.003
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, IWO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = IWO.OriginalIWO(epoch=1000, pop_size=50, seed_min = 3, seed_max = 9, exponent = 3, sigma_start = 0.6, sigma_end = 0.01)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.SBO.DevSBO
+
+Bases: Optimizer
+
+Our developed version: Satin Bowerbird Optimizer (SBO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+alpha (float) – The greatest step size, in range [0.5, 3.0]. Default is 0.94.
+
+p_m (float) – Mutation probability, in range (0.0, 1.0). Default is 0.05.
+
+psw (float) – Proportion of space width (z in the paper), in range (0.0, 1.0). Default is 0.02.
+
+Note
+
+The original version can’t handle negative fitness value. I remove all third loop for faster training,
+
+remove equation (1, 2) in the paper, calculate probability by roulette-wheel.
+
+References
+
+Moosavi, Seyyed Hamid Samareh, and Vahid Khatibi Bardsiri. “Satin bowerbird optimizer: A new
+
+optimization algorithm to optimize ANFIS for software development effort estimation.”
+
+Engineering Applications of Artificial Intelligence 60 (2017): 1-15.
+
+https://doi.org/10.1016/j.engappai.2017.01.006
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SBO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = SBO.DevSBO(epoch=1000, pop_size=50, alpha = 0.9, p_m =0.05, psw = 0.02)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.SBO.OriginalSBO
+
+Bases: DevSBO
+
+The original version of: Satin Bowerbird Optimizer (SBO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations. Default is 10000.
+
+pop_size (int) – Number of population size. Default is 100.
+
+alpha (float) – The greatest step size. Default is 0.94.
+
+p_m (float) – Mutation probability. Default is 0.05.
+
+psw (float) – Proportion of space width (z in the paper). Default is 0.02.
+
+Links
+
+https://doi.org/10.1016/j.engappai.2017.01.006
+
+https://www.mathworks.com/matlabcentral/fileexchange/62009-satin-bowerbird-optimizer-sbo-2017
+
+References
+
+Moosavi, S.H.S. and Bardsiri, V.K., 2017. Satin bowerbird optimizer: A new optimization
+
+algorithm to optimize ANFIS for software development effort estimation.
+
+Engineering Applications of Artificial Intelligence, 60, pp.1-15.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SBO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = SBO.OriginalSBO(epoch=1000, pop_size=50, alpha = 0.9, p_m=0.05, psw = 0.02)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.SBOA.OriginalSBOA
+
+Bases: Optimizer
+
+The original version of: Secretary Bird Optimization Algorithm (SBOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+Links
+
+https://doi.org/10.1007/s10462-024-10729-y
+
+https://www.mathworks.com/matlabcentral/fileexchange/164456-secretary-bird-optimization-algorithm-sboa
+
+References
+
+Fu, Y., Liu, D., Chen, J., & He, L. (2024). Secretary bird optimization algorithm: a new
+
+metaheuristic for solving global optimization problems. Artificial Intelligence Review, 57(5), 123.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SBOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "obj_func": objective_function,
+
+>>> "minmax": "min",
+
+>>> }
+
+>>>
+
+>>> model = SBOA.OriginalSBOA(epoch=1000, pop_size=50)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.StarfishOA.OriginalStarfishOA
+
+Bases: Optimizer
+
+The original version: Starfish Optimization Algorithm (StarfishOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+gp (float) – The exploration of starfish, in range [0.0, 1.0]. Default is 0.5.
+
+Links
+
+https://doi.org/10.1007/s00521-024-10694-1
+
+https://www.mathworks.com/matlabcentral/fileexchange/173735-starfish-optimization-algorithm-StarfishOA
+
+Warning
+
+This algorithm claims to outperform 95 compared algorithms in accuracy and 97 algorithms in efficiency.
+
+However, it does not present any remarkable equations. Moreover, the provided MATLAB code does not
+
+include the standard CEC benchmark functions, but only simplified versions of them. Users should
+
+carefully consider this when validating the algorithm.
+
+References
+
+Zhong, C., Li, G., Meng, Z., Li, H., Yildiz, A. R., & Mirjalili, S. (2025).
+
+Starfish optimization algorithm (StarfishOA): a bio-inspired metaheuristic algorithm for global
+
+optimization compared with 100 optimizers. Neural Computing and Applications, 37(5), 3641-3683.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, StarfishOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = StarfishOA.OriginalStarfishOA(epoch=1000, pop_size=50, gp = 0.5)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.SMA.DevSMA
+
+Bases: Optimizer
+
+Our developed version: Slime Mould Algorithm (SMA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+p_t (float) – Probability threshold (z in the paper), in range (0.0, 1.0). Default is 0.03.
+
+Note
+
+Selected 2 unique and random solution to create new solution (not to create variable)
+
+Check bound and compare old position with new position to get the best one
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SMA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = SMA.DevSMA(epoch=1000, pop_size=50, p_t = 0.03)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.SMA.OriginalSMA
+
+Bases: DevSMA
+
+The original version of: Slime Mould Algorithm (SMA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+p_t (float) – Probability threshold (z in the paper), in range (0.0, 1.0). Default is 0.03.
+
+Links
+
+https://doi.org/10.1016/j.future.2020.03.055
+
+https://www.researchgate.net/publication/340431861_Slime_mould_algorithm_A_new_method_for_stochastic_optimization
+
+References
+
+Li, S., Chen, H., Wang, M., Heidari, A.A. and Mirjalili, S., 2020. Slime mould algorithm: A new
+
+method for stochastic optimization. Future Generation Computer Systems, 111, pp.300-323.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SMA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = SMA.OriginalSMA(epoch=1000, pop_size=50, p_t = 0.03)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.SOA.DevSOA
+
+Bases: Optimizer
+
+Our developed version: Seagull Optimization Algorithm (SOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+fc (float) – Frequency of employing variable A (A linear decreased from fc to 0), in range [1.0, 10.0]. Default is 2.
+
+Note
+
+The original one will not work because their operators always make the solution out of bound.
+
+I added the normal random number in Eq. 14 to make its work
+
+Besides, I will check keep the better one and remove the worst
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = SOA.DevSOA(epoch=1000, pop_size=50, fc = 2)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.SOA.OriginalSOA
+
+Bases: Optimizer
+
+The original version: Seagull Optimization Algorithm (SOA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+fc (float) – Frequency of employing variable A (A linear decreased from fc to 0), in range [1.0, 10.0]. Default is 2.
+
+References
+
+Dhiman, G., & Kumar, V. (2019). Seagull optimization algorithm: Theory and its applications
+
+for large-scale industrial engineering problems. Knowledge-based systems, 165, 169-196.
+
+https://doi.org/10.1016/j.knosys.2018.11.024
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SOA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = SOA.OriginalSOA(epoch=1000, pop_size=50, fc = 2)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.SOS.OriginalSOS
+
+Bases: Optimizer
+
+The original version: Symbiotic Organisms Search (SOS)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+References
+
+Cheng, M. Y., & Prayogo, D. (2014). Symbiotic organisms search: a new metaheuristic
+
+optimization algorithm. Computers & Structures, 139, 98-112. https://doi.org/10.1016/j.compstruc.2014.03.007
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, SOS
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = SOS.OriginalSOS(epoch=1000, pop_size=50)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.TPO.DevTPO
+
+Bases: Optimizer
+
+The original version: Tree Physiology Optimization (TPO)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+alpha (float) – Absorption constant for tree root elongation, in range [-10.0, 10.0]. Default is 0.3.
+
+beta (float) – Diversification factor of tree shoot, in range [-100.0, 100.0]. Default is 50.0.
+
+theta (float) – Factor to reduce randomization, Theta = Power law to reduce randomization as iteration increases, in range (0.0, 1.0). Default is 0.9.
+
+Note
+
+The paper is difficult to read and understand, and the provided MATLAB code is also challenging to understand.
+
+Based on my idea:
+
+pop_size = number of branhes, the population size should be equal to the number of branches.
+
+The number of leaves should be calculated as int(sqrt(pop_size) + 1), so we don’t need to specify the n_leafs parameter, which will also reduce computation time.
+
+When using this algorithm, especially when setting stopping conditions, be careful and set it to the FE type.
+
+Links
+
+https://www.mathworks.com/matlabcentral/fileexchange/63982-tree-physiology-optimization-tpo-algorithm-for-stochastic-test-function-optimization
+
+References
+
+Halim, A. H., & Ismail, I. (2017). Tree physiology optimization in benchmark function and
+
+traveling salesman problem. Journal of Intelligent Systems, 28(5), 849-871.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, TPO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = TPO.DevTPO(epoch=1000, pop_size=50, alpha = 0.3, beta = 50., theta = 0.9)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.TSA.OriginalTSA
+
+Bases: Optimizer
+
+The original version: Tunicate Swarm Algorithm (TSA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+Attention
+
+This algorithm has some limitations
+
+The paper has several wrong equations in algorithm
+
+The implementation in Matlab code has some difference to the paper
+
+This algorithm shares some similarities with the Barnacles Mating Optimizer (BMO)
+
+Links
+
+https://doi.org/10.1016/j.engappai.2020.103541
+
+https://www.mathworks.com/matlabcentral/fileexchange/75182-tunicate-swarm-algorithm-tsa
+
+References
+
+Kaur, S., Awasthi, L. K., Sangal, A. L., & Dhiman, G. (2020).
+
+Tunicate Swarm Algorithm: A new bio-inspired based metaheuristic paradigm for global optimization.
+
+Engineering Applications of Artificial Intelligence, 90, 103541.
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, TSA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = TSA.OriginalTSA(epoch=1000, pop_size=50)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.TSeedA.OriginalTSeedA
+
+Bases: Optimizer
+
+The original version: Tree-Seed Algorithm (TSeedA)
+
+Parameters
+
+epoch (int) – Maximum number of iterations. Default is 10000.
+
+pop_size (int) – Population size (number of trees). Default is 100.
+
+st (float) – Search tendency parameter, in range (0.0, 1.0). Default is 0.1.
+
+Danger
+
+Lack of Mathematical Novelty: The search equations (Eq. 3 and Eq. 4)
+
+are functionally equivalent to basic difference-based mutation operators
+
+found in classical Differential Evolution (DE) and Particle Swarm Optimization (PSO).
+
+Over-Simplistic Selection: The exploration-exploitation balance is managed
+
+solely by a simple ‘if-else’ decision branch controlled by a single parameter
+
+(Search Tendency, ST) , which lacks the dynamic adaptation mechanisms of modern metaheuristics.
+
+Low Selection Pressure: Replacing parent trees directly with marginally
+
+better seeds can lead to premature convergence, high stagnation rates,
+
+and poor performance on high-dimensional multimodal landscapes.
+
+For solving high-performance or real-world industrial continuous optimization problems,
+
+users are strongly encouraged to choose more robust, mathematically sound, and modern algorithms
+
+References
+
+Kiran, M. S. (2015). TSA: Tree-seed algorithm for continuous optimization.
+
+Expert Systems with Applications, 42(19), 6686-6698. https://doi.org/10.1016/j.eswa.2015.04.055
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, TSeedA
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = TSeedA.OriginalTSeedA(epoch=1000, pop_size=50, st=0.1)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+## mealpy.bio_based.VCS.DevVCS
+
+Bases: Optimizer
+
+The developed version: Virus Colony Search (VCS)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+lamda (float) – Percentage of the number of the best will keep, in range (0.0, 1.0). Default is 0.5.
+
+sigma (float) – Weight factor, in range (0.0, 5.0). Default is 1.5.
+
+Note
+
+In Immune response process, updates the whole position instead of updating each variable in position
+
+References
+
+Li, M.D., Zhao, H., Weng, X.W. and Han, T., 2016. A novel nature-inspired algorithm
+
+for optimization: Virus colony search. Advances in Engineering Software, 92, pp.65-88.
+
+https://doi.org/10.1016/j.advengsoft.2015.11.004
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, VCS
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = VCS.DevVCS(epoch=1000, pop_size=50, lamda = 0.5, sigma = 0.3)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.VCS.OriginalVCS
+
+Bases: DevVCS
+
+The original version of: Virus Colony Search (VCS)
+
+Parameters
+
+epoch (int) – Maximum number of iterations, in range [1, 100000]. Default is 10000.
+
+pop_size (int) – Number of population size, in range [5, 10000]. Default is 100.
+
+lamda (float) – Percentage of the number of the best will keep, in range (0.0, 1.0). Default is 0.5.
+
+sigma (float) – Weight factor, in range (0.0, 5.0). Default is 1.5.
+
+References
+
+Li, M.D., Zhao, H., Weng, X.W. and Han, T., 2016. A novel nature-inspired algorithm
+
+for optimization: Virus colony search. Advances in Engineering Software, 92, pp.65-88.
+
+https://doi.org/10.1016/j.advengsoft.2015.11.004
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, VCS
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = VCS.OriginalVCS(epoch=1000, pop_size=50, lamda = 0.5, sigma = 0.3)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
+
+## mealpy.bio_based.WHO.OriginalWHO
+
+Bases: Optimizer
+
+The original version of: Wildebeest Herd Optimization (WHO)
+
+Parameters
+
+n_explore_step (int) – Number of exploration step, in range [2, 10].
+
+n_exploit_step (int) – Number of exploitation step, in range [2, 10].
+
+eta (float) – Learning rate, in range (0.0, 1.0).
+
+p_hi (float) – The probability of wildebeest move to another position based on herd instinct, in range (0.0, 1.0).
+
+local_alpha (float) – Control local movement (alpha 1), in range (0.0, 3.0).
+
+local_beta (float) – Control local movement (beta 1), in range (0.0, 3.0).
+
+global_alpha (float) – Control global movement (alpha 2), in range (0.0, 3.0).
+
+global_beta (float) – Control global movement (beta 2), in range (0.0, 3.0).
+
+delta_w (float) – Dist to worst, in range (0.5, 5.0).
+
+delta_c (float) – Dist to best, in range (0.5, 5.0).
+
+References
+
+Amali, D. and Dinakaran, M., 2019. Wildebeest herd optimization: a new global optimization algorithm
+
+inspired by wildebeest herding behaviour. Journal of Intelligent & Fuzzy Systems, 37(6), pp.8063-8076.
+
+https://doi.org/10.3233/JIFS-190495
+
+Examples
+
+>>> import numpy as np
+
+>>> from mealpy import FloatVar, WHO
+
+>>>
+
+>>> def objective_function(solution):
+
+>>> return np.sum(solution**2)
+
+>>>
+
+>>> problem_dict = {
+
+>>> "bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
+
+>>> "minmax": "min",
+
+>>> "obj_func": objective_function
+
+>>> }
+
+>>>
+
+>>> model = WHO.OriginalWHO(epoch=1000, pop_size=50, n_explore_step = 3, n_exploit_step = 3, eta = 0.15, p_hi = 0.9,
+
+>>> local_alpha=0.9, local_beta=0.3, global_alpha=0.2, global_beta=0.8, delta_w=2.0, delta_c=2.0)
+
+>>> g_best = model.solve(problem_dict)
+
+>>> print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
+
+>>> print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")

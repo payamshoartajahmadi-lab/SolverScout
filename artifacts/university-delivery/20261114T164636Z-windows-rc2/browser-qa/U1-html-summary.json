@@ -1,0 +1,35 @@
+{
+  "schema_version": "saved-html-browser-audit/1.0",
+  "captured_at_utc": "2026-11-14T17:16:49.902Z",
+  "scenario": "U1",
+  "job_id": "cf73fe30-ef5a-4995-8fd7-4aa6256f3085",
+  "html_path": "G:\\projects\\solverscout\\artifacts\\university-delivery\\20261114T164636Z-windows-rc2\\live\\U1\\report.html",
+  "html_sha256": "529f78a60da66df401688bf81575fe29b35ddb19cd5a33107e01bba2175c8c41",
+  "report_json_sha256": "13b35d1d0b30d275684ed6e2703014c6d9a71dfb4569d7888985c49a629700fb",
+  "browser_version": "157.0.4341.57",
+  "narrative_mode": "mixed",
+  "narrative_review_status": "partial",
+  "section_count": 5,
+  "paragraph_count": 5,
+  "passed": true,
+  "widths": [
+    {
+      "width": 1440,
+      "passed": true,
+      "document_width": 1440,
+      "exact_paragraph_matches": 5,
+      "page_errors": [],
+      "external_or_mutating_requests": 0
+    },
+    {
+      "width": 390,
+      "passed": true,
+      "document_width": 390,
+      "exact_paragraph_matches": 5,
+      "page_errors": [],
+      "external_or_mutating_requests": 0
+    }
+  ],
+  "function_evaluations": 0,
+  "model_calls": 0
+}

@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "tests": [
+    "tests/test_catalog_v2.py::test_cat_003_hash_changes_and_v1_schema_unchanged",
+    "tests/test_narrative_closure_campaign.py::test_verify_rejects_symlink_escape_in_relative_evidence",
+    "tests/test_university_acceptance_runner.py::test_only_the_exact_zero_fe_workflow_intent_failure_is_retry_eligible",
+    "tests/test_university_acceptance_runner.py::test_single_retry_archives_old_failure_and_keeps_cumulative_ledger",
+    "tests/test_university_formulator_scope.py::test_prompt_revision_preserves_legacy_and_explicitly_separates_workflow_intent"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 4.359999999869615,
+  "model_submissions": 0,
+  "objective_evaluations": 0,
+  "changes": "Canonical LF files and a real junction fixture on Windows lacking symlink privilege; unchanged validation decisions."
+}

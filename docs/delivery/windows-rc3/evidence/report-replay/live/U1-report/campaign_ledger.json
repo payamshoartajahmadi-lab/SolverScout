@@ -1,0 +1,119 @@
+{
+  "schema_version": "u1-report-replay-ledger/1.0",
+  "created_at": "2026-11-14T19:03:00.802285+00:00",
+  "mode": "live",
+  "limit_actual_dispatches": 4,
+  "role_limits": {
+    "explainer": 2,
+    "report_reviewer": 2
+  },
+  "attempts": [
+    {
+      "invocation_id": "98a94e5b-5ed1-4935-b020-05d436ccc7b1",
+      "role": "explainer",
+      "schema_id": "explainer.v3",
+      "operation": "draft",
+      "request_hash": "f8e85ffb568e67d90c09af5a51d3c2b43b3cee09a9a59593fb7293bad0d4e7ad",
+      "reserved_at": "2026-11-14T19:03:02.690681+00:00",
+      "dispatched_at": "2026-11-14T19:03:02.811340+00:00",
+      "finished_at": "2026-11-14T19:03:46.397740+00:00",
+      "status": "succeeded",
+      "call_id": "e356e34d-37b2-4e06-9f45-3cba6fa6d582",
+      "request_body_sha256": "916808284fffaffc7540c9baf1f820cce99c03dee8a8b03ecc1f4b71e89ec588",
+      "profile_revision": 1,
+      "effective_max_output_tokens": 8192,
+      "dispatch_semantics": "entered real HTTP transport; provider receipt can remain unknown",
+      "error_code": null,
+      "usage": {
+        "completion_tokens": 3890,
+        "prompt_tokens": 19707,
+        "total_tokens": 23597
+      },
+      "elapsed_seconds": 43.67200000002049,
+      "monetary_cost": null,
+      "monetary_cost_status": "not_recorded"
+    },
+    {
+      "invocation_id": "4ab91958-509b-4437-b693-7a5723cdfd28",
+      "role": "report_reviewer",
+      "schema_id": "narrative_review.v1",
+      "operation": "review",
+      "request_hash": "f352bd8d8b7c9af318dbe3578199afedcd81eb237292d3b9f8c2aeba1b2f73fb",
+      "reserved_at": "2026-11-14T19:03:46.646134+00:00",
+      "dispatched_at": "2026-11-14T19:03:46.773759+00:00",
+      "finished_at": "2026-11-14T19:04:15.861981+00:00",
+      "status": "succeeded",
+      "call_id": "54c3cc59-5560-497e-a074-a9ec319de394",
+      "request_body_sha256": "4107301eca23623315c8c8fa67fbf4c60f6d1e0ad74d7d761c6443072c6548f6",
+      "profile_revision": 1,
+      "effective_max_output_tokens": 4096,
+      "dispatch_semantics": "entered real HTTP transport; provider receipt can remain unknown",
+      "error_code": null,
+      "usage": {
+        "completion_tokens": 860,
+        "prompt_tokens": 21542,
+        "total_tokens": 22402
+      },
+      "elapsed_seconds": 29.140999999828637,
+      "monetary_cost": null,
+      "monetary_cost_status": "not_recorded"
+    },
+    {
+      "invocation_id": "fc5bfef3-6dbd-480d-a1af-6db09ec3341a",
+      "role": "explainer",
+      "schema_id": "explainer.v3",
+      "operation": "repair",
+      "request_hash": "9e57c16ed6d14c4ca2476d167c838049b1fb3af2ba2cb32d35056fcf20a8d5ee",
+      "reserved_at": "2026-11-14T19:04:16.104827+00:00",
+      "dispatched_at": "2026-11-14T19:04:16.235655+00:00",
+      "finished_at": "2026-11-14T19:04:31.538279+00:00",
+      "status": "succeeded",
+      "call_id": "c74c16db-e1d0-4b69-9758-701ecebd83fa",
+      "request_body_sha256": "ca7fbeb1fef10ac4ee4580ed4c07b53a635efbd01e5e850a0ae17f74e5811fad",
+      "profile_revision": 1,
+      "effective_max_output_tokens": 8192,
+      "dispatch_semantics": "entered real HTTP transport; provider receipt can remain unknown",
+      "error_code": null,
+      "usage": {
+        "completion_tokens": 1526,
+        "prompt_tokens": 21663,
+        "total_tokens": 23189
+      },
+      "elapsed_seconds": 15.358999999938533,
+      "monetary_cost": null,
+      "monetary_cost_status": "not_recorded"
+    },
+    {
+      "invocation_id": "31faf2e9-e8ce-4d12-af06-c3d88d92d371",
+      "role": "report_reviewer",
+      "schema_id": "narrative_review.v1",
+      "operation": "review",
+      "request_hash": "d1059784c334e69ddd11cd63ec49090fd967abfe1e44b6a83565d858b06fc735",
+      "reserved_at": "2026-11-14T19:04:31.805490+00:00",
+      "dispatched_at": "2026-11-14T19:04:31.942386+00:00",
+      "finished_at": "2026-11-14T19:04:36.242843+00:00",
+      "status": "succeeded",
+      "call_id": "e8db7ca4-163c-48a0-9e5a-36f8ac58589c",
+      "request_body_sha256": "2280124908e5f65031e0fc550044dbe4beea59a682b24265b94d44fe0f0719fb",
+      "profile_revision": 1,
+      "effective_max_output_tokens": 4096,
+      "dispatch_semantics": "entered real HTTP transport; provider receipt can remain unknown",
+      "error_code": null,
+      "usage": {
+        "completion_tokens": 254,
+        "prompt_tokens": 21938,
+        "total_tokens": 22192
+      },
+      "elapsed_seconds": 4.375,
+      "monetary_cost": null,
+      "monetary_cost_status": "not_recorded"
+    }
+  ],
+  "external_dispatches": 4,
+  "fresh_objective_evaluations": 0,
+  "solver_calls": 0,
+  "connection_tests": 0,
+  "state": "complete",
+  "result": "PASS",
+  "finished_at": "2026-11-14T19:04:36.617482+00:00"
+}
