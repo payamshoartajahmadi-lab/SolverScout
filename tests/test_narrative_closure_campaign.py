@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import sys
 from uuid import uuid4
+import csv
 
 import pytest
 import httpx
@@ -174,3 +175,63 @@ def test_verify_rejects_invalid_status_even_with_exactly_seven_case_ids(tmp_path
     scenarios[0]['status']='BOGUS';m.dump(tmp_path/'summary.json',{'scenarios':scenarios,'actual':{'charged_role_attempts':0,'external_dispatches':0}})
     result=m.verify(tmp_path)
     assert result['status']=='FAIL' and 'INVALID_OVERALL_SCENARIO_STATUS' in result['errors']
+
+
+def write_matrix(m, root, *, failed=None, evidence_path='run_manifest.json'):
+    rows=[{'requirement_id':f'FC-{i:02d}','status':'FAIL' if i==failed else 'PASS',
+           'reason_fa':'Observed evidence','evidence_paths':json.dumps([evidence_path]),'tested_source_hash':'b'*64} for i in range(1,35)]
+    with (root/'acceptance_matrix.csv').open('w',newline='',encoding='utf-8') as stream:
+        writer=csv.DictWriter(stream,fieldnames=list(rows[0]));writer.writeheader();writer.writerows(rows)
+    m.dump(root/'summary.json',{'scenarios':[{'scenario_id':s,'status':'NOT_RUN'} for s in m.ORDER],
+        'actual':{'charged_role_attempts':0,'external_dispatches':0},'candidate_acceptance_status':'PASS',
+        'narrative_closure_status':'PASS','delivery_preparation_readiness':'READY',
+        'packaging_validation':'NOT_RUN','professor_machine_installation':'NOT_RUN'})
+
+
+def test_verify_recomputes_gate_aggregation_instead_of_trusting_success_labels(tmp_path):
+    m=prepared(tmp_path);write_matrix(m,tmp_path,failed=21)
+    result=m.verify(tmp_path)
+    assert result['status']=='FAIL'
+    assert {'CANDIDATE_AGGREGATE_MISMATCH','CLOSURE_AGGREGATE_MISMATCH','READINESS_AGGREGATE_MISMATCH'}<=set(result['errors'])
+
+
+@pytest.mark.parametrize('evidence_path',['/etc/hosts','../outside.json'])
+def test_verify_rejects_absolute_and_parent_traversing_evidence(tmp_path,evidence_path):
+    m=prepared(tmp_path);write_matrix(m,tmp_path,evidence_path=evidence_path)
+    assert 'UNSAFE_EVIDENCE_PATH:FC-01' in m.verify(tmp_path)['errors']
+
+
+def test_verify_rejects_symlink_escape_in_relative_evidence(tmp_path):
+    m=prepared(tmp_path);outside=tmp_path.parent/'outside-evidence.json';outside.write_text('{}')
+    (tmp_path/'escape.json').symlink_to(outside);write_matrix(m,tmp_path,evidence_path='escape.json')
+    assert 'UNSAFE_EVIDENCE_PATH:FC-01' in m.verify(tmp_path)['errors']
+
+
+def test_unknown_case_type_cannot_bypass_pass_artifact_validation(tmp_path):
+    m=prepared(tmp_path)
+    m.dump(tmp_path/'live/C-L1/summary.json',{'scenario_id':'C-L1','case_type':'unrecognized','status':'PASS'})
+    assert 'INVALID_SCENARIO_CASE_TYPE:C-L1' in m.verify(tmp_path)['errors']
+
+
+def freeze_fixture(m, root):
+    m.dump(root/'inputs/E1.json',{'objective':0})
+    m.dump(root/'fixtures_manifest.json',m.input_manifest(root))
+    junit=root/'offline/full-final.xml';junit.parent.mkdir();junit.write_text('<testsuite/>')
+    frozen={'runtime':m.runtime_manifest(),'harness':m.harness_manifest(),
+        'prompt_bundle_sha256':m.value_hash(m.prompt_bundle_manifest()),'prepared_cases':{},
+        'fixtures_manifest_sha256':m.file_hash(root/'fixtures_manifest.json'),
+        'full_regression_junit_sha256':m.file_hash(junit)}
+    m.dump(root/'freeze.json',frozen)
+
+
+def test_coordinated_input_and_manifest_rewrite_cannot_bypass_freeze(tmp_path):
+    m=prepared(tmp_path);freeze_fixture(m,tmp_path);m.validate_freeze(tmp_path)
+    m.dump(tmp_path/'inputs/E1.json',{'objective':999})
+    m.dump(tmp_path/'fixtures_manifest.json',m.input_manifest(tmp_path))
+    with pytest.raises(RuntimeError,match='FROZEN_FIXTURE_MANIFEST_CHANGED'):m.validate_freeze(tmp_path)
+
+
+def test_rewritten_regression_evidence_is_not_accepted_after_freeze(tmp_path):
+    m=prepared(tmp_path);freeze_fixture(m,tmp_path);m.validate_freeze(tmp_path)
+    (tmp_path/'offline/full-final.xml').write_text('<testsuite tests="999"/>')
+    with pytest.raises(RuntimeError,match='FROZEN_REGRESSION_EVIDENCE_CHANGED'):m.validate_freeze(tmp_path)

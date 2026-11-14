@@ -339,7 +339,9 @@ class NarrativeOrchestrator:
                 self.evidence = ReportEvidenceV3.model_validate(self.journal["evidence"])
                 if self.evidence.evidence_policy_version != self.report_generation_policy_version:
                     raise ValueError("Cached evidence policy mismatch")
-                if core_hash(self.current_report()) == initial_core and not self.cancelled():
+                current = self.current_report()
+                if (core_hash(current) == initial_core and not self.cancelled()
+                        and self._current_policy_matches(current)):
                     return deepcopy(self.journal["result"])
                 return self._finish()
             self.evidence = ReportEvidenceV3.model_validate(self.journal["evidence"]) if self.journal.get("evidence") else build_evidence_v3(self.report, policy_version=self.report_generation_policy_version)

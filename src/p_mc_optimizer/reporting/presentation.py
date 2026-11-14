@@ -169,13 +169,29 @@ def _read_narrative(report):
         for marker in markers:
             validate_narrative_version_combination((value.get('evidence') or {}).get('evidence_policy_version'),
                                                  value['evidence_builder_version'], value['formatter_version'], marker)
+        # Reopening is a pure verification of the persisted projection. Never
+        # attach reviewed prose to changed facts, another Job, or a stale core.
+        from p_mc_optimizer.reporting.evidence_v3 import core_hash, evidence_hash
+        evidence = value.get('evidence')
+        if evidence is not None:
+            if (value['evidence_status'] != 'valid'
+                    or evidence_hash(evidence) != value['context_hash']
+                    or evidence['source_core_sha256'] != value['source_core_sha256']
+                    or value['source_core_sha256'] != core_hash(report)
+                    or evidence['job_id'] != str(report.get('job_id') or 'unknown')
+                    or evidence['source_report_schema_version'] != str(report.get('schema_version') or 'unknown')):
+                raise ValueError('Narrative evidence is not bound to this persisted report')
+        elif (value['evidence_status'] != 'invalid' or value['context_hash'] is not None
+              or value['source_core_sha256'] is not None or value['mode'] != 'deterministic'
+              or any(s['origin'] == 'llm' for s in value['accepted_sections'])):
+            raise ValueError('Reviewed model prose requires its frozen evidence')
         return value, None
     except (ValueError, KeyError, TypeError):
         from p_mc_optimizer.reporting.narrative_v3 import finalize_narrative
         version = markers[0] if markers[0] in {'1.0','1.1'} else '1.0'
         fallback = finalize_narrative(report, None, [], requested=False, evidence_invalid=True,
                                      report_generation_policy_version=version)
-        return fallback, 'نسخه یا شواهد این گزارش قابل بازسازی معتبر نیست؛ متن جایگزین سرور نمایش داده می‌شود و متن مدل دوباره تولید نشد.'
+        return fallback, 'نسخه، شواهد یا پیوند داده‌های این گزارش قابل بازسازی معتبر نیست؛ متن جایگزین سرور نمایش داده می‌شود و متن مدل دوباره تولید نشد.'
 
 
 def _reference_title(ref, source, *, version):
